@@ -1,0 +1,21 @@
+Package: bruceR
+Type: Package
+Title: BRoadly Useful Collections and Extensions of R functions
+Version: 0.1.0
+Authors@R: c(
+  person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
+  )
+Author: Han-Wu-Shuang Bao [aut, cre]
+Maintainer: Han-Wu-Shuang Bao <baohws@psych.ac.cn>
+Description: Packing many useful R packages and functions into one package.
+             Making data analyses and statistics more elegant.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/psychbruce/bruceR
+BugReports: https://github.com/psychbruce/bruceR/issues
+Depends: rio, glue, dplyr, stringr, data.table, psych, ggplot2
+Imports: tidyverse, ggstatsplot,
+         MBESS, MuMIn,
+         jtools, summarytools, texreg, semPlot
+RoxygenNote: 6.1.1
