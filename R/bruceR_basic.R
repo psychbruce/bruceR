@@ -130,7 +130,8 @@ NULL
   For an overview and introduction, please type:  ?bruceR
   Run some examples:  example(\"regress\")
 
-  <<silver * Check updates of 'bruceR' on <<underline https://github.com/psychbruce/bruceR>>>>
+  <<silver * Check updates on <<underline https://github.com/psychbruce/bruceR>>
+    Update the package:  devtools::install_github('psychbruce/bruceR')>>
   >>>>
   ")
 }
