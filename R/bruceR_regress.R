@@ -236,6 +236,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
   }
   dv=formula[[2]]
   sumModel=summary(model)
+  N=nrow(model$model)
 
   ## lm vs.glm ##
   if(class(model)[1]=="lm") {
@@ -243,7 +244,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     Print("
     <<underline MODEL INFO:>>
     Model type: General Linear Model (GLM) (OLS Regression)
-    Observations: <<italic N>> = {nrow(model$model)}{ifelse('na.action' %in% names(model), Glue(' ({length(model$na.action)} missing cases deleted)'), '')}
+    Observations: <<italic N>> = {N}{ifelse('na.action' %in% names(model), Glue(' ({length(model$na.action)} missing cases deleted)'), '')}
     ")
 
     ## Print: Model Fit (R^2) ##
@@ -281,7 +282,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     names(FE)[5:7]=c(" ", "[95% ", "  CI]")
     cat("\n")
     Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv}")
+           Outcome variable: {dv} (<<italic N>> = {N})")
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall, nsmall, nsmall))
 
     ## Print: Robust SE ##
@@ -319,7 +320,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
                    r.partial=FE.rp$coeftable[-1, "partial.r"],
                    r.part=FE.rp$coeftable[-1, "part.r"])
       cat("\n")
-      Print("Standardized coefficients:")
+      Print("Standardized coefficients: {dv} (<<italic N>> = {N})")
       names(FE.std)[3:5]=c(" ", "[95% ", "  CI]")
       print_table(FE.std, nsmalls=nsmall)
     }
@@ -330,7 +331,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     Model type: Generalized Linear Model (GLM)
     Family: {model$family$family}
     Link function: {model$family$link}
-    Observations: <<italic N>> = {nrow(model$model)}{ifelse('na.action' %in% names(model), Glue(' ({length(model$na.action)} missing cases deleted)'), '')}
+    Observations: <<italic N>> = {N}{ifelse('na.action' %in% names(model), Glue(' ({length(model$na.action)} missing cases deleted)'), '')}
     ")
 
     ## Print: Model Fit (Pseudo-R^2 and Information Criteria) ##
@@ -378,7 +379,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     names(FE)[5:7]=c(" ", "[95% ", "  CI]")
     cat("\n")
     Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv} (type = {model$family$family})")
+           Outcome variable: {dv} (type = {model$family$family}) (<<italic N>> = {N})")
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall, nsmall, nsmall))
 
     ## Print: Robust SE ##
@@ -412,7 +413,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
                      OR.rev=exp(-b))
     row.names(FE.OR)=row.names(FE)
     cat("\n")
-    Print("Odds ratio (= exp(b)):")
+    Print("Odds ratio (= exp(b)): {dv} (<<italic N>> = {N})")
     names(FE.OR)=c("Odds Ratio", " ", "[95% ", "  CI]", "  \u2502 ", "OR^(-1)")
     print_table(FE.OR, nsmalls=nsmall)
     # Print("<<blue OR = odds ratio. 95% CI of OR is reported.>>")
@@ -663,7 +664,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' HLM_summary(m3)
 #'
 #' ## Example 2: data from lmerTest::carrots
-#' # 1) 'Constomer' is a grouping/clustering variable
+#' # 1) 'Consumer' is a grouping/clustering variable
 #' # 2) 'Sweetness' is a level-1 predictor
 #' # 3) 'Gender', 'Age', and 'Frequency' are level-2 predictors
 #' hlm.1=lmer(Preference ~ Sweetness + Gender * Age + Frequency + (1 | Consumer), data=carrots)
@@ -874,7 +875,7 @@ HLM_summary=function(model=NULL, level2.predictors="",
       FE.std$`p*`=p.trans(FE.std$`p*`)
       names(FE.std)[6:8]=c(" ", "[95% ", "  CI]")
       cat("\n")
-      Print("Standardized coefficients:")
+      Print("Standardized coefficients: {dv}")
       if(t2r)
         print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, nsmall, nsmall, nsmall))
       else

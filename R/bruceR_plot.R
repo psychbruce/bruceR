@@ -83,24 +83,33 @@ if(FALSE) {
 
 #' Draw standard China maps
 #' @import ggplot2
-#' @import grid
+## @importFrom cowplot ggdraw, draw_plot, save_plot
+## @import grid
 #' @examples
+#' # You can 'left_join()' your prov data with 'provdata_demo' by the variable 'prov'
 #' drawChinaMap() # draw a demo map
 #' drawChinaMap(provdata_demo, var="geoE", nsmall=1, filename="ChinaMap1.png")
 #' drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, filename="ChinaMap2.png")
 #' @export
 drawChinaMap=function(provdata=NULL, citydata=NULL,
-                      var=NA, multiply=1, nsmall=0,
-                      colors="Blues", direc=1, addlabel="", labelseg="\n",
-                      tag="", title=var, guidetitle=var,
+                      var=NA, multiply=1, log=FALSE, nsmall=0,
+                      colors="Blues", direc=1, addlabel="", labelseg=":",
+                      tag="", title=var, guidetitle=var, addguidevalue=TRUE,
+                      limits=NULL, breaks=NULL,
                       bordersize=0.2, bordercolor="grey70", na.color="grey90",
                       filename="ChinaMap.png", dpi=500) {
   # Merge data
-  if(is.null(citydata)) level="prov" else level="city"
-  if(is.null(provdata)) {
-    provdata=provdata_demo
-    title="China Map (demo)"
-    addlabel="prov"
+  if(is.null(citydata)) {
+    level="prov"
+    if(is.null(provdata)) {
+      provdata=provdata_demo
+      title="China Map (demo)"
+      addlabel="prov"
+    }
+    data=provdata
+  } else {
+    level="city"
+    data=citydata
   }
   suppressWarnings({
     mapdata=dplyr::full_join(maptemp, provdata, by="NAME")
@@ -140,25 +149,40 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
           plot.title=element_text(size=16, color="black", face="bold", hjust=0.5,
                                   margin=margin(-1, 0, 0.5, 0, "lines")))
   mapguide=guide_colorbar(title=guidetitle, title.position="top", title.hjust=0.5,
-                          direction="horizontal", label=FALSE, ticks=FALSE,
+                          direction="horizontal", label=addguidevalue, ticks=FALSE,
                           barwidth=unit(5,"cm"), barheight=unit(5,"mm"))
+  if(is.na(var)==FALSE) {
+    guide.range=range(data[[var]])
+    if(is.null(limits)) limits=c(floor(guide.range[1]), ceiling(guide.range[2]))
+    if(is.null(breaks)) breaks=limits
+  }
 
   # Draw maps
   map=ggplot() + maptheme
   if(is.na(var) | level=="city") {
     bordercolor="grey30"
-    map=map +
-      geom_polygon(data=mapdata, aes(x=long, y=lat, group=group), fill="grey95", color=bordercolor, size=bordersize)
+    map=map + geom_polygon(data=mapdata, aes(x=long, y=lat, group=group), fill="grey95", color=bordercolor, size=bordersize)
   } else {
+    if(log) {
+      map=map + geom_polygon(data=mapdata, aes(x=long, y=lat, group=group, fill=log(get(var))), color=bordercolor, size=bordersize)
+    } else {
+      map=map + geom_polygon(data=mapdata, aes(x=long, y=lat, group=group, fill=get(var)), color=bordercolor, size=bordersize)
+    }
     map=map +
-      geom_polygon(data=mapdata, aes(x=long, y=lat, group=group, fill=get(var)), color=bordercolor, size=bordersize) +
-      scale_fill_distiller(palette=colors, direction=direc, na.value=na.color, guide=FALSE) +
-      guides(fill=mapguide)
+      scale_fill_distiller(palette=colors, direction=direc, na.value=na.color,
+                           limits=limits, breaks=breaks,
+                           guide=mapguide)
   }
   if(level=="city") {
-    map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=get(var)), shape=18, size=3, alpha=0.9) +
-      scale_color_distiller(palette=colors, direction=direc, na.value=na.color, guide=FALSE) +
-      guides(color=mapguide)
+    if(log) {
+      map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=log(get(var))), shape=18, size=3, alpha=0.9)
+    } else {
+      map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=get(var)), shape=18, size=3, alpha=0.9)
+    }
+    map=map +
+      scale_color_distiller(palette=colors, direction=direc, na.value=na.color,
+                            limits=limits, breaks=breaks,
+                            guide=mapguide)
   }
   map=map + geom_line(data=jdx, aes(x=long, y=lat, group=ID), color="black", size=0.5)
   map1=map + coord_map(c("lambert", "albers")[1], parameters=c(25, 47), xlim=map.long, ylim=map.lat)
@@ -176,17 +200,26 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
   }
   map1=map1 + labs(tag=tag, title=title)
 
-  # Output
-  if(grepl(".pdf$", filename)) {
-    pdf(paste0(filename), width=8, height=6)
-  } else {
-    png(paste0(filename), width=8, height=6, units="in", res=dpi)
-  }
-  print(map1)
-  print(map2, vp=grid::viewport(width=0.2, height=0.2, x=0.86, y=0.16))
-  dev.off()
+  # Output (old; have bugs influencing subsequent plotting)
+  # if(grepl(".pdf$", filename)) {
+  #   pdf(filename, width=8, height=6)
+  # } else {
+  #   png(filename, width=8, height=6, units="in", res=dpi)
+  # }
+  # print(map1)
+  # print(map2, vp=grid::viewport(width=0.2, height=0.2, x=0.86, y=0.16))
+  # dev.off()
+
+  # Output (with 'cowplot' package)
+  ggdraw=cowplot::ggdraw
+  draw_plot=cowplot::draw_plot
+  save_plot=cowplot::save_plot
+  save_plot(filename, base_width=8, base_height=6, dpi=dpi,
+            plot=ggdraw() + draw_plot(map1) + draw_plot(map2, x=0.76, y=0.06, width=0.2, height=0.2))
 
   # Feedback
   path=ifelse(grepl(":", filename), filename, paste0(getwd(), '/', filename))
   Print("<<green \u2714>> Saved to <<blue '{path}'>>")
+
+  invisible(list(map.main=map1, map.jdx=map2))
 }

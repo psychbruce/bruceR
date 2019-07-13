@@ -123,15 +123,17 @@ NULL
 
   Print("
   <<bold <<blue
-  <<magenta {rep_char('=', 10)} bruceR (version 0.1.0) {rep_char('=', 10)}>>
+  <<magenta {rep_char('=', 10)} bruceR (version 0.1.1) {rep_char('=', 10)}>>
   The most commonly used R packages are also loaded:
   <<green 'rio', 'glue', 'dplyr', 'stringr', 'data.table', 'psych', 'ggplot2'>>
 
   For an overview and introduction, please type:  ?bruceR
   Run some examples:  example(\"regress\")
 
-  <<silver * Check updates on <<underline https://github.com/psychbruce/bruceR>>
+  <<silver
+    Check updates on <<underline https://github.com/psychbruce/bruceR>>
     Update the package:  devtools::install_github('psychbruce/bruceR')>>
+  <<red (This version is not yet complete. Use at your own risk.)>>
   >>>>
   ")
 }
