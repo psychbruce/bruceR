@@ -77,7 +77,7 @@ HLM_summary(m2)
 HLM_summary(m3)
 
 ## Example 2: data from lmerTest::carrots
-# 1) 'Constomer' is a grouping/clustering variable
+# 1) 'Consumer' is a grouping/clustering variable
 # 2) 'Sweetness' is a level-1 predictor
 # 3) 'Gender', 'Age', and 'Frequency' are level-2 predictors
 hlm.1=lmer(Preference ~ Sweetness + Gender * Age + Frequency + (1 | Consumer), data=carrots)

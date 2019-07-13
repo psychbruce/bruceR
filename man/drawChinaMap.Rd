@@ -5,15 +5,18 @@
 \title{Draw standard China maps}
 \usage{
 drawChinaMap(provdata = NULL, citydata = NULL, var = NA,
-  multiply = 1, nsmall = 0, colors = "Blues", direc = 1,
-  addlabel = "", labelseg = "\\n", tag = "", title = var,
-  guidetitle = var, bordersize = 0.2, bordercolor = "grey70",
-  na.color = "grey90", filename = "ChinaMap.png", dpi = 500)
+  multiply = 1, log = FALSE, nsmall = 0, colors = "Blues",
+  direc = 1, addlabel = "", labelseg = ":", tag = "",
+  title = var, guidetitle = var, addguidevalue = TRUE,
+  limits = NULL, breaks = NULL, bordersize = 0.2,
+  bordercolor = "grey70", na.color = "grey90",
+  filename = "ChinaMap.png", dpi = 500)
 }
 \description{
 Draw standard China maps
 }
 \examples{
+# You can 'left_join()' your prov data with 'provdata_demo' by the variable 'prov'
 drawChinaMap() # draw a demo map
 drawChinaMap(provdata_demo, var="geoE", nsmall=1, filename="ChinaMap1.png")
 drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, filename="ChinaMap2.png")
