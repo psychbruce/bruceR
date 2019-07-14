@@ -6,8 +6,8 @@
 \usage{
 drawChinaMap(provdata = NULL, citydata = NULL, var = NA,
   multiply = 1, log = FALSE, nsmall = 0, colors = "Blues",
-  direc = 1, addlabel = "", labelseg = ":", tag = "",
-  title = var, guidetitle = "", addguidevalue = TRUE,
+  direc = 1, addlabel = TRUE, labelprefix = "", labelseg = ":",
+  tag = "", title = var, guidetitle = "", addguidevalue = TRUE,
   limits = NULL, breaks = NULL, bordersize = 0.2,
   bordercolor = "grey70", na.color = "grey90",
   filename = "ChinaMap.png", dpi = 500)
@@ -44,9 +44,11 @@ PuBuGn, YlGnBu, YlOrBr, YlOrRd}
 
 \item{direc}{\code{1} (default) or \code{-1}, specifying the direction of color palette.}
 
-\item{addlabel}{A character specifying the label variable in your data, usually \code{"prov"} if you want to add the names of provinces.}
+\item{addlabel}{\code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.}
 
-\item{labelseg}{A character specifying the joint character between labels and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).}
+\item{labelprefix}{A character specifying a variable for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.}
+
+\item{labelseg}{A character specifying the joint character between label prefix and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).}
 
 \item{tag}{Tag of the map (left-top corner).}
 
@@ -80,5 +82,5 @@ Draw standard China maps
 \examples{
 drawChinaMap() # draw a demo map
 drawChinaMap(provdata_demo, var="geoE", nsmall=1, filename="ChinaMap1.png")
-drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, filename="ChinaMap2.png")
+drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, addlabel=FALSE, filename="ChinaMap2.png")
 }

@@ -108,8 +108,9 @@ if(FALSE) {
 #' \strong{Qualitative (not suggested):}
 #' \code{Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3}
 #' @param direc \code{1} (default) or \code{-1}, specifying the direction of color palette.
-#' @param addlabel A character specifying the label variable in your data, usually \code{"prov"} if you want to add the names of provinces.
-#' @param labelseg A character specifying the joint character between labels and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).
+#' @param addlabel \code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.
+#' @param labelprefix A character specifying a variable for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
+#' @param labelseg A character specifying the joint character between label prefix and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).
 #' @param tag Tag of the map (left-top corner).
 #' @param title Title of the map.
 #' @param guidetitle Title of the colorbar guide.
@@ -126,11 +127,12 @@ if(FALSE) {
 #' @examples
 #' drawChinaMap() # draw a demo map
 #' drawChinaMap(provdata_demo, var="geoE", nsmall=1, filename="ChinaMap1.png")
-#' drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, filename="ChinaMap2.png")
+#' drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, addlabel=FALSE, filename="ChinaMap2.png")
 #' @export
 drawChinaMap=function(provdata=NULL, citydata=NULL,
                       var=NA, multiply=1, log=FALSE, nsmall=0,
-                      colors="Blues", direc=1, addlabel="", labelseg=":",
+                      colors="Blues", direc=1,
+                      addlabel=TRUE, labelprefix="", labelseg=":",
                       tag="", title=var, guidetitle="", addguidevalue=TRUE,
                       limits=NULL, breaks=NULL,
                       bordersize=0.2, bordercolor="grey70", na.color="grey90",
@@ -141,7 +143,7 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
     if(is.null(provdata)) {
       provdata=provdata_demo
       title="China Map (demo)"
-      addlabel="prov"
+      labelprefix="prov"
     }
     data=provdata
   } else {
@@ -189,7 +191,7 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
                           direction="horizontal", label=addguidevalue, ticks=FALSE,
                           barwidth=unit(5,"cm"), barheight=unit(5,"mm"))
   if(is.na(var)==FALSE) {
-    guide.range=range(data[[var]])
+    guide.range=range(data[[var]], na.rm=TRUE)
     if(is.null(limits)) limits=c(floor(guide.range[1]), ceiling(guide.range[2]))
     if(is.null(breaks)) breaks=limits
   }
@@ -226,13 +228,15 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
   map2=map + coord_map(xlim=jdx.long, ylim=jdx.lat) + geom_rect(aes(xmin=jdx.long[1], xmax=jdx.long[2], ymin=jdx.lat[1], ymax=jdx.lat[2]), fill=NA, color="black", size=0.5) + theme(legend.position="none")
 
   # Add labels
-  if(level=="prov") {
-    if(is.na(var) & addlabel!="") {
-      map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=get(addlabel)), fontface="bold", size=3)
-    } else if(addlabel=="") {
+  if(level=="prov" & (addlabel==TRUE | labelprefix!="")) {
+    if(is.na(var) & labelprefix!="") {
+      map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=get(labelprefix)), fontface="bold", size=3)
+    }
+    if(is.na(var)==FALSE & labelprefix=="") {
       map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=sprintf(paste0("%.", nsmall, "f"), get(var)*multiply)), size=3)
-    } else {
-      map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=paste0(get(addlabel), labelseg, sprintf(paste0("%.", nsmall, "f"), get(var)*multiply))), size=3)
+    }
+    if(is.na(var)==FALSE & labelprefix!="") {
+      map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=paste0(get(labelprefix), labelseg, sprintf(paste0("%.", nsmall, "f"), get(var)*multiply))), size=3)
     }
   }
   map1=map1 + labs(tag=tag, title=title)
