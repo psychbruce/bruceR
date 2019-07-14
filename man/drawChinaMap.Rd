@@ -46,7 +46,8 @@ PuBuGn, YlGnBu, YlOrBr, YlOrRd}
 
 \item{addlabel}{\code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.}
 
-\item{labelprefix}{A character specifying a variable for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.}
+\item{labelprefix}{A character specifying a variable in your data for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
+(Note: You can draw the label prefix only, by setting \code{addlable=FALSE} and \code{labelprefix="yourvariable"}.)}
 
 \item{labelseg}{A character specifying the joint character between label prefix and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).}
 

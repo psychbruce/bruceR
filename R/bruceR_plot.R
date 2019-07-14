@@ -109,7 +109,8 @@ if(FALSE) {
 #' \code{Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3}
 #' @param direc \code{1} (default) or \code{-1}, specifying the direction of color palette.
 #' @param addlabel \code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.
-#' @param labelprefix A character specifying a variable for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
+#' @param labelprefix A character specifying a variable in your data for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
+#' (Note: You can draw the label prefix only, by setting \code{addlable=FALSE} and \code{labelprefix="yourvariable"}.)
 #' @param labelseg A character specifying the joint character between label prefix and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).
 #' @param tag Tag of the map (left-top corner).
 #' @param title Title of the map.
@@ -228,14 +229,14 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
   map2=map + coord_map(xlim=jdx.long, ylim=jdx.lat) + geom_rect(aes(xmin=jdx.long[1], xmax=jdx.long[2], ymin=jdx.lat[1], ymax=jdx.lat[2]), fill=NA, color="black", size=0.5) + theme(legend.position="none")
 
   # Add labels
-  if(level=="prov" & (addlabel==TRUE | labelprefix!="")) {
-    if(is.na(var) & labelprefix!="") {
+  if(level=="prov") {
+    if((is.na(var)=TRUE | addlabel==FALSE) & labelprefix!="") {
       map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=get(labelprefix)), fontface="bold", size=3)
     }
-    if(is.na(var)==FALSE & labelprefix=="") {
+    if(is.na(var)==FALSE & addlabel==TRUE & labelprefix=="") {
       map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=sprintf(paste0("%.", nsmall, "f"), get(var)*multiply)), size=3)
     }
-    if(is.na(var)==FALSE & labelprefix!="") {
+    if(is.na(var)==FALSE & addlabel==TRUE & labelprefix!="") {
       map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=paste0(get(labelprefix), labelseg, sprintf(paste0("%.", nsmall, "f"), get(var)*multiply))), size=3)
     }
   }
