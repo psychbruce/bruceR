@@ -83,10 +83,47 @@ if(FALSE) {
 
 #' Draw standard China maps
 #' @import ggplot2
-## @importFrom cowplot ggdraw, draw_plot, save_plot
+#' @importFrom cowplot ggdraw draw_plot save_plot
 ## @import grid
+#' @param provdata Province-level data. You can use \code{\link[dplyr]{left_join}} to merge your prov data with \code{provdata_demo} (a demo dataset in \code{bruceR}) by the variable \code{"prov"}.
+#' If not specified, it will draw a demo map for you (see Examples).
+#'
+#' For details about \code{provdata_demo}, type this in your console:
+#' \code{View(provdata_demo)}
+#' @param citydata City-level data with two variables (must be "geoE" and "geoN") specifying the longitude and latitude of cities, respectively.
+#' @param var A character specifying the variable you want to map to the plot.
+#' @param multiply A number useful when you want to expand the raw values by, e.g., 100 times.
+#' @param log \code{TRUE} or \code{FALSE} (default). Whether to log-transform the raw values.
+#' @param nsmall Number of decimal places of output. Default is 0.
+#' @param colors Color palettes. The following palettes are available (see \code{\link[ggplot2]{scale_color_brewer}}):
+#'
+#' \strong{Sequential:}
+#' \code{Blues, Greens, Greys, Oranges, Purples, Reds,
+#' BuGn, BuPu, GnBu, OrRd, PuBu, PuRd, RdPu, YlGn,
+#' PuBuGn, YlGnBu, YlOrBr, YlOrRd}
+#'
+#' \strong{Diverging:}
+#' \code{BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn, Spectral}
+#'
+#' \strong{Qualitative (not suggested):}
+#' \code{Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3}
+#' @param direc \code{1} (default) or \code{-1}, specifying the direction of color palette.
+#' @param addlabel A character specifying the label variable in your data, usually \code{"prov"} if you want to add the names of provinces.
+#' @param labelseg A character specifying the joint character between labels and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).
+#' @param tag Tag of the map (left-top corner).
+#' @param title Title of the map.
+#' @param guidetitle Title of the colorbar guide.
+#' @param addguidevalue \code{TRUE} (default) or \code{FALSE}. Whether to add values under the colorbar guide.
+#' @param limits A number vector specifying the range of values to plot (relevant both to the main plot and to the colorbar guide). Default is the actual range of your variable.
+#' @param breaks A number vector specifying the breaking points of colorbar, e.g., \code{seq(0, 100, 25)}.
+#' @param bordersize Line size of map border. Default is \code{0.2}.
+#' @param bordercolor Line color of map border. Default is \code{"grey70"}.
+#' @param na.color A color for those provinces with missing values. Default is \code{"grey90"}.
+#' @param filename File name to create on disk. The file type can be any of ".pdf", ".png", ".jpg", ".bmp", ".tiff", ".eps", ... (see \code{\link[ggplot2]{ggsave}}).
+#' @param dpi Dots per inch (DPI). A higher DPI produces clearer and more detailed output. Academic papars usually require 300 dpi at least. Here I use 500 as a default value.
+#' (Note: PDF documents are not influenced by DPI.)
+#' @return Invisibly return a list of two maps (a main map and a sub-map for Nanhai islands).
 #' @examples
-#' # You can 'left_join()' your prov data with 'provdata_demo' by the variable 'prov'
 #' drawChinaMap() # draw a demo map
 #' drawChinaMap(provdata_demo, var="geoE", nsmall=1, filename="ChinaMap1.png")
 #' drawChinaMap(provdata_demo, var="geoN", nsmall=1, colors="Reds", direc=-1, filename="ChinaMap2.png")
@@ -94,7 +131,7 @@ if(FALSE) {
 drawChinaMap=function(provdata=NULL, citydata=NULL,
                       var=NA, multiply=1, log=FALSE, nsmall=0,
                       colors="Blues", direc=1, addlabel="", labelseg=":",
-                      tag="", title=var, guidetitle=var, addguidevalue=TRUE,
+                      tag="", title=var, guidetitle="", addguidevalue=TRUE,
                       limits=NULL, breaks=NULL,
                       bordersize=0.2, bordercolor="grey70", na.color="grey90",
                       filename="ChinaMap.png", dpi=500) {
@@ -142,7 +179,7 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
                        20.40, 21.30,
                        23.20, 24.40))
   maptheme=theme_void() +
-    theme(legend.position=c(0.24, 0.05),
+    theme(legend.position=c(0.24, ifelse(guidetitle!="" & addguidevalue==FALSE, 0.05, 0.07)),
           legend.title=element_text(size=14, color="black"),
           plot.tag=element_text(size=16, color="black", face="bold",
                                 margin=margin(-1, 0, ifelse(is.null(title), 0, 1), 0.5, "lines")),
@@ -211,9 +248,9 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
   # dev.off()
 
   # Output (with 'cowplot' package)
-  ggdraw=cowplot::ggdraw
-  draw_plot=cowplot::draw_plot
-  save_plot=cowplot::save_plot
+  # ggdraw=cowplot::ggdraw
+  # draw_plot=cowplot::draw_plot
+  # save_plot=cowplot::save_plot
   save_plot(filename, base_width=8, base_height=6, dpi=dpi,
             plot=ggdraw() + draw_plot(map1) + draw_plot(map2, x=0.76, y=0.06, width=0.2, height=0.2))
 

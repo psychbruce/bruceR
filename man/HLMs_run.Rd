@@ -9,6 +9,12 @@ HLMs_run(formulas.text, data, family = NULL)
 \description{
 Run many HLMs
 }
+\note{
+Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
+}
 \examples{
 mf=HLMs_run(HLMs_formulas(Reaction ~ Days + (Days | Subject)), data=sleepstudy)
+}
+\seealso{
+\code{\link{HLMs_run_parallel}}
 }

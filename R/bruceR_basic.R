@@ -2,6 +2,9 @@
 ##  Check Package:    'Ctrl + Shift + E'
 ##  Test Package:     'Ctrl + Shift + T'
 
+## remove.packages("bruceR")
+## devtools::install_github('psychbruce/bruceR')
+
 
 #' bruceR: BRoadly Useful Collections and Extensions of R functions
 #'

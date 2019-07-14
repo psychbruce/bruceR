@@ -12,3 +12,9 @@ A data.table ordered by \code{singular}, \code{BIC}, and \code{AIC}.
 \description{
 Run many HLMs (parallel version, much faster than \code{HLMs_run()})
 }
+\note{
+Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
+}
+\seealso{
+\code{\link{HLMs_run}}
+}

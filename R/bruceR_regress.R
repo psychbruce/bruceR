@@ -986,6 +986,9 @@ HLMs_formulas=function(formula.full.model) {
 #' @import data.table
 #' @examples
 #' mf=HLMs_run(HLMs_formulas(Reaction ~ Days + (Days | Subject)), data=sleepstudy)
+#' @note
+#' Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
+#' @seealso \code{\link{HLMs_run_parallel}}
 #' @export
 HLMs_run=function(formulas.text, data, family=NULL) {
   t0=Sys.time()
@@ -1042,6 +1045,9 @@ HLMs_onecore=function(f.id) {
 #' @import parallel
 #' @import data.table
 #' @return A data.table ordered by \code{singular}, \code{BIC}, and \code{AIC}.
+#' @note
+#' Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
+#' @seealso \code{\link{HLMs_run}}
 #' @export
 HLMs_run_parallel=function(formulas.text, data, family=NULL,
                            cores=4) {
@@ -1148,7 +1154,6 @@ simple_slope=function(b, SEb, bmod, SDmod, df, nsmall=3) {
 #' Moderated mediation
 #' @export
 mod_med=function(a1, SEa1, a3, SEa3, b, SEb, c1, c3, SDmod) {
-  library(dplyr)
   indirect.high=(a1+a3*SDmod)*b
   indirect.mean=a1*b
   indirect.low=(a1-a3*SDmod)*b
@@ -1161,9 +1166,9 @@ mod_med=function(a1, SEa1, a3, SEa3, b, SEb, c1, c3, SDmod) {
   effect=data.frame(total=c(total.low, total.mean, total.high),
                     direct=c(direct.low, direct.mean, direct.high),
                     indirect=c(indirect.low, indirect.mean, indirect.high))
-  effect=mutate(effect,
-                ratioTotal=indirect/total,
-                ratioRelative=abs(indirect/direct))
+  effect=dplyr::mutate(effect,
+                       ratioTotal=indirect/total,
+                       ratioRelative=abs(indirect/direct))
   row.names(effect)=c("low mod", "mean mod", "high mod")
 
   cat("Effect:\n")
