@@ -108,6 +108,8 @@ if(FALSE) {
 #' \strong{Qualitative (not suggested):}
 #' \code{Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3}
 #' @param direc \code{1} (default) or \code{-1}, specifying the direction of color palette.
+#' @param cityshape The shape of city dots. I recommend using 16 (round) or 18 (rhombus). The default is 18. For details, see \href{http://sape.inf.usi.ch/quick-reference/ggplot2/shape}{shape parameter}.
+#' @param cityalpha The transparency of city dots. The default is 0.9.
 #' @param addlabel \code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.
 #' @param labelprefix A character specifying a variable in your data for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
 #' (Note: You can draw the label prefix only, by setting \code{addlable=FALSE} and \code{labelprefix="yourvariable"}.)
@@ -133,6 +135,7 @@ if(FALSE) {
 drawChinaMap=function(provdata=NULL, citydata=NULL,
                       var=NA, multiply=1, log=FALSE, nsmall=0,
                       colors="Blues", direc=1,
+                      cityshape=18, cityalpha=0.9,
                       addlabel=TRUE, labelprefix="", labelseg=":",
                       tag="", title=var, guidetitle="", addguidevalue=TRUE,
                       limits=NULL, breaks=NULL,
@@ -215,9 +218,9 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
   }
   if(level=="city") {
     if(log) {
-      map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=log(get(var))), shape=18, size=3, alpha=0.9)
+      map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=log(get(var))), shape=cityshape, size=3, alpha=cityalpha)
     } else {
-      map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=get(var)), shape=18, size=3, alpha=0.9)
+      map=map + geom_point(data=citydata, aes(x=geoE, y=geoN, color=get(var)), shape=cityshape, size=3, alpha=cityalpha)
     }
     map=map +
       scale_color_distiller(palette=colors, direction=direc, na.value=na.color,
@@ -230,7 +233,7 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
 
   # Add labels
   if(level=="prov") {
-    if((is.na(var)=TRUE | addlabel==FALSE) & labelprefix!="") {
+    if((is.na(var)==TRUE | addlabel==FALSE) & labelprefix!="") {
       map1=map1 + geom_text(data=provdata, aes(x=geoE, y=geoN, label=get(labelprefix)), fontface="bold", size=3)
     }
     if(is.na(var)==FALSE & addlabel==TRUE & labelprefix=="") {

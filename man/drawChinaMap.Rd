@@ -6,11 +6,11 @@
 \usage{
 drawChinaMap(provdata = NULL, citydata = NULL, var = NA,
   multiply = 1, log = FALSE, nsmall = 0, colors = "Blues",
-  direc = 1, addlabel = TRUE, labelprefix = "", labelseg = ":",
-  tag = "", title = var, guidetitle = "", addguidevalue = TRUE,
-  limits = NULL, breaks = NULL, bordersize = 0.2,
-  bordercolor = "grey70", na.color = "grey90",
-  filename = "ChinaMap.png", dpi = 500)
+  direc = 1, cityshape = 18, cityalpha = 0.9, addlabel = TRUE,
+  labelprefix = "", labelseg = ":", tag = "", title = var,
+  guidetitle = "", addguidevalue = TRUE, limits = NULL,
+  breaks = NULL, bordersize = 0.2, bordercolor = "grey70",
+  na.color = "grey90", filename = "ChinaMap.png", dpi = 500)
 }
 \arguments{
 \item{provdata}{Province-level data. You can use \code{\link[dplyr]{left_join}} to merge your prov data with \code{provdata_demo} (a demo dataset in \code{bruceR}) by the variable \code{"prov"}.
@@ -43,6 +43,10 @@ PuBuGn, YlGnBu, YlOrBr, YlOrRd}
 \code{Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3}}
 
 \item{direc}{\code{1} (default) or \code{-1}, specifying the direction of color palette.}
+
+\item{cityshape}{The shape of city dots. I recommend using 16 (round) or 18 (rhombus). The default is 18. For details, see \href{http://sape.inf.usi.ch/quick-reference/ggplot2/shape}{shape parameter}.}
+
+\item{cityalpha}{The transparency of city dots. The default is 0.9.}
 
 \item{addlabel}{\code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.}
 
