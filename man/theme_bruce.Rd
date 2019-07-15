@@ -15,7 +15,37 @@ theme_bruce(base.size = 12, line.size = 0.5, border = "",
 
 \item{line.size}{Line width. Default is 0.5.}
 
-\item{border}{\code{F}, \code{""} (default), or a color. If set to \code{F} or \code{""}, it will not draw the border.}
+\item{border}{\code{FALSE}, \code{""} (default), or a color. If set to \code{FALSE} or \code{""}, it will not draw the border.}
+
+\item{bg}{Background color. Default is \code{"white"}. You can use any colors or choose from some pre-set color palettes:
+\code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
+
+To see these colors, you can type:
+
+\code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
+solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
+
+\item{tag}{Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
+
+\item{plot.title}{Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
+
+\item{axis.title}{Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
+
+\item{title.pos}{Title position (0~1).}
+
+\item{caption.pos}{Caption position (0~1).}
+
+\item{grid.x}{\code{FALSE}, \code{""}, or a color to set the color of panel grid (x). Default is \code{""}.}
+
+\item{grid.y}{\code{FALSE}, \code{""}, or a color to set the color of panel grid (y). Default is \code{"grey90"}.}
+
+\item{line.x}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.}
+
+\item{line.y}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis line.}
+
+\item{tick.x}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.}
+
+\item{tick.y}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.}
 }
 \description{
 A nice \code{ggplot2} theme for scientific plotting

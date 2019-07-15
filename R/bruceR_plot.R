@@ -3,10 +3,28 @@
 
 #' A nice \code{ggplot2} theme for scientific plotting
 #'
+#' @import ggplot2
 #' @param base.size Basic font size. Default is 12.
 #' @param line.size Line width. Default is 0.5.
-#' @param border \code{F}, \code{""} (default), or a color. If set to \code{F} or \code{""}, it will not draw the border.
-#' @import ggplot2
+#' @param border \code{FALSE}, \code{""} (default), or a color. If set to \code{FALSE} or \code{""}, it will not draw the border.
+#' @param bg Background color. Default is \code{"white"}. You can use any colors or choose from some pre-set color palettes:
+#' \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
+#'
+#' To see these colors, you can type:
+#'
+#' \code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
+#' solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}
+#' @param tag Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
+#' @param plot.title Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
+#' @param axis.title Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
+#' @param title.pos Title position (0~1).
+#' @param caption.pos Caption position (0~1).
+#' @param grid.x \code{FALSE}, \code{""}, or a color to set the color of panel grid (x). Default is \code{""}.
+#' @param grid.y \code{FALSE}, \code{""}, or a color to set the color of panel grid (y). Default is \code{"grey90"}.
+#' @param line.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.
+#' @param line.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis line.
+#' @param tick.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.
+#' @param tick.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
                      border="", bg="white",
@@ -108,8 +126,8 @@ if(FALSE) {
 #' \strong{Qualitative (not suggested):}
 #' \code{Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3}
 #' @param direc \code{1} (default) or \code{-1}, specifying the direction of color palette.
-#' @param cityshape The shape of city dots. I recommend using 16 (round) or 18 (rhombus). The default is 18. For details, see \href{http://sape.inf.usi.ch/quick-reference/ggplot2/shape}{shape parameter}.
-#' @param cityalpha The transparency of city dots. The default is 0.9.
+#' @param cityshape The shape of city dots. I recommend using 16 (round) or 18 (rhombus). Default is 18. For details, see \href{http://sape.inf.usi.ch/quick-reference/ggplot2/shape}{shape parameter}.
+#' @param cityalpha The transparency of city dots. Default is 0.9.
 #' @param addlabel \code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.
 #' @param labelprefix A character specifying a variable in your data for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
 #' (Note: You can draw the label prefix only, by setting \code{addlable=FALSE} and \code{labelprefix="yourvariable"}.)
@@ -256,9 +274,6 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
   # dev.off()
 
   # Output (with 'cowplot' package)
-  # ggdraw=cowplot::ggdraw
-  # draw_plot=cowplot::draw_plot
-  # save_plot=cowplot::save_plot
   save_plot(filename, base_width=8, base_height=6, dpi=dpi,
             plot=ggdraw() + draw_plot(map1) + draw_plot(map2, x=0.76, y=0.06, width=0.2, height=0.2))
 

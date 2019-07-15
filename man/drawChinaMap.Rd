@@ -44,9 +44,9 @@ PuBuGn, YlGnBu, YlOrBr, YlOrRd}
 
 \item{direc}{\code{1} (default) or \code{-1}, specifying the direction of color palette.}
 
-\item{cityshape}{The shape of city dots. I recommend using 16 (round) or 18 (rhombus). The default is 18. For details, see \href{http://sape.inf.usi.ch/quick-reference/ggplot2/shape}{shape parameter}.}
+\item{cityshape}{The shape of city dots. I recommend using 16 (round) or 18 (rhombus). Default is 18. For details, see \href{http://sape.inf.usi.ch/quick-reference/ggplot2/shape}{shape parameter}.}
 
-\item{cityalpha}{The transparency of city dots. The default is 0.9.}
+\item{cityalpha}{The transparency of city dots. Default is 0.9.}
 
 \item{addlabel}{\code{TRUE} (default) or \code{FALSE}. Whether to add value labels. For clarity, value labels are only added to provinces but not to cities.}
 
