@@ -132,12 +132,14 @@ if(FALSE) {
 #' @param labelprefix A character specifying a variable in your data for adding label prefix, usually \code{"prov"} if you want to add the names of provinces prior to values.
 #' (Note: You can draw the label prefix only, by setting \code{addlable=FALSE} and \code{labelprefix="yourvariable"}.)
 #' @param labelseg A character specifying the joint character between label prefix and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).
-#' @param tag Tag of the map (left-top corner).
-#' @param title Title of the map.
+#' @param tag Tag of the map (left-top corner). Default is \code{""}, which leaves the position occupied but without any text.
+#' @param title Title of the map. Default is the variable name.
+#' @param subtitle Subtitle of the map. Default is \code{NULL}, which does not occupy the position.
 #' @param guidetitle Title of the colorbar guide.
-#' @param addguidevalue \code{TRUE} (default) or \code{FALSE}. Whether to add values under the colorbar guide.
-#' @param limits A number vector specifying the range of values to plot (relevant both to the main plot and to the colorbar guide). Default is the actual range of your variable.
-#' @param breaks A number vector specifying the breaking points of colorbar, e.g., \code{seq(0, 100, 25)}.
+#' @param addguidelabel \code{TRUE} (default) or \code{FALSE}. Whether to add values under the colorbar guide.
+#' @param guidelimits [Optional] A number vector specifying the range of values to plot (relevant both to the main plot and to the colorbar guide). Default is the actual range of your variable.
+#' @param guidebreaks [Optional] A number vector specifying the breaking points of colorbar, e.g., \code{seq(0, 100, 25)}.
+#' @param guidelabels [Optional] A vector re-setting the labels of the colorbar guide.
 #' @param bordersize Line size of map border. Default is \code{0.2}.
 #' @param bordercolor Line color of map border. Default is \code{"grey70"}.
 #' @param na.color A color for those provinces with missing values. Default is \code{"grey90"}.
@@ -155,8 +157,9 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
                       colors="Blues", direc=1,
                       cityshape=18, cityalpha=0.9,
                       addlabel=TRUE, labelprefix="", labelseg=":",
-                      tag="", title=var, guidetitle="", addguidevalue=TRUE,
-                      limits=NULL, breaks=NULL,
+                      tag="", title=var, subtitle=NULL,
+                      guidetitle="", addguidelabel=TRUE,
+                      guidelimits=NULL, guidebreaks=NULL, guidelabels=NULL,
                       bordersize=0.2, bordercolor="grey70", na.color="grey90",
                       filename="ChinaMap.png", dpi=500) {
   # Merge data
@@ -203,19 +206,24 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
                        20.40, 21.30,
                        23.20, 24.40))
   maptheme=theme_void() +
-    theme(legend.position=c(0.24, ifelse(guidetitle!="" & addguidevalue==FALSE, 0.05, 0.07)),
+    theme(legend.position=c(0.24, ifelse(guidetitle!="" & addguidelabel==FALSE, 0.05, 0.07)),
           legend.title=element_text(size=14, color="black"),
           plot.tag=element_text(size=16, color="black", face="bold",
                                 margin=margin(-1, 0, ifelse(is.null(title), 0, 1), 0.5, "lines")),
           plot.title=element_text(size=16, color="black", face="bold", hjust=0.5,
                                   margin=margin(-1, 0, 0.5, 0, "lines")))
   mapguide=guide_colorbar(title=guidetitle, title.position="top", title.hjust=0.5,
-                          direction="horizontal", label=addguidevalue, ticks=FALSE,
+                          direction="horizontal", label=addguidelabel, ticks=FALSE,
                           barwidth=unit(5,"cm"), barheight=unit(5,"mm"))
   if(is.na(var)==FALSE) {
-    guide.range=range(data[[var]], na.rm=TRUE)
-    if(is.null(limits)) limits=c(floor(guide.range[1]), ceiling(guide.range[2]))
-    if(is.null(breaks)) breaks=limits
+    if(log) {
+      guide.range=log(range(data[[var]], na.rm=TRUE))
+    } else {
+      guide.range=range(data[[var]], na.rm=TRUE)
+    }
+    if(is.null(guidelimits)) guidelimits=guide.range
+    if(is.null(guidebreaks)) guidebreaks=guide.range
+    if(is.null(guidelabels)) guidelabels=sprintf(paste0("%.", nsmall, "f"), guide.range*multiply) # c(floor(guide.range[1]), ceiling(guide.range[2]))
   }
 
   # Draw maps
@@ -231,7 +239,7 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
     }
     map=map +
       scale_fill_distiller(palette=colors, direction=direc, na.value=na.color,
-                           limits=limits, breaks=breaks,
+                           limits=guidelimits, breaks=guidebreaks, labels=guidelabels,
                            guide=mapguide)
   }
   if(level=="city") {
@@ -242,7 +250,7 @@ drawChinaMap=function(provdata=NULL, citydata=NULL,
     }
     map=map +
       scale_color_distiller(palette=colors, direction=direc, na.value=na.color,
-                            limits=limits, breaks=breaks,
+                            limits=guidelimits, breaks=guidebreaks, labels=guidelabels,
                             guide=mapguide)
   }
   map=map + geom_line(data=jdx, aes(x=long, y=lat, group=ID), color="black", size=0.5)

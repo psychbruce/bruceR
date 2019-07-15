@@ -8,9 +8,10 @@ drawChinaMap(provdata = NULL, citydata = NULL, var = NA,
   multiply = 1, log = FALSE, nsmall = 0, colors = "Blues",
   direc = 1, cityshape = 18, cityalpha = 0.9, addlabel = TRUE,
   labelprefix = "", labelseg = ":", tag = "", title = var,
-  guidetitle = "", addguidevalue = TRUE, limits = NULL,
-  breaks = NULL, bordersize = 0.2, bordercolor = "grey70",
-  na.color = "grey90", filename = "ChinaMap.png", dpi = 500)
+  subtitle = NULL, guidetitle = "", addguidelabel = TRUE,
+  guidelimits = NULL, guidebreaks = NULL, guidelabels = NULL,
+  bordersize = 0.2, bordercolor = "grey70", na.color = "grey90",
+  filename = "ChinaMap.png", dpi = 500)
 }
 \arguments{
 \item{provdata}{Province-level data. You can use \code{\link[dplyr]{left_join}} to merge your prov data with \code{provdata_demo} (a demo dataset in \code{bruceR}) by the variable \code{"prov"}.
@@ -55,17 +56,21 @@ PuBuGn, YlGnBu, YlOrBr, YlOrRd}
 
 \item{labelseg}{A character specifying the joint character between label prefix and values (e.g., setting to \code{": "} will make a label look like \code{"Beijing: 1.23"}).}
 
-\item{tag}{Tag of the map (left-top corner).}
+\item{tag}{Tag of the map (left-top corner). Default is \code{""}, which leaves the position occupied but without any text.}
 
-\item{title}{Title of the map.}
+\item{title}{Title of the map. Default is the variable name.}
+
+\item{subtitle}{Subtitle of the map. Default is \code{NULL}, which does not occupy the position.}
 
 \item{guidetitle}{Title of the colorbar guide.}
 
-\item{addguidevalue}{\code{TRUE} (default) or \code{FALSE}. Whether to add values under the colorbar guide.}
+\item{addguidelabel}{\code{TRUE} (default) or \code{FALSE}. Whether to add values under the colorbar guide.}
 
-\item{limits}{A number vector specifying the range of values to plot (relevant both to the main plot and to the colorbar guide). Default is the actual range of your variable.}
+\item{guidelimits}{[Optional] A number vector specifying the range of values to plot (relevant both to the main plot and to the colorbar guide). Default is the actual range of your variable.}
 
-\item{breaks}{A number vector specifying the breaking points of colorbar, e.g., \code{seq(0, 100, 25)}.}
+\item{guidebreaks}{[Optional] A number vector specifying the breaking points of colorbar, e.g., \code{seq(0, 100, 25)}.}
+
+\item{guidelabels}{[Optional] A vector re-setting the labels of the colorbar guide.}
 
 \item{bordersize}{Line size of map border. Default is \code{0.2}.}
 
