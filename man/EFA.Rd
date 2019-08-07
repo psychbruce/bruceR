@@ -4,9 +4,35 @@
 \alias{EFA}
 \title{Exploratory factor analysis (EFA)}
 \usage{
-EFA(data, var, items, vars = NULL, method = "parallel",
-  rotation = "varimax", fixedFactors = 1, hideBelow = 0.4)
+EFA(data, vartext, method = "eigen", extraction = "pa",
+  rotation = "varimax", nFactors = 1, hideLoadings = 0.3)
+}
+\arguments{
+\item{data}{the data as a data frame}
+
+\item{vartext}{e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}}
+
+\item{method}{\code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors}
+
+\item{extraction}{\code{"pa"} (default), \code{"ml"}, or \code{"minres"},
+using respectively "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method}
+
+\item{rotation}{\code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation to use in estimation}
+
+\item{nFactors}{an integer (default: 1), the number of factors in the model}
+
+\item{hideLoadings}{a number (default: 0.3), hide factor loadings below
+this value}
 }
 \description{
 Exploratory factor analysis (EFA)
+}
+\note{
+It does not have the extraction method "Principal Components". You may still use SPSS.
+}
+\examples{
+EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
+}
+\seealso{
+\code{\link[jmv]{efa}}
 }

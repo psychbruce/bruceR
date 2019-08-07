@@ -14,7 +14,7 @@
 #' @section Main Functions in \code{bruceR}:
 #' \code{bruceR} includes functions for 1) basic analyses, 2) multivariate computing (e.g., scale mean),
 #' 3) questionnaire analyses (e.g., reliability, EFA, CFA), 4) advanced outputs for LM, GLM, HLM (LMM), and GLMM,
-#' 5) nice themes for \code{ggplot2}, and 6) drawing standard China maps.
+#' and 5) nice themes for \code{ggplot2}.
 #'
 #' \describe{
 #'   \item{\strong{Basic Functions}}{
@@ -81,8 +81,6 @@
 #'   }
 #'   \item{\strong{Plotting with \code{ggplot2}}}{
 #'       \code{\link{theme_bruce}}
-#'
-#'       \code{\link{drawChinaMap}}
 #'   }
 #' }
 #'
@@ -226,7 +224,7 @@ pkg_depend=function(pkg) {
                  "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
                  "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet", "parallel",
                  "rpart", "spatial", "splines", "stats", "stats4", "survival",
-                 "tclck", "tools", "translation", "utils")
+                 "tcltk", "tools", "translations", "utils")
   pkgs=unlist(tools::package_dependencies(pkg, recursive=TRUE))
   pkgs=sort(setdiff(union(pkg, pkgs), default.pkgs))
   packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))

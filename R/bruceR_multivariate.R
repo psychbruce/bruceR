@@ -234,6 +234,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 
 #' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
 ## @import jmv
+#' @inheritParams grapes-grapes-COMPUTE-grapes-grapes
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
@@ -246,18 +247,49 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 
 #' Exploratory factor analysis (EFA)
 ## @import jmv
+#' @inheritParams grapes-grapes-COMPUTE-grapes-grapes
+#' @inheritParams jmv::efa
+#' @param vartext e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}
+#' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors
+#' @param extraction \code{"pa"} (default), \code{"ml"}, or \code{"minres"},
+#' using respectively "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method
+#' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation to use in estimation
+#' @examples
+#' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
+#' @seealso \code{\link[jmv]{efa}}
+#' @note It does not have the extraction method "Principal Components". You may still use SPSS.
 #' @export
-EFA=function(data, var, items, vars=NULL, method="parallel",
-             rotation="varimax", fixedFactors=1, hideBelow=0.4) {
-  if(is.null(vars)) vars=paste0(var, items)
-  jmv::efa(data, vars=eval(vars),
-           nFactorMethod=method, # "parallel", "eigen", "fixed"
-           nFactors=fixedFactors,
+EFA=function(data, vartext,
+             method="eigen", extraction="pa", rotation="varimax",
+             nFactors=1, hideLoadings=0.3) {
+  jmv::efa(data, vars=eval(expand_vars(vartext)),
+           nFactorMethod=method, # "eigen", "parallel", "fixed"
+           extraction=extraction, # "pa", "ml", "minres"
            rotation=rotation, # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
-           hideLoadings=hideBelow, sortLoadings=TRUE,
+           minEigen=1,
+           nFactors=nFactors,
+           hideLoadings=hideLoadings, sortLoadings=TRUE,
            screePlot=TRUE, eigen=TRUE,
            factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
            kmo=TRUE, bartlett=TRUE)
+}
+
+
+## Expand multiple variables with complex string formats
+## Input: "X[1:5] + Y[c(1,3)] + Z"
+## Output:
+expand_vars=function(vartext) {
+  vartexts=gsub(" ", "", strsplit(vartext, "\\+")[[1]])
+  vars=c()
+  for(vartext.i in vartexts) {
+    if(grepl("\\[|\\]", vartext.i)==TRUE) {
+      vars.i=eval(parse(text=paste0("paste0('", gsub("\\]", ")", gsub("\\[", "',", vartext.i)))))
+    } else {
+      vars.i=vartext.i
+    }
+    vars=c(vars, vars.i)
+  }
+  return(vars)
 }
 
 
@@ -271,11 +303,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
   model.jmv=list()
   for(i in 1:length(model)) {
     var=model[[i]][[2]]
-    if(grepl("\\+", var)) {
-      vars=gsub(" ", "", strsplit(var, "\\+")[[1]])
-    } else {
-      vars=eval(parse(text=paste0("paste0('", gsub("\\]", ")", gsub("\\[", "',", var)))))
-    }
+    vars=expand_vars(var)
     model.jmv[[i]]=list(label=model[[i]][[1]],
                         vars=vars)
   }
@@ -304,6 +332,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 ## @import jmv
 #' @import lavaan
 #' @import semPlot
+#' @inheritParams grapes-grapes-COMPUTE-grapes-grapes
 #' @examples
 #' data.cfa=lavaan::HolzingerSwineford1939
 #' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9", plot=T)
