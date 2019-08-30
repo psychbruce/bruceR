@@ -1,5 +1,6 @@
 # bruceR
 **`R package`**
+
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ## Install
@@ -20,7 +21,7 @@ Once you load `bruceR`, it will also load the following packages that are most c
 - `psych`: Functions for psychological research.
 - `ggplot2`: Data visualization.
 
-No need to load them using `library()`. You can just load bruceR:
+No need to load them using `library()`. You can just load `bruceR`:
 ```r
 library(bruceR)
 ```
@@ -28,11 +29,11 @@ library(bruceR)
 ## Release notes
 ### Current version: 0.2.0
 ### Major changes:
-#### 0.2.0 - 30 August 2019
-- Added help pages.
-- General bug-fixes and improvements.
-#### 0.1.0 - 30 June 2019
-- Initial commit.
++ 0.2.0 - 30 August 2019
+  + Added help pages
+  + General bug-fixes and improvements
++ 0.1.0 - 30 June 2019
+  + Initial commit.
 
 ## Functions
 - [x] Basic use and analyses (e.g., correlation matrix with plot)
@@ -41,3 +42,10 @@ library(bruceR)
 - [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison (*coming soon...*)
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
 - [x] Nice themes of `ggplot2` ready for scientific publication
+
+## Author
+[Han-Wu-Shuang (Bruce) Bao](https://github.com/psychbruce)
+
+Zhihu profile: [@°üº®ÎâËª](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
+
+E-mail: baohws@psych.ac.cn or psychbruce@qq.com
