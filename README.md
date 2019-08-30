@@ -11,15 +11,19 @@ devtools::install_github("psychbruce/bruceR")
 ## User guide
 `bruceR` helps users work with R more efficiently.
 
-Once you load bruceR, it will also load the following packages that are most commonly used:
-- **rio**: Data input/output for many file formats within one function.
-- **glue**: Paste and print in an elegant manner.
-- **dplyr**: Data manipulation and preprocessing.
-- **stringr**: String operation and regular expression.
-- **data.table**: Enhanced 'data.frame' with higher efficiency.
-- **psych**: Functions for psychological research.
-- **ggplot2**: Data visualization.
-No need to load them using `library()`. You can just load bruceR: `library(bruceR)`
+Once you load `bruceR`, it will also load the following packages that are most commonly used:
+- `rio`: Data input/output for many file formats within one function.
+- `glue`: Paste and print in an elegant manner.
+- `dplyr`: Data manipulation and preprocessing.
+- `stringr`: String operation and regular expression.
+- `data.table`: Enhanced 'data.frame' with higher efficiency.
+- `psych`: Functions for psychological research.
+- `ggplot2`: Data visualization.
+
+No need to load them using `library()`. You can just load bruceR:
+```r
+library(bruceR)
+```
 
 ## Release notes
 ### Current version: 0.2.0
