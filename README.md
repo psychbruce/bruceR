@@ -12,9 +12,7 @@ devtools::install_github("psychbruce/bruceR")
 
 
 ## User Guide
-### Loading package
-`bruceR` helps users work with R more efficiently.
-
+### Loading `bruceR`
 Once you load `bruceR`, it will also load the following packages that are most commonly used:
 - `rio`: Data input/output for many file formats within one function.
 - `glue`: Paste and print in an elegant manner.
@@ -24,17 +22,24 @@ Once you load `bruceR`, it will also load the following packages that are most c
 - `psych`: Functions for psychological research.
 - `ggplot2`: Data visualization.
 
-No need to load them using `library()`. You can just load `bruceR`:
+No need to load them separately. You can just load `bruceR`:
 ```r
 library(bruceR)
 
-?bruceR  # overview of package
-example("regress")  # some examples
+## overview of package
+?bruceR
+
+## run some examples
+example("Print")
+example("MEAN")
+example("GLM_summary")
+example("HLM_summary")
 ```
 
-### Main functions
+### Main functions in `bruceR`
 - [x] Basic use and analyses (e.g., correlation matrix with plot)
-  + `Print()`, `Describe()`, `Freq()`, `Corr()`, ...
+  + `Print()`, `set.wd()`, `dtime()`, `%notin%`, `%partin%`, ...
+  + `Describe()`, `Freq()`, `Corr()`, `CI()`, ...
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
   + `SUM()`, `MEAN()`, `RECODE()`, `RESCALE()`, `LOOKUP()`, ...
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, EFA, CFA)
@@ -42,9 +47,11 @@ example("regress")  # some examples
 - [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
   + (*coming soon...*)
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
-  + `GLM_summary()`, `HLM_summary()`, `grand_mean_center()`, `group_mean_center()`, ...
+  + `grand_mean_center()`, `group_mean_center()`, ...
+  + `GLM_summary()`, `HLM_summary()`, `regress`, ...
 - [x] Nice themes of `ggplot2` ready for scientific publication
   + `theme_bruce()`
+
 
 ## Release Notes
 ### Current version: `0.2.0`

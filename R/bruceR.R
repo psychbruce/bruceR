@@ -30,7 +30,7 @@
 #'   \item \code{\strong{ggplot2}} (\code{\link{ggplot2-package}}): Data visualization.
 #' }
 #'
-#' No need to load them using \code{'library()'}.
+#' No need to load them separately.
 #' You can just load \code{bruceR}:
 #' \strong{\code{library(bruceR)}}
 #'
@@ -170,13 +170,13 @@ NULL
   Loaded packages:
   <<green \u2714 bruceR (version 0.2.0)>>
   <<green \u2714 rio, glue, dplyr, stringr, data.table, psych, ggplot2>>
-  <<silver
-  <<blue Overview:>>  ?bruceR; help(bruceR)
-  <<blue Examples:>>  example(\"Print\"); example(\"regress\"); ...
-  <<blue Updating:>>  devtools::install_github(\"psychbruce/bruceR\")
-  >>
   Check updates on <<underline https://github.com/psychbruce/bruceR>>
+  <<silver
+  <<blue To update:>> devtools::install_github(\"psychbruce/bruceR\")
+  >>
   >>>>
   ")
 }
+  # <<blue Overview:>>  ?bruceR
+  # <<blue Examples:>>  example(\"Print\"); example(\"regress\"); ...
   # <<red (This version is not yet complete. Use at your own risk.)>>
