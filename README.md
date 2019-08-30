@@ -3,13 +3,16 @@
 
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
+
 ## Install
 ```r
 install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
 
-## User guide
+
+## User Guide
+### Loading package
 `bruceR` helps users work with R more efficiently.
 
 Once you load `bruceR`, it will also load the following packages that are most commonly used:
@@ -24,9 +27,19 @@ Once you load `bruceR`, it will also load the following packages that are most c
 No need to load them using `library()`. You can just load `bruceR`:
 ```r
 library(bruceR)
+?bruceR  # overview of package
 ```
 
-## Release notes
+### Main functions
+- [x] Basic use and analyses (e.g., correlation matrix with plot)
+- [x] Multivariate computing (e.g., scale mean score with reverse scoring)
+- [x] Reliability and validity analyses (e.g., Cronbach's alpha, EFA, CFA)
+- [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison (*coming soon...*)
+- [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
+- [x] Nice themes of `ggplot2` ready for scientific publication
+
+
+## Release Notes
 ### Current version: `0.2.0`
 ### Major changes:
 + `0.2.0` - 30 August 2019
@@ -35,13 +48,6 @@ library(bruceR)
 + `0.1.0` - 30 June 2019
   + Initial commit.
 
-## Functions
-- [x] Basic use and analyses (e.g., correlation matrix with plot)
-- [x] Multivariate computing (e.g., scale mean score with reverse scoring)
-- [x] Reliability and validity analyses (e.g., Cronbach's alpha, EFA, CFA)
-- [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison (*coming soon...*)
-- [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
-- [x] Nice themes of `ggplot2` ready for scientific publication
 
 ## Author
 [Han-Wu-Shuang (Bruce) Bao](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
