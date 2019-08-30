@@ -7,9 +7,9 @@
 RECODE(var, recodes)
 }
 \arguments{
-\item{var}{a variable (numeric vector, character vector, or factor).}
+\item{var}{A variable (numeric vector, character vector, or factor).}
 
-\item{recodes}{a character string of recode specifications: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.}
+\item{recodes}{A character string of recode specifications: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.}
 }
 \description{
 Recode a variable

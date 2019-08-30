@@ -6,6 +6,15 @@
 \usage{
 Alpha(data, var, items, vars = NULL, rev = NULL)
 }
+\arguments{
+\item{data}{A \code{data.frame} or \code{data.table}.}
+
+\item{var}{[optional 1] The common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).}
+
+\item{items}{[optional 1] The unique part across a series of variables (e.g., \code{1:10}).}
+
+\item{vars}{[optional 2] A character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
+}
 \description{
 Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
 }

@@ -4,18 +4,20 @@
 \alias{\%allin\%}
 \title{A simple extension of \code{\%in\%}}
 \usage{
-x \%allin\% table
+x \%allin\% vector
 }
 \arguments{
-\item{x}{vector or \code{NULL}: the values to be matched.
-    \link{Long vectors} are supported.}
+\item{x}{A numeric or character vector.}
 
-\item{table}{vector or \code{NULL}: the values to be matched against.
-    \link{Long vectors} are not supported.}
+\item{vector}{A numeric or character vector.}
 }
 \description{
 A simple extension of \code{\%in\%}
 }
+\examples{
+1:2 \%allin\% 1:3  # TRUE
+3:4 \%allin\% 1:3  # FALSE
+}
 \seealso{
-\code{\link[base]{match}} (\code{\%in\%})
+\code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}
 }

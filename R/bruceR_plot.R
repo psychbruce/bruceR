@@ -1,7 +1,7 @@
 #### Themes for ggplot2 ####
 
 
-#' A nice \code{ggplot2} theme for scientific plotting
+#' A nice \code{ggplot2} theme for scientific publication
 #'
 #' @import ggplot2
 #' @param base.size Basic font size. Default is 12.
@@ -19,18 +19,42 @@
 #' @param axis.title Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param title.pos Title position (0~1).
 #' @param caption.pos Caption position (0~1).
-#' @param grid.x \code{FALSE}, \code{""}, or a color to set the color of panel grid (x). Default is \code{""}.
-#' @param grid.y \code{FALSE}, \code{""}, or a color to set the color of panel grid (y). Default is \code{"grey90"}.
+#' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
+#' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
 #' @param line.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.
 #' @param line.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis line.
 #' @param tick.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.
 #' @param tick.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.
+#' @examples
+#' ## Example 1 (bivariate correlation)
+#' d=as.data.table(bfi)
+#' d[,":="(E=MEAN(d,"E",1:5,rev=c(1,2),likert=1:6),
+#'         O=MEAN(d,"O",1:5,rev=c(2,5),likert=1:6))]
+#' ggplot(data=d, aes(x=E, y=O)) +
+#'   geom_point(alpha=0.1) +
+#'   geom_smooth(method="loess") +
+#'   labs(x="Extraversion", y="Openness") +
+#'   theme_bruce()
+#'
+#' ## Example 2 (2x2 ANOVA)
+#' d=data.frame(X1=factor(rep(1:3, each=2)),
+#'              X2=factor(rep(1:2, 3)),
+#'              Y.mean=c(5, 3, 2, 7, 3, 6),
+#'              Y.se=rep(c(0.1, 0.2, 0.1), each=2))
+#' ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
+#'   geom_bar(position="dodge", stat="identity", width=0.6, show.legend=F) +
+#'   geom_errorbar(aes(x=X1, ymin=Y.mean-Y.se, ymax=Y.mean+Y.se),
+#'                 width=0.1, color="black", position=position_dodge(0.6)) +
+#'   scale_y_continuous(expand=expand_scale(add=c(0,0)),
+#'                      limits=c(0,8), breaks=0:8) +
+#'   scale_fill_brewer(palette="Set1") +
+#'   theme_bruce(bg="wsj")
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
                      border="", bg="white",
                      tag="bold", plot.title="bold", axis.title="plain",
                      title.pos=0, caption.pos=1,
-                     grid.x="", grid.y="grey90",
+                     grid.x="", grid.y="",
                      line.x=TRUE, line.y=TRUE,
                      tick.x=TRUE, tick.y=TRUE) {
   # font face:

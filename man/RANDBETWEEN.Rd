@@ -7,11 +7,11 @@
 RANDBETWEEN(range, n = 1, seed = NULL)
 }
 \arguments{
-\item{range}{numeric vector, or character vector.}
+\item{range}{A vector.}
 
-\item{n}{sample size.}
+\item{n}{Sample size.}
 
-\item{seed}{random seed.}
+\item{seed}{Random seed.}
 }
 \description{
 Randomly sampling (like Excel's function \code{RANDBETWEEN})

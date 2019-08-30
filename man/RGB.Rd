@@ -7,9 +7,9 @@
 RGB(r, g, b, alpha)
 }
 \arguments{
-\item{r, g, b}{an integar \emph{[0, 255]} indicating red, green, and blue}
+\item{r, g, b}{An integar \emph{[0, 255]} indicating red, green, and blue.}
 
-\item{alpha}{a value \emph{[0, 1]} indicating color opacity (transparency); if not specified, an opaque colour will be generated}
+\item{alpha}{A value \emph{[0, 1]} indicating color opacity (transparency); if not specified, an opaque colour will be generated.}
 }
 \value{
 \code{"#rrggbb"} or \code{"#rrggbbaa"}
@@ -19,5 +19,5 @@ A simple extension of \code{rgb()}
 }
 \examples{
 RGB(255, 0, 0)  # red: "#FF0000"
-RGB(255, 0, 0, )  # red with 80\\\% opacity: "#FF0000CC"
+RGB(255, 0, 0, 0.8)  # red with 80\\\% opacity: "#FF0000CC"
 }

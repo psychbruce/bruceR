@@ -27,7 +27,7 @@ Here we use \strong{\code{"HC1"}} as the default option.}
 \item{cluster}{\strong{[only for \code{lm} and \code{glm}]} Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \strong{\code{"HC1"}} will be set as the default option.}
 
-\item{level2.predictors}{\strong{[only for \code{lmer}]} Optional.
+\item{level2.predictors}{\strong{[only for \code{lmer}]} Optional. Default is \code{NULL}.
 If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
 you should \strong{also} define here the grouping/clustering (level-2) variables and corresponding level-2 predictor variables.
 

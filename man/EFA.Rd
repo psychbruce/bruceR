@@ -8,7 +8,7 @@ EFA(data, vartext, method = "eigen", extraction = "pa",
   rotation = "varimax", nFactors = 1, hideLoadings = 0.3)
 }
 \arguments{
-\item{data}{the data as a data frame}
+\item{data}{A \code{data.frame} or \code{data.table}.}
 
 \item{vartext}{e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}}
 
@@ -19,10 +19,9 @@ using respectively "prinicipal axis", "maximum likelihood", or "minimum residual
 
 \item{rotation}{\code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation to use in estimation}
 
-\item{nFactors}{an integer (default: 1), the number of factors in the model}
+\item{nFactors}{An integer (default is 1) fixing the number of factors. Only relevant when \code{method="fixed"}.}
 
-\item{hideLoadings}{a number (default: 0.3), hide factor loadings below
-this value}
+\item{hideLoadings}{A number (0~1, default is 0.3) for hiding factor loadings below this value.}
 }
 \description{
 Exploratory factor analysis (EFA)

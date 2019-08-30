@@ -7,11 +7,16 @@
 formatN(x, mark = ",")
 }
 \arguments{
-\item{x}{any R object, typically numeric.}
+\item{x}{Any R object, typically numeric.}
+
+\item{mark}{Usually \code{","}.}
 }
 \value{
-Formatted R object.
+Formatted character string.
 }
 \description{
 Format "1234" to "1,234"
+}
+\examples{
+formatN(1234)
 }

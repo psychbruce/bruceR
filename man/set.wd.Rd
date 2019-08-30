@@ -7,13 +7,17 @@
 set.wd(dir = NULL)
 }
 \arguments{
-\item{dir}{A character string. If \code{NULL} (default), set working directory to the path of the current R script.}
+\item{dir}{A character string or \code{NULL}.
+If \code{NULL} (default), set working directory to the path of \strong{the current R script}.}
 }
 \description{
 Set working directory to the path of \strong{current} script
 }
 \examples{
 set.wd()  # set working directory to the path of the current R script
-set.wd("E:/")  # "\\" is not allowed, you should use "/"
+set.wd("D:/")  # "\\" is not allowed, you should use "/"
 set.wd("../")  # set working directory to the parent directory
+}
+\seealso{
+\code{\link[base]{setwd}}
 }

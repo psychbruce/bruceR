@@ -4,11 +4,20 @@
 \alias{CI}
 \title{Compute 95\% confidence interval (CI) of a variable}
 \usage{
-CI(var, nsmall = 2)
+CI(var, nsmall = 2, empirical = TRUE)
 }
 \arguments{
-\item{var}{a variable (e.g., data$var) or a numeric vector}
+\item{var}{A variable (e.g., data$var) or a numeric vector.}
+
+\item{nsmall}{Number of decimal places of output. Default is 3.}
+
+\item{empirical}{\code{TRUE} (empirical) or \code{FALSE} (\emph{t} distribution).
+Default is \code{TRUE}, which directly extracts CI from data (instead of computing CI based on normal or \emph{t} distribution).}
 }
 \description{
 Compute 95\% confidence interval (CI) of a variable
+}
+\examples{
+CI(bfi$age)
+CI(bfi$age, emp=F)  # Note: "emp" can partially match "empirical"
 }

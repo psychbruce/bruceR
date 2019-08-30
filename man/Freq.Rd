@@ -7,11 +7,26 @@
 Freq(var, label = NULL, sort = "", nsmall = 1, plot = FALSE,
   bins = 18, fill.color = "#FDF6E3")
 }
+\arguments{
+\item{var}{A vector or a variable.}
+
+\item{label}{Optional. A vector re-defining the labels of values.}
+
+\item{sort}{\code{""} (default, raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).}
+
+\item{nsmall}{Number of decimal places of output. Default is 1.}
+
+\item{plot}{Whether to draw a histogram plot. Default is \code{FALSE}.}
+
+\item{bins}{Number of bars in histogram plot. Default is \code{18}.}
+
+\item{fill.color}{Color filled in histogram bar. Default is \code{"#FDF6E3"}.}
+}
 \description{
 Frequency statistics with histogram and density plot
 }
 \examples{
-Freq(psych::bfi$education)
-Freq(psych::bfi$gender, label=c("Male", "Female"))
-Freq(psych::bfi$age, plot=T)
+Freq(bfi$education)
+Freq(bfi$gender, label=c("Male", "Female"))
+Freq(bfi$age, plot=T)
 }

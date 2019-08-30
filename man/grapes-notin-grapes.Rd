@@ -4,17 +4,20 @@
 \alias{\%notin\%}
 \title{A simple extension of \code{\%in\%}}
 \usage{
-x \%notin\% table
+x \%notin\% vector
 }
 \arguments{
-\item{x}{vector or \code{NULL}: the values to be matched.
-    \link{Long vectors} are supported.}
+\item{x}{A numeric or character vector.}
 
-\item{table}{vector or \code{NULL}: the values to be matched against.
-    \link{Long vectors} are not supported.}
+\item{vector}{A numeric or character vector.}
 }
 \description{
 A simple extension of \code{\%in\%}
+}
+\examples{
+data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))
+data
+data[ID \%notin\% c(1, 3, 5, 7, 9)]
 }
 \seealso{
 \code{\link[base]{match}} (\code{\%in\%})

@@ -2,15 +2,15 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{pkg_depend}
 \alias{pkg_depend}
-\title{Check package dependencies}
+\title{Check dependencies of a package}
 \usage{
 pkg_depend(pkg)
 }
 \arguments{
-\item{pkg}{package name}
+\item{pkg}{A character specifying the package name.}
 }
 \description{
-Check package dependencies
+Check dependencies of a package
 }
 \examples{
 pkg.depend("sjstats")

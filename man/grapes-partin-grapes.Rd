@@ -7,13 +7,18 @@
 pattern \%partin\% vector
 }
 \arguments{
-\item{pattern}{a character string containing \strong{regular expressions} to be matched in the given character vector.}
+\item{pattern}{A character string containing \strong{regular expressions} to be matched.}
 
-\item{vector}{a character vector.}
+\item{vector}{A character vector.}
 }
 \description{
 A simple extension of \code{\%in\%}
 }
+\examples{
+"Bei" \%partin\% c("Beijing", "Shanghai")  # TRUE
+"bei" \%partin\% c("Beijing", "Shanghai")  # FALSE
+"[aeiou]ng" \%partin\% c("Beijing", "Shanghai")  # TRUE
+}
 \seealso{
-\code{\link[base]{match}} (\code{\%in\%})
+\code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}
 }

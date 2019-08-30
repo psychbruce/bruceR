@@ -266,7 +266,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     df=model[["df.residual"]]
     FE=cbind(FE,
              sig=sig.trans(FE$p),
-             LLCI=FE[,1]-qt(0.975, df)*FE[,2],
+             LLCI=FE[,1]+qt(0.025, df)*FE[,2],
              ULCI=FE[,1]+qt(0.975, df)*FE[,2])
     if(nrow(FE)>2) {
       FE.vif=jtools::summ(model, vif=T)
@@ -294,7 +294,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
       names(FE.rob)=c("b", "S.E.*", "t*", "p*")
       FE.rob=cbind(FE.rob,
                    sig=sig.trans(FE.rob$`p*`),
-                   LLCI=FE.rob[,1]-qt(0.975, df)*FE.rob[,2],
+                   LLCI=FE.rob[,1]+qt(0.025, df)*FE.rob[,2],
                    ULCI=FE.rob[,1]+qt(0.975, df)*FE.rob[,2])
       FE.rob$`p*`=p.trans(FE.rob$`p*`)
       names(FE.rob)[5:7]=c(" ", "[95% ", "  CI]")
@@ -315,7 +315,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
       p=p.t(t, df)
       FE.std=cbind(FE.std,
                    sig=sig.trans(p),
-                   LLCI.std=FE.std[,1]-qt(0.975, df)*FE.std[,2],
+                   LLCI.std=FE.std[,1]+qt(0.025, df)*FE.std[,2],
                    ULCI.std=FE.std[,1]+qt(0.975, df)*FE.std[,2],
                    r.partial=FE.rp$coeftable[-1, "partial.r"],
                    r.part=FE.rp$coeftable[-1, "part.r"])
@@ -383,21 +383,20 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall, nsmall, nsmall))
 
     ## Print: Robust SE ##
-    if(robust!=FALSE | !is.null(cluster)) {
-      if(robust==TRUE) robust="HC1"
-      if(!is.null(cluster) & !is.character(robust)) robust="HC1"
+    if(robust!=FALSE | is.null(cluster)==FALSE) {
+      if(robust==TRUE | (is.null(cluster)==FALSE & is.character(robust)==FALSE))
+        robust="HC1" # default method in Stata
       summ.rob=summ(model, robust=robust, cluster=cluster)
       FE.rob=as.data.frame(summ.rob$coeftable)
       names(FE.rob)=c("b", "S.E.*", "z*", "p*")
       b=FE[,1]
-      se.rob=FE[,2]
+      se.rob=FE.rob[,2]
       FE.rob=cbind(FE.rob,
                    sig=sig.trans(FE.rob$`p*`),
-                   OR=exp(b),
-                   OR.LLCI=exp(b-1.96*se.rob),
-                   OR.ULCI=exp(b+1.96*se.rob))
+                   LLCI=b-1.96*se.rob,
+                   ULCI=b+1.96*se.rob)
       FE.rob$`p*`=p.trans(FE.rob$`p*`)
-      names(FE.rob)[6:8]=c(" ", "[95% ", "  CI]")
+      names(FE.rob)[5:7]=c(" ", "[95% ", "  CI]")
       cat("\n")
       Print("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-robust standard errors:")
       print_table(FE.rob, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall, nsmall, nsmall))
@@ -420,7 +419,8 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
   } else {
     stop("'GLM_summary' can only deal with 'lm' or 'glm' models.")
   }
-  invisible(model)
+
+  invisible(list(model.summary=sumModel, FE=FE))
 }
 
 
@@ -623,7 +623,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' @import MuMIn
 ## @import sjstats
 #' @param model A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
-#' @param level2.predictors \strong{[only for \code{lmer}]} Optional.
+#' @param level2.predictors \strong{[only for \code{lmer}]} Optional. Default is \code{NULL}.
 #' If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
 #' you should \strong{also} define here the grouping/clustering (level-2) variables and corresponding level-2 predictor variables.
 #'
@@ -685,7 +685,8 @@ HLM_ICC=function(model, nsmall=3) {
 #' @references (see Nakagawa & Schielzeth, 2013) (see Xu, 2003)
 #' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
 #' @export
-HLM_summary=function(model=NULL, level2.predictors="",
+HLM_summary=function(model=NULL,
+                     level2.predictors=NULL,
                      vartypes=NULL,
                      t2r=FALSE,
                      test.rand=FALSE,  # time-consuming in big datasets
@@ -784,14 +785,14 @@ HLM_summary=function(model=NULL, level2.predictors="",
            but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
            and log(1/exp(intercept)+1) in poisson models (count data).>>")
   } else if(class(model)=="lmerModLmerTest") {
-    if(is.null(vartypes)) {
+    if(is.null(vartypes)==TRUE & is.null(level2.predictors)==FALSE) {
       tryCatch({
         vartypes=HLM_vartypes(model, formula, level2.predictors)
       }, error=function(e) {
         Print("\n\n\n<<red Please re-specify 'level2.predictors' or even re-define your model.>>")
         stop(e)
       })
-    } else {
+    } else if(is.null(vartypes)==FALSE) {
       names(vartypes)=dimnames(summary(model)[["coefficients"]])[[1]]
     }
     # vartypes=c("Intercept",
@@ -808,11 +809,16 @@ HLM_summary=function(model=NULL, level2.predictors="",
     = Multilevel Linear Model (MLM)
 
     Formula: {formula_paste(formula)}
-    Level-2 predictors: '{level2.predictors}'
     ")
-    vt=as.data.frame(vartypes)
-    names(vt)="Variable Type"
-    print_table(vt, style="data")
+    if(is.null(vartypes)==FALSE) {
+      Print("
+      Level-2 predictors: '{level2.predictors}'
+      ")
+      vt=as.data.frame(vartypes)
+      names(vt)="Variable Type"
+      cat("\n")
+      print(vt)
+    }
 
     ## Print: Sample Sizes ##
     # .prt.grps(ngrps=ngrps(model), nobs=nobs(model))
@@ -846,7 +852,7 @@ HLM_summary=function(model=NULL, level2.predictors="",
     names(FE)=c("Gamma", "S.E.", "df", "t", "p") # abbreviate("approx", 5)
     FE=cbind(FE[c(1,2,4,3,5)], # 1:5 --> Estimate, S.E., df, t, p
              sig=sig.trans(FE$p),
-             LLCI=FE[,1]-qt(0.975, FE[,3])*FE[,2],
+             LLCI=FE[,1]+qt(0.025, FE[,3])*FE[,2],
              ULCI=FE[,1]+qt(0.975, FE[,3])*FE[,2])
     FE.raw=FE
     FE$p=p.trans(FE$p)
@@ -861,15 +867,18 @@ HLM_summary=function(model=NULL, level2.predictors="",
       FE.std=sjstats::std_beta(model)[2:3]
       row.names(FE.std)=row.names(FE)[-1]
       names(FE.std)=c("Gamma*", "S.E.*")
-      df=HLM_df(sumModel, vartypes)[-1]
-      t=FE$t[-1]
+      if(is.null(vartypes)==FALSE)
+        df=HLM_df(sumModel, vartypes)[-1]
+      else
+        df=FE$S.E.[-1]
+      t=FE.std[,1]/FE.std[,2] # FE$t[-1]
       p=p.t(t, df)
       FE.std=cbind(FE.std,
-                   `t*`=FE.std[,1]/FE.std[,2],
+                   `t*`=t, # FE.std[,1]/FE.std[,2]
                    `df*`=df,
                    `p*`=p,
                    `sig*`=sig.trans(p),
-                   LLCI.std=FE.std[,1]-qt(0.975, df)*FE.std[,2],
+                   LLCI.std=FE.std[,1]+qt(0.025, df)*FE.std[,2],
                    ULCI.std=FE.std[,1]+qt(0.975, df)*FE.std[,2],
                    r.HLM=sign(t)*sqrt(t^2/(t^2+df)))
       FE.std$`p*`=p.trans(FE.std$`p*`)
@@ -880,7 +889,8 @@ HLM_summary=function(model=NULL, level2.predictors="",
         print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, nsmall, nsmall, nsmall))
       else
         print_table(FE.std[1:8], nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, nsmall, nsmall))
-      Print("<<blue 'df*' is calculated based on variable types.>>")
+      if(is.null(vartypes)==FALSE)
+        Print("<<blue 'df*' is calculated based on variable types.>>")
     }
 
     ## Print: Random Effects & ICC ##
@@ -904,8 +914,7 @@ HLM_summary=function(model=NULL, level2.predictors="",
     print(RE.test)
   }
 
-  invisible(model)
-  # invisible(list(model.summary=sumModel, FE=FE.raw, RE=RE.raw))
+  invisible(list(model.summary=sumModel, FE=FE.raw, RE=RE))
 }
 
 

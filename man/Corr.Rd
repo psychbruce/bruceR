@@ -4,9 +4,22 @@
 \alias{Corr}
 \title{Correlation analysis with test and plot}
 \usage{
-Corr(data, method = "pearson", digits = 4, short = FALSE,
-  plot = TRUE)
+Corr(data, method = "pearson", nsmall = 4, CI = TRUE, plot = TRUE)
+}
+\arguments{
+\item{data}{A \code{data.frame} or \code{data.table}.}
+
+\item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
+
+\item{nsmall}{Number of decimal places of output. Default is 4.}
+
+\item{CI}{Whether to output confidence intervals of the correlations. Default is \code{TRUE}.}
+
+\item{plot}{Whether to plot the correlation matrix. Default is \code{TRUE}.}
 }
 \description{
 Correlation analysis with test and plot
+}
+\examples{
+Corr(bfi[c("gender", "age", "education")])
 }

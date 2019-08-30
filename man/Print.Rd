@@ -13,18 +13,17 @@ Glue(...)
 \item{...}{A string in which expressions enclosed by \code{"{ }"} will be evaluated as R code.
 Long strings are broken by line and concatenated together. Leading whitespace and blank lines from the first and last lines are automatically trimmed.}
 }
-\value{
-A string.
-}
 \description{
-Be tired of \code{print()} and \code{cat()}? Try this function! Just type \code{example("Print")} in the console and see its power.
+Be tired of \code{print()} and \code{cat()}? Try this function!
+Just type \strong{\code{example("Print")}} in console and see its power.
 }
 \details{
-This function is based on \code{\link[glue]{glue}} and \code{\link[glue]{glue_col}}.
-See more details in their help pages.
+See more details in help pages of \code{\link[glue]{glue}} and \code{\link[glue]{glue_col}}.
 }
 \section{Functions}{
 \itemize{
+\item \code{Print}: Glue and print strings
+
 \item \code{Glue}: Glue strings
 }}
 

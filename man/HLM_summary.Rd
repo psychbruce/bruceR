@@ -4,13 +4,13 @@
 \alias{HLM_summary}
 \title{Summary results of HLM (\code{lmer} and \code{glmer} fitted by \code{lmerTest} package)}
 \usage{
-HLM_summary(model = NULL, level2.predictors = "", vartypes = NULL,
+HLM_summary(model = NULL, level2.predictors = NULL, vartypes = NULL,
   t2r = FALSE, test.rand = FALSE, nsmall = 3, ...)
 }
 \arguments{
 \item{model}{A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
 
-\item{level2.predictors}{\strong{[only for \code{lmer}]} Optional.
+\item{level2.predictors}{\strong{[only for \code{lmer}]} Optional. Default is \code{NULL}.
 If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
 you should \strong{also} define here the grouping/clustering (level-2) variables and corresponding level-2 predictor variables.
 

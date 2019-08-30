@@ -3,8 +3,8 @@
 
 #' Recode a variable
 ## @inheritParams car::recode
-#' @param var a variable (numeric vector, character vector, or factor).
-#' @param recodes a character string of recode specifications: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
+#' @param var A variable (numeric vector, character vector, or factor).
+#' @param recodes A character string of recode specifications: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
 #' @examples
 #' d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
 #' d
@@ -37,12 +37,12 @@ RESCALE=function(var, from=range(var), to) {
 #' Search, match, and look up values
 #' @import data.table
 #' @importFrom dplyr left_join
-#' @param data a data.frame or data.table.
-#' @param vars a character or character vector, specifying the variable(s) to be searched in \code{data}.
-#' @param data.ref a reference data containing both the reference variable(s) and the lookup variable(s).
-#' @param vars.ref a character or character vector (with the \strong{same length and order} as \code{vars}),
+#' @param data A \code{data.frame} or \code{data.table}.
+#' @param vars A character or character vector, specifying the variable(s) to be searched in \code{data}.
+#' @param data.ref A reference data containing both the reference variable(s) and the lookup variable(s).
+#' @param vars.ref A character or character vector (with the \strong{same length and order} as \code{vars}),
 #' specifying the reference variable(s) to be matched in \code{data.ref}.
-#' @param vars.lookup a character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
+#' @param vars.lookup A character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
 #' @return A new data.frame or data.table, with the lookup values added.
 #' If multiple values were simultaneously matched, a warning message would be printed.
 #' Then you may check if there was anything wrong in \code{data.ref}, and/or re-define \code{vars} and \code{vars.ref}.
@@ -84,11 +84,11 @@ LOOKUP=function(data, vars,
 
 
 #' Compute multiple variables in an elegant manner
-#' @param data a \code{data.frame} or \code{data.table}.
-#' @param var [optional 1] the common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).
-#' @param items [optional 1] the unique part across a series of variables (e.g., \code{1:10}).
-#' @param vars [optional 2] a character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).
-#' @param varrange [optional 3] a character specifying the range of variables with the same order as in the data (e.g., \code{"Age:Edu"}).
+#' @param data A \code{data.frame} or \code{data.table}.
+#' @param var [optional 1] The common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).
+#' @param items [optional 1] The unique part across a series of variables (e.g., \code{1:10}).
+#' @param vars [optional 2] A character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).
+#' @param varrange [optional 3] A character specifying the range of variables with the same order as in the data (e.g., \code{"Age:Edu"}).
 #' @examples
 #' ## From now on, please use 'data.table' instead of 'data.frame'.
 #' ## Believe me.
@@ -234,7 +234,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 
 #' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
 ## @import jmv
-#' @inheritParams grapes-grapes-COMPUTE-grapes-grapes
+#' @inheritParams %%COMPUTE%%
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
@@ -247,13 +247,14 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 
 #' Exploratory factor analysis (EFA)
 ## @import jmv
-#' @inheritParams grapes-grapes-COMPUTE-grapes-grapes
-#' @inheritParams jmv::efa
+#' @inheritParams %%COMPUTE%%
 #' @param vartext e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}
 #' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors
 #' @param extraction \code{"pa"} (default), \code{"ml"}, or \code{"minres"},
 #' using respectively "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method
 #' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation to use in estimation
+#' @param nFactors An integer (default is 1) fixing the number of factors. Only relevant when \code{method="fixed"}.
+#' @param hideLoadings A number (0~1, default is 0.3) for hiding factor loadings below this value.
 #' @examples
 #' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 #' @seealso \code{\link[jmv]{efa}}
@@ -332,7 +333,9 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 ## @import jmv
 #' @import lavaan
 #' @import semPlot
-#' @inheritParams grapes-grapes-COMPUTE-grapes-grapes
+#' @inheritParams %%COMPUTE%%
+#' @param model Model formula.
+#' @param highorder Optional. High-order factor. Default is \code{""}.
 #' @examples
 #' data.cfa=lavaan::HolzingerSwineford1939
 #' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9", plot=T)

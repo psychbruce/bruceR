@@ -7,16 +7,16 @@
 LOOKUP(data, vars, data.ref, vars.ref, vars.lookup)
 }
 \arguments{
-\item{data}{a data.frame or data.table.}
+\item{data}{A \code{data.frame} or \code{data.table}.}
 
-\item{vars}{a character or character vector, specifying the variable(s) to be searched in \code{data}.}
+\item{vars}{A character or character vector, specifying the variable(s) to be searched in \code{data}.}
 
-\item{data.ref}{a reference data containing both the reference variable(s) and the lookup variable(s).}
+\item{data.ref}{A reference data containing both the reference variable(s) and the lookup variable(s).}
 
-\item{vars.ref}{a character or character vector (with the \strong{same length and order} as \code{vars}),
+\item{vars.ref}{A character or character vector (with the \strong{same length and order} as \code{vars}),
 specifying the reference variable(s) to be matched in \code{data.ref}.}
 
-\item{vars.lookup}{a character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.}
+\item{vars.lookup}{A character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.}
 }
 \value{
 A new data.frame or data.table, with the lookup values added.

@@ -2,20 +2,17 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{dtime}
 \alias{dtime}
-\title{Timer}
+\title{Timer (compute time difference)}
 \usage{
 dtime(t0, unit = "secs")
 }
 \arguments{
-\item{t0}{Time at the beginning, typically: \code{t0 = Sys.time()}}
+\item{t0}{Time at the beginning.}
 
 \item{unit}{A value from \code{c("auto", "secs", "mins", "hours", "days", "weeks")}. Default is \code{"secs"}.}
 }
-\value{
-A string.
-}
 \description{
-Timer
+Timer (compute time difference)
 }
 \examples{
 t0=Sys.time()

@@ -4,11 +4,14 @@
 \alias{print_table}
 \title{Print three-line table}
 \usage{
-print_table(x, row.names = TRUE, nsmalls = 3, style = c("line",
-  "data"))
+print_table(x, row.names = TRUE, nsmalls = 3)
 }
 \arguments{
-\item{x}{a matrix, data.frame, data.table, or a model (\code{lm, glm, lmer, glmer, ...}).}
+\item{x}{A matrix, data.frame, data.table, or a model (\code{lm, glm, lmer, glmer, ...}).}
+
+\item{row.names}{\code{TRUE} (default) or \code{FALSE}. Whether to print row names.}
+
+\item{nsmalls}{A number or numeric vector specifying number of decimal places of output. Default is 3.}
 }
 \description{
 Print three-line table

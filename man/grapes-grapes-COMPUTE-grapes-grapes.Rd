@@ -25,15 +25,15 @@ CONSEC(data, var = NULL, items = NULL, vars = NULL,
   varrange = NULL, values = 0:9)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{data.table}.}
+\item{data}{A \code{data.frame} or \code{data.table}.}
 
-\item{var}{[optional 1] the common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).}
+\item{var}{[optional 1] The common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).}
 
-\item{items}{[optional 1] the unique part across a series of variables (e.g., \code{1:10}).}
+\item{items}{[optional 1] The unique part across a series of variables (e.g., \code{1:10}).}
 
-\item{vars}{[optional 2] a character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
+\item{vars}{[optional 2] A character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
 
-\item{varrange}{[optional 3] a character specifying the range of variables with the same order as in the data (e.g., \code{"Age:Edu"}).}
+\item{varrange}{[optional 3] A character specifying the range of variables with the same order as in the data (e.g., \code{"Age:Edu"}).}
 }
 \description{
 Compute multiple variables in an elegant manner

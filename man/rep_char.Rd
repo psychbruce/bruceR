@@ -2,10 +2,18 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{rep_char}
 \alias{rep_char}
-\title{Repeat a character for many times and paste}
+\title{Repeat a character for many times and paste them up}
 \usage{
 rep_char(char, rep.times)
 }
+\arguments{
+\item{char}{A character.}
+
+\item{rep.times}{Times for repeat.}
+}
 \description{
-Repeat a character for many times and paste
+Repeat a character for many times and paste them up
+}
+\examples{
+rep_char("a", 5)
 }

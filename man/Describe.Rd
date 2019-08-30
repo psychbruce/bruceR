@@ -6,6 +6,14 @@
 \usage{
 Describe(data, nsmall = 2)
 }
+\arguments{
+\item{data}{A \code{data.frame} or \code{data.table}.}
+
+\item{nsmall}{Number of decimal places of output. Default is 2.}
+}
 \description{
 Describe data
+}
+\examples{
+Describe(bfi[c("gender", "age", "education")])
 }

@@ -1,179 +1,64 @@
-##  Install Package:  'Ctrl + Shift + B'
-##  Check Package:    'Ctrl + Shift + E'
-##  Test Package:     'Ctrl + Shift + T'
-
-## remove.packages("bruceR")
-## devtools::install_github('psychbruce/bruceR')
-
-
-#' bruceR: BRoadly Useful Collections and Extensions of R functions
-#'
-#' Packing many useful R packages and functions into one package.
-#' Making data analyses and statistics more elegant.
-#'
-#' @section Main Functions in \code{bruceR}:
-#' \code{bruceR} includes functions for 1) basic analyses, 2) multivariate computing (e.g., scale mean),
-#' 3) questionnaire analyses (e.g., reliability, EFA, CFA), 4) advanced outputs for LM, GLM, HLM (LMM), and GLMM,
-#' and 5) nice themes for \code{ggplot2}.
-#'
-#' \describe{
-#'   \item{\strong{Basic Functions}}{
-#'       \code{\link{set.wd}}
-#'
-#'       \code{\link{set.seeds}}
-#'
-#'       \code{\link{Print}} (see also \code{\link{Glue}})
-#'
-#'       \code{\link{print_table}}
-#'
-#'       \code{\link{p}}
-#'
-#'       \code{\link{Describe}} (descriptive statistics)
-#'
-#'       \code{\link{Freq}} (frequency statistics with plot)
-#'
-#'       \code{\link{Corr}} (correlation analysis with plot)
-#'   }
-#'   \item{\strong{Multivariate Computing}}{
-#'       \code{\link{COUNT}}
-#'
-#'       \code{\link{SUM}}
-#'
-#'       \code{\link{MEAN}}
-#'
-#'       \code{\link{STD}}
-#'
-#'       \code{\link{CONSEC}}
-#'
-#'       \code{\link{RECODE}}
-#'
-#'       \code{\link{RESCALE}}
-#'
-#'       \code{\link{LOOKUP}}
-#'   }
-#'   \item{\strong{Reliability, EFA, & CFA}}{
-#'       \code{\link{Alpha}}
-#'
-#'       \code{\link{EFA}}
-#'
-#'       \code{\link{CFA}}
-#'   }
-#'   \item{\strong{MANOVA, Simple Effects, & Multiple Comparisons}}{
-#'       \emph{(Coming soon...)}
-#'   }
-#'   \item{\strong{Linear Models}}{
-#'       \code{\link{regress}} (do many kinds of regression analyses in one function)
-#'
-#'       \code{\link{grand_mean_center}}
-#'
-#'       \code{\link{group_mean_center}}
-#'
-#'       \code{\link{GLM_summary}}
-#'
-#'       \code{\link{HLM_summary}}
-#'   }
-#'   \item{\strong{Mediation & Moderation}}{
-#'       \code{\link{med}}
-#'
-#'       \code{\link{mod_med}}
-#'
-#'       \code{\link{simple_slope}}
-#'   }
-#'   \item{\strong{Plotting with \code{ggplot2}}}{
-#'       \code{\link{theme_bruce}}
-#'   }
-#' }
-#'
-#' @note
-#' \emph{Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R.}
-#'
-#' @author \href{https://www.zhihu.com/people/psychbruce/}{Han-Wu-Shuang (Bruce) Bao} <E-mail: \email{baohws@@psych.ac.cn} or \email{psychbruce@@qq.com}>
-#'
-#' @docType package
-#' @name bruceR-package
-#' @aliases bruceR
-NULL
-
-
-.onAttach=function(libname, pkgname) {
-  # suppressPackageStartupMessages({
-  #   library(rio)
-  #   library(glue)
-  #   library(dplyr)
-  #   library(stringr)
-  #   library(data.table)
-  #   library(psych)
-  #   library(ggplot2)
-  # })
-
-  # packageStartupMessage("Welcome to my package")
-
-  # <<magenta {rep_char('=', 10)} {Sys.Date()} {rep_char('=', 10)}>>
-  # <<magenta {rep_char('=', 10)} User Guide {rep_char('=', 10)}>>
-
-  pkgs=.packages(all.available=T)
-  pkgs.bruceR=c("tidyverse", "ggstatsplot", "MBESS", "MuMIn",
-                "jtools", "summarytools", "texreg", "semPlot")
-  for(pkg in pkgs.bruceR) {
-    if(pkg %notin% pkgs) {
-      Print("Package '<<red {pkg}>>' will be installed...")
-      install.packages(pkg)
-    }
-  }
-  rm(pkg, pkgs, pkgs.bruceR)
-
-  Print("
-  <<bold <<blue
-  <<magenta {rep_char('=', 10)} bruceR (version 0.1.1) {rep_char('=', 10)}>>
-  The most commonly used R packages are also loaded:
-  <<green 'rio', 'glue', 'dplyr', 'stringr', 'data.table', 'psych', 'ggplot2'>>
-
-  For an overview and introduction, please type:  ?bruceR
-  Run some examples:  example(\"regress\")
-
-  <<silver
-    Check updates on <<underline https://github.com/psychbruce/bruceR>>
-    Update the package:  devtools::install_github('psychbruce/bruceR')>>
-  <<red (This version is not yet complete. Use at your own risk.)>>
-  >>>>
-  ")
-}
-
-
 #### Basic Functions ####
 
 
 #' A simple extension of \code{\%in\%}
-#' @inheritParams base::`%in%`
+#' @param x A numeric or character vector.
+#' @param vector A numeric or character vector.
+#' @examples
+#' data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))
+#' data
+#' data[ID %notin% c(1, 3, 5, 7, 9)]
 #' @seealso \code{\link[base]{match}} (\code{\%in\%})
 #' @export
-`%notin%`=function(x, table) {
-  match(x, table, nomatch = 0) == 0
+`%notin%`=function(x, vector) {
+  match(x, vector, nomatch=0) == 0
 }
 
 
 #' A simple extension of \code{\%in\%}
-#' @inheritParams base::`%in%`
-#' @seealso \code{\link[base]{match}} (\code{\%in\%})
+#' @inheritParams %notin%
+#' @examples
+#' 1:2 %allin% 1:3  # TRUE
+#' 3:4 %allin% 1:3  # FALSE
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}
 #' @export
-`%allin%`=function(x, table) {
-  all(x %in% table)
+`%allin%`=function(x, vector) {
+  all(x %in% vector)
 }
 
 
 #' A simple extension of \code{\%in\%}
-#' @inheritParams base::`%in%`
-#' @seealso \code{\link[base]{match}} (\code{\%in\%})
+#' @inheritParams %notin%
+#' @examples
+#' 3:4 %anyin% 1:3  # TRUE
+#' 4:5 %anyin% 1:3  # FALSE
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}
 #' @export
-`%anyin%`=function(x, table) {
-  any(x %in% table)
+`%anyin%`=function(x, vector) {
+  any(x %in% vector)
 }
 
 
 #' A simple extension of \code{\%in\%}
-#' @param pattern a character string containing \strong{regular expressions} to be matched in the given character vector.
-#' @param vector a character vector.
-#' @seealso \code{\link[base]{match}} (\code{\%in\%})
+#' @inheritParams %notin%
+#' @examples
+#' 3:4 %nonein% 1:3  # FALSE
+#' 4:5 %nonein% 1:3  # TRUE
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%anyin\%}}, \code{\link{\%partin\%}}
+#' @export
+`%nonein%`=function(x, vector) {
+  !any(x %in% vector)
+}
+
+
+#' A simple extension of \code{\%in\%}
+#' @param pattern A character string containing \strong{regular expressions} to be matched.
+#' @param vector A character vector.
+#' @examples
+#' "Bei" %partin% c("Beijing", "Shanghai")  # TRUE
+#' "bei" %partin% c("Beijing", "Shanghai")  # FALSE
+#' "[aeiou]ng" %partin% c("Beijing", "Shanghai")  # TRUE
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}
 #' @export
 `%partin%`=function(pattern, vector) {
   any(grepl(pattern, vector, perl=TRUE))
@@ -183,11 +68,13 @@ NULL
 #' Set working directory to the path of \strong{current} script
 #'
 #' @import rstudioapi
-#' @param dir A character string. If \code{NULL} (default), set working directory to the path of the current R script.
+#' @param dir A character string or \code{NULL}.
+#' If \code{NULL} (default), set working directory to the path of \strong{the current R script}.
 #' @examples
 #' set.wd()  # set working directory to the path of the current R script
-#' set.wd("E:/")  # "\" is not allowed, you should use "/"
+#' set.wd("D:/")  # "\" is not allowed, you should use "/"
 #' set.wd("../")  # set working directory to the parent directory
+#' @seealso \code{\link[base]{setwd}}
 #' @export
 set.wd=function(dir=NULL) {
   if(is.null(dir)) dir=dirname(rstudioapi::getSourceEditorContext()$path)
@@ -200,12 +87,18 @@ set.wd=function(dir=NULL) {
 #' Set random seeds with a specific version of R
 #'
 #' The new versions of R (>= 3.6.0) have changed the mechanism of generating random numbers.
-#' To have an exact replication of previous results that were based on random numbers, the version of R should be specified.
-#' By default, it sets the version to "3.5.0". Note that versions earlier than 3.6.0 will all generate the same result.
+#' To have an exact replication of previous results based on random numbers, the version of R should be specified.
+#' By default, it sets the version to "3.5.0". All the versions earlier than 3.6.0 will generate the same result.
 #'
+#' @param seed A number specifying the random seed.
+#' @param version A character specifying the R version. Default is "3.5.0".
 #' @examples
 #' set.seeds(1, version="3.5.0")
 #' sample(1:10)  # 3  4  5  7  2  8  9  6 10  1
+#'
+#' set.seeds(1, version="3.6.0")
+#' sample(1:10)  # 9  4  7  1  2  5  3 10  6  8
+#' @seealso \code{\link[base]{set.seed}}
 #' @export
 set.seeds=function(seed, version="3.5.0") {
   suppressWarnings(RNGversion(version))
@@ -213,8 +106,8 @@ set.seeds=function(seed, version="3.5.0") {
 }
 
 
-#' Check package dependencies
-#' @param pkg package name
+#' Check dependencies of a package
+#' @param pkg A character specifying the package name.
 #' @examples
 #' pkg.depend("sjstats")
 #' pkg.depend("MuMIn")
@@ -235,21 +128,21 @@ pkg_depend=function(pkg) {
 
 #' Print a string with fruitful formats in a concise manner
 #'
-#' Be tired of \code{print()} and \code{cat()}? Try this function! Just type \code{example("Print")} in the console and see its power.
+#' Be tired of \code{print()} and \code{cat()}? Try this function!
+#' Just type \strong{\code{example("Print")}} in console and see its power.
 #'
-#' This function is based on \code{\link[glue]{glue}} and \code{\link[glue]{glue_col}}.
-#' See more details in their help pages.
+#' See more details in help pages of \code{\link[glue]{glue}} and \code{\link[glue]{glue_col}}.
 #' @import glue
 #' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
 #' @param ... A string in which expressions enclosed by \code{"{ }"} will be evaluated as R code.
 #' Long strings are broken by line and concatenated together. Leading whitespace and blank lines from the first and last lines are automatically trimmed.
-#' @return A string.
 #' @examples
 #' name="Bruce"
 #' Print("My name is <<underline <<bold {name}>>>>.
 #'        <<bold <<blue Pi = {pi:.15}.>>>>
 #'        <<italic <<green 1 + 1 = {1 + 1}.>>>>
 #'        sqrt({x}) = <<red {sqrt(x):.3}>>", x=10)
+#' @describeIn Print Glue and print strings
 #' @export
 Print=function(...) {
   tryCatch({
@@ -286,7 +179,11 @@ sprintf_transformer=function(text, envir) {
 }
 
 
-#' Repeat a character for many times and paste
+#' Repeat a character for many times and paste them up
+#' @param char A character.
+#' @param rep.times Times for repeat.
+#' @examples
+#' rep_char("a", 5)
 #' @export
 rep_char=function(char, rep.times) {
   paste(rep(char, rep.times), collapse="")
@@ -294,21 +191,21 @@ rep_char=function(char, rep.times) {
 
 
 #' Print three-line table
-#' @param x a matrix, data.frame, data.table, or a model (\code{lm, glm, lmer, glmer, ...}).
+#' @param x A matrix, data.frame, data.table, or a model (\code{lm, glm, lmer, glmer, ...}).
+#' @param row.names \code{TRUE} (default) or \code{FALSE}. Whether to print row names.
+#' @param nsmalls A number or numeric vector specifying number of decimal places of output. Default is 3.
 #' @examples
 #' model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' print_table(model)
 #' @export
-print_table=function(x, row.names=TRUE, nsmalls=3,
-                     style=c("line", "data")) {
+print_table=function(x, row.names=TRUE, nsmalls=3) {
   ## Preprocess data.frame ##
   linechar1="\u2501" # top-and-down '=' [bug in some computers!]
   linechar2="\u2500" # in-table '-'
   linechar1=linechar2
-  if(length(style)==2) style="line"
-  if(!class(x) %anyin% c("matrix", "data.frame", "data.table")) {
+  if(class(x) %nonein% c("matrix", "data.frame", "data.table")) {
     coef.table=coef(summary(x))
-    if(!is.null(coef.table)) x=coef.table
+    if(is.null(coef.table)==FALSE) x=coef.table
   }
   x=as.data.frame(x)
   sig=NULL
@@ -331,7 +228,10 @@ print_table=function(x, row.names=TRUE, nsmalls=3,
     if(grepl("^[Ee]stimate$", names(x)[j])) names(x)[j]="Coef."
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
-  if(!is.null(sig)) {x=cbind(x, ` `=sig); x$` `=as.character(x$` `)}
+  if(is.null(sig)==FALSE) {
+    x=cbind(x, ` `=sig)
+    x$` `=as.character(x$` `)
+  }
 
   ## Compute length to generate line-chars ##
   title.length=nchar(names(x))
@@ -341,37 +241,32 @@ print_table=function(x, row.names=TRUE, nsmalls=3,
   ## Generate a row with 'linechar2' ##
   n.lines=apply(rbind(title.length, vars.length), 2, max)+1
   n.lines.rn=max(nchar(row.names(x)))+1
-  n.lines.table=n.lines.rn+sum(n.lines)+ifelse(style=="line", 0, length(x))
+  n.lines.table=n.lines.rn+sum(n.lines)
   line.row=data.frame()
-  for(j in 1:length(x)) line.row[1,j]=rep_char(linechar2, n.lines[j])
+  for(j in 1:length(x))
+    line.row[1,j]=rep_char(linechar2, n.lines[j])
   names(line.row)=names(x)
   row.names(line.row)[1]=rep_char(linechar2, n.lines.rn)
 
-  ## Rbind and deal with 'row.names' (T or F) ##
+  ## Row-bind and deal with 'row.names' (T or F) ##
   x=rbind(line.row, x)
-  if(row.names==F & style=="line")
+  if(row.names==FALSE)
     n.lines.table=n.lines.table-n.lines.rn
-  if(row.names==F & style=="data")
-    n.lines.table=n.lines.table-n.lines.rn-1
   table.line=rep_char(linechar1, n.lines.table)
-  if(row.names==F & style=="data")
-    table.line=paste0(" ", table.line)
 
   ## Output ##
-  cat(table.line); cat("\n")
-  if(style=="line") {
-    if(row.names==T) cat(rep_char(" ", n.lines.rn))
-    for(j in 1:length(x)) cat(sprintf(glue("% {n.lines[j]}s"), names(x)[j]))
+  Print(table.line)
+  if(row.names==TRUE)
+    cat(rep_char(" ", n.lines.rn))
+  for(j in 1:length(x))
+    cat(sprintf(glue("% {n.lines[j]}s"), names(x)[j]))
+  cat("\n")
+  for(i in 1:nrow(x)) {
+    if(row.names==TRUE) cat(sprintf(glue("%-{n.lines.rn}s"), row.names(x[i,])))
+    for(j in 1:length(x)) cat(sprintf(glue("% {n.lines[j]}s"), x[i,j]))
     cat("\n")
-    for(i in 1:nrow(x)) {
-      if(row.names==T) cat(sprintf(glue("%-{n.lines.rn}s"), row.names(x[i,])))
-      for(j in 1:length(x)) cat(sprintf(glue("% {n.lines[j]}s"), x[i,j]))
-      cat("\n")
-    }
-  } else if(style=="data") {
-    print(x, row.names=row.names)
   }
-  cat(table.line); cat("\n")
+  Print(table.line) # cat(table.line); cat("\n")
 }
 
 # Good-looking tabs !!!
@@ -379,8 +274,11 @@ print_table=function(x, row.names=TRUE, nsmalls=3,
 
 
 #' Format "1234" to "1,234"
-#' @param x any R object, typically numeric.
-#' @return Formatted R object.
+#' @param x Any R object, typically numeric.
+#' @param mark Usually \code{","}.
+#' @return Formatted character string.
+#' @examples
+#' formatN(1234)
 #' @export
 formatN=function(x, mark=",") {
   format(x, big.mark=mark)
@@ -388,8 +286,11 @@ formatN=function(x, mark=",") {
 
 
 #' Format numeric values
-#' @param x any R object, typically numeric.
-#' @return Formatted R object.
+#' @param x Any R object, typically numeric.
+#' @param nsmall Number of decimal places of output. Default is 3.
+#' @return Formatted character string.
+#' @examples
+#' formatF(pi)
 #' @export
 formatF=function(x, nsmall=3) {
   format(x, digits=0, nsmall=nsmall, scientific=F)
@@ -397,22 +298,21 @@ formatF=function(x, nsmall=3) {
 
 
 #' A simple extension of \code{rgb()}
-#' @param r,g,b an integar \emph{[0, 255]} indicating red, green, and blue
-#' @param alpha a value \emph{[0, 1]} indicating color opacity (transparency); if not specified, an opaque colour will be generated
+#' @param r,g,b An integar \emph{[0, 255]} indicating red, green, and blue.
+#' @param alpha A value \emph{[0, 1]} indicating color opacity (transparency); if not specified, an opaque colour will be generated.
 #' @return \code{"#rrggbb"} or \code{"#rrggbbaa"}
 #' @examples
 #' RGB(255, 0, 0)  # red: "#FF0000"
-#' RGB(255, 0, 0, )  # red with 80\% opacity: "#FF0000CC"
+#' RGB(255, 0, 0, 0.8)  # red with 80\% opacity: "#FF0000CC"
 #' @export
 RGB=function(r, g, b, alpha) {
   rgb(r/255, g/255, b/255, alpha)
 }
 
 
-#' Timer
-#' @param t0 Time at the beginning, typically: \code{t0 = Sys.time()}
+#' Timer (compute time difference)
+#' @param t0 Time at the beginning.
 #' @param unit A value from \code{c("auto", "secs", "mins", "hours", "days", "weeks")}. Default is \code{"secs"}.
-#' @return A string.
 #' @examples
 #' t0=Sys.time()
 #' dtime(t0)
@@ -429,9 +329,9 @@ dtime=function(t0, unit="secs") {
 
 
 #' Randomly sampling (like Excel's function \code{RANDBETWEEN})
-#' @param range numeric vector, or character vector.
-#' @param n sample size.
-#' @param seed random seed.
+#' @param range A vector.
+#' @param n Sample size.
+#' @param seed Random seed.
 #' @examples
 #' RANDBETWEEN(1:10, n=1000000) %>% Freq()
 #' RANDBETWEEN(LETTERS, n=1000000) %>% Freq()
@@ -536,14 +436,29 @@ sig.trans=function(p) {
 
 
 #' Compute 95\% confidence interval (CI) of a variable
-#' @param var a variable (e.g., data$var) or a numeric vector
+#' @param var A variable (e.g., data$var) or a numeric vector.
+#' @param nsmall Number of decimal places of output. Default is 3.
+#' @param empirical \code{TRUE} (empirical) or \code{FALSE} (\emph{t} distribution).
+#' Default is \code{TRUE}, which directly extracts CI from data (instead of computing CI based on normal or \emph{t} distribution).
+#' @examples
+#' CI(bfi$age)
+#' CI(bfi$age, emp=F)  # Note: "emp" can partially match "empirical"
 #' @export
-CI=function(var, nsmall=2) {
-  Print("Mean = {mean(var):.{nsmall}}, 95% CI [{quantile(var, 0.025):.{nsmall}}, {quantile(var, 0.975):.{nsmall}}]")
+CI=function(var, nsmall=2, empirical=TRUE) {
+  M=mean(var)
+  N=length(var)
+  SE=sd(var)/sqrt(N)
+  LLCI=ifelse(empirical, quantile(var, 0.025), M + qt(0.025,N)*SE)
+  ULCI=ifelse(empirical, quantile(var, 0.975), M + qt(0.975,N)*SE)
+  Print("Mean = {M:.{nsmall}}, 95% CI [{LLCI:.{nsmall}}, {ULCI:.{nsmall}}]{ifelse(empirical, ' (empirical)', '')}")
 }
 
 
 #' Describe data
+#' @param data A \code{data.frame} or \code{data.table}.
+#' @param nsmall Number of decimal places of output. Default is 2.
+#' @examples
+#' Describe(bfi[c("gender", "age", "education")])
 #' @export
 Describe=function(data, nsmall=2) {
   Print("Descriptive statistics:")
@@ -558,10 +473,17 @@ Describe=function(data, nsmall=2) {
 
 #' Frequency statistics with histogram and density plot
 #' @import ggplot2
+#' @param var A vector or a variable.
+#' @param label Optional. A vector re-defining the labels of values.
+#' @param sort \code{""} (default, raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).
+#' @param nsmall Number of decimal places of output. Default is 1.
+#' @param plot Whether to draw a histogram plot. Default is \code{FALSE}.
+#' @param bins Number of bars in histogram plot. Default is \code{18}.
+#' @param fill.color Color filled in histogram bar. Default is \code{"#FDF6E3"}.
 #' @examples
-#' Freq(psych::bfi$education)
-#' Freq(psych::bfi$gender, label=c("Male", "Female"))
-#' Freq(psych::bfi$age, plot=T)
+#' Freq(bfi$education)
+#' Freq(bfi$gender, label=c("Male", "Female"))
+#' Freq(bfi$age, plot=T)
 #' @export
 Freq=function(var, label=NULL, sort="",
               nsmall=1,
@@ -595,7 +517,7 @@ Freq=function(var, label=NULL, sort="",
       # geom_density(color=F, fill=fill.color, alpha=0.4) +
       # geom_line(stat="density") +
       labs(x=deparse(substitute(var)), y="Density") +
-      theme_bruce(grid.y=F)
+      theme_bruce()
     print(p)
   }
   invisible(output)
@@ -608,10 +530,18 @@ Freq=function(var, label=NULL, sort="",
 
 #' Correlation analysis with test and plot
 #' @importFrom psych corr.test cor.plot
+#' @param data A \code{data.frame} or \code{data.table}.
+#' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
+#' @param nsmall Number of decimal places of output. Default is 4.
+#' @param CI Whether to output confidence intervals of the correlations. Default is \code{TRUE}.
+#' @param plot Whether to plot the correlation matrix. Default is \code{TRUE}.
+#' @examples
+#' Corr(bfi[c("gender", "age", "education")])
 #' @export
-Corr=function(data, method="pearson", digits=4, short=FALSE, plot=TRUE) {
+Corr=function(data, method="pearson", nsmall=4,
+              CI=TRUE, plot=TRUE) {
   cor=corr.test(data, adjust="none", method=method)
-  print(cor, digits=digits, short=short)
+  print(cor, digits=nsmall, short=!CI)
   if(plot) cor.plot(cor$r, adjust="none", numbers=TRUE, diag=FALSE, pval=cor$p, stars=TRUE)
   # partial correlation:
   # print(corpcor::cor2pcor(cor(data)), digits=4)
@@ -621,5 +551,4 @@ Corr=function(data, method="pearson", digits=4, short=FALSE, plot=TRUE) {
 ## @rdname Corr
 ## @export
 ## corr=Corr
-
 

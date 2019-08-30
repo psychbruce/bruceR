@@ -7,11 +7,16 @@
 formatF(x, nsmall = 3)
 }
 \arguments{
-\item{x}{any R object, typically numeric.}
+\item{x}{Any R object, typically numeric.}
+
+\item{nsmall}{Number of decimal places of output. Default is 3.}
 }
 \value{
-Formatted R object.
+Formatted character string.
 }
 \description{
 Format numeric values
+}
+\examples{
+formatF(pi)
 }

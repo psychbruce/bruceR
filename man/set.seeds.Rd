@@ -6,12 +6,23 @@
 \usage{
 set.seeds(seed, version = "3.5.0")
 }
+\arguments{
+\item{seed}{A number specifying the random seed.}
+
+\item{version}{A character specifying the R version. Default is "3.5.0".}
+}
 \description{
 The new versions of R (>= 3.6.0) have changed the mechanism of generating random numbers.
-To have an exact replication of previous results that were based on random numbers, the version of R should be specified.
-By default, it sets the version to "3.5.0". Note that versions earlier than 3.6.0 will all generate the same result.
+To have an exact replication of previous results based on random numbers, the version of R should be specified.
+By default, it sets the version to "3.5.0". All the versions earlier than 3.6.0 will generate the same result.
 }
 \examples{
 set.seeds(1, version="3.5.0")
 sample(1:10)  # 3  4  5  7  2  8  9  6 10  1
+
+set.seeds(1, version="3.6.0")
+sample(1:10)  # 9  4  7  1  2  5  3 10  6  8
+}
+\seealso{
+\code{\link[base]{set.seed}}
 }
