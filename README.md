@@ -27,12 +27,12 @@ library(bruceR)
 ```
 
 ## Release notes
-### Current version: 0.2.0
+### Current version: `0.2.0`
 ### Major changes:
-+ 0.2.0 - 30 August 2019
++ `0.2.0` - 30 August 2019
   + Added help pages
   + General bug-fixes and improvements
-+ 0.1.0 - 30 June 2019
++ `0.1.0` - 30 June 2019
   + Initial commit.
 
 ## Functions
@@ -44,8 +44,6 @@ library(bruceR)
 - [x] Nice themes of `ggplot2` ready for scientific publication
 
 ## Author
-[Han-Wu-Shuang (Bruce) Bao](https://github.com/psychbruce)
+[Han-Wu-Shuang (Bruce) Bao](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
-Zhihu profile: [@°üº®ÎâËª](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
-
-E-mail: baohws@psych.ac.cn or psychbruce@qq.com
+E-mail: baohws@psych.ac.cn, psychbruce@qq.com
