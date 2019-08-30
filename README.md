@@ -42,13 +42,13 @@ example("HLM_summary")
   + `Describe()`, `Freq()`, `Corr()`, `CI()`, ...
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
   + `SUM()`, `MEAN()`, `RECODE()`, `RESCALE()`, `LOOKUP()`, ...
-- [x] Reliability and validity analyses (e.g., Cronbach's alpha, EFA, CFA)
+- [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
   + `Alpha()`, `EFA()`, `CFA()`
 - [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
   + (*coming soon...*)
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
   + `grand_mean_center()`, `group_mean_center()`, ...
-  + `GLM_summary()`, `HLM_summary()`, `regress`, ...
+  + `GLM_summary()`, `HLM_summary()`, `regress()`, ...
 - [x] Nice themes of `ggplot2` ready for scientific publication
   + `theme_bruce()`
 
@@ -60,7 +60,7 @@ example("HLM_summary")
   + Added help pages
   + General bug-fixes and improvements
 + `0.1.0` - 30 June 2019
-  + Initial commit.
+  + Initial commit
 
 
 ## Author
