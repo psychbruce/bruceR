@@ -42,7 +42,7 @@
 #' \strong{1)} basic use and analyses (e.g., correlation matrix with plot),
 #' \strong{2)} multivariate computing (e.g., scale mean score with reverse scoring),
 #' \strong{3)} reliability and validity analyses (e.g., Cronbach's \eqn{\alpha}, EFA, CFA),
-#' \strong{4)} \emph{t}-test, ANOVA, simple-effect analyses, and multiple comparison \emph{(coming soon...)},
+#' \strong{4)} \emph{t}-test, ANOVA, simple-effect analysis, and multiple comparison \emph{(coming soon...)},
 #' \strong{5)} advanced toolbox and output for general/generalized ordinary/multilevel linear models, and
 #' \strong{6)} nice themes of \code{ggplot2} ready for scientific publication.
 #'
