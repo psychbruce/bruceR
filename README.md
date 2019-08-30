@@ -27,17 +27,24 @@ Once you load `bruceR`, it will also load the following packages that are most c
 No need to load them using `library()`. You can just load `bruceR`:
 ```r
 library(bruceR)
+
 ?bruceR  # overview of package
+example("regress")  # some examples
 ```
 
 ### Main functions
 - [x] Basic use and analyses (e.g., correlation matrix with plot)
+  + `Print()`, `Describe()`, `Freq()`, `Corr()`, ...
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
+  + `SUM()`, `MEAN()`, `RECODE()`, `RESCALE()`, `LOOKUP()`, ...
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, EFA, CFA)
-- [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison (*coming soon...*)
+  + `Alpha()`, `EFA()`, `CFA()`
+- [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
+  + (*coming soon...*)
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
+  + `GLM_summary()`, `HLM_summary()`, `grand_mean_center()`, `group_mean_center()`, ...
 - [x] Nice themes of `ggplot2` ready for scientific publication
-
+  + `theme_bruce()`
 
 ## Release Notes
 ### Current version: `0.2.0`
