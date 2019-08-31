@@ -5,7 +5,7 @@
 
 
 ## Install
-```r
+```{r}
 install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
@@ -13,7 +13,11 @@ devtools::install_github("psychbruce/bruceR")
 
 ## User Guide
 ### Loading `bruceR`
-Once you load `bruceR`, it will also load the following packages that are most commonly used:
+> *We are all standing on the shoulders of giants.*
+
+`bruceR` depends on some important packages (listed as follows) and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
+
+Once you load `bruceR` to the global environment with `library()`, it will also load 7 packages most commonly used:
 - `rio`: Data input/output for many file formats within one function.
 - `glue`: Paste and print in an elegant manner.
 - `dplyr`: Data manipulation and preprocessing.
@@ -23,7 +27,7 @@ Once you load `bruceR`, it will also load the following packages that are most c
 - `ggplot2`: Data visualization.
 
 No need to load them separately. You can just load `bruceR`:
-```r
+```{r}
 library(bruceR)
 
 ## overview of package
@@ -32,6 +36,7 @@ library(bruceR)
 ## run some examples
 example("Print")
 example("MEAN")
+example("LOOKUP")
 example("GLM_summary")
 example("HLM_summary")
 ```
@@ -66,4 +71,4 @@ example("HLM_summary")
 ## Author
 [Han-Wu-Shuang (Bruce) Bao](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
-E-mail: baohws@psych.ac.cn, psychbruce@qq.com
+E-mail: baohws@psych.ac.cn; psychbruce@qq.com

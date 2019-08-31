@@ -37,13 +37,13 @@ RESCALE=function(var, from=range(var), to) {
 #' Search, match, and look up values
 #' @import data.table
 #' @importFrom dplyr left_join
-#' @param data A \code{data.frame} or \code{data.table}.
-#' @param vars A character or character vector, specifying the variable(s) to be searched in \code{data}.
-#' @param data.ref A reference data containing both the reference variable(s) and the lookup variable(s).
-#' @param vars.ref A character or character vector (with the \strong{same length and order} as \code{vars}),
+#' @param data \code{data.frame} or \code{data.table}.
+#' @param vars Character or character vector, specifying the variable(s) to be searched in \code{data}.
+#' @param data.ref Reference data containing both the reference variable(s) and the lookup variable(s).
+#' @param vars.ref Character or character vector (with the \strong{same length and order} as \code{vars}),
 #' specifying the reference variable(s) to be matched in \code{data.ref}.
-#' @param vars.lookup A character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
-#' @return A new data.frame or data.table, with the lookup values added.
+#' @param vars.lookup Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
+#' @return A new \code{data.frame} or \code{data.table}, with the lookup values added.
 #' If multiple values were simultaneously matched, a warning message would be printed.
 #' Then you may check if there was anything wrong in \code{data.ref}, and/or re-define \code{vars} and \code{vars.ref}.
 #' @examples
@@ -58,9 +58,9 @@ RESCALE=function(var, from=range(var), to) {
 #'                 year=c(2013, 2014, 2015, 2016, 2017))
 #' data
 #'
+#' LOOKUP(data, "city", dict, "City", "GDP")  # return with a warning
 #' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), "GDP")
 #' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), c("GDP", "PM2.5"))
-#' LOOKUP(data, "city", dict, "City", "GDP")  # return with a warning
 #' @export
 LOOKUP=function(data, vars,
                 data.ref, vars.ref,
