@@ -14,9 +14,22 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
-Depends: rio, glue, dplyr, stringr, data.table, psych, ggplot2
-Imports: tidyverse, ggstatsplot,
-         MBESS, MuMIn,
-         jtools, summarytools, texreg,
-         semPlot, cowplot, ggtext
+Depends: R (>= 3.5.0),
+         rio (>= 0.5.10),
+         glue (>= 1.3.0),
+         dplyr (>= 0.7.5),
+         stringr (>= 1.3.0),
+         data.table (>= 1.11.0),
+         psych (>= 1.8.0),
+         ggplot2 (>= 3.0.0)
+Imports: tidyverse (>= 1.2.0),
+         ggstatsplot (>= 0.0.10),
+         MuMIn (>= 1.40.0),
+         jtools (>= 1.0.0),
+         semPlot (>= 1.1.0),
+         cowplot (>= 0.9.0)
+Suggests: MBESS,
+          metafor,
+          texreg,
+          summarytools
 RoxygenNote: 6.1.1
