@@ -3,9 +3,6 @@
 
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
-Packing many useful R packages and functions into one package.
-Making data analyses and statistics more elegant.
-
 
 ## Install
 ```r
@@ -13,7 +10,7 @@ install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
 
-You might see these messages in console:
+During installation, you might see these in console:
 ```
 These packages have more recent versions available.
 Which would you like to update?
@@ -25,7 +22,7 @@ Which would you like to update?
 
 Enter one or more numbers, or an empty line to skip updates:
 ```
-Just enter an empty line to skip the updates.
+Just enter an **empty line** to skip the updates!
 
 
 ## User Guide
