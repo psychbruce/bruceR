@@ -2,17 +2,17 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{Describe}
 \alias{Describe}
-\title{Describe data}
+\title{Descriptive statistics}
 \usage{
 Describe(data, nsmall = 2)
 }
 \arguments{
-\item{data}{A \code{data.frame} or \code{data.table}.}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
 \item{nsmall}{Number of decimal places of output. Default is 2.}
 }
 \description{
-Describe data
+Descriptive statistics
 }
 \examples{
 Describe(bfi[c("gender", "age", "education")])

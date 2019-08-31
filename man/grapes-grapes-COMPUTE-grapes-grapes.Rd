@@ -7,7 +7,7 @@
 \alias{MEAN}
 \alias{STD}
 \alias{CONSEC}
-\title{Compute multiple variables in an elegant manner}
+\title{A tool box for multivariate computing}
 \usage{
 COUNT(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
   value = NA)
@@ -25,18 +25,39 @@ CONSEC(data, var = NULL, items = NULL, vars = NULL,
   varrange = NULL, values = 0:9)
 }
 \arguments{
-\item{data}{A \code{data.frame} or \code{data.table}.}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
-\item{var}{[optional 1] The common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).}
+\item{var}{\strong{[option 1]} Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
 
-\item{items}{[optional 1] The unique part across a series of variables (e.g., \code{1:10}).}
+\item{items}{\strong{[option 1]} Unique part across multiple variables (e.g., \code{1:10}).}
 
-\item{vars}{[optional 2] A character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
+\item{vars}{\strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
 
-\item{varrange}{[optional 3] A character specifying the range of variables with the same order as in the data (e.g., \code{"Age:Edu"}).}
+\item{varrange}{\strong{[option 3]} Character with \code{":"} specifying the start and stop positions of variables (e.g., \code{"A1:E5"}).}
+
+\item{value}{[only for \code{COUNT}] The value to be counted.}
+
+\item{rev}{[optional] Reverse-scoring variables. It can be
+1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
+2) a character vector directly specifying the variable list (recommended).}
+
+\item{likert}{[optional] Range of likert scale (e.g., \code{1:5}).}
+
+\item{na.rm}{Ignore missing values. Default is \code{TRUE}.}
+
+\item{values}{[only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).}
 }
 \description{
-Compute multiple variables in an elegant manner
+Easily compute the sum, mean, or other indexes of a scale.
+Reverse scoring can also be easily implemented, without generating extra variables
+(\code{\link{Alpha}} uses a similar method to deal with reverse scoring)!
+
+Three ways to specify the variable list:
+\enumerate{
+  \item \code{\strong{var + items}}: use the common and unique parts of variable names.
+  \item \code{\strong{vars}}: manually define the variable list.
+  \item \code{\strong{varrange}}: use the start and stop positions.
+}
 }
 \section{Functions}{
 \itemize{
@@ -52,20 +73,14 @@ Compute multiple variables in an elegant manner
 }}
 
 \examples{
-## From now on, please use 'data.table' instead of 'data.frame'.
-## Believe me.
-
-## Run the examples:
-## example("MEAN")
-
 d=data.table(x1=1:5,
              x4=c(2,2,5,4,5),
              x3=c(3,2,NA,NA,5),
              x2=c(4,4,NA,2,5),
              x5=c(5,4,1,4,5))
 d
-# I deliberately set this order to
-# show you the difference between "vars" and "varrange".
+## I deliberately set this order to show you
+## the difference between "vars" and "varrange".
 
 d[,":="(na=COUNT(d, "x", 1:5, value=NA),
         n.2=COUNT(d, "x", 1:5, value=2),
@@ -76,7 +91,8 @@ d[,":="(na=COUNT(d, "x", 1:5, value=NA),
         cons1=CONSEC(d, "x", 1:5),
         cons2=CONSEC(d, varrange="x1:x5")
         )]
-d  # It has been already changed.
+d
+## It has already changed.
 
 ## NOTE: ":=" is indeed a special function in the 'data.table' package.
 ## See a similar function "mutate()" in the 'dplyr' package: ?dplyr::mutate

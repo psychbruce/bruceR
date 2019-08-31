@@ -7,15 +7,15 @@
 Corr(data, method = "pearson", nsmall = 4, CI = TRUE, plot = TRUE)
 }
 \arguments{
-\item{data}{A \code{data.frame} or \code{data.table}.}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
 \item{nsmall}{Number of decimal places of output. Default is 4.}
 
-\item{CI}{Whether to output confidence intervals of the correlations. Default is \code{TRUE}.}
+\item{CI}{\code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.}
 
-\item{plot}{Whether to plot the correlation matrix. Default is \code{TRUE}.}
+\item{plot}{\code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.}
 }
 \description{
 Correlation analysis with test and plot

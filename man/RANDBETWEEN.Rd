@@ -7,9 +7,9 @@
 RANDBETWEEN(range, n = 1, seed = NULL)
 }
 \arguments{
-\item{range}{A vector.}
+\item{range}{Numeric or character vector.}
 
-\item{n}{Sample size.}
+\item{n}{Sample size for sampling.}
 
 \item{seed}{Random seed.}
 }

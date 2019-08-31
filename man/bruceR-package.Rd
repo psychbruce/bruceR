@@ -6,32 +6,32 @@
 \alias{bruceR}
 \title{bruceR: BRoadly Useful Collections and Extensions of R functions}
 \description{
-Packing many useful R packages and functions into one package.
-Making data analyses and statistics more elegant.
-}
-\details{
 \code{bruceR} helps users work with R more efficiently.
 
-Once you load \code{bruceR}, it will also load the following packages that are most commonly used:
+Packing many useful R packages and functions into one package.
+Making data analyses and statistics more elegant.
+
+Check updates on \url{https://github.com/psychbruce/bruceR}
+
+Once you load \code{bruceR}, it will also load the following packages:
 
 \itemize{
-  \item \code{\strong{rio}} (\code{\link{rio-package}}): Data input/output for many file formats within one function.
-  \item \code{\strong{glue}} (\code{\link{glue-package}}): Paste and print in an elegant manner.
-  \item \code{\strong{dplyr}} (\code{\link{dplyr-package}}): Data manipulation and preprocessing.
-  \item \code{\strong{stringr}} (\code{\link{stringr-package}}): String operation and regular expression.
-  \item \code{\strong{data.table}} (\code{\link{data.table-package}}): Enhanced 'data.frame' with higher efficiency.
-  \item \code{\strong{psych}} (\code{\link{psych-package}}): Functions for psychological research.
-  \item \code{\strong{ggplot2}} (\code{\link{ggplot2-package}}): Data visualization.
+  \item \code{\strong{\link[rio]{rio}}}: Data input/output for many file formats within one function (\code{import}/\code{export}).
+  \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
+  \item \code{\strong{\link[stringr]{stringr}}}: String operation and regular expression.
+  \item \code{\strong{\link[data.table]{data.table}}}: Enhanced 'data.frame' with higher efficiency.
+  \item \code{\strong{\link[psych]{psych}}}: Functions for psychological research.
+  \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
 }
 
-No need to load them using \code{'library()'}.
+No need to load them separately.
 You can just load \code{bruceR}:
 \strong{\code{library(bruceR)}}
 }
 \note{
-\emph{Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R.}
+Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R.
 
-\emph{The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} can be accessed from this website: https://www.rstudio.com/products/rstudio/download/preview/}
+The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} can be accessed from this website: \url{https://www.rstudio.com/products/rstudio/download/preview/}
 }
 \section{Main Functions in \code{bruceR}}{
 
@@ -39,7 +39,7 @@ You can just load \code{bruceR}:
 \strong{1)} basic use and analyses (e.g., correlation matrix with plot),
 \strong{2)} multivariate computing (e.g., scale mean score with reverse scoring),
 \strong{3)} reliability and validity analyses (e.g., Cronbach's \eqn{\alpha}, EFA, CFA),
-\strong{4)} \emph{t}-tests, ANOVA, simple-effect analyses, and multiple comparison \emph{(coming soon...)},
+\strong{4)} \emph{t}-test, ANOVA, simple-effect analysis, and multiple comparison \emph{(coming soon...)},
 \strong{5)} advanced toolbox and output for general/generalized ordinary/multilevel linear models, and
 \strong{6)} nice themes of \code{ggplot2} ready for scientific publication.
 
@@ -72,6 +72,10 @@ You can just load \code{bruceR}:
       \code{\link{\%nonein\%}}  (return whether none of Xs is in a vector)
 
       \code{\link{\%partin\%}}  (use regular expression to judge whether a pattern exists in a vector)
+
+      \code{\link{RANDBETWEEN}}  (randomly sampling, like Excel's function \code{RANDBETWEEN})
+
+      \code{\link{LOOKUP}}  (search, match, and look up values, like Excel's functions \code{INDEX + MATCH})
   }
   \item{\strong{2) Multivariate Computing}}{
       \code{\link{COUNT}}  (count values across variables)
@@ -87,10 +91,6 @@ You can just load \code{bruceR}:
       \code{\link{RECODE}}  (recode a variable)
 
       \code{\link{RESCALE}}  (rescale a variable; e.g., from 5-point to 7-point scale)
-
-      \code{\link{LOOKUP}}  (search, match, and look up values)
-
-      \code{\link{RANDBETWEEN}}  (randomly sampling, just like Excel's function \code{RANDBETWEEN})
   }
   \item{\strong{3) Reliability and Validity Analyses}}{
       \code{\link{Alpha}}  (reliability analysis, computing Cronbach's \eqn{\alpha})
@@ -113,11 +113,9 @@ You can just load \code{bruceR}:
 
       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
 
-      \code{\link{med}}
+      \code{\link{med}}  ()
 
-      \code{\link{mod_med}}
-
-      \code{\link{simple_slope}}
+      \code{\link{simple_slope}}  ()
   }
   \item{\strong{6) Plotting with \code{ggplot2}}}{
       \code{\link{theme_bruce}}  (a set of nice themes ready for scientific publication)

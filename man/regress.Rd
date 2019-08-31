@@ -27,9 +27,9 @@ Here we use \strong{\code{"HC1"}} as the default option.}
 \item{cluster}{\strong{[only for \code{lm} and \code{glm}]} Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \strong{\code{"HC1"}} will be set as the default option.}
 
-\item{level2.predictors}{\strong{[only for \code{lmer}]} Optional. Default is \code{NULL}.
+\item{level2.predictors}{\strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
 If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
-you should \strong{also} define here the grouping/clustering (level-2) variables and corresponding level-2 predictor variables.
+you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
 
 *** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
 where \code{School} and \code{House} are two grouping variables,
@@ -40,12 +40,14 @@ and there is no house-level predictor.
 
 \item{vartypes}{\strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
 
-\item{t2r}{\strong{[only for \code{lmer}]} \code{T} or \code{F} (default).
+\item{t2r}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 Add a column of another kind of multilevel effect sizes: standardized partial effect size \emph{r} by \emph{t}-to-\emph{r} transformation.
-See an example in Wei et al.'s paper (2017, \emph{Nature Human Behaviour}).
-However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6, and the interpretation of this \emph{r} is not the same as the Pearson's \emph{r} we are familiar with).}
 
-\item{test.rand}{\strong{[only for \code{lmer} and \code{glmer}]} \code{T} or \code{F} (default).
+*** See an example in Wei et al.'s paper (2017, \emph{Nature Human Behaviour}).
+However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
+and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).}
+
+\item{test.rand}{\strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
 Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 
 *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),

@@ -1,8 +1,7 @@
 #### Regression ####
 
 
-#' Paste a formula into a string
-#' @export
+## Paste a formula into a string
 formula_paste=function(formula) {
   paste(formula[2], formula[1], formula[3], collapse=" ")
 }
@@ -10,7 +9,7 @@ formula_paste=function(formula) {
 
 #' Expand all interaction terms in a formula (of \code{lm, glm, lmer, glmer})
 #' @import stringr
-## @seealso \code{\link[MuMIn]{expand.formula}} (not so flexible as \code{formula_expand})
+## @seealso \code{\link[MuMIn]{expand.formula}}
 #' @examples
 #' formula_expand(y ~ a*b*c)
 #' @export
@@ -30,7 +29,7 @@ formula_expand=function(formula) {
 
 ## Advanced %in% for factor variables (e.g., match "Sex" in "Sex1")
 `%varin%`=function(x, vector) {
-  TRUE %in% grepl(paste0("^", x, "$"), vector)
+  any(grepl(paste0("^", x, "$"), vector))
 }
 
 
@@ -47,9 +46,8 @@ find=function(vars, list) {
 #'
 #' Compute grand-mean centered variables. Usually used for HLM level-2 variables.
 #' @import data.table
-#' @param data a \code{data.frame} or \code{data.table}
-#' @param vars a character vector specifying which variable(s) to be centered
-#' @return A \code{data.frame} or \code{data.table}, with the same type as the input data.
+#' @param data \code{data.frame} or \code{data.table}.
+#' @param vars Variable(s) to be centered.
 #' @seealso \code{\link{group_mean_center}}
 #' @export
 grand_mean_center=function(data, vars) {
@@ -65,8 +63,7 @@ grand_mean_center=function(data, vars) {
 #' Compute group-mean centered variables. Usually used for HLM level-1 variables.
 #' @import data.table
 #' @inheritParams grand_mean_center
-#' @param by a character indicating the grouping variable
-#' @return A \code{data.frame} or \code{data.table}, with the same type as the input data.
+#' @param by Grouping variable.
 #' @seealso \code{\link{grand_mean_center}}
 #' @export
 group_mean_center=function(data, vars, by) {
@@ -83,9 +80,9 @@ group_mean_center=function(data, vars, by) {
 #' Regression analysis (\code{lm}, \code{glm}, \code{lmer}, \code{glmer})
 #' @inheritParams GLM_summary
 #' @inheritParams HLM_summary
-#' @param formula A model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).
-#' @param data Your data.
-#' @param family Optional. The same as in \code{glm} and \code{glmer}. (e.g., \code{family=binomial} will fit a logistic model)
+#' @param formula Model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).
+#' @param data \code{data.frame} or \code{data.table}.
+#' @param family [optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).
 #' @examples
 #' ## lm
 #' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=T)
@@ -205,6 +202,7 @@ GLM_anova=function(model, add.total=T) {
 #' @param cluster \strong{[only for \code{lm} and \code{glm}]} Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 #' If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \strong{\code{"HC1"}} will be set as the default option.
 #' @param nsmall Number of decimal places of output. Default is 3.
+#' @param ... Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #' @examples
 #' ## Example 1: OLS regression
 #' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
@@ -623,9 +621,9 @@ HLM_ICC=function(model, nsmall=3) {
 #' @import MuMIn
 ## @import sjstats
 #' @param model A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
-#' @param level2.predictors \strong{[only for \code{lmer}]} Optional. Default is \code{NULL}.
+#' @param level2.predictors \strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
 #' If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
-#' you should \strong{also} define here the grouping/clustering (level-2) variables and corresponding level-2 predictor variables.
+#' you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
 #'
 #' *** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
 #' where \code{School} and \code{House} are two grouping variables,
@@ -634,11 +632,13 @@ HLM_ICC=function(model, nsmall=3) {
 #'
 #' *** If there is no level-2 predictor in the formula of \code{lmer}, just leave this parameter blank.
 #' @param vartypes \strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.
-#' @param t2r \strong{[only for \code{lmer}]} \code{T} or \code{F} (default).
+#' @param t2r \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Add a column of another kind of multilevel effect sizes: standardized partial effect size \emph{r} by \emph{t}-to-\emph{r} transformation.
-#' See an example in Wei et al.'s paper (2017, \emph{Nature Human Behaviour}).
-#' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6, and the interpretation of this \emph{r} is not the same as the Pearson's \emph{r} we are familiar with).
-#' @param test.rand \strong{[only for \code{lmer} and \code{glmer}]} \code{T} or \code{F} (default).
+#'
+#' *** See an example in Wei et al.'s paper (2017, \emph{\href{https://doi.org/10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
+#' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
+#' and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).
+#' @param test.rand \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 #'
 #' *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
@@ -646,10 +646,8 @@ HLM_ICC=function(model, nsmall=3) {
 #' The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.
+#' @param ... Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #' @examples
-#' ## To run the following examples:
-#' # example("HLM_summary")
-#'
 #' library(lmerTest)
 #'
 #' ## Example 1: data from lme4::sleepstudy
@@ -674,15 +672,17 @@ HLM_ICC=function(model, nsmall=3) {
 #' # anova(hlm.1, hlm.2)
 #'
 #' ## Example 3: data from MASS::bacteria
-#' # GLMM with binomial outcome (multilvel logistic regression)
+#' # GLMM with binomial outcome (multilevel logistic regression)
 #' data.glmm=MASS::bacteria
 #' data.glmm$week.2=(data.glmm$week>2) %>% as.numeric()
 #' glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 #' HLM_summary(glmm)
+#' @references
+#' Hox, J. J. (2010). \emph{Multilevel analysis: Techniques and applications} (2nd ed.). New York, NY: Routledge. \url{https://doi.org/10.4324/9780203852279}
 #'
-#' ## To see notes on the statistics reported by 'HLM_summary()'
-#' HLM_summary_notes()
-#' @references (see Nakagawa & Schielzeth, 2013) (see Xu, 2003)
+#' Nakagawa, S., & Schielzeth, H. (2013). A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution, 4,} 133-142. \url{https://doi.org/10.1111/j.2041-210x.2012.00261.x}
+#'
+#' Xu, R. (2003). Measuring explained variation in linear mixed effects models. \emph{Statistics in Medicine, 22,} 3527-3541. \url{https://doi.org/10.1002/sim.1572}
 #' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
 #' @export
 HLM_summary=function(model=NULL,
@@ -870,7 +870,7 @@ HLM_summary=function(model=NULL,
       if(is.null(vartypes)==FALSE)
         df=HLM_df(sumModel, vartypes)[-1]
       else
-        df=FE$S.E.[-1]
+        df=FE$df[-1]
       t=FE.std[,1]/FE.std[,2] # FE$t[-1]
       p=p.t(t, df)
       FE.std=cbind(FE.std,
@@ -918,8 +918,7 @@ HLM_summary=function(model=NULL,
 }
 
 
-#' Print some notes about \code{HLM_summary()}
-#' @export
+## Print some notes about \code{HLM_summary()}
 HLM_summary_notes=function() {
   Print("
   ====================
@@ -955,11 +954,11 @@ HLM_summary_notes=function() {
 #### Many HLMs ####
 
 
-#' Generate all possible combinations of random effects
-#' @examples
-#' f = y ~ a * b * c + (a * b * c | sub) + (a * b * c | item)
-#' fs=HLMs_formulas(f)
-#' @export
+## Generate all possible combinations of random effects
+## @examples
+## f = y ~ a * b * c + (a * b * c | sub) + (a * b * c | item)
+## fs=HLMs_formulas(f)
+## @export
 HLMs_formulas=function(formula.full.model) {
   f=formula_expand(formula.full.model)
   f=as.character(f)
@@ -990,15 +989,15 @@ HLMs_formulas=function(formula.full.model) {
 }
 
 
-#' Run many HLMs
-#' @import lmerTest
-#' @import data.table
-#' @examples
-#' mf=HLMs_run(HLMs_formulas(Reaction ~ Days + (Days | Subject)), data=sleepstudy)
-#' @note
-#' Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
-#' @seealso \code{\link{HLMs_run_parallel}}
-#' @export
+## Run many HLMs
+## @import lmerTest
+## @import data.table
+## @examples
+## mf=HLMs_run(HLMs_formulas(Reaction ~ Days + (Days | Subject)), data=sleepstudy)
+## @note
+## Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
+## @seealso \code{\link{HLMs_run_parallel}}
+## @export
 HLMs_run=function(formulas.text, data, family=NULL) {
   t0=Sys.time()
   model.fit=data.table()
@@ -1050,14 +1049,14 @@ HLMs_onecore=function(f.id) {
 }
 
 
-#' Run many HLMs (parallel version, much faster than \code{HLMs_run()})
-#' @import parallel
-#' @import data.table
-#' @return A data.table ordered by \code{singular}, \code{BIC}, and \code{AIC}.
-#' @note
-#' Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
-#' @seealso \code{\link{HLMs_run}}
-#' @export
+## Run many HLMs (parallel version, much faster than \code{HLMs_run()})
+## @import parallel
+## @import data.table
+## @return A data.table ordered by \code{singular}, \code{BIC}, and \code{AIC}.
+## @note
+## Collaborated with \href{https://github.com/usplos}{Guang-Yao Zhang}
+## @seealso \code{\link{HLMs_run}}
+## @export
 HLMs_run_parallel=function(formulas.text, data, family=NULL,
                            cores=4) {
   t0=Sys.time()
@@ -1080,66 +1079,113 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #### Indirect Effect: Sobel Test & MCMC ####
 
 
-sobel.test=function(a, b, SEa, SEb) {
+#' Mediation analysis based on regression coefficients and standard errors
+#'
+#' @description
+#' Estimating indirect effect from regression coefficients and standard errors (\emph{SE}) by using Sobel test and Monte Carlo simulation.
+#'
+#' Total effect (\strong{c}) = Direct effect (\strong{c'}) + Indirect effect (\strong{a*b})
+#' @param a Path \strong{a} (X -> Mediator).
+#' @param SEa \emph{SE} of path \strong{a}.
+#' @param b Path \strong{b} (Mediator -> Y).
+#' @param SEb \emph{SE} of path \strong{b}.
+#' @param direct [optional] Path \strong{c'} (X -> Y \strong{direct} effect, with M also included in model).
+#' @param total [optional] Path \strong{c} (X -> Y \strong{total} effect, without M).
+#' @param cov_ab Covariance between \strong{a} and \strong{b}.
+#'
+#' See \href{http://www.quantpsy.org/medmc/medmc.htm}{Selig & Preacher (2008)}:
+#'
+#' \emph{If you use SEM, path analysis, multilevel modeling, or some other multivariate method to obtain both a and b from a single model, then cov(a,b) can be found in the asymptotic covariance matrix of the parameter estimates.
+#' If you use regression to obtain a and b in separate steps, then cov(a,b) = 0.}
+#' @param seed Random seed. Default is 1.
+#' @param rep Number of repetitions for Monte Carlo simulation. Default is 50,000. More than 1,000 are recommended.
+#' @param nsmall Number of decimal places of output. Default is 3.
+#' @references
+#' Sobel, M. E. (1982). Asymptotic confidence intervals for indirect effects in Structural Equation Models. \emph{Sociological Methodology, 13,} 290-312.
+#'
+#' Selig, J. P., & Preacher, K. J. (2008). Monte Carlo method for assessing mediation: An interactive tool for creating confidence intervals for indirect effects. \url{http://www.quantpsy.org/medmc/medmc.htm}
+#' @examples
+#' med(a=1.50, SEa=0.50, b=2.00, SEb=0.80)
+#' med(a=1.50, SEa=0.50, b=2.00, SEb=0.80, total=4.50)
+#' med(a=1.50, SEa=0.50, b=2.00, SEb=0.80, direct=1.50)
+#' @export
+med=function(a, SEa, b, SEb, direct=NULL, total=NULL,
+             cov_ab=0, seed=1, rep=50000, nsmall=3) {
+  indirect=a*b
+  if(is.null(total)) {
+    if(is.null(direct)) {
+      # Print("No input for 'direct' or 'total' effect.")
+    } else {
+      total=direct+indirect
+    }
+  } else {
+    if(is.null(direct)) {
+      direct=total-indirect
+    } else {
+      total=direct+indirect  # priority: direct > total
+      warning("Total effect is replaced by the sum of direct and indirect effects.")
+    }
+  }
+
+  ## Direct and Indirect Effects ##
+  if(is.null(total)==FALSE) {
+    effect=data.frame(total, direct, indirect,
+                      ratioTotal=indirect/total,
+                      ratioRelative=abs(indirect/direct))
+    names(effect)=c("Total", "Direct", "Indirect", "Ratio.Total", "Ratio.Relative")
+    Print("Direct and Indirect Effects:")
+    print_table(effect, row.names=FALSE, nsmall=nsmall)
+    Print("<<blue Total = Direct + Indirect
+    Ratio.Total = Indirect / Total
+    Ratio.Relative = Indirect / Direct
+    \n>>")
+  }
+
+  ## Indirect Effect: Sobel Test & MCMC ##
+  sobel=sobel.test(a, SEa, b, SEb)
+  mcmc=mcmam(a, SEa, b, SEb, cov_ab=cov_ab, seed=seed, rep=rep)
+  mediation=rbind(sobel, mcmc)
+  names(mediation)=c("a", "b", "a*b", "SE(a*b)", "z", "pval", "[95% ", "  CI]", "sig")
+  Print("Test for Indirect Effect (a*b):")
+  print_table(mediation, nsmall=nsmall)
+}
+
+
+sobel.test=function(a, SEa, b, SEb) {
   ab=a*b
   SEab=sqrt(a^2*SEb^2 + b^2*SEa^2) # Sobel (1982) first-order solution
   # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 - SEa^2*SEb^2) # Goodman (1960) unbiased solution
   # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 + SEa^2*SEb^2) # Aroian (1944) second-order exact solution
   z=ab/SEab
-  p=pnorm(abs(z), lower.tail=FALSE)*2
+  p=p.z(z)
   abLLCI=ab-1.96*SEab
   abULCI=ab+1.96*SEab
-  out=data.frame(a, b, ab, SEab, z, p, abLLCI, abULCI)
+  sig=sig.trans(p)
+  out=data.frame(a, b, ab, SEab, z, p, abLLCI, abULCI, sig)
   row.names(out)="Sobel test"
-  # cat("Mediation - (Sobel, 1982):\n")
-  # print(out, digits=3)
   return(out)
 }
 
 
-mcmam=function(a, b, SEa, SEb, seed=1, rep=50000, conf=0.95) {
-  # Selig, J. P., & Preacher, K. J. (2008). Monte Carlo method for assessing mediation:
-  # An interactive tool for creating confidence intervals for indirect effects.
-  # Retrieved from http://www.quantpsy.org/medmc/medmc.htm
-  library(MASS)
-  set.seed(seed)
+mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=1, rep=50000, conf=0.95) {
+  # http://www.quantpsy.org/medmc/medmc.htm
+  set.seeds(seed)
   acov=matrix(c(
-    SEa^2, 0,
-    0, SEb^2
+    SEa^2, cov_ab,
+    cov_ab, SEb^2
   ), 2, 2)
-  mcmc=mvrnorm(rep, c(a, b), acov)
+  mcmc=MASS::mvrnorm(rep, c(a, b), acov, empirical=FALSE)
   abMC=mcmc[,1]*mcmc[,2]
-  abLLCI=as.numeric(quantile(abMC, (1-conf)/2))
-  abULCI=as.numeric(quantile(abMC, 1-(1-conf)/2))
   ab=mean(abMC)
   SEab=sd(abMC)
-  z=ab/SEab
-  p=pnorm(abs(z), lower.tail=FALSE)*2
-  out=data.frame(a, b, ab, SEab, z, p, abLLCI, abULCI)
+  # z=ab/SEab
+  # p=p.z(z)
+  abLLCI=as.numeric(quantile(abMC, (1-conf)/2))  # 0.025
+  abULCI=as.numeric(quantile(abMC, 1-(1-conf)/2))  # 0.975
+  sig=ifelse(abLLCI>0 | abULCI<0, "yes", "no")
+  out=data.frame(a, b, ab, SEab, z=NA, p=NA, abLLCI, abULCI, sig)
   row.names(out)="Monte Carlo"
-  # cat(title, "Mediation - MCMAM (Selig & Preacher, 2008):\n")
-  # print(out, digits=3)
   return(out)
-}
-
-
-
-# Mediation
-med=function(a, SEa, b, SEb, c) {
-  indirect=a*b
-  direct=c
-  total=indirect+direct
-  effect=data.frame(total, direct, indirect,
-                    ratioTotal=indirect/total,
-                    ratioRelative=abs(indirect/direct))
-  row.names(effect)=""
-
-  cat("Effect:\n")
-  print(effect, digits=3)
-  cat("\nMediation:\n")
-  sobel=sobel.test(a, b, SEa, SEb)
-  mcmc=mcmam(a, b, SEa, SEb)
-  print(rbind(sobel, mcmc), digits=4)
 }
 
 
@@ -1148,21 +1194,31 @@ med=function(a, SEa, b, SEb, c) {
 #### Simple Slope & Moderated Mediation ####
 
 
-#' Simple slope
+#' Simple-slope analysis based on regression coefficients and standard errors
+#'
+#' @param b Coefficient of X (main predictor).
+#' @param SEb \emph{SE} of b.
+#' @param bmod Coefficient of moderator.
+#' @param SDmod \emph{SD} of moderator (not \emph{SE}), used for calculating simple slopes of X with moderator at "M + SD" and "M -SD".
+#' @param df Degree of freedom. Usually can be found in model summary.
+#' @param nsmall Number of decimal places of output. Default is 3.
+#' @examples
+#' simple_slope(b=1.5, SEb=0.5, bmod=0.9, SDmod=1.0, df=300)
 #' @export
 simple_slope=function(b, SEb, bmod, SDmod, df, nsmall=3) {
   b.h = b+bmod*SDmod
   b.m = b
   b.l = b-bmod*SDmod
-  Print("Moderator at M + SD: b = {b.h: .{nsmall}} (SE = {SEb:.{nsmall}}), p {p.trans2(p.t(b.h/SEb, df))}
-         Moderator at M     : b = {b.m: .{nsmall}} (SE = {SEb:.{nsmall}}), p {p.trans2(p.t(b.m/SEb, df))}
-         Moderator at M - SD: b = {b.l: .{nsmall}} (SE = {SEb:.{nsmall}}), p {p.trans2(p.t(b.l/SEb, df))}")
+  Print("Moderator at <<italic M>> + <<italic SD>>: <<italic b>> = {b.h: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>> = {b.h/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.h/SEb, df))}
+         Moderator at <<italic M>>     : <<italic b>> = {b.m: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>> = {b.m/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.m/SEb, df))}
+         Moderator at <<italic M>> - <<italic SD>>: <<italic b>> = {b.l: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>> = {b.l/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.l/SEb, df))}")
 }
 
 
-#' Moderated mediation
-#' @export
-mod_med=function(a1, SEa1, a3, SEa3, b, SEb, c1, c3, SDmod) {
+## Moderated mediation
+## @export
+mod_med=function(a1, SEa1, a3, SEa3, b, SEb, c1, c3, SDmod,
+                 nsmall) {
   indirect.high=(a1+a3*SDmod)*b
   indirect.mean=a1*b
   indirect.low=(a1-a3*SDmod)*b
@@ -1180,14 +1236,14 @@ mod_med=function(a1, SEa1, a3, SEa3, b, SEb, c1, c3, SDmod) {
                        ratioRelative=abs(indirect/direct))
   row.names(effect)=c("low mod", "mean mod", "high mod")
 
-  cat("Effect:\n")
-  print(effect, digits=3)
-  cat("\nIndex of Moderated Mediation:\n")
-  sobel_mcmc(a3, b, SEa3, SEb)
-  cat("\nLow Moderator (z = -1):\n")
-  sobel_mcmc(a1-a3*SDmod, b, SEa1, SEb)
-  cat("\nMean Moderator (z = 0):\n")
-  sobel_mcmc(a1, b, SEa1, SEb)
-  cat("\nHigh Moderator (z = +1):\n")
-  sobel_mcmc(a1+a3*SDmod, b, SEa1, SEb)
+  Print("Effect:")
+  print_table(effect, nsmall=nsmall)
+  Print("Index of Moderated Mediation:")
+  med(a3, SEa3, b, SEb, nsmall=nsmall)
+  Print("Low Moderator (<<italic z>> = -1):")
+  med(a1-a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
+  Print("Mean Moderator (<<italic z>> = 0):")
+  med(a1, SEa1, b, SEb, nsmall=nsmall)
+  Print("High Moderator (<<italic z>> = +1):")
+  med(a1+a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
 }

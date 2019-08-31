@@ -7,13 +7,17 @@
 Alpha(data, var, items, vars = NULL, rev = NULL)
 }
 \arguments{
-\item{data}{A \code{data.frame} or \code{data.table}.}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
-\item{var}{[optional 1] The common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).}
+\item{var}{\strong{[option 1]} Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
 
-\item{items}{[optional 1] The unique part across a series of variables (e.g., \code{1:10}).}
+\item{items}{\strong{[option 1]} Unique part across multiple variables (e.g., \code{1:10}).}
 
-\item{vars}{[optional 2] A character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
+\item{vars}{\strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
+
+\item{rev}{[optional] Reverse-scoring variables. It can be
+1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
+2) a character vector directly specifying the variable list (recommended).}
 }
 \description{
 Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)

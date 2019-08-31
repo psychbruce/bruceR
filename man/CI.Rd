@@ -7,17 +7,17 @@
 CI(var, nsmall = 2, empirical = TRUE)
 }
 \arguments{
-\item{var}{A variable (e.g., data$var) or a numeric vector.}
+\item{var}{Variable (e.g., \code{data$var}) or numeric vector.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
 
-\item{empirical}{\code{TRUE} (empirical) or \code{FALSE} (\emph{t} distribution).
-Default is \code{TRUE}, which directly extracts CI from data (instead of computing CI based on normal or \emph{t} distribution).}
+\item{empirical}{\code{TRUE} (default, return 2.5\% and 97.5\% percentiles) or \code{FALSE} (basd on \emph{t} distribution).
+If \code{TRUE}, directly extract CI from data (instead of computing CI based on normal or \emph{t} distribution).}
 }
 \description{
 Compute 95\% confidence interval (CI) of a variable
 }
 \examples{
 CI(bfi$age)
-CI(bfi$age, emp=F)  # Note: "emp" can partially match "empirical"
+CI(bfi$age, emp=F)  # NOTE: "emp" can partially match "empirical"
 }

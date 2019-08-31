@@ -7,9 +7,9 @@
 x \%notin\% vector
 }
 \arguments{
-\item{x}{A numeric or character vector.}
+\item{x}{Numeric or character vector.}
 
-\item{vector}{A numeric or character vector.}
+\item{vector}{Numeric or character vector.}
 }
 \description{
 A simple extension of \code{\%in\%}

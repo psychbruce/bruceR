@@ -20,6 +20,8 @@ Here we use \strong{\code{"HC1"}} as the default option.}
 If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \strong{\code{"HC1"}} will be set as the default option.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
+
+\item{...}{Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
 \description{
 Summary results of GLM (\code{lm} and \code{glm} models)

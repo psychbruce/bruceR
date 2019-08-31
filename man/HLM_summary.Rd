@@ -10,9 +10,9 @@ HLM_summary(model = NULL, level2.predictors = NULL, vartypes = NULL,
 \arguments{
 \item{model}{A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
 
-\item{level2.predictors}{\strong{[only for \code{lmer}]} Optional. Default is \code{NULL}.
+\item{level2.predictors}{\strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
 If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
-you should \strong{also} define here the grouping/clustering (level-2) variables and corresponding level-2 predictor variables.
+you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
 
 *** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
 where \code{School} and \code{House} are two grouping variables,
@@ -23,12 +23,14 @@ and there is no house-level predictor.
 
 \item{vartypes}{\strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
 
-\item{t2r}{\strong{[only for \code{lmer}]} \code{T} or \code{F} (default).
+\item{t2r}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 Add a column of another kind of multilevel effect sizes: standardized partial effect size \emph{r} by \emph{t}-to-\emph{r} transformation.
-See an example in Wei et al.'s paper (2017, \emph{Nature Human Behaviour}).
-However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6, and the interpretation of this \emph{r} is not the same as the Pearson's \emph{r} we are familiar with).}
 
-\item{test.rand}{\strong{[only for \code{lmer} and \code{glmer}]} \code{T} or \code{F} (default).
+*** See an example in Wei et al.'s paper (2017, \emph{Nature Human Behaviour}).
+However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
+and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).}
+
+\item{test.rand}{\strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
 Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 
 *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
@@ -37,6 +39,8 @@ The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} 
 
 \item{nsmall}{Number of decimal places of output. Default is 3.
 But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.}
+
+\item{...}{Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
 \description{
 Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
@@ -60,9 +64,6 @@ Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated 
 the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 }
 \examples{
-## To run the following examples:
-# example("HLM_summary")
-
 library(lmerTest)
 
 ## Example 1: data from lme4::sleepstudy
@@ -87,17 +88,18 @@ HLM_summary(hlm.2, level2.predictors="Consumer: Gender + Age + Frequency")
 # anova(hlm.1, hlm.2)
 
 ## Example 3: data from MASS::bacteria
-# GLMM with binomial outcome (multilvel logistic regression)
+# GLMM with binomial outcome (multilevel logistic regression)
 data.glmm=MASS::bacteria
 data.glmm$week.2=(data.glmm$week>2) \%>\% as.numeric()
 glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 HLM_summary(glmm)
-
-## To see notes on the statistics reported by 'HLM_summary()'
-HLM_summary_notes()
 }
 \references{
-(see Nakagawa & Schielzeth, 2013) (see Xu, 2003)
+Hox, J. J. (2010). \emph{Multilevel analysis: Techniques and applications} (2nd ed.). New York, NY: Routledge. \url{https://doi.org/10.4324/9780203852279}
+
+Nakagawa, S., & Schielzeth, H. (2013). A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution, 4,} 133-142. \url{https://doi.org/10.1111/j.2041-210x.2012.00261.x}
+
+Xu, R. (2003). Measuring explained variation in linear mixed effects models. \emph{Statistics in Medicine, 22,} 3527-3541. \url{https://doi.org/10.1002/sim.1572}
 }
 \seealso{
 \code{\link{GLM_summary}}, \code{\link{regress}}

@@ -8,15 +8,15 @@ Freq(var, label = NULL, sort = "", nsmall = 1, plot = FALSE,
   bins = 18, fill.color = "#FDF6E3")
 }
 \arguments{
-\item{var}{A vector or a variable.}
+\item{var}{Vector or variable.}
 
-\item{label}{Optional. A vector re-defining the labels of values.}
+\item{label}{[optional] A vector re-defining the labels of values.}
 
-\item{sort}{\code{""} (default, raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).}
+\item{sort}{\code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).}
 
 \item{nsmall}{Number of decimal places of output. Default is 1.}
 
-\item{plot}{Whether to draw a histogram plot. Default is \code{FALSE}.}
+\item{plot}{\code{TRUE} or \code{FALSE} (default), draw a histogram plot.}
 
 \item{bins}{Number of bars in histogram plot. Default is \code{18}.}
 

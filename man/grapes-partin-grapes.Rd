@@ -7,9 +7,9 @@
 pattern \%partin\% vector
 }
 \arguments{
-\item{pattern}{A character string containing \strong{regular expressions} to be matched.}
+\item{pattern}{Character string containing \strong{regular expressions} to be matched.}
 
-\item{vector}{A character vector.}
+\item{vector}{Character vector.}
 }
 \description{
 A simple extension of \code{\%in\%}

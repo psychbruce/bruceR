@@ -9,25 +9,42 @@ CFA(data, model = "A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
   style = c("jmv", "lavaan"), CI = FALSE, MI = FALSE, plot = FALSE)
 }
 \arguments{
-\item{data}{A \code{data.frame} or \code{data.table}.}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
-\item{model}{Model formula.}
+\item{model}{Model formula. See examples.}
 
-\item{highorder}{Optional. High-order factor. Default is \code{""}.}
+\item{highorder}{High-order factor. Default is \code{""}.}
+
+\item{orthogonal}{Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero, and only "lavaan" style will be output.}
+
+\item{missing}{Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).}
+
+\item{style}{\code{"jmv"}, \code{"lavaan"}, or both (default).
+
+If the model has high-order factors, only "lavaan" style will be output.}
+
+\item{CI}{\code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.}
+
+\item{MI}{\code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.}
+
+\item{plot}{\code{TRUE} (default) or \code{FALSE}, provide a path diagram of the model.}
 }
 \description{
-Confirmatory factor analysis (CFA)
+Based on \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 }
 \examples{
 data.cfa=lavaan::HolzingerSwineford1939
-CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9", plot=T)
+CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
 CFA(data.cfa, model="
     Visual =~ x[1:3]
     Textual =~ x[c(4,5,6)]
     Speed =~ x7 + x8 + x9
-    ", highorder="Ability", plot=T)
+    ", highorder="Ability")
 
 data.bfi=psych::bfi
 data.bfi=data.bfi[complete.cases(data.bfi),]
-CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]", plot=T)
+CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
+}
+\seealso{
+\code{jmv::\link[jmv]{cfa}}, \code{lavaan::\link[lavaan]{cfa}}
 }

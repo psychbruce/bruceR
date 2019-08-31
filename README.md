@@ -3,6 +3,9 @@
 
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
+Packing many useful R packages and functions into one package.
+Making data analyses and statistics more elegant.
+
 
 ## Install
 ```r
@@ -22,7 +25,7 @@ Which would you like to update?
 
 Enter one or more numbers, or an empty line to skip updates:
 ```
-Just type **`3`** (i.e., not to update dependency packages).
+Just enter an empty line to skip the updates.
 
 
 ## User Guide
@@ -31,9 +34,8 @@ Just type **`3`** (i.e., not to update dependency packages).
 ### Loading `bruceR`
 `bruceR` depends on some important packages (listed as follows) and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
-Once you load `bruceR` to the global environment with `library()`, it will also load 7 packages most commonly used:
-- `rio`: Data input/output for many file formats within one function.
-- `glue`: Paste and print in an elegant manner.
+Once you load `bruceR` to the global environment with `library()`, it will also load 6 packages most commonly used:
+- `rio`: Data input/output for many file formats within one function (`import`/`export`).
 - `dplyr`: Data manipulation and preprocessing.
 - `stringr`: String operation and regular expression.
 - `data.table`: Enhanced 'data.frame' with higher efficiency.
@@ -58,9 +60,9 @@ example("HLM_summary")
 ### Main functions in `bruceR`
 - [x] Basic use and analyses (e.g., correlation matrix with plot)
   + `Print()`, `set.wd()`, `dtime()`, `%notin%`, `%partin%`, ...
-  + `Describe()`, `Freq()`, `Corr()`, `CI()`, ...
+  + `Describe()`, `Freq()`, `Corr()`, `CI()`, `LOOKUP()`, ...
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
-  + `SUM()`, `MEAN()`, `RECODE()`, `RESCALE()`, `LOOKUP()`, ...
+  + `SUM()`, `MEAN()`, `RECODE()`, `RESCALE()`, ...
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
   + `Alpha()`, `EFA()`, `CFA()`
 - [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison

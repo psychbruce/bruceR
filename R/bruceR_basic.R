@@ -2,8 +2,8 @@
 
 
 #' A simple extension of \code{\%in\%}
-#' @param x A numeric or character vector.
-#' @param vector A numeric or character vector.
+#' @param x Numeric or character vector.
+#' @param vector Numeric or character vector.
 #' @examples
 #' data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))
 #' data
@@ -52,8 +52,8 @@
 
 
 #' A simple extension of \code{\%in\%}
-#' @param pattern A character string containing \strong{regular expressions} to be matched.
-#' @param vector A character vector.
+#' @param pattern Character string containing \strong{regular expressions} to be matched.
+#' @param vector Character vector.
 #' @examples
 #' "Bei" %partin% c("Beijing", "Shanghai")  # TRUE
 #' "bei" %partin% c("Beijing", "Shanghai")  # FALSE
@@ -68,13 +68,13 @@
 #' Set working directory to the path of \strong{current} script
 #'
 #' @import rstudioapi
-#' @param dir A character string or \code{NULL}.
-#' If \code{NULL} (default), set working directory to the path of \strong{the current R script}.
+#' @param dir \code{NULL} (default) or a character string specifying the working directory.
+#' If \code{NULL}, set working directory to the path of \strong{the current R script}.
 #' @examples
 #' set.wd()  # set working directory to the path of the current R script
 #' set.wd("D:/")  # "\" is not allowed, you should use "/"
 #' set.wd("../")  # set working directory to the parent directory
-#' @seealso \code{\link[base]{setwd}}
+#' @seealso \code{\link{setwd}}
 #' @export
 set.wd=function(dir=NULL) {
   if(is.null(dir)) dir=dirname(rstudioapi::getSourceEditorContext()$path)
@@ -90,15 +90,15 @@ set.wd=function(dir=NULL) {
 #' To have an exact replication of previous results based on random numbers, the version of R should be specified.
 #' By default, it sets the version to "3.5.0". All the versions earlier than 3.6.0 will generate the same result.
 #'
-#' @param seed A number specifying the random seed.
-#' @param version A character specifying the R version. Default is "3.5.0".
+#' @param seed Random seed.
+#' @param version Character string specifying the R version. Default is "3.5.0".
 #' @examples
 #' set.seeds(1, version="3.5.0")
 #' sample(1:10)  # 3  4  5  7  2  8  9  6 10  1
 #'
 #' set.seeds(1, version="3.6.0")
 #' sample(1:10)  # 9  4  7  1  2  5  3 10  6  8
-#' @seealso \code{\link[base]{set.seed}}
+#' @seealso \code{\link{set.seed}}
 #' @export
 set.seeds=function(seed, version="3.5.0") {
   suppressWarnings(RNGversion(version))
@@ -107,7 +107,7 @@ set.seeds=function(seed, version="3.5.0") {
 
 
 #' Check dependencies of a package
-#' @param pkg A character specifying the package name.
+#' @param pkg Package name.
 #' @examples
 #' pkg.depend("sjstats")
 #' pkg.depend("MuMIn")
@@ -179,8 +179,8 @@ sprintf_transformer=function(text, envir) {
 }
 
 
-#' Repeat a character for many times and paste them up
-#' @param char A character.
+#' Repeat a character string for many times and paste them up
+#' @param char Character string.
 #' @param rep.times Times for repeat.
 #' @examples
 #' rep_char("a", 5)
@@ -191,17 +191,17 @@ rep_char=function(char, rep.times) {
 
 
 #' Print three-line table
-#' @param x A matrix, data.frame, data.table, or a model (\code{lm, glm, lmer, glmer, ...}).
+#' @param x Matrix, data.frame, data.table, or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
 #' @param row.names \code{TRUE} (default) or \code{FALSE}. Whether to print row names.
-#' @param nsmalls A number or numeric vector specifying number of decimal places of output. Default is 3.
+#' @param nsmalls A number or numeric vector specifying the number of decimal places of output. Default is 3.
 #' @examples
 #' model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' print_table(model)
 #' @export
 print_table=function(x, row.names=TRUE, nsmalls=3) {
   ## Preprocess data.frame ##
-  linechar1="\u2501" # top-and-down '=' [bug in some computers!]
-  linechar2="\u2500" # in-table '-'
+  linechar1="\u2501"  # top-and-down '=' [bug in some computers!]
+  linechar2="\u2500"  # in-table '-'
   linechar1=linechar2
   if(class(x) %nonein% c("matrix", "data.frame", "data.table")) {
     coef.table=coef(summary(x))
@@ -212,15 +212,15 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
   if(length(nsmalls)==1) nsmalls=rep(nsmalls, length(x))
   for(j in 1:length(x)) {
     if(grepl("Pr\\(|pval", names(x)[j])) {
-      sig=formatF(sig.trans(x[,j]), 0) # formatF will make * left-aligned
+      sig=formatF(sig.trans(x[,j]), 0)  # formatF will make * left-aligned
       names(x)[j]="p"
       x[,j]=p.trans(x[,j])
     } else {
       x[,j]=formatF(x[,j], nsmalls[j])
     }
     if(grepl("S\\.E\\.|Std\\. Error|^se$", names(x)[j])) {
-      x[,j]=paste0("(", x[,j], ")") # add ( ) to S.E.
-      x[grepl("\\.", x[,j])==FALSE, j]="" # remove ( ) from blank S.E.
+      x[,j]=paste0("(", x[,j], ")")  # add ( ) to S.E.
+      x[grepl("\\.", x[,j])==FALSE, j]=""  # remove ( ) from blank S.E.
       if(grepl("S\\.E\\.", names(x)[j])==FALSE) names(x)[j]="S.E."
     }
     if(grepl("\\[", names(x)[j])) x[,j]=paste0("[", x[,j], ",")
@@ -228,14 +228,14 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
     if(grepl("^[Ee]stimate$", names(x)[j])) names(x)[j]="Coef."
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
-  if(is.null(sig)==FALSE) {
+  if(is.null(sig)==FALSE & "sig" %notin% names(x)) {
     x=cbind(x, ` `=sig)
     x$` `=as.character(x$` `)
   }
 
   ## Compute length to generate line-chars ##
   title.length=nchar(names(x))
-  vars.length=c() # bug: vars.length=apply(apply(x, 2, nchar), 2, max)
+  vars.length=c()  # bug: vars.length=apply(apply(x, 2, nchar), 2, max)
   for(j in 1:length(x)) vars.length[j]=max(nchar(x[,j]))
 
   ## Generate a row with 'linechar2' ##
@@ -262,11 +262,13 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
     cat(sprintf(glue("% {n.lines[j]}s"), names(x)[j]))
   cat("\n")
   for(i in 1:nrow(x)) {
-    if(row.names==TRUE) cat(sprintf(glue("%-{n.lines.rn}s"), row.names(x[i,])))
-    for(j in 1:length(x)) cat(sprintf(glue("% {n.lines[j]}s"), x[i,j]))
+    if(row.names==TRUE)
+      cat(sprintf(glue("%-{n.lines.rn}s"), row.names(x[i,])))
+    for(j in 1:length(x))
+      cat(sprintf(glue("% {n.lines[j]}s"), ifelse(is.na(x[i,j]) | grepl("NA$", x[i,j]), "", x[i,j])))
     cat("\n")
   }
-  Print(table.line) # cat(table.line); cat("\n")
+  Print(table.line)
 }
 
 # Good-looking tabs !!!
@@ -298,8 +300,9 @@ formatF=function(x, nsmall=3) {
 
 
 #' A simple extension of \code{rgb()}
-#' @param r,g,b An integar \emph{[0, 255]} indicating red, green, and blue.
-#' @param alpha A value \emph{[0, 1]} indicating color opacity (transparency); if not specified, an opaque colour will be generated.
+#' @param r,g,b Red, Green, Blue: 0~255.
+#' @param alpha Color opacity (transparency): 0~1.
+#' If not specified, an opaque colour will be generated.
 #' @return \code{"#rrggbb"} or \code{"#rrggbbaa"}
 #' @examples
 #' RGB(255, 0, 0)  # red: "#FF0000"
@@ -329,8 +332,8 @@ dtime=function(t0, unit="secs") {
 
 
 #' Randomly sampling (like Excel's function \code{RANDBETWEEN})
-#' @param range A vector.
-#' @param n Sample size.
+#' @param range Numeric or character vector.
+#' @param n Sample size for sampling.
 #' @param seed Random seed.
 #' @examples
 #' RANDBETWEEN(1:10, n=1000000) %>% Freq()
@@ -340,6 +343,61 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
   if(!is.null(seed)) set.seed(seed)
   # floor(runif(n=n, min=bottom, max=up+1))
   sample(range, n, replace=TRUE)
+}
+
+
+#' Search, match, and look up values (like Excel's functions \code{INDEX + MATCH})
+#'
+#' In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019), or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
+#' Here I provide a similar function.
+#' @import data.table
+#' @importFrom dplyr left_join
+#' @param data \code{data.frame} or \code{data.table}.
+#' @param vars Character or character vector, specifying the variable(s) to be searched in \code{data}.
+#' @param data.ref Reference data containing both the reference variable(s) and the lookup variable(s).
+#' @param vars.ref Character or character vector (with the \strong{same length and order} as \code{vars}),
+#' specifying the reference variable(s) to be matched in \code{data.ref}.
+#' @param vars.lookup Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
+#' @return A \code{data.frame} or \code{data.table} with the lookup values added.
+#' If multiple values were simultaneously matched, a warning message would be printed.
+#' @seealso
+#' \href{https://support.office.com/en-us/article/XLOOKUP-function-B7FD680E-6D10-43E6-84F9-88EAE8BF5929}{XLOOKUP: Excel's new function, the VLOOKUP "slayer" (August 2019)}
+#'
+#' \href{https://www.excel-university.com/xlookup/}{XLOOKUP: Excel University}
+#' @examples
+#' dict=data.table(City=rep(c("A", "B", "C"), each=5),
+#'                 Year=rep(2013:2017, times=3),
+#'                 GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
+#'                 PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
+#' dict
+#'
+#' data=data.table(sub=1:5,
+#'                 city=c("A", "A", "B", "C", "C"),
+#'                 year=c(2013, 2014, 2015, 2016, 2017))
+#' data
+#'
+#' # LOOKUP(data, "city", dict, "City", "GDP")  # return with a warning
+#' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), "GDP")
+#' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), c("GDP", "PM2.5"))
+#' @export
+LOOKUP=function(data, vars,
+                data.ref, vars.ref,
+                vars.lookup) {
+  by=vars.ref
+  names(by)=vars
+  data.ref=as.data.table(data.ref)
+  data.new=left_join(data,
+                     as.data.frame(data.ref)[c(vars.ref, vars.lookup)],
+                     by=by)
+  if(nrow(data.new)>nrow(data)) {
+    data.ref=unique(data.ref, by=vars.ref)
+    data.new=left_join(data,
+                       as.data.frame(data.ref)[c(vars.ref, vars.lookup)],
+                       by=by)
+    warning("More than one values were matched, only the first value in 'data.ref' was returned. Please check your reference data!")
+  }
+  if(is.data.table(data)) data.new=as.data.table(data.new)
+  return(data.new)
 }
 
 
@@ -436,13 +494,13 @@ sig.trans=function(p) {
 
 
 #' Compute 95\% confidence interval (CI) of a variable
-#' @param var A variable (e.g., data$var) or a numeric vector.
+#' @param var Variable (e.g., \code{data$var}) or numeric vector.
 #' @param nsmall Number of decimal places of output. Default is 3.
-#' @param empirical \code{TRUE} (empirical) or \code{FALSE} (\emph{t} distribution).
-#' Default is \code{TRUE}, which directly extracts CI from data (instead of computing CI based on normal or \emph{t} distribution).
+#' @param empirical \code{TRUE} (default, return 2.5\% and 97.5\% percentiles) or \code{FALSE} (basd on \emph{t} distribution).
+#' If \code{TRUE}, directly extract CI from data (instead of computing CI based on normal or \emph{t} distribution).
 #' @examples
 #' CI(bfi$age)
-#' CI(bfi$age, emp=F)  # Note: "emp" can partially match "empirical"
+#' CI(bfi$age, emp=F)  # NOTE: "emp" can partially match "empirical"
 #' @export
 CI=function(var, nsmall=2, empirical=TRUE) {
   M=mean(var)
@@ -454,8 +512,8 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 }
 
 
-#' Describe data
-#' @param data A \code{data.frame} or \code{data.table}.
+#' Descriptive statistics
+#' @param data \code{data.frame} or \code{data.table}.
 #' @param nsmall Number of decimal places of output. Default is 2.
 #' @examples
 #' Describe(bfi[c("gender", "age", "education")])
@@ -473,11 +531,11 @@ Describe=function(data, nsmall=2) {
 
 #' Frequency statistics with histogram and density plot
 #' @import ggplot2
-#' @param var A vector or a variable.
-#' @param label Optional. A vector re-defining the labels of values.
-#' @param sort \code{""} (default, raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).
+#' @param var Vector or variable.
+#' @param label [optional] A vector re-defining the labels of values.
+#' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).
 #' @param nsmall Number of decimal places of output. Default is 1.
-#' @param plot Whether to draw a histogram plot. Default is \code{FALSE}.
+#' @param plot \code{TRUE} or \code{FALSE} (default), draw a histogram plot.
 #' @param bins Number of bars in histogram plot. Default is \code{18}.
 #' @param fill.color Color filled in histogram bar. Default is \code{"#FDF6E3"}.
 #' @examples
@@ -530,11 +588,11 @@ Freq=function(var, label=NULL, sort="",
 
 #' Correlation analysis with test and plot
 #' @importFrom psych corr.test cor.plot
-#' @param data A \code{data.frame} or \code{data.table}.
+#' @param data \code{data.frame} or \code{data.table}.
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
 #' @param nsmall Number of decimal places of output. Default is 4.
-#' @param CI Whether to output confidence intervals of the correlations. Default is \code{TRUE}.
-#' @param plot Whether to plot the correlation matrix. Default is \code{TRUE}.
+#' @param CI \code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.
+#' @param plot \code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.
 #' @examples
 #' Corr(bfi[c("gender", "age", "education")])
 #' @export

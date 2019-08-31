@@ -2,9 +2,10 @@
 
 
 #' Recode a variable
-## @inheritParams car::recode
-#' @param var A variable (numeric vector, character vector, or factor).
-#' @param recodes A character string of recode specifications: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
+#'
+#' Based on \code{car::\link[car]{recode}}.
+#' @param var Variable (numeric vector, character vector, or factor).
+#' @param recodes Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
 #' @examples
 #' d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
 #' d
@@ -18,92 +19,55 @@ RECODE=function(var, recodes) {
 
 
 #' Rescale likert scales (e.g., from 5-point to 7-point)
-#' @param var A variable (numeric vector).
-#' @param from A numeric vector indicating the range of old scale (e.g., \code{1:5}).
-#' If not set, it will automatically take the range of \code{var}.
-#' @param to A numeric vector indicating the range of new scale (e.g., \code{1:7}).
+#' @param var Variable (numeric vector).
+#' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
+#' If not set, it will compute the range of \code{var}.
+#' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
 #' @examples
 #' d=data.table(var=rep(1:5, 2))
-#' d
-#'
-#' d[,":="(var1=RESCALE(var, to=1:7))]
-#' d[,":="(var2=RESCALE(var, from=1:5, to=1:7))]
+#' d[,":="(var1=RESCALE(var, to=1:7),
+#'         var2=RESCALE(var, from=1:5, to=1:7))]
+#' d  # var1 is equal to var2
 #' @export
 RESCALE=function(var, from=range(var), to) {
   (var-median(from)) / (max(from)-median(from)) * (max(to)-median(to)) + median(to)
 }
 
 
-#' Search, match, and look up values
-#' @import data.table
-#' @importFrom dplyr left_join
+#' A tool box for multivariate computing
+#'
+#' @description
+#' Easily compute the sum, mean, or other indexes of a scale.
+#' Reverse scoring can also be easily implemented, without generating extra variables
+#' (\code{\link{Alpha}} uses a similar method to deal with reverse scoring)!
+#'
+#' Three ways to specify the variable list:
+#' \enumerate{
+#'   \item \code{\strong{var + items}}: use the common and unique parts of variable names.
+#'   \item \code{\strong{vars}}: manually define the variable list.
+#'   \item \code{\strong{varrange}}: use the start and stop positions.
+#' }
 #' @param data \code{data.frame} or \code{data.table}.
-#' @param vars Character or character vector, specifying the variable(s) to be searched in \code{data}.
-#' @param data.ref Reference data containing both the reference variable(s) and the lookup variable(s).
-#' @param vars.ref Character or character vector (with the \strong{same length and order} as \code{vars}),
-#' specifying the reference variable(s) to be matched in \code{data.ref}.
-#' @param vars.lookup Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
-#' @return A new \code{data.frame} or \code{data.table}, with the lookup values added.
-#' If multiple values were simultaneously matched, a warning message would be printed.
-#' Then you may check if there was anything wrong in \code{data.ref}, and/or re-define \code{vars} and \code{vars.ref}.
+#' @param var \strong{[option 1]} Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).
+#' @param items \strong{[option 1]} Unique part across multiple variables (e.g., \code{1:10}).
+#' @param vars \strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).
+#' @param varrange \strong{[option 3]} Character with \code{":"} specifying the start and stop positions of variables (e.g., \code{"A1:E5"}).
+#' @param value [only for \code{COUNT}] The value to be counted.
+#' @param rev [optional] Reverse-scoring variables. It can be
+#' 1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
+#' 2) a character vector directly specifying the variable list (recommended).
+#' @param likert [optional] Range of likert scale (e.g., \code{1:5}).
+#' @param na.rm Ignore missing values. Default is \code{TRUE}.
+#' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
 #' @examples
-#' dict=data.table(City=rep(c("A", "B", "C"), each=5),
-#'                 Year=rep(2013:2017, times=3),
-#'                 GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
-#'                 PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
-#' dict
-#'
-#' data=data.table(sub=1:5,
-#'                 city=c("A", "A", "B", "C", "C"),
-#'                 year=c(2013, 2014, 2015, 2016, 2017))
-#' data
-#'
-#' LOOKUP(data, "city", dict, "City", "GDP")  # return with a warning
-#' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), "GDP")
-#' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), c("GDP", "PM2.5"))
-#' @export
-LOOKUP=function(data, vars,
-                data.ref, vars.ref,
-                vars.lookup) {
-  by=vars.ref
-  names(by)=vars
-  data.ref=as.data.table(data.ref)
-  data.new=left_join(data,
-                     as.data.frame(data.ref)[c(vars.ref, vars.lookup)],
-                     by=by)
-  if(nrow(data.new)>nrow(data)) {
-    data.ref=unique(data.ref, by=vars.ref)
-    data.new=left_join(data,
-                       as.data.frame(data.ref)[c(vars.ref, vars.lookup)],
-                       by=by)
-    warning("More than one values were matched, only the first value in 'data.ref' was returned. Please check your reference data!")
-  }
-  if(is.data.table(data)) data.new=as.data.table(data.new)
-  return(data.new)
-}
-
-
-#' Compute multiple variables in an elegant manner
-#' @param data A \code{data.frame} or \code{data.table}.
-#' @param var [optional 1] The common part across a series of variables (e.g., \code{"RSES"}, the Rosenberg Self-Esteem Scale).
-#' @param items [optional 1] The unique part across a series of variables (e.g., \code{1:10}).
-#' @param vars [optional 2] A character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).
-#' @param varrange [optional 3] A character specifying the range of variables with the same order as in the data (e.g., \code{"Age:Edu"}).
-#' @examples
-#' ## From now on, please use 'data.table' instead of 'data.frame'.
-#' ## Believe me.
-#'
-#' ## Run the examples:
-#' ## example("MEAN")
-#'
 #' d=data.table(x1=1:5,
 #'              x4=c(2,2,5,4,5),
 #'              x3=c(3,2,NA,NA,5),
 #'              x2=c(4,4,NA,2,5),
 #'              x5=c(5,4,1,4,5))
 #' d
-#' # I deliberately set this order to
-#' # show you the difference between "vars" and "varrange".
+#' ## I deliberately set this order to show you
+#' ## the difference between "vars" and "varrange".
 #'
 #' d[,":="(na=COUNT(d, "x", 1:5, value=NA),
 #'         n.2=COUNT(d, "x", 1:5, value=2),
@@ -114,11 +78,9 @@ LOOKUP=function(data, vars,
 #'         cons1=CONSEC(d, "x", 1:5),
 #'         cons2=CONSEC(d, varrange="x1:x5")
 #'         )]
-#' d  # It has been already changed.
+#' d
+#' ## It has already changed.
 #'
-## print_table(d, row.names=F, nsmalls=1)
-## # A nice style of output throughout the 'bruceR' package.
-##
 #' ## NOTE: ":=" is indeed a special function in the 'data.table' package.
 #' ## See a similar function "mutate()" in the 'dplyr' package: ?dplyr::mutate
 #' ## For data.table, you need NOT to re-assign the tranformed data object,
@@ -246,19 +208,22 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 
 
 #' Exploratory factor analysis (EFA)
+#'
+#' Based on \code{jmv::\link[jmv]{efa}}.
 ## @import jmv
 #' @inheritParams %%COMPUTE%%
-#' @param vartext e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}
-#' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors
+#' @param vartext A character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).
+#' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.
 #' @param extraction \code{"pa"} (default), \code{"ml"}, or \code{"minres"},
-#' using respectively "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method
-#' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation to use in estimation
+#' using "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.
+#' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.
 #' @param nFactors An integer (default is 1) fixing the number of factors. Only relevant when \code{method="fixed"}.
 #' @param hideLoadings A number (0~1, default is 0.3) for hiding factor loadings below this value.
+#' @note It does not have the extraction method "Principal Components". You may still use SPSS.
+#' @seealso
+#' \code{jmv::\link[jmv]{efa}}
 #' @examples
 #' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
-#' @seealso \code{\link[jmv]{efa}}
-#' @note It does not have the extraction method "Principal Components". You may still use SPSS.
 #' @export
 EFA=function(data, vartext,
              method="eigen", extraction="pa", rotation="varimax",
@@ -330,33 +295,45 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 
 
 #' Confirmatory factor analysis (CFA)
+#'
+#' Based on \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 ## @import jmv
 #' @import lavaan
 #' @import semPlot
 #' @inheritParams %%COMPUTE%%
-#' @param model Model formula.
-#' @param highorder Optional. High-order factor. Default is \code{""}.
+#' @param model Model formula. See examples.
+#' @param highorder High-order factor. Default is \code{""}.
+#' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero, and only "lavaan" style will be output.
+#' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).
+#' @param style \code{"jmv"}, \code{"lavaan"}, or both (default).
+#'
+#' If the model has high-order factors, only "lavaan" style will be output.
+#' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
+#' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
+#' @param plot \code{TRUE} (default) or \code{FALSE}, provide a path diagram of the model.
+#' @seealso
+#' \code{jmv::\link[jmv]{cfa}}, \code{lavaan::\link[lavaan]{cfa}}
 #' @examples
 #' data.cfa=lavaan::HolzingerSwineford1939
-#' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9", plot=T)
+#' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
 #' CFA(data.cfa, model="
 #'     Visual =~ x[1:3]
 #'     Textual =~ x[c(4,5,6)]
 #'     Speed =~ x7 + x8 + x9
-#'     ", highorder="Ability", plot=T)
+#'     ", highorder="Ability")
 #'
 #' data.bfi=psych::bfi
 #' data.bfi=data.bfi[complete.cases(data.bfi),]
-#' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]", plot=T)
+#' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",
              style=c("jmv", "lavaan"), CI=FALSE, MI=FALSE, plot=FALSE) {
   model.jmv=modelCFA.trans("jmv", model)
   model.lav=modelCFA.trans("lavaan", model, highorder)
-  if(orthogonal | highorder!="") style="lavaan"
-  if(plot & "lavaan" %notin% style) style=append(style, "lavaan")
-  cat("# Latent variable definitions\n")
+  if(orthogonal==TRUE | highorder!="") style="lavaan"
+  if(plot==TRUE & "lavaan" %notin% style) style=append(style, "lavaan")
+  Print("#### Latent variable definitions ####")
   cat(model.lav, "\n\n")
 
   results=list()

@@ -24,5 +24,5 @@ set.seeds(1, version="3.6.0")
 sample(1:10)  # 9  4  7  1  2  5  3 10  6  8
 }
 \seealso{
-\code{\link[base]{set.seed}}
+\code{\link{set.seed}}
 }
