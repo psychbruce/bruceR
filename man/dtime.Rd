@@ -4,12 +4,14 @@
 \alias{dtime}
 \title{Timer (compute time difference)}
 \usage{
-dtime(t0, unit = "secs")
+dtime(t0, unit = "secs", nsmall = 0)
 }
 \arguments{
 \item{t0}{Time at the beginning.}
 
-\item{unit}{A value from \code{c("auto", "secs", "mins", "hours", "days", "weeks")}. Default is \code{"secs"}.}
+\item{unit}{Options: \code{"auto", "secs", "mins", "hours", "days", "weeks"}. Default is \code{"secs"}.}
+
+\item{nsmall}{Number of decimal places of output. Default is 0.}
 }
 \description{
 Timer (compute time difference)

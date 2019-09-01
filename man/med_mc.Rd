@@ -2,10 +2,10 @@
 % Please edit documentation in R/bruceR_regress.R
 \name{med_mc}
 \alias{med_mc}
-\title{Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo method}
+\title{Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo simulation}
 \usage{
 med_mc(a, SEa, b, SEb, direct = NULL, total = NULL, cov_ab = 0,
-  seed = 1, rep = 50000, nsmall = 3)
+  seed = NULL, rep = 50000, nsmall = 3)
 }
 \arguments{
 \item{a}{Path \strong{a} (X -> Mediator).}
@@ -27,7 +27,7 @@ See \href{http://www.quantpsy.org/medmc/medmc.htm}{Selig & Preacher (2008)}:
 \emph{If you use SEM, path analysis, multilevel modeling, or some other multivariate method to obtain both a and b from a single model, then cov(a,b) can be found in the asymptotic covariance matrix of the parameter estimates.
 If you use regression to obtain a and b in separate steps, then cov(a,b) = 0.}}
 
-\item{seed}{Random seed. Default is 1.}
+\item{seed}{Random seed.}
 
 \item{rep}{Number of repetitions for Monte Carlo simulation. Default is 50,000. More than 1,000 are recommended.}
 

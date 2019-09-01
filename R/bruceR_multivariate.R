@@ -197,6 +197,9 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
 ## @import jmv
 #' @inheritParams %%COMPUTE%%
+#' @examples
+#' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
+#' Alpha(bfi, "E", 1:5, rev=1:2)  # right
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
@@ -212,12 +215,14 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 #' Based on \code{jmv::\link[jmv]{efa}}.
 ## @import jmv
 #' @inheritParams %%COMPUTE%%
-#' @param vartext A character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).
+#' @param vartext Character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).
 #' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.
 #' @param extraction \code{"pa"} (default), \code{"ml"}, or \code{"minres"},
 #' using "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.
 #' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.
-#' @param nFactors An integer (default is 1) fixing the number of factors. Only relevant when \code{method="fixed"}.
+#' @param nFactors An integer (default is 1) fixing the number of factors.
+#'
+#' Only relevant when \code{method="fixed"}.
 #' @param hideLoadings A number (0~1, default is 0.3) for hiding factor loadings below this value.
 #' @note It does not have the extraction method "Principal Components". You may still use SPSS.
 #' @seealso

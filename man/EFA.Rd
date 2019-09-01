@@ -10,7 +10,7 @@ EFA(data, vartext, method = "eigen", extraction = "pa",
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
 
-\item{vartext}{A character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).}
+\item{vartext}{Character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).}
 
 \item{method}{\code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.}
 
@@ -19,7 +19,9 @@ using "prinicipal axis", "maximum likelihood", or "minimum residual" as the fact
 
 \item{rotation}{\code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.}
 
-\item{nFactors}{An integer (default is 1) fixing the number of factors. Only relevant when \code{method="fixed"}.}
+\item{nFactors}{An integer (default is 1) fixing the number of factors.
+
+Only relevant when \code{method="fixed"}.}
 
 \item{hideLoadings}{A number (0~1, default is 0.3) for hiding factor loadings below this value.}
 }

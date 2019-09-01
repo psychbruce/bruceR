@@ -22,3 +22,7 @@ Alpha(data, var, items, vars = NULL, rev = NULL)
 \description{
 Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
 }
+\examples{
+Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
+Alpha(bfi, "E", 1:5, rev=1:2)  # right
+}

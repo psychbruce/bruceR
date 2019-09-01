@@ -12,7 +12,7 @@ set.seeds(seed, version = "3.5.0")
 \item{version}{Character string specifying the R version. Default is "3.5.0".}
 }
 \description{
-The new versions of R (>= 3.6.0) have changed the mechanism of generating random numbers.
+The new versions of R (>= 3.6.0; since April 2019) have changed the mechanism of generating random numbers.
 To have an exact replication of previous results based on random numbers, the version of R should be specified.
 By default, it sets the version to "3.5.0". All the versions earlier than 3.6.0 will generate the same result.
 }

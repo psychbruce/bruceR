@@ -3,28 +3,33 @@
 \name{Print}
 \alias{Print}
 \alias{Glue}
-\title{Print a string with fruitful formats in a concise manner}
+\title{Paste and print texts with rich formats and colors}
 \usage{
 Print(...)
 
 Glue(...)
 }
 \arguments{
-\item{...}{A string in which expressions enclosed by \code{"{ }"} will be evaluated as R code.
-Long strings are broken by line and concatenated together. Leading whitespace and blank lines from the first and last lines are automatically trimmed.}
+\item{...}{Character strings enclosed by \code{"{ }"} will be evaluated as R codes.
+
+Character strings enclosed by \code{"<< >>"} will be printed as formatted and colored texts.
+
+Long strings are broken by line and concatenated together.
+
+Leading whitespace and blank lines from the first and last lines are automatically trimmed.}
 }
 \description{
-Be tired of \code{print()} and \code{cat()}? Try this function!
-Just type \strong{\code{example("Print")}} in console and see its power.
+Be tired of \code{print()} and \code{cat()}? Try \code{Print()}!
+Run \strong{\code{example("Print")}} and see its power.
 }
 \details{
-See more details in help pages of \code{\link[glue]{glue}} and \code{\link[glue]{glue_col}}.
+See more details in help pages of \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
 }
 \section{Functions}{
 \itemize{
-\item \code{Print}: Glue and print strings
+\item \code{Print}: Paste and print strings.
 
-\item \code{Glue}: Glue strings
+\item \code{Glue}: Paste strings.
 }}
 
 \examples{

@@ -1079,7 +1079,7 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #### Indirect Effect: Sobel Test & MCMC ####
 
 
-#' Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo method
+#' Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo simulation
 #'
 #' @description
 #' Estimating indirect effect from regression coefficients and standard errors (\emph{SE}) by using Sobel test and Monte Carlo simulation.
@@ -1097,7 +1097,7 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #'
 #' \emph{If you use SEM, path analysis, multilevel modeling, or some other multivariate method to obtain both a and b from a single model, then cov(a,b) can be found in the asymptotic covariance matrix of the parameter estimates.
 #' If you use regression to obtain a and b in separate steps, then cov(a,b) = 0.}
-#' @param seed Random seed. Default is 1.
+#' @param seed Random seed.
 #' @param rep Number of repetitions for Monte Carlo simulation. Default is 50,000. More than 1,000 are recommended.
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' @references
@@ -1110,7 +1110,7 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, direct=1.50)
 #' @export
 med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
-             cov_ab=0, seed=1, rep=50000, nsmall=3) {
+             cov_ab=0, seed=NULL, rep=50000, nsmall=3) {
   indirect=a*b
   if(is.null(total)) {
     if(is.null(direct)) {
@@ -1141,17 +1141,17 @@ med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
     \n>>")
   }
 
-  ## Indirect Effect: Sobel Test & MCMC ##
-  sobel=sobel.test(a, SEa, b, SEb)
-  mcmc=mcmam(a, SEa, b, SEb, cov_ab=cov_ab, seed=seed, rep=rep)
-  mediation=rbind(sobel, mcmc)
+  ## Indirect Effect: Sobel Test & MCMAM ##
+  sobel=sobel(a, SEa, b, SEb)
+  mcmam=mcmam(a, SEa, b, SEb, cov_ab=cov_ab, seed=seed, rep=rep)
+  mediation=rbind(sobel, mcmam)
   names(mediation)=c("a", "b", "a*b", "SE(a*b)", "z", "pval", "[95% ", "  CI]", "sig")
   Print("Test for Indirect Effect (a*b):")
   print_table(mediation, nsmall=nsmall)
 }
 
 
-sobel.test=function(a, SEa, b, SEb) {
+sobel=function(a, SEa, b, SEb) {
   ab=a*b
   SEab=sqrt(a^2*SEb^2 + b^2*SEa^2) # Sobel (1982) first-order solution
   # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 - SEa^2*SEb^2) # Goodman (1960) unbiased solution
@@ -1167,9 +1167,9 @@ sobel.test=function(a, SEa, b, SEb) {
 }
 
 
-mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=1, rep=50000, conf=0.95) {
+mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
   # http://www.quantpsy.org/medmc/medmc.htm
-  set.seeds(seed)
+  if(!is.null(seed)) set.seed(seed)
   acov=matrix(c(
     SEa^2, cov_ab,
     cov_ab, SEb^2

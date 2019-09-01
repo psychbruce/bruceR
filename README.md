@@ -22,7 +22,7 @@ Which would you like to update?
 
 Enter one or more numbers, or an empty line to skip updates:
 ```
-Just enter an **empty line** to skip the updates!
+You may enter an **empty line** to skip updating other packages.
 
 
 ## User Guide
@@ -34,7 +34,7 @@ Just enter an **empty line** to skip the updates!
 Once you load `bruceR` to the global environment with `library()`, it will also load 6 packages most commonly used:
 - `rio`: Data input/output for many file formats within one function (`import`/`export`).
 - `dplyr`: Data manipulation and preprocessing.
-- `stringr`: String operation and regular expression.
+- `stringr`: String operation with regular expressions.
 - `data.table`: Enhanced 'data.frame' with higher efficiency.
 - `psych`: Functions for psychological research.
 - `ggplot2`: Data visualization.
@@ -48,6 +48,9 @@ library(bruceR)
 
 ## run some examples
 example("Print")
+example("Describe")
+example("Freq")
+example("Corr")
 example("MEAN")
 example("LOOKUP")
 example("GLM_summary")
@@ -56,17 +59,22 @@ example("HLM_summary")
 
 ### Main functions in `bruceR`
 - [x] Basic use and analyses (e.g., correlation matrix with plot)
-  + `Print()`, `set.wd()`, `dtime()`, `%notin%`, `%partin%`, ...
-  + `Describe()`, `Freq()`, `Corr()`, `CI()`, `LOOKUP()`, ...
+  + `Print()`, `Describe()`, `Freq()`, `Corr()`, ...
+  + `set.wd()`, `set.seeds()`, `dtime()`, ...
+  + `%notin%`, `%partin%`, ...
+  + `LOOKUP()`, ...
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
-  + `SUM()`, `MEAN()`, `RECODE()`, `RESCALE()`, ...
+  + `RECODE()`, `RESCALE()`
+  + `COUNT()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
-  + `Alpha()`, `EFA()`, `CFA()`
+  + `Alpha()`
+  + `EFA()`, `CFA()`
 - [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
   + (*coming soon...*)
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
-  + `grand_mean_center()`, `group_mean_center()`, ...
-  + `GLM_summary()`, `HLM_summary()`, `regress()`, ...
+  + `grand_mean_center()`, `group_mean_center()`
+  + `GLM_summary()`, `HLM_summary()`, `regress()`
+  + `med_mc()`, `simple_slope()`
 - [x] Nice themes of `ggplot2` ready for scientific publication
   + `theme_bruce()`
 

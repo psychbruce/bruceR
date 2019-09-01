@@ -8,6 +8,7 @@ set.wd(dir = NULL)
 }
 \arguments{
 \item{dir}{\code{NULL} (default) or a character string specifying the working directory.
+
 If \code{NULL}, set working directory to the path of \strong{the current R script}.}
 }
 \description{

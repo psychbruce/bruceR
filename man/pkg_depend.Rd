@@ -4,15 +4,23 @@
 \alias{pkg_depend}
 \title{Check dependencies of a package}
 \usage{
-pkg_depend(pkg)
+pkg_depend(pkg, exclude = NULL)
 }
 \arguments{
 \item{pkg}{Package name.}
+
+\item{exclude}{[optional] Package(s) and their dependencies excluded from the dependencies of \code{pkg}.
+Useful if you want to see the unique contribution of \code{pkg}.}
 }
 \description{
 Check dependencies of a package
 }
 \examples{
-pkg.depend("sjstats")
-pkg.depend("MuMIn")
+pkg_depend("MuMIn")
+
+pkg_depend("sjstats")
+pkg_depend("sjstats", exclude="tidyverse")  # "partial dependencies" when "controlling for" other packages
+
+pkg_depend("dplyr", exclude="tidyverse")  # no unique contribution
+pkg_depend("lme4", exclude=c("tidyverse", "ggstatsplot"))  # no unique contribution
 }

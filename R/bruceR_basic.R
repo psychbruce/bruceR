@@ -69,6 +69,7 @@
 #'
 #' @import rstudioapi
 #' @param dir \code{NULL} (default) or a character string specifying the working directory.
+#'
 #' If \code{NULL}, set working directory to the path of \strong{the current R script}.
 #' @examples
 #' set.wd()  # set working directory to the path of the current R script
@@ -86,7 +87,7 @@ set.wd=function(dir=NULL) {
 
 #' Set random seeds with a specific version of R
 #'
-#' The new versions of R (>= 3.6.0) have changed the mechanism of generating random numbers.
+#' The new versions of R (>= 3.6.0; since April 2019) have changed the mechanism of generating random numbers.
 #' To have an exact replication of previous results based on random numbers, the version of R should be specified.
 #' By default, it sets the version to "3.5.0". All the versions earlier than 3.6.0 will generate the same result.
 #'
@@ -108,41 +109,60 @@ set.seeds=function(seed, version="3.5.0") {
 
 #' Check dependencies of a package
 #' @param pkg Package name.
+#' @param exclude [optional] Package(s) and their dependencies excluded from the dependencies of \code{pkg}.
+#' Useful if you want to see the unique contribution of \code{pkg}.
 #' @examples
-#' pkg.depend("sjstats")
-#' pkg.depend("MuMIn")
+#' pkg_depend("MuMIn")
+#'
+#' pkg_depend("sjstats")
+#' pkg_depend("sjstats", exclude="tidyverse")  # "partial dependencies" when "controlling for" other packages
+#'
+#' pkg_depend("dplyr", exclude="tidyverse")  # no unique contribution
+#' pkg_depend("lme4", exclude=c("tidyverse", "ggstatsplot"))  # no unique contribution
 #' @export
-pkg_depend=function(pkg) {
+pkg_depend=function(pkg, exclude=NULL) {
   default.pkgs=c("base", "boot", "class", "cluster", "codetools", "compiler",
                  "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
                  "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet", "parallel",
                  "rpart", "spatial", "splines", "stats", "stats4", "survival",
                  "tcltk", "tools", "translations", "utils")
+  exclude.pkgs=default.pkgs
+  for(ex in exclude)
+    exclude.pkgs=union(exclude.pkgs, unlist(tools::package_dependencies(ex, recursive=TRUE)))
   pkgs=unlist(tools::package_dependencies(pkg, recursive=TRUE))
-  pkgs=sort(setdiff(union(pkg, pkgs), default.pkgs))
-  packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
-  View(packages, pkg)
-  invisible(packages)
+  pkgs=sort(setdiff(union(pkg, pkgs), exclude.pkgs))
+  if(length(pkgs)==0) {
+    Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>>>")
+  } else {
+    packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
+    View(packages, pkg)
+    invisible(packages)
+  }
 }
 
 
-#' Print a string with fruitful formats in a concise manner
+#' Paste and print texts with rich formats and colors
 #'
-#' Be tired of \code{print()} and \code{cat()}? Try this function!
-#' Just type \strong{\code{example("Print")}} in console and see its power.
+#' Be tired of \code{print()} and \code{cat()}? Try \code{Print()}!
+#' Run \strong{\code{example("Print")}} and see its power.
 #'
-#' See more details in help pages of \code{\link[glue]{glue}} and \code{\link[glue]{glue_col}}.
+#' See more details in help pages of \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
 #' @import glue
 #' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
-#' @param ... A string in which expressions enclosed by \code{"{ }"} will be evaluated as R code.
-#' Long strings are broken by line and concatenated together. Leading whitespace and blank lines from the first and last lines are automatically trimmed.
+#' @param ... Character strings enclosed by \code{"{ }"} will be evaluated as R codes.
+#'
+#' Character strings enclosed by \code{"<< >>"} will be printed as formatted and colored texts.
+#'
+#' Long strings are broken by line and concatenated together.
+#'
+#' Leading whitespace and blank lines from the first and last lines are automatically trimmed.
 #' @examples
 #' name="Bruce"
 #' Print("My name is <<underline <<bold {name}>>>>.
 #'        <<bold <<blue Pi = {pi:.15}.>>>>
 #'        <<italic <<green 1 + 1 = {1 + 1}.>>>>
 #'        sqrt({x}) = <<red {sqrt(x):.3}>>", x=10)
-#' @describeIn Print Glue and print strings
+#' @describeIn Print Paste and print strings.
 #' @export
 Print=function(...) {
   tryCatch({
@@ -156,7 +176,9 @@ Print=function(...) {
 }
 
 
-#' @describeIn Print Glue strings
+#' @describeIn Print Paste strings.
+#' @import glue
+#' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
 #' @export
 Glue=function(...) {
   output=glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
@@ -315,14 +337,15 @@ RGB=function(r, g, b, alpha) {
 
 #' Timer (compute time difference)
 #' @param t0 Time at the beginning.
-#' @param unit A value from \code{c("auto", "secs", "mins", "hours", "days", "weeks")}. Default is \code{"secs"}.
+#' @param unit Options: \code{"auto", "secs", "mins", "hours", "days", "weeks"}. Default is \code{"secs"}.
+#' @param nsmall Number of decimal places of output. Default is 0.
 #' @examples
 #' t0=Sys.time()
 #' dtime(t0)
 #' @export
-dtime=function(t0, unit="secs") {
-  # secs, mins, hours
-  format(difftime(Sys.time(), t0, units=unit), digits=0)
+dtime=function(t0, unit="secs", nsmall=0) {
+  dt=difftime(Sys.time(), t0, units=unit)
+  format(dt, digits=nsmall)
 }
 
 
@@ -358,27 +381,29 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' @param vars.ref Character or character vector (with the \strong{same length and order} as \code{vars}),
 #' specifying the reference variable(s) to be matched in \code{data.ref}.
 #' @param vars.lookup Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
-#' @return A \code{data.frame} or \code{data.table} with the lookup values added.
+#' @return Return a \code{data.frame} or \code{data.table} with the lookup values added.
 #' If multiple values were simultaneously matched, a warning message would be printed.
 #' @seealso
+#' \code{dplyr::\link[dplyr]{left_join}}
+#'
 #' \href{https://support.office.com/en-us/article/XLOOKUP-function-B7FD680E-6D10-43E6-84F9-88EAE8BF5929}{XLOOKUP: Excel's new function, the VLOOKUP "slayer" (August 2019)}
 #'
 #' \href{https://www.excel-university.com/xlookup/}{XLOOKUP: Excel University}
 #' @examples
-#' dict=data.table(City=rep(c("A", "B", "C"), each=5),
-#'                 Year=rep(2013:2017, times=3),
-#'                 GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
-#'                 PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
-#' dict
+#' ref=data.table(City=rep(c("A", "B", "C"), each=5),
+#'                Year=rep(2013:2017, times=3),
+#'                GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
+#'                PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
+#' ref
 #'
 #' data=data.table(sub=1:5,
 #'                 city=c("A", "A", "B", "C", "C"),
 #'                 year=c(2013, 2014, 2015, 2016, 2017))
 #' data
 #'
-#' # LOOKUP(data, "city", dict, "City", "GDP")  # return with a warning
-#' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), "GDP")
-#' LOOKUP(data, c("city", "year"), dict, c("City", "Year"), c("GDP", "PM2.5"))
+#' # LOOKUP(data, "city", ref, "City", "GDP")  # return with a warning
+#' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
+#' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 #' @export
 LOOKUP=function(data, vars,
                 data.ref, vars.ref,
@@ -408,8 +433,6 @@ LOOKUP=function(data, vars,
 
 #' Compute \emph{p} value
 #' @examples
-#' ## example("p")
-#'
 #' p.z(1.96)
 #' p.t(2, 100)
 #' p.f(4, 1, 100)

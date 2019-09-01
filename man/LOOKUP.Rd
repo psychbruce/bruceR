@@ -19,7 +19,7 @@ specifying the reference variable(s) to be matched in \code{data.ref}.}
 \item{vars.lookup}{Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.}
 }
 \value{
-A \code{data.frame} or \code{data.table} with the lookup values added.
+Return a \code{data.frame} or \code{data.table} with the lookup values added.
 If multiple values were simultaneously matched, a warning message would be printed.
 }
 \description{
@@ -27,22 +27,24 @@ In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new funct
 Here I provide a similar function.
 }
 \examples{
-dict=data.table(City=rep(c("A", "B", "C"), each=5),
-                Year=rep(2013:2017, times=3),
-                GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
-                PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
-dict
+ref=data.table(City=rep(c("A", "B", "C"), each=5),
+               Year=rep(2013:2017, times=3),
+               GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
+               PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
+ref
 
 data=data.table(sub=1:5,
                 city=c("A", "A", "B", "C", "C"),
                 year=c(2013, 2014, 2015, 2016, 2017))
 data
 
-# LOOKUP(data, "city", dict, "City", "GDP")  # return with a warning
-LOOKUP(data, c("city", "year"), dict, c("City", "Year"), "GDP")
-LOOKUP(data, c("city", "year"), dict, c("City", "Year"), c("GDP", "PM2.5"))
+# LOOKUP(data, "city", ref, "City", "GDP")  # return with a warning
+LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
+LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 }
 \seealso{
+\code{dplyr::\link[dplyr]{left_join}}
+
 \href{https://support.office.com/en-us/article/XLOOKUP-function-B7FD680E-6D10-43E6-84F9-88EAE8BF5929}{XLOOKUP: Excel's new function, the VLOOKUP "slayer" (August 2019)}
 
 \href{https://www.excel-university.com/xlookup/}{XLOOKUP: Excel University}

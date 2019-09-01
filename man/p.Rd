@@ -39,8 +39,6 @@ Compute \emph{p} value
 }}
 
 \examples{
-## example("p")
-
 p.z(1.96)
 p.t(2, 100)
 p.f(4, 1, 100)

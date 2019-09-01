@@ -9,11 +9,9 @@
 
 
 #### Main Description ####
-#' bruceR: BRoadly Useful Collections and Extensions of R functions
+#' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}ollections and \strong{E}xtensions of \strong{R} functions
 #'
 #' @description
-#' \code{bruceR} helps users work with R more efficiently.
-#'
 #' Packing many useful R packages and functions into one package.
 #' Making data analyses and statistics more elegant.
 #'
@@ -24,7 +22,7 @@
 #' \itemize{
 #'   \item \code{\strong{\link[rio]{rio}}}: Data input/output for many file formats within one function (\code{import}/\code{export}).
 #'   \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
-#'   \item \code{\strong{\link[stringr]{stringr}}}: String operation and regular expression.
+#'   \item \code{\strong{\link[stringr]{stringr}}}: String operation with regular expressions.
 #'   \item \code{\strong{\link[data.table]{data.table}}}: Enhanced 'data.frame' with higher efficiency.
 #'   \item \code{\strong{\link[psych]{psych}}}: Functions for psychological research.
 #'   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
@@ -42,13 +40,13 @@
 #' \strong{1)} basic use and analyses (e.g., correlation matrix with plot),
 #' \strong{2)} multivariate computing (e.g., scale mean score with reverse scoring),
 #' \strong{3)} reliability and validity analyses (e.g., Cronbach's \eqn{\alpha}, EFA, CFA),
-#' \strong{4)} \emph{t}-test, ANOVA, simple-effect analysis, and multiple comparison \emph{(coming soon...)},
+#' \strong{4)} \emph{t}-test, ANOVA, simple-effect analysis, and multiple comparison (\emph{coming soon...}),
 #' \strong{5)} advanced toolbox and output for general/generalized ordinary/multilevel linear models, and
 #' \strong{6)} nice themes of \code{ggplot2} ready for scientific publication.
 #'
 #' \describe{
 #'   \item{\strong{1) Basic Functions}}{
-#'       \code{\link{Print}}  (print texts with rich formats and colors to console; see also \code{\link{Glue}})
+#'       \code{\link{Print}}  (print texts to console with rich formats and colors)
 #'
 #'       \code{\link{Describe}}  (descriptive statistics)
 #'
@@ -81,6 +79,10 @@
 #'       \code{\link{LOOKUP}}  (search, match, and look up values, like Excel's functions \code{INDEX + MATCH})
 #'   }
 #'   \item{\strong{2) Multivariate Computing}}{
+#'       \code{\link{RECODE}}  (recode a variable)
+#'
+#'       \code{\link{RESCALE}}  (rescale a variable; e.g., from 5-point to 7-point scale)
+#'
 #'       \code{\link{COUNT}}  (count values across variables)
 #'
 #'       \code{\link{SUM}}  (compute multivariate sum)
@@ -90,13 +92,9 @@
 #'       \code{\link{STD}}  (compute multivariate standard deviation)
 #'
 #'       \code{\link{CONSEC}}  (count "consecutive identical digits" across variables)
-#'
-#'       \code{\link{RECODE}}  (recode a variable)
-#'
-#'       \code{\link{RESCALE}}  (rescale a variable; e.g., from 5-point to 7-point scale)
 #'   }
 #'   \item{\strong{3) Reliability and Validity Analyses}}{
-#'       \code{\link{Alpha}}  (reliability analysis, computing Cronbach's \eqn{\alpha})
+#'       \code{\link{Alpha}}  (reliability analysis, Cronbach's \eqn{\alpha})
 #'
 #'       \code{\link{EFA}}  (exploratory factor analysis)
 #'
@@ -106,17 +104,17 @@
 #'       \emph{(Coming soon...)}
 #'   }
 #'   \item{\strong{5) Advanced Toolbox and Output for Linear Models}}{
-#'       \code{\link{regress}}  (fast do OLS, logistic, poisson, and multilevel regression analyses)
+#'       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
+#'
+#'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
 #'
 #'       \code{\link{GLM_summary}}  (advanced output for General and Generalized Linear Models)
 #'
 #'       \code{\link{HLM_summary}}  (advanced output for Multilevel/Hierarchical Linear Models)
 #'
-#'       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
+#'       \code{\link{regress}}  (fast do OLS, logistic, poisson, and multilevel regression analyses)
 #'
-#'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
-#'
-#'       \code{\link{med_mc}}  (mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo method)
+#'       \code{\link{med_mc}}  (mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo simulation)
 #'
 #'       \code{\link{simple_slope}}  (simple-slope analysis based on \emph{b} and \emph{SE})
 #'   }
