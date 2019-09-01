@@ -92,4 +92,4 @@ example("HLM_summary")
 ## Author
 [Han-Wu-Shuang (Bruce) Bao](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
-E-mail: baohws@psych.ac.cn; psychbruce@qq.com
+E-mail: baohws@psych.ac.cn or psychbruce@qq.com

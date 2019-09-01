@@ -97,8 +97,8 @@ The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/dow
 
       \code{\link{CFA}}  (confirmatory factor analysis)
   }
-  \item{\strong{4) MANOVA, Simple Effect \emph{(for interaction effect)}, & Multiple Comparison \emph{(for factor with >= 3 levels)}}}{
-      \emph{(Coming soon...)}
+  \item{\strong{4) MANOVA, Simple Effect (\emph{for interaction effect}), & Multiple Comparison (\emph{for factor with >= 3 levels})}}{
+      (\emph{Coming soon...})
   }
   \item{\strong{5) Advanced Toolbox and Output for Linear Models}}{
       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
