@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_regress.R
 \name{HLM_summary}
 \alias{HLM_summary}
-\title{Summary results of HLM (\code{lmer} and \code{glmer} fitted by \code{lmerTest} package)}
+\title{Advanced output for HLM (\code{lmer} and \code{glmer} models)}
 \usage{
 HLM_summary(model = NULL, level2.predictors = NULL, vartypes = NULL,
   t2r = FALSE, test.rand = FALSE, nsmall = 3, ...)

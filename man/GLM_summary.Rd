@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_regress.R
 \name{GLM_summary}
 \alias{GLM_summary}
-\title{Summary results of GLM (\code{lm} and \code{glm} models)}
+\title{Advanced output for GLM (\code{lm} and \code{glm} models)}
 \usage{
 GLM_summary(model, robust = FALSE, cluster = NULL, nsmall = 3, ...)
 }
@@ -24,7 +24,7 @@ If you specify \code{cluster}, you may also specify the type of \code{robust}. I
 \item{...}{Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
 \description{
-Summary results of GLM (\code{lm} and \code{glm} models)
+Advanced output for GLM (\code{lm} and \code{glm} models)
 }
 \examples{
 ## Example 1: OLS regression

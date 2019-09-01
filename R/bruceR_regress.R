@@ -188,7 +188,7 @@ GLM_anova=function(model, add.total=T) {
 }
 
 
-#' Summary results of GLM (\code{lm} and \code{glm} models)
+#' Advanced output for GLM (\code{lm} and \code{glm} models)
 #' @import jtools
 #' @import sjstats
 #' @import car
@@ -596,7 +596,7 @@ HLM_ICC=function(model, nsmall=3) {
 }
 
 
-#' Summary results of HLM (\code{lmer} and \code{glmer} fitted by \code{lmerTest} package)
+#' Advanced output for HLM (\code{lmer} and \code{glmer} models)
 #'
 #' Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
 #' HLM, MLM, or LMM (the same) refers to a model with nested data (e.g., Level-1: participants, Level-2: city; or Level-1: repeated-measures within a participant, Level-2: participants).
