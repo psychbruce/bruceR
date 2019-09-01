@@ -1079,7 +1079,7 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #### Indirect Effect: Sobel Test & MCMC ####
 
 
-#' Mediation analysis based on regression coefficients and standard errors
+#' Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo method
 #'
 #' @description
 #' Estimating indirect effect from regression coefficients and standard errors (\emph{SE}) by using Sobel test and Monte Carlo simulation.
@@ -1105,11 +1105,11 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #'
 #' Selig, J. P., & Preacher, K. J. (2008). Monte Carlo method for assessing mediation: An interactive tool for creating confidence intervals for indirect effects. \url{http://www.quantpsy.org/medmc/medmc.htm}
 #' @examples
-#' med(a=1.50, SEa=0.50, b=2.00, SEb=0.80)
-#' med(a=1.50, SEa=0.50, b=2.00, SEb=0.80, total=4.50)
-#' med(a=1.50, SEa=0.50, b=2.00, SEb=0.80, direct=1.50)
+#' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80)
+#' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, total=4.50)
+#' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, direct=1.50)
 #' @export
-med=function(a, SEa, b, SEb, direct=NULL, total=NULL,
+med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
              cov_ab=0, seed=1, rep=50000, nsmall=3) {
   indirect=a*b
   if(is.null(total)) {
@@ -1194,7 +1194,7 @@ mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=1, rep=50000, conf=0.95) {
 #### Simple Slope & Moderated Mediation ####
 
 
-#' Simple-slope analysis based on regression coefficients and standard errors
+#' Simple-slope analysis based on \emph{b} and \emph{SE}
 #'
 #' @param b Coefficient of X (main predictor).
 #' @param SEb \emph{SE} of b.
@@ -1239,11 +1239,11 @@ mod_med=function(a1, SEa1, a3, SEa3, b, SEb, c1, c3, SDmod,
   Print("Effect:")
   print_table(effect, nsmall=nsmall)
   Print("Index of Moderated Mediation:")
-  med(a3, SEa3, b, SEb, nsmall=nsmall)
+  med_mc(a3, SEa3, b, SEb, nsmall=nsmall)
   Print("Low Moderator (<<italic z>> = -1):")
-  med(a1-a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
+  med_mc(a1-a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
   Print("Mean Moderator (<<italic z>> = 0):")
-  med(a1, SEa1, b, SEb, nsmall=nsmall)
+  med_mc(a1, SEa1, b, SEb, nsmall=nsmall)
   Print("High Moderator (<<italic z>> = +1):")
-  med(a1+a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
+  med_mc(a1+a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
 }

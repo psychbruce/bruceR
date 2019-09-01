@@ -7,14 +7,11 @@
 group_mean_center(data, vars, by)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{data.table}}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
-\item{vars}{a character vector specifying which variable(s) to be centered}
+\item{vars}{Variable(s) to be centered.}
 
-\item{by}{a character indicating the grouping variable}
-}
-\value{
-A \code{data.frame} or \code{data.table}, with the same type as the input data.
+\item{by}{Grouping variable.}
 }
 \description{
 Compute group-mean centered variables. Usually used for HLM level-1 variables.

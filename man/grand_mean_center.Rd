@@ -7,12 +7,9 @@
 grand_mean_center(data, vars)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{data.table}}
+\item{data}{\code{data.frame} or \code{data.table}.}
 
-\item{vars}{a character vector specifying which variable(s) to be centered}
-}
-\value{
-A \code{data.frame} or \code{data.table}, with the same type as the input data.
+\item{vars}{Variable(s) to be centered.}
 }
 \description{
 Compute grand-mean centered variables. Usually used for HLM level-2 variables.

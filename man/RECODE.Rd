@@ -7,12 +7,12 @@
 RECODE(var, recodes)
 }
 \arguments{
-\item{var}{A variable (numeric vector, character vector, or factor).}
+\item{var}{Variable (numeric vector, character vector, or factor).}
 
-\item{recodes}{A character string of recode specifications: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.}
+\item{recodes}{Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.}
 }
 \description{
-Recode a variable
+Based on \code{car::\link[car]{recode}}.
 }
 \examples{
 d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))

@@ -7,7 +7,7 @@
 pkg_depend(pkg)
 }
 \arguments{
-\item{pkg}{A character specifying the package name.}
+\item{pkg}{Package name.}
 }
 \description{
 Check dependencies of a package

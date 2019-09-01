@@ -7,9 +7,10 @@
 RGB(r, g, b, alpha)
 }
 \arguments{
-\item{r, g, b}{An integar \emph{[0, 255]} indicating red, green, and blue.}
+\item{r, g, b}{Red, Green, Blue: 0~255.}
 
-\item{alpha}{A value \emph{[0, 1]} indicating color opacity (transparency); if not specified, an opaque colour will be generated.}
+\item{alpha}{Color opacity (transparency): 0~1.
+If not specified, an opaque colour will be generated.}
 }
 \value{
 \code{"#rrggbb"} or \code{"#rrggbbaa"}

@@ -7,11 +7,11 @@
 print_table(x, row.names = TRUE, nsmalls = 3)
 }
 \arguments{
-\item{x}{A matrix, data.frame, data.table, or a model (\code{lm, glm, lmer, glmer, ...}).}
+\item{x}{Matrix, data.frame, data.table, or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
 
 \item{row.names}{\code{TRUE} (default) or \code{FALSE}. Whether to print row names.}
 
-\item{nsmalls}{A number or numeric vector specifying number of decimal places of output. Default is 3.}
+\item{nsmalls}{A number or numeric vector specifying the number of decimal places of output. Default is 3.}
 }
 \description{
 Print three-line table

@@ -116,9 +116,9 @@
 #'
 #'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
 #'
-#'       \code{\link{med}}  ()
+#'       \code{\link{med_mc}}  (mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo method)
 #'
-#'       \code{\link{simple_slope}}  ()
+#'       \code{\link{simple_slope}}  (simple-slope analysis based on \emph{b} and \emph{SE})
 #'   }
 #'   \item{\strong{6) Plotting with \code{ggplot2}}}{
 #'       \code{\link{theme_bruce}}  (a set of nice themes ready for scientific publication)

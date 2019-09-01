@@ -2,25 +2,25 @@
 % Please edit documentation in R/bruceR_regress.R
 \name{simple_slope}
 \alias{simple_slope}
-\title{Simple-slope analysis based on regression coefficients and standard errors}
+\title{Simple-slope analysis based on \emph{b} and \emph{SE}}
 \usage{
 simple_slope(b, SEb, bmod, SDmod, df, nsmall = 3)
 }
 \arguments{
-\item{b}{Coefficient of X.}
+\item{b}{Coefficient of X (main predictor).}
 
 \item{SEb}{\emph{SE} of b.}
 
-\item{bmod}{Coefficient of Moderator.}
+\item{bmod}{Coefficient of moderator.}
 
-\item{SDmod}{\emph{SD} of Moderator (not \emph{SE}), used for calculating simple slope of X with Moderator at "M + SD" and "M -SD".}
+\item{SDmod}{\emph{SD} of moderator (not \emph{SE}), used for calculating simple slopes of X with moderator at "M + SD" and "M -SD".}
 
-\item{df}{Degree of freedom. Can be found in your model summary.}
+\item{df}{Degree of freedom. Usually can be found in model summary.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
 }
 \description{
-Simple-slope analysis based on regression coefficients and standard errors
+Simple-slope analysis based on \emph{b} and \emph{SE}
 }
 \examples{
 simple_slope(b=1.5, SEb=0.5, bmod=0.9, SDmod=1.0, df=300)

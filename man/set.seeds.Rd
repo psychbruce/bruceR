@@ -7,9 +7,9 @@
 set.seeds(seed, version = "3.5.0")
 }
 \arguments{
-\item{seed}{A number specifying the random seed.}
+\item{seed}{Random seed.}
 
-\item{version}{A character specifying the R version. Default is "3.5.0".}
+\item{version}{Character string specifying the R version. Default is "3.5.0".}
 }
 \description{
 The new versions of R (>= 3.6.0) have changed the mechanism of generating random numbers.
