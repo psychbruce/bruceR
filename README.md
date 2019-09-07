@@ -4,9 +4,9 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 
-## Install
+## Install from GitHub
 ```r
-install.packages("devtools")
+if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
 

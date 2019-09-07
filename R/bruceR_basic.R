@@ -132,7 +132,7 @@ pkg_depend=function(pkg, exclude=NULL) {
   pkgs=unlist(tools::package_dependencies(pkg, recursive=TRUE))
   pkgs=sort(setdiff(union(pkg, pkgs), exclude.pkgs))
   if(length(pkgs)==0) {
-    Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>>>")
+    Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>")
   } else {
     packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
     View(packages, pkg)
