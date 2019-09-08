@@ -7,6 +7,9 @@
 # devtools::install_github("psychbruce/bruceR")
 # remove.packages("bruceR")
 
+#### Version Control ####
+# DESCRIPTION, README.md, bruceR.R
+
 
 #### Main Description ####
 #' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}ollections and \strong{E}xtensions of \strong{R} functions
@@ -164,7 +167,7 @@ NULL
   {rep_char('=', 56)}
   >>
   Loaded packages:
-  <<green \u2714 bruceR (version 0.2.0)>>
+  <<green \u2714 bruceR (version 0.2.1)>>
   <<green \u2714 rio, dplyr, stringr, data.table, psych, ggplot2>>
   Check updates on <<underline https://github.com/psychbruce/bruceR>>
   <<silver

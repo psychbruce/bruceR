@@ -5,10 +5,10 @@
 \title{A nice \code{ggplot2} theme for scientific publication}
 \usage{
 theme_bruce(base.size = 12, line.size = 0.5, border = "",
-  bg = "white", tag = "bold", plot.title = "bold",
-  axis.title = "plain", title.pos = 0, caption.pos = 1,
-  grid.x = "", grid.y = "", line.x = TRUE, line.y = TRUE,
-  tick.x = TRUE, tick.y = TRUE)
+  bg = "white", panel.bg = "white", tag = "bold",
+  plot.title = "bold", axis.title = "plain", title.pos = 0,
+  caption.pos = 1, grid.x = "", grid.y = "", line.x = TRUE,
+  line.y = TRUE, tick.x = TRUE, tick.y = TRUE)
 }
 \arguments{
 \item{base.size}{Basic font size. Default is 12.}
@@ -17,13 +17,16 @@ theme_bruce(base.size = 12, line.size = 0.5, border = "",
 
 \item{border}{\code{FALSE}, \code{""} (default), or a color. If set to \code{FALSE} or \code{""}, it will not draw the border.}
 
-\item{bg}{Background color. Default is \code{"white"}. You can use any colors or choose from some pre-set color palettes:
+\item{bg}{Background color of whole plot. Default is \code{"white"}.
+You can use any colors or choose from some pre-set color palettes:
 \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
 
 To see these colors, you can type:
 
 \code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
 solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
+
+\item{panel.bg}{Background color of panel. Default is \code{"white"}.}
 
 \item{tag}{Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
 

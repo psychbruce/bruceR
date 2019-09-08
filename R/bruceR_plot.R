@@ -7,13 +7,15 @@
 #' @param base.size Basic font size. Default is 12.
 #' @param line.size Line width. Default is 0.5.
 #' @param border \code{FALSE}, \code{""} (default), or a color. If set to \code{FALSE} or \code{""}, it will not draw the border.
-#' @param bg Background color. Default is \code{"white"}. You can use any colors or choose from some pre-set color palettes:
+#' @param bg Background color of whole plot. Default is \code{"white"}.
+#' You can use any colors or choose from some pre-set color palettes:
 #' \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
 #'
 #' To see these colors, you can type:
 #'
 #' \code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
 #' solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}
+#' @param panel.bg Background color of panel. Default is \code{"white"}.
 #' @param tag Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param plot.title Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param axis.title Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
@@ -51,7 +53,8 @@
 #'   theme_bruce(bg="wsj")
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
-                     border="", bg="white",
+                     border="",
+                     bg="white", panel.bg="white",
                      tag="bold", plot.title="bold", axis.title="plain",
                      title.pos=0, caption.pos=1,
                      grid.x="", grid.y="",
@@ -76,6 +79,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
         element_line(size=line.size, color=grid.y),
       panel.border=if(border=="" | border==F) element_blank() else
         element_rect(size=line.size+0.4, color=border, fill=NA),
+      panel.background=element_rect(fill=panel.bg),
       axis.line=element_line(size=line.size, color="black"), # lineend="square"
       axis.title=element_text(face=axis.title, color="black", size=base.size+2),
       axis.title.x=element_text(margin=margin(0.5, 0, 0.2, 0, "lines")),

@@ -80,7 +80,7 @@ example("HLM_summary")
 
 
 ## Release Notes
-### Current version: `0.2.0`
+### Current version: `0.2.1`
 ### Major changes:
 + `0.2.0` - 30 August 2019
   + Added help pages

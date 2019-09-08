@@ -4,22 +4,39 @@
 \alias{Corr}
 \title{Correlation analysis with test and plot}
 \usage{
-Corr(data, method = "pearson", nsmall = 4, CI = TRUE, plot = TRUE)
+Corr(data, method = "pearson", CI = TRUE, nsmall = 4, plot = TRUE,
+  plot.range = c(-1, 1), plot.color = c("#B52127", "white", "#2171B5"),
+  plot.file = NULL, plot.size = "8:6", plot.dpi = 500)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
-\item{nsmall}{Number of decimal places of output. Default is 4.}
-
 \item{CI}{\code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.}
 
+\item{nsmall}{Number of decimal places of output. Default is 4.}
+
 \item{plot}{\code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.}
+
+\item{plot.range}{Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.}
+
+\item{plot.color}{Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
+You may also set it to, e.g., \code{c("red", "white", "blue")}.}
+
+\item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
+
+\item{plot.size}{Size (in "inch") of the saved plot. Default is \code{"8:6"}.}
+
+\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
 \description{
 Correlation analysis with test and plot
 }
 \examples{
+Corr(airquality)
+Corr(airquality, plot.file="Air-Corr.png")
+
 Corr(bfi[c("gender", "age", "education")])
+Corr(bfi, CI=FALSE, plot.file="BFI-Corr.png", plot.size="9:9")
 }

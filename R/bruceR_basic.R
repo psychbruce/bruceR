@@ -67,7 +67,7 @@
 
 #' Set working directory to the path of \strong{current} script
 #'
-#' @import rstudioapi
+#' @importFrom rstudioapi getSourceEditorContext
 #' @param dir \code{NULL} (default) or a character string specifying the working directory.
 #'
 #' If \code{NULL}, set working directory to the path of \strong{the current R script}.
@@ -78,7 +78,7 @@
 #' @seealso \code{\link{setwd}}
 #' @export
 set.wd=function(dir=NULL) {
-  if(is.null(dir)) dir=dirname(rstudioapi::getSourceEditorContext()$path)
+  if(is.null(dir)) dir=dirname(getSourceEditorContext()$path)
   setwd(dir)
   path=getwd()
   Print("<<green \u2714>> Setting working directory to <<blue '{path}'>>")
@@ -536,19 +536,55 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 
 
 #' Descriptive statistics
+#' @importFrom GGally ggpairs
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param nsmall Number of decimal places of output. Default is 2.
+#' @param plot \code{TRUE} or \code{FALSE} (default), visualize the descriptive statistics with \code{GGally::\link[GGally]{ggpairs}}.
+#' @param smooth \code{FALSE} (default), \code{"lm"}, or \code{"loess"}, add fitted lines to scatter plots (if any).
+#' @param plot.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
+#' @param plot.size Size (in "inch") of the saved plot. Default is \code{"8:6"}.
+#' @param plot.dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
 #' @examples
-#' Describe(bfi[c("gender", "age", "education")])
+#' d=bfi
+#' d$gender=as.factor(d$gender)
+#' d$education=as.factor(d$education)
+#' Describe(d[c("age", "gender", "education")])
+#' Describe(d[c("age", "gender", "education")], plot=T)
+#'
+#' Describe(airquality, plot=T, smooth="lm",
+#'          plot.file="Desc.png", plot.size="10:8", plot.dpi=1000)
 #' @export
-Describe=function(data, nsmall=2) {
+Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
+                  plot.file=NULL, plot.size="8:6", plot.dpi=500) {
   Print("Descriptive statistics:")
   desc=psych::describe(data, fast=FALSE)
   desc$vars = desc$trimmed = desc$mad = desc$range = desc$se = NULL
   names(desc)=c("N", "Mean", "SD", "Median", "Min", "Max", "Skewness", "Kurtosis")
-  if(length(as.data.frame(data))==1) row.names(desc)=as.character(sys.call())[2]
-  print_table(desc, nsmall=c(0, rep(nsmall, 7)))
-  invisible(desc)
+  desc$Missing=nrow(data)-desc$N
+  desc$Missing=ifelse(desc$Missing==0, NA, desc$Missing)
+  if(length(as.data.frame(data))==1)
+    row.names(desc)=as.character(sys.call())[2]
+  print_table(desc, nsmalls=c(0, rep(nsmall, 7), 0))
+
+  if(plot) {
+    smooth=ifelse(smooth==FALSE, "points",
+                  ifelse(smooth=="lm", "smooth",
+                         ifelse(smooth=="loess", "smooth_loess")))
+    p=ggpairs(data,
+              lower=list(continuous=wrap(smooth, size=1, shape=16, alpha=0.3)),
+              upper=list(continuous=wrap("cor", color="black"))) +
+      theme_bruce(panel.bg="grey95")
+    if(is.null(plot.file)) {
+      print(p)
+    } else {
+      size=as.numeric(strsplit(plot.size, ":")[[1]])
+      ggsave(plot.file, p, width=size[1], height=size[2], dpi=plot.dpi)
+      path=ifelse(grepl(":", plot.file), plot.file, paste0(getwd(), '/', plot.file))
+      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
+    }
+  }
+
+  invisible(list(desc, plot=p))
 }
 
 
@@ -611,19 +647,45 @@ Freq=function(var, label=NULL, sort="",
 
 #' Correlation analysis with test and plot
 #' @importFrom psych corr.test cor.plot
+#' @inheritParams Describe
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
-#' @param nsmall Number of decimal places of output. Default is 4.
 #' @param CI \code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.
+#' @param nsmall Number of decimal places of output. Default is 4.
 #' @param plot \code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.
+#' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
+#' @param plot.color Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
+#' You may also set it to, e.g., \code{c("red", "white", "blue")}.
 #' @examples
+#' Corr(airquality)
+#' Corr(airquality, plot.file="Air-Corr.png")
+#'
 #' Corr(bfi[c("gender", "age", "education")])
+#' Corr(bfi, CI=FALSE, plot.file="BFI-Corr.png", plot.size="9:9")
 #' @export
-Corr=function(data, method="pearson", nsmall=4,
-              CI=TRUE, plot=TRUE) {
+Corr=function(data, method="pearson", CI=TRUE, nsmall=4,
+              plot=TRUE, plot.range=c(-1, 1),
+              plot.color=c("#B52127", "white", "#2171B5"),
+              plot.file=NULL, plot.size="8:6", plot.dpi=500) {
   cor=corr.test(data, adjust="none", method=method)
   print(cor, digits=nsmall, short=!CI)
-  if(plot) cor.plot(cor$r, adjust="none", numbers=TRUE, diag=FALSE, pval=cor$p, stars=TRUE)
+  if(plot) {
+    if(!is.null(plot.file)) {
+      size=as.numeric(strsplit(plot.size, ":")[[1]])
+      png(file=plot.file, width=size[1], height=size[2], units="in", res=plot.dpi)
+    }
+    cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
+             diag=FALSE, xlas=2, n=201,
+             pval=cor$p, stars=TRUE,
+             alpha=1,
+             gr=colorRampPalette(plot.color),
+             main="Correlation Matrix")
+    if(!is.null(plot.file)) {
+      dev.off()
+      path=ifelse(grepl(":", plot.file), plot.file, paste0(getwd(), '/', plot.file))
+      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
+    }
+  }
   # partial correlation:
   # print(corpcor::cor2pcor(cor(data)), digits=4)
   invisible(cor)
