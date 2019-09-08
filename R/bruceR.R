@@ -8,7 +8,7 @@
 # remove.packages("bruceR")
 
 #### Version Control ####
-# DESCRIPTION, README.md, bruceR.R
+# DESCRIPTION, README.md
 
 
 #### Main Description ####
@@ -167,7 +167,7 @@ NULL
   {rep_char('=', 56)}
   >>
   Loaded packages:
-  <<green \u2714 bruceR (version 0.2.1)>>
+  <<green \u2714 bruceR (version {sessionInfo()[['otherPkgs']][['bruceR']][['Version']]})>>
   <<green \u2714 rio, dplyr, stringr, data.table, psych, ggplot2>>
   <<silver
   <<blue Check update:>> check_update()
