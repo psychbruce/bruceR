@@ -169,8 +169,8 @@ NULL
   Loaded packages:
   <<green \u2714 bruceR (version 0.2.1)>>
   <<green \u2714 rio, dplyr, stringr, data.table, psych, ggplot2>>
-  Check updates on <<underline https://github.com/psychbruce/bruceR>>
   <<silver
+  <<blue Check update:>> check_update()
   <<blue To update:>> devtools::install_github(\"psychbruce/bruceR\")
   >>
   >>>>

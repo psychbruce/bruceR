@@ -46,6 +46,9 @@ library(bruceR)
 ## overview of package
 ?bruceR
 
+## check update
+check_update()
+
 ## run some examples
 example("Print")
 example("Describe")
