@@ -7,10 +7,13 @@
 \alias{MEAN}
 \alias{STD}
 \alias{CONSEC}
+\alias{MODE}
 \title{A tool box for multivariate computing}
 \usage{
 COUNT(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
   value = NA)
+
+MODE(data, var = NULL, items = NULL, vars = NULL, varrange = NULL)
 
 SUM(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
   rev = NULL, likert = NULL, na.rm = TRUE)
@@ -63,13 +66,15 @@ Three ways to specify the variable list:
 \itemize{
 \item \code{COUNT}: \strong{Count} a certain value across multiple variables
 
-\item \code{SUM}: Compute \strong{sum} across multiple variables
+\item \code{MODE}: Compute the \strong{mode} across multiple variables
 
-\item \code{MEAN}: Compute \strong{mean} across multiple variables
+\item \code{SUM}: Compute the \strong{sum} across multiple variables
 
-\item \code{STD}: Compute \strong{standard deviation} across multiple variables
+\item \code{MEAN}: Compute the \strong{mean} across multiple variables
 
-\item \code{CONSEC}: Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding)
+\item \code{STD}: Compute the \strong{standard deviation} across multiple variables
+
+\item \code{CONSEC}: Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding)
 }}
 
 \examples{

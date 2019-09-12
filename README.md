@@ -32,7 +32,7 @@ Please download and install Rtools 3.5 from http://cran.r-project.org/bin/window
 
 Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ```
-Just download and install it. (Note: `Rtools` is *not* an R package.)
+Just download and install it. (Note: [Rtools](http://cran.r-project.org/bin/windows/Rtools/) is **not** an R package.)
 
 For any other potential bugs during installation, please read carefully the warning messages. I believe you can solve them if you follow the instruction.
 
@@ -95,7 +95,7 @@ example("HLM_summary")
 
 
 ## Release Notes
-### Current version: `0.2.1`
+### Current version: `0.2.2`
 ### Major changes:
 + `0.2.0` - 30 August 2019
   + Added help pages

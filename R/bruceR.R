@@ -88,6 +88,8 @@
 #'
 #'       \code{\link{COUNT}}  (count values across variables)
 #'
+#'       \code{\link{MODE}}  (compute multivariate mode)
+#'
 #'       \code{\link{SUM}}  (compute multivariate sum)
 #'
 #'       \code{\link{MEAN}}  (compute multivariate mean)
@@ -142,22 +144,10 @@
 NULL
 
 
-
 #### Package-Loading Information ####
 
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
-
-  # pkgs=.packages(all.available=T)
-  # pkgs.bruceR=c("tidyverse", "ggstatsplot", "MBESS", "MuMIn",
-  #               "jtools", "summarytools", "texreg", "semPlot")
-  # for(pkg in pkgs.bruceR) {
-  #   if(pkg %notin% pkgs) {
-  #     Print("Package '<<red {pkg}>>' will be installed...")
-  #     install.packages(pkg)
-  #   }
-  # }
-  # rm(pkg, pkgs, pkgs.bruceR)
 
   Print("
   <<bold <<blue
@@ -176,6 +166,3 @@ NULL
   >>>>
   ")
 }
-  # <<blue Overview:>>  ?bruceR
-  # <<blue Examples:>>  example(\"Print\"); example(\"regress\"); ...
-  # <<red (This version is not yet complete. Use at your own risk.)>>

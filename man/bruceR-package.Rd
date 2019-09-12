@@ -82,6 +82,8 @@ The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/dow
 
       \code{\link{COUNT}}  (count values across variables)
 
+      \code{\link{MODE}}  (compute multivariate mode)
+
       \code{\link{SUM}}  (compute multivariate sum)
 
       \code{\link{MEAN}}  (compute multivariate mean)

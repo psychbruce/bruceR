@@ -122,7 +122,20 @@ COUNT=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{sum} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mode} across multiple variables
+#' @export
+MODE=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
+  getmode=function(v) {
+    uniqv=unique(v)
+    uniqv[which.max(tabulate(match(v, uniqv)))]
+  }
+  Mode=function(...) getmode(c(...))
+  varlist=convert2vars(data, var, items, vars, varrange)$vars
+  eval(parse(text=paste0("mapply(Mode, ", paste(varlist, collapse=", "), ")")))
+}
+
+
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{sum} across multiple variables
 #' @export
 SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -138,7 +151,7 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mean} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mean} across multiple variables
 #' @export
 MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
               rev=NULL, likert=NULL,
@@ -154,7 +167,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{standard deviation} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{standard deviation} across multiple variables
 #' @export
 STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -170,7 +183,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding)
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding)
 #' @import stringr
 #' @export
 CONSEC=function(data, var=NULL, items=NULL,
