@@ -80,7 +80,7 @@ example("HLM_summary")
   + `LOOKUP()`, ...
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
   + `RECODE()`, `RESCALE()`
-  + `COUNT()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
+  + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
   + `Alpha()`
   + `EFA()`, `CFA()`
