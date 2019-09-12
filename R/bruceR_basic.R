@@ -81,7 +81,7 @@ set.wd=function(dir=NULL) {
   if(is.null(dir)) dir=dirname(getSourceEditorContext()$path)
   setwd(dir)
   path=getwd()
-  Print("<<green \u2714>> Setting working directory to <<blue '{path}'>>")
+  Print("<<green \u2714>> Set working directory to <<blue '{path}'>>")
 }
 
 
