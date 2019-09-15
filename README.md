@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/badge/R-package-success)](https://github.com/psychbruce/bruceR "bruceR")
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
-[![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)
 
 [![](https://img.shields.io/badge/Follow%20me%20on-Zhihu-blue)](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
