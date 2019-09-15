@@ -2,8 +2,8 @@
 
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
-[![](https://img.shields.io/badge/R-package-success)](https://github.com/psychbruce/bruceR "bruceR")
-![](https://img.shields.io/badge/Release-v0.2.2-success)
+![](https://img.shields.io/badge/R-package-success)
+![](https://img.shields.io/badge/Version-0.2.2-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
