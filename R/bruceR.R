@@ -20,19 +20,22 @@
 #'
 #' Check updates on \url{https://github.com/psychbruce/bruceR}
 #'
-#' Once you load \code{bruceR}, it will also load the following packages:
+#' Once you load \code{bruceR} with \code{library()}, it will also load the packages most commonly used:
 #'
 #' \itemize{
-#'   \item \code{\strong{\link[rio]{rio}}}: Data input/output for many file formats within one function (\code{import}/\code{export}).
+#'   \item \code{\strong{\link[rio]{rio}}}: Data input/output for many file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
 #'   \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
-#'   \item \code{\strong{\link[stringr]{stringr}}}: String operation with regular expressions.
 #'   \item \code{\strong{\link[data.table]{data.table}}}: Enhanced 'data.frame' with higher efficiency.
-#'   \item \code{\strong{\link[psych]{psych}}}: Functions for psychological research.
+#'   \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological research.
+#'   \item \code{\strong{\link[stringr]{stringr}}}: Toolbox for dealing with strings and regular expressions.
+#'   \item \code{\strong{\link[lubridate]{lubridate}}}: Toolbox for dealing with dates and times.
+#'   \item \code{\strong{\link[performance]{performance}}}: Toolbox for assessing many indexes of regression models. (see \code{\link[performance]{model_performance}})
 #'   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
 #' }
 #'
-#' No need to load them separately.
-#' You can just load \code{bruceR}:
+#' No need to load each one with its own call.
+#'
+#' Loading \code{bruceR} is enough:
 #' \strong{\code{library(bruceR)}}
 #'
 ## If you dislike \code{bruceR}, you can of course uninstall it,
@@ -158,7 +161,7 @@ NULL
   >>
   Loaded packages:
   <<green \u2714 bruceR (version {sessionInfo()[['otherPkgs']][['bruceR']][['Version']]})>>
-  <<green \u2714 rio, dplyr, stringr, data.table, psych, ggplot2>>
+  <<green \u2714 rio, dplyr, data.table, psych, stringr, lubridate, performance, ggplot2>>
   <<silver
   <<blue Check update:>> check_update()
   <<blue To update:>> devtools::install_github(\"psychbruce/bruceR\")

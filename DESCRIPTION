@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -17,9 +17,11 @@ BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 3.5.0),
          rio (>= 0.5.10),
          dplyr (>= 0.7.5),
-         stringr (>= 1.3.0),
          data.table (>= 1.11.0),
          psych (>= 1.8.0),
+         stringr (>= 1.3.0),
+         lubridate (>= 1.7.0),
+         performance (>= 0.3.0),
          ggplot2 (>= 3.0.0)
 Imports: tidyverse (>= 1.2.0),
          ggstatsplot (>= 0.0.10),

@@ -190,8 +190,9 @@ GLM_anova=function(model, add.total=T) {
 
 #' Advanced output for GLM (\code{lm} and \code{glm} models)
 #' @import jtools
-#' @import sjstats
 #' @import car
+#' @import MuMIn
+## @import sjstats
 #' @param model A model fitted by \code{lm} or \code{glm} function.
 #' @param robust \strong{[only for \code{lm} and \code{glm}]} \code{FALSE} (default), \code{TRUE}, or an option from \code{"HC0", "HC1", "HC2", "HC3", "HC4", "HC4m", "HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
@@ -339,7 +340,8 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     aov.glm=anova(model, test="Chisq")
     Chi2=sum(aov.glm$Deviance, na.rm=T)
     Df=sum(aov.glm$Df, na.rm=T)
-    R2.glm=sjstats::r2(model)
+    # R2.glm=sjstats::r2(model)  # 'sjstats::r2()' is deprecated [2019-09].
+    R2.glm=performance::r2_nagelkerke(model)
     Print("\n\n
     <<underline MODEL FIT:>>
     AIC = {AIC(model):.{nsmall}}
@@ -347,11 +349,11 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     {p(chi2={Chi2}, df={Df})}
     {rep_char('\u2500', 7)} Pseudo-<<italic R>>\u00b2s {rep_char('\u2500', 7)}
     McFadden's <<italic R>>\u00b2    = {1 - model$deviance/model$null.deviance:.5}  <<blue (= 1 - logLik(model)/logLik(null.model))>>
-    Cox & Snell's <<italic R>>\u00b2 = {R2.glm$CoxSnell:.5}  <<blue (problematic, not suggested)>>
-    Nagelkerke's <<italic R>>\u00b2  = {R2.glm$Nagelkerke:.5}  <<blue (= Cragg-Uhler's <<italic R>>\u00b2, adjusts Cox & Snell's)>>
+    Nagelkerke's <<italic R>>\u00b2  = {R2.glm:.5}  <<blue (= Cragg-Uhler's <<italic R>>\u00b2, adjusts Cox & Snell's)>>
     ")
-    # {p(chi2={aov.glm$Deviance[2]}, df={aov.glm$Df[2]})}
     # McFadden's adj. <<italic R>>\u00b2 = {1 - (logLik(model)-length(model$coefficients)+1)/logLik(null.model):.5}  <<blue (adjusted for number of predictors)>>
+    # Cox & Snell's <<italic R>>\u00b2 = {R2.glm$CoxSnell:.5}  <<blue (problematic, not suggested)>>
+    # Nagelkerke's <<italic R>>\u00b2  = {R2.glm$Nagelkerke:.5}  <<blue (= Cragg-Uhler's <<italic R>>\u00b2, adjusts Cox & Snell's)>>
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
@@ -1209,9 +1211,9 @@ simple_slope=function(b, SEb, bmod, SDmod, df, nsmall=3) {
   b.h = b+bmod*SDmod
   b.m = b
   b.l = b-bmod*SDmod
-  Print("Moderator at <<italic M>> + <<italic SD>>: <<italic b>> = {b.h: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>> = {b.h/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.h/SEb, df))}
-         Moderator at <<italic M>>     : <<italic b>> = {b.m: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>> = {b.m/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.m/SEb, df))}
-         Moderator at <<italic M>> - <<italic SD>>: <<italic b>> = {b.l: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>> = {b.l/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.l/SEb, df))}")
+  Print("Moderator at <<italic M>> + <<italic SD>>: <<italic b>> = {b.h: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>>({df}) = {b.h/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.h/SEb, df))}
+         Moderator at <<italic M>>     : <<italic b>> = {b.m: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>>({df}) = {b.m/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.m/SEb, df))}
+         Moderator at <<italic M>> - <<italic SD>>: <<italic b>> = {b.l: .{nsmall}} (<<italic SE>> = {SEb:.{nsmall}}), <<italic t>>({df}) = {b.l/SEb:.{nsmall}}, <<italic p>> {p.trans2(p.t(b.l/SEb, df))}")
 }
 
 

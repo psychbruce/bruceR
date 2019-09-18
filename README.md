@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.2.2-success)
+![](https://img.shields.io/badge/Version-0.2.3-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -49,15 +49,17 @@ For any other potential bugs during installation, please read carefully the warn
 ### Loading `bruceR`
 `bruceR` depends on some important packages (listed as follows) and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
-Once you load `bruceR` to the global environment with `library()`, it will also load 6 packages most commonly used:
+Once you load `bruceR` to the global environment with `library()`, it will also load the packages most commonly used:
 - `rio`: Data input/output for many file formats within one function (`import`/`export`).
 - `dplyr`: Data manipulation and preprocessing.
-- `stringr`: String operation with regular expressions.
 - `data.table`: Enhanced 'data.frame' with higher efficiency.
-- `psych`: Functions for psychological research.
+- `psych`: Toolbox for psychological research.
+- `stringr`: Toolbox for dealing with strings and regular expressions.
+- `lubridate`: Toolbox for dealing with dates and times.
+- `performance`: Toolbox for assessing many indexes of regression models.
 - `ggplot2`: Data visualization.
 
-No need to load them separately. You can just load `bruceR`:
+No need to load each one with its own call. Loading `bruceR` is enough.
 ```r
 library(bruceR)
 
@@ -101,7 +103,7 @@ example("HLM_summary")
 
 
 ## Release Notes
-### Current version: `0.2.2`
+### Current version: `0.2.3`
 ### Major changes:
 + `0.2.0` - 30 August 2019
   + Added help pages
