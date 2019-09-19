@@ -5,7 +5,7 @@
 \title{Descriptive statistics}
 \usage{
 Describe(data, nsmall = 2, plot = FALSE, smooth = FALSE,
-  plot.file = NULL, plot.size = "8:6", plot.dpi = 500)
+  save.file = NULL, save.size = "8:6", save.dpi = 500)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
@@ -16,11 +16,11 @@ Describe(data, nsmall = 2, plot = FALSE, smooth = FALSE,
 
 \item{smooth}{\code{FALSE} (default), \code{"lm"}, or \code{"loess"}, add fitted lines to scatter plots (if any).}
 
-\item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
+\item{save.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
-\item{plot.size}{Size (in "inch") of the saved plot. Default is \code{"8:6"}.}
+\item{save.size}{Size (in "inch") of the saved plot. Default is \code{"8:6"}.}
 
-\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
+\item{save.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
 \description{
 Descriptive statistics
@@ -33,5 +33,5 @@ Describe(d[c("age", "gender", "education")])
 Describe(d[c("age", "gender", "education")], plot=T)
 
 Describe(airquality, plot=T, smooth="lm",
-         plot.file="Desc.png", plot.size="10:8", plot.dpi=1000)
+         save.file="Desc.png", save.size="10:8", save.dpi=1000)
 }

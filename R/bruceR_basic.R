@@ -556,14 +556,14 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 
 
 #' Descriptive statistics
-#' @importFrom GGally ggpairs
+#' @importFrom GGally ggpairs wrap
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param nsmall Number of decimal places of output. Default is 2.
 #' @param plot \code{TRUE} or \code{FALSE} (default), visualize the descriptive statistics with \code{GGally::\link[GGally]{ggpairs}}.
 #' @param smooth \code{FALSE} (default), \code{"lm"}, or \code{"loess"}, add fitted lines to scatter plots (if any).
-#' @param plot.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
-#' @param plot.size Size (in "inch") of the saved plot. Default is \code{"8:6"}.
-#' @param plot.dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
+#' @param save.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
+#' @param save.size Size (in "inch") of the saved plot. Default is \code{"8:6"}.
+#' @param save.dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
 #' @examples
 #' d=bfi
 #' d$gender=as.factor(d$gender)
@@ -572,10 +572,10 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 #' Describe(d[c("age", "gender", "education")], plot=T)
 #'
 #' Describe(airquality, plot=T, smooth="lm",
-#'          plot.file="Desc.png", plot.size="10:8", plot.dpi=1000)
+#'          save.file="Desc.png", save.size="10:8", save.dpi=1000)
 #' @export
 Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
-                  plot.file=NULL, plot.size="8:6", plot.dpi=500) {
+                  save.file=NULL, save.size="8:6", save.dpi=500) {
   Print("Descriptive statistics:")
   desc=psych::describe(data, fast=FALSE)
   desc$vars = desc$trimmed = desc$mad = desc$range = desc$se = NULL
@@ -594,12 +594,12 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
               lower=list(continuous=wrap(smooth, size=1, shape=16, alpha=0.3)),
               upper=list(continuous=wrap("cor", color="black"))) +
       theme_bruce(panel.bg="grey95")
-    if(is.null(plot.file)) {
+    if(is.null(save.file)) {
       print(p)
     } else {
-      size=as.numeric(strsplit(plot.size, ":")[[1]])
-      ggsave(plot.file, p, width=size[1], height=size[2], dpi=plot.dpi)
-      path=ifelse(grepl(":", plot.file), plot.file, paste0(getwd(), '/', plot.file))
+      size=as.numeric(strsplit(save.size, ":")[[1]])
+      ggsave(save.file, p, width=size[1], height=size[2], dpi=save.dpi)
+      path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }
   }
@@ -667,9 +667,11 @@ Freq=function(var, label=NULL, sort="",
 
 #' Correlation analysis with test and plot
 #' @importFrom psych corr.test cor.plot
+#' @importFrom Hmisc capitalize
 #' @inheritParams Describe
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
+#' @param adjust Adjustment for multiple tests: \code{"none", "holm", "bonferroni", "fdr", ...}. (See \code{\link[stats]{p.adjust}} for details.)
 #' @param CI \code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.
 #' @param nsmall Number of decimal places of output. Default is 4.
 #' @param plot \code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.
@@ -678,21 +680,41 @@ Freq=function(var, label=NULL, sort="",
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
 #' @examples
 #' Corr(airquality)
-#' Corr(airquality, plot.file="Air-Corr.png")
+#' Corr(airquality, adjust="bonferroni")
+#' Corr(airquality, save.file="Air-Corr.png")
 #'
 #' Corr(bfi[c("gender", "age", "education")])
-#' Corr(bfi, CI=FALSE, plot.file="BFI-Corr.png", plot.size="9:9")
+#' Corr(bfi, CI=FALSE, save.file="BFI-Corr.png", save.size="9:9")
 #' @export
-Corr=function(data, method="pearson", CI=TRUE, nsmall=4,
+Corr=function(data, method="pearson",
+              adjust="none", CI=TRUE, nsmall=4,
               plot=TRUE, plot.range=c(-1, 1),
               plot.color=c("#B52127", "white", "#2171B5"),
-              plot.file=NULL, plot.size="8:6", plot.dpi=500) {
-  cor=corr.test(data, adjust="none", method=method)
-  print(cor, digits=nsmall, short=!CI)
+              save.file=NULL, save.size="8:6", save.dpi=500) {
+  cor=cor0=corr.test(data, method=method, adjust=adjust)
+  # print(cor, digits=nsmall, short=!CI)
+  Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
+  cor$r[cor$r==1]=NA
+  print_table(cor$r, nsmalls=nsmall)
+  Print("\n\n\nP-values:")
+  cor$p=p.trans2(cor$p) %>% gsub(" ", "", .) %>% gsub("=", " ", .)
+  for(i in 1:nrow(cor$p)) cor$p[i,i]=""
+  print_table(cor$p)
+  if(adjust!="none") Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(adjust)}).>>")
+  Print("\n\n\nSample size:")
+  print_table(cor$n, nsmalls=0)
+  if(CI) {
+    Print("\n\n\n95% CI for <<italic r>>:")
+    cor$ci=cor$ci[c(2,1,3,4)]
+    names(cor$ci)=c("r", "[95% ", "  CI]", "pval")
+    print_table(cor$ci, nsmalls=nsmall)
+  }
+
+  cor=cor0
   if(plot) {
-    if(!is.null(plot.file)) {
-      size=as.numeric(strsplit(plot.size, ":")[[1]])
-      png(file=plot.file, width=size[1], height=size[2], units="in", res=plot.dpi)
+    if(!is.null(save.file)) {
+      size=as.numeric(strsplit(save.size, ":")[[1]])
+      png(file=save.file, width=size[1], height=size[2], units="in", res=save.dpi)
     }
     cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
              diag=FALSE, xlas=2, n=201,
@@ -700,18 +722,65 @@ Corr=function(data, method="pearson", CI=TRUE, nsmall=4,
              alpha=1,
              gr=colorRampPalette(plot.color),
              main="Correlation Matrix")
-    if(!is.null(plot.file)) {
+    if(!is.null(save.file)) {
       dev.off()
-      path=ifelse(grepl(":", plot.file), plot.file, paste0(getwd(), '/', plot.file))
+      path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }
   }
+
   # partial correlation:
   # print(corpcor::cor2pcor(cor(data)), digits=4)
+
   invisible(cor)
 }
 
-## @rdname Corr
-## @export
-## corr=Corr
 
+#' Test the difference between two correlations (independent / nonindependent)
+#' @param r1,r2 Correlation coefficients (Pearson's \emph{r}).
+#' @param n1,n2 Sample sizes.
+#' @param rcov [Optional] Only for nonindependent \emph{r}s:
+#'
+#' \code{r1} is r(X,Y),
+#'
+#' \code{r2} is r(X,Z),
+#'
+#' then, as Y and Z are also correlated,
+#'
+#' we should also consider \code{rcov}: r(Y,Z)
+#' @return Invisibly return the \emph{p} value.
+#' @examples
+#' # two independent rs (X~Y vs. Z~W)
+#' Corr_diff(0.20, 100, 0.45, 100)
+#'
+#' # two nonindependent rs (X~Y vs. X~Z, with Y and Z also correlated [rcov])
+#' Corr_diff(0.20, 100, 0.45, 100, rcov=0.80)
+#' @export
+Corr_diff=function(r1, n1, r2, n2, rcov=NULL) {
+  if(is.null(rcov)) {
+    # independent rs
+    z1=atanh(r1)
+    z2=atanh(r2)
+    zdiff=(z1-z2)/sqrt(1/(n1-3)+1/(n2-3))
+    p=p.z(zdiff)
+    Print("
+    <<italic r>>1 = {formatF(r1)} (<<italic N>> = {formatN(n1)})
+    <<italic r>>2 = {formatF(r2)} (<<italic N>> = {formatN(n2)})
+    Difference of correlation: {p(z=zdiff)}
+    ")
+  } else {
+    # nonindependent rs
+    if(n1!=n2) stop("'n1' should be equal to 'n2'!")
+    n=n1
+    R=(1-r1^2-r2^2-rcov^2)+2*r1*r2*rcov
+    tdiff=(r1-r2)*sqrt((n-1)*(1+rcov)/(2*R*(n-1)/(n-3)+(r1+r2)^2*(1-rcov)^3/4))
+    p=p.t(tdiff, n-3)
+    Print("
+    <<italic r>>1 = {formatF(r1)}
+    <<italic r>>2 = {formatF(r2)}
+    (<<italic N>> = {formatN(n1)}, <<italic r>>_cov = {formatF(rcov)})
+    Difference of correlation: {p(t=tdiff, df=n-3)}
+    ")
+  }
+  invisible(p)
+}

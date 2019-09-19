@@ -4,14 +4,17 @@
 \alias{Corr}
 \title{Correlation analysis with test and plot}
 \usage{
-Corr(data, method = "pearson", CI = TRUE, nsmall = 4, plot = TRUE,
-  plot.range = c(-1, 1), plot.color = c("#B52127", "white", "#2171B5"),
-  plot.file = NULL, plot.size = "8:6", plot.dpi = 500)
+Corr(data, method = "pearson", adjust = "none", CI = TRUE,
+  nsmall = 4, plot = TRUE, plot.range = c(-1, 1),
+  plot.color = c("#B52127", "white", "#2171B5"), save.file = NULL,
+  save.size = "8:6", save.dpi = 500)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
+
+\item{adjust}{Adjustment for multiple tests: \code{"none", "holm", "bonferroni", "fdr", ...}. (See \code{\link[stats]{p.adjust}} for details.)}
 
 \item{CI}{\code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.}
 
@@ -24,19 +27,20 @@ Corr(data, method = "pearson", CI = TRUE, nsmall = 4, plot = TRUE,
 \item{plot.color}{Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
 You may also set it to, e.g., \code{c("red", "white", "blue")}.}
 
-\item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
+\item{save.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
-\item{plot.size}{Size (in "inch") of the saved plot. Default is \code{"8:6"}.}
+\item{save.size}{Size (in "inch") of the saved plot. Default is \code{"8:6"}.}
 
-\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
+\item{save.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
 \description{
 Correlation analysis with test and plot
 }
 \examples{
 Corr(airquality)
-Corr(airquality, plot.file="Air-Corr.png")
+Corr(airquality, adjust="bonferroni")
+Corr(airquality, save.file="Air-Corr.png")
 
 Corr(bfi[c("gender", "age", "education")])
-Corr(bfi, CI=FALSE, plot.file="BFI-Corr.png", plot.size="9:9")
+Corr(bfi, CI=FALSE, save.file="BFI-Corr.png", save.size="9:9")
 }

@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.2.3-success)
+![](https://img.shields.io/badge/Version-0.2.4-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -103,7 +103,7 @@ example("HLM_summary")
 
 
 ## Release Notes
-### Current version: `0.2.3`
+### Current version: `0.2.4`
 ### Major changes:
 + `0.2.0` - 30 August 2019
   + Added help pages
