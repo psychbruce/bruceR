@@ -701,8 +701,13 @@ Corr=function(data, method="pearson",
   for(i in 1:nrow(cor$p)) cor$p[i,i]=""
   print_table(cor$p)
   if(adjust!="none") Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(adjust)}).>>")
-  Print("\n\n\nSample size:")
-  print_table(cor$n, nsmalls=0)
+  if(class(cor$n)=="matrix") {
+    Print("\n\n\nSample size:")
+    print_table(cor$n, nsmalls=0)
+  }
+  if(class(cor$n)=="numeric") {
+    Print("\n\n\nSample size: {formatN(cor$n)}")
+  }
   if(CI) {
     Print("\n\n\n95% CI for <<italic r>>:")
     cor$ci=cor$ci[c(2,1,3,4)]
