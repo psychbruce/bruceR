@@ -56,7 +56,8 @@ RESCALE=function(var, from=range(var), to) {
 #' @param rev [optional] Reverse-scoring variables. It can be
 #' 1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
 #' 2) a character vector directly specifying the variable list (recommended).
-#' @param likert [optional] Range of likert scale (e.g., \code{1:5}).
+#' @param likert [optional] Range of likert scale (e.g., \code{1:5}, \code{c(1,5)}).
+#' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
 #' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
 #' @examples
@@ -101,9 +102,11 @@ convert2vars=function(data,
     vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
   if(is.null(vars)) vars=paste0(var, items)
+  if(is.numeric(rev)) rev=paste0(var, rev)  # bug fixed on 2019-09-28
   if(is.character(rev)) rev=which(vars %in% rev)
+  vars.raw=vars
   vars=paste(deparse(substitute(data)), vars, sep="$")
-  return(list(vars=vars, rev=rev))
+  return(list(vars.raw=vars.raw, vars=vars, rev=rev))
 }
 
 
@@ -144,8 +147,12 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   v.r=convert2vars(data, var, items, vars, varrange, rev)
   vars=v.r$vars
   rev=v.r$rev
+  if(!is.null(rev) & is.null(likert)) {
+    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
+    likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+  }
   pre=rep("", length(vars))
-  pre[rev]=ifelse(is.null(likert), "", paste0(min(likert)+max(likert), "-"))
+  pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
   varlist=paste0(pre, vars)
   eval(parse(text=paste0("mapply(Sum, ", paste(varlist, collapse=", "), ")")))
 }
@@ -160,8 +167,12 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   v.r=convert2vars(data, var, items, vars, varrange, rev)
   vars=v.r$vars
   rev=v.r$rev
+  if(!is.null(rev) & is.null(likert)) {
+    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
+    likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+  }
   pre=rep("", length(vars))
-  pre[rev]=ifelse(is.null(likert), "", paste0(min(likert)+max(likert), "-"))
+  pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
   varlist=paste0(pre, vars)
   eval(parse(text=paste0("mapply(Mean, ", paste(varlist, collapse=", "), ")")))
 }
@@ -176,8 +187,12 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   v.r=convert2vars(data, var, items, vars, varrange, rev)
   vars=v.r$vars
   rev=v.r$rev
+  if(!is.null(rev) & is.null(likert)) {
+    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
+    likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+  }
   pre=rep("", length(vars))
-  pre[rev]=ifelse(is.null(likert), "", paste0(min(likert)+max(likert), "-"))
+  pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
   varlist=paste0(pre, vars)
   eval(parse(text=paste0("mapply(Std, ", paste(varlist, collapse=", "), ")")))
 }

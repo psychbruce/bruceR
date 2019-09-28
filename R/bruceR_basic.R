@@ -696,7 +696,7 @@ Corr=function(data, method="pearson",
   Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
   cor$r[cor$r==1]=NA
   print_table(cor$r, nsmalls=nsmall)
-  Print("\n\n\nP-values:")
+  Print("\n\n\nSig. (2-tailed):")
   cor$p=p.trans2(cor$p) %>% gsub(" ", "", .) %>% gsub("=", " ", .)
   for(i in 1:nrow(cor$p)) cor$p[i,i]=""
   print_table(cor$p)
@@ -706,7 +706,7 @@ Corr=function(data, method="pearson",
     print_table(cor$n, nsmalls=0)
   }
   if(class(cor$n)=="numeric") {
-    Print("\n\n\nSample size: {formatN(cor$n)}")
+    Print("\n\n\nSample size: <<italic N>> = {cor$n}")
   }
   if(CI) {
     Print("\n\n\n95% CI for <<italic r>>:")

@@ -44,7 +44,8 @@ CONSEC(data, var = NULL, items = NULL, vars = NULL,
 1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
 2) a character vector directly specifying the variable list (recommended).}
 
-\item{likert}{[optional] Range of likert scale (e.g., \code{1:5}).}
+\item{likert}{[optional] Range of likert scale (e.g., \code{1:5}, \code{c(1,5)}).
+If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
 
 \item{na.rm}{Ignore missing values. Default is \code{TRUE}.}
 
