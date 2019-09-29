@@ -393,6 +393,8 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #'
 #' In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019), or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
 #' Here I provide a similar function.
+#'
+#' If multiple values were simultaneously matched, a warning message would be printed.
 #' @import data.table
 #' @importFrom dplyr left_join
 #' @param data \code{data.frame} or \code{data.table}.
@@ -401,8 +403,8 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' @param vars.ref Character or character vector (with the \strong{same length and order} as \code{vars}),
 #' specifying the reference variable(s) to be matched in \code{data.ref}.
 #' @param vars.lookup Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
-#' @return Return a \code{data.frame} or \code{data.table} with the lookup values added.
-#' If multiple values were simultaneously matched, a warning message would be printed.
+#' @param return What to return. Default (\code{"new.data"}) is to return a \code{data.frame} or \code{data.table} with the lookup values added.
+#' You may also set it to \code{"new.var"} or \code{"new.value"}.
 #' @seealso
 #' \code{dplyr::\link[dplyr]{left_join}}
 #'
@@ -427,22 +429,31 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' @export
 LOOKUP=function(data, vars,
                 data.ref, vars.ref,
-                vars.lookup) {
+                vars.lookup,
+                return=c("new.data", "new.var", "new.value")) {
   by=vars.ref
   names(by)=vars
-  data.ref=as.data.table(data.ref)
+  data.ref=as.data.frame(data.ref)
   data.new=left_join(data,
-                     as.data.frame(data.ref)[c(vars.ref, vars.lookup)],
+                     data.ref[c(vars.ref, vars.lookup)],
                      by=by)
   if(nrow(data.new)>nrow(data)) {
     data.ref=unique(data.ref, by=vars.ref)
     data.new=left_join(data,
-                       as.data.frame(data.ref)[c(vars.ref, vars.lookup)],
+                       data.ref[c(vars.ref, vars.lookup)],
                        by=by)
     warning("More than one values were matched, only the first value in 'data.ref' was returned. Please check your reference data!")
   }
-  if(is.data.table(data)) data.new=as.data.table(data.new)
-  return(data.new)
+  if(length(return)==3) return="new.data"
+  if(return=="new.value" & length(vars.lookup)>=2) return="new.var"
+  if(return=="new.data") {
+    if(is.data.table(data)) data.new=as.data.table(data.new)
+    return(data.new)
+  } else if(return=="new.var") {
+    return(data.new[vars.lookup])
+  } else if(return=="new.value") {
+    return(data.new[[vars.lookup]])
+  }
 }
 
 

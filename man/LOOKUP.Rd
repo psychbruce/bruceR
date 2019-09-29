@@ -4,7 +4,8 @@
 \alias{LOOKUP}
 \title{Search, match, and look up values (like Excel's functions \code{INDEX + MATCH})}
 \usage{
-LOOKUP(data, vars, data.ref, vars.ref, vars.lookup)
+LOOKUP(data, vars, data.ref, vars.ref, vars.lookup,
+  return = c("new.data", "new.var", "new.value"))
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
@@ -17,14 +18,16 @@ LOOKUP(data, vars, data.ref, vars.ref, vars.lookup)
 specifying the reference variable(s) to be matched in \code{data.ref}.}
 
 \item{vars.lookup}{Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.}
-}
-\value{
-Return a \code{data.frame} or \code{data.table} with the lookup values added.
-If multiple values were simultaneously matched, a warning message would be printed.
+
+\item{return}{What to return. Default (\code{"new.data"}) is to return a \code{data.frame} or \code{data.table} with the lookup values added.
+You may also set it to \code{"new.var"} or \code{"new.value"}.}
 }
 \description{
 In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019), or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
 Here I provide a similar function.
+}
+\details{
+If multiple values were simultaneously matched, a warning message would be printed.
 }
 \examples{
 ref=data.table(City=rep(c("A", "B", "C"), each=5),
