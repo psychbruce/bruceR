@@ -149,7 +149,8 @@ pkg_depend=function(pkg, exclude=NULL) {
 #' check_update()
 #' @export
 check_update=function() {
-  user.ver=sessionInfo()[["otherPkgs"]][["bruceR"]][["Version"]]
+  # user.ver=sessionInfo()[["otherPkgs"]][["bruceR"]][["Version"]]
+  user.ver=as.character(packageVersion("bruceR"))
   curr.ver=read_html("https://github.com/psychbruce/bruceR") %>% html_node("h2+ h3 code") %>% html_text()
   Print("
   <<blue

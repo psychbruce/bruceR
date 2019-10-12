@@ -160,7 +160,7 @@ NULL
   {rep_char('=', 56)}
   >>
   Loaded packages:
-  <<green \u2714 bruceR (version {sessionInfo()[['otherPkgs']][['bruceR']][['Version']]})>>
+  <<green \u2714 bruceR (version {as.character(packageVersion('bruceR'))})>>
   <<green \u2714 rio, dplyr, data.table, psych, stringr, lubridate, performance, ggplot2>>
   <<silver
   <<blue Check update:>> check_update()
