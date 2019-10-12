@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.2.4-success)
+![](https://img.shields.io/badge/Version-0.2.5-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -78,6 +78,7 @@ example("MEAN")
 example("LOOKUP")
 example("GLM_summary")
 example("HLM_summary")
+example("model_check")
 ```
 
 ### Main functions in `bruceR`
@@ -96,14 +97,14 @@ example("HLM_summary")
   + (*coming soon...*)
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
   + `grand_mean_center()`, `group_mean_center()`
-  + `GLM_summary()`, `HLM_summary()`, `regress()`
+  + `GLM_summary()`, `HLM_summary()`, `regress()`, `model_check()`
   + `med_mc()`, `simple_slope()`
 - [x] Nice themes of `ggplot2` ready for scientific publication
   + `theme_bruce()`
 
 
 ## Release Notes
-### Current version: `0.2.4`
+### Current version: `0.2.5`
 ### Major changes:
 + `0.2.0` - 30 August 2019
   + Added help pages

@@ -146,6 +146,44 @@ regress=function(formula, data, family=NULL, nsmall=3,
 }
 
 
+#' Check regression models for many assumptions
+#'
+#' Based on the functions in \code{performance} (see \code{performance::\link[performance]{check_model}}), it checks for
+#' 1) multivariate normality,
+#' 2) multicollinearity (VIF),
+#' 3) homoscedasticity (vs. heteroscedasticity),
+#' 4) independence of residuals (vs. autocorrelation).
+#' @import performance
+#' @param model A model object (fitted by \code{lm, glm, lmer, glmer, ...}).
+#' @param plot Visualize the check results. Default is \code{TRUE}.
+#' @examples
+#' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+#' model_check(lm)
+#'
+#' library(lmerTest)
+#' hlm.2=lmer(Preference ~ Sweetness + Gender * Age + Frequency + (Sweetness | Consumer) + (1 | Product), data=carrots)
+#' model_check(hlm.2)
+#' @export
+model_check=function(model, plot=TRUE) {
+  Print("<<underline MODEL CHECK:>>")
+  Print("\n\n\nMultivariate normality:")
+  check_normality(model)
+  Print("\n\n\nMulticollinearity (VIF):")
+  print(check_collinearity(model))
+  Print("\n\n\nHomoscedasticity (vs. Heteroscedasticity):")
+  check_heteroscedasticity(model)
+  Print("\n\n\nIndependence of residuals (vs. Autocorrelation):")
+  check_autocorrelation(model)
+  if(plot) {
+    Print("\n\n\n\nPlotting...")
+    check_model(model, check=c("normality", "qq",
+                               "vif",  # multicollinearity
+                               "ncv",  # heteroscedasticity
+                               "reqq"))
+  }
+}
+
+
 
 
 #### GLM Functions ####
@@ -574,7 +612,7 @@ HLM_ICC=function(model, nsmall=3) {
   var.p=p.z(var.wald.z)
 
   ## Compute and test for ICC (Snijders & Bosker, 2012, pp.20-21) ##
-  icc=ICC$Variance/var.total
+  icc=var/var.total
   # icc.se=(1-icc) * (1+(n.mean-1)*icc) * sqrt(2/(n.mean*(n.mean-1)*(N-1)))  # N or K ?!
   # icc.wald.z=icc/icc.se
 
@@ -593,8 +631,29 @@ HLM_ICC=function(model, nsmall=3) {
   names(ICC)[3]=paste0("Parameter", rep_char(" ", max(nchar(ICC$Parameter))-9))
   names(ICC)[6]="Wald Z"
   names(ICC)[8]=" "
-  # row.names(ICC)=NULL
+
   return(ICC)
+}
+
+
+## Compute CI for random effects
+print_variance_ci=function(model) {
+  suppressMessages({
+    varCI=confint(model, parm=c(".sig01", ".sig02", ".sig03",
+                                ".sig04", ".sig05", ".sig06",
+                                ".sig07", ".sig08", ".sig09",
+                                ".sigma"))^2
+  })
+  varCI=as.data.frame(varCI)
+  vc=row.names(varCI) %>% gsub("\\.", "", .) %>%
+    gsub("sigma", "sigerror", .) %>%
+    gsub("sig", "sigma_", .) %>%
+    paste0("^2")
+  varCI=cbind(`Variance Component`=vc, varCI)
+  names(varCI)[2:3]=c("[95% ", "  CI]")
+  cat("\n")
+  print_table(varCI, row.names=FALSE, nsmalls=5)
+  invisible(varCI)
 }
 
 
@@ -640,6 +699,8 @@ HLM_ICC=function(model, nsmall=3) {
 #' *** See an example in Wei et al.'s paper (2017, \emph{\href{https://doi.org/10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
 #' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
 #' and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).
+#' @param variance.ci \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
+#' Print the confidence intervals (CI) for variance components.
 #' @param test.rand \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 #'
@@ -691,6 +752,7 @@ HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
                      vartypes=NULL,
                      t2r=FALSE,
+                     variance.ci=FALSE,  # time-consuming in big datasets
                      test.rand=FALSE,  # time-consuming in big datasets
                      nsmall=3,
                      ...) {
@@ -711,82 +773,7 @@ HLM_summary=function(model=NULL,
   sumModel=summary(model, cor=F)
 
   ## lmer vs. glmer ##
-  if(class(model)=="glmerMod") {
-    summ=jtools::summ(model, digits=nsmall, re.variance="var")
-    # summ(model, digits=nsmall, stars=T, exp=T, confint=T, re.variance="var")
-
-    ## Print: Model Information ##
-    Print("
-    <<underline MODEL INFO:>>
-    Model type: Generalized Linear Mixed Model (GLMM)
-    = Hierarchical Linear Model (HLM)
-    = Multilevel Linear Model (MLM)
-
-    Formula: {formula_paste(formula)}
-    Level-1 Observations: <<italic N>> = {nobs(model)}
-    Level-2 Groups/Clusters: {paste(paste(names(ngrps(model)), ngrps(model), sep=', '), collapse='; ')}
-    ")
-
-    ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria) ##
-    R2.glmm=suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
-    # R2.glmm=sjstats::r2(model) # R2.glmm$rsq.marginal; R2.glmm$rsq.conditional
-    # NOTE: MuMIn::r.squaredGLMM(model) is more robust in some situations !!!
-    Print("\n\n
-    <<underline MODEL FIT:>>
-    AIC = {AIC(model):.{nsmall}}
-    BIC = {BIC(model):.{nsmall}}
-    <<italic R>>_(m)\u00b2 = {R2.glmm[1,1]:.5}  <<blue (<<italic Marginal R>>\u00b2: fixed effects)>>
-    <<italic R>>_(c)\u00b2 = {R2.glmm[1,2]:.5}  <<blue (<<italic Conditional R>>\u00b2: fixed + random effects)>>
-    ")
-
-    ## Print: Fixed Effects ##
-    FE=as.data.frame(sumModel[["coefficients"]])
-    names(FE)=c("Gamma", "S.E.", "z", "p")
-    b=FE[,1]
-    se=FE[,2]
-    FE=cbind(FE,
-             sig=sig.trans(FE$p),
-             OR=exp(b),
-             OR.LLCI=exp(b-1.96*se),
-             OR.ULCI=exp(b+1.96*se))
-    FE.raw=FE
-    FE$p=p.trans(FE$p)
-    names(FE)[5]=" "
-    names(FE)[7:8]=c("[95% ", "  CI]")
-    cat("\n")
-    Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv}")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall, nsmall, nsmall))
-    Print("<<blue OR = odds ratio. 95% CI of OR is reported.>>")
-
-    ## Print: Random Effects & ICC ##
-    cat("\n")
-    Print("<<underline RANDOM EFFECTS:>>")
-    RE=as.data.frame(summ$rcoeftable)
-    ICC=as.data.frame(summ$gvars)
-    names(RE)=c("Group", "Parameter", "Variance")
-    names(ICC)=c("Group", "K", "ICC")
-    RE$Group=as.character(RE$Group)
-    RE$Parameter=as.character(RE$Parameter)
-    RE$Variance=as.numeric(as.character(RE$Variance))
-    ICC$Group=as.character(ICC$Group)
-    ICC$K=as.numeric(as.character(ICC$K))
-    ICC$ICC=as.numeric(as.character(ICC$ICC))
-    RE=left_join(RE[1], ICC[1:2], by="Group") %>%
-      cbind(RE[2:3]) %>% left_join(ICC[c(1,3)], by="Group")
-    RE$K=formatF(RE$K, 0)
-    RE$Variance=formatF(RE$Variance, nsmall)
-    RE$ICC=formatF(RE$ICC, 5)
-    RE[RE$Parameter!="(Intercept)", c("Group", "K", "ICC")] = ""
-    RE$Group=sprintf(glue("%-{max(max(nchar(RE$Group)), 7)}s"), RE$Group)
-    names(RE)[1]=paste0("Cluster", rep_char(" ", max(max(nchar(RE$Group))-7, 0)))
-    names(RE)[2]="K "
-    names(RE)[3]=paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
-    print_table(RE, row.names=F)
-    Print("<<blue Residual variance is not reported for generalized linear mixed models,
-           but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
-           and log(1/exp(intercept)+1) in poisson models (count data).>>")
-  } else if(class(model)=="lmerModLmerTest") {
+  if(class(model)=="lmerModLmerTest") {
     if(is.null(vartypes)==TRUE & is.null(level2.predictors)==FALSE) {
       tryCatch({
         vartypes=HLM_vartypes(model, formula, level2.predictors)
@@ -903,6 +890,83 @@ HLM_summary=function(model=NULL,
     # print(RE, comp="Variance")
     RE=HLM_ICC(model, nsmall=nsmall)
     print_table(RE, row.names=F)
+    if(variance.ci) print_variance_ci(model)
+  } else if(class(model)=="glmerMod") {
+    summ=jtools::summ(model, digits=nsmall, re.variance="var")
+    # summ(model, digits=nsmall, stars=T, exp=T, confint=T, re.variance="var")
+
+    ## Print: Model Information ##
+    Print("
+    <<underline MODEL INFO:>>
+    Model type: Generalized Linear Mixed Model (GLMM)
+    = Hierarchical Linear Model (HLM)
+    = Multilevel Linear Model (MLM)
+
+    Formula: {formula_paste(formula)}
+    Level-1 Observations: <<italic N>> = {nobs(model)}
+    Level-2 Groups/Clusters: {paste(paste(names(ngrps(model)), ngrps(model), sep=', '), collapse='; ')}
+    ")
+
+    ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria) ##
+    R2.glmm=suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
+    # R2.glmm=sjstats::r2(model) # R2.glmm$rsq.marginal; R2.glmm$rsq.conditional
+    # NOTE: MuMIn::r.squaredGLMM(model) is more robust in some situations !!!
+    Print("\n\n
+    <<underline MODEL FIT:>>
+    AIC = {AIC(model):.{nsmall}}
+    BIC = {BIC(model):.{nsmall}}
+    <<italic R>>_(m)\u00b2 = {R2.glmm[1,1]:.5}  <<blue (<<italic Marginal R>>\u00b2: fixed effects)>>
+    <<italic R>>_(c)\u00b2 = {R2.glmm[1,2]:.5}  <<blue (<<italic Conditional R>>\u00b2: fixed + random effects)>>
+    ")
+
+    ## Print: Fixed Effects ##
+    FE=as.data.frame(sumModel[["coefficients"]])
+    names(FE)=c("Gamma", "S.E.", "z", "p")
+    b=FE[,1]
+    se=FE[,2]
+    FE=cbind(FE,
+             sig=sig.trans(FE$p),
+             OR=exp(b),
+             OR.LLCI=exp(b-1.96*se),
+             OR.ULCI=exp(b+1.96*se))
+    FE.raw=FE
+    FE$p=p.trans(FE$p)
+    names(FE)[5]=" "
+    names(FE)[7:8]=c("[95% ", "  CI]")
+    cat("\n")
+    Print("<<underline FIXED EFFECTS:>>
+           Outcome variable: {dv}")
+    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall, nsmall, nsmall))
+    Print("<<blue OR = odds ratio. 95% CI of OR is reported.>>")
+
+    ## Print: Random Effects & ICC ##
+    cat("\n")
+    Print("<<underline RANDOM EFFECTS:>>")
+    RE=as.data.frame(summ$rcoeftable)
+    ICC=as.data.frame(summ$gvars)
+    names(RE)=c("Group", "Parameter", "Variance")
+    names(ICC)=c("Group", "K", "ICC")
+    RE$Group=as.character(RE$Group)
+    RE$Parameter=as.character(RE$Parameter)
+    RE$Variance=as.numeric(as.character(RE$Variance))
+    ICC$Group=as.character(ICC$Group)
+    ICC$K=as.numeric(as.character(ICC$K))
+    ICC$ICC=as.numeric(as.character(ICC$ICC))
+    RE=left_join(RE[1], ICC[1:2], by="Group") %>%
+      cbind(RE[2:3]) %>% left_join(ICC[c(1,3)], by="Group")
+    RE$K=formatF(RE$K, 0)
+    RE$Variance=formatF(RE$Variance, nsmall)
+    RE$ICC=formatF(RE$ICC, 5)
+    RE[RE$Parameter!="(Intercept)", c("Group", "K", "ICC")] = ""
+    RE$Group=sprintf(glue("%-{max(max(nchar(RE$Group)), 7)}s"), RE$Group)
+    names(RE)[1]=paste0("Cluster", rep_char(" ", max(max(nchar(RE$Group))-7, 0)))
+    names(RE)[2]="K "
+    names(RE)[3]=paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
+    print_table(RE, row.names=F)
+    if(variance.ci) print_variance_ci(model)
+    Print("<<blue Residual variance is not reported for generalized linear mixed models,
+           but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
+           and log(1/exp(intercept)+1) in poisson models (count data).>>")
   } else {
     Print("Please fit your model with '<<red lmerTest::lmer()>>' or '<<red lme4::glmer()>>'!")
     stop("Model type.")
