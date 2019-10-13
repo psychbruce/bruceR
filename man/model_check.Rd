@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_regress.R
 \name{model_check}
 \alias{model_check}
-\title{Check regression models for many assumptions}
+\title{Check many assumptions for (OLS and multilevel) regression models}
 \usage{
 model_check(model, plot = TRUE)
 }

@@ -4,15 +4,28 @@
 \alias{grand_mean_center}
 \title{Grand-mean centering}
 \usage{
-grand_mean_center(data, vars)
+grand_mean_center(data, vars, add_suffix = "")
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
 
 \item{vars}{Variable(s) to be centered.}
+
+\item{add_suffix}{The suffix of the centered variable(s). Default is \code{""}.
+You may set it to \code{"_c"}, \code{"_center"}, etc.}
 }
 \description{
-Compute grand-mean centered variables. Usually used for HLM level-2 variables.
+Compute grand-mean centered variables.
+Usually used for GLM interaction-term predictors and HLM level-2 predictors.
+}
+\examples{
+d=data.table(a=1:5, b=6:10)
+
+d.c=grand_mean_center(d, "a")
+d.c
+
+d.c=grand_mean_center(d, c("a", "b"), "_center")
+d.c
 }
 \seealso{
 \code{\link{group_mean_center}}

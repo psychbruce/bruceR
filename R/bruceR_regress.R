@@ -44,34 +44,61 @@ find=function(vars, list) {
 
 #' Grand-mean centering
 #'
-#' Compute grand-mean centered variables. Usually used for HLM level-2 variables.
+#' Compute grand-mean centered variables.
+#' Usually used for GLM interaction-term predictors and HLM level-2 predictors.
 #' @import data.table
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param vars Variable(s) to be centered.
+#' @param add_suffix The suffix of the centered variable(s). Default is \code{""}.
+#' You may set it to \code{"_c"}, \code{"_center"}, etc.
+#' @examples
+#' d=data.table(a=1:5, b=6:10)
+#'
+#' d.c=grand_mean_center(d, "a")
+#' d.c
+#'
+#' d.c=grand_mean_center(d, c("a", "b"), "_center")
+#' d.c
 #' @seealso \code{\link{group_mean_center}}
 #' @export
-grand_mean_center=function(data, vars) {
+grand_mean_center=function(data, vars, add_suffix="") {
   data_c=as.data.frame(data)
   for(var in vars)
-    data_c[var]=scale(data_c[var], center=TRUE, scale=FALSE)
+    data_c[paste0(var, add_suffix)]=scale(data_c[var], center=TRUE, scale=FALSE)
   if(is.data.table(data)) data_c=as.data.table(data_c)
   return(data_c)
 }
 
 #' Group-mean centering
 #'
-#' Compute group-mean centered variables. Usually used for HLM level-1 variables.
+#' Compute group-mean centered variables.
+#' Usually used for HLM level-1 predictors.
 #' @import data.table
 #' @inheritParams grand_mean_center
 #' @param by Grouping variable.
+#' @param add_group_mean The suffix of the variable name(s) of group means.
+#' Default is \code{"_mean"} (see Examples).
+#' @examples
+#' d=data.table(x=1:9, g=rep(1:3, each=3))
+#'
+#' d.c=group_mean_center(d, "x", by="g")
+#' d.c
+#'
+#' d.c=group_mean_center(d, "x", by="g", "_c")
+#' d.c
 #' @seealso \code{\link{grand_mean_center}}
 #' @export
-group_mean_center=function(data, vars, by) {
+group_mean_center=function(data, vars, by,
+                           add_suffix="",
+                           add_group_mean="_mean") {
   data_c=as.data.frame(data)
   grouplist=sort(unique(data_c[[by]]))
-  for(var in vars)
-    for(group in grouplist)
-      data_c[which(data_c[by]==group), var]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=FALSE)
+  for(var in vars) {
+    for(group in grouplist) {
+      data_c[which(data_c[by]==group), paste0(var, add_group_mean)]=mean(data_c[which(data_c[by]==group),][[var]], na.rm=TRUE)
+      data_c[which(data_c[by]==group), paste0(var, add_suffix)]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=FALSE)
+    }
+  }
   if(is.data.table(data)) data_c=as.data.table(data_c)
   return(data_c)
 }
@@ -146,7 +173,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 }
 
 
-#' Check regression models for many assumptions
+#' Check many assumptions for (OLS and multilevel) regression models
 #'
 #' Based on the functions in \code{performance} (see \code{performance::\link[performance]{check_model}}), it checks for
 #' 1) multivariate normality,
