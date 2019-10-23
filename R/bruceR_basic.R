@@ -272,7 +272,7 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
   if(is.null(sig)==FALSE & "sig" %notin% names(x)) {
-    x=cbind(x, ` `=sig)
+    x=cbind(x[1:which(names(x)=="p")], ` `=sig, x[(which(names(x)=="p")+1):length(names(x))])
     x$` `=as.character(x$` `)
   }
 
@@ -521,6 +521,9 @@ p.chi2=function(chi2, df) pchisq(chi2, df, lower.tail=FALSE)
 #                        sprintf(glue("% {nsmall.p+3}.{nsmall.p}f"), p))))
 # }
 
+
+#' Transform p values
+#' @export
 p.trans=function(p, nsmall.p=3) {
   mapply(function(p, nsmall.p) {
     ifelse(is.na(p) | p > 1 | p < 0, "",
@@ -531,6 +534,8 @@ p.trans=function(p, nsmall.p=3) {
 
 # p.trans(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-100)) %>% as.data.frame()
 
+#' Transform p values
+#' @export
 p.trans2=function(p, nsmall.p=3) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < 1e-10, "< 1e-10",
@@ -538,7 +543,8 @@ p.trans2=function(p, nsmall.p=3) {
                        paste("=", format(p, digits=0, nsmall=nsmall.p, scientific=F)))))
 }
 
-
+#' Transform p values to significance codes
+#' @export
 sig.trans=function(p) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < .001, "***",

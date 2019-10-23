@@ -150,6 +150,7 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   if(!is.null(rev) & is.null(likert)) {
     ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the 'likert' parameter. See ?SUM")
   }
   pre=rep("", length(vars))
   pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
@@ -170,6 +171,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   if(!is.null(rev) & is.null(likert)) {
     ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the 'likert' parameter. See ?MEAN")
   }
   pre=rep("", length(vars))
   pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
@@ -190,6 +192,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   if(!is.null(rev) & is.null(likert)) {
     ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the 'likert' parameter. See ?STD")
   }
   pre=rep("", length(vars))
   pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))

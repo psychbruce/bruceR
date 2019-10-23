@@ -192,14 +192,17 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_check(hlm.2)
 #' @export
 model_check=function(model, plot=TRUE) {
-  Print("<<underline MODEL CHECK:>>")
-  Print("\n\n\nMultivariate normality:")
-  check_normality(model)
-  Print("\n\n\nMulticollinearity (VIF):")
+  Print("<<bold <<underline 1>>) Multivariate normality:>>")
+  if(class(model) %in% c("lmerMod", "lmerModLmerTest")) {
+    Print("(please see plots)")
+  } else {
+    check_normality(model)
+  }
+  Print("\n\n\n<<bold <<underline 2>>) Multicollinearity (VIF):>>")
   print(check_collinearity(model))
-  Print("\n\n\nHomoscedasticity (vs. Heteroscedasticity):")
+  Print("\n\n\n<<bold <<underline 3>>) Homoscedasticity (vs. Heteroscedasticity):>>")
   check_heteroscedasticity(model)
-  Print("\n\n\nIndependence of residuals (vs. Autocorrelation):")
+  Print("\n\n\n<<bold <<underline 4>>) Independence of residuals (vs. Autocorrelation):>>")
   check_autocorrelation(model)
   if(plot) {
     Print("\n\n\n\nPlotting...")
