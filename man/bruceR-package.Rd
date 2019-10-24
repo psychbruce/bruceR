@@ -102,8 +102,10 @@ The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/dow
 
       \code{\link{CFA}}  (confirmatory factor analysis)
   }
-  \item{\strong{4) MANOVA, Simple Effect (\emph{for interaction effect}), & Multiple Comparison (\emph{for factor with >= 3 levels})}}{
-      (\emph{Coming soon...})
+  \item{\strong{4) MANOVA, Simple Effect (\emph{for interactions}), & Multiple Comparison (\emph{for factors with >= 3 levels})}}{
+      \code{\link{MANOVA}}  (between-subject, within-subject, and mixed design ANOVA)
+
+      \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
   }
   \item{\strong{5) Advanced Toolbox and Output for Linear Models}}{
       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))

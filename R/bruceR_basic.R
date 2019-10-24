@@ -548,9 +548,9 @@ p.trans2=function(p, nsmall.p=3) {
 sig.trans=function(p) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < .001, "***",
-                ifelse(p < .01, "**",
-                       ifelse(p < .05, "*",
-                              ifelse(p < .10, ".", "")))))
+                ifelse(p < .01, "** ",
+                       ifelse(p < .05, "*  ",
+                              ifelse(p < .10, ".  ", "   ")))))
 }
 
 

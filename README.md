@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.2.5-success)
+![](https://img.shields.io/badge/Version-0.2.6-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -63,19 +63,25 @@ No need to load each one with its own call. Loading `bruceR` is enough.
 ```r
 library(bruceR)
 
-## overview of package
+## Overview of Package
 ?bruceR
 
-## check update
+## See Help Pages of Functions
+?MANOVA
+?EMMEANS
+
+## Check Update
 check_update()
 
-## run some examples
+## Run Some Examples
 example("Print")
 example("Describe")
 example("Freq")
 example("Corr")
+
 example("MEAN")
 example("LOOKUP")
+
 example("GLM_summary")
 example("HLM_summary")
 example("model_check")
@@ -93,8 +99,8 @@ example("model_check")
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
   + `Alpha()`
   + `EFA()`, `CFA()`
-- [ ] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
-  + (*coming soon...*)
+- [x] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
+  + `MANOVA()`, `EMMEANS()`
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
   + `grand_mean_center()`, `group_mean_center()`
   + `GLM_summary()`, `HLM_summary()`, `regress()`, `model_check()`
@@ -104,7 +110,7 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.2.5`
+### Current version: `0.2.6`
 ### Major changes:
 + `0.2.0` - 30 August 2019
   + Added help pages

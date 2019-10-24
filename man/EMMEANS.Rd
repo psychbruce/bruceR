@@ -2,17 +2,22 @@
 % Please edit documentation in R/bruceR_manova.R
 \name{EMMEANS}
 \alias{EMMEANS}
-\title{Simple-effect analysis (for interaction) and post-hoc pairwise comparison (for factors with 3 or more levels)}
+\title{Simple-effect analysis (for interactions) and post-hoc multiple comparison (for factors with 3 or more levels)}
 \usage{
-EMMEANS(model, effect = NULL, by = NULL, p.adjust = "bonferroni")
+EMMEANS(model, effect = NULL, by = NULL, contrast = "pairwise",
+  p.adjust = "bonferroni", reverse = TRUE, repair = FALSE)
 }
 \arguments{
-\item{p.adjust}{Adjustment of \emph{p} values for multiple comparisons. Default is \code{"bonferroni"}.
-You may set it to \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "bonferroni"}.
-For details, see \code{\link[stats]{p.adjust}}.}
+\item{contrast}{Contrast method for multiple comparisons. Default is \code{"pairwise"}.
+Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
+For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.}
+
+\item{p.adjust}{Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
+Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
+For details, see \code{stats::\link[stats]{p.adjust}}.}
 }
 \description{
-Simple-effect analysis (for interaction) and post-hoc pairwise comparison (for factors with 3 or more levels)
+Simple-effect analysis (for interactions) and post-hoc multiple comparison (for factors with 3 or more levels)
 }
 \examples{
 ## Between-Subject Design
@@ -20,6 +25,10 @@ Simple-effect analysis (for interaction) and post-hoc pairwise comparison (for f
 View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
+MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+  EMMEANS("A", contrast="seq")
+MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+  EMMEANS("A", contrast="poly")
 
 View(between.2)
 MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) \%>\%
@@ -28,6 +37,7 @@ MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) \%>\%
 
 View(between.3)
 MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
+  EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
 
@@ -43,11 +53,13 @@ View(within.2)
 MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
-  EMMEANS("B", by="A")
+  EMMEANS("B", by="A") \%>\%  # with some errors
+  EMMEANS("B", by="A", repair=TRUE)
 
 View(within.3)
 MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C")) \%>\%
+  EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
 
@@ -56,9 +68,24 @@ MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 
 View(mixed.2_1b1w)
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
-       between="A", within="B", correction="GG") \%>\%
+       between="A", within="B", sphericity.correction="GG") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
+
+View(mixed.3_1b2w)
+MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
+       between="A", within=c("B", "C")) \%>\%
+  EMMEANS("A", by="B") \%>\%
+  EMMEANS(c("A", "B"), by="C") \%>\%
+  EMMEANS("A", by=c("B", "C"))
+
+View(mixed.3_2b1w)
+MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
+       between=c("A", "C"), within="B") \%>\%
+  EMMEANS("A", by="B") \%>\%
+  EMMEANS("A", by="C") \%>\%
+  EMMEANS(c("A", "B"), by="C") \%>\%
+  EMMEANS("B", by=c("A", "C"))
 }
 \seealso{
 \code{\link{MANOVA}}

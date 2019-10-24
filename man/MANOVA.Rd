@@ -7,10 +7,10 @@
 MANOVA(data, id = NULL, dv = NULL, dvs = NULL, dvs.pattern = "",
   between = NULL, within = NULL, covariate = NULL,
   factorize = ifelse(is.null(covariate), TRUE, FALSE),
-  correction = "none")
+  sphericity.correction = "none")
 }
 \arguments{
-\item{correction}{Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+\item{sphericity.correction}{Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 }
 \description{
@@ -76,7 +76,15 @@ View(mixed.2_1b1w)
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B")
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
-       between="A", within="B", correction="GG")
+       between="A", within="B", sphericity.correction="GG")
+
+View(mixed.3_1b2w)
+MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
+       between="A", within=c("B", "C"))
+
+View(mixed.3_2b1w)
+MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
+       between=c("A", "C"), within="B")
 }
 \seealso{
 \code{\link{EMMEANS}}
