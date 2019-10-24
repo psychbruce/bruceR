@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_manova.R
 \name{EMMEANS}
 \alias{EMMEANS}
-\title{Simple-effect analysis (for interactions) and post-hoc multiple comparison (for factors with 3 or more levels)}
+\title{Simple-effect analyses (for interactions) and post-hoc multiple comparisons (for factors with >= 3 levels)}
 \usage{
 EMMEANS(model, effect = NULL, by = NULL, contrast = "pairwise",
   p.adjust = "bonferroni", reverse = TRUE, repair = FALSE)
@@ -17,10 +17,12 @@ Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", 
 For details, see \code{stats::\link[stats]{p.adjust}}.}
 }
 \description{
-Simple-effect analysis (for interactions) and post-hoc multiple comparison (for factors with 3 or more levels)
+Easily perform 1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
+and 2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
+(using methods such as Bonferroni, Tukey's HSD, and FDR).
 }
 \examples{
-## Between-Subject Design
+## Between-Subjects Design
 
 View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
@@ -42,7 +44,7 @@ MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by=c("B", "C"))
 
 
-## Within-Subject Design
+## Within-Subjects Design
 
 View(within.1)
 MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",

@@ -14,19 +14,19 @@ MANOVA(data, id = NULL, dv = NULL, dvs = NULL, dvs.pattern = "",
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 }
 \description{
-Easily perform MANOVA (between-subject, within-subject, and mixed design).
+Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
 }
 \details{
 \strong{Demo datasets:}
 \describe{
-  \item{1. Between-subject design}{
+  \item{1. Between-subjects design}{
     \itemize{
       \item \code{between.1} - 1
       \item \code{between.2} - 2
       \item \code{between.3} - 3
     }
   }
-  \item{2. Within-subject design}{
+  \item{2. Within-subjects design}{
     \itemize{
       \item \code{within.1} - 1
       \item \code{within.2} - 2
@@ -43,7 +43,7 @@ Easily perform MANOVA (between-subject, within-subject, and mixed design).
 }
 }
 \examples{
-## Between-Subject Design
+## Between-Subjects Design
 
 View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A")
@@ -55,7 +55,7 @@ View(between.3)
 MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C"))
 
 
-## Within-Subject Design
+## Within-Subjects Design
 
 View(within.1)
 MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",

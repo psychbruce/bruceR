@@ -101,7 +101,7 @@ example("model_check")
 - [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
   + `Alpha()`
   + `EFA()`, `CFA()`
-- [x] *t*-test, ANOVA, simple-effect analysis, and multiple comparison
+- [x] *t*-test, ANOVA, simple-effect analyses, and multiple comparisons
   + `MANOVA()`, `EMMEANS()`
 - [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
   + `grand_mean_center()`, `group_mean_center()`
@@ -115,7 +115,7 @@ example("model_check")
 ### Current version: `0.2.7`
 ### Major changes:
 + `0.3.0` - 30 October 2019
-  + Added functions for ANOVA, simple-effect analysis, and multiple comparison
+  + Added new functions for ANOVA, simple-effect analyses, and multiple comparisons
   + General bug-fixes and improvements
 + `0.2.0` - 30 August 2019
   + Added help pages
