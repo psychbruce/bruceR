@@ -30,18 +30,18 @@ if(FALSE) {
 
 #' Multivariate ANOVA
 #'
-#' Easily perform MANOVA (between-subject, within-subject, and mixed design).
+#' Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
 #'
 #' \strong{Demo datasets:}
 #' \describe{
-#'   \item{1. Between-subject design}{
+#'   \item{1. Between-subjects design}{
 #'     \itemize{
 #'       \item \code{between.1} - 1
 #'       \item \code{between.2} - 2
 #'       \item \code{between.3} - 3
 #'     }
 #'   }
-#'   \item{2. Within-subject design}{
+#'   \item{2. Within-subjects design}{
 #'     \itemize{
 #'       \item \code{within.1} - 1
 #'       \item \code{within.2} - 2
@@ -61,7 +61,7 @@ if(FALSE) {
 #' @param sphericity.correction Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 #' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
 #' @examples
-#' ## Between-Subject Design
+#' ## Between-Subjects Design
 #'
 #' View(between.1)
 #' MANOVA(data=between.1, dv="SCORE", between="A")
@@ -73,7 +73,7 @@ if(FALSE) {
 #' MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C"))
 #'
 #'
-#' ## Within-Subject Design
+#' ## Within-Subjects Design
 #'
 #' View(within.1)
 #' MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
@@ -110,8 +110,8 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
                 factorize=ifelse(is.null(covariate), TRUE, FALSE),
                 sphericity.correction="none") {
   data=as.data.frame(data)
-  design=ifelse(is.null(within), "Between-Subject Design",
-                ifelse(is.null(between), "Within-Subject Design",
+  design=ifelse(is.null(within), "Between-Subjects Design",
+                ifelse(is.null(between), "Within-Subjects Design",
                        "Mixed Design"))
   Print("<<yellow ------ MANOVA Output ({design}) ------>>")
   cat("\n")
@@ -121,6 +121,7 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
     data$ID=1:nrow(data)
     id="ID"
   }
+  nsub=data[[id]] %>% unique() %>% length()
 
   ## Wide to Long (if necessary)
   if(is.null(dv)) {
@@ -135,10 +136,25 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
       dv="Y"
     }
   }
+  ncom=complete.cases(data[c(between, within, covariate)])
+  nmis=length(ncom)-sum(ncom)
 
   ## Ensure Factorized Variables
   for(iv in c(between, within))
     data[[iv]]=as.factor(data[[iv]])
+
+  ## Descriptive Statistics
+  Print("<<underline Descriptive Statistics:>>")
+  nmsd=eval(parse(text=Glue("
+    plyr::ddply(data,
+    plyr::.({paste(c(between, within), collapse=', ')}),
+    dplyr::summarise,
+    Mean=mean({dv}, na.rm=T),
+    S.D.=sd({dv}, na.rm=T),
+    N=length({dv}))")))
+  print_table(nmsd, row.names=FALSE, nsmalls=2)
+  Print("Total sample size: <<italic N>> = {nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
+  cat("\n")
 
   ## Main MANOVA Functions
   aov.ez=aov_ez(data=data, id=id, dv=dv,
@@ -162,10 +178,10 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
   df.nsmall=ifelse(sphericity.correction=="none", 0, 2)
   Print("
   <<underline ANOVA Table:>>
-  Dependent variable(s):     {ifelse(is.null(within), dv, paste0(vars, collapse=', '))}
-  Between-subject factor(s): {ifelse(is.null(between), '-', paste0(between, collapse=', '))}
-  Within-subject factor(s):  {ifelse(is.null(within), '-', paste0(within, collapse=', '))}
-  Covariate(s):              {ifelse(is.null(covariate), '-', paste0(covariate, collapse=', '))}
+  Dependent variable(s):      {ifelse(is.null(within), dv, paste0(vars, collapse=', '))}
+  Between-subjects factor(s): {ifelse(is.null(between), '-', paste0(between, collapse=', '))}
+  Within-subjects factor(s):  {ifelse(is.null(within), '-', paste0(within, collapse=', '))}
+  Covariate(s):               {ifelse(is.null(covariate), '-', paste0(covariate, collapse=', '))}
   ")
   print_table(at, nsmalls=c(3, 3, df.nsmall, df.nsmall,
                             2, 0, 3, 3, 3))
@@ -197,7 +213,11 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
 }
 
 
-#' Simple-effect analysis (for interactions) and post-hoc multiple comparison (for factors with 3 or more levels)
+#' Simple-effect analyses (for interactions) and post-hoc multiple comparisons (for factors with >= 3 levels)
+#'
+#' Easily perform 1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
+#' and 2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
+#' (using methods such as Bonferroni, Tukey's HSD, and FDR).
 #' @import emmeans
 #' @param contrast Contrast method for multiple comparisons. Default is \code{"pairwise"}.
 #' Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
@@ -206,7 +226,7 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
 #' Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
 #' For details, see \code{stats::\link[stats]{p.adjust}}.
 #' @examples
-#' ## Between-Subject Design
+#' ## Between-Subjects Design
 #'
 #' View(between.1)
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
@@ -228,7 +248,7 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
 #'   EMMEANS("A", by=c("B", "C"))
 #'
 #'
-#' ## Within-Subject Design
+#' ## Within-Subjects Design
 #'
 #' View(within.1)
 #' MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
@@ -272,6 +292,17 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
 #'   EMMEANS("A", by="C") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("B", by=c("A", "C"))
+#'
+#'
+#' ## Other Examples
+#' air=airquality
+#' air$Day.1or2=ifelse(air$Day %% 2 == 1, 1, 2) %>%
+#'   factor(levels=1:2, labels=c("odd", "even"))
+#' MANOVA(data=air, dv="Temp",
+#'        between=c("Month", "Day.1or2"),
+#'        covariate=c("Solar.R", "Wind")) %>%
+#'   EMMEANS("Month", contrast="seq") %>%
+#'   EMMEANS("Month", by="Day.1or2", contrast="seq")
 #' @seealso \code{\link{MANOVA}}
 #' @export
 EMMEANS=function(model, effect=NULL, by=NULL,
@@ -282,7 +313,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   model.raw=model
 
   # IMPORTANT: If include 'aov', the 'emmeans' results of
-  # within-subject design will not be equal to those of SPSS!
+  # within-subjects design will not be equal to those of SPSS!
   # So we do not include 'aov' object but instead use 'lm' and 'mlm'
   # objects to do the follow-up 'emmeans' analyses!
   if(!repair) model$aov=NULL
@@ -379,7 +410,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   print(con)
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
-  if(!is.null(attr(con, "mesg")))
+  if(length(attr(con, "mesg"))==1)
     if(grepl("averaged", attr(con, "mesg")))
       cat("\n")
 

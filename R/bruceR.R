@@ -109,7 +109,7 @@
 #'       \code{\link{CFA}}  (confirmatory factor analysis)
 #'   }
 #'   \item{\strong{4) MANOVA, Simple Effect (\emph{for interactions}), & Multiple Comparison (\emph{for factors with >= 3 levels})}}{
-#'       \code{\link{MANOVA}}  (between-subject, within-subject, and mixed design ANOVA)
+#'       \code{\link{MANOVA}}  (between-subjects, within-subjects, and mixed design ANOVA)
 #'
 #'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
 #'   }

@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.2.6-success)
+![](https://img.shields.io/badge/Version-0.2.7-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -69,6 +69,8 @@ library(bruceR)
 ## See Help Pages of Functions
 ?MANOVA
 ?EMMEANS
+?GLM_summary
+?HLM_summary
 
 ## Check Update
 check_update()
@@ -110,8 +112,11 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.2.6`
+### Current version: `0.2.7`
 ### Major changes:
++ `0.3.0` - 30 October 2019
+  + Added functions for ANOVA, simple-effect analysis, and multiple comparison
+  + General bug-fixes and improvements
 + `0.2.0` - 30 August 2019
   + Added help pages
   + General bug-fixes and improvements
