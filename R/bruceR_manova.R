@@ -32,34 +32,61 @@ if(FALSE) {
 #'
 #' Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
 #'
-#' \strong{Demo datasets:}
+#' This function is based on and extends the \code{\link[afex]{aov_ez}} function in the R package \code{afex}.
+#' You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
+#' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
+#' 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
+#'
+#' \strong{Demo Datasets:}
+#'
+#' The demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
+#' In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
+#' The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
+#' Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
+#' Many thanks go to the contributors of the datasets.
 #' \describe{
-#'   \item{1. Between-subjects design}{
+#'   \item{\strong{1. Between-Subjects Design}}{
 #'     \itemize{
-#'       \item \code{between.1} - 1
-#'       \item \code{between.2} - 2
-#'       \item \code{between.3} - 3
+#'       \item \code{between.1} - A(4)
+#'       \item \code{between.2} - A(2) * B(3)
+#'       \item \code{between.3} - A(2) * B(2) * C(2)
 #'     }
 #'   }
-#'   \item{2. Within-subjects design}{
+#'   \item{\strong{2. Within-Subjects Design}}{
 #'     \itemize{
-#'       \item \code{within.1} - 1
-#'       \item \code{within.2} - 2
-#'       \item \code{within.3} - 3
+#'       \item \code{within.1} - A(4)
+#'       \item \code{within.2} - A(2) * B(3)
+#'       \item \code{within.3} - A(2) * B(2) * C(2)
 #'     }
 #'   }
-#'   \item{3. Mixed design}{
+#'   \item{\strong{3. Mixed Design}}{
 #'     \itemize{
-#'       \item \code{mixed.2_1b1w} - 1
-#'       \item \code{mixed.3_1b2w} - 2
-#'       \item \code{mixed.3_2b1w} - 3
+#'       \item \code{mixed.2_1b1w} - A(2, between) * B(3, within)
+#'       \item \code{mixed.3_1b2w} - A(2, between) * B(2, within) * C(2, within)
+#'       \item \code{mixed.3_2b1w} - A(2, between) * B(2, within) * C(2, between)
 #'     }
 #'   }
 #' }
 #' @import afex
 #' @importFrom tidyr pivot_longer
-#' @param sphericity.correction Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+#' @param data \code{data.frame} or \code{data.table}. You can directly input a "wide-format" data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
+#' Then, if your data have any repeated measures, the function will automatically transform it into a long-format data for further analyses.
+#'
+#' If you input a long-format data, please also specify the variable name of subID in your data (see below, e.g., \code{subID="ID"}).
+#'
+#' However, in general, you can just input a wide-format data (like in SPSS) and enjoy the convenience of this function!
+#' @param dv \strong{[for purely between-subjects design or for long-format data]} Variable name of the dependent variable in your data.
+#' @param dvs \strong{[for designs with repeated measures]} Variable names of repeated measures in your data. You can use \code{":"} to specify a range of vairables (e.g., \code{"A1B1:A2B3"}).
+#' @param dvs.pattern \strong{[for designs with repeated measures]} If you set \code{dvs}, you must also specify the pattern of these variables. Regular expressions are used here.
+#' For example, \code{"A(.)B(.)"} will extract the factor levels and leave "A" and "B" as new variables in a long-format data.
+#' @param between Between-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.
+#' @param within Within-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.
+#' @param covariate Covariates (if necessary). Can be either a character string or a character vector. Default is \code{NULL}.
+#' @param sphericity.correction \strong{[only effective for repeated measures with >= 3 levels]} Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 #' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
+#' @param subID As mentioned above, if your input is already a long-format data, then you should specify the subject ID because one subject occupies multiple rows.
+#' But in most cases, you don't need to do that.
+#' @param factorize Just leave this parameter as default. For details, see \code{afex::\link[afex]{aov_ez}}.
 #' @examples
 #' ## Between-Subjects Design
 #'
@@ -103,12 +130,14 @@ if(FALSE) {
 #' View(mixed.3_2b1w)
 #' MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 #'        between=c("A", "C"), within="B")
+#' @references
+#' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis. \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
 #' @seealso \code{\link{EMMEANS}}
 #' @export
-MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
+MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
                 between=NULL, within=NULL, covariate=NULL,
-                factorize=ifelse(is.null(covariate), TRUE, FALSE),
-                sphericity.correction="none") {
+                sphericity.correction="none", subID=NULL,
+                factorize=ifelse(is.null(covariate), TRUE, FALSE)) {
   data=as.data.frame(data)
   design=ifelse(is.null(within), "Between-Subjects Design",
                 ifelse(is.null(between), "Within-Subjects Design",
@@ -117,11 +146,11 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
   cat("\n")
 
   ## Add Participant ID (if necessary)
-  if(is.null(id)) {
+  if(is.null(subID)) {
     data$ID=1:nrow(data)
-    id="ID"
+    subID="ID"
   }
-  nsub=data[[id]] %>% unique() %>% length()
+  nsub=data[[subID]] %>% unique() %>% length()
 
   ## Wide to Long (if necessary)
   if(is.null(dv)) {
@@ -157,7 +186,7 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
   cat("\n")
 
   ## Main MANOVA Functions
-  aov.ez=aov_ez(data=data, id=id, dv=dv,
+  aov.ez=aov_ez(data=data, id=subID, dv=dv,
                 between=between, within=within, covariate=covariate,
                 factorize=factorize,
                 anova_table=list(correction=sphericity.correction,
@@ -218,13 +247,87 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
 #' Easily perform 1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
 #' and 2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
 #' (using methods such as Bonferroni, Tukey's HSD, and FDR).
+#'
+#' This function is based on and extends the 1) \code{\link[emmeans]{joint_tests}}, 2) \code{\link[emmeans]{emmeans}}, and 3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
+#' You only need to specify the model object, to-be-tested effect(s), and moderator(s).
+#' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
+#' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
+#'
+#' \strong{Statistical Details:}
+#'
+#' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons". Unfortunately, such a confusion is not uncommon.
+#' Here, I explain what these terms actually refer to.
+#' \describe{
+#'   \item{\strong{1. Simple Effects}}{
+#'     When we speak of "simple effects", we are referring to ...
+#'     \itemize{
+#'       \item simple main effects
+#'       \item simple interaction effects (only for designs with 3 or more factors)
+#'       \item simple simple effects (only for designs with 3 or more factors)
+#'     }
+#'     When the interaction effects in ANOVA are significant, we should then perform a "simple-effect analysis".
+#'     In ANOVA, we called it "simple-effect analysis"; in regression, we also called it "simple-slope analysis".
+#'     They are identical in statistical principles. Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
+#'
+#'     In a regular two-factors design, we only test \strong{"simple main effects"}.
+#'     That is, on the different levels of a factor "B", the main effects of "A" would be different.
+#'     However, in a three-factors (or more) design, we may also test \strong{"simple interaction effects"} and \strong{"simple simple effects"}.
+#'     That is, on the different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
+#'
+#'     In SPSS, we usually use the \code{MANOVA} and/or the \code{GLM + /EMMEANS} syntax to perform such analyses.
+#'     Tutorials of the SPSS syntax (in Chinese) can be found in my personal profile on Zhihu.com:
+#'     \href{https://zhuanlan.zhihu.com/p/30037168}{Tutorial #1},
+#'     \href{https://zhuanlan.zhihu.com/p/31863288}{Tutorial #2}, and
+#'     \href{https://zhuanlan.zhihu.com/p/35011046}{Tutorial #3}.
+#'
+#'     Here, the R function \code{EMMEANS} can do the same thing as in SPSS and can do much better and easier (just see the section "Examples").
+#'     The outputs include tidy tables as well as the estimates for effect sizes (partial \eqn{\eta^2}) and their 90\% CIs.
+#'
+#'     To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
+#'   }
+#'   \item{\strong{2. Post-Hoc Tests}}{
+#'     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
+#'     However, these two terms should be distinguished. In many situations and softwares, "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
+#'     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
+#'     For example, we can perform the post-hoc comparisons of mean values 1) across multiple levels of one factor in a pairwise way or 2) particularly between the two conditions "A1B1" and "A2B2".
+#'
+#'     Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
+#'     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
+#'   }
+#'   \item{\strong{3. Multiple Comparisons}}{
+#'     As mentioned above, multiple comparisons are post-hoc tests by its nature but do NOT have any relationship with simple-effect analyses.
+#'     In other words, "(post-hoc) multiple comparisons" are \strong{independent of} "interaction effects" and "simple effects".
+#'     What's more, when the simple main effect is of a factor with 3 or more levels, we also need to do multiple comparisons (e.g., pairwise comparisons) \emph{within} the simple-effect analysis.
+#'     In this situation (i.e., >= 3 levels), we need \emph{p}-value adjustment methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+#'
+#'     There are many ways to do multiple comparisons. All these methods are included in the current \code{EMMEANS} function.
+#'     If you are familiar with SPSS syntax, you may feel that the current R functions \code{MANOVA} and \code{EMMEANS} are a nice combination of the SPSS syntax \code{MANOVA} and \code{GLM + /EMMEANS}.
+#'     Yes, they are. More importantly, they outperform the SPSS syntax, either for its higher convenience or for its more fruitful outputs.
+#'
+#'     Now, you can forget the overcomplicated SPSS syntax and join in the warm family of R. Welcome!
+#'     \itemize{
+#'       \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
+#'       \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons
+#'       \item \code{"poly"} - Polynomial contrasts (linear, quadratic, cubic, quartic, ...)
+#'       \item \code{"eff"} - Effect contrasts (vs. the grand mean)
+#'     }
+#'   }
+#' }
 #' @import emmeans
+#' @param model A model fitted by \code{MANOVA} or many other functions (e.g., \code{aov, aov_ez, lm, lmer}).
+#' @param effect The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
+#' If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.
+#' @param by Moderator variable(s). Default is \code{NULL}.
 #' @param contrast Contrast method for multiple comparisons. Default is \code{"pairwise"}.
 #' Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
 #' For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.
 #' @param p.adjust Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
 #' Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
+#' For polynomial contrasts, the default is \code{"none"}.
 #' For details, see \code{stats::\link[stats]{p.adjust}}.
+#' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
+#' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
+#' Then, you may set \code{repair="TRUE"} to have the adjusted results.
 #' @examples
 #' ## Between-Subjects Design
 #'
@@ -298,11 +401,10 @@ MANOVA=function(data, id=NULL, dv=NULL, dvs=NULL, dvs.pattern="",
 #' air=airquality
 #' air$Day.1or2=ifelse(air$Day %% 2 == 1, 1, 2) %>%
 #'   factor(levels=1:2, labels=c("odd", "even"))
-#' MANOVA(data=air, dv="Temp",
-#'        between=c("Month", "Day.1or2"),
+#' MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
 #'        covariate=c("Solar.R", "Wind")) %>%
 #'   EMMEANS("Month", contrast="seq") %>%
-#'   EMMEANS("Month", by="Day.1or2", contrast="seq")
+#'   EMMEANS("Month", by="Day.1or2", contrast="poly")
 #' @seealso \code{\link{MANOVA}}
 #' @export
 EMMEANS=function(model, effect=NULL, by=NULL,
@@ -387,6 +489,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   if(contrast=="pairwise" & reverse==TRUE) contrast="revpairwise"
   if(contrast=="seq") contrast="consec"
   if(contrast=="consec") reverse=FALSE
+  if(contrast=="poly") p.adjust="none"
   con0=con=contrast(emm0, method=contrast, adjust=p.adjust, reverse=reverse)
   conCI=confint(con)
   con=summary(con)  # to a data.frame (class 'summary_emm')

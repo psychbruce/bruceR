@@ -4,40 +4,76 @@
 \alias{MANOVA}
 \title{Multivariate ANOVA}
 \usage{
-MANOVA(data, id = NULL, dv = NULL, dvs = NULL, dvs.pattern = "",
+MANOVA(data, dv = NULL, dvs = NULL, dvs.pattern = "",
   between = NULL, within = NULL, covariate = NULL,
-  factorize = ifelse(is.null(covariate), TRUE, FALSE),
-  sphericity.correction = "none")
+  sphericity.correction = "none", subID = NULL,
+  factorize = ifelse(is.null(covariate), TRUE, FALSE))
 }
 \arguments{
-\item{sphericity.correction}{Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+\item{data}{\code{data.frame} or \code{data.table}. You can directly input a "wide-format" data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
+Then, if your data have any repeated measures, the function will automatically transform it into a long-format data for further analyses.
+
+If you input a long-format data, please also specify the variable name of subID in your data (see below, e.g., \code{subID="ID"}).
+
+However, in general, you can just input a wide-format data (like in SPSS) and enjoy the convenience of this function!}
+
+\item{dv}{\strong{[for purely between-subjects design or for long-format data]} Variable name of the dependent variable in your data.}
+
+\item{dvs}{\strong{[for designs with repeated measures]} Variable names of repeated measures in your data. You can use \code{":"} to specify a range of vairables (e.g., \code{"A1B1:A2B3"}).}
+
+\item{dvs.pattern}{\strong{[for designs with repeated measures]} If you set \code{dvs}, you must also specify the pattern of these variables. Regular expressions are used here.
+For example, \code{"A(.)B(.)"} will extract the factor levels and leave "A" and "B" as new variables in a long-format data.}
+
+\item{between}{Between-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+
+\item{within}{Within-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+
+\item{covariate}{Covariates (if necessary). Can be either a character string or a character vector. Default is \code{NULL}.}
+
+\item{sphericity.correction}{\strong{[only effective for repeated measures with >= 3 levels]} Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
+
+\item{subID}{As mentioned above, if your input is already a long-format data, then you should specify the subject ID because one subject occupies multiple rows.
+But in most cases, you don't need to do that.}
+
+\item{factorize}{Just leave this parameter as default. For details, see \code{afex::\link[afex]{aov_ez}}.}
 }
 \description{
 Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
 }
 \details{
-\strong{Demo datasets:}
+This function is based on and extends the \code{\link[afex]{aov_ez}} function in the R package \code{afex}.
+You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
+Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
+90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
+
+\strong{Demo Datasets:}
+
+The demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
+In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
+The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
+Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
+Many thanks go to the contributors of the datasets.
 \describe{
-  \item{1. Between-subjects design}{
+  \item{\strong{1. Between-Subjects Design}}{
     \itemize{
-      \item \code{between.1} - 1
-      \item \code{between.2} - 2
-      \item \code{between.3} - 3
+      \item \code{between.1} - A(4)
+      \item \code{between.2} - A(2) * B(3)
+      \item \code{between.3} - A(2) * B(2) * C(2)
     }
   }
-  \item{2. Within-subjects design}{
+  \item{\strong{2. Within-Subjects Design}}{
     \itemize{
-      \item \code{within.1} - 1
-      \item \code{within.2} - 2
-      \item \code{within.3} - 3
+      \item \code{within.1} - A(4)
+      \item \code{within.2} - A(2) * B(3)
+      \item \code{within.3} - A(2) * B(2) * C(2)
     }
   }
-  \item{3. Mixed design}{
+  \item{\strong{3. Mixed Design}}{
     \itemize{
-      \item \code{mixed.2_1b1w} - 1
-      \item \code{mixed.3_1b2w} - 2
-      \item \code{mixed.3_2b1w} - 3
+      \item \code{mixed.2_1b1w} - A(2, between) * B(3, within)
+      \item \code{mixed.3_1b2w} - A(2, between) * B(2, within) * C(2, within)
+      \item \code{mixed.3_2b1w} - A(2, between) * B(2, within) * C(2, between)
     }
   }
 }
@@ -85,6 +121,9 @@ MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 View(mixed.3_2b1w)
 MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
        between=c("A", "C"), within="B")
+}
+\references{
+Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis. \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
 }
 \seealso{
 \code{\link{EMMEANS}}

@@ -8,18 +8,98 @@ EMMEANS(model, effect = NULL, by = NULL, contrast = "pairwise",
   p.adjust = "bonferroni", reverse = TRUE, repair = FALSE)
 }
 \arguments{
+\item{model}{A model fitted by \code{MANOVA} or many other functions (e.g., \code{aov, aov_ez, lm, lmer}).}
+
+\item{effect}{The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
+If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.}
+
+\item{by}{Moderator variable(s). Default is \code{NULL}.}
+
 \item{contrast}{Contrast method for multiple comparisons. Default is \code{"pairwise"}.
 Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
 For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.}
 
 \item{p.adjust}{Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
 Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
+For polynomial contrasts, the default is \code{"none"}.
 For details, see \code{stats::\link[stats]{p.adjust}}.}
+
+\item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
+
+\item{repair}{In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
+Then, you may set \code{repair="TRUE"} to have the adjusted results.}
 }
 \description{
 Easily perform 1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
 and 2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
 (using methods such as Bonferroni, Tukey's HSD, and FDR).
+}
+\details{
+This function is based on and extends the 1) \code{\link[emmeans]{joint_tests}}, 2) \code{\link[emmeans]{emmeans}}, and 3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
+You only need to specify the model object, to-be-tested effect(s), and moderator(s).
+Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
+90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
+
+\strong{Statistical Details:}
+
+Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons". Unfortunately, such a confusion is not uncommon.
+Here, I explain what these terms actually refer to.
+\describe{
+  \item{\strong{1. Simple Effects}}{
+    When we speak of "simple effects", we are referring to ...
+    \itemize{
+      \item simple main effects
+      \item simple interaction effects (only for designs with 3 or more factors)
+      \item simple simple effects (only for designs with 3 or more factors)
+    }
+    When the interaction effects in ANOVA are significant, we should then perform a "simple-effect analysis".
+    In ANOVA, we called it "simple-effect analysis"; in regression, we also called it "simple-slope analysis".
+    They are identical in statistical principles. Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
+
+In a regular two-factors design, we only test \strong{"simple main effects"}.
+    That is, on the different levels of a factor "B", the main effects of "A" would be different.
+    However, in a three-factors (or more) design, we may also test \strong{"simple interaction effects"} and \strong{"simple simple effects"}.
+    That is, on the different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
+
+In SPSS, we usually use the \code{MANOVA} and/or the \code{GLM + /EMMEANS} syntax to perform such analyses.
+    Tutorials of the SPSS syntax (in Chinese) can be found in my personal profile on Zhihu.com:
+    \href{https://zhuanlan.zhihu.com/p/30037168}{Tutorial #1},
+    \href{https://zhuanlan.zhihu.com/p/31863288}{Tutorial #2}, and
+    \href{https://zhuanlan.zhihu.com/p/35011046}{Tutorial #3}.
+
+Here, the R function \code{EMMEANS} can do the same thing as in SPSS and can do much better and easier (just see the section "Examples").
+    The outputs include tidy tables as well as the estimates for effect sizes (partial \eqn{\eta^2}) and their 90\% CIs.
+
+To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
+  }
+  \item{\strong{2. Post-Hoc Tests}}{
+    The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
+    However, these two terms should be distinguished. In many situations and softwares, "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
+    We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
+    For example, we can perform the post-hoc comparisons of mean values 1) across multiple levels of one factor in a pairwise way or 2) particularly between the two conditions "A1B1" and "A2B2".
+
+Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
+    In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
+  }
+  \item{\strong{3. Multiple Comparisons}}{
+    As mentioned above, multiple comparisons are post-hoc tests by its nature but do NOT have any relationship with simple-effect analyses.
+    In other words, "(post-hoc) multiple comparisons" are \strong{independent of} "interaction effects" and "simple effects".
+    What's more, when the simple main effect is of a factor with 3 or more levels, we also need to do multiple comparisons (e.g., pairwise comparisons) \emph{within} the simple-effect analysis.
+    In this situation (i.e., >= 3 levels), we need \emph{p}-value adjustment methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+
+There are many ways to do multiple comparisons. All these methods are included in the current \code{EMMEANS} function.
+    If you are familiar with SPSS syntax, you may feel that the current R functions \code{MANOVA} and \code{EMMEANS} are a nice combination of the SPSS syntax \code{MANOVA} and \code{GLM + /EMMEANS}.
+    Yes, they are. More importantly, they outperform the SPSS syntax, either for its higher convenience or for its more fruitful outputs.
+
+Now, you can forget the overcomplicated SPSS syntax and join in the warm family of R. Welcome!
+    \itemize{
+      \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
+      \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons
+      \item \code{"poly"} - Polynomial contrasts (linear, quadratic, cubic, quartic, ...)
+      \item \code{"eff"} - Effect contrasts (vs. the grand mean)
+    }
+  }
+}
 }
 \examples{
 ## Between-Subjects Design
@@ -94,11 +174,10 @@ MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 air=airquality
 air$Day.1or2=ifelse(air$Day \%\% 2 == 1, 1, 2) \%>\%
   factor(levels=1:2, labels=c("odd", "even"))
-MANOVA(data=air, dv="Temp",
-       between=c("Month", "Day.1or2"),
+MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
        covariate=c("Solar.R", "Wind")) \%>\%
   EMMEANS("Month", contrast="seq") \%>\%
-  EMMEANS("Month", by="Day.1or2", contrast="seq")
+  EMMEANS("Month", by="Day.1or2", contrast="poly")
 }
 \seealso{
 \code{\link{MANOVA}}
