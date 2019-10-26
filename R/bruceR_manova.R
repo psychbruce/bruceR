@@ -69,6 +69,7 @@ if(FALSE) {
 #' }
 #' @import afex
 #' @importFrom tidyr pivot_longer
+#' @importFrom sjstats anova_stats
 #' @param data \code{data.frame} or \code{data.table}. You can directly input a "wide-format" data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
 #' Then, if your data have any repeated measures, the function will automatically transform it into a long-format data for further analyses.
 #'
@@ -199,9 +200,8 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
             p.eta2=mapply(eta_sq_ci, `F`, df1, df2, return="eta2"),
             LLCI=mapply(eta_sq_ci, `F`, df1, df2, return="LLCI"),
             ULCI=mapply(eta_sq_ci, `F`, df1, df2, return="ULCI"))
-            # cohen.f=sqrt(p.eta2/(1-p.eta2))
-  at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
-          "p.eta2", "LLCI", "ULCI")]
+  at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
+              "p.eta2", "LLCI", "ULCI")]
   names(at)[7:9]=c("  \u03b7\u00b2p", "[90% ", "  CI]")
   row.names(at)=row.names(aov.ez$anova_table)
   df.nsmall=ifelse(sphericity.correction=="none", 0, 2)
@@ -221,6 +221,22 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   Print("<<blue
   Tips: \u03b7\u00b2p (partial eta-squared) = F * df1 / (F * df1 + df2)
   >>")
+
+  ## All Other Effect-Size Measures
+  # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
+  # Replace partial.etasq and cohens.f, due to their wrong results
+  Print("\n\n\n<<underline Other Effect-Size Measures:>>")
+  effsize=anova_stats(aov.ez$aov)
+  effsize$stratum=NULL
+  effsize=effsize[-which(effsize$term=="Residuals"),]
+  effsize=mutate(effsize, partial.etasq=round(at0$p.eta2, 3),
+                 cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3))
+  names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
+                   "\u03b7\u00b2", "\u03b7\u00b2p",
+                   "\u03c9\u00b2", "\u03c9\u00b2p",
+                   "\u03b5\u00b2", "Cohen's f", "Post-Hoc Power")
+  row.names(effsize)=effsize$Term
+  print(effsize[c(7, 8, 9, 12)])
 
   ## Mauchly's Test of Sphericity
   if(!is.null(within)) {

@@ -38,9 +38,6 @@
 #' Loading \code{bruceR} is enough:
 #' \strong{\code{library(bruceR)}}
 #'
-## If you dislike \code{bruceR}, you can of course uninstall it,
-## and your decision will not influence how convenient it is for me.
-#'
 #' @section Main Functions in \code{bruceR}:
 #' \code{bruceR} includes functions for
 #' \strong{1)} basic use and analyses (e.g., correlation matrix with plot),

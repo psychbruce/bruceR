@@ -28,9 +28,14 @@ Which would you like to update?
 
 Enter one or more numbers, or an empty line to skip updates:
 ```
-You may enter an **empty line** to skip updating other packages.
+You can update all the packages that `bruceR` depends on or just enter an **empty line** to skip updating these dependency packages.
 
-In a few cases, you might also see these warning messages:
+
+## Potential Bugs During Installation
+
+All the bugs listed below have no relationships with `bruceR` *per se*. They are actually related to the installation and updates of the dependency packages of `bruceR`.
+
+### Bug #1:
 ```
 WARNING: Rtools is required to build R packages, but is not currently installed.
 
@@ -38,8 +43,20 @@ Please download and install Rtools 3.5 from http://cran.r-project.org/bin/window
 
 Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ```
-Just download and install it. (Note: [Rtools](http://cran.r-project.org/bin/windows/Rtools/) is **not** an R package.)
+#### Solution:
+Download and install it. (Note: [Rtools](http://cran.r-project.org/bin/windows/Rtools/) is **not** an R package.)
 
+### Bug #2:
+```
+Error: Failed to install 'bruceR' from GitHub:
+  (converted from warning) installation of package ¡®rlang¡¯ had non-zero exit status
+```
+#### Solution:
+This bug may happen when you choose to update the dependency packages (e.g., `rlang`) of `bruceR`. You may first update it by using `install.packages("rlang")` before you install `bruceR`.
+
+Yet there might also be some bugs when you update them. For example, you may see `There is a binary version available but the source version is later` in the console and `Do you want to install from sources the package which needs compilation` in a dialog box. You can try whether the "source version" can be successfully installed. If not, you can install the "binary version". In general, an R package has a "source version" newer than a "binary version", but you can wait until the "source version" gets a corresponding "binary version", which will make installation easier.
+
+### Other bugs:
 For any other potential bugs during installation, please read carefully the warning messages. I believe you can solve them if you follow the instruction.
 
 
