@@ -5,10 +5,11 @@
 \title{Simple-effect analyses (for interactions) and post-hoc multiple comparisons (for factors with >= 3 levels)}
 \usage{
 EMMEANS(model, effect = NULL, by = NULL, contrast = "pairwise",
-  p.adjust = "bonferroni", reverse = TRUE, repair = FALSE)
+  p.adjust = "bonferroni", cohen.d = "eff_size", reverse = TRUE,
+  repair = FALSE)
 }
 \arguments{
-\item{model}{A model fitted by \code{MANOVA} or many other functions (e.g., \code{aov, aov_ez, lm, lmer}).}
+\item{model}{A model fitted by \code{\link{MANOVA}} or \code{\link[afex]{aov_ez}}.}
 
 \item{effect}{The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
 If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.}
@@ -23,6 +24,12 @@ For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.}
 Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
 For polynomial contrasts, the default is \code{"none"}.
 For details, see \code{stats::\link[stats]{p.adjust}}.}
+
+\item{cohen.d}{Method to compute Cohen's \emph{d} in multiple comparisons.
+Default is \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
+For details, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
+An alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
+In general, \code{"eff_size"} gives more reasonable estimates and so is highly suggested.}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 
@@ -109,6 +116,8 @@ MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="seq")
+MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+  EMMEANS("A", contrast="seq", p.adjust="tukey")
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="poly")
 

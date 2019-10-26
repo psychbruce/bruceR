@@ -37,6 +37,10 @@ if(FALSE) {
 #' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
 #'
+#' In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
+#' \eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
+#' For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
+#'
 #' \strong{Demo Datasets:}
 #'
 #' The demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
@@ -191,17 +195,19 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
                 between=between, within=within, covariate=covariate,
                 factorize=factorize,
                 anova_table=list(correction=sphericity.correction,
-                                 es="pes"),
+                                 es="ges"),
                 include_aov=TRUE,  # see EMMEANS, default will be FALSE
                 print.formula=FALSE)
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
   at=mutate(at, MS=`F`*MSE,
+            g.eta2=at$ges,
             p.eta2=mapply(eta_sq_ci, `F`, df1, df2, return="eta2"),
             LLCI=mapply(eta_sq_ci, `F`, df1, df2, return="LLCI"),
             ULCI=mapply(eta_sq_ci, `F`, df1, df2, return="ULCI"))
   at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
-              "p.eta2", "LLCI", "ULCI")]
+              "g.eta2", "p.eta2", "LLCI", "ULCI")]
+  at$g.eta2=NULL
   names(at)[7:9]=c("  \u03b7\u00b2p", "[90% ", "  CI]")
   row.names(at)=row.names(aov.ez$anova_table)
   df.nsmall=ifelse(sphericity.correction=="none", 0, 2)
@@ -214,29 +220,40 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   ")
   print_table(at, nsmalls=c(3, 3, df.nsmall, df.nsmall,
                             2, 0, 3, 3, 3))
+  Print("<<blue MSE = Mean Square Error (an estimate of the population variance \u03c3\u00b2)>>")
   if(sphericity.correction=="GG")
     Print("<<green Sphericity correction method: GG (Greenhouse-Geisser)>>")
   if(sphericity.correction=="HF")
     Print("<<green Sphericity correction method: HF (Huynh-Feldt)>>")
-  Print("<<blue
-  Tips: \u03b7\u00b2p (partial eta-squared) = F * df1 / (F * df1 + df2)
-  >>")
 
   ## All Other Effect-Size Measures
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
   # Replace partial.etasq and cohens.f, due to their wrong results
-  Print("\n\n\n<<underline Other Effect-Size Measures:>>")
+  Print("\n\n\n<<underline ANOVA Effect Size:>>")
   effsize=anova_stats(aov.ez$aov)
   effsize$stratum=NULL
   effsize=effsize[-which(effsize$term=="Residuals"),]
-  effsize=mutate(effsize, partial.etasq=round(at0$p.eta2, 3),
-                 cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3))
+  effsize=mutate(effsize,
+                 partial.etasq=round(at0$p.eta2, 3),
+                 cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3),
+                 generalized.etasq=round(at0$g.eta2, 3))
   names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
-                   "\u03b7\u00b2", "\u03b7\u00b2p",
-                   "\u03c9\u00b2", "\u03c9\u00b2p",
-                   "\u03b5\u00b2", "Cohen's f", "Post-Hoc Power")
+                   "     \u03b7\u00b2",  # eta2
+                   "  \u03b7\u00b2[p]",  # eta2_p
+                   "     \u03c9\u00b2",  # omega2
+                   "  \u03c9\u00b2[p]",  # omega2_p
+                   "     \u03b5\u00b2",  # epsilon2
+                   "Cohen's f", "Post-Hoc Power",
+                   "  \u03b7\u00b2[G]")  # eta2_G
   row.names(effsize)=effsize$Term
-  print(effsize[c(7, 8, 9, 12)])
+  print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
+  Print("\n\n\n<<blue
+  \u03c9\u00b2:  omega-squared           [= (SS - df1 * MSE) / (SST + MSE)]
+  \u03b7\u00b2:  eta-squared             [= SS / SST]
+  \u03b7\u00b2G: generalized eta-squared
+  \u03b7\u00b2p: partial eta-squared     [= SS / (SS + SSE) = F * df1 / (F * df1 + df2)]
+  Cohen\u2019s <<italic f>>:                   [= sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )]
+  >>")
 
   ## Mauchly's Test of Sphericity
   if(!is.null(within)) {
@@ -247,8 +264,10 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
       message("No factors have more than 2 levels, so no need to do the sphericity test.")
     } else {
       print(sph)
-      if(min(sph[,2])<.05 & sphericity.correction=="none")
-        Print("<<red The sphericity assumption is violated. You may set 'sphericity.correction' to 'GG' or 'HF'.>>")
+      if(min(sph[,2])<.05 & sphericity.correction=="none") {
+        Print("<<red The sphericity assumption is violated.
+              You may set 'sphericity.correction' to 'GG' or 'HF'.>>")
+      }
     }
   }
   cat("\n")
@@ -330,7 +349,7 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 #'   }
 #' }
 #' @import emmeans
-#' @param model A model fitted by \code{MANOVA} or many other functions (e.g., \code{aov, aov_ez, lm, lmer}).
+#' @param model A model fitted by \code{\link{MANOVA}} or \code{\link[afex]{aov_ez}}.
 #' @param effect The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
 #' If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.
 #' @param by Moderator variable(s). Default is \code{NULL}.
@@ -341,6 +360,11 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 #' Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
 #' For polynomial contrasts, the default is \code{"none"}.
 #' For details, see \code{stats::\link[stats]{p.adjust}}.
+#' @param cohen.d Method to compute Cohen's \emph{d} in multiple comparisons.
+#' Default is \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
+#' For details, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
+#' An alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
+#' In general, \code{"eff_size"} gives more reasonable estimates and so is highly suggested.
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
 #' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
 #' Then, you may set \code{repair="TRUE"} to have the adjusted results.
@@ -352,6 +376,8 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 #'   EMMEANS("A")
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="seq")
+#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#'   EMMEANS("A", contrast="seq", p.adjust="tukey")
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="poly")
 #'
@@ -426,6 +452,7 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
                  p.adjust="bonferroni",
+                 cohen.d="eff_size",
                  reverse=TRUE,
                  repair=FALSE) {
   model.raw=model
@@ -470,6 +497,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     sim$p.eta2=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="eta2") %>% formatF(3)
     sim$LLCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="LLCI") %>% formatF(3) %>% paste0("[", ., ",")
     sim$ULCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="ULCI") %>% formatF(3) %>% paste0(., "]")
+    sim$F.ratio=round(sim$F.ratio, 2)
     names(sim)[c(1,(length(by)+2):(length(by)+9))]=
       c("----", "df1", "df2", "F", "p", "sig",
         "  \u03b7\u00b2p", " [90%", "  CI]")
@@ -483,6 +511,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     emm0=emm=emmeans(model, specs=effect, by=by, weights="equal")
   })
   emm=summary(emm)  # to a data.frame (class 'summary_emm')
+  emm$emmean=round(emm$emmean, 2)
   emm$SE=formatF(emm$SE, 3) %>% paste0("(", ., ")")
   emm$lower.CL=formatF(emm$lower.CL, 2) %>% paste0("[", ., ",")
   emm$upper.CL=formatF(emm$upper.CL, 2) %>% paste0(., "]")
@@ -511,11 +540,30 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   con=summary(con)  # to a data.frame (class 'summary_emm')
   # com=pairs(emm, simple="each", adjust=p.adjust, reverse=TRUE, combine=TRUE)
   con$sig=sig.trans(con$p.value)
-  # con$lower.CI=conCI$lower.CL %>% formatF(2) %>% paste0("[", ., ",")
-  # con$upper.CI=conCI$upper.CL %>% formatF(2) %>% paste0(., "]")
-  con$d=r2d(t2r(con$t.ratio, con$df))  # WARNING: NOT EXACTLY!
-  con$d.LLCI=(conCI$lower.CL*con$d/con$estimate) %>% formatF(2) %>% paste0("[", ., ",")
-  con$d.ULCI=(conCI$upper.CL*con$d/con$estimate) %>% formatF(2) %>% paste0(., "]")
+  if(cohen.d=="t2d") {
+    # WARNING: NOT EXACTLY!
+    if(contrast!="poly")
+      message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
+    con$d=r2d(t2r(con$t.ratio, con$df))
+    con$d.LLCI=(conCI$lower.CL*con$d/con$estimate) %>% formatF(2) %>% paste0("[", ., ",")
+    con$d.ULCI=(conCI$upper.CL*con$d/con$estimate) %>% formatF(2) %>% paste0(., "]")
+  } else if(cohen.d=="eff_size") {
+    # if(contrast!="poly")
+    #   message("NOTE: Cohen's d was estimated by 'eff_size()' in the 'emmeans' package.")
+    rn=row.names(model$anova_table)
+    term=c()
+    for(i in rn) if(i %in% effect) term=c(term, i)
+    term=paste(term, collapse=":")
+    es=eff_size(emm0, method=contrast,
+                sigma=sqrt(model$anova_table[term, "MSE"]),
+                edf=df.residual(model$lm)) %>% summary()
+    con$d=es$effect.size
+    con$d.LLCI=es$lower.CL %>% formatF(2) %>% paste0("[", ., ",")
+    con$d.ULCI=es$upper.CL %>% formatF(2) %>% paste0(., "]")
+  } else {
+    stop("Please set cohen.d = 'eff_size' or 't2d', see ?EMMEANS")
+  }
+  con$estimate=round(con$estimate, 2)
   con$SE=formatF(con$SE, 3) %>% paste0("(", ., ")")
   con$t.ratio=formatF(con$t.ratio, 2)
   con$p.value=p.trans(con$p.value)
@@ -524,8 +572,6 @@ EMMEANS=function(model, effect=NULL, by=NULL,
       "Cohen's d", " [95%", "  CI]")
   if(contrast=="poly")
     con[c("Cohen's d", " [95%", "  CI]")]=NULL
-  else
-    message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
   print(con)
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")

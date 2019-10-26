@@ -47,6 +47,10 @@ You only need to specify the data, dependent variable(s), and factors (between-s
 Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
 
+In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
+\eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
+For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
+
 \strong{Demo Datasets:}
 
 The demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
