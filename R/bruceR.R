@@ -167,6 +167,7 @@ NULL
   <<silver
   <<blue Check update:>> check_update()
   <<blue To update:>> devtools::install_github(\"psychbruce/bruceR\")
+  <<blue Report bugs:>> <<underline https://github.com/psychbruce/bruceR/issues>>
   >>
   >>>>
   ")

@@ -4,7 +4,7 @@
 \alias{Corr}
 \title{Correlation analysis with test and plot}
 \usage{
-Corr(data, method = "pearson", adjust = "none", CI = TRUE,
+Corr(data, method = "pearson", p.adjust = "none", CI = TRUE,
   nsmall = 4, plot = TRUE, plot.range = c(-1, 1),
   plot.color = c("#B52127", "white", "#2171B5"), save.file = NULL,
   save.size = "8:6", save.dpi = 500)
@@ -14,7 +14,8 @@ Corr(data, method = "pearson", adjust = "none", CI = TRUE,
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
-\item{adjust}{Adjustment for multiple tests: \code{"none", "holm", "bonferroni", "fdr", ...}. (See \code{\link[stats]{p.adjust}} for details.)}
+\item{p.adjust}{Adjustment of \emph{p} values for multiple tests: \code{"none", "fdr", "holm", "bonferroni", ...}
+For details, see \code{stats::\link[stats]{p.adjust}}.}
 
 \item{CI}{\code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.}
 
@@ -38,7 +39,7 @@ Correlation analysis with test and plot
 }
 \examples{
 Corr(airquality)
-Corr(airquality, adjust="bonferroni")
+Corr(airquality, p.adjust="bonferroni")
 Corr(airquality, save.file="Air-Corr.png")
 
 Corr(bfi[c("gender", "age", "education")])

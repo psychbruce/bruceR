@@ -134,6 +134,7 @@ pkg_depend=function(pkg, exclude=NULL) {
   if(length(pkgs)==0) {
     Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>")
   } else {
+    Print("<<blue Package <<green '{pkg}'>> is NOT a dependency of your excluded package(s).>>")
     packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
     View(packages, pkg)
     invisible(packages)
@@ -272,7 +273,12 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
   if(is.null(sig)==FALSE & "sig" %notin% names(x)) {
-    x=cbind(x[1:which(names(x)=="p")], ` `=sig, x[(which(names(x)=="p")+1):length(names(x))])
+    p.pos=which(names(x)=="p")
+    nvars=length(names(x))
+    if(p.pos<nvars)
+      x=cbind(x[1:p.pos], ` `=sig, x[(p.pos+1):nvars])
+    else
+      x=cbind(x, ` `=sig)
     x$` `=as.character(x$` `)
   }
 
@@ -689,7 +695,8 @@ Freq=function(var, label=NULL, sort="",
 #' @inheritParams Describe
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
-#' @param adjust Adjustment for multiple tests: \code{"none", "holm", "bonferroni", "fdr", ...}. (See \code{\link[stats]{p.adjust}} for details.)
+#' @param p.adjust Adjustment of \emph{p} values for multiple tests: \code{"none", "fdr", "holm", "bonferroni", ...}
+#' For details, see \code{stats::\link[stats]{p.adjust}}.
 #' @param CI \code{TRUE} (default) or \code{FALSE}, output confidence intervals of correlations.
 #' @param nsmall Number of decimal places of output. Default is 4.
 #' @param plot \code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.
@@ -698,18 +705,18 @@ Freq=function(var, label=NULL, sort="",
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
 #' @examples
 #' Corr(airquality)
-#' Corr(airquality, adjust="bonferroni")
+#' Corr(airquality, p.adjust="bonferroni")
 #' Corr(airquality, save.file="Air-Corr.png")
 #'
 #' Corr(bfi[c("gender", "age", "education")])
 #' Corr(bfi, CI=FALSE, save.file="BFI-Corr.png", save.size="9:9")
 #' @export
 Corr=function(data, method="pearson",
-              adjust="none", CI=TRUE, nsmall=4,
+              p.adjust="none", CI=TRUE, nsmall=4,
               plot=TRUE, plot.range=c(-1, 1),
               plot.color=c("#B52127", "white", "#2171B5"),
               save.file=NULL, save.size="8:6", save.dpi=500) {
-  cor=cor0=corr.test(data, method=method, adjust=adjust)
+  cor=cor0=corr.test(data, method=method, adjust=p.adjust)
   # print(cor, digits=nsmall, short=!CI)
   Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
   cor$r[cor$r==1]=NA
@@ -718,7 +725,7 @@ Corr=function(data, method="pearson",
   cor$p=p.trans2(cor$p) %>% gsub(" ", "", .) %>% gsub("=", " ", .)
   for(i in 1:nrow(cor$p)) cor$p[i,i]=""
   print_table(cor$p)
-  if(adjust!="none") Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(adjust)}).>>")
+  if(p.adjust!="none") Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(p.adjust)} method).>>")
   if(class(cor$n)=="matrix") {
     Print("\n\n\nSample size:")
     print_table(cor$n, nsmalls=0)
