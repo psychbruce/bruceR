@@ -16,7 +16,7 @@ if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
 
-During installation, you might see these in console:
+Then, you may see these messages in console:
 ```
 These packages have more recent versions available.
 Which would you like to update?
@@ -33,7 +33,7 @@ You can update all the packages that `bruceR` depends on or just enter an **empt
 
 ## Potential Bugs During Installation
 
-All the bugs listed below have no relationships with `bruceR` *per se*. They are actually related to the installation and updates of the dependency packages of `bruceR`.
+All the bugs listed below have **no** relationship with `bruceR` *per se*. They are actually related to the installation and updates of the dependency packages of `bruceR`.
 
 ### Bug #1:
 ```
@@ -115,7 +115,7 @@ example("model_check")
 - [x] Multivariate computing (e.g., scale mean score with reverse scoring)
   + `RECODE()`, `RESCALE()`
   + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
-- [x] Reliability and validity analyses (e.g., Cronbach's alpha, exploratory/confirmatory factor analysis)
+- [x] Reliability and validity analyses (e.g., Cronbach's α, exploratory/confirmatory factor analysis)
   + `Alpha()`
   + `EFA()`, `CFA()`
 - [x] *t*-test, ANOVA, simple-effect analyses, and multiple comparisons
