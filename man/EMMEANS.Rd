@@ -60,7 +60,7 @@ Here, I explain what these terms actually refer to.
       \item simple simple effects (only for designs with 3 or more factors)
     }
     When the interaction effects in ANOVA are significant, we should then perform a "simple-effect analysis".
-    In ANOVA, we called it "simple-effect analysis"; in regression, we also called it "simple-slope analysis".
+    In ANOVA, we call it "simple-effect analysis"; in regression, we also call it "simple-slope analysis".
     They are identical in statistical principles. Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
 
 In a regular two-factors design, we only test \strong{"simple main effects"}.

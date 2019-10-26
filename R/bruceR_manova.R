@@ -136,6 +136,8 @@ if(FALSE) {
 #' MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 #'        between=c("A", "C"), within="B")
 #' @references
+#' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs. \emph{Psychological Methods, 8}(4), 434-447. \url{https://doi.org/10.1037/1082-989X.8.4.434}
+#'
 #' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis. \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
 #' @seealso \code{\link{EMMEANS}}
 #' @export
@@ -248,11 +250,11 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   row.names(effsize)=effsize$Term
   print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
   Print("\n\n\n<<blue
-  \u03c9\u00b2:  omega-squared           [= (SS - df1 * MSE) / (SST + MSE)]
-  \u03b7\u00b2:  eta-squared             [= SS / SST]
-  \u03b7\u00b2G: generalized eta-squared
-  \u03b7\u00b2p: partial eta-squared     [= SS / (SS + SSE) = F * df1 / (F * df1 + df2)]
-  Cohen\u2019s <<italic f>>:                   [= sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )]
+  \u03c9\u00b2: omega-squared = (SS - df1 * MSE) / (SST + MSE)
+  \u03b7\u00b2: eta-squared = SS / SST
+  \u03b7\u00b2G: generalized eta-squared (see Olejnik & Algina, 2003)
+  \u03b7\u00b2p: partial eta-squared = SS / (SS + SSE) <<bold <<magenta = >>>><<bold <<magenta F * df1 / (F * df1 + df2)>>>>
+  Cohen\u2019s <<italic f>>: = sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )
   >>")
 
   ## Mauchly's Test of Sphericity
@@ -301,7 +303,7 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 #'       \item simple simple effects (only for designs with 3 or more factors)
 #'     }
 #'     When the interaction effects in ANOVA are significant, we should then perform a "simple-effect analysis".
-#'     In ANOVA, we called it "simple-effect analysis"; in regression, we also called it "simple-slope analysis".
+#'     In ANOVA, we call it "simple-effect analysis"; in regression, we also call it "simple-slope analysis".
 #'     They are identical in statistical principles. Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
 #'
 #'     In a regular two-factors design, we only test \strong{"simple main effects"}.
