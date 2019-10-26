@@ -28,7 +28,7 @@ Which would you like to update?
 
 Enter one or more numbers, or an empty line to skip updates:
 ```
-You can update all the packages that `bruceR` depends on or just enter an **empty line** to skip updating these dependency packages.
+You can update all the packages that `bruceR` depends on or just enter an **empty line** to skip this step.
 
 
 ## Potential Bugs During Installation
@@ -49,12 +49,12 @@ Download and install it. (Note: [Rtools](http://cran.r-project.org/bin/windows/R
 ### Bug #2:
 ```
 Error: Failed to install 'bruceR' from GitHub:
-  (converted from warning) installation of package °Ærlang°Ø had non-zero exit status
+  (converted from warning) installation of package ‚Äòrlang‚Äô had non-zero exit status
 ```
 #### Solution:
 This bug may happen when you choose to update the dependency packages (e.g., `rlang`) of `bruceR`. You may first update it by using `install.packages("rlang")` before you install `bruceR`.
 
-Yet there might also be some bugs when you update them. For example, you may see `There is a binary version available but the source version is later` in the console and `Do you want to install from sources the package which needs compilation` in a dialog box. You can try whether the "source version" can be successfully installed. If not, you can install the "binary version". In general, an R package has a "source version" newer than a "binary version", but you can wait until the "source version" gets a corresponding "binary version", which will make installation easier.
+Yet there might still be some bugs when you update them. For example, you may see `There is a binary version available but the source version is later` in the console and `Do you want to install from sources the package which needs compilation` in a dialog box. You can try whether the "source version" can be successfully installed. If not, you can install the "binary version". In general, an R package has a "source version" newer than a "binary version", but you can wait until the "source version" gets a corresponding "binary version", which will make installation easier and faster.
 
 ### Other bugs:
 For any other potential bugs during installation, please read carefully the warning messages. I believe you can solve them if you follow the instruction.
@@ -142,6 +142,6 @@ example("model_check")
 
 
 ## Author
-[Han-Wu-Shuang (Bruce) Bao](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
+[Han-Wu-Shuang (Bruce) Bao - ÂåÖÂØíÂê¥Èúú](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
 E-mail: baohws@psych.ac.cn or psychbruce@qq.com
