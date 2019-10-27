@@ -149,7 +149,7 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   design=ifelse(is.null(within), "Between-Subjects Design",
                 ifelse(is.null(between), "Within-Subjects Design",
                        "Mixed Design"))
-  Print("<<yellow ------ MANOVA Output ({design}) ------>>")
+  Print("<<yellow ====== MANOVA Output ({design}) ======>>")
   cat("\n")
 
   ## Add Participant ID (if necessary)
@@ -250,11 +250,11 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   row.names(effsize)=effsize$Term
   print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
   Print("\n\n\n<<blue
-  \u03c9\u00b2: omega-squared = (SS - df1 * MSE) / (SST + MSE)
-  \u03b7\u00b2: eta-squared = SS / SST
-  \u03b7\u00b2G: generalized eta-squared (see Olejnik & Algina, 2003)
-  \u03b7\u00b2p: partial eta-squared = SS / (SS + SSE) <<bold <<magenta = >>>><<bold <<magenta F * df1 / (F * df1 + df2)>>>>
-  Cohen\u2019s <<italic f>>: = sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )
+  \u03c9\u00b2 = omega-squared = (SS - df1 * MSE) / (SST + MSE)
+  \u03b7\u00b2 = eta-squared = SS / SST
+  \u03b7\u00b2G = generalized eta-squared (see Olejnik & Algina, 2003)
+  \u03b7\u00b2p = partial eta-squared = SS / (SS + SSE) <<bold <<magenta = >>>><<bold <<magenta F * df1 / (F * df1 + df2)>>>>
+  Cohen\u2019s <<italic f>> = sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )
   >>")
 
   ## Mauchly's Test of Sphericity
@@ -356,17 +356,24 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 #' If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.
 #' @param by Moderator variable(s). Default is \code{NULL}.
 #' @param contrast Contrast method for multiple comparisons. Default is \code{"pairwise"}.
+#'
 #' Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
 #' For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.
 #' @param p.adjust Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
-#' Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
-#' For polynomial contrasts, the default is \code{"none"}.
+#' For polynomial contrasts, default is \code{"none"}.
+#'
+#' Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "sidak", "bonferroni"}.
 #' For details, see \code{stats::\link[stats]{p.adjust}}.
 #' @param cohen.d Method to compute Cohen's \emph{d} in multiple comparisons.
-#' Default is \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
-#' For details, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
-#' An alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
-#' In general, \code{"eff_size"} gives more reasonable estimates and so is highly suggested.
+#' Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.
+#' This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
+#'
+#' One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
+#' Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
+#' However, its CI estimates seem a little bit confusing.
+#' For details about this method, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
+#'
+#' Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
 #' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
 #' Then, you may set \code{repair="TRUE"} to have the adjusted results.
@@ -377,9 +384,9 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A")
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
-#'   EMMEANS("A", contrast="seq")
+#'   EMMEANS("A", p.adjust="tukey")
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
-#'   EMMEANS("A", contrast="seq", p.adjust="tukey")
+#'   EMMEANS("A", contrast="seq")
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="poly")
 #'
@@ -454,7 +461,7 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
 EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
                  p.adjust="bonferroni",
-                 cohen.d="eff_size",
+                 cohen.d="accurate",
                  reverse=TRUE,
                  repair=FALSE) {
   model.raw=model
@@ -519,6 +526,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   emm$upper.CL=formatF(emm$upper.CL, 2) %>% paste0(., "]")
   names(emm)[(length(emm)-4):length(emm)]=
     c("EM.Mean", "   S.E.", "df", " [95%", "  CI]")
+  attr(emm, "mesg")[which(grepl("^Confidence", attr(emm, "mesg")))]=
+    "EM.Mean uses an equally weighted average"
   print(emm)
   cat("\n")
 
@@ -538,20 +547,21 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   if(contrast=="consec") reverse=FALSE
   if(contrast=="poly") p.adjust="none"
   con0=con=contrast(emm0, method=contrast, adjust=p.adjust, reverse=reverse)
+  # pairs(emm, simple="each", reverse=TRUE, combine=TRUE)
   conCI=confint(con)
   con=summary(con)  # to a data.frame (class 'summary_emm')
-  # com=pairs(emm, simple="each", adjust=p.adjust, reverse=TRUE, combine=TRUE)
   con$sig=sig.trans(con$p.value)
+  # Cohen's d: 3 methods
   if(cohen.d=="t2d") {
-    # WARNING: NOT EXACTLY!
+    # WARNING: NOT Accurate!
     if(contrast!="poly")
       message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
     con$d=r2d(t2r(con$t.ratio, con$df))
     con$d.LLCI=(conCI$lower.CL*con$d/con$estimate) %>% formatF(2) %>% paste0("[", ., ",")
     con$d.ULCI=(conCI$upper.CL*con$d/con$estimate) %>% formatF(2) %>% paste0(., "]")
   } else if(cohen.d=="eff_size") {
-    # if(contrast!="poly")
-    #   message("NOTE: Cohen's d was estimated by 'eff_size()' in the 'emmeans' package.")
+    if(contrast!="poly")
+      message("NOTE: Cohen's d was estimated by 'eff_size()' in the 'emmeans' package.")
     rn=row.names(model$anova_table)
     term=c()
     for(i in rn) if(i %in% effect) term=c(term, i)
@@ -562,24 +572,47 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     con$d=es$effect.size
     con$d.LLCI=es$lower.CL %>% formatF(2) %>% paste0("[", ., ",")
     con$d.ULCI=es$upper.CL %>% formatF(2) %>% paste0(., "]")
+  } else if(cohen.d=="accurate") {
+    rn=row.names(model$anova_table)
+    term=c()
+    for(i in rn) if(i %in% effect) term=c(term, i)
+    term=paste(term, collapse=":")
+    SDpool=sqrt(model$anova_table[term, "MSE"])
+    con$d=con$estimate/SDpool
+    con$d.LLCI=(conCI$lower.CL/SDpool) %>% formatF(2) %>% paste0("[", ., ",")
+    con$d.ULCI=(conCI$upper.CL/SDpool) %>% formatF(2) %>% paste0(., "]")
+    if(contrast!="poly")
+      attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(SDpool, 2)}"),
+                          attr(con, "mesg"))
   } else {
-    stop("Please set cohen.d = 'eff_size' or 't2d', see ?EMMEANS")
+    stop("Please set cohen.d = 'accurate', 'eff_size', or 't2d'.")
   }
   con$estimate=round(con$estimate, 2)
   con$SE=formatF(con$SE, 3) %>% paste0("(", ., ")")
-  con$t.ratio=formatF(con$t.ratio, 2)
+  con$t.ratio=round(con$t.ratio, 2)
   con$p.value=p.trans(con$p.value)
+  p.mesg.index=grepl("^P value adjustment", attr(con, "mesg"))
   names(con)[c(1, (length(con)-8):length(con))]=
-    c("Contrast", "b", "   S.E.", "df", "    t", "    p", "sig",
-      "Cohen's d", " [95%", "  CI]")
+    c("Contrast", "b", "   S.E.", "df", "    t",
+      ifelse(any(p.mesg.index), "   p*", "    p"),
+      "sig", "Cohen's d", " [95%", "  CI]")
+  if(any(p.mesg.index)) {
+    p.mesg=attr(con, "mesg")[which(p.mesg.index)]
+    method.mesg=str_extract(p.mesg, "(?<=: ).+(?= method)")
+    if(method.mesg %in% c("fdr", "mvt"))
+      method.mesg.new=toupper(method.mesg)
+    else
+      method.mesg.new=Hmisc::capitalize(method.mesg)
+    p.mesg.new=paste0("P-value adjustment: ", method.mesg.new, strsplit(p.mesg, method.mesg)[[1]][2])
+    attr(con, "mesg")[which(p.mesg.index)]=p.mesg.new
+  }
   if(contrast=="poly")
     con[c("Cohen's d", " [95%", "  CI]")]=NULL
   print(con)
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
-  if(length(attr(con, "mesg"))==1)
-    if(grepl("averaged", attr(con, "mesg")))
-      cat("\n")
+  if(any(grepl("averaged|SD_pooled", attr(con, "mesg"))) & any(p.mesg.index)==FALSE)
+    cat("\n")
 
   ## Return (return the raw model for recycling across '%>%' pipelines)
   invisible(model.raw)

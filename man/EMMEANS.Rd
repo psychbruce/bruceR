@@ -5,7 +5,7 @@
 \title{Simple-effect analyses (for interactions) and post-hoc multiple comparisons (for factors with >= 3 levels)}
 \usage{
 EMMEANS(model, effect = NULL, by = NULL, contrast = "pairwise",
-  p.adjust = "bonferroni", cohen.d = "eff_size", reverse = TRUE,
+  p.adjust = "bonferroni", cohen.d = "accurate", reverse = TRUE,
   repair = FALSE)
 }
 \arguments{
@@ -17,19 +17,26 @@ If set to a character vector (e.g., \code{c("A", "B")}), it will also output the
 \item{by}{Moderator variable(s). Default is \code{NULL}.}
 
 \item{contrast}{Contrast method for multiple comparisons. Default is \code{"pairwise"}.
+
 Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
 For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.}
 
 \item{p.adjust}{Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
-Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "bonferroni"}.
-For polynomial contrasts, the default is \code{"none"}.
+For polynomial contrasts, default is \code{"none"}.
+
+Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "sidak", "bonferroni"}.
 For details, see \code{stats::\link[stats]{p.adjust}}.}
 
 \item{cohen.d}{Method to compute Cohen's \emph{d} in multiple comparisons.
-Default is \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
-For details, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
-An alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
-In general, \code{"eff_size"} gives more reasonable estimates and so is highly suggested.}
+Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.
+This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
+
+One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
+Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
+However, its CI estimates seem a little bit confusing.
+For details about this method, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
+
+Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 
@@ -115,9 +122,9 @@ View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
-  EMMEANS("A", contrast="seq")
+  EMMEANS("A", p.adjust="tukey")
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
-  EMMEANS("A", contrast="seq", p.adjust="tukey")
+  EMMEANS("A", contrast="seq")
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="poly")
 
