@@ -29,14 +29,16 @@ For details, see \code{stats::\link[stats]{p.adjust}}.}
 
 \item{cohen.d}{Method to compute Cohen's \emph{d} in multiple comparisons.
 Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.
-This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
+This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term
+(\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
 
 One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
 Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
 However, its CI estimates seem a little bit confusing.
 For details about this method, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
 
-Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.}
+Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
+\emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 
@@ -88,7 +90,8 @@ To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adj
   }
   \item{\strong{2. Post-Hoc Tests}}{
     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
-    However, these two terms should be distinguished. In many situations and softwares, "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
+    However, these two terms should be distinguished. In many situations and softwares,
+    "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
     For example, we can perform the post-hoc comparisons of mean values 1) across multiple levels of one factor in a pairwise way or 2) particularly between the two conditions "A1B1" and "A2B2".
 

@@ -6,14 +6,14 @@
 \usage{
 MANOVA(data, dv = NULL, dvs = NULL, dvs.pattern = "",
   between = NULL, within = NULL, covariate = NULL,
-  sphericity.correction = "none", subID = NULL,
-  factorize = ifelse(is.null(covariate), TRUE, FALSE))
+  which.observed = NULL, sphericity.correction = "none",
+  subID = NULL)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}. You can directly input a "wide-format" data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
 Then, if your data have any repeated measures, the function will automatically transform it into a long-format data for further analyses.
 
-If you input a long-format data, please also specify the variable name of subID in your data (see below, e.g., \code{subID="ID"}).
+If you input a long-format data, please also specify the variable name of subID in your data (see below, e.g., \code{subID="id"}).
 
 However, in general, you can just input a wide-format data (like in SPSS) and enjoy the convenience of this function!}
 
@@ -22,7 +22,7 @@ However, in general, you can just input a wide-format data (like in SPSS) and en
 \item{dvs}{\strong{[for designs with repeated measures]} Variable names of repeated measures in your data. You can use \code{":"} to specify a range of vairables (e.g., \code{"A1B1:A2B3"}).}
 
 \item{dvs.pattern}{\strong{[for designs with repeated measures]} If you set \code{dvs}, you must also specify the pattern of these variables. Regular expressions are used here.
-For example, \code{"A(.)B(.)"} will extract the factor levels and leave "A" and "B" as new variables in a long-format data.}
+For example, \code{"A(.)B(.)"} will extract the factor levels and leave \code{"A"} and \code{"B"} as new variables in a long-format data.}
 
 \item{between}{Between-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
 
@@ -30,13 +30,18 @@ For example, \code{"A(.)B(.)"} will extract the factor levels and leave "A" and 
 
 \item{covariate}{Covariates (if necessary). Can be either a character string or a character vector. Default is \code{NULL}.}
 
-\item{sphericity.correction}{\strong{[only effective for repeated measures with >= 3 levels]} Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+\item{which.observed}{\strong{[only effective for computing generalized \eqn{\eta^2}]}
+Factors that are observed or measured (e.g., gender, age group, measured covariates) as compared to experimentally manipulated. Default is \code{NULL}.
+The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
+
+(If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)}
+
+\item{sphericity.correction}{\strong{[only effective for repeated measures with >= 3 levels]}
+Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
 \item{subID}{As mentioned above, if your input is already a long-format data, then you should specify the subject ID because one subject occupies multiple rows.
 But in most cases, you don't need to do that.}
-
-\item{factorize}{Just leave this parameter as default. For details, see \code{afex::\link[afex]{aov_ez}}.}
 }
 \description{
 Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
@@ -127,9 +132,11 @@ MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
        between=c("A", "C"), within="B")
 }
 \references{
-Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs. \emph{Psychological Methods, 8}(4), 434-447. \url{https://doi.org/10.1037/1082-989X.8.4.434}
+Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
+\emph{Psychological Methods, 8}(4), 434-447. \url{https://doi.org/10.1037/1082-989X.8.4.434}
 
-Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis. \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
+Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
+\emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
 }
 \seealso{
 \code{\link{EMMEANS}}
