@@ -527,7 +527,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   names(emm)[(length(emm)-4):length(emm)]=
     c("EM.Mean", "   S.E.", "df", " [95%", "  CI]")
   attr(emm, "mesg")[which(grepl("^Confidence", attr(emm, "mesg")))]=
-    "EM.Mean uses an equally weighted average"
+    "EM.Mean uses an equally weighted average."
   print(emm)
   cat("\n")
 
@@ -603,8 +603,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
       method.mesg.new=toupper(method.mesg)
     else
       method.mesg.new=Hmisc::capitalize(method.mesg)
-    p.mesg.new=paste0("P-value adjustment: ", method.mesg.new, strsplit(p.mesg, method.mesg)[[1]][2])
+    p.mesg.new=paste0("P-value adjustment: ", method.mesg.new, strsplit(p.mesg, method.mesg)[[1]][2], ".")
     attr(con, "mesg")[which(p.mesg.index)]=p.mesg.new
+  } else if(p.adjust!="none") {
+    attr(con, "mesg")=c(attr(con, "mesg"),
+                        "No need to adjust p values.")
   }
   if(contrast=="poly")
     con[c("Cohen's d", " [95%", "  CI]")]=NULL
