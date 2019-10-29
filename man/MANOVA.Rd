@@ -6,42 +6,74 @@
 \usage{
 MANOVA(data, dv = NULL, dvs = NULL, dvs.pattern = "",
   between = NULL, within = NULL, covariate = NULL,
-  which.observed = NULL, sphericity.correction = "none",
-  subID = NULL)
+  which.observed = NULL, sph.correction = "none", subID = NULL)
 }
 \arguments{
-\item{data}{\code{data.frame} or \code{data.table}. You can directly input a "wide-format" data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
-Then, if your data have any repeated measures, the function will automatically transform it into a long-format data for further analyses.
+\item{data}{Any data object (e.g., \code{data.frame, data.table}).
+\itemize{
+  \item You can input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
+  Then, if your data have repeated measures, the function can \strong{\emph{automatically}} transform it into a \strong{long-format} data.
+  \item If you input a \strong{long-format} data, please also specify \strong{subID} (i.e., the variable indicating different subjects).
+}}
 
-If you input a long-format data, please also specify the variable name of subID in your data (see below, e.g., \code{subID="id"}).
+\item{dv}{Variable name of dependent variable in your data.
+\itemize{
+  \item If you input a \strong{wide-format} data, then \code{dv} is only for between-subjects design.
+  For designs with repeated measures, please use \code{dvs} and \code{dvs.pattern} instead.
+  \item If you input a \strong{long-format} data, then it is just the outcome variable.
+}}
 
-However, in general, you can just input a wide-format data (like in SPSS) and enjoy the convenience of this function!}
+\item{dvs}{\strong{[only for "wide-format" data and designs with repeated measures]}
 
-\item{dv}{\strong{[for purely between-subjects design or for long-format data]} Variable name of the dependent variable in your data.}
+Variable names of repeated measures in your data.
+\itemize{
+  \item You can use \code{":"} to specify a range of vairables: e.g., \code{"A1B1:A2B3"}
+  (similar to the SPSS syntax "TO"; the variables should be put in order)
+  \item You can also use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
+}}
 
-\item{dvs}{\strong{[for designs with repeated measures]} Variable names of repeated measures in your data. You can use \code{":"} to specify a range of vairables (e.g., \code{"A1B1:A2B3"}).}
+\item{dvs.pattern}{\strong{[only for "wide-format" data and designs with repeated measures]}
 
-\item{dvs.pattern}{\strong{[for designs with repeated measures]} If you set \code{dvs}, you must also specify the pattern of these variables. Regular expressions are used here.
-For example, \code{"A(.)B(.)"} will extract the factor levels and leave \code{"A"} and \code{"B"} as new variables in a long-format data.}
+If you set \code{dvs}, you must also set the pattern of variable names by using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
 
-\item{between}{Between-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+\strong{Examples:}
+\itemize{
+  \item \code{"Cond(.)"} can extract levels from \code{"Cond1", "Cond2", "Cond3", ...}
 
-\item{within}{Within-subjects factors. Can be either a character string (e.g., \code{"A"}) or a character vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+  \strong{You can rename the factor name} by using \code{within}: e.g., \code{within="Condition"}
+  \item \code{"X(..)Y(..)"} can extract levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
+  \item \code{"X(.+)Y(.+)"} can extract levels from \code{"X1Y1", "XaYb", "XaY002", ...}
+}
 
-\item{covariate}{Covariates (if necessary). Can be either a character string or a character vector. Default is \code{NULL}.}
+\strong{Tips on regular expression:}
+\itemize{
+  \item \code{"(.)"} extracts any single character (can be number, letter, or other symbols)
+  \item \code{"(.+)"} extracts >= 1 character(s)
+  \item \code{"(.*)"} extracts >= 0 character(s)
+  \item \code{"([0-9])"} extracts any single number
+  \item \code{"([a-z])"} extracts any single letter
+  \item each pair of \code{"()"} extracts levels for each factor
+}}
+
+\item{between}{Between-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+
+\item{within}{Within-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+
+\item{covariate}{Covariates (if necessary). Character string or vector. Default is \code{NULL}.}
 
 \item{which.observed}{\strong{[only effective for computing generalized \eqn{\eta^2}]}
-Factors that are observed or measured (e.g., gender, age group, measured covariates) as compared to experimentally manipulated. Default is \code{NULL}.
-The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 
+Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
+The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)}
 
-\item{sphericity.correction}{\strong{[only effective for repeated measures with >= 3 levels]}
+\item{sph.correction}{\strong{[only effective for repeated measures with >= 3 levels]}
+
 Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
-\item{subID}{As mentioned above, if your input is already a long-format data, then you should specify the subject ID because one subject occupies multiple rows.
-But in most cases, you don't need to do that.}
+\item{subID}{As mentioned above, if your input is already a \strong{long-format} data, then you should also specify the subject ID because one subject occupies multiple rows.
+However, if you input a \strong{wide-format} data, you \strong{don't need} to do that.}
 }
 \description{
 Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
@@ -88,7 +120,7 @@ Many thanks go to the contributors of the datasets.
 }
 }
 \examples{
-## Between-Subjects Design
+#### Between-Subjects Design ####
 
 View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A")
@@ -100,11 +132,14 @@ View(between.3)
 MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C"))
 
 
-## Within-Subjects Design
+#### Within-Subjects Design ####
 
 View(within.1)
 MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
        within="A")
+## the same:
+MANOVA(data=within.1, dvs=c("A1", "A2", "A3", "A4"), dvs.pattern="A(.)",
+       within="MyFactor")  # renamed the within-subjects factor
 
 View(within.2)
 MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
@@ -115,13 +150,13 @@ MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C"))
 
 
-## Mixed Design
+#### Mixed Design ####
 
 View(mixed.2_1b1w)
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B")
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
-       between="A", within="B", sphericity.correction="GG")
+       between="A", within="B", sph.correction="GG")
 
 View(mixed.3_1b2w)
 MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
@@ -130,6 +165,13 @@ MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 View(mixed.3_2b1w)
 MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
        between=c("A", "C"), within="B")
+
+
+#### Other Examples ####
+data.new=mixed.3_1b2w
+names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
+MANOVA(data=data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
+       between="Group", within="Condition")  # renamed the within-subjects factor
 }
 \references{
 Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.

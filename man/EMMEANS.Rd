@@ -119,7 +119,7 @@ Now, you can forget the overcomplicated SPSS syntax and join in the warm family 
 }
 }
 \examples{
-## Between-Subjects Design
+#### Between-Subjects Design ####
 
 View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
@@ -133,7 +133,9 @@ MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
 
 View(between.2)
 MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) \%>\%
+  EMMEANS("A") \%>\%
   EMMEANS("A", by="B") \%>\%
+  EMMEANS("B") \%>\%
   EMMEANS("B", by="A")
 
 View(between.3)
@@ -141,9 +143,11 @@ MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
+## just to name a few
+## you can test many other combinations of effects
 
 
-## Within-Subjects Design
+#### Within-Subjects Design ####
 
 View(within.1)
 MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
@@ -165,11 +169,11 @@ MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
   EMMEANS("A", by=c("B", "C"))
 
 
-## Mixed Design
+#### Mixed Design ####
 
 View(mixed.2_1b1w)
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
-       between="A", within="B", sphericity.correction="GG") \%>\%
+       between="A", within="B", sph.correction="GG") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 
@@ -189,7 +193,7 @@ MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
   EMMEANS("B", by=c("A", "C"))
 
 
-## Other Examples
+#### Other Examples ####
 air=airquality
 air$Day.1or2=ifelse(air$Day \%\% 2 == 1, 1, 2) \%>\%
   factor(levels=1:2, labels=c("odd", "even"))
