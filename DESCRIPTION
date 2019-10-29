@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.2.8
+Version: 0.2.9
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -24,9 +24,10 @@ Depends: R (>= 3.5.0),
          performance (>= 0.3.0),
          ggplot2 (>= 3.0.0)
 Imports: tidyverse (>= 1.2.0),
-         ggstatsplot (>= 0.0.10),
+         ggstatsplot (>= 0.1.2),
          MuMIn (>= 1.40.0),
          MBESS (>= 4.5.0),
+         pwr (>= 1.2-2),
          mediation (>= 4.4.6),
          jtools (>= 1.0.0),
          semPlot (>= 1.1.0)

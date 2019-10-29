@@ -152,7 +152,7 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
                 between=NULL, within=NULL, covariate=NULL,
                 which.observed=NULL,
                 sphericity.correction="none", subID=NULL) {
-  data=as.data.frame(data)
+  data0=data=as.data.frame(data)
   design=ifelse(is.null(within), "Between-Subjects Design",
                 ifelse(is.null(between), "Within-Subjects Design",
                        "Mixed Design"))
@@ -171,13 +171,15 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
     if(is.null(within)) {
       stop("Please specify the dependent variable.")
     } else {
-      vars=convert2vars(data, varrange=dvs)$vars.raw
-      data=pivot_longer(data, cols=vars,
+      dv.vars=convert2vars(data, varrange=dvs)$vars.raw
+      data=pivot_longer(data, cols=dv.vars,
                         names_to=within,
                         names_pattern=dvs.pattern,
                         values_to="Y") %>% as.data.frame()
       dv="Y"
     }
+  } else {
+    dv.vars=dv
   }
   ncom=complete.cases(data[c(between, within, covariate)])
   nmis=length(ncom)-sum(ncom)
@@ -223,10 +225,10 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   df.nsmall=ifelse(sphericity.correction=="none", 0, 2)
   Print("
   <<underline ANOVA Table:>>
-  Dependent variable(s):      {ifelse(is.null(within), dv, paste0(vars, collapse=', '))}
-  Between-subjects factor(s): {ifelse(is.null(between), '-', paste0(between, collapse=', '))}
-  Within-subjects factor(s):  {ifelse(is.null(within), '-', paste0(within, collapse=', '))}
-  Covariate(s):               {ifelse(is.null(covariate), '-', paste0(covariate, collapse=', '))}
+  Dependent variable(s):      {ifelse(is.null(within), dv, paste(dv.vars, collapse=', '))}
+  Between-subjects factor(s): {ifelse(is.null(between), '-', paste(between, collapse=', '))}
+  Within-subjects factor(s):  {ifelse(is.null(within), '-', paste(within, collapse=', '))}
+  Covariate(s):               {ifelse(is.null(covariate), '-', paste(covariate, collapse=', '))}
   ")
   print_table(at, nsmalls=c(3, 3, df.nsmall, df.nsmall,
                             2, 0, 3, 3, 3))
@@ -265,9 +267,12 @@ MANOVA=function(data, dv=NULL, dvs=NULL, dvs.pattern="",
   Cohen\u2019s <<italic f>> = sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )
   >>")
 
+  ## Levene's Test for Homogeneity of Variance
+  try({levene_test(dv.vars, between, data0)}, silent=TRUE)
+
   ## Mauchly's Test of Sphericity
   if(!is.null(within)) {
-    Print("\n\n\n<<underline Mauchly Test of Sphericity:>>")
+    Print("\n\n\n<<underline Mauchly\u2019s Test of Sphericity:>>")
     sph=summary(aov.ez$Anova)$sphericity.tests
     colnames(sph)=c("Mauchly's W", "p")
     if(length(sph)==0) {
@@ -633,13 +638,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 }
 
 
-#' Compute the confidence interval (CI) of partial eta^2 in ANOVA
-#' @importFrom MBESS F2Rsquare ci.R2
-#' @export
+## Compute the confidence interval (CI) of partial eta^2 in ANOVA
 eta_sq_ci=function(F.value, df.1, df.2, conf.level=0.90, return="all") {
-  eta2=F2Rsquare(F.value=F.value, df.1=df.1, df.2=df.2)
-  ci=ci.R2(F.value=F.value, df.1=df.1, df.2=df.2,
-           Random.Predictors=FALSE, conf.level=conf.level)
+  eta2=MBESS::F2Rsquare(F.value=F.value, df.1=df.1, df.2=df.2)
+  ci=MBESS::ci.R2(F.value=F.value, df.1=df.1, df.2=df.2,
+                  Random.Predictors=FALSE, conf.level=conf.level)
   if(return=="all")
     return(c(eta2, ci$Lower.Conf.Limit.R2, ci$Upper.Conf.Limit.R2))
   if(return=="eta2")
@@ -649,3 +652,31 @@ eta_sq_ci=function(F.value, df.1, df.2, conf.level=0.90, return="all") {
   if(return=="ULCI")
     return(ci$Upper.Conf.Limit.R2)
 }
+
+
+## Levene's Test for Homogeneity of Variance
+levene_test=function(dvs, ivs.between, data) {
+  Print("\n\n\n<<underline Levene\u2019s Test for Homogeneity of Variance:>>")
+  if(is.null(ivs.between)) {
+    message("No between-subjects factors, so no need to do the Levene's test.")
+  } else {
+    for(iv in ivs.between)
+      data[[iv]]=as.factor(data[[iv]])
+    for(dv in dvs) {
+      f=as.formula(Glue("{dv} ~ {paste(ivs.between, collapse='*')}"))
+      test1=car::leveneTest(f, data, center=mean)
+      test2=car::leveneTest(f, data, center=median)
+      test=rbind(test1[1,], test2[1,])
+      test=cbind(test[2], test[1], df2=c(test1[2,"Df"], test2[2,"Df"]), test[3])
+      names(test)=c("Levene's F", "df1", "df2", "p")
+      test$sig=sig.trans(test$p)
+      test$p=p.trans(test$p)
+      test$`Levene's F`=formatF(test$`Levene's F`, 2)
+      row.names(test)=c("Based on Mean", "Based on Median")
+      Print("DV = {dv}:")
+      print(test)
+      if(which(dv==dvs) < length(dvs)) cat("\n")
+    }
+  }
+}
+
