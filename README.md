@@ -33,7 +33,7 @@ You can update all the packages that `bruceR` depends on or just enter an **empt
 
 ## Potential Bugs During Installation
 
-All the bugs listed below have **no** relationship with `bruceR` *per se*. They are actually related to the installation and updates of the dependency packages of `bruceR`.
+**NONE** of the installation bugs have relationships with `bruceR` *per se*.
 
 ### Bug #01:
 ```
@@ -101,15 +101,17 @@ Error: Failed to install 'bruceR' from GitHub:
 #### Solution:
 Some dependency packages of `bruceR` (e.g., `rlang`) should be responsible for this bug. Use the menu bar of RStudio (in the panes, not on the top: `Package -> Update`) to update such packages before you install `bruceR`. Or you can skip updating such packages.
 
-### Other bugs:
-Read the warning messages and follow the instruction.
+### Bug #N:
+There may be other bugs.
+#### Solution:
+Read the warning messages. Follow the instruction. Search the Internet. Get the answer.
 
 
 ## User Guide
 > *We are all standing on the shoulders of giants.*
 
 ### Loading `bruceR`
-`bruceR` depends on some important packages (listed as follows) and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
+`bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
 Once you load `bruceR` to the global environment with `library()`, it will also load the packages most commonly used:
 - `rio`: Data input/output for many file formats within one function (`import`/`export`).
