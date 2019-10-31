@@ -35,7 +35,7 @@ You can update all the packages that `bruceR` depends on or just enter an **empt
 
 All the bugs listed below have **no** relationship with `bruceR` *per se*. They are actually related to the installation and updates of the dependency packages of `bruceR`.
 
-### Bug #1:
+### Bug #01:
 ```
 WARNING: Rtools is required to build R packages, but is not currently installed.
 
@@ -43,21 +43,68 @@ Please download and install Rtools 3.5 from http://cran.r-project.org/bin/window
 
 Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ```
-#### Solution:
-Download and install it. (Note: [Rtools](http://cran.r-project.org/bin/windows/Rtools/) is **not** an R package.)
+#### Solution #01:
+Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
 
-### Bug #2:
+### Bug #02:
+```
+* installing *source* package 'bruceR' ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+错误: (由警告转换成)程辑包'rio'是用R版本3.6.1 来建造的
+停止执行
+ERROR: lazy loading failed for package 'bruceR'
+* removing 'C:/Users/Documents/R/win-library/3.6/bruceR'
+Error: Failed to install 'bruceR' from GitHub:
+  (converted from warning) installation of package ‘C:/Users/AppData/Local/Temp/Rtmp/file/bruceR_0.3.0.tar.gz’ had non-zero exit status
+```
+or
+```
+* installing *source* package 'bruceR' ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+错误: (由警告转换成)程辑包'dplyr'是用R版本3.6.1 来建造的
+停止执行
+ERROR: lazy loading failed for package 'bruceR'
+* removing 'C:/Users/Documents/R/win-library/3.6/bruceR'
+Error: Failed to install 'bruceR' from GitHub:
+  (converted from warning) installation of package ‘C:/Users/AppData/Local/Temp/Rtmp/file/bruceR_0.3.0.tar.gz’ had non-zero exit status
+```
+#### Solution #02:
+Update R to the [newest version](https://cran.r-project.org/), because some packages (e.g., `rio`, `dplyr`) require the latest version of R.
+
+Tips: You can use `installr` package to copy all your installed packages from the old folder to the new one.
+```r
+install.packages("installr")
+library(installr)
+copy.packages.between.libraries(ask=TRUE)
+```
+
+### Bug #03:
 ```
 Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) installation of package ‘rlang’ had non-zero exit status
 ```
-#### Solution:
-This bug may happen when you choose to update the dependency packages (e.g., `rlang`) of `bruceR`. You may first update it by using `install.packages("rlang")` before you install `bruceR`.
+#### Solution #03:
+Some dependency packages of `bruceR` (e.g., `rlang`) should be responsible for this bug. Use the menu bar of RStudio (in the panes, not on the top: `Package -> Update`) to update other packages before you install `bruceR`. Or you can skip updating these packages.
 
-Yet there might still be some bugs when you update them. For example, you may see `There is a binary version available but the source version is later` in the console and `Do you want to install from sources the package which needs compilation` in a dialog box. You can try whether the "source version" can be successfully installed. If not, you can install the "binary version". In general, an R package has a "source version" newer than a "binary version", but you can wait until the "source version" gets a corresponding "binary version", which will make installation easier and faster.
+### Bug #04:
+```
+Downloading GitHub repo psychbruce/bruceR@master
+Error in utils::download.file(url, path, method = method, quiet = quiet,  : 
+  cannot open URL 'https://api.github.com/repos/psychbruce/bruceR/tarball/master'
+```
+#### Solution #04:
+Check your network Connections.
 
 ### Other bugs:
-For any other potential bugs during installation, please read carefully the warning messages. I believe you can solve them if you follow the instruction.
+Read the warning messages and follow the instruction.
 
 
 ## User Guide
