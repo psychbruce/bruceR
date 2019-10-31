@@ -15,7 +15,7 @@
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
-> Please do NOT use `install.packages("bruceR")`, because this package has not been put on the [CRAN](https://cran.r-project.org/). Currently, it is only available from GitHub.
+> Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on [CRAN](https://cran.r-project.org/). Currently, it is only available from GitHub.
 
 Then, you may see these messages in console:
 ```
@@ -29,12 +29,12 @@ Which would you like to update?
 
 Enter one or more numbers, or an empty line to skip updates:
 ```
-You can update all the packages that `bruceR` depends on or just enter an **empty line** to skip this step.
+You can **1)** update all the packages that `bruceR` depends on, or **2)** enter an **empty line** to skip this step.
 
 
 ## Potential Bugs During Installation
 
-**NONE** of the installation bugs have relationships with `bruceR` *per se*.
+All of the installation bugs DO NOT have any relationships with the `bruceR` package *per se*.
 
 ### Bug #01:
 ```
@@ -43,8 +43,9 @@ Warning in install.packages :
   package ‘bruceR’ is not available (for R version 3.6.1)
 ```
 #### Solution:
-Use `devtools::install_github("psychbruce/bruceR")`.
-Do not use `install.packages("bruceR")`.
+Please use `devtools::install_github("psychbruce/bruceR")`.
+
+DO NOT use `install.packages("bruceR")`.
 
 ### Bug #02:
 ```
