@@ -10,11 +10,12 @@
 [![](https://img.shields.io/badge/Follow%20me%20on-Zhihu-blue)](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
 
-## Install from GitHub
+## Install
 ```r
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
+> Please do NOT use `install.packages("bruceR")`, because this package has not been put on the [CRAN](https://cran.r-project.org/). Currently, it is only available from GitHub.
 
 Then, you may see these messages in console:
 ```
@@ -37,6 +38,17 @@ You can update all the packages that `bruceR` depends on or just enter an **empt
 
 ### Bug #01:
 ```
+> install.packages("bruceR")
+Warning in install.packages :
+  package ‘bruceR’ is not available (for R version 3.6.1)
+```
+#### Solution:
+Use `devtools::install_github("psychbruce/bruceR")`.
+Do not use `install.packages("bruceR")`.
+
+### Bug #02:
+```
+> devtools::install_github("psychbruce/bruceR")
 Downloading GitHub repo psychbruce/bruceR@master
 Error in utils::download.file(url, path, method = method, quiet = quiet,  : 
   cannot open URL 'https://api.github.com/repos/psychbruce/bruceR/tarball/master'
@@ -44,7 +56,7 @@ Error in utils::download.file(url, path, method = method, quiet = quiet,  :
 #### Solution:
 Check your network connections.
 
-### Bug #02:
+### Bug #03:
 ```
 WARNING: Rtools is required to build R packages, but is not currently installed.
 
@@ -55,7 +67,7 @@ Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 #### Solution:
 Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
 
-### Bug #03:
+### Bug #04:
 ```
 * installing *source* package 'bruceR' ...
 ** using staged installation
@@ -93,7 +105,7 @@ library(installr)
 copy.packages.between.libraries(ask=TRUE)
 ```
 
-### Bug #04:
+### Bug #05:
 ```
 Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) installation of package ‘rlang’ had non-zero exit status
