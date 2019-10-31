@@ -10,31 +10,17 @@
 [![](https://img.shields.io/badge/Follow%20me%20on-Zhihu-blue)](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
 
-## Install
+## How to Install
 ```r
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
-> Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on [CRAN](https://cran.r-project.org/). Currently, it is only available from GitHub.
-
-Then, you may see these messages in console:
-```
-These packages have more recent versions available.
-Which would you like to update?
-
- 1: All
- 2: CRAN packages only
- 3: None
- ...
-
-Enter one or more numbers, or an empty line to skip updates:
-```
-You can **1)** update all the packages that `bruceR` depends on, or **2)** enter an **empty line** to skip this step.
+> Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
 
 
-## Potential Bugs During Installation
+## Installation Bugs and Solutions
 
-All of the installation bugs DO NOT have any relationships with the `bruceR` package *per se*.
+All the bugs DO NOT have relation with the `bruceR` package *per se*.
 
 ### Bug #01:
 ```
@@ -43,8 +29,7 @@ Warning in install.packages :
   package ‘bruceR’ is not available (for R version 3.6.1)
 ```
 #### Solution:
-Please use `devtools::install_github("psychbruce/bruceR")`.
-
+Use `devtools::install_github("psychbruce/bruceR")`.
 DO NOT use `install.packages("bruceR")`.
 
 ### Bug #02:
@@ -97,7 +82,7 @@ Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) installation of package ‘bruceR’ had non-zero exit status
 ```
 #### Solution:
-Update R to the [newest version](https://cran.r-project.org/), because the latest versions of some packages (e.g., `rio`, `dplyr`) also require the latest version of R.
+Update R to the [latest version](https://cran.r-project.org/), because the latest versions of some packages (e.g., `rio`, `dplyr`) also require the latest version of R.
 
 Tips: You can use the `installr` package to copy all your installed packages from the old folder to the new one.
 ```r
@@ -112,10 +97,10 @@ Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) installation of package ‘rlang’ had non-zero exit status
 ```
 #### Solution:
-Some dependency packages of `bruceR` (e.g., `rlang`) should be responsible for this bug. Use the menu bar of RStudio (in the panes, not on the top: `Package -> Update`) to update such packages before you install `bruceR`. Or you can skip updating such packages.
+Some dependency packages of `bruceR` (e.g., `rlang`) should be responsible for this bug. Use the menu bar `Package -> Update` (on the panes, not on the top) to update such packages before you install `bruceR`. Or you can just skip updating these packages when installing `bruceR`.
 
 ### Bug #N:
-There may be other bugs.
+There might be some other bugs not listed above.
 #### Solution:
 Read the warning messages. Follow the instruction. Search the Internet. Get the answer.
 
