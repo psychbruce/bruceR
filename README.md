@@ -96,8 +96,14 @@ copy.packages.between.libraries(ask=TRUE)
 Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) installation of package ‘rlang’ had non-zero exit status
 ```
+or
+```
+package ‘Rcpp’ successfully unpacked and MD5 sums checked
+Error: Failed to install 'bruceR' from GitHub:
+  (converted from warning) cannot remove prior installation of package ‘Rcpp’
+```
 #### Solution:
-Some dependency packages of `bruceR` (e.g., `rlang`) should be responsible for this bug. Use the menu bar `Package -> Update` (on the panes, not on the top) to update such packages before you install `bruceR`. Or you can just skip updating these packages when installing `bruceR`.
+Use the menu bar `Package -> Update` (on the panes, not on the top) to update all the other packages before you install `bruceR`.
 
 ### Bug #N:
 There might be some other bugs not listed above.
