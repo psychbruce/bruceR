@@ -103,7 +103,8 @@ Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) cannot remove prior installation of package ‘Rcpp’
 ```
 #### Solution:
-Use the menu bar `Package -> Update` (on the panes, not on the top) to update all the other packages before you install `bruceR`.
+Use the menu bar `Packages -> Update` (on the panes, not on the top) to update all the other packages before you install `bruceR`.
+![Solution to Bug #05](https://github.com/psychbruce/bruceR/debug.png)
 
 ### Bug #N:
 There might be some other bugs not listed above.
