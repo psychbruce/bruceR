@@ -29,9 +29,11 @@ Imports: tidyverse,
          interactions,
          multilevel,
          pwr,
+         simr,
          MBESS,
          MuMIn,
          texreg,
          semPlot
 Suggests: summarytools
+RdMacros: lifecycle
 RoxygenNote: 6.1.1

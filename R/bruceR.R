@@ -10,6 +10,20 @@
 #### Version Control ####
 # DESCRIPTION, README.md
 
+#### Lifecycle ####
+# ?lifecycle::badge
+if(FALSE) {
+  usethis::use_lifecycle_badge("maturing")
+  # \lifecycle{experimental}
+  # \lifecycle{maturing}
+  # \lifecycle{stable}
+  # \lifecycle{questioning}
+  # \lifecycle{archived}
+  # \lifecycle{soft-deprecated}
+  # \lifecycle{deprecated}
+  # \lifecycle{defunct}
+}
+
 
 #### Main Description ####
 #' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}ollections and \strong{E}xtensions of \strong{R} functions
