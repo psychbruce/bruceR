@@ -134,7 +134,8 @@ pkg_depend=function(pkg, exclude=NULL) {
   if(length(pkgs)==0) {
     Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>")
   } else {
-    Print("<<blue Package <<green '{pkg}'>> is NOT a dependency of your excluded package(s).>>")
+    if(is.null(exclude)==FALSE)
+      Print("<<blue Package <<green '{pkg}'>> is NOT a dependency of your excluded package(s).>>")
     packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
     View(packages, pkg)
     invisible(packages)
