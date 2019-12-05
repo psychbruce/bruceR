@@ -452,6 +452,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
 #' \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
+#' @param sd.pooled By default, it will use \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
+#' This default method is highly recommended.
+#' Yet, users can still manually set the SD_pooled (e.g., the SD of a reference group).
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
 #' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
 #' Then, you may set \code{repair="TRUE"} to have the adjusted results.
@@ -544,6 +547,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
                  p.adjust="bonferroni",
                  cohen.d="accurate",
+                 sd.pooled=NULL,
                  reverse=TRUE,
                  repair=FALSE) {
   model.raw=model
@@ -655,11 +659,15 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     con$d.LLCI=es$lower.CL %>% formatF(2) %>% paste0("[", ., ",")
     con$d.ULCI=es$upper.CL %>% formatF(2) %>% paste0(., "]")
   } else if(cohen.d=="accurate") {
-    rn=row.names(model$anova_table)
-    term=c()
-    for(i in rn) if(i %in% effect) term=c(term, i)
-    term=paste(term, collapse=":")
-    SDpool=sqrt(model$anova_table[term, "MSE"])
+    if(is.null(sd.pooled)) {
+      rn=row.names(model$anova_table)
+      term=c()
+      for(i in rn) if(i %in% effect) term=c(term, i)
+      term=paste(term, collapse=":")
+      SDpool=sqrt(model$anova_table[term, "MSE"])
+    } else {
+      SDpool=sd.pooled
+    }
     con$d=con$estimate/SDpool
     con$d.LLCI=(conCI$lower.CL/SDpool) %>% formatF(2) %>% paste0("[", ., ",")
     con$d.ULCI=(conCI$upper.CL/SDpool) %>% formatF(2) %>% paste0(., "]")

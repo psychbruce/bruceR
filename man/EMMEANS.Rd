@@ -11,6 +11,7 @@ EMMEANS(
   contrast = "pairwise",
   p.adjust = "bonferroni",
   cohen.d = "accurate",
+  sd.pooled = NULL,
   reverse = TRUE,
   repair = FALSE
 )
@@ -48,6 +49,10 @@ For details about this method, see \href{https://cran.r-project.org/web/packages
 
 Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
 \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.}
+
+\item{sd.pooled}{By default, it will use \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
+This default method is highly recommended.
+Yet, users can still manually set the SD_pooled (e.g., the SD of a reference group).}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 
