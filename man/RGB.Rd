@@ -20,5 +20,5 @@ A simple extension of \code{rgb()}
 }
 \examples{
 RGB(255, 0, 0)  # red: "#FF0000"
-RGB(255, 0, 0, 0.8)  # red with 80\\\% opacity: "#FF0000CC"
+RGB(255, 0, 0, 0.8)  # red with 80\\% opacity: "#FF0000CC"
 }

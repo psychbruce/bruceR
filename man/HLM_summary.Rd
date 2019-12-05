@@ -4,9 +4,16 @@
 \alias{HLM_summary}
 \title{Advanced output for HLM (\code{lmer} and \code{glmer} models)}
 \usage{
-HLM_summary(model = NULL, level2.predictors = NULL, vartypes = NULL,
-  t2r = FALSE, variance.ci = FALSE, test.rand = FALSE, nsmall = 3,
-  ...)
+HLM_summary(
+  model = NULL,
+  level2.predictors = NULL,
+  vartypes = NULL,
+  t2r = FALSE,
+  variance.ci = FALSE,
+  test.rand = FALSE,
+  nsmall = 3,
+  ...
+)
 }
 \arguments{
 \item{model}{A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
@@ -59,7 +66,7 @@ Predictor variables at different levels may have five types:
   \item{3. L1random-GROUP-L1VAR}{Level-1 predicter with \strong{random} slopes nested with a grouping/clustering variable}
   \item{4. L2-GROUP}{Level-2 predicter (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
 
-*** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
+  *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
 }
 The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.

@@ -4,8 +4,15 @@
 \alias{Freq}
 \title{Frequency statistics with histogram and density plot}
 \usage{
-Freq(var, label = NULL, sort = "", nsmall = 1, plot = FALSE,
-  bins = 18, fill.color = "#FDF6E3")
+Freq(
+  var,
+  label = NULL,
+  sort = "",
+  nsmall = 1,
+  plot = FALSE,
+  bins = 18,
+  fill.color = "#FDF6E3"
+)
 }
 \arguments{
 \item{var}{Vector or variable.}

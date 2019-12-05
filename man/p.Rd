@@ -9,8 +9,17 @@
 \alias{p.chi2}
 \title{Compute \emph{p} value}
 \usage{
-p(z = NULL, t = NULL, f = NULL, r = NULL, chi2 = NULL,
-  n = NULL, df = NULL, df1 = NULL, df2 = NULL)
+p(
+  z = NULL,
+  t = NULL,
+  f = NULL,
+  r = NULL,
+  chi2 = NULL,
+  n = NULL,
+  df = NULL,
+  df1 = NULL,
+  df2 = NULL
+)
 
 p.z(z)
 

@@ -4,9 +4,16 @@
 \alias{EMMEANS}
 \title{Simple-effect analyses (for interactions) and post-hoc multiple comparisons (for factors with >= 3 levels)}
 \usage{
-EMMEANS(model, effect = NULL, by = NULL, contrast = "pairwise",
-  p.adjust = "bonferroni", cohen.d = "accurate", reverse = TRUE,
-  repair = FALSE)
+EMMEANS(
+  model,
+  effect = NULL,
+  by = NULL,
+  contrast = "pairwise",
+  p.adjust = "bonferroni",
+  cohen.d = "accurate",
+  reverse = TRUE,
+  repair = FALSE
+)
 }
 \arguments{
 \item{model}{A model fitted by \code{\link{MANOVA}} or \code{\link[afex]{aov_ez}}.}
@@ -24,8 +31,10 @@ For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.}
 \item{p.adjust}{Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
 For polynomial contrasts, default is \code{"none"}.
 
-Alternatives can be \code{"none", "fdr", "hochberg", "hommel", "holm", "tukey", "mvt", "sidak", "bonferroni"}.
-For details, see \code{stats::\link[stats]{p.adjust}}.}
+Alternatives can be \code{"none"; "fdr", "hochberg", "hommel", "holm"; "tukey", "mvt", "dunnettx", "sidak", "scheffe", "bonferroni"}.
+The latter six methods are recommended!
+
+For details, see \code{stats::\link[stats]{p.adjust}} and \code{emmeans::\link[emmeans]{confint.emmGrid}}.}
 
 \item{cohen.d}{Method to compute Cohen's \emph{d} in multiple comparisons.
 Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.
@@ -72,21 +81,21 @@ Here, I explain what these terms actually refer to.
     In ANOVA, we call it "simple-effect analysis"; in regression, we also call it "simple-slope analysis".
     They are identical in statistical principles. Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
 
-In a regular two-factors design, we only test \strong{"simple main effects"}.
+    In a regular two-factors design, we only test \strong{"simple main effects"}.
     That is, on the different levels of a factor "B", the main effects of "A" would be different.
     However, in a three-factors (or more) design, we may also test \strong{"simple interaction effects"} and \strong{"simple simple effects"}.
     That is, on the different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
 
-In SPSS, we usually use the \code{MANOVA} and/or the \code{GLM + /EMMEANS} syntax to perform such analyses.
+    In SPSS, we usually use the \code{MANOVA} and/or the \code{GLM + /EMMEANS} syntax to perform such analyses.
     Tutorials of the SPSS syntax (in Chinese) can be found in my personal profile on Zhihu.com:
     \href{https://zhuanlan.zhihu.com/p/30037168}{Tutorial #1},
     \href{https://zhuanlan.zhihu.com/p/31863288}{Tutorial #2}, and
     \href{https://zhuanlan.zhihu.com/p/35011046}{Tutorial #3}.
 
-Here, the R function \code{EMMEANS} can do the same thing as in SPSS and can do much better and easier (just see the section "Examples").
+    Here, the R function \code{EMMEANS} can do the same thing as in SPSS and can do much better and easier (just see the section "Examples").
     The outputs include tidy tables as well as the estimates for effect sizes (partial \eqn{\eta^2}) and their 90\% CIs.
 
-To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
+    To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
   }
   \item{\strong{2. Post-Hoc Tests}}{
     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
@@ -95,7 +104,7 @@ To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adj
     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
     For example, we can perform the post-hoc comparisons of mean values 1) across multiple levels of one factor in a pairwise way or 2) particularly between the two conditions "A1B1" and "A2B2".
 
-Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
+    Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
   }
   \item{\strong{3. Multiple Comparisons}}{
@@ -104,11 +113,11 @@ Post-hoc tests are totally \strong{independent of} whether there is a significan
     What's more, when the simple main effect is of a factor with 3 or more levels, we also need to do multiple comparisons (e.g., pairwise comparisons) \emph{within} the simple-effect analysis.
     In this situation (i.e., >= 3 levels), we need \emph{p}-value adjustment methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
 
-There are many ways to do multiple comparisons. All these methods are included in the current \code{EMMEANS} function.
+    There are many ways to do multiple comparisons. All these methods are included in the current \code{EMMEANS} function.
     If you are familiar with SPSS syntax, you may feel that the current R functions \code{MANOVA} and \code{EMMEANS} are a nice combination of the SPSS syntax \code{MANOVA} and \code{GLM + /EMMEANS}.
     Yes, they are. More importantly, they outperform the SPSS syntax, either for its higher convenience or for its more fruitful outputs.
 
-Now, you can forget the overcomplicated SPSS syntax and join in the warm family of R. Welcome!
+    Now, you can forget the overcomplicated SPSS syntax and join in the warm family of R. Welcome!
     \itemize{
       \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
       \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons

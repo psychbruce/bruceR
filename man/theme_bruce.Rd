@@ -4,11 +4,25 @@
 \alias{theme_bruce}
 \title{A nice \code{ggplot2} theme for scientific publication}
 \usage{
-theme_bruce(base.size = 12, line.size = 0.5, border = "",
-  bg = "white", panel.bg = "white", tag = "bold",
-  plot.title = "bold", axis.title = "plain", title.pos = 0,
-  caption.pos = 1, grid.x = "", grid.y = "", line.x = TRUE,
-  line.y = TRUE, tick.x = TRUE, tick.y = TRUE)
+theme_bruce(
+  base.size = 12,
+  line.size = 0.5,
+  border = "",
+  bg = "white",
+  panel.bg = "white",
+  tag = "bold",
+  plot.title = "bold",
+  axis.title = "plain",
+  title.pos = 0.5,
+  subtitle.pos = 0,
+  caption.pos = 1,
+  grid.x = "",
+  grid.y = "",
+  line.x = TRUE,
+  line.y = TRUE,
+  tick.x = TRUE,
+  tick.y = TRUE
+)
 }
 \arguments{
 \item{base.size}{Basic font size. Default is 12.}
@@ -35,6 +49,8 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 \item{axis.title}{Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
 
 \item{title.pos}{Title position (0~1).}
+
+\item{subtitle.pos}{Subtitle position (0~1).}
 
 \item{caption.pos}{Caption position (0~1).}
 

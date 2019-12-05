@@ -10,22 +10,51 @@
 \alias{MODE}
 \title{A tool box for multivariate computing}
 \usage{
-COUNT(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
-  value = NA)
+COUNT(data, var = NULL, items = NULL, vars = NULL, varrange = NULL, value = NA)
 
 MODE(data, var = NULL, items = NULL, vars = NULL, varrange = NULL)
 
-SUM(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
-  rev = NULL, likert = NULL, na.rm = TRUE)
+SUM(
+  data,
+  var = NULL,
+  items = NULL,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  likert = NULL,
+  na.rm = TRUE
+)
 
-MEAN(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
-  rev = NULL, likert = NULL, na.rm = TRUE)
+MEAN(
+  data,
+  var = NULL,
+  items = NULL,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  likert = NULL,
+  na.rm = TRUE
+)
 
-STD(data, var = NULL, items = NULL, vars = NULL, varrange = NULL,
-  rev = NULL, likert = NULL, na.rm = TRUE)
+STD(
+  data,
+  var = NULL,
+  items = NULL,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  likert = NULL,
+  na.rm = TRUE
+)
 
-CONSEC(data, var = NULL, items = NULL, vars = NULL,
-  varrange = NULL, values = 0:9)
+CONSEC(
+  data,
+  var = NULL,
+  items = NULL,
+  vars = NULL,
+  varrange = NULL,
+  values = 0:9
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

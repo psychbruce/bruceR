@@ -4,8 +4,15 @@
 \alias{EFA}
 \title{Exploratory factor analysis (EFA)}
 \usage{
-EFA(data, vartext, method = "eigen", extraction = "pa",
-  rotation = "varimax", nFactors = 1, hideLoadings = 0.3)
+EFA(
+  data,
+  vartext,
+  method = "eigen",
+  extraction = "pa",
+  rotation = "varimax",
+  nFactors = 1,
+  hideLoadings = 0.3
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

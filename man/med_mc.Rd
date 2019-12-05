@@ -4,8 +4,18 @@
 \alias{med_mc}
 \title{Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo simulation}
 \usage{
-med_mc(a, SEa, b, SEb, direct = NULL, total = NULL, cov_ab = 0,
-  seed = NULL, rep = 50000, nsmall = 3)
+med_mc(
+  a,
+  SEa,
+  b,
+  SEb,
+  direct = NULL,
+  total = NULL,
+  cov_ab = 0,
+  seed = NULL,
+  rep = 50000,
+  nsmall = 3
+)
 }
 \arguments{
 \item{a}{Path \strong{a} (X -> Mediator).}

@@ -4,8 +4,15 @@
 \alias{Describe}
 \title{Descriptive statistics}
 \usage{
-Describe(data, nsmall = 2, plot = FALSE, smooth = FALSE,
-  save.file = NULL, save.size = "8:6", save.dpi = 500)
+Describe(
+  data,
+  nsmall = 2,
+  plot = FALSE,
+  smooth = FALSE,
+  save.file = NULL,
+  save.size = "8:6",
+  save.dpi = 500
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

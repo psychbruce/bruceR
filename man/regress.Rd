@@ -4,9 +4,18 @@
 \alias{regress}
 \title{Regression analysis (\code{lm}, \code{glm}, \code{lmer}, \code{glmer})}
 \usage{
-regress(formula, data, family = NULL, nsmall = 3, robust = FALSE,
-  cluster = NULL, level2.predictors = "", vartypes = NULL,
-  t2r = FALSE, test.rand = FALSE)
+regress(
+  formula,
+  data,
+  family = NULL,
+  nsmall = 3,
+  robust = FALSE,
+  cluster = NULL,
+  level2.predictors = "",
+  vartypes = NULL,
+  t2r = FALSE,
+  test.rand = FALSE
+)
 }
 \arguments{
 \item{formula}{Model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).}

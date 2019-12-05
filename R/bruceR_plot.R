@@ -20,6 +20,7 @@
 #' @param plot.title Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param axis.title Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param title.pos Title position (0~1).
+#' @param subtitle.pos Subtitle position (0~1).
 #' @param caption.pos Caption position (0~1).
 #' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
 #' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
@@ -56,7 +57,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
                      border="",
                      bg="white", panel.bg="white",
                      tag="bold", plot.title="bold", axis.title="plain",
-                     title.pos=0, caption.pos=1,
+                     title.pos=0.5, subtitle.pos=0, caption.pos=1,
                      grid.x="", grid.y="",
                      line.x=TRUE, line.y=TRUE,
                      tick.x=TRUE, tick.y=TRUE) {
@@ -91,7 +92,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
       axis.text.y=element_text(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
       plot.title=element_text(face=plot.title, size=base.size+2, hjust=title.pos,
                               margin=margin(0.2, 0, 0.6, 0, "lines")),
-      plot.subtitle=element_text(face=plot.title, size=base.size, hjust=title.pos,
+      plot.subtitle=element_text(face=plot.title, size=base.size, hjust=subtitle.pos,
                                  margin=margin(0, 0, 0.6, 0, "lines")),
       plot.caption=element_text(size=base.size-2, hjust=caption.pos,
                                 margin=margin(-1, 0, 0.1, 0, "lines")),

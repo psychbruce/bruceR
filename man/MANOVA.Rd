@@ -4,28 +4,43 @@
 \alias{MANOVA}
 \title{Multivariate ANOVA}
 \usage{
-MANOVA(data, dv = NULL, dvs = NULL, dvs.pattern = "",
-  between = NULL, within = NULL, covariate = NULL,
-  which.observed = NULL, sph.correction = "none", subID = NULL)
+MANOVA(
+  data,
+  subID = NULL,
+  dv = NULL,
+  dvs = NULL,
+  dvs.pattern = "",
+  between = NULL,
+  within = NULL,
+  covariate = NULL,
+  sph.correction = "none",
+  which.observed = NULL
+)
 }
 \arguments{
-\item{data}{Any data object (e.g., \code{data.frame, data.table}).
+\item{data}{Data object (e.g., \code{data.frame, data.table}). Both \strong{long-format} and \strong{wide-format} can be used.
 \itemize{
-  \item You can input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns).
-  Then, if your data have repeated measures, the function can \strong{\emph{automatically}} transform it into a \strong{long-format} data.
-  \item If you input a \strong{long-format} data, please also specify \strong{subID} (i.e., the variable indicating different subjects).
+  \item If you input a \strong{long-format} data, please also specify \strong{subID}.
+  \item If you input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
+  the function can \strong{\emph{automatically}} transform it into a \strong{long-format} data.
 }}
 
-\item{dv}{Variable name of dependent variable in your data.
+\item{subID}{Subject ID.
 \itemize{
-  \item If you input a \strong{wide-format} data, then \code{dv} is only for between-subjects design.
-  For designs with repeated measures, please use \code{dvs} and \code{dvs.pattern} instead.
-  \item If you input a \strong{long-format} data, then it is just the outcome variable.
+  \item If you input a \strong{long-format} data, you should specify the subject ID.
+  \item If you input a \strong{wide-format} data, no need to specify this parameter.
+}}
+
+\item{dv}{Variable name of dependent variable.
+\itemize{
+  \item If you input a \strong{long-format} data, then \code{dv} is the outcome variable.
+  \item If you input a \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
+  For designs with any repeated measures, please use \code{dvs} and \code{dvs.pattern}.
 }}
 
 \item{dvs}{\strong{[only for "wide-format" data and designs with repeated measures]}
 
-Variable names of repeated measures in your data.
+Variable names of repeated measures.
 \itemize{
   \item You can use \code{":"} to specify a range of vairables: e.g., \code{"A1B1:A2B3"}
   (similar to the SPSS syntax "TO"; the variables should be put in order)
@@ -61,19 +76,16 @@ If you set \code{dvs}, you must also set the pattern of variable names by using 
 
 \item{covariate}{Covariates (if necessary). Character string or vector. Default is \code{NULL}.}
 
-\item{which.observed}{\strong{[only effective for computing generalized \eqn{\eta^2}]}
-
-Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
-The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
-(If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)}
-
 \item{sph.correction}{\strong{[only effective for repeated measures with >= 3 levels]}
 
 Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
-\item{subID}{As mentioned above, if your input is already a \strong{long-format} data, then you should also specify the subject ID because one subject occupies multiple rows.
-However, if you input a \strong{wide-format} data, you \strong{don't need} to do that.}
+\item{which.observed}{\strong{[only effective for computing generalized \eqn{\eta^2}]}
+
+Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
+The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
+(If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)}
 }
 \description{
 Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
@@ -172,6 +184,11 @@ data.new=mixed.3_1b2w
 names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
 MANOVA(data=data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
        between="Group", within="Condition")  # renamed the within-subjects factor
+
+View(afex::obk.long)
+MANOVA(data=afex::obk.long, subID="id", dv="value",
+       between=c("treatment", "gender"), within=c("phase", "hour"), cov="age",
+       sph.correction="GG")
 }
 \references{
 Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.

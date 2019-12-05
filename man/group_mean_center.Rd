@@ -4,8 +4,7 @@
 \alias{group_mean_center}
 \title{Group-mean centering}
 \usage{
-group_mean_center(data, vars, by, add_suffix = "",
-  add_group_mean = "_mean")
+group_mean_center(data, vars, by, add_suffix = "", add_group_mean = "_mean")
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

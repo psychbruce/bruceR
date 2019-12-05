@@ -4,9 +4,17 @@
 \alias{CFA}
 \title{Confirmatory factor analysis (CFA)}
 \usage{
-CFA(data, model = "A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
-  highorder = "", orthogonal = FALSE, missing = "listwise",
-  style = c("jmv", "lavaan"), CI = FALSE, MI = FALSE, plot = FALSE)
+CFA(
+  data,
+  model = "A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
+  highorder = "",
+  orthogonal = FALSE,
+  missing = "listwise",
+  style = c("jmv", "lavaan"),
+  CI = FALSE,
+  MI = FALSE,
+  plot = FALSE
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

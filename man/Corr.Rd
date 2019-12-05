@@ -4,10 +4,19 @@
 \alias{Corr}
 \title{Correlation analysis with test and plot}
 \usage{
-Corr(data, method = "pearson", p.adjust = "none", CI = TRUE,
-  nsmall = 4, plot = TRUE, plot.range = c(-1, 1),
-  plot.color = c("#B52127", "white", "#2171B5"), save.file = NULL,
-  save.size = "8:6", save.dpi = 500)
+Corr(
+  data,
+  method = "pearson",
+  p.adjust = "none",
+  CI = TRUE,
+  nsmall = 4,
+  plot = TRUE,
+  plot.range = c(-1, 1),
+  plot.color = c("#B52127", "white", "#2171B5"),
+  save.file = NULL,
+  save.size = "8:6",
+  save.dpi = 500
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

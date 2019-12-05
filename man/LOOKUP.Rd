@@ -4,8 +4,14 @@
 \alias{LOOKUP}
 \title{Search, match, and look up values (like Excel's functions \code{INDEX + MATCH})}
 \usage{
-LOOKUP(data, vars, data.ref, vars.ref, vars.lookup,
-  return = c("new.data", "new.var", "new.value"))
+LOOKUP(
+  data,
+  vars,
+  data.ref,
+  vars.ref,
+  vars.lookup,
+  return = c("new.data", "new.var", "new.value")
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}

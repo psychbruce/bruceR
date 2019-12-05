@@ -16,7 +16,7 @@ Set working directory to the path of \strong{current} script
 }
 \examples{
 set.wd()  # set working directory to the path of the current R script
-set.wd("D:/")  # "\\" is not allowed, you should use "/"
+set.wd("D:/")  # "\" is not allowed, you should use "/"
 set.wd("../")  # set working directory to the parent directory
 }
 \seealso{
