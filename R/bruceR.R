@@ -169,20 +169,21 @@ NULL
   message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
   Print("
-  <<bold <<blue
-  <<magenta
+  <<blue
+  <<bold <<magenta
   {rep_char('=', 56)}
   <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
   {rep_char('=', 56)}
   >>
-  Loaded packages:
+  Loaded packages:>>
   <<green \u2714 bruceR (version {as.character(packageVersion('bruceR'))})>>
   <<green \u2714 rio, dplyr, data.table, psych, stringr, lubridate, performance, ggplot2>>
-  <<silver
-  <<blue Check update:>> check_update()
-  <<blue To update:>> devtools::install_github(\"psychbruce/bruceR\")
-  <<blue Report bugs:>> <<underline https://github.com/psychbruce/bruceR/issues>>
+  <<black
+  <<bold <<blue Update:>>>>
+  devtools::install_github(\"psychbruce/bruceR\")
+  <<bold <<blue Citation:>>>>
+  Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions (version {as.character(packageVersion('bruceR'))}). Retrieved from <<underline https://github.com/psychbruce/bruceR>>
   >>
-  >>>>
+  >>
   ")
 }

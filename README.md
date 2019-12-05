@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.3.0-success)
+![](https://img.shields.io/badge/Version-0.3.5-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -11,8 +11,15 @@
 [![](https://img.shields.io/badge/Follow%20me%20on-Zhihu-blue)](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
 
 
+## Citation
+Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions. Retrieved from https://github.com/psychbruce/bruceR
+
+
 ## How to Install
 ```r
+install.packages("tidyverse")
+install.packages("ggstatsplot")
+
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
@@ -42,6 +49,8 @@ Error in utils::download.file(url, path, method = method, quiet = quiet,  :
 ```
 #### Solution:
 Check your network connections.
+
+Or see https://ask.csdn.net/questions/713186
 
 ### Bug #03:
 ```
@@ -181,8 +190,11 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.3.0`
+### Current version: `0.3.5`
 ### Major changes:
++ `0.4.0` - 30 December 2019
+  + Added citation information
+  + General bug-fixes and improvements
 + `0.3.0` - 30 October 2019
   + Added new functions for ANOVA, simple-effect analyses, and multiple comparisons
   + General bug-fixes and improvements

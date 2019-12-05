@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.3.0
+Version: 0.3.5
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -36,4 +36,4 @@ Imports: tidyverse,
          semPlot
 Suggests: summarytools
 RdMacros: lifecycle
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
