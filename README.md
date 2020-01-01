@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.3.5-success)
+![](https://img.shields.io/badge/Version-0.4.0-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -190,7 +190,7 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.3.5`
+### Current version: `0.4.0`
 ### Major changes:
 + `0.4.0` - 30 December 2019
   + Added citation information

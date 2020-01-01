@@ -165,8 +165,8 @@ NULL
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
 
-  options(contrasts=c("contr.sum", "contr.poly"))
-  message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
+  # options(contrasts=c("contr.sum", "contr.poly"))
+  # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
   Print("
   <<blue
