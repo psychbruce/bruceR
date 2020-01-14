@@ -17,10 +17,11 @@ Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R fun
 
 ## How to Install
 ```r
+install.packages("devtools")
 install.packages("tidyverse")
 install.packages("ggstatsplot")
+update.packages(ask=F)
 
-if(!require(devtools)) install.packages("devtools")
 devtools::install_github("psychbruce/bruceR")
 ```
 > Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
@@ -112,7 +113,7 @@ Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) cannot remove prior installation of package ‘Rcpp’
 ```
 #### Solution:
-Use the menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) (on the panes, not on the top) to update all the other packages before you install `bruceR`.
+Use the menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) (on the panes, not on the top) or the code `update.packages(ask=F)` to update all the other packages before you install `bruceR`.
 
 
 ### Bug #N:
