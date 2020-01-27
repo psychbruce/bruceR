@@ -26,7 +26,7 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 - Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
-- [Installation Bugs and Solutions](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md)
+- [Installation Bugs and Solutions (安装遇到问题时请阅读！)](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md)
 
 
 ### Package dependency
