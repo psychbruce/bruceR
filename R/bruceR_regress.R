@@ -220,7 +220,7 @@ model_check=function(model, plot=TRUE) {
 
 
 ## Print ANOVA Table of GLM
-GLM_anova=function(model, add.total=T) {
+GLM_anova=function(model, add.total=TRUE) {
   Print("ANOVA table:")
   aov.lm=as.data.frame(car::Anova(model, type=3))
   total.ss=sum(aov.lm[-1, "Sum Sq"])
@@ -260,7 +260,6 @@ GLM_anova=function(model, add.total=T) {
 #' @import jtools
 #' @import car
 #' @import MuMIn
-## @import sjstats
 #' @param model A model fitted by \code{lm} or \code{glm} function.
 #' @param robust \strong{[only for \code{lm} and \code{glm}]} \code{FALSE} (default), \code{TRUE}, or an option from \code{"HC0", "HC1", "HC2", "HC3", "HC4", "HC4m", "HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
@@ -373,12 +372,12 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
     ## Print: Standardized Coefficients ##
     if(nrow(FE)>1) {
-      # FE.std=MuMIn::std.coef(model, partial.sd=FALSE)[-1]
-      FE.std=sjstats::std_beta(model)[2:3]
-      FE.rp=jtools::summ(model, part.corr=T)
-      row.names(FE.std)=row.names(FE)[-1]
+      FE.std=MuMIn::std.coef(model, partial.sd=FALSE) %>% as.data.frame() %>% .[-1, 1:2]
+      # FE.std=sjstats::std_beta(model)[2:3]
+      # row.names(FE.std)=row.names(FE)[-1]
       names(FE.std)=c("Beta*", "S.E.*")
-      t=FE$t[-1]
+      FE.rp=jtools::summ(model, part.corr=T)
+      t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
       p=p.t(t, df)
       FE.std=cbind(FE.std,
                    sig=sig.trans(p),
@@ -710,7 +709,6 @@ print_variance_ci=function(model) {
 #' @import lmerTest
 #' @import jtools
 #' @import MuMIn
-## @import sjstats
 #' @param model A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
 #' @param level2.predictors \strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
 #' If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
@@ -866,6 +864,12 @@ HLM_summary=function(model=NULL,
     Omega\u00b2 = {Omg2:.5}  <<blue (= 1 - proportion of unexplained variance)>>
     ")
 
+    ## Print: ANOVA Table ##
+    cat("\n")
+    Print("ANOVA table:")
+    aov.hlm=car::Anova(model, type=3)
+    print_table(aov.hlm, nsmalls=c(2,0))
+
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
     names(FE)=c("Gamma", "S.E.", "df", "t", "p") # abbreviate("approx", 5)
@@ -882,18 +886,18 @@ HLM_summary=function(model=NULL,
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0, nsmall, nsmall))
     Print("<<blue 'df' is estimated by Satterthwaite approximation.>>")
     if(nrow(FE)>1) {
-      # FE.std=MuMIn::std.coef(model, partial.sd=FALSE)[-1]
-      FE.std=sjstats::std_beta(model)[2:3]
-      row.names(FE.std)=row.names(FE)[-1]
+      FE.std=MuMIn::std.coef(model, partial.sd=FALSE) %>% as.data.frame() %>% .[-1, 1:2]
+      # FE.std=sjstats::std_beta(model)[2:3]
+      # row.names(FE.std)=row.names(FE)[-1]
       names(FE.std)=c("Gamma*", "S.E.*")
       if(is.null(vartypes)==FALSE)
         df=HLM_df(sumModel, vartypes)[-1]
       else
         df=FE$df[-1]
-      t=FE.std[,1]/FE.std[,2] # FE$t[-1]
+      t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
       p=p.t(t, df)
       FE.std=cbind(FE.std,
-                   `t*`=t, # FE.std[,1]/FE.std[,2]
+                   `t*`=t,
                    `df*`=df,
                    `p*`=p,
                    `sig*`=sig.trans(p),
