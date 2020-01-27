@@ -2,6 +2,19 @@
 
 All the bugs DO NOT have relation with the `bruceR` package *per se*.
 
+您在安装过程中遇到的所有问题**均不是**`bruceR`包本身的问题！
+
+**强烈建议**先安装好`tidyverse`和`ggstatsplot`两个包，并且更新一遍已安装的所有R包，然后再安装`bruceR`！
+```r
+install.packages("devtools")
+install.packages("tidyverse")
+install.packages("ggstatsplot")
+update.packages(ask=F)
+
+devtools::install_github("psychbruce/bruceR")
+```
+
+
 ## Bug #01:
 ```
 > install.packages("bruceR")
@@ -11,6 +24,9 @@ Warning in install.packages :
 ### Solution:
 Use `devtools::install_github("psychbruce/bruceR")`.
 DO NOT use `install.packages("bruceR")`.
+
+由于`bruceR`并没有发布在CRAN官网上，所以请通过`devtools`包来安装，而不能直接使用`install.packages()`函数。
+
 
 ## Bug #02:
 ```
@@ -24,6 +40,7 @@ Check your network connections.
 
 Or see https://ask.csdn.net/questions/713186
 
+
 ## Bug #03:
 ```
 WARNING: Rtools is required to build R packages, but is not currently installed.
@@ -34,6 +51,7 @@ Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ```
 ### Solution:
 Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
+
 
 ## Bug #04:
 ```
@@ -72,6 +90,7 @@ install.packages("installr")
 library(installr)
 copy.packages.between.libraries(ask=TRUE)
 ```
+
 
 ## Bug #05:
 ```
