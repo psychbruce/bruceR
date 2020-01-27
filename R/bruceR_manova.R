@@ -133,6 +133,7 @@ if(FALSE) {
 #' Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
 #' The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 #' (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
+#' @param nsmall Number of decimal places of output. Default is 2.
 #' @examples
 #' #### Between-Subjects Design ####
 #'
@@ -203,7 +204,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                 dvs=NULL, dvs.pattern="",
                 between=NULL, within=NULL, covariate=NULL,
                 sph.correction="none",
-                which.observed=NULL) {
+                which.observed=NULL,
+                nsmall=2) {
   data0=data=as.data.frame(data)
   design=ifelse(is.null(within), "Between-Subjects Design",
                 ifelse(is.null(between), "Within-Subjects Design",
@@ -252,7 +254,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     Mean=mean({dv}, na.rm=T),
     S.D.=sd({dv}, na.rm=T),
     N=length({dv}))")))
-  print_table(nmsd, row.names=FALSE, nsmalls=2)
+  print_table(nmsd, row.names=FALSE, nsmalls=nsmall)
   Print("Total sample size: <<italic N>> = {nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
   cat("\n")
 
@@ -278,7 +280,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   at$g.eta2=NULL
   names(at)[7:9]=c("  \u03b7\u00b2p", "[90% ", "  CI]")
   row.names(at)=row.names(aov.ez$anova_table)
-  df.nsmall=ifelse(sph.correction=="none", 0, 2)
+  df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
   Print("
   <<underline ANOVA Table:>>
   Dependent variable(s):      {ifelse(is.null(within), dv, paste(dv.vars, collapse=', '))}
