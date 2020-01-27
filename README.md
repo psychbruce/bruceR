@@ -31,6 +31,7 @@ devtools::install_github("psychbruce/bruceR")
 
 ### Package dependency
 > *We are all standing on the shoulders of giants.*
+
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
 Once you load `bruceR` to the global environment with `library()`, it will also load the packages most commonly used:
@@ -68,7 +69,7 @@ No need to load each one with its own call. Loading `bruceR` is enough.
   + `theme_bruce()`
 
 
-### Run some examples
+### Learn more by running code
 ```r
 library(bruceR)
 
