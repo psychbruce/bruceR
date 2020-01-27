@@ -14,7 +14,8 @@ MANOVA(
   within = NULL,
   covariate = NULL,
   sph.correction = "none",
-  which.observed = NULL
+  which.observed = NULL,
+  nsmall = 2
 )
 }
 \arguments{
@@ -86,6 +87,8 @@ If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (G
 Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
 The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)}
+
+\item{nsmall}{Number of decimal places of output. Default is 2.}
 }
 \description{
 Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
