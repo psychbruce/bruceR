@@ -16,10 +16,7 @@ Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R fun
 
 
 ## User Guide
-> *We are all standing on the shoulders of giants.*
-
-
-### Install `bruceR`
+### Install
 ```r
 install.packages("devtools")
 install.packages("tidyverse")
@@ -32,7 +29,8 @@ devtools::install_github("psychbruce/bruceR")
 - [Installation Bugs and Solutions](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md)
 
 
-### Loading `bruceR`
+### Package dependency
+> *We are all standing on the shoulders of giants.*
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
 Once you load `bruceR` to the global environment with `library()`, it will also load the packages most commonly used:
@@ -46,6 +44,31 @@ Once you load `bruceR` to the global environment with `library()`, it will also 
 - `ggplot2`: Data visualization.
 
 No need to load each one with its own call. Loading `bruceR` is enough.
+
+
+### Main functions in `bruceR`
+- [x] Basic use and analyses (e.g., correlation matrix with plot)
+  + `Print()`, `Describe()`, `Freq()`, `Corr()`, ...
+  + `set.wd()`, `set.seeds()`, `dtime()`, ...
+  + `%notin%`, `%partin%`, ...
+  + `LOOKUP()`, ...
+- [x] Multivariate computing (e.g., scale mean score with reverse scoring)
+  + `RECODE()`, `RESCALE()`
+  + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
+- [x] Reliability and validity analyses (e.g., Cronbach's α, exploratory/confirmatory factor analysis)
+  + `Alpha()`
+  + `EFA()`, `CFA()`
+- [x] *t*-test, ANOVA, simple-effect analyses, and multiple comparisons
+  + `MANOVA()`, `EMMEANS()`
+- [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
+  + `grand_mean_center()`, `group_mean_center()`
+  + `GLM_summary()`, `HLM_summary()`, `regress()`, `model_check()`
+  + `med_mc()`, `simple_slope()`
+- [x] Nice themes of `ggplot2` ready for scientific publication
+  + `theme_bruce()`
+
+
+### Run some examples
 ```r
 library(bruceR)
 
@@ -74,27 +97,6 @@ example("GLM_summary")
 example("HLM_summary")
 example("model_check")
 ```
-
-### Main functions in `bruceR`
-- [x] Basic use and analyses (e.g., correlation matrix with plot)
-  + `Print()`, `Describe()`, `Freq()`, `Corr()`, ...
-  + `set.wd()`, `set.seeds()`, `dtime()`, ...
-  + `%notin%`, `%partin%`, ...
-  + `LOOKUP()`, ...
-- [x] Multivariate computing (e.g., scale mean score with reverse scoring)
-  + `RECODE()`, `RESCALE()`
-  + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
-- [x] Reliability and validity analyses (e.g., Cronbach's α, exploratory/confirmatory factor analysis)
-  + `Alpha()`
-  + `EFA()`, `CFA()`
-- [x] *t*-test, ANOVA, simple-effect analyses, and multiple comparisons
-  + `MANOVA()`, `EMMEANS()`
-- [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
-  + `grand_mean_center()`, `group_mean_center()`
-  + `GLM_summary()`, `HLM_summary()`, `regress()`, `model_check()`
-  + `med_mc()`, `simple_slope()`
-- [x] Nice themes of `ggplot2` ready for scientific publication
-  + `theme_bruce()`
 
 
 ## Release Notes
