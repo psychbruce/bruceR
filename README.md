@@ -15,7 +15,11 @@
 Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions. Retrieved from https://github.com/psychbruce/bruceR
 
 
-## Install
+## User Guide
+> *We are all standing on the shoulders of giants.*
+
+
+### Install `bruceR`
 ```r
 install.packages("devtools")
 install.packages("tidyverse")
@@ -25,11 +29,8 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 - Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
-- [Installation Bugs and Solutions](https://github.com/psychbruce/bruceR/blob/master/README.md)
+- [Installation Bugs and Solutions](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md)
 
-
-## User Guide
-> *We are all standing on the shoulders of giants.*
 
 ### Loading `bruceR`
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
