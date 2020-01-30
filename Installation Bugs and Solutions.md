@@ -14,7 +14,7 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 
-注：R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有非常多的R包需要安装，而且一旦安装某些其他包时出错（常见的容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。这是因为，`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即当安装依赖的其他R包失败时，该函数无法很好地处理安装失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`）。因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见Bug #05），再正常安装`bruceR`，这将会大大节省您的时间！
+注：R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有上百个R包需要安装，而且一旦安装出错（容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。出现上述情况主要是因为：1）这些基础R包的安装编译过程可能比较复杂，容易出现未知的bug；2）`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户认为是`bruceR`本身的问题。因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见[Bug #05](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-05)），再正常安装`bruceR`，这将会大大节省您的时间！
 
 
 ## Bug #01:
@@ -111,5 +111,5 @@ Use the RStudio menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvc
 
 Sometimes you have to first use `remove.packages()` to uninstall the old packages (e.g., `rlang`, `gsl`, `Rcpp`) and then use `install.packages()` to reinstall them. Sometimes you also have to restart RStudio and try these again.
 
-这个Bug是用户最常遇到的。很多基础包在更新的时候，容易出现更新失败的情况，目前发现`rlang`、`gsl`、`Rcpp`等最容易安装失败/更新失败（`bruceR`作者表示同样很无奈）。此时，请尝试手动卸载、重装这些基础R包（可以使用代码，也可以使用RStudio面板上的**`Packages`**来管理）。终极解决方案就是**手动卸载重装**、**手动卸载重装**、**手动卸载重装**！
+这个Bug最常见！某些基础R包在更新时，容易出现更新失败的情况。目前发现，`rlang`、`gsl`、`Rcpp`等最容易出现更新失败（`bruceR`作者表示很无奈）。此时，请尝试手动卸载、重装这些基础R包（可以使用代码，也可以使用RStudio面板上的`Packages`来管理）。终极解决方案就是**手动卸载重装**、**手动卸载重装**、**手动卸载重装**！
 
