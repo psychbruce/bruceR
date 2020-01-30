@@ -40,7 +40,7 @@ Error in utils::download.file(url, path, method = method, quiet = quiet,  :
 ### Solution:
 Check your network connections, or see https://ask.csdn.net/questions/713186.
 
-安装前先确认连接好了网络。如果还是不行，可以看看上面这个链接。
+安装前先确认连接好了网络。如果还是不行，可以看看上面这个链接。另外，如果网速较慢，则安装过程会非常漫长，毕竟有200+个依赖的R包需要先行下载安装，所以强烈建议在网速较快的环境下安装`bruceR`！
 
 
 ## Bug #03:
@@ -54,7 +54,7 @@ Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ### Solution:
 Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
 
-Rtools不是一个R包，而是一个额外的工具，最好安装。
+Rtools不是一个R包，而是一个额外的工具，最好安装，不过不安装似乎也没有太大的问题。
 
 
 ## Bug #04:
@@ -88,12 +88,15 @@ Error: Failed to install 'bruceR' from GitHub:
 ### Solution:
 Update R to the [latest version](https://cran.r-project.org/), because the latest versions of some packages (e.g., `rio`, `dplyr`) also require the latest version of R.
 
-Tips: You can use the `installr` package to copy all your installed packages from the old folder to the new one.
+Tips: Use the `installr` package to update R and copy R packages from the old folder to the new one.
 ```r
 install.packages("installr")
 library(installr)
+updateR()
 copy.packages.between.libraries(ask=TRUE)
 ```
+
+当R语言本身的版本有更新时，某些R包也会同步更新并且需要依赖最新版本的R，所以如果您想更新这些R包，则必须先把R语言升级到最新版本。上面提供了一个关于升级R语言的小贴士，可以方便管理更新过程。
 
 
 ## Bug #05:
