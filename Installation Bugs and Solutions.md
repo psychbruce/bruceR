@@ -14,6 +14,8 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 
+注：很多R包都是依赖于其他的R包。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包，而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，一旦安装某些其他包时出错（常见的容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。这是因为，`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即当安装其依赖的其他R包失败时，该函数无法很好地处理安装失败的状况，还会返回一个没有信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`）。因此，强烈建议用户先更新完所有的R包（有的R包需要手动卸载重装，见Bug #05），再正常安装`bruceR`，这将会大大节省您的时间！
+
 
 ## Bug #01:
 ```
@@ -103,11 +105,9 @@ Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) cannot remove prior installation of package ‘Rcpp’
 ```
 ### Solution:
-Use the menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) (on the panes, not on the top) or the code `update.packages(ask=F)` to update all the other packages before you install `bruceR`.
+Use the RStudio menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) or the code `update.packages(ask=F)` to update all the other packages before you install `bruceR`.
 
+Sometimes you have to first use `remove.packages()` to uninstall the old packages (e.g., `rlang`, `gsl`, `Rcpp`) and then use `install.packages()` to install them.
 
-## Bug #N:
-There might be some other bugs not listed above.
-### Solution:
-Read the warning messages. Follow the instruction. Search the Internet. Get the answer.
+Sometimes you also have to restart RStudio and try again.
 
