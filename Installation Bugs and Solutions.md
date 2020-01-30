@@ -14,7 +14,7 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 
-注：很多R包都是依赖于其他的R包。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包，而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，一旦安装某些其他包时出错（常见的容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。这是因为，`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即当安装其依赖的其他R包失败时，该函数无法很好地处理安装失败的状况，还会返回一个没有信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`）。因此，强烈建议用户先更新完所有的R包（有的R包需要手动卸载重装，见Bug #05），再正常安装`bruceR`，这将会大大节省您的时间！
+注：R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有非常多的R包需要安装，而且一旦安装某些其他包时出错（常见的容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。这是因为，`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即当安装依赖的其他R包失败时，该函数无法很好地处理安装失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`）。因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见Bug #05），再正常安装`bruceR`，这将会大大节省您的时间！
 
 
 ## Bug #01:
@@ -38,9 +38,9 @@ Error in utils::download.file(url, path, method = method, quiet = quiet,  :
   cannot open URL 'https://api.github.com/repos/psychbruce/bruceR/tarball/master'
 ```
 ### Solution:
-Check your network connections.
+Check your network connections, or see https://ask.csdn.net/questions/713186.
 
-Or see https://ask.csdn.net/questions/713186
+安装前先确认连接好了网络。如果还是不行，可以看看上面这个链接。
 
 
 ## Bug #03:
@@ -53,6 +53,8 @@ Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ```
 ### Solution:
 Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
+
+Rtools不是一个R包，而是一个额外的工具，最好安装。
 
 
 ## Bug #04:
@@ -107,7 +109,7 @@ Error: Failed to install 'bruceR' from GitHub:
 ### Solution:
 Use the RStudio menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) or the code `update.packages(ask=F)` to update all the other packages before you install `bruceR`.
 
-Sometimes you have to first use `remove.packages()` to uninstall the old packages (e.g., `rlang`, `gsl`, `Rcpp`) and then use `install.packages()` to install them.
+Sometimes you have to first use `remove.packages()` to uninstall the old packages (e.g., `rlang`, `gsl`, `Rcpp`) and then use `install.packages()` to reinstall them. Sometimes you also have to restart RStudio and try these again.
 
-Sometimes you also have to restart RStudio and try again.
+这个Bug是用户最常遇到的。很多基础包在更新的时候，容易出现更新失败的情况，目前发现`rlang`、`gsl`、`Rcpp`等最容易安装失败/更新失败（`bruceR`作者表示同样很无奈）。此时，请尝试手动卸载、重装这些基础R包（可以使用代码，也可以使用RStudio面板上的**`Packages`**来管理）。终极解决方案就是**手动卸载重装**、**手动卸载重装**、**手动卸载重装**！
 
