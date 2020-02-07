@@ -2,13 +2,11 @@
 
 All the bugs DO NOT have relation with the `bruceR` package *per se*.
 
-您在安装过程中遇到的所有问题**都不是**`bruceR`包本身的问题！
-
-如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包的时候出了错！
+安装过程中的所有问题**都不是**`bruceR`包本身的问题！（如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包的时候出了错！）
 
 **大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
 
-**强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并且更新一遍已安装的所有R包，然后再安装`bruceR`！（无论你是否安装`bruceR`，都强烈推荐安装这两个R包，因为它们为你提供了一份**R包大礼包**！）
+**强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并且更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装这两个R包，因为它们为你提供了一份**R包大礼包**！）
 ```r
 install.packages("devtools")
 install.packages("tidyverse")
@@ -21,10 +19,10 @@ devtools::install_github("psychbruce/bruceR")
 R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有上百个R包需要安装，而且一旦安装出错（容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。
 
 出现上述情况主要是因为：
-1. 这些基础R包的安装编译过程可能比较复杂，容易出现未知的bug；
-2. `devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户认为是`bruceR`本身的问题。
+1. 这些基础R包的安装编译过程可能比较复杂，容易出现未知bug；
+2. `devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户**误以为**是`bruceR`本身的问题。
 
-因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见[Bug #03](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-03)），再正常安装`bruceR`，这将会大大节省时间！
+因此，**强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并且更新一遍所有已安装的包，再安装`bruceR`，这将会大大节省时间！（有时需要手动卸载重装，见[Bug #03](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-03)）
 
 
 ## Bug #01:
@@ -38,6 +36,8 @@ Use `devtools::install_github("psychbruce/bruceR")`.
 DO NOT use `install.packages("bruceR")`.
 
 由于`bruceR`并没有发布在CRAN官网上，所以请通过`devtools`包来安装，而不能直接使用`install.packages()`函数。
+
+（作者吐槽：`package ‘bruceR’ is not available (for R version 3.6.1)`这句话会让人**误以为**bruceR不支持R的3.6.1版本，不得不说，Python的报错信息比R语言的报错信息有用多了！）
 
 
 ## Bug #02:
@@ -123,7 +123,7 @@ updateR()
 copy.packages.between.libraries(ask=TRUE)
 ```
 
-当R语言本身的版本有更新时，某些R包也会同步更新并且需要依赖最新版本的R，所以如果您想更新这些R包，则必须先把R语言升级到最新版本。上面提供了一个关于升级R语言的小贴士，可以方便管理更新过程。
+当R语言本身的版本有更新时，某些R包也会同步更新并且需要依赖最新版本的R，所以如果你想更新这些R包，则必须先把R语言升级到最新版本。上面提供了一个关于升级R语言的小贴士，可以方便管理更新过程。
 
 
 ## Bug #05:
