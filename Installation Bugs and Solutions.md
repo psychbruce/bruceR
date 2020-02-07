@@ -4,11 +4,11 @@ All the bugs DO NOT have relation with the `bruceR` package *per se*.
 
 您在安装过程中遇到的所有问题**都不是**`bruceR`包本身的问题！
 
-如果有关，也是因为`bruceR`需要安装很多其他的R包，在安装这些R包的时候出错！
+如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包的时候出了错！
 
-**大部分用户可以正常安装**`bruceR`！如果安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
+**大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
 
-**强烈建议**先安装好`tidyverse`和`ggstatsplot`两个包，并且更新一遍已安装的所有R包，然后再安装`bruceR`！
+**强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并且更新一遍已安装的所有R包，然后再安装`bruceR`！（无论你是否安装`bruceR`，都强烈推荐安装这两个R包，因为它们为你提供了一份**R包大礼包**！）
 ```r
 install.packages("devtools")
 install.packages("tidyverse")
@@ -18,7 +18,13 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 
-注：R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有上百个R包需要安装，而且一旦安装出错（容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。出现上述情况主要是因为：1）这些基础R包的安装编译过程可能比较复杂，容易出现未知的bug；2）`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户认为是`bruceR`本身的问题。因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见[Bug #03](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-03)），再正常安装`bruceR`，这将会大大节省时间！
+R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有上百个R包需要安装，而且一旦安装出错（容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。
+
+出现上述情况主要是因为：
+1. 这些基础R包的安装编译过程可能比较复杂，容易出现未知的bug；
+2. `devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户认为是`bruceR`本身的问题。
+
+因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见[Bug #03](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-03)），再正常安装`bruceR`，这将会大大节省时间！
 
 
 ## Bug #01:
