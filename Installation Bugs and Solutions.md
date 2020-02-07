@@ -2,7 +2,9 @@
 
 All the bugs DO NOT have relation with the `bruceR` package *per se*.
 
-您在安装过程中遇到的所有问题**均不是**`bruceR`包本身的问题！
+您在安装过程中遇到的所有问题**都不是**`bruceR`包本身的问题！如果有关，也是因为`bruceR`需要安装很多其他的R包，在安装这些R包的时候出错！
+
+根据反馈，**大部分用户可以正常安装**`bruceR`！如果安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
 
 **强烈建议**先安装好`tidyverse`和`ggstatsplot`两个包，并且更新一遍已安装的所有R包，然后再安装`bruceR`！
 ```r
@@ -14,7 +16,7 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 
-注：R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有上百个R包需要安装，而且一旦安装出错（容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。出现上述情况主要是因为：1）这些基础R包的安装编译过程可能比较复杂，容易出现未知的bug；2）`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户认为是`bruceR`本身的问题。因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见[Bug #05](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-05)），再正常安装`bruceR`，这将会大大节省您的时间！
+注：R包一般都会依赖于其他R包，在安装时会先自动安装其他R包，然后再安装自身。`bruceR`依赖于`tidyverse`、`ggstatsplot`等10+个R包（[查看完整列表](https://github.com/psychbruce/bruceR/blob/master/DESCRIPTION)），而`tidyverse`和`ggstatsplot`又依赖于一共200+个更基础的R包，所以如果直接安装`bruceR`，你会发现有上百个R包需要安装，而且一旦安装出错（容易安装出错的基础R包例如`rlang`、`gsl`、`Rcpp`等），则前功尽弃，又要重新下载一遍，并且依然有可能报错，浪费了大量时间。出现上述情况主要是因为：1）这些基础R包的安装编译过程可能比较复杂，容易出现未知的bug；2）`devtools::install_github()`函数在安装GitHub上的R包时有一个缺陷，即无法很好地处理安装其他R包失败的状况，还会返回一个没有任何信息含量的报错信息（`Error: Failed to install 'bruceR' from GitHub`），使用户认为是`bruceR`本身的问题。因此，强烈建议用户先更新完所有的R包（有的R包则需要手动卸载重装，见[Bug #03](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md#bug-03)），再正常安装`bruceR`，这将会大大节省时间！
 
 
 ## Bug #01:
@@ -45,16 +47,33 @@ Check your network connections, or see https://ask.csdn.net/questions/713186.
 
 ## Bug #03:
 ```
-WARNING: Rtools is required to build R packages, but is not currently installed.
-
-Please download and install Rtools 3.5 from http://cran.r-project.org/bin/windows/Rtools/
-
-Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
+Error: Failed to install 'bruceR' from GitHub:
+  (converted from warning) installation of package ‘rlang’ had non-zero exit status
+```
+or
+```
+Error: Failed to install 'bruceR' from GitHub:
+  (converted from warning) cannot remove prior installation of package ‘Rcpp’
 ```
 ### Solution:
-Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
+Use the RStudio menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) or the code `update.packages(ask=F)` to update all the other packages before you install `bruceR`.
 
-Rtools不是一个R包，而是一个额外的工具，最好安装，不过不安装似乎也没有太大的问题。
+Sometimes you have to first use `remove.packages()` to uninstall the old packages (e.g., `rlang`, `gsl`, `Rcpp`) and then use `install.packages()` to reinstall them. Sometimes you also have to restart RStudio and try these again.
+
+这个Bug最常见！某些基础R包在更新时，容易出现更新失败的情况。目前发现，`rlang`、`gsl`、`Rcpp`等最容易出现更新失败（`bruceR`作者表示很无奈）。究其原因，一般是这些包的新版本在**刚刚发布**的时候，需要通过编译（compilation）的方式来安装更新，这与R包的正常安装过程不同，更复杂更耗时也更容易出错。
+
+请**手动卸载重装**这些R包（可以使用代码，也可以使用RStudio面板上的`Packages`来管理）。例如对于`rlang`包，可以这么做：
+```
+## 第1步：手动卸载
+remove.packages("rlang")
+
+## 第2步：重启R语言
+# 在RStudio里面可以使用快捷键`Ctrl+Shift+F10`
+# 也可以鼠标点击菜单栏里面的`Session -> Restart R`
+
+## 第3步：手动安装
+install.packages("rlang")
+```
 
 
 ## Bug #04:
@@ -101,18 +120,27 @@ copy.packages.between.libraries(ask=TRUE)
 
 ## Bug #05:
 ```
-Error: Failed to install 'bruceR' from GitHub:
-  (converted from warning) installation of package ‘rlang’ had non-zero exit status
-```
-or
-```
-Error: Failed to install 'bruceR' from GitHub:
-  (converted from warning) cannot remove prior installation of package ‘Rcpp’
+WARNING: Rtools is required to build R packages, but is not currently installed.
+
+Please download and install Rtools 3.5 from http://cran.r-project.org/bin/windows/Rtools/
+
+Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ```
 ### Solution:
-Use the RStudio menu bar [**`Packages -> Update`**](https://shimo.im/docs/YWwKvcRgqWRdh3HR) or the code `update.packages(ask=F)` to update all the other packages before you install `bruceR`.
+Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
 
-Sometimes you have to first use `remove.packages()` to uninstall the old packages (e.g., `rlang`, `gsl`, `Rcpp`) and then use `install.packages()` to reinstall them. Sometimes you also have to restart RStudio and try these again.
+Rtools不是一个R包，而是一个额外的工具，最好安装，不过不安装似乎也没有太大的问题。
 
-这个Bug最常见！某些基础R包在更新时，容易出现更新失败的情况。目前发现，`rlang`、`gsl`、`Rcpp`等最容易出现更新失败（`bruceR`作者表示很无奈）。此时，请尝试手动卸载、重装这些基础R包（可以使用代码，也可以使用RStudio面板上的`Packages`来管理）。终极解决方案就是**手动卸载重装**、**手动卸载重装**、**手动卸载重装**！
+
+## Bug #06:
+```
+Skipping install of 'bruceR' from a github remote, the SHA1 (9a07f63b) has not changed since last install.
+Use `force = TRUE` to force installation
+```
+### Solution:
+Congratulations! You have already installed the latest `bruceR`. No need to reinstall or update it.
+
+请仔细阅读报错信息啊亲，它提示你GitHub上的版本与你已经安装过的版本之间没有变化，**你已经成功安装了最新版本**！
+
+当然，如果你有**闲情逸致**，可以在`install_github()`函数里面加一个参数`force = TRUE`来强制重装一遍，这么做的目的是打发时间。
 
