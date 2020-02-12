@@ -8,11 +8,17 @@ All the bugs DO NOT have relation with the `bruceR` package *per se*.
 
 **强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装`tidyverse`和`ggstatsplot`，因为它们为你提供了一份**R包大礼包**！）
 ```r
+#### 安装步骤 ####
+
+## 第1步：安装基础R包（如果已经安装过，请忽略）
 install.packages("devtools")
 install.packages("tidyverse")
 install.packages("ggstatsplot")
+
+## 第2步：更新所有R包（为了避免第3步频繁出错）
 update.packages(ask=F)
 
+## 第3步：安装bruceR包
 devtools::install_github("psychbruce/bruceR")
 ```
 

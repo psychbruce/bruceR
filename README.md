@@ -18,11 +18,17 @@ Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R fun
 ## User Guide
 ### Install
 ```r
+#### 安装步骤 ####
+
+## 第1步：安装基础R包（如果已经安装过，请忽略）
 install.packages("devtools")
 install.packages("tidyverse")
 install.packages("ggstatsplot")
+
+## 第2步：更新所有R包（为了避免第3步频繁出错）
 update.packages(ask=F)
 
+## 第3步：安装bruceR包
 devtools::install_github("psychbruce/bruceR")
 ```
 - Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
