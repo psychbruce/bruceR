@@ -47,19 +47,31 @@ Downloading GitHub repo psychbruce/bruceR@master
 Error in utils::download.file(url, path, method = method, quiet = quiet,  : 
   cannot open URL 'https://api.github.com/repos/psychbruce/bruceR/tarball/master'
 ```
+or
+```
+> devtools::install_github("psychbruce/bruceR")
+Error: Failed to install 'unknown package' from GitHub:
+Timeout was reached: [http://api.github.com] Connection timed out after 10000 milliseconds
+```
 ### Solution:
-Check your network connections, or see https://ask.csdn.net/questions/713186.
+Check your network connection, check whether you can visit GitHub.com, or see https://ask.csdn.net/questions/713186.
 
-°²×°Ç°ÏÈÈ·ÈÏÁ¬½ÓºÃÁËÍøÂç¡£Èç¹û»¹ÊÇ²»ÐÐ£¬¿ÉÒÔ¿´¿´ÉÏÃæÕâ¸öÁ´½Ó¡£ÁíÍâ£¬Èç¹ûÍøËÙ½ÏÂý£¬Ôò°²×°¹ý³Ì»á·Ç³£Âþ³¤£¬±Ï¾¹ÓÐ200+¸öÒÀÀµµÄR°üÐèÒªÏÈÐÐÏÂÔØ°²×°£¬ËùÒÔÇ¿ÁÒ½¨ÒéÔÚÍøËÙ½Ï¿ìµÄ»·¾³ÏÂ°²×°`bruceR`£¡
+°²×°Ç°ÏÈÈ·ÈÏÁ¬½ÓºÃÁËÍøÂç£¬²¢ÇÒ¿ÉÒÔÕý³£·ÃÎÊGitHubÍøÕ¾¡£Èç¹û»¹ÊÇ²»ÐÐ£¬¿ÉÄÜÊÇÓÉÓÚÎÞ·¨°²×°GitHubÉÏµÄR°ü£¨¼´ÎÞÂÛÏÂÔØÊ²Ã´À´×ÔGitHubµÄR°ü¶¼»á³ö´í£©£¬¿ÉÒÔ¿´¿´ÉÏÃæÕâ¸öÁ´½Ó¡£
+
+ÁíÍâ£¬Èç¹ûÍøËÙ½ÏÂý£¬Ôò°²×°¹ý³Ì»á·Ç³£Âþ³¤£¬±Ï¾¹ÓÐ200+¸öÒÀÀµµÄR°üÐèÒªÏÈÐÐÏÂÔØ°²×°£¬ËùÒÔÇ¿ÁÒ½¨ÒéÔÚÍøËÙ½Ï¿ìµÄ»·¾³ÏÂ°²×°`bruceR`£¡
 
 
 ## Bug #03:
 ```
+> devtools::install_github("psychbruce/bruceR")
+...
 Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) installation of package ¡®rlang¡¯ had non-zero exit status
 ```
 or
 ```
+> devtools::install_github("psychbruce/bruceR")
+...
 Error: Failed to install 'bruceR' from GitHub:
   (converted from warning) cannot remove prior installation of package ¡®Rcpp¡¯
 ```
@@ -85,6 +97,8 @@ install.packages("rlang")
 
 ## Bug #04:
 ```
+> devtools::install_github("psychbruce/bruceR")
+...
 * installing *source* package 'bruceR' ...
 ** using staged installation
 ** R
@@ -99,6 +113,8 @@ Error: Failed to install 'bruceR' from GitHub:
 ```
 or
 ```
+> devtools::install_github("psychbruce/bruceR")
+...
 * installing *source* package 'bruceR' ...
 ** using staged installation
 ** R
@@ -127,6 +143,7 @@ copy.packages.between.libraries(ask=TRUE)
 
 ## Bug #05:
 ```
+> devtools::install_github("psychbruce/bruceR")
 WARNING: Rtools is required to build R packages, but is not currently installed.
 
 Please download and install Rtools 3.5 from http://cran.r-project.org/bin/windows/Rtools/
@@ -141,6 +158,7 @@ Rtools²»ÊÇÒ»¸öR°ü£¬¶øÊÇÒ»¸ö¶îÍâµÄ¹¤¾ß£¬×îºÃ°²×°£¬²»¹ý²»°²×°ËÆºõÒ²Ã»ÓÐÌ«´óµÄÎÊÌâ¡
 
 ## Bug #06:
 ```
+> devtools::install_github("psychbruce/bruceR")
 Skipping install of 'bruceR' from a github remote, the SHA1 has not changed since last install.
 Use `force = TRUE` to force installation
 ```
