@@ -582,7 +582,7 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 
 #' Descriptive statistics
 #' @importFrom GGally ggpairs wrap
-#' @param data \code{data.frame} or \code{data.table}.
+#' @param data \code{data.frame} or \code{data.table} or a vector of variable.
 #' @param nsmall Number of decimal places of output. Default is 2.
 #' @param plot \code{TRUE} or \code{FALSE} (default), visualize the descriptive statistics with \code{GGally::\link[GGally]{ggpairs}}.
 #' @param smooth \code{FALSE} (default), \code{"lm"}, or \code{"loess"}, add fitted lines to scatter plots (if any).
@@ -602,13 +602,14 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
                   save.file=NULL, save.size="8:6", save.dpi=500) {
   Print("Descriptive statistics:")
+  if(is.numeric(data)) data=data.frame(X=data)
   desc=psych::describe(data, fast=FALSE)
   desc$vars = desc$trimmed = desc$mad = desc$range = desc$se = NULL
   names(desc)=c("N", "Mean", "SD", "Median", "Min", "Max", "Skewness", "Kurtosis")
   desc$Missing=nrow(data)-desc$N
   desc$Missing=ifelse(desc$Missing==0, NA, desc$Missing)
   if(length(as.data.frame(data))==1)
-    row.names(desc)=as.character(sys.call())[2]
+    row.names(desc)="var"  # as.character(sys.call())[2]
   print_table(desc, nsmalls=c(0, rep(nsmall, 7), 0))
 
   if(plot) {

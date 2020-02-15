@@ -15,7 +15,7 @@ Describe(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} or \code{data.table}.}
+\item{data}{\code{data.frame} or \code{data.table} or a vector of variable.}
 
 \item{nsmall}{Number of decimal places of output. Default is 2.}
 
