@@ -229,11 +229,11 @@ MANOVA=function(data, subID=NULL, dv=NULL,
         dv.vars=convert2vars(data, varrange=dvs)$vars.raw
       else
         dv.vars=dvs
+      dv="bruceY"  # "Y" will generate an error when dvs are like "X1Y1"
       data=pivot_longer(data, cols=dv.vars,
                         names_to=within,
                         names_pattern=dvs.pattern,
-                        values_to="Y") %>% as.data.frame()
-      dv="Y"
+                        values_to=dv) %>% as.data.frame()
     }
   } else {
     dv.vars=dv
