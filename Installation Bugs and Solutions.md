@@ -7,6 +7,9 @@ All the bugs DO NOT have relation with the `bruceR` package *per se*.
 **大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
 
 **强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装`tidyverse`和`ggstatsplot`，因为它们为你提供了一份**R包大礼包**！）
+
+为保证下载速度，**强烈建议**中国用户把CRAN镜像设置为国内的镜像（如清华大学），步骤请参考：https://mp.weixin.qq.com/s/7_Z4RZOMgyI3DQn045PAHg
+
 ```r
 #### 安装步骤 ####
 
@@ -59,12 +62,22 @@ or
 Error: Failed to install 'unknown package' from GitHub:
 Timeout was reached: [http://api.github.com] Connection timed out after 10000 milliseconds
 ```
+or
+```
+> devtools::install_github("psychbruce/bruceR")
+Error: Failed to install 'bruceR' from GitHub:
+  schannel: failed to receive handshake, SSL/TLS connection failed
+```
 ### Solution:
-Check your network connection, check whether you can visit GitHub.com, or see https://ask.csdn.net/questions/713186.
+Check your network connection, or see:
+- https://ask.csdn.net/questions/713186
+- https://blog.csdn.net/Allen_jinjie/article/details/103361386
 
-安装前先确认连接好了网络，并且可以正常访问GitHub网站。如果还是不行，可能是由于无法安装GitHub上的R包（即无论下载什么来自GitHub的R包都会出错），可以看看上面这个链接。
+安装前先确认网络畅通。
 
-另外，如果网速较慢，则安装过程会非常漫长，毕竟有200+个依赖的R包需要先行下载安装，所以强烈建议在网速较快的环境下安装`bruceR`！
+如果还是不行，可能是由于无法安装GitHub上的R包（即无论下载什么来自GitHub的R包都会出错），可以看看上面这个链接。
+
+如果依然不行，请等一会儿再试试。
 
 
 ## Bug #03:
@@ -159,7 +172,7 @@ Error in parse_repo_spec(repo) : Invalid git repo specification: 'bruceR'
 ### Solution:
 Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
 
-Rtools不是一个R包，而是一个额外的工具，最好安装，不过不安装似乎也没有太大的问题。
+Rtools不是一个R包，而是一个额外的工具，最好安装。
 
 
 ## Bug #06:
