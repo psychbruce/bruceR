@@ -22,6 +22,7 @@
 #' @param title.pos Title position (0~1).
 #' @param subtitle.pos Subtitle position (0~1).
 #' @param caption.pos Caption position (0~1).
+#' @param font Text font. Default is "Arial".
 #' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
 #' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
 #' @param line.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.
@@ -58,6 +59,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
                      bg="white", panel.bg="white",
                      tag="bold", plot.title="bold", axis.title="plain",
                      title.pos=0.5, subtitle.pos=0, caption.pos=1,
+                     font="Arial",
                      grid.x="", grid.y="",
                      line.x=TRUE, line.y=TRUE,
                      tick.x=TRUE, tick.y=TRUE) {
@@ -71,9 +73,11 @@ theme_bruce=function(base.size=12, line.size=0.5,
             bg) # see ggthemr::ggthemr()$palette$background
   # ggthemr::colour_plot(c(solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))
   margin=ggplot2::margin
+  windowsFonts(FONT=windowsFont(font))
   theme = theme_bw() +
     theme(
-      panel.grid=element_blank(),
+      text=element_text(family="FONT"),
+      panel.grid.minor=element_blank(),
       panel.grid.major.x=if(grid.x=="" | grid.x==F) element_blank() else
         element_line(size=line.size, color=grid.x),
       panel.grid.major.y=if(grid.y=="" | grid.y==F) element_blank() else
@@ -81,7 +85,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
       panel.border=if(border=="" | border==F) element_blank() else
         element_rect(size=line.size+0.4, color=border, fill=NA),
       panel.background=element_rect(fill=panel.bg),
-      axis.line=element_line(size=line.size, color="black"), # lineend="square"
+      axis.line=element_line(size=line.size, color="black"),  # lineend="square"
       axis.title=element_text(face=axis.title, color="black", size=base.size+2),
       axis.title.x=element_text(margin=margin(0.5, 0, 0.2, 0, "lines")),
       axis.title.y=element_text(margin=margin(0, 0.5, 0, 0.2, "lines")),
@@ -95,7 +99,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
       plot.subtitle=element_text(face=plot.title, size=base.size, hjust=subtitle.pos,
                                  margin=margin(0, 0, 0.6, 0, "lines")),
       plot.caption=element_text(size=base.size-2, hjust=caption.pos,
-                                margin=margin(-1, 0, 0.1, 0, "lines")),
+                                margin=margin(0, 0, 0.1, 0, "lines")),
       plot.tag=element_text(face=tag, size=base.size+2),
       plot.tag.position=c(0.005, 0.985),
       plot.background=element_rect(color=bg, fill=bg),

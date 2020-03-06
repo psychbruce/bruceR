@@ -16,6 +16,7 @@ theme_bruce(
   title.pos = 0.5,
   subtitle.pos = 0,
   caption.pos = 1,
+  font = "Arial",
   grid.x = "",
   grid.y = "",
   line.x = TRUE,
@@ -53,6 +54,8 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 \item{subtitle.pos}{Subtitle position (0~1).}
 
 \item{caption.pos}{Caption position (0~1).}
+
+\item{font}{Text font. Default is "Arial".}
 
 \item{grid.x}{\code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).}
 
