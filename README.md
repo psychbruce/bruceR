@@ -12,7 +12,7 @@
 
 
 ## Citation
-Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions. Retrieved from https://github.com/psychbruce/bruceR
+Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions [R package]. https://github.com/psychbruce/bruceR
 
 
 ## User Guide

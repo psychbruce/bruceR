@@ -183,7 +183,7 @@ NULL
   bruceR::check_update()
   devtools::install_github(\"psychbruce/bruceR\")
   <<bold <<blue Citation:>>>>
-  Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions (version {as.character(packageVersion('bruceR'))}). Retrieved from <<underline https://github.com/psychbruce/bruceR>>
+  Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions [R package]. <<underline https://github.com/psychbruce/bruceR>>
   >>
   >>
   ")
