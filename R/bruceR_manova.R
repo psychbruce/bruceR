@@ -555,11 +555,17 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   model.raw=model
 
   # IMPORTANT: If include 'aov', the 'emmeans' results of
-  # within-subjects design will not be equal to those of SPSS!
+  # within-subjects design will not be equal to those in SPSS!
   # So we do not include 'aov' object but instead use 'lm' and 'mlm'
   # objects to do the follow-up 'emmeans' analyses!
   if(!repair) model$aov=NULL
   repair.msg="NOTE: Repaired results are shown below.\nThe function works with the 'aov' object."
+
+  # Bug: For within-sub 'effect' and between-sub 'by' in mixed design
+  if(!is.null(effect) & !is.null(model$within) & effect %anyin% model$within &
+     !is.null(by) & !is.null(model$between) & by %anyin% model$between) {
+    model=model.raw
+  }
 
   effect.text=paste(effect, collapse='\" & \"')
   Print("<<yellow ------ EMMEANS Output (effect = \"{effect.text}\") ------>>")
