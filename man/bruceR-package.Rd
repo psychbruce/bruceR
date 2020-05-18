@@ -11,17 +11,17 @@ Making data analyses and statistics more elegant.
 
 Check updates on \url{https://github.com/psychbruce/bruceR}
 
-Once you load \code{bruceR} with \code{library()}, it will also load the packages most commonly used:
+Once you load \code{bruceR} with \code{library()}, it will also load these packages:
 
 \itemize{
-  \item \code{\strong{\link[rio]{rio}}}: Data input/output for many file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
+  \item \code{\strong{\link[rio]{rio}}}: Data input/output for almost all file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
   \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
-  \item \code{\strong{\link[data.table]{data.table}}}: Enhanced 'data.frame' with higher efficiency.
-  \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological research.
   \item \code{\strong{\link[stringr]{stringr}}}: Toolbox for dealing with strings and regular expressions.
   \item \code{\strong{\link[lubridate]{lubridate}}}: Toolbox for dealing with dates and times.
-  \item \code{\strong{\link[performance]{performance}}}: Toolbox for assessing many indexes of regression models. (see \code{\link[performance]{model_performance}})
+  \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' with higher efficiency.
+  \item \code{\strong{\link[performance]{performance}}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
+  \item \code{\strong{\link[cowplot]{cowplot}}}: Useful add-on for ggplot2.
 }
 
 No need to load each one with its own call.
