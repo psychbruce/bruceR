@@ -6,6 +6,9 @@
 \usage{
 formula_expand(formula)
 }
+\arguments{
+\item{formula}{R formula.}
+}
 \description{
 Expand all interaction terms in a formula (of \code{lm, glm, lmer, glmer})
 }

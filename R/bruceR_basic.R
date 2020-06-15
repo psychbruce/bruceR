@@ -718,6 +718,19 @@ Corr=function(data, method="pearson",
               plot=TRUE, plot.range=c(-1, 1),
               plot.color=c("#B52127", "white", "#2171B5"),
               save.file=NULL, save.size="8:6", save.dpi=500) {
+  exclude.vars=c()
+  for(var in names(data)) {
+    if(class(data[[var]]) %in% c("character", "factor")) {
+      data[var]=NULL
+      exclude.vars=c(exclude.vars, var)
+    }
+  }
+  if(length(exclude.vars)>0) {
+    Print("# Excluded non-numeric variables:")
+    cat(paste(exclude.vars, collapse=", "))
+    cat("\n\n")
+  }
+
   cor=cor0=corr.test(data, method=method, adjust=p.adjust)
   # print(cor, digits=nsmall, short=!CI)
   Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
@@ -728,11 +741,10 @@ Corr=function(data, method="pearson",
   for(i in 1:nrow(cor$p)) cor$p[i,i]=""
   print_table(cor$p)
   if(p.adjust!="none") Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(p.adjust)} method).>>")
-  if(class(cor$n)=="matrix") {
+  if("matrix" %in% class(cor$n)) {
     Print("\n\n\nSample size:")
     print_table(cor$n, nsmalls=0)
-  }
-  if(class(cor$n)=="numeric") {
+  } else {
     Print("\n\n\nSample size: <<italic N>> = {cor$n}")
   }
   if(CI) {

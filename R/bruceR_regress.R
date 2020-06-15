@@ -1,7 +1,12 @@
 #### Regression ####
 
 
-## Paste a formula into a string
+#' Paste a formula into a string
+#' @param formula R formula.
+#' @examples
+#' formula_paste(y ~ x)
+#' formula_paste(y ~ x + (1 | g))
+#' @export
 formula_paste=function(formula) {
   paste(formula[2], formula[1], formula[3], collapse=" ")
 }
@@ -10,6 +15,7 @@ formula_paste=function(formula) {
 #' Expand all interaction terms in a formula (of \code{lm, glm, lmer, glmer})
 #' @import stringr
 ## @seealso \code{\link[MuMIn]{expand.formula}}
+#' @inheritParams formula_paste
 #' @examples
 #' formula_expand(y ~ a*b*c)
 #' @export
