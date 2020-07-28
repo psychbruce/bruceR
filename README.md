@@ -8,7 +8,22 @@
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
-[![](https://img.shields.io/badge/Follow%20me%20on-Zhihu-blue)](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
+<a href="https://en.wikipedia.org/wiki/Creative_Commons_license"><img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"></a>
+
+* 复制、修改、发布、展示本代码库，请务必遵守**「创作共用许可协议 CC BY-NC-SA」（原作者署名-非商业用途使用-相同方式共享）**！
+
+
+## Author
+
+[包寒吴霜 \| Bao H.-W.-S.](https://psychbruce.github.io)
+
+E-mail: [baohws@foxmail.com](mailto:baohws@foxmail.com)
+
+Website: [psychbruce.github.io](https://psychbruce.github.io)
+
+[ResearchGate](https://www.researchgate.net/profile/Han_Wu_Shuang_Bao) |
+[GitHub](https://github.com/psychbruce) |
+[知乎](https://www.zhihu.com/people/psychbruce)
 
 
 ## Citation
@@ -120,9 +135,3 @@ example("model_check")
   + General bug-fixes and improvements
 + `0.1.0` - 2019.06
   + Initial commit
-
-
-## Author
-[Han-Wu-Shuang (Bruce) Bao - 包寒吴霜](https://www.zhihu.com/people/psychbruce/ "Personal profile on Zhihu.com")
-
-E-mail: baohws@psych.ac.cn or psychbruce@qq.com
