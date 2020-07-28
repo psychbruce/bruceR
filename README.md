@@ -10,7 +10,7 @@
 
 <a href="https://en.wikipedia.org/wiki/Creative_Commons_license"><img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"></a>
 
-* 复制、修改、发布、展示本代码库，请务必遵守**「创作共用许可协议 CC BY-NC-SA」（原作者署名-非商业用途使用-相同方式共享）**！
+- 复制、修改、发布、展示本代码库，请务必遵守**「创作共用许可协议 CC BY-NC-SA」（原作者署名-非商业用途使用-相同方式共享）**！
 
 
 ## Author
@@ -51,7 +51,6 @@ devtools::install_github("psychbruce/bruceR")
 
 
 ### Package dependency
-> *We are all standing on the shoulders of giants.*
 
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
