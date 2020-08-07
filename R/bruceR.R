@@ -184,10 +184,19 @@ NULL
   # {rep_char('=', 56)}
   # bell: \ud83d\udd14
   # bulb: \ud83d\udca1
+  # gift: \ud83c\udf81
+  # bolt: \u26a1
+  # star: \u2b50
+  LOGO=c(bell="\ud83d\udd14",
+         bulb="\ud83d\udca1",
+         gift="\ud83c\udf81",
+         bolt="\u26a1",
+         star="\u2b50")
+  logo=LOGO[sample(1:5, 1)]
   Print("
   \n
   <<bold <<magenta
-  \ud83d\udca1 bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
+  {logo} bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
   >>>>
 
   <<bold <<blue Loaded packages:>>>>
