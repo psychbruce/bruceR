@@ -2,7 +2,7 @@
 
 All bugs are NOT related to the `bruceR` package!
 
-安装过程中的所有问题**都不是**`bruceR`包本身的问题！（如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包的时候出了错！）
+安装过程中所有问题**都不是**`bruceR`包的问题！（如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包时出了错！）
 
 **大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
 
@@ -72,7 +72,7 @@ Check your network connection, or see:
 
 对于“SSL/TLS connection failed”问题（即无法安装任何来自GitHub的R包），解决方案如下：
 1. 依次打开IE的Internet选项、高级，找到安全模块，勾选4个：使用SSL 3.0、使用TLS 1.0、使用TLS 1.1、使用TLS 1.2
-2. 找到R安装路径中的“etc”文件夹下的“Rprofile.site”文件（例如C:\\Program Files\\R\\R-4.0.0\\etc\\Rprofile.site），用RStudio或文本编辑器打开，然后在其中添加一行`**options(download.file.method="libcurl")**`，可以添加在`options(help_type="html")`这一行的下方，保存即可
+2. 找到R安装路径中的“etc”文件夹下的“Rprofile.site”文件（例如C:\\Program Files\\R\\R-4.0.0\\etc\\Rprofile.site），用RStudio或文本编辑器打开，然后在其中添加一行**`options(download.file.method="libcurl")`**，可以添加在`options(help_type="html")`这一行的下方，保存即可
 
 
 ## Bug #03:
