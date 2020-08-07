@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.4.7
+Version: 0.4.8
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -18,8 +18,8 @@ Depends: R (>= 3.6.3),
          rio,
          dplyr,
          stringr,
-         lubridate,
          data.table,
+         psych,
          performance,
          ggplot2,
          cowplot
@@ -37,4 +37,4 @@ Imports: tidyverse,
          semPlot
 Suggests: summarytools
 RdMacros: lifecycle
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

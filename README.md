@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.4.7-success)
+![](https://img.shields.io/badge/Version-0.4.8-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -55,14 +55,14 @@ devtools::install_github("psychbruce/bruceR")
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
 Once you load `bruceR` to the global environment with `library()`, it will also load these packages:
-- `rio`: Data input/output for almost all file formats within one function (`import`/`export`).
+- `rio`: Data input/output for all file formats within one function (`import`/`export`).
 - `dplyr`: Data manipulation and preprocessing.
-- `stringr`: Toolbox for dealing with strings and regular expressions.
-- `lubridate`: Toolbox for dealing with dates and times.
-- `data.table`: Advanced 'data.frame' with higher efficiency.
-- `performance`: Assessment of regression models performance.
+- `stringr`: String operations and regular expressions.
+- `data.table`: Advanced 'data.frame' for higher efficiency.
+- `psych`: Toolbox for psychological and psychometric research.
+- `performance`: Checking model performance.
 - `ggplot2`: Data visualization.
-- `cowplot`: Useful add-on for ggplot2.
+- `cowplot`: Advanced toolbox for ggplot2.
 
 No need to load each one with its own call. Loading `bruceR` is enough.
 
@@ -121,7 +121,7 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.4.7`
+### Current version: `0.4.8`
 ### Major changes:
 + `0.4.0` - 2019.12
   + Added citation information

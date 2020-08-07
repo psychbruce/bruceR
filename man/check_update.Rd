@@ -10,6 +10,5 @@ check_update()
 Check update of \code{bruceR} package
 }
 \examples{
-library(bruceR)
-check_update()
+bruceR::check_update()
 }

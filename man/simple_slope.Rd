@@ -13,14 +13,15 @@ simple_slope(b, SEb, bmod, SDmod, df, nsmall = 3)
 
 \item{bmod}{Coefficient of moderator.}
 
-\item{SDmod}{\emph{SD} of moderator (not \emph{SE}), used for calculating simple slopes of X with moderator at "M + SD" and "M -SD".}
+\item{SDmod}{\emph{SD} of moderator (not \emph{SE}), used for calculating simple slopes of X with moderator at "\emph{M} + \emph{SD}" and "\emph{M} - \emph{SD}".}
 
-\item{df}{Degree of freedom. Usually can be found in model summary.}
+\item{df}{Residual degree of freedom.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
 }
 \description{
-Simple-slope analysis based on \emph{b} and \emph{SE}
+\strong{WARNING}: This function is NOT optimal.
+I suggest using the \code{interactions} package, see \code{interactions::\link[interactions]{sim_slopes}}
 }
 \examples{
 simple_slope(b=1.5, SEb=0.5, bmod=0.9, SDmod=1.0, df=300)

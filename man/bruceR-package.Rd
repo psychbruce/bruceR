@@ -14,14 +14,14 @@ Check updates on \url{https://github.com/psychbruce/bruceR}
 Once you load \code{bruceR} with \code{library()}, it will also load these packages:
 
 \itemize{
-  \item \code{\strong{\link[rio]{rio}}}: Data input/output for almost all file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
+  \item \code{\strong{\link[rio]{rio}}}: Data input/output for all file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
   \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
-  \item \code{\strong{\link[stringr]{stringr}}}: Toolbox for dealing with strings and regular expressions.
-  \item \code{\strong{\link[lubridate]{lubridate}}}: Toolbox for dealing with dates and times.
-  \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' with higher efficiency.
-  \item \code{\strong{\link[performance]{performance}}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
+  \item \code{\strong{\link[stringr]{stringr}}}: String operations and regular expressions.
+  \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' for higher efficiency.
+  \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological and psychometric research.
+  \item \code{\strong{\link[performance]{performance}}}: Checking regression model performance. (see \code{\link[performance]{model_performance}})
   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
-  \item \code{\strong{\link[cowplot]{cowplot}}}: Useful add-on for ggplot2.
+  \item \code{\strong{\link[cowplot]{cowplot}}}: Advanced toolbox for ggplot2.
 }
 
 No need to load each one with its own call.
@@ -129,7 +129,7 @@ The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/dow
 }
 
 \author{
-\href{https://www.zhihu.com/people/psychbruce/}{Han-Wu-Shuang (Bruce) Bao} (personal profile on Zhihu.com)
+\href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}
 
-E-mail: \email{baohws@psych.ac.cn} or \email{psychbruce@qq.com}
+E-mail: \email{baohws@foxmail.com}
 }

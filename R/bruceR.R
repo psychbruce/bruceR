@@ -37,14 +37,14 @@ if(FALSE) {
 #' Once you load \code{bruceR} with \code{library()}, it will also load these packages:
 #'
 #' \itemize{
-#'   \item \code{\strong{\link[rio]{rio}}}: Data input/output for almost all file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
+#'   \item \code{\strong{\link[rio]{rio}}}: Data input/output for all file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
 #'   \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
-#'   \item \code{\strong{\link[stringr]{stringr}}}: Toolbox for dealing with strings and regular expressions.
-#'   \item \code{\strong{\link[lubridate]{lubridate}}}: Toolbox for dealing with dates and times.
-#'   \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' with higher efficiency.
-#'   \item \code{\strong{\link[performance]{performance}}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
+#'   \item \code{\strong{\link[stringr]{stringr}}}: String operations and regular expressions.
+#'   \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' for higher efficiency.
+#'   \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological and psychometric research.
+#'   \item \code{\strong{\link[performance]{performance}}}: Checking regression model performance. (see \code{\link[performance]{model_performance}})
 #'   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
-#'   \item \code{\strong{\link[cowplot]{cowplot}}}: Useful add-on for ggplot2.
+#'   \item \code{\strong{\link[cowplot]{cowplot}}}: Advanced toolbox for ggplot2.
 #' }
 #'
 #' No need to load each one with its own call.
@@ -150,9 +150,9 @@ if(FALSE) {
 #' The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} can be accessed from this website: \url{https://www.rstudio.com/products/rstudio/download/preview/}
 #'
 #' @author
-#' \href{https://www.zhihu.com/people/psychbruce/}{Han-Wu-Shuang (Bruce) Bao} (personal profile on Zhihu.com)
+#' \href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}
 #'
-#' E-mail: \email{baohws@@psych.ac.cn} or \email{psychbruce@@qq.com}
+#' E-mail: \email{baohws@@foxmail.com}
 #'
 #' @docType package
 #' @name bruceR-package
@@ -168,24 +168,36 @@ NULL
   # options(contrasts=c("contr.sum", "contr.poly"))
   # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
+  user.ver=as.character(packageVersion("bruceR"))
+  curr.ver="0.4.8"
+
+  if(user.ver==curr.ver) {
+    update_msg=""
+  } else {
+    update_msg=Glue("
+    \n\n<<red
+    Your installed version of bruceR: <<green {user.ver}>>
+    The latest version on GitHub.com: <<green {curr.ver}>>
+    {ifelse(user.ver==curr.ver, 'No need to update.', 'You can update!')}
+
+    <<bold <<blue Run this in console to update:>>>>
+    <<black devtools::install_github(\"psychbruce/bruceR\")
+    \n>>>>")
+  }
+
   Print("
-  <<blue
   <<bold <<magenta
   {rep_char('=', 56)}
   <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
   {rep_char('=', 56)}
-  >>
-  Loaded packages:>>
-  <<green \u2714 bruceR (version {as.character(packageVersion('bruceR'))})>>
-  <<green \u2714 rio, dplyr, stringr, lubridate>>
-  <<green \u2714 data.table, performance, ggplot2, cowplot>>
-  <<black
-  <<bold <<blue Update:>>>>
-  bruceR::check_update()
-  devtools::install_github(\"psychbruce/bruceR\")
+  >>>>
+
+  <<bold <<blue Loaded packages:>>>>
+  <<green \u2714 bruceR>>
+  <<green \u2714 rio, dplyr, stringr, data.table>>
+  <<green \u2714 psych, performance, ggplot2, cowplot>>
+  {update_msg}
   <<bold <<blue Citation:>>>>
-  Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions. R package version {as.character(packageVersion('bruceR'))}. Retrieved from <<underline https://github.com/psychbruce/bruceR>>
-  >>
-  >>
+  Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions [R package v{as.character(packageVersion('bruceR'))}]. <<underline https://github.com/psychbruce/bruceR>>
   ")
 }

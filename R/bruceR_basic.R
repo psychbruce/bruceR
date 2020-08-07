@@ -147,20 +147,21 @@ pkg_depend=function(pkg, exclude=NULL) {
 #' @importFrom xml2 read_html
 #' @importFrom rvest html_node html_text
 #' @examples
-#' library(bruceR)
-#' check_update()
+#' bruceR::check_update()
 #' @export
 check_update=function() {
-  # user.ver=sessionInfo()[["otherPkgs"]][["bruceR"]][["Version"]]
-  user.ver=as.character(packageVersion("bruceR"))
-  curr.ver=read_html("https://github.com/psychbruce/bruceR") %>% html_node("h2+ h3 code") %>% html_text()
-  Print("
-  <<blue
-  Your installed version of bruceR: <<green {user.ver}>>
-  The latest version on GitHub.com: <<green {curr.ver}>>
-  <<red {ifelse(user.ver==curr.ver, 'No need to update.', 'You can update.')}>>
-  >>
-  ")
+  try({
+    # user.ver=sessionInfo()[["otherPkgs"]][["bruceR"]][["Version"]]
+    user.ver=as.character(packageVersion("bruceR"))
+    curr.ver=read_html("https://github.com/psychbruce/bruceR") %>% html_node("h2+ h3 code") %>% html_text()
+    Print("
+    <<blue
+    Your installed version of bruceR: <<green {user.ver}>>
+    The latest version on GitHub.com: <<green {curr.ver}>>
+    <<red {ifelse(user.ver==curr.ver, 'No need to update.', 'You can update!')}>>
+    >>
+    ")
+  }, silent=TRUE)
 }
 
 

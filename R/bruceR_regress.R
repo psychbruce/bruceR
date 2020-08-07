@@ -1302,11 +1302,14 @@ mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
 
 #' Simple-slope analysis based on \emph{b} and \emph{SE}
 #'
+#' \strong{WARNING}: This function is NOT optimal.
+#' I suggest using the \code{interactions} package, see \code{interactions::\link[interactions]{sim_slopes}}
+#'
 #' @param b Coefficient of X (main predictor).
 #' @param SEb \emph{SE} of b.
 #' @param bmod Coefficient of moderator.
-#' @param SDmod \emph{SD} of moderator (not \emph{SE}), used for calculating simple slopes of X with moderator at "M + SD" and "M -SD".
-#' @param df Degree of freedom. Usually can be found in model summary.
+#' @param SDmod \emph{SD} of moderator (not \emph{SE}), used for calculating simple slopes of X with moderator at "\emph{M} + \emph{SD}" and "\emph{M} - \emph{SD}".
+#' @param df Residual degree of freedom.
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' @examples
 #' simple_slope(b=1.5, SEb=0.5, bmod=0.9, SDmod=1.0, df=300)
