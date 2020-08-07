@@ -72,7 +72,7 @@ Check your network connection, or see:
 
 对于“SSL/TLS connection failed”问题（即无法安装任何来自GitHub的R包），解决方案如下：
 1. 依次打开IE的Internet选项、高级，找到安全模块，勾选4个：使用SSL 3.0、使用TLS 1.0、使用TLS 1.1、使用TLS 1.2
-2. 找到R安装路径中的“etc”文件夹下的“Rprofile.site”文件（例如C:\\Program Files\\R\\R-4.0.0\\etc\\Rprofile.site），用RStudio或文本编辑器打开，然后在其中添加一行`options(download.file.method="libcurl")`，可以添加在`options(help_type="html")`这一行的下方，保存即可
+2. 找到R安装路径中的“etc”文件夹下的“Rprofile.site”文件（例如C:\\Program Files\\R\\R-4.0.0\\etc\\Rprofile.site），用RStudio或文本编辑器打开，然后在其中添加一行`options(download.file.method="libcurl")`，可以添加在`options(help_type="html")`这一行下方，保存后重启RStudio
 
 
 ## Bug #03:
