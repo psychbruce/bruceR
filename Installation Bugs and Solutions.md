@@ -1,12 +1,12 @@
 # Installation Bugs and Solutions
 
-All the bugs DO NOT have relation with the `bruceR` package *per se*.
+All bugs are NOT related to the `bruceR` package!
 
 安装过程中的所有问题**都不是**`bruceR`包本身的问题！（如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包的时候出了错！）
 
 **大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
 
-**强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装`tidyverse`和`ggstatsplot`，因为它们为你提供了一份**R包大礼包**！）
+**强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装`tidyverse`和`ggstatsplot`）
 
 为保证下载速度，**强烈建议**中国用户把CRAN镜像设置为国内的镜像（如清华大学），方法可参考：[R镜像设定与R包安装](https://mp.weixin.qq.com/s/7_Z4RZOMgyI3DQn045PAHg)
 
@@ -34,7 +34,7 @@ devtools::install_github("psychbruce/bruceR")
 ```
 > install.packages("bruceR")
 Warning in install.packages :
-  package ‘bruceR’ is not available (for R version 3.6.1)
+  package ‘bruceR’ is not available (for R version 4.0.0)
 ```
 ### Solution:
 Use `devtools::install_github("psychbruce/bruceR")`.
@@ -42,17 +42,10 @@ DO NOT use `install.packages("bruceR")`.
 
 由于`bruceR`并没有发布在CRAN官网上，所以请通过`devtools`包来安装，而不能直接使用`install.packages()`函数。
 
-（作者吐槽：`package ‘bruceR’ is not available (for R version 3.6.1)`这句话会让人**误以为**bruceR不支持R的3.6.1版本，不得不说，Python的报错信息比R语言的报错信息有用多了！）
+（吐槽：`package ‘bruceR’ is not available (for R version 4.x.x)`这句话会让人**误以为**bruceR不支持R的某个版本，不得不说，Python的报错信息比R语言的报错信息有用多了！）
 
 
 ## Bug #02:
-```
-> devtools::install_github("psychbruce/bruceR")
-Downloading GitHub repo psychbruce/bruceR@master
-Error in utils::download.file(url, path, method = method, quiet = quiet,  : 
-  cannot open URL 'https://api.github.com/repos/psychbruce/bruceR/tarball/master'
-```
-or
 ```
 > devtools::install_github("psychbruce/bruceR")
 Error: Failed to install 'unknown package' from GitHub:
@@ -64,16 +57,22 @@ or
 Error: Failed to install 'bruceR' from GitHub:
   schannel: failed to receive handshake, SSL/TLS connection failed
 ```
+or
+```
+> devtools::install_github("psychbruce/bruceR")
+Downloading GitHub repo psychbruce/bruceR@master
+Error in utils::download.file(url, path, method = method, quiet = quiet,  : 
+  cannot open URL 'https://api.github.com/repos/psychbruce/bruceR/tarball/master'
+```
 ### Solution:
 Check your network connection, or see:
 - https://ask.csdn.net/questions/713186
-- https://blog.csdn.net/Allen_jinjie/article/details/103361386
 
-安装前先确认网络畅通。
+安装前先确认网络畅通。如果依然不行，请等一会儿再试试。
 
-如果还是不行，可能是由于无法安装GitHub上的R包（即无论下载什么来自GitHub的R包都会出错），可以看看上面这个链接。
-
-如果依然不行，请等一会儿再试试。
+对于“SSL/TLS connection failed”问题（即无法安装任何来自GitHub的R包），解决方案如下：
+1. 依次打开IE的Internet选项、高级，找到安全模块，勾选4个：使用SSL 3.0、使用TLS 1.0、使用TLS 1.1、使用TLS 1.2，刷新页面重试
+2. 找到R安装路径中的“etc”文件夹下的“Rprofile.site”文件（例如C:\\Program Files\\R\\R-4.0.0\\etc\\Rprofile.site），用RStudio或文本编辑器打开（如Notepad++、VS Code），然后在其中添加一行`options(download.file.method="libcurl")`（可以添加在`options(help_type="html")`这一行的下方），保存后即可
 
 
 ## Bug #03:
