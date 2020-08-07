@@ -168,21 +168,19 @@ NULL
   # options(contrasts=c("contr.sum", "contr.poly"))
   # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
-  user.ver=as.character(packageVersion("bruceR"))
-  curr.ver="0.4.8"
+  user.ver=curr.ver=as.character(packageVersion("bruceR"))
+  try({
+    curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
+  }, silent=T)
 
   if(user.ver==curr.ver) {
     update_msg=""
   } else {
     update_msg=Glue("
-    \n\n<<red
-    Your installed version of bruceR: <<green {user.ver}>>
-    The latest version on GitHub.com: <<green {curr.ver}>>
-    {ifelse(user.ver==curr.ver, 'No need to update.', 'You can update!')}
-
-    <<bold <<blue Run this in console to update:>>>>
-    <<black devtools::install_github(\"psychbruce/bruceR\")
-    \n>>>>")
+    \n
+    <<bold <<red \u26a0 NEWS: You can update 'bruceR' from <<underline {user.ver}>> to <<underline {curr.ver}>>!>>>>
+    <<green \u25b6 Run this to update:>>
+    devtools::install_github(\"psychbruce/bruceR\")")
   }
 
   Print("
@@ -196,8 +194,8 @@ NULL
   <<green \u2714 bruceR>>
   <<green \u2714 rio, dplyr, stringr, data.table>>
   <<green \u2714 psych, performance, ggplot2, cowplot>>
-  {update_msg}
+
   <<bold <<blue Citation:>>>>
   Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions [R package v{as.character(packageVersion('bruceR'))}]. <<underline https://github.com/psychbruce/bruceR>>
-  ")
+  {update_msg}")
 }
