@@ -335,7 +335,6 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' Based on \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 ## @import jmv
 #' @import lavaan
-#' @import semPlot
 #' @inheritParams %%COMPUTE%%
 #' @param model Model formula. See examples.
 #' @param highorder High-order factor. Default is \code{""}.

@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.4.8-success)
+![](https://img.shields.io/badge/Version-0.5.0-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -121,16 +121,21 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.4.8`
+### Current version: `0.5.0`
 ### Major changes:
-+ `0.4.0` - 2019.12
+- `0.5.0` - 2020.08
+  + Automatically checking updates when `library(bruceR)`
+  + Requiring R version 4.0+
+  + Improved many functions
+  + Fixed many bugs
+- `0.4.0` - 2019.12
   + Added citation information
   + General bug-fixes and improvements
-+ `0.3.0` - 2019.10
+- `0.3.0` - 2019.10
   + Added new functions for ANOVA, simple-effect analyses, and multiple comparisons
   + General bug-fixes and improvements
-+ `0.2.0` - 2019.08
+- `0.2.0` - 2019.08
   + Added help pages
   + General bug-fixes and improvements
-+ `0.1.0` - 2019.06
+- `0.1.0` - 2019.06
   + Initial commit

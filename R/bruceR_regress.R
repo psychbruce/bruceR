@@ -263,9 +263,6 @@ GLM_anova=function(model, add.total=TRUE) {
 
 
 #' Advanced output for GLM (\code{lm} and \code{glm} models)
-#' @import jtools
-#' @import car
-#' @import MuMIn
 #' @param model A model fitted by \code{lm} or \code{glm} function.
 #' @param robust \strong{[only for \code{lm} and \code{glm}]} \code{FALSE} (default), \code{TRUE}, or an option from \code{"HC0", "HC1", "HC2", "HC3", "HC4", "HC4m", "HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
@@ -712,9 +709,6 @@ print_variance_ci=function(model) {
 #' However, different softwares use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
 #' Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
 #' the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
-#' @import lmerTest
-#' @import jtools
-#' @import MuMIn
 #' @param model A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
 #' @param level2.predictors \strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
 #' If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,

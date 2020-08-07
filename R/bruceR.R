@@ -168,6 +168,17 @@ NULL
   # options(contrasts=c("contr.sum", "contr.poly"))
   # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
+  suppressMessages({
+    library(rio)
+    library(dplyr)
+    library(stringr)
+    library(data.table)
+    library(psych)
+    library(performance)
+    library(ggplot2)
+    library(cowplot)
+  })
+
   user.ver=curr.ver=as.character(packageVersion("bruceR"))
   try({
     curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
@@ -178,16 +189,18 @@ NULL
   } else {
     update_msg=Glue("
     \n
-    <<bold <<red \u26a0 NEWS: You can update 'bruceR' from <<underline {user.ver}>> to <<underline {curr.ver}>>!>>>>
-    <<green \u25b6 Run this to update:>>
+    <<bold <<red \u26a0 NEWS: A new version of 'bruceR' (<<underline v{curr.ver}>>) is now available!>>>>
+    <<bold <<green \u25b6 Run this to update:>>>>
     devtools::install_github(\"psychbruce/bruceR\")")
   }
 
+  # {rep_char('=', 56)}
+  # bell: \ud83d\udd14
+  # bulb: \ud83d\udca1
   Print("
+  \n
   <<bold <<magenta
-  {rep_char('=', 56)}
-  <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
-  {rep_char('=', 56)}
+  \ud83d\udca1 bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
   >>>>
 
   <<bold <<blue Loaded packages:>>>>

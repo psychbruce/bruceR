@@ -582,7 +582,6 @@ CI=function(var, nsmall=2, empirical=TRUE) {
 
 
 #' Descriptive statistics
-#' @importFrom GGally ggpairs wrap
 #' @param data \code{data.frame} or \code{data.table} or a vector of variable.
 #' @param nsmall Number of decimal places of output. Default is 2.
 #' @param plot \code{TRUE} or \code{FALSE} (default), visualize the descriptive statistics with \code{GGally::\link[GGally]{ggpairs}}.
@@ -617,15 +616,15 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
     smooth=ifelse(smooth==FALSE, "points",
                   ifelse(smooth=="lm", "smooth",
                          ifelse(smooth=="loess", "smooth_loess")))
-    p=ggpairs(data,
-              lower=list(continuous=wrap(smooth, size=1, shape=16, alpha=0.3)),
-              upper=list(continuous=wrap("cor", color="black"))) +
+    p=GGally::ggpairs(data,
+                      lower=list(continuous=GGally::wrap(smooth, size=1, shape=16, alpha=0.3)),
+                      upper=list(continuous=GGally::wrap("cor", color="black"))) +
       theme_bruce(panel.bg="grey95")
     if(is.null(save.file)) {
       print(p)
     } else {
       size=as.numeric(strsplit(save.size, ":")[[1]])
-      ggsave(save.file, p, width=size[1], height=size[2], dpi=save.dpi)
+      ggplot2::ggsave(save.file, p, width=size[1], height=size[2], dpi=save.dpi)
       path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }

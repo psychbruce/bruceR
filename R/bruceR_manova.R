@@ -71,9 +71,6 @@ if(FALSE) {
 #'     }
 #'   }
 #' }
-#' @import afex
-#' @importFrom tidyr pivot_longer
-#' @importFrom sjstats anova_stats
 #' @param data Data object (e.g., \code{data.frame, data.table}). Both \strong{long-format} and \strong{wide-format} can be used.
 #' \itemize{
 #'   \item If you input a \strong{long-format} data, please also specify \strong{subID}.
@@ -230,10 +227,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       else
         dv.vars=dvs
       dv="bruceY"  # "Y" will generate an error when dvs are like "X1Y1"
-      data=pivot_longer(data, cols=dv.vars,
-                        names_to=within,
-                        names_pattern=dvs.pattern,
-                        values_to=dv) %>% as.data.frame()
+      data=tidyr::pivot_longer(data, cols=dv.vars,
+                               names_to=within,
+                               names_pattern=dvs.pattern,
+                               values_to=dv) %>% as.data.frame()
     }
   } else {
     dv.vars=dv
@@ -259,15 +256,19 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   cat("\n")
 
   ## Main MANOVA Functions
-  aov.ez=aov_ez(data=data, id=subID, dv=dv,
-                between=between, within=within, covariate=covariate,
-                observed=which.observed,
-                anova_table=list(correction=sph.correction,
-                                 es="ges"),
-                fun_aggregate=mean,
-                include_aov=TRUE,  # see EMMEANS, default will be FALSE
-                factorize=FALSE,
-                print.formula=FALSE)
+  suppressMessages({
+    aov.ez=afex::aov_ez(data=data, id=subID, dv=dv,
+                        between=between,
+                        within=within,
+                        covariate=covariate,
+                        observed=which.observed,
+                        anova_table=list(correction=sph.correction,
+                                         es="ges"),
+                        fun_aggregate=mean,
+                        include_aov=TRUE,  # see EMMEANS, default will be FALSE
+                        factorize=FALSE,
+                        print.formula=FALSE)
+  })
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
   at=mutate(at, MS=`F`*MSE,
@@ -300,7 +301,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
   # Replace partial.etasq and cohens.f, due to their wrong results
   Print("\n\n\n<<underline ANOVA Effect Size:>>")
-  effsize=anova_stats(aov.ez$aov)
+  suppressMessages({
+    effsize=sjstats::anova_stats(aov.ez$aov)
+  })
   effsize$stratum=NULL
   effsize=effsize[-which(effsize$term=="Residuals"),]
   effsize=mutate(effsize,
@@ -321,7 +324,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   \u03c9\u00b2 = omega-squared = (SS - df1 * MSE) / (SST + MSE)
   \u03b7\u00b2 = eta-squared = SS / SST
   \u03b7\u00b2G = generalized eta-squared (see Olejnik & Algina, 2003)
-  \u03b7\u00b2p = partial eta-squared = SS / (SS + SSE) <<bold <<magenta = >>>><<bold <<magenta F * df1 / (F * df1 + df2)>>>>
+  \u03b7\u00b2p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)
   Cohen\u2019s <<italic f>> = sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )
   >>")
 
