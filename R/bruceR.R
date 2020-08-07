@@ -10,20 +10,6 @@
 #### Version Control ####
 # DESCRIPTION, README.md
 
-#### Lifecycle ####
-# ?lifecycle::badge
-if(FALSE) {
-  usethis::use_lifecycle_badge("maturing")
-  # \lifecycle{experimental}
-  # \lifecycle{maturing}
-  # \lifecycle{stable}
-  # \lifecycle{questioning}
-  # \lifecycle{archived}
-  # \lifecycle{soft-deprecated}
-  # \lifecycle{deprecated}
-  # \lifecycle{defunct}
-}
-
 
 #### Main Description ####
 #' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}ollections and \strong{E}xtensions of \strong{R} functions
@@ -185,13 +171,14 @@ NULL
   }, silent=T)
 
   if(user.ver==curr.ver) {
-    update_msg=""
+    update_msg="\n"
   } else {
     update_msg=Glue("
     \n
     <<bold <<red \u26a0 NEWS: A new version of 'bruceR' (<<underline v{curr.ver}>>) is now available!>>>>
     <<bold <<green \u25b6 Run this to update:>>>>
-    devtools::install_github(\"psychbruce/bruceR\")")
+    devtools::install_github(\"psychbruce/bruceR\")
+    \n\n\n")
   }
 
   # {rep_char('=', 56)}
