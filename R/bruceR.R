@@ -192,7 +192,7 @@ NULL
          gift="\ud83c\udf81",
          bolt="\u26a1",
          star="\u2b50")
-  logo=LOGO[sample(1:5, 1)]
+  logo=sample(LOGO, 1)
   Print("
   \n
   <<bold <<magenta

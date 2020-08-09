@@ -226,15 +226,17 @@ CONSEC=function(data, var=NULL, items=NULL,
 
 
 #' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
-## @import jmv
+#'
+#' An extension of \code{jmv::\link[jmv]{reliability}}.
 #' @inheritParams %%COMPUTE%%
 #' @examples
 #' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
-#' Alpha(bfi, "E", 1:5, rev=1:2)  # right
+#' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
+#' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
-  if(!is.null(rev)) rev=paste0(var, rev)
+  if(is.numeric(rev)) rev=paste0(var, rev)
   jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
                    meanScale=TRUE, sdScale=TRUE,
                    itemRestCor=TRUE, alphaItems=TRUE)
@@ -243,8 +245,7 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 
 #' Exploratory factor analysis (EFA)
 #'
-#' Based on \code{jmv::\link[jmv]{efa}}.
-## @import jmv
+#' An extension of \code{jmv::\link[jmv]{efa}}.
 #' @inheritParams %%COMPUTE%%
 #' @param vartext Character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).
 #' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.
@@ -332,7 +333,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 
 #' Confirmatory factor analysis (CFA)
 #'
-#' Based on \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
+#' An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 ## @import jmv
 #' @import lavaan
 #' @inheritParams %%COMPUTE%%
@@ -345,7 +346,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' If the model has high-order factors, only "lavaan" style will be output.
 #' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 #' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
-#' @param plot \code{TRUE} (default) or \code{FALSE}, provide a path diagram of the model.
+#' @param plot \code{TRUE} or \code{FALSE} (default), provide a path diagram of the model.
 #' @seealso
 #' \code{jmv::\link[jmv]{cfa}}, \code{lavaan::\link[lavaan]{cfa}}
 #' @examples

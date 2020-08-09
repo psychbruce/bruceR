@@ -49,7 +49,7 @@
 #'   geom_bar(position="dodge", stat="identity", width=0.6, show.legend=F) +
 #'   geom_errorbar(aes(x=X1, ymin=Y.mean-Y.se, ymax=Y.mean+Y.se),
 #'                 width=0.1, color="black", position=position_dodge(0.6)) +
-#'   scale_y_continuous(expand=expand_scale(add=c(0,0)),
+#'   scale_y_continuous(expand=expansion(add=0),
 #'                      limits=c(0,8), breaks=0:8) +
 #'   scale_fill_brewer(palette="Set1") +
 #'   theme_bruce(bg="wsj")
@@ -87,8 +87,8 @@ theme_bruce=function(base.size=12, line.size=0.5,
       panel.background=element_rect(fill=panel.bg),
       axis.line=element_line(size=line.size, color="black"),  # lineend="square"
       axis.title=element_text(face=axis.title, color="black", size=base.size+2),
-      axis.title.x=element_text(margin=margin(0.5, 0, 0.2, 0, "lines")),
-      axis.title.y=element_text(margin=margin(0, 0.5, 0, 0.2, "lines")),
+      axis.title.x=element_text(margin=margin(0.5, 0, 0.4, 0, "lines")),
+      axis.title.y=element_text(margin=margin(0, 0.5, 0, 0.4, "lines")),
       axis.ticks=element_line(size=line.size, color="black", lineend="square"),
       axis.ticks.length=unit(0.3, "lines"),
       axis.text=element_text(color="black", size=base.size),

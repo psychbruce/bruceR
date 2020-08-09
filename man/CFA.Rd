@@ -35,10 +35,10 @@ If the model has high-order factors, only "lavaan" style will be output.}
 
 \item{MI}{\code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.}
 
-\item{plot}{\code{TRUE} (default) or \code{FALSE}, provide a path diagram of the model.}
+\item{plot}{\code{TRUE} or \code{FALSE} (default), provide a path diagram of the model.}
 }
 \description{
-Based on \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
+An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 }
 \examples{
 data.cfa=lavaan::HolzingerSwineford1939

@@ -20,9 +20,10 @@ Alpha(data, var, items, vars = NULL, rev = NULL)
 2) a character vector directly specifying the variable list (recommended).}
 }
 \description{
-Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
+An extension of \code{jmv::\link[jmv]{reliability}}.
 }
 \examples{
 Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
-Alpha(bfi, "E", 1:5, rev=1:2)  # right
+Alpha(bfi, "E", 1:5, rev=1:2)  # correct
+Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
 }

@@ -33,7 +33,7 @@ Only relevant when \code{method="fixed"}.}
 \item{hideLoadings}{A number (0~1, default is 0.3) for hiding factor loadings below this value.}
 }
 \description{
-Based on \code{jmv::\link[jmv]{efa}}.
+An extension of \code{jmv::\link[jmv]{efa}}.
 }
 \note{
 It does not have the extraction method "Principal Components". You may still use SPSS.
