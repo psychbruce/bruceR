@@ -4,7 +4,7 @@ All bugs are NOT related to the `bruceR` package!
 
 安装过程中所有问题**都不是**`bruceR`包的问题！（如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包时出了错！）
 
-**大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有6种常见bug的解决方案！
+**大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有7种常见bug的解决方案！
 
 **强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装`tidyverse`和`ggstatsplot`）
 
@@ -73,6 +73,7 @@ Check your network connection, or see:
 对于“SSL/TLS connection failed”问题（即无法安装任何来自GitHub的R包），解决方案如下：
 1. 依次打开IE的Internet选项、高级，找到安全模块，勾选4个：使用SSL 3.0、使用TLS 1.0、使用TLS 1.1、使用TLS 1.2
 2. 找到R安装路径中的“etc”文件夹下的“Rprofile.site”文件（例如C:\\Program Files\\R\\R-4.0.0\\etc\\Rprofile.site），用RStudio或文本编辑器打开，然后在其中添加一行`options(download.file.method="libcurl")`，可以添加在`options(help_type="html")`这一行下方，保存后重启RStudio
+3. 如果依然不行，请等一会儿再试试
 
 
 ## Bug #03:
@@ -177,6 +178,8 @@ ERROR: lazy loading failed for package 'bruceR'
 ### Solution:
 You can find `there is no package called 'emmeans'` in the error messages. In other circumstances, there may be "no package" called another one. Just install the package(s) (e.g., `install.packages("emmeans")`) and then re-install `bruceR`.
 
+仔细阅读报错信息。仔细阅读报错信息。仔细阅读报错信息。重要的事情说三遍。
+
 
 ## Bug #06:
 ```
@@ -200,7 +203,7 @@ Skipping install of 'bruceR' from a github remote, the SHA1 has not changed sinc
 Use `force = TRUE` to force installation
 ```
 ### Solution:
-Congratulations! You have already installed the latest `bruceR`. No need to reinstall or update it.
+Congratulations! You have already installed the latest version of `bruceR`. No need to reinstall or update it.
 
 请仔细阅读报错信息啊亲，它提示你GitHub上的版本与你已经安装过的版本之间没有变化，**你已经成功安装了最新版本**！
 
