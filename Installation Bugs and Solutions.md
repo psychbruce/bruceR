@@ -158,6 +158,29 @@ copy.packages.between.libraries(ask=TRUE)
 ## Bug #05:
 ```
 > devtools::install_github("psychbruce/bruceR")
+...
+* installing *source* package 'bruceR' ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) :
+there is no package called 'emmeans'
+Calls: ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+停止执行
+ERROR: lazy loading failed for package 'bruceR'
+* removing 'C:/Users/THINK/Documents/R/win-library/4.0/bruceR'
+错误: Failed to install 'bruceR' from GitHub:
+(由警告转换成)installation of package ‘C:/Users/THINK/AppData/Local/Temp/RtmpSoK5KO/file48d823453f6b/bruceR_0.5.1.tar.gz’ had non-zero exit status
+```
+### Solution:
+You can find `there is no package called 'emmeans'` in the error messages. In other circumstances, there may be "no package" called another one. Just install the package(s) (e.g., `install.packages("emmeans")`) and then re-install `bruceR`.
+
+
+## Bug #06:
+```
+> devtools::install_github("psychbruce/bruceR")
 WARNING: Rtools is required to build R packages, but is not currently installed.
 
 Please download and install Rtools 3.5 from http://cran.r-project.org/bin/windows/Rtools/
@@ -170,7 +193,7 @@ Download and install [Rtools](http://cran.r-project.org/bin/windows/Rtools/).
 Rtools不是一个R包，而是一个额外的工具，最好安装。
 
 
-## Bug #06:
+## Bug #07:
 ```
 > devtools::install_github("psychbruce/bruceR")
 Skipping install of 'bruceR' from a github remote, the SHA1 has not changed since last install.
