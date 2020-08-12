@@ -21,5 +21,5 @@ Frequency statistics with histogram and density plot
 \examples{
 Freq(bfi$education)
 Freq(bfi$gender, label=c("Male", "Female"))
-Freq(bfi$age, plot=T)
+Freq(bfi$age)
 }

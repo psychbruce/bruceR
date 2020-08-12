@@ -646,7 +646,7 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
 #' @examples
 #' Freq(bfi$education)
 #' Freq(bfi$gender, label=c("Male", "Female"))
-#' Freq(bfi$age, plot=T)
+#' Freq(bfi$age)
 #' @export
 Freq=function(var, label=NULL, sort="", nsmall=1) {
   # deprecated: plot=FALSE, bins=18, fill.color="#FDF6E3"
