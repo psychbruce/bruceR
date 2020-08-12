@@ -4,15 +4,7 @@
 \alias{Freq}
 \title{Frequency statistics with histogram and density plot}
 \usage{
-Freq(
-  var,
-  label = NULL,
-  sort = "",
-  nsmall = 1,
-  plot = FALSE,
-  bins = 18,
-  fill.color = "#FDF6E3"
-)
+Freq(var, label = NULL, sort = "", nsmall = 1)
 }
 \arguments{
 \item{var}{Vector or variable.}
@@ -22,12 +14,6 @@ Freq(
 \item{sort}{\code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).}
 
 \item{nsmall}{Number of decimal places of output. Default is 1.}
-
-\item{plot}{\code{TRUE} or \code{FALSE} (default), draw a histogram plot.}
-
-\item{bins}{Number of bars in histogram plot. Default is \code{18}.}
-
-\item{fill.color}{Color filled in histogram bar. Default is \code{"#FDF6E3"}.}
 }
 \description{
 Frequency statistics with histogram and density plot

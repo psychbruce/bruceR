@@ -640,17 +640,16 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth=FALSE,
 #' @param label [optional] A vector re-defining the labels of values.
 #' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).
 #' @param nsmall Number of decimal places of output. Default is 1.
-#' @param plot \code{TRUE} or \code{FALSE} (default), draw a histogram plot.
-#' @param bins Number of bars in histogram plot. Default is \code{18}.
-#' @param fill.color Color filled in histogram bar. Default is \code{"#FDF6E3"}.
+## @param plot \code{TRUE} or \code{FALSE} (default), draw a histogram plot.
+## @param bins Number of bars in histogram plot. Default is \code{18}.
+## @param fill.color Color filled in histogram bar. Default is \code{"#FDF6E3"}.
 #' @examples
 #' Freq(bfi$education)
 #' Freq(bfi$gender, label=c("Male", "Female"))
 #' Freq(bfi$age, plot=T)
 #' @export
-Freq=function(var, label=NULL, sort="",
-              nsmall=1,
-              plot=FALSE, bins=18, fill.color="#FDF6E3") {
+Freq=function(var, label=NULL, sort="", nsmall=1) {
+  # deprecated: plot=FALSE, bins=18, fill.color="#FDF6E3"
   Print("Frequency table:")
   tableVar=table(var)
   N.na=sum(is.na(var))
@@ -670,19 +669,15 @@ Freq=function(var, label=NULL, sort="",
     print_table(output[order(output[,"N"], decreasing=F),], nsmall=c(0, nsmall))
   Print("Total <<italic N>> = {formatN(N)}")
   if(N.na>0) Print("Valid <<italic N>> = {formatN(N-N.na)}")
-  if(plot) {
-    # hist(var, xlab=deparse(substitute(var)),
-    #      main=paste("Histogram of", deparse(substitute(var))))
-    p=ggplot(NULL, aes(x=var)) +
-      geom_histogram(aes(y=..density..),
-                     bins=min(length(unique(var)), bins),
-                     color="black", fill=fill.color) +
-      # geom_density(color=F, fill=fill.color, alpha=0.4) +
-      # geom_line(stat="density") +
-      labs(x=deparse(substitute(var)), y="Density") +
-      theme_bruce()
-    print(p)
-  }
+  # if(plot) {
+  #   p=ggplot(NULL, aes(x=var)) +
+  #     geom_histogram(aes(y=..density..),
+  #                    bins=min(length(unique(var)), bins),
+  #                    color="black", fill=fill.color) +
+  #     labs(x=deparse(substitute(var)), y="Density") +
+  #     theme_bruce()
+  #   print(p)
+  # }
   invisible(output)
 }
 
@@ -694,7 +689,6 @@ Freq=function(var, label=NULL, sort="",
 #' Correlation analysis with test and plot
 #' @importFrom psych corr.test cor.plot
 #' @importFrom Hmisc capitalize
-#' @inheritParams Describe
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
 #' @param p.adjust Adjustment of \emph{p} values for multiple tests: \code{"none", "fdr", "holm", "bonferroni", ...}
@@ -705,6 +699,9 @@ Freq=function(var, label=NULL, sort="",
 #' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
 #' @param plot.color Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
+#' @param save.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
+#' @param save.size Size (in "inch") of the saved plot. Default is \code{"8:6"}.
+#' @param save.dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
 #' @examples
 #' Corr(airquality)
 #' Corr(airquality, p.adjust="bonferroni")
