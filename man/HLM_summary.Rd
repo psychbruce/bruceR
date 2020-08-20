@@ -9,7 +9,6 @@ HLM_summary(
   level2.predictors = NULL,
   vartypes = NULL,
   t2r = FALSE,
-  variance.ci = FALSE,
   test.rand = FALSE,
   nsmall = 3,
   ...
@@ -38,14 +37,8 @@ Add a column of another kind of multilevel effect sizes: standardized partial ef
 However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
 and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).}
 
-\item{variance.ci}{\strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
-Print the confidence intervals (CI) for variance components.}
-
-\item{test.rand}{\strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
+\item{test.rand}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
-
-*** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
-because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.
 The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.

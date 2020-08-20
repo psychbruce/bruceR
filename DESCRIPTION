@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -21,6 +21,7 @@ Imports: tidyverse,
          interactions,
          multilevel,
          effectsize,
+         emmeans,
          pwr,
          simr,
          MBESS,

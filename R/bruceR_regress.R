@@ -614,7 +614,6 @@ HLM_df=function(sumModel, vartypes) {
 
 
 ## Testing random effects and computing intraclass correlation coefficient (ICC) for HLM
-## @import data.table
 HLM_ICC=function(model, nsmall=3) {
   ## Extract components from model ##
   sumModel=summary(model)
@@ -650,7 +649,7 @@ HLM_ICC=function(model, nsmall=3) {
 
   ## Combine results ##
   ICC$K=formatF(ICC$K, nsmall=0)
-  ICC$Variance=formatF(ICC$Variance, nsmall=max(floor(5-log10(var.resid)), 2))
+  ICC$Variance=formatF(ICC$Variance, nsmall=5)
   ICC$S.E.=formatF(var.se, nsmall=nsmall)
   ICC$Wald.Z=formatF(var.wald.z, nsmall=2)
   ICC$p=p.trans(var.p)
@@ -727,13 +726,12 @@ print_variance_ci=function(model) {
 #' *** See an example in Wei et al.'s paper (2017, \emph{\href{https://doi.org/10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
 #' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
 #' and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).
-#' @param variance.ci \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
-#' Print the confidence intervals (CI) for variance components.
-#' @param test.rand \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
+## @param variance.ci \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
+## Print the confidence intervals (CI) for variance components.
+#' @param test.rand \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
-#'
-#' *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
-#' because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.
+## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
+## because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.
 #' The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.
@@ -780,7 +778,7 @@ HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
                      vartypes=NULL,
                      t2r=FALSE,
-                     variance.ci=FALSE,  # time-consuming in big datasets
+                     # variance.ci=FALSE,  # time-consuming in big datasets
                      test.rand=FALSE,  # time-consuming in big datasets
                      nsmall=3,
                      ...) {
@@ -923,8 +921,9 @@ HLM_summary=function(model=NULL,
     # res=sumModel[["sigma"]]^2
     # print(RE, comp="Variance")
     RE=HLM_ICC(model, nsmall=nsmall)
-    print_table(RE, row.names=F)
-    if(variance.ci) print_variance_ci(model)
+    # print_table(RE, row.names=F)
+    print_table(RE[c(1:4, 9)], row.names=F)
+    # if(variance.ci) print_variance_ci(model)
   } else if(class(model)=="glmerMod") {
     summ=jtools::summ(model, digits=nsmall, re.variance="var")
     # summ(model, digits=nsmall, stars=T, exp=T, confint=T, re.variance="var")
@@ -989,7 +988,7 @@ HLM_summary=function(model=NULL,
     RE=left_join(RE[1], ICC[1:2], by="Group") %>%
       cbind(RE[2:3]) %>% left_join(ICC[c(1,3)], by="Group")
     RE$K=formatF(RE$K, 0)
-    RE$Variance=formatF(RE$Variance, nsmall)
+    RE$Variance=formatF(RE$Variance, 5)
     RE$ICC=formatF(RE$ICC, 5)
     RE[RE$Parameter!="(Intercept)", c("Group", "K", "ICC")] = ""
     RE$Group=sprintf(glue("%-{max(max(nchar(RE$Group)), 7)}s"), RE$Group)
@@ -997,7 +996,7 @@ HLM_summary=function(model=NULL,
     names(RE)[2]="K "
     names(RE)[3]=paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
     print_table(RE, row.names=F)
-    if(variance.ci) print_variance_ci(model)
+    # if(variance.ci) print_variance_ci(model)
     Print("<<blue Residual variance is not reported for generalized linear mixed models,
            but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
            and log(1/exp(intercept)+1) in poisson models (count data).>>")

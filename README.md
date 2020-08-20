@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.5.1-success)
+![](https://img.shields.io/badge/Version-0.5.2-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -121,7 +121,7 @@ example("model_check")
 
 
 ## Release Notes
-### Current version: `0.5.1`
+### Current version: `0.5.2`
 ### Major changes:
 - `0.5.0` - 2020.08
   + Automatically checking updates when `library(bruceR)`
