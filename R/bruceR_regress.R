@@ -456,7 +456,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     if(robust!=FALSE | is.null(cluster)==FALSE) {
       if(robust==TRUE | (is.null(cluster)==FALSE & is.character(robust)==FALSE))
         robust="HC1" # default method in Stata
-      summ.rob=summ(model, robust=robust, cluster=cluster)
+      summ.rob=jtools::summ(model, robust=robust, cluster=cluster)
       FE.rob=as.data.frame(summ.rob$coeftable)
       names(FE.rob)=c("b", "S.E.*", "z*", "p*")
       b=FE[,1]
