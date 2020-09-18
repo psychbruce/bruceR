@@ -107,10 +107,12 @@ The "truly" newest version of \href{https://www.rstudio.com/products/rstudio/dow
 
       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
   }
-  \item{\strong{5) Advanced Toolbox and Output for Linear Models}}{
+  \item{\strong{5) Advanced Toolbox and Output for Regression Models}}{
       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
 
       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
+
+      \code{\link{model_summary}}  (tidy output for regression models)
 
       \code{\link{GLM_summary}}  (advanced output for General and Generalized Linear Models)
 

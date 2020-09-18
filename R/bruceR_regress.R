@@ -179,23 +179,23 @@ regress=function(formula, data, family=NULL, nsmall=3,
 }
 
 
-#' Check many assumptions for (OLS and multilevel) regression models
-#'
-#' Based on the functions in \code{performance} (see \code{performance::\link[performance]{check_model}}), it checks for
-#' 1) multivariate normality,
-#' 2) multicollinearity (VIF),
-#' 3) homoscedasticity (vs. heteroscedasticity),
-#' 4) independence of residuals (vs. autocorrelation).
+## Check many assumptions for (OLS and multilevel) regression models
+##
+## Based on the functions in \code{performance} (see \code{performance::\link[performance]{check_model}}), it checks for
+## 1) multivariate normality,
+## 2) multicollinearity (VIF),
+## 3) homoscedasticity (vs. heteroscedasticity),
+## 4) independence of residuals (vs. autocorrelation).
 ## @import performance
-#' @param model A model object (fitted by \code{lm, glm, lmer, glmer, ...}).
-#' @param plot Visualize the check results. Default is \code{TRUE}.
-#' @examples
-#' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
-#' model_check(lm)
-#'
-#' library(lmerTest)
-#' hlm.2=lmer(Preference ~ Sweetness + Gender * Age + Frequency + (Sweetness | Consumer) + (1 | Product), data=carrots)
-#' model_check(hlm.2)
+## @param model A model object (fitted by \code{lm, glm, lmer, glmer, ...}).
+## @param plot Visualize the check results. Default is \code{TRUE}.
+## @examples
+## lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+## model_check(lm)
+##
+## library(lmerTest)
+## hlm.2=lmer(Preference ~ Sweetness + Gender * Age + Frequency + (Sweetness | Consumer) + (1 | Product), data=carrots)
+## model_check(hlm.2)
 ## @export
 model_check=function(model, plot=TRUE) {
   Print("<<bold <<underline 1>>) Multivariate normality:>>")

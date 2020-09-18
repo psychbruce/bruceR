@@ -81,42 +81,29 @@ No need to load each one with its own call. Loading `bruceR` is enough.
   + `EFA()`, `CFA()`
 - [x] *t*-test, ANOVA, simple-effect analyses, and multiple comparisons
   + `MANOVA()`, `EMMEANS()`
-- [x] Advanced toolbox and output for general/generalized ordinary/multilevel linear models
+- [x] Advanced toolbox and output for regression models
   + `grand_mean_center()`, `group_mean_center()`
-  + `GLM_summary()`, `HLM_summary()`, `regress()`, `model_check()`
+  + `model_summary()`, `GLM_summary()`, `HLM_summary()`, `regress()`
   + `med_mc()`, `simple_slope()`
 - [x] Nice themes of `ggplot2` ready for scientific publication
   + `theme_bruce()`
 
 
-### Learn more by running code
+### Learn more from help pages
 ```r
 library(bruceR)
 
-## Overview of Package
+## Overview
 ?bruceR
 
-## See Help Pages of Functions
+## See help pages of functions
+## (using `?function` or `help(function)`)
 ?MANOVA
 ?EMMEANS
+?model_summary
 ?GLM_summary
 ?HLM_summary
-
-## Check Update
-check_update()
-
-## Run Some Examples
-example("Print")
-example("Describe")
-example("Freq")
-example("Corr")
-
-example("MEAN")
-example("LOOKUP")
-
-example("GLM_summary")
-example("HLM_summary")
-example("model_check")
+...
 ```
 
 
