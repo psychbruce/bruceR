@@ -21,7 +21,7 @@ RECODE=function(var, recodes) {
 #' Rescale likert scales (e.g., from 5-point to 7-point)
 #' @param var Variable (numeric vector).
 #' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
-#' If not set, it will compute the range of \code{var}.
+#' If not defined, it will compute the range of \code{var}.
 #' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
 #' @examples
 #' d=data.table(var=rep(1:5, 2))
@@ -29,8 +29,24 @@ RECODE=function(var, recodes) {
 #'         var2=RESCALE(var, from=1:5, to=1:7))]
 #' d  # var1 is equal to var2
 #' @export
-RESCALE=function(var, from=range(var), to) {
-  (var-median(from)) / (max(from)-median(from)) * (max(to)-median(to)) + median(to)
+RESCALE=function(var, from=range(var, na.rm=T), to) {
+  (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
+}
+
+
+#' Min-max scaling (min-max normalization)
+#'
+#' This function resembles \code{\link[bruceR]{RESCALE}},
+#' it just equals to \code{RESCALE(var, to=0:1)}.
+#' @param v Variable (numeric vector).
+#' @param min Minimum value (default is 0).
+#' @param max Maximum value (default is 1).
+#' @examples
+#' scaler(1:5)
+#' # the same: RESCALE(1:5, to=0:1)
+#' @export
+scaler=function(v, min=0, max=1) {
+  min + (v - min(v, na.rm=T)) * (max - min) / (max(v, na.rm=T) - min(v, na.rm=T))
 }
 
 

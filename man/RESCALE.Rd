@@ -4,13 +4,13 @@
 \alias{RESCALE}
 \title{Rescale likert scales (e.g., from 5-point to 7-point)}
 \usage{
-RESCALE(var, from = range(var), to)
+RESCALE(var, from = range(var, na.rm = T), to)
 }
 \arguments{
 \item{var}{Variable (numeric vector).}
 
 \item{from}{Numeric vector, the range of old scale (e.g., \code{1:5}).
-If not set, it will compute the range of \code{var}.}
+If not defined, it will compute the range of \code{var}.}
 
 \item{to}{Numeric vector, the range of new scale (e.g., \code{1:7}).}
 }

@@ -186,7 +186,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' 2) multicollinearity (VIF),
 #' 3) homoscedasticity (vs. heteroscedasticity),
 #' 4) independence of residuals (vs. autocorrelation).
-#' @import performance
+## @import performance
 #' @param model A model object (fitted by \code{lm, glm, lmer, glmer, ...}).
 #' @param plot Visualize the check results. Default is \code{TRUE}.
 #' @examples
@@ -196,7 +196,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' library(lmerTest)
 #' hlm.2=lmer(Preference ~ Sweetness + Gender * Age + Frequency + (Sweetness | Consumer) + (1 | Product), data=carrots)
 #' model_check(hlm.2)
-#' @export
+## @export
 model_check=function(model, plot=TRUE) {
   Print("<<bold <<underline 1>>) Multivariate normality:>>")
   if(class(model) %in% c("lmerMod", "lmerModLmerTest")) {
@@ -220,6 +220,158 @@ model_check=function(model, plot=TRUE) {
 }
 
 
+#' Tidy output for regression models (into R console, Word, or HTML)
+#'
+#' This function is an extension (and combination) of
+#' \code{texreg::\link[texreg]{screenreg}},
+#' \code{texreg::\link[texreg]{htmlreg}},
+#' \code{MuMIn::\link[MuMIn]{std.coef}}, and
+#' \code{MuMIn::\link[MuMIn]{r.squaredGLMM}}.
+#' @param model_list A single model or a list of models. The models should be of the same type.
+#' @param std_coef Standardized coefficients? Default is \code{FALSE}.
+#' Only applicable to linear models and linear mixed models.
+#' Not applicable to generalized linear (mixed) models.
+#' @param zero Display "0" before "."? Default is \code{TRUE}.
+#' @param digits Number of decimal places of output. Default is 3.
+#' @param bold The p-value threshold below which the coefficient shall be formatted in a bold font.
+#' For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.
+#' @param file File name of the Word or HTML document.
+#' The extension should be \code{.doc} or \code{.html}.
+#' @param ... Other parameters passed to the
+#' \code{\link[texreg]{screenreg}} or
+#' \code{\link[texreg]{htmlreg}} function.
+#' @examples
+#' ## Example 1: Linear Model
+#' lm1=lm(Temp ~ Month + Day, data=airquality)
+#' lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+#' model_summary(lm1)
+#' model_summary(lm2)
+#' model_summary(list(lm1, lm2))
+#' model_summary(list(lm1, lm2), std=T, digits=2)
+#' model_summary(list(lm1, lm2), file="OLS Models.doc")
+#' model_summary(list(lm1, lm2), file="OLS Models.html")
+#'
+#' ## Example 2: Generalized Linear Model
+#' glm1=glm(case ~ age + parity,
+#'          data=infert, family=binomial)
+#' glm2=glm(case ~ age + parity + education + spontaneous + induced,
+#'          data=infert, family=binomial)
+#' model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
+#'
+#' ## Example 3: Linear Mixed Model
+#' library(lmerTest)
+#' hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
+#' hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
+#' hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#' model_summary(list(hlm1, hlm2, hlm3))
+#' model_summary(list(hlm1, hlm2, hlm3), std=T)
+#'
+#' ## Example 4: Generalized Linear Mixed Model
+#' library(lmerTest)
+#' data.glmm=MASS::bacteria
+#' glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+#' model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+#' @export
+model_summary=function(model_list,
+                       std_coef=FALSE,
+                       zero=ifelse(std_coef, FALSE, TRUE),
+                       digits=3,
+                       bold=0,
+                       file=NULL,
+                       ...) {
+  if(class(model_list)!="list") model_list=list(model_list)
+  if(is.null(file)) {
+    sumreg=texreg::screenreg
+  } else {
+    sumreg=texreg::htmlreg
+  }
+
+  model_y=function(model) {
+    if(any(class(model) %in% c("lmerMod", "lmerModLmerTest", "glmerMod")))
+      model@call[["formula"]][[2]]
+    else if(any(class(model) %in% c("lme")))
+      model$call[["fixed"]][[2]]
+    else
+      model$call[["formula"]][[2]]
+  }
+  model_std_coef=function(model) { MuMIn::std.coef(model, partial.sd=FALSE)[,1] }
+  model_std_s.e.=function(model) { MuMIn::std.coef(model, partial.sd=FALSE)[,2] }
+  model_R2m=function(model) { MuMIn::r.squaredGLMM(model)[1, "R2m"] %>% as.numeric() %>% round(digits) }
+  model_R2c=function(model) { MuMIn::r.squaredGLMM(model)[1, "R2c"] %>% as.numeric() %>% round(digits) }
+  model_R2mcfadden=function(model) { performance::r2_mcfadden(model)[1] %>% as.numeric() %>% round(digits) }
+  model_R2nagelkerke=function(model) { performance::r2_nagelkerke(model) %>% as.numeric() %>% round(digits) }
+
+  new.model.names=NULL
+  try({
+    new.model.names=lapply(model_list, model_y) %>% as.character()
+    if(length(model_list)>1)
+      new.model.names=paste(paste0("(", 1:length(model_list), ")"), new.model.names)
+  },
+  silent=T)
+
+  if(std_coef) {
+    new.coef=lapply(model_list, model_std_coef)
+    new.s.e.=lapply(model_list, model_std_s.e.)
+    omit="Intercept"
+  } else {
+    new.coef=0
+    new.s.e.=0
+    omit=NULL
+  }
+
+  if(any(unlist(lapply(model_list, class)) %in% "glm")) {
+    if(is.null(file))
+      names.R2=c("McFadden's R^2",
+                 "Nagelkerke's R^2")
+    else
+      names.R2=c("<b>McFadden's R<sup>2</sup></b>",
+                 "<b>Nagelkerke's R<sup>2</sup></b>")
+    new.R2=list(
+      R2mcfadden=lapply(model_list, model_R2mcfadden) %>% as.numeric(),
+      R2nagelkerke=lapply(model_list, model_R2nagelkerke) %>% as.numeric()
+    )
+    names(new.R2)=names.R2
+  } else if(any(unlist(lapply(model_list, class)) %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))) {
+    if(is.null(file))
+      names.R2=c("Marginal R^2",
+                 "Conditional R^2")
+    else
+      names.R2=c("<b>Marginal R<sup>2</sup></b>",
+                 "<b>Conditional R<sup>2</sup></b>")
+    suppressWarnings({
+      new.R2=list(
+        R2m=lapply(model_list, model_R2m) %>% as.numeric(),
+        R2c=lapply(model_list, model_R2c) %>% as.numeric()
+      )
+    })
+    names(new.R2)=names.R2
+  } else {
+    new.R2=NULL
+  }
+
+  suppressWarnings({
+    output=sumreg(
+      model_list, file=file,
+      leading.zero=zero, digits=digits, bold=bold,
+      custom.model.names=new.model.names,
+      override.coef=new.coef,
+      override.se=new.s.e.,
+      omit.coef=omit,
+      custom.gof.rows=new.R2,
+      margin=1,
+      caption="<b>Regression Model</b>",
+      caption.above=T,
+      custom.note="* p < .05, ** p < .01, *** p < .001",
+      ...)
+    if(!is.null(output)) print(output)
+  })
+
+  if(is.null(file) & length(model_list)==1) {
+    cat("\n")
+    performance::check_collinearity(model_list[[1]])
+  }
+}
 
 
 #### GLM Functions ####
