@@ -413,7 +413,11 @@ model_summary=function(model_list,
               ".</b>")) %>%
           str_replace(
             "</body>",
-            "<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</body>")
+            paste0("<i>Note</i>. ",
+                   ifelse(std_coef, "Standardized ", "Unstandardized "),
+                   "regression coefficients are displayed, with standard errors in parentheses.<br/>",
+                   "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
+                   "</body>"))
       }
       sink(file)
       cat(output)
