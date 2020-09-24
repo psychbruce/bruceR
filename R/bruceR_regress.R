@@ -240,6 +240,8 @@ model_check=function(model, plot=TRUE) {
 #' @param ... Other parameters passed to the
 #' \code{\link[texreg]{screenreg}} or
 #' \code{\link[texreg]{htmlreg}} function.
+#' @return
+#' Invisibly return the plain text of output.
 #' @examples
 #' ## Example 1: Linear Model
 #' lm1=lm(Temp ~ Month + Day, data=airquality)
@@ -257,6 +259,7 @@ model_check=function(model, plot=TRUE) {
 #' glm2=glm(case ~ age + parity + education + spontaneous + induced,
 #'          data=infert, family=binomial)
 #' model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
+#' model_summary(list(glm1, glm2), file="GLM Models.doc")
 #'
 #' ## Example 3: Linear Mixed Model
 #' library(lmerTest)
@@ -265,6 +268,7 @@ model_check=function(model, plot=TRUE) {
 #' hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 #' model_summary(list(hlm1, hlm2, hlm3))
 #' model_summary(list(hlm1, hlm2, hlm3), std=T)
+#' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 #'
 #' ## Example 4: Generalized Linear Mixed Model
 #' library(lmerTest)
@@ -272,6 +276,17 @@ model_check=function(model, plot=TRUE) {
 #' glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
 #' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+#' model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+#'
+#' ## Example 5: Multinomial Logistic Model
+#' library(nnet)
+#' d=airquality
+#' d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
+#' mn1=multinom(Month ~ Temp, data=d, Hess=T)
+#' mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=T)
+#' model_summary(mn1)
+#' model_summary(mn2)
+#' model_summary(mn2, file="Multinomial Logistic Model.doc")
 #' @export
 model_summary=function(model_list,
                        std_coef=FALSE,
@@ -280,7 +295,7 @@ model_summary=function(model_list,
                        bold=0,
                        file=NULL,
                        ...) {
-  if(class(model_list)!="list") model_list=list(model_list)
+  if(class(model_list)[1]!="list") model_list=list(model_list)
   if(is.null(file)) {
     sumreg=texreg::screenreg
   } else {
@@ -307,6 +322,11 @@ model_summary=function(model_list,
     new.model.names=lapply(model_list, model_y) %>% as.character()
     if(length(model_list)>1)
       new.model.names=paste(paste0("(", 1:length(model_list), ")"), new.model.names)
+    if(any(unlist(lapply(model_list, class)) %in% "nnet")) {
+      multinom.y=as.character(lapply(model_list, model_y))[1]
+      multinom.ref=model_list[[1]][["lab"]][1]
+      new.model.names=NULL
+    }
   },
   silent=T)
 
@@ -325,8 +345,8 @@ model_summary=function(model_list,
       names.R2=c("McFadden's R^2",
                  "Nagelkerke's R^2")
     else
-      names.R2=c("<b>McFadden's R<sup>2</sup></b>",
-                 "<b>Nagelkerke's R<sup>2</sup></b>")
+      names.R2=c("McFadden\u2019s R<sup>2</sup>",
+                 "Nagelkerke\u2019s R<sup>2</sup>")
     new.R2=list(
       R2mcfadden=lapply(model_list, model_R2mcfadden) %>% as.numeric(),
       R2nagelkerke=lapply(model_list, model_R2nagelkerke) %>% as.numeric()
@@ -337,8 +357,8 @@ model_summary=function(model_list,
       names.R2=c("Marginal R^2",
                  "Conditional R^2")
     else
-      names.R2=c("<b>Marginal R<sup>2</sup></b>",
-                 "<b>Conditional R<sup>2</sup></b>")
+      names.R2=c("Marginal R<sup>2</sup>",
+                 "Conditional R<sup>2</sup>")
     suppressWarnings({
       new.R2=list(
         R2m=lapply(model_list, model_R2m) %>% as.numeric(),
@@ -352,7 +372,7 @@ model_summary=function(model_list,
 
   suppressWarnings({
     output=sumreg(
-      model_list, file=file,
+      model_list, file=NULL,
       leading.zero=zero, digits=digits, bold=bold,
       custom.model.names=new.model.names,
       override.coef=new.coef,
@@ -360,17 +380,55 @@ model_summary=function(model_list,
       omit.coef=omit,
       custom.gof.rows=new.R2,
       margin=1,
-      caption="<b>Regression Model</b>",
-      caption.above=T,
-      custom.note="* p < .05, ** p < .01, *** p < .001",
+      inline.css=FALSE,
+      doctype=TRUE,
+      html.tag=TRUE,
+      head.tag=TRUE,
+      body.tag=TRUE,
+      caption.above=TRUE,
+      caption=NULL,
+      custom.note=ifelse(is.null(file), "* p < .05, ** p < .01, *** p < .001", ""),
+      include.loglik=FALSE,
+      include.deviance=FALSE,
+      beside=TRUE,  # for 'multinom' models
       ...)
-    if(!is.null(output)) print(output)
+    if(is.null(file)) {
+      print(output)
+    } else {
+      output=str_replace(output, "utf-8", "gbk") %>%
+        str_replace_all("<td>-", "<td>\u2013")
+      if(grepl(".doc$", file)) {
+        output=str_replace(
+          output,
+          "<style>",
+          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman}") %>%
+          # str_replace("<tfoot>(.|\\n)*</tfoot>", "") %>%
+          str_replace(
+            "<body>",
+            paste0(
+              "<body>\n<b>Table X. Regression Models",
+              ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
+                     paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
+                     ""),
+              ".</b>")) %>%
+          str_replace(
+            "</body>",
+            "<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</body>")
+      }
+      sink(file)
+      cat(output)
+      sink()
+      Print("<<green \u2714>> The table was written to <<blue '{paste0(getwd(), '/', file)}'>>")
+      cat("\n")
+    }
   })
 
   if(is.null(file) & length(model_list)==1) {
     cat("\n")
-    performance::check_collinearity(model_list[[1]])
+    print(performance::check_collinearity(model_list[[1]]))
   }
+
+  invisible(output)
 }
 
 

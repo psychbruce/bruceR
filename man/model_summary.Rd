@@ -35,6 +35,9 @@ The extension should be \code{.doc} or \code{.html}.}
 \code{\link[texreg]{screenreg}} or
 \code{\link[texreg]{htmlreg}} function.}
 }
+\value{
+Invisibly return the plain text of output.
+}
 \description{
 This function is an extension (and combination) of
 \code{texreg::\link[texreg]{screenreg}},
@@ -59,6 +62,7 @@ glm1=glm(case ~ age + parity,
 glm2=glm(case ~ age + parity + education + spontaneous + induced,
          data=infert, family=binomial)
 model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
+model_summary(list(glm1, glm2), file="GLM Models.doc")
 
 ## Example 3: Linear Mixed Model
 library(lmerTest)
@@ -67,6 +71,7 @@ hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
 hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 model_summary(list(hlm1, hlm2, hlm3))
 model_summary(list(hlm1, hlm2, hlm3), std=T)
+model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 
 ## Example 4: Generalized Linear Mixed Model
 library(lmerTest)
@@ -74,4 +79,15 @@ data.glmm=MASS::bacteria
 glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
 glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+
+## Example 5: Multinomial Logistic Model
+library(nnet)
+d=airquality
+d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
+mn1=multinom(Month ~ Temp, data=d, Hess=T)
+mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=T)
+model_summary(mn1)
+model_summary(mn2)
+model_summary(mn2, file="Multinomial Logistic Model.doc")
 }
