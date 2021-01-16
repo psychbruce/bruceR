@@ -27,10 +27,12 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 
 ## Citation
+
 Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions [R package]. https://github.com/psychbruce/bruceR
 
 
 ## User Guide
+
 ### Install
 ```r
 #### 安装步骤 ####
@@ -79,13 +81,13 @@ No need to load each one with its own call. Loading `bruceR` is enough.
 - [x] Reliability and validity analyses (e.g., Cronbach's α, exploratory/confirmatory factor analysis)
   + `Alpha()`
   + `EFA()`, `CFA()`
-- [x] *t*-test, ANOVA, simple-effect analyses, and multiple comparisons
+- [x] Analysis of variance, simple-effect analyses, and multiple comparisons
   + `MANOVA()`, `EMMEANS()`
 - [x] Advanced toolbox and output for regression models
   + `grand_mean_center()`, `group_mean_center()`
   + `model_summary()`, `GLM_summary()`, `HLM_summary()`, `regress()`
   + `med_mc()`, `simple_slope()`
-- [x] Nice themes of `ggplot2` ready for scientific publication
+- [x] Themes for `ggplot2`
   + `theme_bruce()`
 
 
@@ -97,7 +99,7 @@ library(bruceR)
 ?bruceR
 
 ## See help pages of functions
-## (using `?function` or `help(function)`)
+## (use `?function` or `help(function)`)
 ?MANOVA
 ?EMMEANS
 ?model_summary
@@ -108,7 +110,8 @@ library(bruceR)
 
 
 ## Release Notes
-### Current version: `0.5.4`
+
+### Current version: `0.5.5`
 ### Major changes:
 - `0.5.0` - 2020.08
   + Automatically checking updates when `library(bruceR)`

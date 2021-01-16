@@ -7,7 +7,7 @@
 theme_bruce(
   base.size = 12,
   line.size = 0.5,
-  border = "",
+  border = "black",
   bg = "white",
   panel.bg = "white",
   tag = "bold",
@@ -16,7 +16,7 @@ theme_bruce(
   title.pos = 0.5,
   subtitle.pos = 0,
   caption.pos = 1,
-  font = "Arial",
+  font = NULL,
   grid.x = "",
   grid.y = "",
   line.x = TRUE,
@@ -30,7 +30,7 @@ theme_bruce(
 
 \item{line.size}{Line width. Default is 0.5.}
 
-\item{border}{\code{FALSE}, \code{""} (default), or a color. If set to \code{FALSE} or \code{""}, it will not draw the border.}
+\item{border}{\code{TRUE}, \code{FALSE}, or \code{"black"} (default).}
 
 \item{bg}{Background color of whole plot. Default is \code{"white"}.
 You can use any colors or choose from some pre-set color palettes:
@@ -55,7 +55,7 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 
 \item{caption.pos}{Caption position (0~1).}
 
-\item{font}{Text font. Default is "Arial".}
+\item{font}{Text font. Only applicable to Windows system.}
 
 \item{grid.x}{\code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).}
 

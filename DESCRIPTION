@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.5.4
+Version: 0.5.5
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -17,16 +17,18 @@ BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
 Imports: tidyverse,
          ggstatsplot,
+         emmeans,
          mediation,
          interactions,
-         multilevel,
-         effectsize,
-         emmeans,
+         texreg,
+         apaTables,
          pwr,
          simr,
+         r2mlm,
          MBESS,
          MuMIn,
-         texreg,
+         multilevel,
+         effectsize,
          semPlot
 Suggests: summarytools
 RdMacros: lifecycle

@@ -278,8 +278,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
             ULCI=mapply(eta_sq_ci, `F`, df1, df2, return="ULCI"))
   at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
               "g.eta2", "p.eta2", "LLCI", "ULCI")]
-  at$g.eta2=NULL
-  names(at)[7:9]=c("  \u03b7\u00b2p", "[90% ", "  CI]")
+  names(at)[7:10]=c("  \u03b7\u00b2G", "  \u03b7\u00b2p",
+                    "[90% ", "  CI]")
   row.names(at)=row.names(aov.ez$anova_table)
   df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
   Print("
@@ -290,8 +290,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   Covariate(s):               {ifelse(is.null(covariate), '-', paste(covariate, collapse=', '))}
   ")
   print_table(at, nsmalls=c(3, 3, df.nsmall, df.nsmall,
-                            2, 0, 3, 3, 3))
-  Print("<<blue MSE = Mean Square Error (an estimate of the population variance \u03c3\u00b2)>>")
+                            2, 0, 3, 3, 3, 3))
+  Print("<<blue MSE = Mean Square Error (an estimate of the population variance \u03c3\u00b2).>>")
+  Print("<<blue 90% CIs of \u03b7\u00b2p are presented.>>")
   if(sph.correction=="GG")
     Print("<<green Sphericity correction method: GG (Greenhouse-Geisser)>>")
   if(sph.correction=="HF")
@@ -300,27 +301,29 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   ## All Other Effect-Size Measures
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
   # Replace partial.etasq and cohens.f, due to their wrong results
-  Print("\n\n\n<<underline ANOVA Effect Size:>>")
-  suppressMessages({
-    effsize=sjstats::anova_stats(aov.ez$aov)
-  })
-  effsize$stratum=NULL
-  effsize=effsize[-which(effsize$term=="Residuals"),]
-  effsize=mutate(effsize,
-                 partial.etasq=round(at0$p.eta2, 3),
-                 cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3),
-                 generalized.etasq=round(at0$g.eta2, 3))
-  names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
-                   "     \u03b7\u00b2",  # eta2
-                   "  \u03b7\u00b2[p]",  # eta2_p
-                   "     \u03c9\u00b2",  # omega2
-                   "  \u03c9\u00b2[p]",  # omega2_p
-                   "     \u03b5\u00b2",  # epsilon2
-                   "Cohen's f", "Post-Hoc Power",
-                   "  \u03b7\u00b2[G]")  # eta2_G
-  row.names(effsize)=effsize$Term
-  print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
-  Print("\n\n\n<<blue
+  if(FALSE) {
+    Print("\n\n\n<<underline ANOVA Effect Size:>>")
+    suppressMessages({
+      effsize=sjstats::anova_stats(aov.ez$aov)
+    })
+    effsize$stratum=NULL
+    effsize=effsize[-which(effsize$term=="Residuals"),]
+    effsize=mutate(effsize,
+                   partial.etasq=round(at0$p.eta2, 3),
+                   cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3),
+                   generalized.etasq=round(at0$g.eta2, 3))
+    names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
+                     "     \u03b7\u00b2",  # eta2
+                     "  \u03b7\u00b2[p]",  # eta2_p
+                     "     \u03c9\u00b2",  # omega2
+                     "  \u03c9\u00b2[p]",  # omega2_p
+                     "     \u03b5\u00b2",  # epsilon2
+                     "Cohen's f", "Post-Hoc Power",
+                     "  \u03b7\u00b2[G]")  # eta2_G
+    row.names(effsize)=effsize$Term
+    print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
+  }
+  Print("\n\n\n<<magenta
   \u03c9\u00b2 = omega-squared = (SS - df1 * MSE) / (SST + MSE)
   \u03b7\u00b2 = eta-squared = SS / SST
   \u03b7\u00b2G = generalized eta-squared (see Olejnik & Algina, 2003)
@@ -329,7 +332,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   >>")
 
   ## Levene's Test for Homogeneity of Variance
-  try({levene_test(dv.vars, between, data0)}, silent=TRUE)
+  try({ levene_test(dv.vars, between, data0) }, silent=TRUE)
 
   ## Mauchly's Test of Sphericity
   if(!is.null(within)) {

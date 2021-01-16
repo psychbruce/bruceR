@@ -1,12 +1,11 @@
 #### Themes for ggplot2 ####
 
-
 #' A nice \code{ggplot2} theme for scientific publication
 #'
 #' @import ggplot2
 #' @param base.size Basic font size. Default is 12.
 #' @param line.size Line width. Default is 0.5.
-#' @param border \code{FALSE}, \code{""} (default), or a color. If set to \code{FALSE} or \code{""}, it will not draw the border.
+#' @param border \code{TRUE}, \code{FALSE}, or \code{"black"} (default).
 #' @param bg Background color of whole plot. Default is \code{"white"}.
 #' You can use any colors or choose from some pre-set color palettes:
 #' \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
@@ -22,7 +21,7 @@
 #' @param title.pos Title position (0~1).
 #' @param subtitle.pos Subtitle position (0~1).
 #' @param caption.pos Caption position (0~1).
-#' @param font Text font. Default is "Arial".
+#' @param font Text font. Only applicable to Windows system.
 #' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
 #' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
 #' @param line.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.
@@ -55,11 +54,11 @@
 #'   theme_bruce(bg="wsj")
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
-                     border="",
+                     border="black",
                      bg="white", panel.bg="white",
                      tag="bold", plot.title="bold", axis.title="plain",
                      title.pos=0.5, subtitle.pos=0, caption.pos=1,
-                     font="Arial",
+                     font=NULL,
                      grid.x="", grid.y="",
                      line.x=TRUE, line.y=TRUE,
                      tick.x=TRUE, tick.y=TRUE) {
@@ -73,10 +72,9 @@ theme_bruce=function(base.size=12, line.size=0.5,
             bg) # see ggthemr::ggthemr()$palette$background
   # ggthemr::colour_plot(c(solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))
   margin=ggplot2::margin
-  windowsFonts(FONT=windowsFont(font))
+  if(!is.null(font)) windowsFonts(FONT=windowsFont(font))
   theme = theme_bw() +
     theme(
-      text=element_text(family="FONT"),
       panel.grid.minor=element_blank(),
       panel.grid.major.x=if(grid.x=="" | grid.x==F) element_blank() else
         element_line(size=line.size, color=grid.x),
@@ -105,6 +103,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
       plot.background=element_rect(color=bg, fill=bg),
       plot.margin=margin(0.02, 0.02, 0.02, 0.02, "npc")
     )
+  if(!is.null(font)) theme = theme + theme(text=element_text(family="FONT"))
   if(border!="" | line.x==F) theme = theme + theme(axis.line.x=element_blank())
   if(border!="" | line.y==F) theme = theme + theme(axis.line.y=element_blank())
   if(!tick.x) theme = theme + theme(axis.ticks.x=element_blank())
