@@ -271,15 +271,16 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   })
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
-  at=mutate(at, MS=`F`*MSE,
-            g.eta2=at$ges,
+  at=mutate(at,
+            MS=`F`*MSE,
+            # g.eta2=at$ges,
             p.eta2=mapply(eta_sq_ci, `F`, df1, df2, return="eta2"),
             LLCI=mapply(eta_sq_ci, `F`, df1, df2, return="LLCI"),
             ULCI=mapply(eta_sq_ci, `F`, df1, df2, return="ULCI"))
   at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
-              "g.eta2", "p.eta2", "LLCI", "ULCI")]
-  names(at)[7:10]=c("  \u03b7\u00b2G", "  \u03b7\u00b2p",
-                    "[90% ", "  CI]")
+              "p.eta2", "LLCI", "ULCI")]
+  names(at)[7:9]=c("  \u03b7\u00b2p",
+                   "  [90% ", "  CI]")
   row.names(at)=row.names(aov.ez$anova_table)
   df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
   Print("
@@ -289,8 +290,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   Within-subjects factor(s):  {ifelse(is.null(within), '-', paste(within, collapse=', '))}
   Covariate(s):               {ifelse(is.null(covariate), '-', paste(covariate, collapse=', '))}
   ")
-  print_table(at, nsmalls=c(3, 3, df.nsmall, df.nsmall,
-                            2, 0, 3, 3, 3, 3))
+  print_table(at, nsmalls=c(nsmall, nsmall, df.nsmall, df.nsmall,
+                            nsmall, 0,
+                            nsmall+1, nsmall+1, nsmall+1))
   Print("<<blue MSE = Mean Square Error (an estimate of the population variance \u03c3\u00b2).>>")
   Print("<<blue 90% CIs of \u03b7\u00b2p are presented.>>")
   if(sph.correction=="GG")
@@ -460,6 +462,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
 #' \emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.
+#' @param nsmall Number of decimal places of output. Default is 2.
 #' @param sd.pooled By default, it will use \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
 #' This default method is highly recommended.
 #' Yet, users can still manually set the SD_pooled (e.g., the SD of a reference group).
@@ -555,6 +558,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
                  p.adjust="bonferroni",
                  cohen.d="accurate",
+                 nsmall=2,
                  sd.pooled=NULL,
                  reverse=TRUE,
                  repair=FALSE) {
@@ -603,10 +607,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   } else {
     error=FALSE
     sim$sig=sig.trans(sim$p.value)
-    sim$p.eta2=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="eta2") %>% formatF(3)
-    sim$LLCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="LLCI") %>% formatF(3) %>% paste0("[", ., ",")
-    sim$ULCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="ULCI") %>% formatF(3) %>% paste0(., "]")
-    sim$F.ratio=round(sim$F.ratio, 2)
+    sim$p.eta2=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="eta2") %>% round(nsmall+1)
+    sim$LLCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="LLCI") %>% formatF(nsmall+1) %>% paste0("[", ., ",")
+    sim$ULCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="ULCI") %>% formatF(nsmall+1) %>% paste0(., "]")
+    sim$F.ratio=round(sim$F.ratio, nsmall)
+    sim$p.value=p.trans(sim$p.value)
     names(sim)[c(1,(length(by)+2):(length(by)+9))]=
       c("----", "df1", "df2", "F", "p", "sig",
         "  \u03b7\u00b2p", " [90%", "  CI]")
@@ -620,14 +625,14 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     emm0=emm=emmeans(model, specs=effect, by=by, weights="equal")
   })
   emm=summary(emm)  # to a data.frame (class 'summary_emm')
-  emm$emmean=round(emm$emmean, 2)
-  emm$SE=formatF(emm$SE, 3) %>% paste0("(", ., ")")
-  emm$lower.CL=formatF(emm$lower.CL, 2) %>% paste0("[", ., ",")
-  emm$upper.CL=formatF(emm$upper.CL, 2) %>% paste0(., "]")
+  emm$emmean=formatF(emm$emmean, nsmall)
+  emm$SE=formatF(emm$SE, nsmall) %>% paste0("(", ., ")")
+  emm$lower.CL=formatF(emm$lower.CL, nsmall) %>% paste0("[", ., ",")
+  emm$upper.CL=formatF(emm$upper.CL, nsmall) %>% paste0(., "]")
   names(emm)[(length(emm)-4):length(emm)]=
-    c("EM.Mean", "   S.E.", "df", " [95%", "  CI]")
+    c("Mean", "S.E.", "df", " [95%", "  CI]")
   attr(emm, "mesg")[which(grepl("^Confidence", attr(emm, "mesg")))]=
-    "EM.Mean uses an equally weighted average."
+    "Estimated means use an equally weighted average."
   print(emm)
   cat("\n")
 
@@ -657,8 +662,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     if(contrast!="poly")
       message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
     con$d=r2d(t2r(con$t.ratio, con$df))
-    con$d.LLCI=(conCI$lower.CL*con$d/con$estimate) %>% formatF(2) %>% paste0("[", ., ",")
-    con$d.ULCI=(conCI$upper.CL*con$d/con$estimate) %>% formatF(2) %>% paste0(., "]")
+    con$d.LLCI=(conCI$lower.CL*con$d/con$estimate) %>% formatF(nsmall) %>% paste0("[", ., ",")
+    con$d.ULCI=(conCI$upper.CL*con$d/con$estimate) %>% formatF(nsmall) %>% paste0(., "]")
   } else if(cohen.d=="eff_size") {
     if(contrast!="poly")
       message("NOTE: Cohen's d was estimated by 'eff_size()' in the 'emmeans' package.")
@@ -670,8 +675,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                 sigma=sqrt(model$anova_table[term, "MSE"]),
                 edf=df.residual(model$lm)) %>% summary()
     con$d=es$effect.size
-    con$d.LLCI=es$lower.CL %>% formatF(2) %>% paste0("[", ., ",")
-    con$d.ULCI=es$upper.CL %>% formatF(2) %>% paste0(., "]")
+    con$d.LLCI=es$lower.CL %>% formatF(nsmall) %>% paste0("[", ., ",")
+    con$d.ULCI=es$upper.CL %>% formatF(nsmall) %>% paste0(., "]")
   } else if(cohen.d=="accurate") {
     if(is.null(sd.pooled)) {
       rn=row.names(model$anova_table)
@@ -682,23 +687,23 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     } else {
       SDpool=sd.pooled
     }
-    con$d=con$estimate/SDpool
-    con$d.LLCI=(conCI$lower.CL/SDpool) %>% formatF(2) %>% paste0("[", ., ",")
-    con$d.ULCI=(conCI$upper.CL/SDpool) %>% formatF(2) %>% paste0(., "]")
+    con$d=(con$estimate/SDpool) %>% formatF(nsmall)
+    con$d.LLCI=(conCI$lower.CL/SDpool) %>% formatF(nsmall) %>% paste0("[", ., ",")
+    con$d.ULCI=(conCI$upper.CL/SDpool) %>% formatF(nsmall) %>% paste0(., "]")
     if(contrast!="poly")
       attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(SDpool, 2)}"),
                           attr(con, "mesg"))
   } else {
     stop("Please set cohen.d = 'accurate', 'eff_size', or 't2d'.")
   }
-  con$estimate=round(con$estimate, 2)
-  con$SE=formatF(con$SE, 3) %>% paste0("(", ., ")")
-  con$t.ratio=round(con$t.ratio, 2)
+  con$estimate=formatF(con$estimate, nsmall)
+  con$SE=formatF(con$SE, nsmall) %>% paste0("(", ., ")")
+  con$t.ratio=formatF(con$t.ratio, nsmall)
   con$p.value=p.trans(con$p.value)
   p.mesg.index=grepl("^P value adjustment", attr(con, "mesg"))
   names(con)[c(1, (length(con)-8):length(con))]=
-    c("Contrast", "b", "   S.E.", "df", "    t",
-      ifelse(any(p.mesg.index), "   p*", "    p"),
+    c("Contrast", "b", "S.E.", "df", "t",
+      ifelse(any(p.mesg.index), "p*", "p"),
       "sig", "Cohen's d", " [95%", "  CI]")
   if(any(p.mesg.index)) {
     p.mesg=attr(con, "mesg")[which(p.mesg.index)]

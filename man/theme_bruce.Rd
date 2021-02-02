@@ -14,7 +14,7 @@ theme_bruce(
   plot.title = "bold",
   axis.title = "plain",
   title.pos = 0.5,
-  subtitle.pos = 0,
+  subtitle.pos = 0.5,
   caption.pos = 1,
   font = NULL,
   grid.x = "",

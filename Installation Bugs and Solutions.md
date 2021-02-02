@@ -4,7 +4,7 @@ All bugs are NOT related to the `bruceR` package!
 
 安装过程中所有问题**都不是**`bruceR`包的问题！（如果有关，也是因为`bruceR`需要事先安装很多其他R包，是在安装这些R包时出了错）
 
-**大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有7种常见bug的解决方案！（有时，**重启RStudio**也管用）
+**大部分用户可以顺利安装**`bruceR`！如果在安装过程中遇到问题，请仔细阅读本文档，这里有7种常见bug的解决方案！（**重启RStudio**通常也管用！）
 
 **强烈建议**先安装好`tidyverse`和`ggstatsplot`这两个包，并更新一遍所有已安装的包，再安装`bruceR`！（无论你是否需要使用`bruceR`，都强烈推荐安装`tidyverse`和`ggstatsplot`）
 
