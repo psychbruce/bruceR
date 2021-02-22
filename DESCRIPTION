@@ -1,7 +1,7 @@
 Package: bruceR
 Type: Package
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.5.6
+Version: 0.5.7
 Authors@R: c(
   person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
   )
@@ -21,6 +21,7 @@ Imports: tidyverse,
          mediation,
          interactions,
          texreg,
+         reghelper,
          apaTables,
          pwr,
          simr,
@@ -29,6 +30,8 @@ Imports: tidyverse,
          MuMIn,
          multilevel,
          effectsize,
+         see,
+         cowplot,
          semPlot
 Suggests: summarytools
 RdMacros: lifecycle

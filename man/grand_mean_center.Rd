@@ -4,12 +4,14 @@
 \alias{grand_mean_center}
 \title{Grand-mean centering}
 \usage{
-grand_mean_center(data, vars, add_suffix = "")
+grand_mean_center(data, vars, std = FALSE, add_suffix = "")
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
 
 \item{vars}{Variable(s) to be centered.}
+
+\item{std}{Standardized or not. Default is \code{FALSE}.}
 
 \item{add_suffix}{The suffix of the centered variable(s). Default is \code{""}.
 You may set it to \code{"_c"}, \code{"_center"}, etc.}

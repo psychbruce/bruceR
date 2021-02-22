@@ -14,14 +14,19 @@ Check updates on \url{https://github.com/psychbruce/bruceR}
 Once you load \code{bruceR} with \code{library()}, it will also load these packages:
 
 \itemize{
-  \item \code{\strong{\link[rio]{rio}}}: Data input/output for all file formats within one function. (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
+  \item \code{\strong{\link[rio]{rio}}}: Data input and output (for all file formats within one function). (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
   \item \code{\strong{\link[dplyr]{dplyr}}}: Data manipulation and preprocessing.
+  \item \code{\strong{\link[tidyr]{tidyr}}}: Data cleaning and reshaping.
   \item \code{\strong{\link[stringr]{stringr}}}: String operations and regular expressions.
-  \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' for higher efficiency.
+  \item \code{\strong{\link[data.table]{data.table}}}: Advanced 'data.frame' with higher efficiency.
   \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological and psychometric research.
-  \item \code{\strong{\link[performance]{performance}}}: Checking regression model performance. (see \code{\link[performance]{model_performance}})
+  \item \code{\strong{\link[emmeans]{emmeans}}}: Toolbox for estimated marginal means and contrasts.
+  \item \code{\strong{\link[lmerTest]{lmerTest}}}: Tests in linear mixed effects models.
+  \item \code{\strong{\link[performance]{performance}}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
-  \item \code{\strong{\link[cowplot]{cowplot}}}: Advanced toolbox for ggplot2.
+  \item \code{\strong{\link[cowplot]{cowplot}}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
+  \item \code{\strong{\link[ggthemes]{ggthemes}}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+  \item \code{\strong{\link[see]{see}}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 }
 
 No need to load each one with its own call.

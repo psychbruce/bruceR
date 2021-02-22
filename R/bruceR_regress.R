@@ -55,6 +55,7 @@ find=function(vars, list) {
 #' @import data.table
 #' @param data \code{data.frame} or \code{data.table}.
 #' @param vars Variable(s) to be centered.
+#' @param std Standardized or not. Default is \code{FALSE}.
 #' @param add_suffix The suffix of the centered variable(s). Default is \code{""}.
 #' You may set it to \code{"_c"}, \code{"_center"}, etc.
 #' @examples
@@ -67,10 +68,10 @@ find=function(vars, list) {
 #' d.c
 #' @seealso \code{\link{group_mean_center}}
 #' @export
-grand_mean_center=function(data, vars, add_suffix="") {
+grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
   data_c=as.data.frame(data)
   for(var in vars)
-    data_c[paste0(var, add_suffix)]=scale(data_c[var], center=TRUE, scale=FALSE)
+    data_c[paste0(var, add_suffix)]=scale(data_c[var], center=TRUE, scale=std)
   if(is.data.table(data)) data_c=as.data.table(data_c)
   return(data_c)
 }
@@ -95,6 +96,7 @@ grand_mean_center=function(data, vars, add_suffix="") {
 #' @seealso \code{\link{grand_mean_center}}
 #' @export
 group_mean_center=function(data, vars, by,
+                           std=FALSE,
                            add_suffix="",
                            add_group_mean="_mean") {
   data_c=as.data.frame(data)
@@ -102,7 +104,7 @@ group_mean_center=function(data, vars, by,
   for(var in vars) {
     for(group in grouplist) {
       data_c[which(data_c[by]==group), paste0(var, add_group_mean)]=mean(data_c[which(data_c[by]==group),][[var]], na.rm=TRUE)
-      data_c[which(data_c[by]==group), paste0(var, add_suffix)]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=FALSE)
+      data_c[which(data_c[by]==group), paste0(var, add_suffix)]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=std)
     }
   }
   if(is.data.table(data)) data_c=as.data.table(data_c)

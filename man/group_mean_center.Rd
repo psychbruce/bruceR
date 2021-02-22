@@ -4,7 +4,14 @@
 \alias{group_mean_center}
 \title{Group-mean centering}
 \usage{
-group_mean_center(data, vars, by, add_suffix = "", add_group_mean = "_mean")
+group_mean_center(
+  data,
+  vars,
+  by,
+  std = FALSE,
+  add_suffix = "",
+  add_group_mean = "_mean"
+)
 }
 \arguments{
 \item{data}{\code{data.frame} or \code{data.table}.}
@@ -12,6 +19,8 @@ group_mean_center(data, vars, by, add_suffix = "", add_group_mean = "_mean")
 \item{vars}{Variable(s) to be centered.}
 
 \item{by}{Grouping variable.}
+
+\item{std}{Standardized or not. Default is \code{FALSE}.}
 
 \item{add_suffix}{The suffix of the centered variable(s). Default is \code{""}.
 You may set it to \code{"_c"}, \code{"_center"}, etc.}

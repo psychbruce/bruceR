@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.5.6-success)
+![](https://img.shields.io/badge/Version-0.5.7-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -57,14 +57,22 @@ devtools::install_github("psychbruce/bruceR")
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
 Once you load `bruceR` to the global environment with `library()`, it will also load these packages:
-- `rio`: Data input/output for all file formats within one function (`import`/`export`).
-- `dplyr`: Data manipulation and preprocessing.
-- `stringr`: String operations and regular expressions.
-- `data.table`: Advanced 'data.frame' for higher efficiency.
-- `psych`: Toolbox for psychological and psychometric research.
-- `performance`: Checking model performance.
-- `ggplot2`: Data visualization.
-- `cowplot`: Advanced toolbox for ggplot2.
+- [Data]:
+  + `rio`: Data input and output (for all file formats within one function).
+  + `dplyr`: Data manipulation and preprocessing.
+  + `tidyr`: Data cleaning and reshaping.
+  + `stringr`: String operations and regular expressions.
+  + `data.table`: Advanced 'data.frame' with higher efficiency.
+- [Stat]:
+  + `psych`: Toolbox for psychological and psychometric research.
+  + `emmeans`: Toolbox for estimated marginal means and contrasts.
+  + `lmerTest`: Tests in linear mixed effects models.
+  + `performance`: Assessment of regression models performance.
+- [Plot]:
+  + `ggplot2`: Data visualization.
+  + `cowplot`: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
+  + `ggthemes`: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+  + `see`: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 
 No need to load each one with its own call. Loading `bruceR` is enough.
 
@@ -111,7 +119,7 @@ library(bruceR)
 
 ## Release Notes
 
-### Current version: `0.5.6`
+### Current version: `0.5.7`
 ### Major changes:
 - `0.5.0` - 2020.08
   + Automatically checking updates when `library(bruceR)`
