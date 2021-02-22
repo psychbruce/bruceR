@@ -31,6 +31,7 @@
 #'   \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological and psychometric research.
 #'   \item \code{\strong{\link[emmeans]{emmeans}}}: Toolbox for estimated marginal means and contrasts.
 #'   \item \code{\strong{\link[lmerTest]{lmerTest}}}: Tests in linear mixed effects models.
+#'   \item \code{\strong{\link[effectsize]{effectsize}}}: Indices of effect size and standardized parameters.
 #'   \item \code{\strong{\link[performance]{performance}}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
 #'   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
 #'   \item \code{\strong{\link[cowplot]{cowplot}}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
@@ -167,10 +168,13 @@ NULL
     library(tidyr)
     library(stringr)
     library(data.table)
+
     library(psych)
     library(emmeans)
     library(lmerTest)
+    library(effectsize)
     library(performance)
+
     library(ggplot2)
     library(cowplot)
     library(ggthemes)
@@ -214,7 +218,7 @@ NULL
   <<bold <<blue Loaded packages:>>>>
   <<green \u2714 bruceR>>
   <<green \u2714 <<yellow [Data]:>> rio, dplyr, tidyr, stringr, data.table>>
-  <<green \u2714 <<yellow [Stat]:>> psych, emmeans, lmerTest, performance>>
+  <<green \u2714 <<yellow [Stat]:>> psych, emmeans, lmerTest, effectsize, performance>>
   <<green \u2714 <<yellow [Plot]:>> ggplot2, cowplot, ggthemes, see>>
 
   <<bold <<blue Citation:>>>>

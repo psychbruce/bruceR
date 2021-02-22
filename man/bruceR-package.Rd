@@ -22,6 +22,7 @@ Once you load \code{bruceR} with \code{library()}, it will also load these packa
   \item \code{\strong{\link[psych]{psych}}}: Toolbox for psychological and psychometric research.
   \item \code{\strong{\link[emmeans]{emmeans}}}: Toolbox for estimated marginal means and contrasts.
   \item \code{\strong{\link[lmerTest]{lmerTest}}}: Tests in linear mixed effects models.
+  \item \code{\strong{\link[effectsize]{effectsize}}}: Indices of effect size and standardized parameters.
   \item \code{\strong{\link[performance]{performance}}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
   \item \code{\strong{\link[ggplot2]{ggplot2}}}: Data visualization.
   \item \code{\strong{\link[cowplot]{cowplot}}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).

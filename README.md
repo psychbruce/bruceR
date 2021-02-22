@@ -67,6 +67,7 @@ Once you load `bruceR` to the global environment with `library()`, it will also 
   + `psych`: Toolbox for psychological and psychometric research.
   + `emmeans`: Toolbox for estimated marginal means and contrasts.
   + `lmerTest`: Tests in linear mixed effects models.
+  + `effectsize`: Indices of effect size and standardized parameters.
   + `performance`: Assessment of regression models performance.
 - [Plot]:
   + `ggplot2`: Data visualization.
