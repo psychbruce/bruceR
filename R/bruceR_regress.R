@@ -1407,7 +1407,9 @@ med_summary=function(model, nsmall=3) {
   x <- model
   clp <- 100 * x$conf.level
   cat("\n")
-  cat(sprintf("Causal Mediation Analysis %s\n\n", ifelse(inherits(x,
+  # cat(sprintf("Causal Mediation Analysis %s\n\n", ifelse(inherits(x,
+  #   "mediate.tsls"), "using Two-Stage Least Squares", "")))
+  cat(sprintf("Mediation Analysis %s\n\n", ifelse(inherits(x,
     "mediate.tsls"), "using Two-Stage Least Squares", "")))
   if (x$boot) {
     cat(sprintf("Nonparametric Bootstrap Confidence Intervals with the %s Method\n\n",
