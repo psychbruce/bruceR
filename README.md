@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.5.7-success)
+![](https://img.shields.io/badge/Version-0.5.8-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -95,7 +95,7 @@ No need to load each one with its own call. Loading `bruceR` is enough.
 - [x] Advanced toolbox and output for regression models
   + `grand_mean_center()`, `group_mean_center()`
   + `model_summary()`, `GLM_summary()`, `HLM_summary()`, `regress()`
-  + `med_mc()`, `simple_slope()`
+  + `med_summary()`
 - [x] Themes for `ggplot2`
   + `theme_bruce()`
 
@@ -112,6 +112,7 @@ library(bruceR)
 ?MANOVA
 ?EMMEANS
 ?model_summary
+?med_summary
 ?GLM_summary
 ?HLM_summary
 ...
@@ -120,7 +121,7 @@ library(bruceR)
 
 ## Release Notes
 
-### Current version: `0.5.7`
+### Current version: `0.5.8`
 ### Major changes:
 - `0.5.0` - 2020.08
   + Automatically checking updates when `library(bruceR)`

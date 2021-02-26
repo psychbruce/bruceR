@@ -1402,8 +1402,55 @@ HLMs_run_parallel=function(formulas.text, data, family=NULL,
 #'
 #' @param model Mediation model built with the \code{mediation} package (see \code{\link[mediation]{mediate}}).
 #' @param nsmall Number of decimal places of output. Default is 3.
+#' @param print.avg Just set as \code{TRUE} for a concise output.
+#' For details, see the "Value" section in \code{\link[mediation]{mediate}}.
+#' @examples
+#' library(mediation)
+#' ?mediation::mediate
+#'
+#' ## Example 1: OLS Regression
+#' # Data and correlation matrix
+#' Corr(airquality)
+#' # Hypothesis: Solar radiation -> Ozone -> Daily temperature
+#' lm.m=lm(Ozone ~ Solar.R + Month + Wind, data=airquality)
+#' lm.y=lm(Temp ~ Ozone + Solar.R + Month + Wind, data=airquality)
+#' # Model summary
+#' model_summary(list(lm.m, lm.y))
+#' check_collinearity(lm.m)
+#' check_collinearity(lm.y)
+#' # Mediation analysis
+#' set.seed(123)  # set a random seed for reproduction
+#' med=mediate(lm.m, lm.y,
+#'             treat="Solar.R", mediator="Ozone",
+#'             sims=1000, boot=TRUE, boot.ci.type="bca")
+#' # Bias-corrected and accelerated (BCa) bootstrap confidence intervals
+#' med_summary(med)
+#'
+#' ## Example 2: Multilevel Linear Model (Linear Mixed Model)
+#' # Data and correlation matrix
+#' library(lmerTest)
+#' ?carrots  # long-format data
+#' data=na.omit(carrots)  # omit missing values
+#' setDT(data)  # set as data.table
+#' Corr(data[,.(Preference, Crisp, Sweetness)])
+#' # Hypothesis: Crips -> Sweetness -> Preference (for carrots)
+#' # (models must be fit using "lme4::lmer" rather than "lmerTest::lmer")
+#' lmm.m=lme4::lmer(Sweetness ~ Crisp + Gender + Age + (1 | Consumer), data=data)
+#' lmm.y=lme4::lmer(Preference ~ Sweetness + Crisp + Gender + Age + (1 | Consumer), data=data)
+#' # Model summary
+#' model_summary(list(lmm.m, lmm.y))
+#' check_collinearity(lmm.m)
+#' check_collinearity(lmm.y)
+#' # Mediation analysis
+#' set.seed(123)  # set a random seed for reproduction
+#' med.lmm=mediate(lmm.m, lmm.y,
+#'                 treat="Crisp", mediator="Sweetness",
+#'                 sims=1000)
+#' # Monte Carlo simulation for quasi-Bayesian approximation
+#' # (bootstrap method is not applicable to "lmer" models)
+#' med_summary(med.lmm)
 #' @export
-med_summary=function(model, nsmall=3) {
+med_summary=function(model, nsmall=3, print.avg=TRUE) {
   x <- model
   clp <- 100 * x$conf.level
   cat("\n")
@@ -1422,39 +1469,58 @@ med_summary=function(model, nsmall=3) {
   if (!is.null(x$covariates)) {
     cat("(Inference Conditional on the Covariate Values Specified in `covariates')\n\n")
   }
-  isLinear.y <- ((class(x$model.y)[1] %in% c("lm", "rq")) ||
-    (inherits(x$model.y, "glm") && x$model.y$family$family ==
-      "gaussian" && x$model.y$family$link == "identity") ||
-    (inherits(x$model.y, "survreg") && x$model.y$dist ==
-      "gaussian"))
-  printone <- !x$INT && isLinear.y
-  if (printone) {
-    smat <- c(x$d1, x$d1.ci, x$d1.p)
-    smat <- rbind(smat, c(x$z0, x$z0.ci, x$z0.p))
-    smat <- rbind(smat, c(x$tau.coef, x$tau.ci, x$tau.p))
-    smat <- rbind(smat, c(x$n0, x$n0.ci, x$n0.p))
-    # rownames(smat) <- c("ACME", "ADE", "Total Effect", "Prop. Mediated")
-    rownames(smat) <- c("Indirect Effect", "Direct Effect", "Total Effect", "Prop. Mediated")
-  }
-  else {
-    smat <- c(x$d0, x$d0.ci, x$d0.p)
-    smat <- rbind(smat, c(x$d1, x$d1.ci, x$d1.p))
-    smat <- rbind(smat, c(x$z0, x$z0.ci, x$z0.p))
-    smat <- rbind(smat, c(x$z1, x$z1.ci, x$z1.p))
-    smat <- rbind(smat, c(x$tau.coef, x$tau.ci, x$tau.p))
-    smat <- rbind(smat, c(x$n0, x$n0.ci, x$n0.p))
-    smat <- rbind(smat, c(x$n1, x$n1.ci, x$n1.p))
-    smat <- rbind(smat, c(x$d.avg, x$d.avg.ci, x$d.avg.p))
-    smat <- rbind(smat, c(x$z.avg, x$z.avg.ci, x$z.avg.p))
-    smat <- rbind(smat, c(x$n.avg, x$n.avg.ci, x$n.avg.p))
-    # rownames(smat) <- c("ACME (control)", "ACME (treated)",
-    #   "ADE (control)", "ADE (treated)", "Total Effect",
-    #   "Prop. Mediated (control)", "Prop. Mediated (treated)",
-    #   "ACME (average)", "ADE (average)", "Prop. Mediated (average)")
-    rownames(smat) <- c("Indirect Effect (control)", "Indirect Effect (treated)",
-      "Direct Effect (control)", "Direct Effect (treated)", "Total Effect",
-      "Prop. Mediated (control)", "Prop. Mediated (treated)",
-      "Indirect Effect (average)", "Direct Effect (average)", "Prop. Mediated (average)")
+  # isLinear.y <- ((class(x$model.y)[1] %in% c("lm", "rq")) ||
+  #   (inherits(x$model.y, "glm") && x$model.y$family$family ==
+  #     "gaussian" && x$model.y$family$link == "identity") ||
+  #   (inherits(x$model.y, "survreg") && x$model.y$dist ==
+  #     "gaussian"))
+  # printone <- !x$INT && isLinear.y
+  # if (printone) {
+  #   smat <- c(x$d1, x$d1.ci, x$d1.p)
+  #   smat <- rbind(smat, c(x$z0, x$z0.ci, x$z0.p))
+  #   smat <- rbind(smat, c(x$tau.coef, x$tau.ci, x$tau.p))
+  #   smat <- rbind(smat, c(x$n0, x$n0.ci, x$n0.p))
+  #   rownames(smat) <- c("ACME", "ADE", "Total Effect", "Prop. Mediated")
+  # }
+  # else {
+  #   smat <- c(x$d0, x$d0.ci, x$d0.p)
+  #   smat <- rbind(smat, c(x$d1, x$d1.ci, x$d1.p))
+  #   smat <- rbind(smat, c(x$z0, x$z0.ci, x$z0.p))
+  #   smat <- rbind(smat, c(x$z1, x$z1.ci, x$z1.p))
+  #   smat <- rbind(smat, c(x$tau.coef, x$tau.ci, x$tau.p))
+  #   smat <- rbind(smat, c(x$n0, x$n0.ci, x$n0.p))
+  #   smat <- rbind(smat, c(x$n1, x$n1.ci, x$n1.p))
+  #   smat <- rbind(smat, c(x$d.avg, x$d.avg.ci, x$d.avg.p))
+  #   smat <- rbind(smat, c(x$z.avg, x$z.avg.ci, x$z.avg.p))
+  #   smat <- rbind(smat, c(x$n.avg, x$n.avg.ci, x$n.avg.p))
+  #   rownames(smat) <- c("ACME (control)", "ACME (treated)",
+  #     "ADE (control)", "ADE (treated)", "Total Effect",
+  #     "Prop. Mediated (control)", "Prop. Mediated (treated)",
+  #     "ACME (average)", "ADE (average)", "Prop. Mediated (average)")
+  # }
+  if (print.avg) {
+    smat <- rbind(
+      c(x$d.avg, x$d.avg.ci, x$d.avg.p),
+      c(x$z.avg, x$z.avg.ci, x$z.avg.p),
+      c(x$tau.coef, x$tau.ci, x$tau.p))
+    rownames(smat) <- c(
+      "Indirect Effect",
+      "Direct Effect",
+      "Total Effect")
+  } else {
+    smat <- rbind(
+      c(x$d0, x$d0.ci, x$d0.p),
+      c(x$d1, x$d1.ci, x$d1.p),
+      c(x$z0, x$z0.ci, x$z0.p),
+      c(x$z1, x$z1.ci, x$z1.p),
+      c(x$d.avg, x$d.avg.ci, x$d.avg.p),
+      c(x$z.avg, x$z.avg.ci, x$z.avg.p),
+      c(x$tau.coef, x$tau.ci, x$tau.p))
+    rownames(smat) <- c(
+      "Indirect Effect (control)", "Indirect Effect (treated)",
+      "Direct Effect (control)", "Direct Effect (treated)",
+      "Indirect Effect (average)", "Direct Effect (average)",
+      "Total Effect")
   }
   # colnames(smat) <- c("Estimate", paste(clp, "% CI Lower",
   #   sep = ""), paste(clp, "% CI Upper", sep = ""), "p-value")

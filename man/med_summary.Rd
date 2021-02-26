@@ -4,13 +4,62 @@
 \alias{med_summary}
 \title{Better report of mediation analysis based on the \code{mediation} package}
 \usage{
-med_summary(model, nsmall = 3)
+med_summary(model, nsmall = 3, print.avg = TRUE)
 }
 \arguments{
 \item{model}{Mediation model built with the \code{mediation} package (see \code{\link[mediation]{mediate}}).}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
+
+\item{print.avg}{Just set as \code{TRUE} for a concise output.
+For details, see the "Value" section in \code{\link[mediation]{mediate}}.}
 }
 \description{
 Better report of mediation analysis based on the \code{\link[mediation]{mediation}} package.
+}
+\examples{
+library(mediation)
+?mediation::mediate
+
+## Example 1: OLS Regression
+# Data and correlation matrix
+Corr(airquality)
+# Hypothesis: Solar radiation -> Ozone -> Daily temperature
+lm.m=lm(Ozone ~ Solar.R + Month + Wind, data=airquality)
+lm.y=lm(Temp ~ Ozone + Solar.R + Month + Wind, data=airquality)
+# Model summary
+model_summary(list(lm.m, lm.y))
+check_collinearity(lm.m)
+check_collinearity(lm.y)
+# Mediation analysis
+set.seed(123)  # set a random seed for reproduction
+med=mediate(lm.m, lm.y,
+            treat="Solar.R", mediator="Ozone",
+            sims=1000, boot=TRUE, boot.ci.type="bca")
+# Bias-corrected and accelerated (BCa) bootstrap confidence intervals
+med_summary(med)
+
+## Example 2: Multilevel Linear Model (Linear Mixed Model)
+# Data and correlation matrix
+library(lmerTest)
+?carrots  # long-format data
+data=na.omit(carrots)  # omit missing values
+setDT(data)  # set as data.table
+Corr(data[,.(Preference, Crisp, Sweetness)])
+# Hypothesis: Crips -> Sweetness -> Preference (for carrots)
+# (models must be fit using "lme4::lmer" rather than "lmerTest::lmer")
+lmm.m=lme4::lmer(Sweetness ~ Crisp + Gender + Age + (1 | Consumer), data=data)
+lmm.y=lme4::lmer(Preference ~ Sweetness + Crisp + Gender + Age + (1 | Consumer), data=data)
+# Model summary
+model_summary(list(lmm.m, lmm.y))
+check_collinearity(lmm.m)
+check_collinearity(lmm.y)
+# Mediation analysis
+set.seed(123)  # set a random seed for reproduction
+med.lmm=mediate(lmm.m, lmm.y,
+                treat="Crisp", mediator="Sweetness",
+                sims=1000)
+# Monte Carlo simulation for quasi-Bayesian approximation
+# (bootstrap method is not applicable to "lmer" models)
+med_summary(med.lmm)
 }
