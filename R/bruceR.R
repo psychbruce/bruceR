@@ -161,6 +161,8 @@ NULL
   # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
   suppressMessages({
+    library(MASS)  # to prevent `dplyr::select` being masked by `MASS::select`
+
     library(rio)
     library(dplyr)
     library(tidyr)

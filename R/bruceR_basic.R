@@ -271,7 +271,7 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
     }
     if(grepl("\\[", names(x)[j])) x[,j]=paste0("[", x[,j], ",")
     if(grepl("\\]", names(x)[j])) x[,j]=paste0(x[,j], "]")
-    if(grepl("^[Ee]stimate$", names(x)[j])) names(x)[j]="Coef."
+    # if(grepl("^[Ee]stimate$", names(x)[j])) names(x)[j]="Coef."
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
   if(is.null(sig)==FALSE & "sig" %notin% names(x)) {
