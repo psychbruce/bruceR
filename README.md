@@ -92,9 +92,10 @@ No need to load each one with its own call. Loading `bruceR` is enough.
   + `EFA()`, `CFA()`
 - [x] Analysis of variance, simple-effect analyses, and multiple comparisons
   + `MANOVA()`, `EMMEANS()`
-- [x] Advanced toolbox and output for regression models
+- [x] Advanced toolbox and report for regression models and mediation analyses
   + `grand_mean_center()`, `group_mean_center()`
-  + `model_summary()`, `GLM_summary()`, `HLM_summary()`, `regress()`
+  + `GLM_summary()`, `HLM_summary()`, `regress()`
+  + `model_summary()`
   + `med_summary()`
 - [x] Themes for `ggplot2`
   + `theme_bruce()`
@@ -123,6 +124,12 @@ library(bruceR)
 
 ### Current version: `0.5.8`
 ### Major changes:
+- `0.6.0` - 2021.03
+  + New function `model_summary()`: tidy report of (single/multiple) regression models (in console or to a Word/HTML file; based on the `texreg` package; supporting many types of models)
+  + New function `med_summary()`: tidy report of (normal/conditional) mediation analyses (based on the `mediation` package)
+  + More R packages for default installation and loading
+  + Tidy welcome messages when `library(bruceR)`
+  + General bug-fixes and improvements
 - `0.5.0` - 2020.08
   + Automatically checking updates when `library(bruceR)`
   + Requiring R version 4.0+
@@ -132,7 +139,7 @@ library(bruceR)
   + Added citation information
   + General bug-fixes and improvements
 - `0.3.0` - 2019.10
-  + Added new functions for ANOVA, simple-effect analyses, and multiple comparisons
+  + New functions `MANOVA` and `EMMEANS`: ANOVA, simple-effect analyses, and multiple comparisons (based on the `afex` and `emmeans` packages)
   + General bug-fixes and improvements
 - `0.2.0` - 2019.08
   + Added help pages

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_regress.R
 \name{HLM_summary}
 \alias{HLM_summary}
-\title{Advanced output for HLM (\code{lmer} and \code{glmer} models)}
+\title{Advanced report of HLM (\code{lmer} and \code{glmer} models)}
 \usage{
 HLM_summary(
   model = NULL,

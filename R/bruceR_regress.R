@@ -478,7 +478,7 @@ GLM_anova=function(model, add.total=TRUE) {
 }
 
 
-#' Advanced output for GLM (\code{lm} and \code{glm} models)
+#' Advanced report of GLM (\code{lm} and \code{glm} models)
 #' @param model A model fitted by \code{lm} or \code{glm} function.
 #' @param robust \strong{[only for \code{lm} and \code{glm}]} \code{FALSE} (default), \code{TRUE}, or an option from \code{"HC0", "HC1", "HC2", "HC3", "HC4", "HC4m", "HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
@@ -904,7 +904,7 @@ print_variance_ci=function(model) {
 }
 
 
-#' Advanced output for HLM (\code{lmer} and \code{glmer} models)
+#' Advanced report of HLM (\code{lmer} and \code{glmer} models)
 #'
 #' Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
 #' HLM, MLM, or LMM (the same) refers to a model with nested data (e.g., Level-1: participants, Level-2: city; or Level-1: repeated-measures within a participant, Level-2: participants).

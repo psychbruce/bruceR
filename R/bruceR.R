@@ -121,15 +121,15 @@
 #'
 #'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
 #'
-#'       \code{\link{GLM_summary}}  (advanced output for General and Generalized Linear Models)
+#'       \code{\link{GLM_summary}}  (advanced report of general/generalized linear models)
 #'
-#'       \code{\link{HLM_summary}}  (advanced output for Multilevel/Hierarchical Linear Models)
+#'       \code{\link{HLM_summary}}  (advanced report of multilevel/hierarchical linear models)
 #'
 #'       \code{\link{regress}}  (fast do OLS, logistic, poisson, and multilevel regression analyses)
 #'
-#'       \code{\link{model_summary}}  (tidy output for regression models)
+#'       \code{\link{model_summary}}  (tidy report of regression models)
 #'
-#'       \code{\link{med_summary}}  (tidy output for mediation analysis based on the \code{mediation} package)
+#'       \code{\link{med_summary}}  (tidy report of mediation analyses based on the \code{mediation} package)
 #'   }
 #'   \item{\strong{6) Plotting with \code{ggplot2}}}{
 #'       \code{\link{theme_bruce}}  (a set of nice themes ready for scientific publication)
