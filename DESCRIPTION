@@ -1,12 +1,12 @@
-Package: bruceR
 Type: Package
+Package: bruceR
 Title: BRoadly Useful Collections and Extensions of R functions
-Version: 0.5.8
+Version: 0.6.0
 Authors@R: c(
-  person("Han-Wu-Shuang", "Bao", email="baohws@psych.ac.cn", role=c("aut", "cre"))
+  person("Han-Wu-Shuang", "Bao", email="baohws@foxmail.com", role=c("aut", "cre"))
   )
 Author: Han-Wu-Shuang Bao [aut, cre]
-Maintainer: Han-Wu-Shuang Bao <baohws@psych.ac.cn>
+Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
 Description: Packing many useful R packages and functions into one package.
              Making data analyses and statistics more elegant.
 License: GPL-3
@@ -15,24 +15,20 @@ LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
-Imports: tidyverse,
-         ggstatsplot,
-         emmeans,
-         mediation,
-         interactions,
-         texreg,
-         reghelper,
-         apaTables,
-         pwr,
-         simr,
-         r2mlm,
-         MBESS,
-         MuMIn,
-         multilevel,
-         effectsize,
-         see,
-         cowplot,
-         semPlot
-Suggests: summarytools
+Imports: rio, dplyr, tidyr, stringr, forcats, data.table,
+         psych, emmeans, lmerTest, effectsize, performance,
+         ggplot2, ggstatsplot, cowplot, ggthemes, see,
+         mediation, interactions, processR, lavaan, metafor, apaTables,
+         AER, jmv, BayesFactor,
+         nnet, caret, party, randomForest,
+         correlation, forecast, JSmediation,
+         irr, pwr, simr, r2mlm, multilevel, lmtest, MBESS, MuMIn,
+         texreg, reghelper, semPlot,
+         ggrepel, ggsignif, ggExtra, ggridges,
+         glue, crayon, Hmisc, lubridate,
+         rvest, curl, xml2,
+         jsonlite, knitr, foreach,
+         pacman, rstudioapi, lifecycle
+Suggests: installr, summarytools, wordcloud2
 RdMacros: lifecycle
 RoxygenNote: 7.1.1

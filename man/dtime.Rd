@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{dtime}
 \alias{dtime}
-\title{Timer (compute time difference)}
+\title{Timer (compute time difference).}
 \usage{
 dtime(t0, unit = "secs", nsmall = 0)
 }
@@ -11,12 +11,13 @@ dtime(t0, unit = "secs", nsmall = 0)
 
 \item{unit}{Options: \code{"auto", "secs", "mins", "hours", "days", "weeks"}. Default is \code{"secs"}.}
 
-\item{nsmall}{Number of decimal places of output. Default is 0.}
+\item{nsmall}{Number of decimal places of output. Default is \code{0}.}
 }
 \description{
-Timer (compute time difference)
+Timer (compute time difference).
 }
 \examples{
 t0=Sys.time()
 dtime(t0)
+
 }

@@ -2,23 +2,24 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{RGB}
 \alias{RGB}
-\title{A simple extension of \code{rgb()}}
+\title{A simple extension of \code{rgb()}.}
 \usage{
 RGB(r, g, b, alpha)
 }
 \arguments{
 \item{r, g, b}{Red, Green, Blue: 0~255.}
 
-\item{alpha}{Color opacity (transparency): 0~1.
-If not specified, an opaque colour will be generated.}
+\item{alpha}{Color transparency (opacity): 0~1.
+If not specified, an opaque color will be generated.}
 }
 \value{
 \code{"#rrggbb"} or \code{"#rrggbbaa"}
 }
 \description{
-A simple extension of \code{rgb()}
+A simple extension of \code{rgb()}.
 }
 \examples{
 RGB(255, 0, 0)  # red: "#FF0000"
 RGB(255, 0, 0, 0.8)  # red with 80\\% opacity: "#FF0000CC"
+
 }

@@ -2,21 +2,22 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{print_table}
 \alias{print_table}
-\title{Print three-line table}
+\title{Print a three-line table.}
 \usage{
 print_table(x, row.names = TRUE, nsmalls = 3)
 }
 \arguments{
-\item{x}{Matrix, data.frame, data.table, or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
+\item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
 
-\item{row.names}{\code{TRUE} (default) or \code{FALSE}. Whether to print row names.}
+\item{row.names}{Whether to print row names. Default is \code{TRUE}.}
 
-\item{nsmalls}{A number or numeric vector specifying the number of decimal places of output. Default is 3.}
+\item{nsmalls}{A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.}
 }
 \description{
-Print three-line table
+Print a three-line table.
 }
 \examples{
 model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 print_table(model)
+
 }

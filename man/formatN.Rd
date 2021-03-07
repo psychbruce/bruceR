@@ -2,12 +2,12 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{formatN}
 \alias{formatN}
-\title{Format "1234" to "1,234"}
+\title{Format "1234" to "1,234".}
 \usage{
 formatN(x, mark = ",")
 }
 \arguments{
-\item{x}{Any R object, typically numeric.}
+\item{x}{A number or numeric vector.}
 
 \item{mark}{Usually \code{","}.}
 }
@@ -15,8 +15,12 @@ formatN(x, mark = ",")
 Formatted character string.
 }
 \description{
-Format "1234" to "1,234"
+Format "1234" to "1,234".
 }
 \examples{
 formatN(1234)
+
+}
+\seealso{
+\code{\link{formatF}}
 }

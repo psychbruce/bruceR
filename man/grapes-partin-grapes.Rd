@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{\%partin\%}
 \alias{\%partin\%}
-\title{A simple extension of \code{\%in\%}}
+\title{A simple extension of \code{\%in\%}.}
 \usage{
 pattern \%partin\% vector
 }
@@ -12,12 +12,13 @@ pattern \%partin\% vector
 \item{vector}{Character vector.}
 }
 \description{
-A simple extension of \code{\%in\%}
+A simple extension of \code{\%in\%}.
 }
 \examples{
 "Bei" \%partin\% c("Beijing", "Shanghai")  # TRUE
 "bei" \%partin\% c("Beijing", "Shanghai")  # FALSE
 "[aeiou]ng" \%partin\% c("Beijing", "Shanghai")  # TRUE
+
 }
 \seealso{
 \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}

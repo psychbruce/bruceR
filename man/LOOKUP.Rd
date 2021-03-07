@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{LOOKUP}
 \alias{LOOKUP}
-\title{Search, match, and look up values (like Excel's functions \code{INDEX + MATCH})}
+\title{Search, match, and look up values (like Excel's functions \code{INDEX + MATCH}).}
 \usage{
 LOOKUP(
   data,
@@ -14,7 +14,7 @@ LOOKUP(
 )
 }
 \arguments{
-\item{data}{\code{data.frame} or \code{data.table}.}
+\item{data}{Main data.}
 
 \item{vars}{Character or character vector, specifying the variable(s) to be searched in \code{data}.}
 
@@ -29,7 +29,8 @@ specifying the reference variable(s) to be matched in \code{data.ref}.}
 You may also set it to \code{"new.var"} or \code{"new.value"}.}
 }
 \description{
-In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019), or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
+In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019),
+or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
 Here I provide a similar function.
 }
 \details{
@@ -50,6 +51,7 @@ data
 # LOOKUP(data, "city", ref, "City", "GDP")  # return with a warning
 LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
 LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
+
 }
 \seealso{
 \code{dplyr::\link[dplyr]{left_join}}

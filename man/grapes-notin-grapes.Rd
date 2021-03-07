@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{\%notin\%}
 \alias{\%notin\%}
-\title{A simple extension of \code{\%in\%}}
+\title{A simple extension of \code{\%in\%}.}
 \usage{
 x \%notin\% vector
 }
@@ -12,12 +12,13 @@ x \%notin\% vector
 \item{vector}{Numeric or character vector.}
 }
 \description{
-A simple extension of \code{\%in\%}
+A simple extension of \code{\%in\%}.
 }
 \examples{
 data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))
 data
 data[ID \%notin\% c(1, 3, 5, 7, 9)]
+
 }
 \seealso{
 \code{\link[base]{match}} (\code{\%in\%})

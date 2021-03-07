@@ -3,7 +3,7 @@
 \name{Print}
 \alias{Print}
 \alias{Glue}
-\title{Paste and print texts with rich formats and colors}
+\title{Print with rich formats and colors.}
 \usage{
 Print(...)
 
@@ -19,11 +19,11 @@ Long strings are broken by line and concatenated together.
 Leading whitespace and blank lines from the first and last lines are automatically trimmed.}
 }
 \description{
-Be tired of \code{print()} and \code{cat()}? Try \code{Print()}!
-Run \strong{\code{example("Print")}} and see its power.
+Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
+Run \strong{\code{example("Print")}} and see what it can do.
 }
 \details{
-See more details in help pages of \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
+See more details in \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
 }
 \section{Functions}{
 \itemize{
@@ -38,4 +38,5 @@ Print("My name is <<underline <<bold {name}>>>>.
        <<bold <<blue Pi = {pi:.15}.>>>>
        <<italic <<green 1 + 1 = {1 + 1}.>>>>
        sqrt({x}) = <<red {sqrt(x):.3}>>", x=10)
+
 }

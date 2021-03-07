@@ -2,21 +2,22 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{RANDBETWEEN}
 \alias{RANDBETWEEN}
-\title{Randomly sampling (like Excel's function \code{RANDBETWEEN})}
+\title{Random sampling (like Excel's function \code{RANDBETWEEN}).}
 \usage{
 RANDBETWEEN(range, n = 1, seed = NULL)
 }
 \arguments{
 \item{range}{Numeric or character vector.}
 
-\item{n}{Sample size for sampling.}
+\item{n}{Sample size for sampling. Default is \code{1}.}
 
 \item{seed}{Random seed.}
 }
 \description{
-Randomly sampling (like Excel's function \code{RANDBETWEEN})
+Random sampling (like Excel's function \code{RANDBETWEEN}).
 }
 \examples{
 RANDBETWEEN(1:10, n=1000000) \%>\% Freq()
 RANDBETWEEN(LETTERS, n=1000000) \%>\% Freq()
+
 }

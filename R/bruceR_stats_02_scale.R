@@ -1,56 +1,65 @@
-#### Variable Computing ####
+#### Multivariate Computation ####
 
 
-#' Recode a variable
+#' Recode a variable.
 #'
 #' Based on \code{car::\link[car]{recode}}.
-#' @param var Variable (numeric vector, character vector, or factor).
+#'
+#' @param var Variable (numeric, character, or factor).
 #' @param recodes Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
+#'
 #' @examples
 #' d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
 #' d
 #'
 #' d[,":="(var.recoded=RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"))]
 #' d
+#'
 #' @export
 RECODE=function(var, recodes) {
   car::recode(var, recodes)
 }
 
 
-#' Rescale likert scales (e.g., from 5-point to 7-point)
-#' @param var Variable (numeric vector).
+#' Rescale likert scales (e.g., from 5-point to 7-point).
+#'
+#' @param var Variable (numeric).
 #' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
 #' If not defined, it will compute the range of \code{var}.
 #' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
+#'
 #' @examples
 #' d=data.table(var=rep(1:5, 2))
 #' d[,":="(var1=RESCALE(var, to=1:7),
 #'         var2=RESCALE(var, from=1:5, to=1:7))]
 #' d  # var1 is equal to var2
+#'
 #' @export
 RESCALE=function(var, from=range(var, na.rm=T), to) {
   (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
 }
 
 
-#' Min-max scaling (min-max normalization)
+#' Min-max scaling (min-max normalization).
 #'
 #' This function resembles \code{\link[bruceR]{RESCALE}},
-#' it just equals to \code{RESCALE(var, to=0:1)}.
+#' and it is just equivalent to using \code{RESCALE(var, to=0:1)}.
+#'
 #' @param v Variable (numeric vector).
 #' @param min Minimum value (default is 0).
 #' @param max Maximum value (default is 1).
+#'
 #' @examples
 #' scaler(1:5)
 #' # the same: RESCALE(1:5, to=0:1)
+#'
 #' @export
 scaler=function(v, min=0, max=1) {
   min + (v - min(v, na.rm=T)) * (max - min) / (max(v, na.rm=T) - min(v, na.rm=T))
 }
 
 
-#' A tool box for multivariate computing
+#' Multivariate computation.
 #'
 #' @description
 #' Easily compute the sum, mean, or other indexes of a scale.
@@ -63,7 +72,8 @@ scaler=function(v, min=0, max=1) {
 #'   \item \code{\strong{vars}}: manually define the variable list.
 #'   \item \code{\strong{varrange}}: use the start and stop positions.
 #' }
-#' @param data \code{data.frame} or \code{data.table}.
+#'
+#' @param data Data frame.
 #' @param var \strong{[option 1]} Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).
 #' @param items \strong{[option 1]} Unique part across multiple variables (e.g., \code{1:10}).
 #' @param vars \strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).
@@ -76,6 +86,7 @@ scaler=function(v, min=0, max=1) {
 #' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
 #' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
+#'
 #' @examples
 #' d=data.table(x1=1:5,
 #'              x4=c(2,2,5,4,5),
@@ -97,11 +108,17 @@ scaler=function(v, min=0, max=1) {
 #'         )]
 #' d
 #' ## It has already changed.
-#'
 #' ## NOTE: ":=" is indeed a special function in the 'data.table' package.
 #' ## See a similar function "mutate()" in the 'dplyr' package: ?dplyr::mutate
 #' ## For data.table, you need NOT to re-assign the tranformed data object,
-#' ## because it can automatically update the variables in situ!
+#' ## because it can automatically update the variables in situ.
+#'
+#' data=as.data.table(bfi)
+#' data[,`:=`(
+#'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+#'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
+#' )]
+#'
 #' @name %%COMPUTE%%
 #' @aliases COUNT SUM MEAN STD CONSEC
 NULL
@@ -121,12 +138,13 @@ convert2vars=function(data,
   if(is.numeric(rev)) rev=paste0(var, rev)  # bug fixed on 2019-09-28
   if(is.character(rev)) rev=which(vars %in% rev)
   vars.raw=vars
-  vars=paste(deparse(substitute(data)), vars, sep="$")
+  # vars=paste(deparse(substitute(data)), vars, sep="$")
+  vars=paste0(deparse(substitute(data)), "$`", vars, "`")
   return(list(vars.raw=vars.raw, vars=vars, rev=rev))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes \strong{Count} a certain value across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes \strong{Count} a certain value across multiple variables.
 #' @export
 COUNT=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
                value=NA) {
@@ -141,7 +159,7 @@ COUNT=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mode} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mode} across multiple variables.
 #' @export
 MODE=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
   getmode=function(v) {
@@ -154,7 +172,7 @@ MODE=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{sum} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{sum} across multiple variables.
 #' @export
 SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -175,7 +193,7 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mean} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mean} across multiple variables.
 #' @export
 MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
               rev=NULL, likert=NULL,
@@ -196,7 +214,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{standard deviation} across multiple variables
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{standard deviation} across multiple variables.
 #' @export
 STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -217,7 +235,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding)
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
 #' @import stringr
 #' @export
 CONSEC=function(data, var=NULL, items=NULL,
@@ -241,14 +259,17 @@ CONSEC=function(data, var=NULL, items=NULL,
 #### Reliability, EFA, and CFA ####
 
 
-#' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation)
+#' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation).
 #'
 #' An extension of \code{jmv::\link[jmv]{reliability}}.
+#'
 #' @inheritParams %%COMPUTE%%
+#'
 #' @examples
 #' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
 #' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 #' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
+#'
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
@@ -259,24 +280,29 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 }
 
 
-#' Exploratory factor analysis (EFA)
+#' Exploratory factor analysis (EFA).
 #'
 #' An extension of \code{jmv::\link[jmv]{efa}}.
+#'
 #' @inheritParams %%COMPUTE%%
+#'
 #' @param vartext Character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).
 #' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.
 #' @param extraction \code{"pa"} (default), \code{"ml"}, or \code{"minres"},
 #' using "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.
 #' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.
 #' @param nFactors An integer (default is 1) fixing the number of factors.
-#'
 #' Only relevant when \code{method="fixed"}.
 #' @param hideLoadings A number (0~1, default is 0.3) for hiding factor loadings below this value.
+#'
 #' @note It does not have the extraction method "Principal Components". You may still use SPSS.
+#'
 #' @seealso
 #' \code{jmv::\link[jmv]{efa}}
+#'
 #' @examples
 #' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
+#'
 #' @export
 EFA=function(data, vartext,
              method="eigen", extraction="pa", rotation="varimax",
@@ -347,24 +373,26 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 }
 
 
-#' Confirmatory factor analysis (CFA)
+#' Confirmatory factor analysis (CFA).
 #'
 #' An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
-## @import jmv
-#' @import lavaan
+#'
 #' @inheritParams %%COMPUTE%%
 #' @param model Model formula. See examples.
 #' @param highorder High-order factor. Default is \code{""}.
 #' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero, and only "lavaan" style will be output.
 #' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).
 #' @param style \code{"jmv"}, \code{"lavaan"}, or both (default).
-#'
 #' If the model has high-order factors, only "lavaan" style will be output.
 #' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 #' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
 #' @param plot \code{TRUE} or \code{FALSE} (default), provide a path diagram of the model.
+#'
 #' @seealso
-#' \code{jmv::\link[jmv]{cfa}}, \code{lavaan::\link[lavaan]{cfa}}
+#' \code{jmv::\link[jmv]{cfa}}
+#'
+#' \code{lavaan::\link[lavaan]{cfa}}
+#'
 #' @examples
 #' data.cfa=lavaan::HolzingerSwineford1939
 #' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
@@ -377,6 +405,8 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' data.bfi=psych::bfi
 #' data.bfi=data.bfi[complete.cases(data.bfi),]
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
+#'
+#' @import lavaan
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",
@@ -385,9 +415,9 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
   model.lav=modelCFA.trans("lavaan", model, highorder)
   if(orthogonal==TRUE | highorder!="") style="lavaan"
   if(plot==TRUE & "lavaan" %notin% style) style=append(style, "lavaan")
+
   Print("#### Latent variable definitions ####")
   cat(model.lav, "\n\n")
-
   results=list()
 
   # jmv style
@@ -426,5 +456,4 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
 
   invisible(results)
 }
-
 

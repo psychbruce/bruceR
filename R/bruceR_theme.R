@@ -1,8 +1,8 @@
 #### Themes for ggplot2 ####
 
-#' A nice \code{ggplot2} theme for scientific publication
+
+#' A nice \code{ggplot2} theme for scientific publication.
 #'
-#' @import ggplot2
 #' @param base.size Basic font size. Default is 12.
 #' @param line.size Line width. Default is 0.5.
 #' @param border \code{TRUE}, \code{FALSE}, or \code{"black"} (default).
@@ -28,6 +28,7 @@
 #' @param line.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis line.
 #' @param tick.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.
 #' @param tick.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.
+#'
 #' @examples
 #' ## Example 1 (bivariate correlation)
 #' d=as.data.table(bfi)
@@ -52,6 +53,8 @@
 #'                      limits=c(0,8), breaks=0:8) +
 #'   scale_fill_brewer(palette="Set1") +
 #'   theme_bruce(bg="wsj")
+#'
+#' @import ggplot2
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
                      border="black",

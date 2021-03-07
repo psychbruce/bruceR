@@ -3,7 +3,7 @@
 **BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.5.8-success)
+![](https://img.shields.io/badge/Version-0.6.0-success)
 ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
 [![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
@@ -28,12 +28,13 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
-Bao, H.-W.-S. (2020). bruceR: Broadly useful collections and extensions of R functions [R package]. https://github.com/psychbruce/bruceR
+Bao, H.-W.-S. (2021). bruceR: Broadly useful collections and extensions of R functions [R package]. https://github.com/psychbruce/bruceR
 
 
 ## User Guide
 
 ### Install
+
 ```r
 #### 安装步骤 ####
 
@@ -56,52 +57,80 @@ devtools::install_github("psychbruce/bruceR")
 
 `bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
 
-Once you load `bruceR` to the global environment with `library()`, it will also load these packages:
-- [Data]:
-  + `rio`: Data input and output (for all file formats within one function).
-  + `dplyr`: Data manipulation and preprocessing.
-  + `tidyr`: Data cleaning and reshaping.
-  + `stringr`: String operations and regular expressions.
-  + `data.table`: Advanced 'data.frame' with higher efficiency.
-- [Stat]:
-  + `psych`: Toolbox for psychological and psychometric research.
-  + `emmeans`: Toolbox for estimated marginal means and contrasts.
-  + `lmerTest`: Tests in linear mixed effects models.
-  + `effectsize`: Indices of effect size and standardized parameters.
-  + `performance`: Assessment of regression models performance.
-- [Plot]:
-  + `ggplot2`: Data visualization.
-  + `cowplot`: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
-  + `ggthemes`: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
-  + `see`: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+Once you load `bruceR` with `library()`, it will also load these packages:
 
-No need to load each one with its own call. Loading `bruceR` is enough.
+- [Data]:
+  + [`rio`](https://cran.r-project.org/package=rio):
+  Data input and output (for all file formats within one function).
+  + [`dplyr`](https://cran.r-project.org/package=dplyr):
+  Data manipulation and preprocessing.
+  + [`tidyr`](https://cran.r-project.org/package=tidyr):
+  Data cleaning and reshaping.
+  + [`stringr`](https://cran.r-project.org/package=stringr):
+  Toolbox for string operation (with regular expressions).
+  + [`forcats`](https://cran.r-project.org/package=forcats):
+  Toolbox for factor manipulation (for categorical variables).
+  + [`data.table`](https://cran.r-project.org/package=data.table):
+  Advanced 'data.frame' with higher efficiency.
+
+- [Stat]:
+  + [`psych`](https://cran.r-project.org/package=psych):
+  Toolbox for psychological and psychometric research.
+  + [`emmeans`](https://cran.r-project.org/package=emmeans):
+  Toolbox for estimated marginal means and contrasts.
+  + [`lmerTest`](https://cran.r-project.org/package=lmerTest):
+  Tests for linear mixed effects models.
+  + [`effectsize`](https://cran.r-project.org/package=effectsize):
+  Indices of effect size and standardized parameters.
+  + [`performance`](https://cran.r-project.org/package=performance):
+  Assessment of regression models performance.
+
+- [Plot]:
+  + [`ggplot2`](https://cran.r-project.org/package=ggplot2):
+  Data visualization.
+  + [`ggstatsplot`](https://cran.r-project.org/package=ggstatsplot):
+  Extension of 'ggplot2' with statistical details.
+  + [`cowplot`](https://cran.r-project.org/package=cowplot):
+  Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
+  + [`ggthemes`](https://cran.r-project.org/package=ggthemes):
+  Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+  + [`see`](https://cran.r-project.org/package=see):
+  Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+
+`library(bruceR)` is enough.
 
 
 ### Main functions in `bruceR`
-- [x] Basic use and analyses (e.g., correlation matrix with plot)
-  + `Print()`, `Describe()`, `Freq()`, `Corr()`, ...
-  + `set.wd()`, `set.seeds()`, `dtime()`, ...
-  + `%notin%`, `%partin%`, ...
-  + `LOOKUP()`, ...
-- [x] Multivariate computing (e.g., scale mean score with reverse scoring)
+
+- [x] Basic use and analysis
+  + `set.wd()`
+  + `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
+  + `Print()`, `Glue()`
+  + `Describe()`, `Freq()`, `Corr()`
+  + `LOOKUP()`, `RANDBETWEEN()`
+- [x] Multivariate computation
   + `RECODE()`, `RESCALE()`
   + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
-- [x] Reliability and validity analyses (e.g., Cronbach's α, exploratory/confirmatory factor analysis)
+- [x] Reliability and validity analysis
   + `Alpha()`
-  + `EFA()`, `CFA()`
-- [x] Analysis of variance, simple-effect analyses, and multiple comparisons
-  + `MANOVA()`, `EMMEANS()`
-- [x] Advanced toolbox and report for regression models and mediation analyses
+  + `EFA()`
+  + `CFA()`
+- [x] Analysis of variance, simple-effect analysis, and multiple comparison
+  + `MANOVA()`
+  + `EMMEANS()`
+- [x] Advanced toolbox for statistics
   + `grand_mean_center()`, `group_mean_center()`
   + `GLM_summary()`, `HLM_summary()`, `regress()`
   + `model_summary()`
   + `med_summary()`
-- [x] Themes for `ggplot2`
+  + `ccf_plot()`
+  + `granger_test`
+- [x] Theme for `ggplot2`
   + `theme_bruce()`
 
 
 ### Learn more from help pages
+
 ```r
 library(bruceR)
 
@@ -122,14 +151,20 @@ library(bruceR)
 
 ## Release Notes
 
-### Current version: `0.5.8`
+### Current version: `0.6.0`
+
 ### Major changes:
+
 - `0.6.0` - 2021.03
-  + New function `model_summary()`: tidy report of (single/multiple) regression models (in console or to a Word/HTML file; based on the `texreg` package; supporting many types of models)
-  + New function `med_summary()`: tidy report of (normal/conditional) mediation analyses (based on the `mediation` package)
+  + New function `model_summary()`: Tidy report of (single/multiple) regression models (into console or to a Word/HTML file; based on the `texreg` package; supporting most types of models)
+  + New function `med_summary()`: Tidy report of (simple/moderated) mediation analyses (based on the `mediation` package)
+  + New function `ccf_plot`: Cross-correlation analysis (plotting with `ggplot2`)
+  + New function `granger_test`: Granger test of predictive causality (based on the `lmtest::grangertest()` function)
   + More R packages for default installation and loading
-  + Tidy welcome messages when `library(bruceR)`
-  + General bug-fixes and improvements
+  + Tidy welcome messages when you `library(bruceR)`
+  + Deprecated some useless/defective functions (see [details](https://github.com/psychbruce/bruceR/blob/master/R/deprecated.R))
+  + Reorganized [raw code files](https://github.com/psychbruce/bruceR/tree/master/R)
+  + Fixed some bugs and improved some functions
 - `0.5.0` - 2020.08
   + Automatically checking updates when `library(bruceR)`
   + Requiring R version 4.0+

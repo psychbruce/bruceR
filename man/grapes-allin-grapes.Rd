@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{\%allin\%}
 \alias{\%allin\%}
-\title{A simple extension of \code{\%in\%}}
+\title{A simple extension of \code{\%in\%}.}
 \usage{
 x \%allin\% vector
 }
@@ -12,11 +12,12 @@ x \%allin\% vector
 \item{vector}{Numeric or character vector.}
 }
 \description{
-A simple extension of \code{\%in\%}
+A simple extension of \code{\%in\%}.
 }
 \examples{
 1:2 \%allin\% 1:3  # TRUE
 3:4 \%allin\% 1:3  # FALSE
+
 }
 \seealso{
 \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}

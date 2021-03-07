@@ -2,21 +2,25 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{formatF}
 \alias{formatF}
-\title{Format numeric values}
+\title{Format numeric values.}
 \usage{
 formatF(x, nsmall = 3)
 }
 \arguments{
-\item{x}{Any R object, typically numeric.}
+\item{x}{A number or numeric vector.}
 
-\item{nsmall}{Number of decimal places of output. Default is 3.}
+\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
 }
 \value{
 Formatted character string.
 }
 \description{
-Format numeric values
+Format numeric values.
 }
 \examples{
-formatF(pi)
+formatF(pi, 20)
+
+}
+\seealso{
+\code{\link{formatN}}
 }

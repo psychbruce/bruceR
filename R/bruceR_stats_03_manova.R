@@ -1,7 +1,3 @@
-#### t test ####
-
-
-
 #### MANOVA ####
 
 ## Demo data
@@ -28,10 +24,12 @@ if(FALSE) {
 }
 
 
-#' Multivariate ANOVA
+#' Multi-factor ANOVA.
 #'
-#' Easily perform MANOVA (between-subjects, within-subjects, and mixed design).
+#' @description
+#' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
 #'
+#' @details
 #' This function is based on and extends the \code{\link[afex]{aov_ez}} function in the R package \code{afex}.
 #' You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
 #' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
@@ -71,6 +69,7 @@ if(FALSE) {
 #'     }
 #'   }
 #' }
+#'
 #' @param data Data object (e.g., \code{data.frame, data.table}). Both \strong{long-format} and \strong{wide-format} can be used.
 #' \itemize{
 #'   \item If you input a \strong{long-format} data, please also specify \strong{subID}.
@@ -131,6 +130,7 @@ if(FALSE) {
 #' The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 #' (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
 #' @param nsmall Number of decimal places of output. Default is 2.
+#'
 #' @examples
 #' #### Between-Subjects Design ####
 #'
@@ -189,13 +189,16 @@ if(FALSE) {
 #' MANOVA(data=afex::obk.long, subID="id", dv="value",
 #'        between=c("treatment", "gender"), within=c("phase", "hour"), cov="age",
 #'        sph.correction="GG")
+#'
 #' @references
 #' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
 #' \emph{Psychological Methods, 8}(4), 434-447. \url{https://doi.org/10.1037/1082-989X.8.4.434}
 #'
 #' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
 #' \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
+#'
 #' @seealso \code{\link{EMMEANS}}
+#'
 #' @export
 MANOVA=function(data, subID=NULL, dv=NULL,
                 dvs=NULL, dvs.pattern="",
@@ -362,12 +365,14 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 }
 
 
-#' Simple-effect analyses (for interactions) and post-hoc multiple comparisons (for factors with >= 3 levels)
+#' Simple-effect analysis and post-hoc multiple comparison.
 #'
-#' Easily perform 1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
-#' and 2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
+#' @description
+#' Easily perform (1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
+#' and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
 #' (using methods such as Bonferroni, Tukey's HSD, and FDR).
 #'
+#' @details
 #' This function is based on and extends the 1) \code{\link[emmeans]{joint_tests}}, 2) \code{\link[emmeans]{emmeans}}, and 3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
 #' You only need to specify the model object, to-be-tested effect(s), and moderator(s).
 #' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
@@ -378,16 +383,19 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons". Unfortunately, such a confusion is not uncommon.
 #' Here, I explain what these terms actually refer to.
 #' \describe{
-#'   \item{\strong{1. Simple Effects}}{
-#'     When we speak of "simple effects", we are referring to ...
+#'   \item{\strong{1. Simple Effect}}{
+#'     When we speak of "simple effect", we are referring to ...
 #'     \itemize{
-#'       \item simple main effects
-#'       \item simple interaction effects (only for designs with 3 or more factors)
-#'       \item simple simple effects (only for designs with 3 or more factors)
+#'       \item simple main effect
+#'       \item simple interaction effect (only for designs with 3 or more factors)
+#'       \item simple simple effect (only for designs with 3 or more factors)
 #'     }
-#'     When the interaction effects in ANOVA are significant, we should then perform a "simple-effect analysis".
-#'     In ANOVA, we call it "simple-effect analysis"; in regression, we also call it "simple-slope analysis".
-#'     They are identical in statistical principles. Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
+#'     When the interaction effect in ANOVA is significant,
+#'     we should then perform a "simple-effect analysis".
+#'     In ANOVA, we call it "simple-effect analysis";
+#'     in regression, we also call it "simple-slope analysis".
+#'     They are identical in statistical principles.
+#'     Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
 #'
 #'     In a regular two-factors design, we only test \strong{"simple main effects"}.
 #'     That is, on the different levels of a factor "B", the main effects of "A" would be different.
@@ -405,7 +413,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #'     To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
 #'   }
-#'   \item{\strong{2. Post-Hoc Tests}}{
+#'   \item{\strong{2. Post-Hoc Test}}{
 #'     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
 #'     However, these two terms should be distinguished. In many situations and softwares,
 #'     "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
@@ -415,7 +423,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'     Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
 #'     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
 #'   }
-#'   \item{\strong{3. Multiple Comparisons}}{
+#'   \item{\strong{3. Multiple Comparison}}{
 #'     As mentioned above, multiple comparisons are post-hoc tests by its nature but do NOT have any relationship with simple-effect analyses.
 #'     In other words, "(post-hoc) multiple comparisons" are \strong{independent of} "interaction effects" and "simple effects".
 #'     What's more, when the simple main effect is of a factor with 3 or more levels, we also need to do multiple comparisons (e.g., pairwise comparisons) \emph{within} the simple-effect analysis.
@@ -434,7 +442,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'     }
 #'   }
 #' }
-#' @import emmeans
+#'
 #' @param model A model fitted by \code{\link{MANOVA}} or \code{\link[afex]{aov_ez}}.
 #' @param effect The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
 #' If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.
@@ -469,6 +477,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
 #' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
 #' Then, you may set \code{repair="TRUE"} to have the adjusted results.
+#'
 #' @examples
 #' #### Between-Subjects Design ####
 #'
@@ -552,7 +561,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'        covariate=c("Solar.R", "Wind")) %>%
 #'   EMMEANS("Month", contrast="seq") %>%
 #'   EMMEANS("Month", by="Day.1or2", contrast="poly")
+#'
 #' @seealso \code{\link{MANOVA}}
+#'
+#' @import emmeans
 #' @export
 EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
