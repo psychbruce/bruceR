@@ -22,7 +22,8 @@ formula_paste=function(formula) {
 #' @examples
 #' formula_expand(y ~ a*b*c)
 #'
-#' @import stringr
+#' @importFrom stringr str_extract str_extract_all str_remove_all
+#' @importFrom stats terms.formula as.formula
 #' @export
 formula_expand=function(formula) {
   inter_expand=function(inter) paste(attr(terms.formula(as.formula(paste("~", inter))), "term.labels"), collapse=" + ")
@@ -76,7 +77,7 @@ find=function(vars, list) {
 #'
 #' @seealso \code{\link{group_mean_center}}
 #'
-#' @import data.table
+#' @importFrom data.table is.data.table as.data.table
 #' @export
 grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
   data_c=as.data.frame(data)
@@ -107,7 +108,7 @@ grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
 #'
 #' @seealso \code{\link{grand_mean_center}}
 #'
-#' @import data.table
+#' @importFrom data.table is.data.table as.data.table
 #' @export
 group_mean_center=function(data, vars, by,
                            std=FALSE,
@@ -504,6 +505,10 @@ GLM_anova=function(model, add.total=TRUE) {
 #'
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
+#' @importFrom stats qt
+#' @importFrom jtools summ
+#' @importFrom MuMIn std.coef
+#' @importFrom performance r2_nagelkerke
 #' @export
 GLM_summary=function(model, robust=FALSE, cluster=NULL,
                      nsmall=3, ...) {
@@ -591,7 +596,7 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
     ## Print: Standardized Coefficients ##
     if(nrow(FE)>1) {
-      FE.std=MuMIn::std.coef(model, partial.sd=FALSE) %>% as.data.frame() %>% .[-1, 1:2]
+      FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
       # FE.std=sjstats::std_beta(model)[2:3]
       # row.names(FE.std)=row.names(FE)[-1]
       names(FE.std)=c("Beta*", "S.E.*")
@@ -716,8 +721,6 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
 
 ## Automatically judging variable types in HLM
-## @import glue
-## @import stringr
 HLM_vartypes=function(model=NULL,
                       formula=model@call$formula,
                       level2.predictors="") {
@@ -728,8 +731,7 @@ HLM_vartypes=function(model=NULL,
   formula=formula_expand(formula)
   fx=as.character(formula)[3]
   ## Level-1 predictor variables with random slopes
-  L1.rand.comp=str_extract_all(fx, "(?<=\\()[^\\)]+(?=\\))", simplify=T) %>%
-    gsub(" ", "", .) %>% str_split("\\|")
+  L1.rand.comp=gsub(" ", "", str_extract_all(fx, "(?<=\\()[^\\)]+(?=\\))", simplify=T)) %>% str_split("\\|")
   for(comp in L1.rand.comp) {
     vars.1=str_split(comp[1], "\\+")  # a list
     for(var in vars.1[[1]]) {
@@ -974,8 +976,10 @@ print_variance_ci=function(model) {
 #' # 1) 'Consumer' is a grouping/clustering variable
 #' # 2) 'Sweetness' is a level-1 predictor
 #' # 3) 'Age' and 'Frequency' are level-2 predictors
-#' hlm.1=lmer(Preference ~ Sweetness + Age + Frequency + (1 | Consumer), data=carrots)
-#' hlm.2=lmer(Preference ~ Sweetness + Age + Frequency + (Sweetness | Consumer) + (1 | Product), data=carrots)
+#' hlm.1=lmer(Preference ~ Sweetness + Age + Frequency +
+#'              (1 | Consumer), data=carrots)
+#' hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
+#'              (Sweetness | Consumer) + (1 | Product), data=carrots)
 #' HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 #' HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 #' # anova(hlm.1, hlm.2)
@@ -996,6 +1000,9 @@ print_variance_ci=function(model) {
 #'
 #' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
 #'
+#' @importFrom car Anova
+#' @importFrom stats qt var model.response model.frame
+#' @importFrom MuMIn std.coef r.squaredGLMM
 #' @export
 HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
@@ -1107,7 +1114,7 @@ HLM_summary=function(model=NULL,
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0, nsmall, nsmall))
     Print("<<blue 'df' is estimated by Satterthwaite approximation.>>")
     if(nrow(FE)>1) {
-      FE.std=MuMIn::std.coef(model, partial.sd=FALSE) %>% as.data.frame() %>% .[-1, 1:2]
+      FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
       # FE.std=sjstats::std_beta(model)[2:3]
       # row.names(FE.std)=row.names(FE)[-1]
       names(FE.std)=c("Gamma*", "S.E.*")
@@ -1232,7 +1239,7 @@ HLM_summary=function(model=NULL,
   # ANOVA-like table for random-effects: Single term deletions
   if(test.rand) {
     cat("\n")
-    RE.test=rand(model) # the same: ranova()
+    RE.test=lmerTest::rand(model) # the same: ranova()
     print(RE.test)
   }
 

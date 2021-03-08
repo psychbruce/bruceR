@@ -48,8 +48,8 @@ d[,`:=`(
 Describe(bfi[c("age", "gender", "education")])
 Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
 
-Describe(airquality, plot=TRUE, smooth="lm",
-         save.file="Descriptive Statistics.png",
-         width=10, height=8, dpi=500)
+# Describe(airquality, plot=TRUE, smooth="lm",
+#          save.file="Descriptive Statistics.png",
+#          width=10, height=8, dpi=500)
 
 }

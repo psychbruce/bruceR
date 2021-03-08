@@ -64,4 +64,5 @@ med.lmm=mediate(lmm.m, lmm.y,
 # Monte Carlo simulation (quasi-Bayesian approximation)
 # (bootstrap method is not applicable to "lmer" models)
 med_summary(med.lmm)
+
 }

@@ -34,6 +34,7 @@ RECODE=function(var, recodes) {
 #'         var2=RESCALE(var, from=1:5, to=1:7))]
 #' d  # var1 is equal to var2
 #'
+#' @importFrom stats median
 #' @export
 RESCALE=function(var, from=range(var, na.rm=T), to) {
   (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
@@ -68,9 +69,9 @@ scaler=function(v, min=0, max=1) {
 #'
 #' Three ways to specify the variable list:
 #' \enumerate{
-#'   \item \code{\strong{var + items}}: use the common and unique parts of variable names.
-#'   \item \code{\strong{vars}}: manually define the variable list.
-#'   \item \code{\strong{varrange}}: use the start and stop positions.
+#'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
+#'   \item \strong{\code{vars}}: manually define the variable list.
+#'   \item \strong{\code{varrange}}: use the start and stop positions.
 #' }
 #'
 #' @param data Data frame.
@@ -215,6 +216,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{standard deviation} across multiple variables.
+#' @importFrom stats sd
 #' @export
 STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -236,7 +238,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
-#' @import stringr
+#' @importFrom stringr str_extract_all
 #' @export
 CONSEC=function(data, var=NULL, items=NULL,
                 vars=NULL,
@@ -270,13 +272,17 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 #' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
 #'
+#' @seealso
+#' \code{jmv::\link[jmv]{reliability}}
+#'
+#' @importFrom jmv reliability
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
   if(is.numeric(rev)) rev=paste0(var, rev)
-  jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
-                   meanScale=TRUE, sdScale=TRUE,
-                   itemRestCor=TRUE, alphaItems=TRUE)
+  reliability(data, vars=eval(vars), revItems=eval(rev),
+              meanScale=TRUE, sdScale=TRUE,
+              itemRestCor=TRUE, alphaItems=TRUE)
 }
 
 
@@ -303,20 +309,21 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 #' @examples
 #' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 #'
+#' @importFrom jmv efa
 #' @export
 EFA=function(data, vartext,
              method="eigen", extraction="pa", rotation="varimax",
              nFactors=1, hideLoadings=0.3) {
-  jmv::efa(data, vars=eval(expand_vars(vartext)),
-           nFactorMethod=method, # "eigen", "parallel", "fixed"
-           extraction=extraction, # "pa", "ml", "minres"
-           rotation=rotation, # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
-           minEigen=1,
-           nFactors=nFactors,
-           hideLoadings=hideLoadings, sortLoadings=TRUE,
-           screePlot=TRUE, eigen=TRUE,
-           factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
-           kmo=TRUE, bartlett=TRUE)
+  efa(data, vars=eval(expand_vars(vartext)),
+      nFactorMethod=method,  # "eigen", "parallel", "fixed"
+      extraction=extraction,  # "pa", "ml", "minres"
+      rotation=rotation,  # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
+      minEigen=1,
+      nFactors=nFactors,
+      hideLoadings=hideLoadings, sortLoadings=TRUE,
+      screePlot=TRUE, eigen=TRUE,
+      factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
+      kmo=TRUE, bartlett=TRUE)
 }
 
 
@@ -406,7 +413,8 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' data.bfi=data.bfi[complete.cases(data.bfi),]
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 #'
-#' @import lavaan
+#' @importFrom lavaan cfa modificationIndices
+#' @importFrom semPlot semPaths
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",
@@ -449,8 +457,8 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
     cat("#### lavaan style output ####\n\n")
     summary(fit.lav, fit.measures=TRUE, standard=TRUE)
     if(MI) print(modificationIndices(fit.lav))
-    if(plot) semPlot::semPaths(fit.lav, "std", curveAdjacent=TRUE,
-                               style="lisrel", nDigits=2, edge.label.cex=1)
+    if(plot) semPaths(fit.lav, "std", curveAdjacent=TRUE,
+                      style="lisrel", nDigits=2, edge.label.cex=1)
     results=c(results, fit.lavaan=fit.lav)
   }
 

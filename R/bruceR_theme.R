@@ -55,6 +55,7 @@
 #'   theme_bruce(bg="wsj")
 #'
 #' @import ggplot2
+#' @importFrom grDevices windowsFont windowsFonts
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
                      border="black",

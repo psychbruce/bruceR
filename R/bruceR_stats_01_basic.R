@@ -31,14 +31,17 @@ p=function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
 }
 
 #' @describeIn p Two-tailed \emph{p} value of \emph{z}.
+#' @importFrom stats pnorm
 #' @export
 p.z=function(z) pnorm(abs(z), lower.tail=FALSE)*2
 
 #' @describeIn p Two-tailed \emph{p} value of \emph{t}.
+#' @importFrom stats pt
 #' @export
 p.t=function(t, df) pt(abs(t), df, lower.tail=FALSE)*2
 
 #' @describeIn p One-tailed \emph{p} value of \emph{F}. (Note: \emph{F} test is one-tailed only.)
+#' @importFrom stats pf
 #' @export
 p.f=function(f, df1, df2) pf(f, df1, df2, lower.tail=FALSE)
 
@@ -47,6 +50,7 @@ p.f=function(f, df1, df2) pf(f, df1, df2, lower.tail=FALSE)
 p.r=function(r, n) p.t(r/sqrt((1-r^2)/(n-2)), n-2)
 
 #' @describeIn p One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
+#' @importFrom stats pchisq
 #' @export
 p.chi2=function(chi2, df) pchisq(chi2, df, lower.tail=FALSE)
 
@@ -134,17 +138,20 @@ sig.trans=function(p) {
 #' Describe(bfi[c("age", "gender", "education")])
 #' Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
 #'
-#' Describe(airquality, plot=TRUE, smooth="lm",
-#'          save.file="Descriptive Statistics.png",
-#'          width=10, height=8, dpi=500)
+#' # Describe(airquality, plot=TRUE, smooth="lm",
+#' #          save.file="Descriptive Statistics.png",
+#' #          width=10, height=8, dpi=500)
 #'
+#' @importFrom psych describe
+#' @importFrom GGally ggpairs wrap
+#' @importFrom ggplot2 ggsave
 #' @export
 Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
                   save.file=NULL, width=8, height=6, dpi=500) {
   Print("Descriptive statistics:")
 
   if(is.numeric(data)) data=data.frame(X=data)
-  desc=psych::describe(data, fast=FALSE) %>% as.data.frame()
+  desc=as.data.frame(describe(data, fast=FALSE))
   desc$vars = desc$trimmed = desc$mad = desc$range = desc$se = NULL
   names(desc)=c("N", "Mean", "SD", "Median", "Min", "Max", "Skewness", "Kurtosis")
   desc$`|`="|"
@@ -166,17 +173,18 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
 
   p=NULL
   if(plot) {
-    smooth=ifelse(smooth=="none", "points",
-                  ifelse(smooth=="lm", "smooth",
-                         ifelse(smooth=="loess", "smooth_loess")))
-    p=GGally::ggpairs(data,
-                      lower=list(continuous=GGally::wrap(smooth, size=1, shape=16, alpha=0.3)),
-                      upper=list(continuous=GGally::wrap("cor", color="black"))) +
+    smooth=switch(smooth,
+                  "none"="points",
+                  "lm"="smooth",
+                  "loess"="smooth_loess")
+    p=ggpairs(data,
+              lower=list(continuous=wrap(smooth, size=1, shape=16, alpha=0.3)),
+              upper=list(continuous=wrap("cor", color="black"))) +
       theme_bruce(panel.bg="grey95")
     if(is.null(save.file)) {
       print(p)
     } else {
-      ggplot2::ggsave(save.file, p, width=width, height=height, dpi=dpi)
+      ggsave(plot=p, filename=save.file, width=width, height=height, dpi=dpi)
       path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }
@@ -209,14 +217,15 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
                       dimnames=list(label, "N")),
                matrix(round(tableVar/N*100, nsmall),
                       dimnames=list(label, "%")))
-  if(N.na) output=rbind(output, matrix(c(N.na, round(N.na/N*100, nsmall)),
-                                       ncol=2, dimnames=list("NA")))
+  if(N.na) output=rbind(output,
+                        matrix(c(N.na, round(N.na/N*100, nsmall)),
+                               ncol=2, dimnames=list("NA")))
   if(sort=="")
-    print_table(output, nsmall=c(0, nsmall))
+    print_table(output, nsmalls=c(0, nsmall))
   else if(sort=="-")
-    print_table(output[order(output[,"N"], decreasing=T),], nsmall=c(0, nsmall))
+    print_table(output[order(output[,"N"], decreasing=T),], nsmalls=c(0, nsmall))
   else if(sort=="+")
-    print_table(output[order(output[,"N"], decreasing=F),], nsmall=c(0, nsmall))
+    print_table(output[order(output[,"N"], decreasing=F),], nsmalls=c(0, nsmall))
   Print("Total <<italic N>> = {formatN(N)}")
   if(N.na>0) Print("Valid <<italic N>> = {formatN(N-N.na)}")
 
@@ -238,11 +247,13 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' @examples
 #' Corr(airquality)
 #' Corr(airquality, p.adjust="bonferroni")
-#' Corr(airquality, save.file="Air-Corr.png")
+#' # Corr(airquality, save.file="Air-Corr.png")
 #'
 #' Corr(bfi[c("gender", "age", "education")])
-#' Corr(bfi, CI=FALSE, save.file="BFI-Corr.png", width=9, height=9)
+#' # Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
 #'
+#' @importFrom psych corr.test cor.plot
+#' @importFrom grDevices colorRampPalette png dev.off
 #' @export
 Corr=function(data, method="pearson", nsmall=2,
               p.adjust="none",
@@ -258,22 +269,20 @@ Corr=function(data, method="pearson", nsmall=2,
     }
   }
 
-  cor=cor0=psych::corr.test(data, method=method, adjust=p.adjust)
+  cor=cor0=corr.test(data, method=method, adjust=p.adjust)
   # print(cor, digits=nsmall, short=!CI)
 
-  Method=Hmisc::capitalize(method)
-  Print("Correlation matrix ({Method}'s <<italic r>>):")
+  Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
   cor$r[cor$r==1]=NA
   print_table(cor$r, nsmalls=nsmall)
 
   Print("\n\n\nSig. (2-tailed):")
-  cor$p=p.trans2(cor$p) %>% gsub(" ", "", .) %>% gsub("=", " ", .)
+  cor$p=gsub("=", " ", gsub(" ", "", p.trans2(cor$p)))
   for(i in 1:nrow(cor$p)) cor$p[i,i]=""
   print_table(cor$p)
 
   if(p.adjust!="none") {
-    P.adjust=Hmisc::capitalize(p.adjust)
-    Print("<<blue P-values above the diagonal are adjusted for multiple tests ({P.adjust} method).>>")
+    Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(p.adjust)} method).>>")
   }
 
   if("matrix" %in% class(cor$n)) {
@@ -298,14 +307,14 @@ Corr=function(data, method="pearson", nsmall=2,
   cor=cor0
   if(plot) {
     if(!is.null(save.file)) {
-      png(file=save.file, width=width, height=height, units="in", res=dpi)
+      png(filename=save.file, width=width, height=height, units="in", res=dpi)
     }
-    psych::cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
-                    diag=FALSE, xlas=2, n=201,
-                    pval=cor$p, stars=TRUE,
-                    alpha=1,
-                    gr=colorRampPalette(plot.color),
-                    main="Correlation Matrix")
+    cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
+             diag=FALSE, xlas=2, n=201,
+             pval=cor$p, stars=TRUE,
+             alpha=1,
+             gr=colorRampPalette(plot.color),
+             main="Correlation Matrix")
     if(!is.null(save.file)) {
       dev.off()
       path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
@@ -336,10 +345,10 @@ Corr=function(data, method="pearson", nsmall=2,
 #'
 #' @examples
 #' # two independent rs (X~Y vs. Z~W)
-#' Corr_diff(r1=0.20, n1=100, r2=0.45, n2=100)
+#' cor_diff(r1=0.20, n1=100, r2=0.45, n2=100)
 #'
 #' # two nonindependent rs (X~Y vs. X~Z, with Y and Z also correlated [rcov])
-#' Corr_diff(r1=0.20, r2=0.45, n=100, rcov=0.80)
+#' cor_diff(r1=0.20, r2=0.45, n=100, rcov=0.80)
 #'
 #' @export
 cor_diff=function(r1, n1, r2, n2, n=NULL, rcov=NULL) {

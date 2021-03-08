@@ -29,9 +29,9 @@ Test the difference between two correlations (independent / nonindependent).
 }
 \examples{
 # two independent rs (X~Y vs. Z~W)
-Corr_diff(r1=0.20, n1=100, r2=0.45, n2=100)
+cor_diff(r1=0.20, n1=100, r2=0.45, n2=100)
 
 # two nonindependent rs (X~Y vs. X~Z, with Y and Z also correlated [rcov])
-Corr_diff(r1=0.20, r2=0.45, n=100, rcov=0.80)
+cor_diff(r1=0.20, r2=0.45, n=100, rcov=0.80)
 
 }

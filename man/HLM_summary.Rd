@@ -85,8 +85,10 @@ HLM_summary(m3)
 # 1) 'Consumer' is a grouping/clustering variable
 # 2) 'Sweetness' is a level-1 predictor
 # 3) 'Age' and 'Frequency' are level-2 predictors
-hlm.1=lmer(Preference ~ Sweetness + Age + Frequency + (1 | Consumer), data=carrots)
-hlm.2=lmer(Preference ~ Sweetness + Age + Frequency + (Sweetness | Consumer) + (1 | Product), data=carrots)
+hlm.1=lmer(Preference ~ Sweetness + Age + Frequency +
+             (1 | Consumer), data=carrots)
+hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
+             (Sweetness | Consumer) + (1 | Product), data=carrots)
 HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 # anova(hlm.1, hlm.2)

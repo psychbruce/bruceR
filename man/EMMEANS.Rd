@@ -18,7 +18,7 @@ EMMEANS(
 )
 }
 \arguments{
-\item{model}{A model fitted by \code{\link{MANOVA}} or \code{\link[afex]{aov_ez}}.}
+\item{model}{A model fitted by \code{\link{MANOVA}} or \code{afex::aov_ez}.}
 
 \item{effect}{The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
 If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.}
@@ -28,7 +28,7 @@ If set to a character vector (e.g., \code{c("A", "B")}), it will also output the
 \item{contrast}{Contrast method for multiple comparisons. Default is \code{"pairwise"}.
 
 Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
-For details, see \code{emmeans::\link[emmeans]{contrast-methods}}.}
+For details, see \code{emmeans::contrast-methods}.}
 
 \item{p.adjust}{Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
 For polynomial contrasts, default is \code{"none"}.
@@ -36,7 +36,7 @@ For polynomial contrasts, default is \code{"none"}.
 Alternatives can be \code{"none"; "fdr", "hochberg", "hommel", "holm"; "tukey", "mvt", "dunnettx", "sidak", "scheffe", "bonferroni"}.
 The latter six methods are recommended!
 
-For details, see \code{stats::\link[stats]{p.adjust}} and \code{emmeans::\link[emmeans]{confint.emmGrid}}.}
+For details, see \code{stats::p.adjust} and \code{emmeans::confint.emmGrid}.}
 
 \item{cohen.d}{Method to compute Cohen's \emph{d} in multiple comparisons.
 Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.
@@ -49,7 +49,7 @@ However, its CI estimates seem a little bit confusing.
 For details about this method, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
 
 Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
-\emph{t}-to-\emph{r} (\code{\link[psych]{t2r}}) and \emph{r}-to-\emph{d} (\code{\link[psych]{r2d}}) transformations.}
+\emph{t}-to-\emph{r} (\code{psych::t2r}) and \emph{r}-to-\emph{d} (\code{psych::r2d}) transformations.}
 
 \item{nsmall}{Number of decimal places of output. Default is 2.}
 
@@ -141,7 +141,7 @@ Here, I explain what these terms actually refer to.
 \examples{
 #### Between-Subjects Design ####
 
-View(between.1)
+# View(between.1)
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
@@ -151,14 +151,14 @@ MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
 MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="poly")
 
-View(between.2)
+# View(between.2)
 MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) \%>\%
   EMMEANS("A") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B") \%>\%
   EMMEANS("B", by="A")
 
-View(between.3)
+# View(between.3)
 MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
@@ -169,19 +169,19 @@ MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
 
 #### Within-Subjects Design ####
 
-View(within.1)
+# View(within.1)
 MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
        within="A") \%>\%
   EMMEANS("A")
 
-View(within.2)
+# View(within.2)
 MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A") \%>\%  # with some errors
   EMMEANS("B", by="A", repair=TRUE)
 
-View(within.3)
+# View(within.3)
 MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
@@ -191,20 +191,20 @@ MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 
 #### Mixed Design ####
 
-View(mixed.2_1b1w)
+# View(mixed.2_1b1w)
 MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B", sph.correction="GG") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 
-View(mixed.3_1b2w)
+# View(mixed.3_1b2w)
 MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
 
-View(mixed.3_2b1w)
+# View(mixed.3_2b1w)
 MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
        between=c("A", "C"), within="B") \%>\%
   EMMEANS("A", by="B") \%>\%

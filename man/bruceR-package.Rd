@@ -22,11 +22,9 @@ Once you load \code{bruceR} with \code{library()}, it will also load these packa
   \item \strong{\code{data.table}}: Advanced 'data.frame' with higher efficiency.
   \item \strong{\code{psych}}: Toolbox for psychological and psychometric research.
   \item \strong{\code{emmeans}}: Toolbox for estimated marginal means and contrasts.
-  \item \strong{\code{lmerTest}}: Tests for linear mixed effects models.
   \item \strong{\code{effectsize}}: Indices of effect size and standardized parameters.
   \item \strong{\code{performance}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
   \item \strong{\code{ggplot2}}: Data visualization.
-  \item \strong{\code{ggstatsplot}}: Extension of 'ggplot2' with statistical details.
   \item \strong{\code{cowplot}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
   \item \strong{\code{ggthemes}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
   \item \strong{\code{see}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).

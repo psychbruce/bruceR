@@ -54,7 +54,7 @@ LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 
 }
 \seealso{
-\code{dplyr::\link[dplyr]{left_join}}
+\code{dplyr::left_join}
 
 \href{https://support.office.com/en-us/article/XLOOKUP-function-B7FD680E-6D10-43E6-84F9-88EAE8BF5929}{XLOOKUP: Excel's new function, the VLOOKUP "slayer" (August 2019)}
 

@@ -49,9 +49,9 @@ Correlation analysis with test and plot.
 \examples{
 Corr(airquality)
 Corr(airquality, p.adjust="bonferroni")
-Corr(airquality, save.file="Air-Corr.png")
+# Corr(airquality, save.file="Air-Corr.png")
 
 Corr(bfi[c("gender", "age", "education")])
-Corr(bfi, CI=FALSE, save.file="BFI-Corr.png", width=9, height=9)
+# Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
 
 }

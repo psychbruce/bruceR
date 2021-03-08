@@ -97,9 +97,10 @@
 #'
 #' @seealso \code{\link{setwd}}
 #'
+#' @importFrom rstudioapi getSourceEditorContext
 #' @export
 set.wd=function(dir=NULL) {
-  if(is.null(dir)) dir=dirname(rstudioapi::getSourceEditorContext()$path)
+  if(is.null(dir)) dir=dirname(getSourceEditorContext()$path)
   setwd(dir)
   path=getwd()
   Print("<<green \u2714>> Set working directory to <<blue '{path}'>>")
@@ -121,6 +122,8 @@ set.wd=function(dir=NULL) {
 #' pkg_depend("dplyr", exclude="tidyverse")  # no unique contribution
 #' pkg_depend("lme4", exclude=c("tidyverse", "ggstatsplot"))  # no unique contribution
 #'
+#' @importFrom tools package_dependencies
+## @importFrom utils packageDescription
 #' @export
 pkg_depend=function(pkg, exclude=NULL) {
   default.pkgs=c("base", "boot", "class", "cluster", "codetools", "compiler",
@@ -130,17 +133,17 @@ pkg_depend=function(pkg, exclude=NULL) {
                  "tcltk", "tools", "translations", "utils")
   exclude.pkgs=default.pkgs
   for(ex in exclude)
-    exclude.pkgs=union(exclude.pkgs, unlist(tools::package_dependencies(ex, recursive=TRUE)))
-  pkgs=unlist(tools::package_dependencies(pkg, recursive=TRUE))
+    exclude.pkgs=union(exclude.pkgs, unlist(package_dependencies(ex, recursive=TRUE)))
+  pkgs=unlist(package_dependencies(pkg, recursive=TRUE))
   pkgs=sort(setdiff(union(pkg, pkgs), exclude.pkgs))
   if(length(pkgs)==0) {
     Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>")
   } else {
     if(is.null(exclude)==FALSE)
       Print("<<blue Package <<green '{pkg}'>> is NOT a dependency of your excluded package(s).>>")
-    packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
-    View(packages, pkg)
-    invisible(packages)
+    # packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
+    # View(packages, pkg)
+    return(pkgs)
   }
 }
 
@@ -171,7 +174,7 @@ pkg_depend=function(pkg, exclude=NULL) {
 #'        <<italic <<green 1 + 1 = {1 + 1}.>>>>
 #'        sqrt({x}) = <<red {sqrt(x):.3}>>", x=10)
 #'
-#' @import glue
+#' @importFrom glue glue glue_col
 #' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
 #' @export
 Print=function(...) {
@@ -188,7 +191,7 @@ Print=function(...) {
 
 #' @describeIn Print Paste strings.
 #'
-#' @import glue
+#' @importFrom glue glue glue_col
 #' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
 #' @export
 Glue=function(...) {
@@ -226,6 +229,14 @@ rep_char=function(char, rep.times) {
 }
 
 
+## Capitalize the first letter of a string.
+capitalize=function(string) {
+  capped=grep("^[A-Z]", string, invert = TRUE)
+  substr(string[capped], 1, 1)=toupper(substr(string[capped], 1, 1))
+  return(string)
+}
+
+
 #' Print a three-line table.
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
@@ -236,6 +247,7 @@ rep_char=function(char, rep.times) {
 #' model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' print_table(model)
 #'
+#' @importFrom stats coef
 #' @export
 print_table=function(x, row.names=TRUE, nsmalls=3) {
   ## Preprocess data.frame ##
@@ -368,6 +380,7 @@ formatF=function(x, nsmall=3) {
 #' RGB(255, 0, 0)  # red: "#FF0000"
 #' RGB(255, 0, 0, 0.8)  # red with 80\% opacity: "#FF0000CC"
 #'
+#' @importFrom grDevices rgb
 #' @export
 RGB=function(r, g, b, alpha) {
   rgb(r/255, g/255, b/255, alpha)
@@ -432,7 +445,7 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' You may also set it to \code{"new.var"} or \code{"new.value"}.
 #'
 #' @seealso
-#' \code{dplyr::\link[dplyr]{left_join}}
+#' \code{dplyr::left_join}
 #'
 #' \href{https://support.office.com/en-us/article/XLOOKUP-function-B7FD680E-6D10-43E6-84F9-88EAE8BF5929}{XLOOKUP: Excel's new function, the VLOOKUP "slayer" (August 2019)}
 #'
@@ -454,7 +467,7 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 #'
-#' @import data.table
+#' @importFrom data.table is.data.table as.data.table
 #' @importFrom dplyr left_join
 #' @export
 LOOKUP=function(data, vars,
@@ -468,10 +481,12 @@ LOOKUP=function(data, vars,
                      data.ref[c(vars.ref, vars.lookup)],
                      by=by)
   if(nrow(data.new)>nrow(data)) {
+    data.ref=as.data.table(data.ref)
     data.ref=unique(data.ref, by=vars.ref)
     data.new=left_join(data,
                        data.ref[c(vars.ref, vars.lookup)],
                        by=by)
+    data.new=as.data.frame(data.new)
     warning("More than one values were matched, only the first value in 'data.ref' was returned. Please check your reference data!")
   }
   if(length(return)==3) return="new.data"

@@ -9,26 +9,28 @@ Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
 Description: Packing many useful R packages and functions into one package.
              Making data analyses and statistics more elegant.
-License: GPL-3
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
 Imports: rio, dplyr, tidyr, stringr, forcats, data.table,
-         psych, emmeans, lmerTest, effectsize, performance,
-         ggplot2, ggstatsplot, cowplot, ggthemes, see,
-         mediation, interactions, processR, lavaan, metafor, apaTables,
-         AER, jmv, BayesFactor,
-         nnet, caret, party, randomForest,
-         correlation, forecast, JSmediation,
-         irr, pwr, simr, r2mlm, multilevel, lmtest, MBESS, MuMIn,
-         texreg, reghelper, semPlot,
-         ggrepel, ggsignif, ggExtra, ggridges,
-         glue, crayon, Hmisc, lubridate,
-         rvest, curl, xml2,
-         jsonlite, knitr, foreach,
-         pacman, rstudioapi, lifecycle
-Suggests: installr, summarytools, wordcloud2
-RdMacros: lifecycle
+         psych, emmeans, effectsize, performance,
+         ggplot2, cowplot, ggthemes, see,
+         pacman, rstudioapi,
+         glue, crayon,
+         rvest, xml2,
+         afex, lmtest, lme4, lmerTest, lavaan,
+         jmv, car, MASS, MBESS, MuMIn,
+         jtools, sjstats, texreg,
+         GGally, semPlot
+Suggests: installr, tidyverse, ggstatsplot,
+          mediation, JSmediation, interactions, processR,
+          irr, correlation, forecast,
+          AER, BayesFactor, metafor,
+          pwr, simr, r2mlm, multilevel,
+          reghelper, summarytools, apaTables,
+          nnet, caret, party, randomForest,
+          ggrepel, ggsignif, ggExtra, ggridges
 RoxygenNote: 7.1.1

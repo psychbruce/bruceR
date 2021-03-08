@@ -31,11 +31,9 @@
 #'   \item \strong{\code{data.table}}: Advanced 'data.frame' with higher efficiency.
 #'   \item \strong{\code{psych}}: Toolbox for psychological and psychometric research.
 #'   \item \strong{\code{emmeans}}: Toolbox for estimated marginal means and contrasts.
-#'   \item \strong{\code{lmerTest}}: Tests for linear mixed effects models.
 #'   \item \strong{\code{effectsize}}: Indices of effect size and standardized parameters.
 #'   \item \strong{\code{performance}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
 #'   \item \strong{\code{ggplot2}}: Data visualization.
-#'   \item \strong{\code{ggstatsplot}}: Extension of 'ggplot2' with statistical details.
 #'   \item \strong{\code{cowplot}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
 #'   \item \strong{\code{ggthemes}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 #'   \item \strong{\code{see}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
@@ -156,6 +154,9 @@ NULL
 
 #### Package-Loading Information ####
 
+#' @importFrom utils packageVersion
+#' @importFrom rvest html_text html_node
+#' @importFrom xml2 read_html
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
 
@@ -163,31 +164,19 @@ NULL
   # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
 
   suppressMessages({
-    library(MASS)  # to prevent `dplyr::select` being masked by `MASS::select`
-
-    library(rio)
-    library(dplyr)
-    library(tidyr)
-    library(stringr)
-    library(forcats)
-    library(data.table)
-
-    library(psych)
-    library(emmeans)
-    library(lmerTest)
-    library(effectsize)
-    library(performance)
-
-    library(ggplot2)
-    library(ggstatsplot)
-    library(cowplot)
-    library(ggthemes)
-    library(see)
+    pacman::p_load(
+      "MASS",  # to prevent `dplyr::select` being masked by `MASS::select`,
+      ## DATA ##
+      "rio", "dplyr", "tidyr", "stringr", "forcats", "data.table",
+      ## STAT ##
+      "psych", "emmeans", "effectsize", "performance",
+      ## PLOT ##
+      "ggplot2", "cowplot", "ggthemes", "see")
   })
 
   user.ver=curr.ver=as.character(packageVersion("bruceR"))
   try({
-    curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
+    curr.ver=html_text(html_node(read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
   }, silent=T)
 
   if(user.ver==curr.ver) {
@@ -202,11 +191,6 @@ NULL
   }
 
   # {rep_char('=', 56)}
-  # bell: \ud83d\udd14
-  # bulb: \ud83d\udca1
-  # gift: \ud83c\udf81
-  # bolt: \u26a1
-  # star: \u2b50
   LOGO=c(bell="\ud83d\udd14",
          bulb="\ud83d\udca1",
          gift="\ud83c\udf81",
@@ -221,8 +205,8 @@ NULL
 
   <<bold <<blue Loaded R packages:>>>>
   <<green \u2714 <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table>>
-  <<green \u2714 <<yellow [Stat]:>> psych / emmeans / lmerTest / effectsize / performance>>
-  <<green \u2714 <<yellow [Plot]:>> ggplot2 / ggstatsplot / cowplot / ggthemes / see>>
+  <<green \u2714 <<yellow [Stat]:>> psych / emmeans / effectsize / performance>>
+  <<green \u2714 <<yellow [Plot]:>> ggplot2 / cowplot / ggthemes / see>>
 
   <<bold <<blue Suggested R packages:>>>>
   <<green \u2501 mediation / interactions / processR / lavaan / metafor / apaTables>>

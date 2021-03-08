@@ -57,6 +57,8 @@
 #' # Monte Carlo simulation (quasi-Bayesian approximation)
 #' # (bootstrap method is not applicable to "lmer" models)
 #' med_summary(med.lmm)
+#'
+#' @importFrom stats model.frame
 #' @export
 med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   # for raw function, see:
@@ -64,14 +66,15 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   x <- model
   clp <- 100 * x$conf.level
   cat("\n")
-  cat(sprintf("Mediation Analysis %s\n\n", ifelse(inherits(x,
-    "mediate.tsls"), "using Two-Stage Least Squares", "")))
+  cat(sprintf("Mediation Analysis %s\n\n",
+              ifelse(inherits(x, "mediate.tsls"),
+                     "using Two-Stage Least Squares", "")))
   if (x$boot) {
     cat(sprintf("Nonparametric Bootstrap Confidence Intervals with the %s Method\n\n",
-      ifelse(x$boot.ci.type == "perc", "Percentile", "BCa")))
+                ifelse(x$boot.ci.type=="perc", "Percentile", "BCa")))
   } else {
-    cat(sprintf("%s Confidence Intervals\n\n", ifelse(inherits(x,
-      "mediate.tsls"), "Two-Stage Least Squares", "Quasi-Bayesian")))
+    cat(sprintf("%s Confidence Intervals\n\n",
+                ifelse(inherits(x, "mediate.tsls"), "Two-Stage Least Squares", "Quasi-Bayesian")))
   }
 
   if (!is.null(x$covariates)) {
@@ -115,7 +118,7 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
                       paste0(clp, "% LLCI"),
                       paste0(clp, "% ULCI"),
                       "pval")
-  print_table(smat, nsmall=nsmall)
+  print_table(smat, nsmalls=nsmall)
   cat("\n")
 
   Print("Sample Size: {x$nobs}")
@@ -187,7 +190,7 @@ med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
                       ratioRelative=abs(indirect/direct))
     names(effect)=c("Total", "Direct", "Indirect", "Ratio.Total", "Ratio.Relative")
     Print("Direct and Indirect Effects:")
-    print_table(effect, row.names=FALSE, nsmall=nsmall)
+    print_table(effect, row.names=FALSE, nsmalls=nsmall)
     Print("<<blue Total = Direct + Indirect
     Ratio.Total = Indirect / Total
     Ratio.Relative = Indirect / Direct
@@ -200,7 +203,7 @@ med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
   mediation=rbind(sobel, mcmam)
   names(mediation)=c("a", "b", "a*b", "SE(a*b)", "z", "pval", "[95% ", "  CI]", "sig")
   Print("Test for Indirect Effect (a*b):")
-  print_table(mediation, nsmall=nsmall)
+  print_table(mediation, nsmalls=nsmall)
 }
 
 
@@ -230,11 +233,11 @@ mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
   mcmc=MASS::mvrnorm(rep, c(a, b), acov, empirical=FALSE)
   abMC=mcmc[,1]*mcmc[,2]
   ab=mean(abMC)
-  SEab=sd(abMC)
+  SEab=stats::sd(abMC)
   # z=ab/SEab
   # p=p.z(z)
-  abLLCI=as.numeric(quantile(abMC, (1-conf)/2))  # 0.025
-  abULCI=as.numeric(quantile(abMC, 1-(1-conf)/2))  # 0.975
+  abLLCI=as.numeric(stats::quantile(abMC, (1-conf)/2))  # 0.025
+  abULCI=as.numeric(stats::quantile(abMC, 1-(1-conf)/2))  # 0.975
   sig=ifelse(abLLCI>0 | abULCI<0, "yes", "no")
   out=data.frame(a, b, ab, SEab, z=NA, p=NA, abLLCI, abULCI, sig)
   row.names(out)="Monte Carlo"
@@ -290,6 +293,10 @@ mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
 #'
 #' @seealso \code{\link{granger_test}}
 #'
+#' @import ggplot2
+#' @importFrom stats ccf qt
+#' @importFrom dplyr mutate
+#' @importFrom psych t2r
 #' @export
 ccf_plot=function(formula, data,
                   lag.max=30, sig.level=0.05,
@@ -305,12 +312,12 @@ ccf_plot=function(formula, data,
   if(is.null(title)) title=Glue("{x} \u2192 {y}")
 
   cc=stats::ccf(x=data[[x]], y=data[[y]], lag.max=lag.max, plot=FALSE)
-  ccdata=with(cc, data.frame(lag, acf))
+  ccdata=with(cc, data.frame(`lag`, `acf`))
   n=cc$n.used
-  rsig=psych::t2r(qt(sig.level/2, n, lower.tail=F), n-2)
+  rsig=t2r(qt(sig.level/2, n, lower.tail=F), n-2)
   ccdata=mutate(ccdata,
-                sig=as.factor(ifelse(abs(acf)<rsig, 0, 1)),
-                direc=as.factor(ifelse(acf<0, 0, 1)))
+                `sig`=as.factor(ifelse(abs(acf)<rsig, 0, 1)),
+                `direc`=as.factor(ifelse(acf<0, 0, 1)))
 
   p=ggplot(ccdata, aes(x=lag, y=acf, color=direc, alpha=sig)) +
     geom_segment(aes(xend=lag, yend=0), show.legend=FALSE) +
@@ -355,6 +362,8 @@ ccf_plot=function(formula, data,
 #'
 #' @seealso \code{\link{ccf_plot}}
 #'
+#' @importFrom stats na.omit as.formula
+#' @importFrom lmtest grangertest
 #' @export
 granger_test=function(formula, data, lags=1:5,
                       test.reverse=FALSE, na.action=na.omit) {

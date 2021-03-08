@@ -87,9 +87,9 @@ Reverse scoring can also be easily implemented, without generating extra variabl
 
 Three ways to specify the variable list:
 \enumerate{
-  \item \code{\strong{var + items}}: use the common and unique parts of variable names.
-  \item \code{\strong{vars}}: manually define the variable list.
-  \item \code{\strong{varrange}}: use the start and stop positions.
+  \item \strong{\code{var + items}}: use the common and unique parts of variable names.
+  \item \strong{\code{vars}}: manually define the variable list.
+  \item \strong{\code{varrange}}: use the start and stop positions.
 }
 }
 \section{Functions}{

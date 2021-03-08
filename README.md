@@ -50,7 +50,7 @@ update.packages(ask=F)
 devtools::install_github("psychbruce/bruceR")
 ```
 - Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
-- [Installation Bugs and Solutions (安装遇到问题时请阅读！)](https://github.com/psychbruce/bruceR/blob/master/Installation%20Bugs%20and%20Solutions.md)
+- [Installation Guide for bruceR (安装遇到问题时请阅读！)](https://github.com/psychbruce/stats/blob/master/Installation_Guide_for_bruceR.md)
 
 
 ### Package dependency
@@ -78,8 +78,6 @@ Once you load `bruceR` with `library()`, it will also load these packages:
   Toolbox for psychological and psychometric research.
   + [`emmeans`](https://cran.r-project.org/package=emmeans):
   Toolbox for estimated marginal means and contrasts.
-  + [`lmerTest`](https://cran.r-project.org/package=lmerTest):
-  Tests for linear mixed effects models.
   + [`effectsize`](https://cran.r-project.org/package=effectsize):
   Indices of effect size and standardized parameters.
   + [`performance`](https://cran.r-project.org/package=performance):
@@ -88,8 +86,6 @@ Once you load `bruceR` with `library()`, it will also load these packages:
 - [Plot]:
   + [`ggplot2`](https://cran.r-project.org/package=ggplot2):
   Data visualization.
-  + [`ggstatsplot`](https://cran.r-project.org/package=ggstatsplot):
-  Extension of 'ggplot2' with statistical details.
   + [`cowplot`](https://cran.r-project.org/package=cowplot):
   Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
   + [`ggthemes`](https://cran.r-project.org/package=ggthemes):
