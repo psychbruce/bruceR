@@ -12,8 +12,7 @@ CFA(
   missing = "listwise",
   style = c("jmv", "lavaan"),
   CI = FALSE,
-  MI = FALSE,
-  plot = FALSE
+  MI = FALSE
 )
 }
 \arguments{
@@ -33,8 +32,6 @@ If the model has high-order factors, only "lavaan" style will be output.}
 \item{CI}{\code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.}
 
 \item{MI}{\code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.}
-
-\item{plot}{\code{TRUE} or \code{FALSE} (default), provide a path diagram of the model.}
 }
 \description{
 An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.

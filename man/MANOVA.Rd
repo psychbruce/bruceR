@@ -19,7 +19,7 @@ MANOVA(
 )
 }
 \arguments{
-\item{data}{Data object (e.g., \code{data.frame, data.table}). Both \strong{long-format} and \strong{wide-format} can be used.
+\item{data}{Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
 \itemize{
   \item If you input a \strong{long-format} data, please also specify \strong{subID}.
   \item If you input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
@@ -102,37 +102,6 @@ Then, almost all the outputs you need will be displayed in an elegant manner, in
 In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
 \eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
 For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
-
-\strong{Demo Datasets:}
-
-The demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
-In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
-The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
-Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
-Many thanks go to the contributors of the datasets.
-\describe{
-  \item{\strong{1. Between-Subjects Design}}{
-    \itemize{
-      \item \code{between.1} - A(4)
-      \item \code{between.2} - A(2) * B(3)
-      \item \code{between.3} - A(2) * B(2) * C(2)
-    }
-  }
-  \item{\strong{2. Within-Subjects Design}}{
-    \itemize{
-      \item \code{within.1} - A(4)
-      \item \code{within.2} - A(2) * B(3)
-      \item \code{within.3} - A(2) * B(2) * C(2)
-    }
-  }
-  \item{\strong{3. Mixed Design}}{
-    \itemize{
-      \item \code{mixed.2_1b1w} - A(2, between) * B(3, within)
-      \item \code{mixed.3_1b2w} - A(2, between) * B(2, within) * C(2, within)
-      \item \code{mixed.3_2b1w} - A(2, between) * B(2, within) * C(2, between)
-    }
-  }
-}
 }
 \examples{
 #### Between-Subjects Design ####
@@ -202,5 +171,5 @@ Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and t
 \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
 }
 \seealso{
-\code{\link{EMMEANS}}
+\code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 }

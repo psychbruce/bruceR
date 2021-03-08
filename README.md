@@ -88,8 +88,6 @@ Once you load `bruceR` with `library()`, it will also load these packages:
   Data visualization.
   + [`cowplot`](https://cran.r-project.org/package=cowplot):
   Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
-  + [`ggthemes`](https://cran.r-project.org/package=ggthemes):
-  Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
   + [`see`](https://cran.r-project.org/package=see):
   Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 
@@ -152,6 +150,7 @@ library(bruceR)
 ### Major changes:
 
 - `0.6.0` - 2021.03
+  + Passed R CMD check: `0 errors √ | 0 warnings √ | 0 notes √`
   + New function `model_summary()`: Tidy report of (single/multiple) regression models (into console or to a Word/HTML file; based on the `texreg` package; supporting most types of models)
   + New function `med_summary()`: Tidy report of (simple/moderated) mediation analyses (based on the `mediation` package)
   + New function `ccf_plot`: Cross-correlation analysis (plotting with `ggplot2`)

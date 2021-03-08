@@ -95,10 +95,10 @@ HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 
 ## Example 3: data from MASS::bacteria
 # GLMM with binomial outcome (multilevel logistic regression)
-data.glmm=MASS::bacteria
-data.glmm$week.2=(data.glmm$week>2) \%>\% as.numeric()
-glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
-HLM_summary(glmm)
+# data.glmm=MASS::bacteria
+# data.glmm$week.2=as.numeric(data.glmm$week>2)
+# glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
+# HLM_summary(glmm)
 
 }
 \references{

@@ -14,9 +14,9 @@ If \code{NULL}, set working directory to the path of \strong{the current R scrip
 Set working directory to where the \strong{current} script is.
 }
 \examples{
-set.wd()  # set working directory to the path of the current R script
-set.wd("D:/")  # "\" is not allowed, you should use "/"
-set.wd("../")  # set working directory to the parent directory
+# set.wd()  # set working directory to the path of the current R script
+# set.wd("D:/")  # "\" is not allowed, you should use "/"
+# set.wd("../")  # set working directory to the parent directory
 
 }
 \seealso{

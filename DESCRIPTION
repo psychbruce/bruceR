@@ -15,22 +15,17 @@ LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
-Imports: rio, dplyr, tidyr, stringr, forcats, data.table,
-         psych, emmeans, effectsize, performance,
-         ggplot2, cowplot, ggthemes, see,
-         pacman, rstudioapi,
-         glue, crayon,
-         rvest, xml2,
-         afex, lmtest, lme4, lmerTest, lavaan,
-         jmv, car, MASS, MBESS, MuMIn,
-         jtools, sjstats, texreg,
-         GGally, semPlot
-Suggests: installr, tidyverse, ggstatsplot,
+Imports: jmv, pacman, dplyr, stringr, glue, crayon,
+         car, psych, emmeans, lmerTest, lavaan,
+         MBESS, MuMIn, performance, jtools, sjstats, texreg,
+         ggplot2, cowplot, see
+Suggests: installr, rstudioapi,
+          tidyverse, ggstatsplot,
           mediation, JSmediation, interactions, processR,
-          irr, correlation, forecast,
+          afex, irr, correlation, forecast,
           AER, BayesFactor, metafor,
           pwr, simr, r2mlm, multilevel,
-          reghelper, summarytools, apaTables,
+          reghelper, summarytools, apaTables, semPlot,
           nnet, caret, party, randomForest,
-          ggrepel, ggsignif, ggExtra, ggridges
+          ggrepel, ggsignif, ggExtra, ggridges, ggthemes, GGally
 RoxygenNote: 7.1.1

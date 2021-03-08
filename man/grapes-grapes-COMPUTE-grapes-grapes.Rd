@@ -3,11 +3,11 @@
 \name{\%\%COMPUTE\%\%}
 \alias{\%\%COMPUTE\%\%}
 \alias{COUNT}
+\alias{MODE}
 \alias{SUM}
 \alias{MEAN}
 \alias{STD}
 \alias{CONSEC}
-\alias{MODE}
 \title{Multivariate computation.}
 \usage{
 COUNT(data, var = NULL, items = NULL, vars = NULL, varrange = NULL, value = NA)

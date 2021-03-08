@@ -224,5 +224,5 @@ MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
 
 }
 \seealso{
-\code{\link{MANOVA}}
+\code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 }

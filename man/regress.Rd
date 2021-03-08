@@ -20,7 +20,7 @@ regress(
 \arguments{
 \item{formula}{Model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).}
 
-\item{data}{\code{data.frame} or \code{data.table}.}
+\item{data}{Data frame.}
 
 \item{family}{[optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).}
 
@@ -65,20 +65,22 @@ Regression analysis.
 }
 \examples{
 ## lm
-regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=T)
+regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 
 ## glm
 regress(case ~ age + parity + education + spontaneous + induced,
         data=infert, family=binomial, robust="HC1", cluster="stratum")
 
 ## lmer
-regress(Reaction ~ Days + (Days | Subject), data=lme4::sleepstudy)
-regress(Preference ~ Sweetness + Gender * Age + Frequency + (1 | Consumer), data=lmerTest::carrots,
+library(lmerTest)
+regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+regress(Preference ~ Sweetness + Gender + Age + Frequency +
+          (1 | Consumer), data=carrots,
         level2.predictors="Consumer: Gender + Age + Frequency")
 
 ## glmer
-data.glmm=MASS::bacteria
-data.glmm$week.2=(data.glmm$week>2) \%>\% as.numeric()
-regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
+# data.glmm=MASS::bacteria
+# data.glmm$week.2=as.numeric(data.glmm$week>2)
+# regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 
 }

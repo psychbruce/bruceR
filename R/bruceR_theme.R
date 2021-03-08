@@ -46,7 +46,7 @@
 #'              Y.mean=c(5, 3, 2, 7, 3, 6),
 #'              Y.se=rep(c(0.1, 0.2, 0.1), each=2))
 #' ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
-#'   geom_bar(position="dodge", stat="identity", width=0.6, show.legend=F) +
+#'   geom_bar(position="dodge", stat="identity", width=0.6, show.legend=FALSE) +
 #'   geom_errorbar(aes(x=X1, ymin=Y.mean-Y.se, ymax=Y.mean+Y.se),
 #'                 width=0.1, color="black", position=position_dodge(0.6)) +
 #'   scale_y_continuous(expand=expansion(add=0),

@@ -26,7 +26,6 @@ Once you load \code{bruceR} with \code{library()}, it will also load these packa
   \item \strong{\code{performance}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
   \item \strong{\code{ggplot2}}: Data visualization.
   \item \strong{\code{cowplot}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
-  \item \strong{\code{ggthemes}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
   \item \strong{\code{see}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 }
 

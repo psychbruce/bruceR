@@ -87,6 +87,43 @@
 # }
 
 
+## Print ANOVA Table of GLM
+# GLM_anova=function(model, add.total=TRUE) {
+#   Print("ANOVA table:")
+#   aov.lm=as.data.frame(car::Anova(model, type=3))
+#   total.ss=sum(aov.lm[-1, "Sum Sq"])
+#   total.df=sum(aov.lm[-1, "Df"])
+#   resid.ss=aov.lm[nrow(aov.lm), "Sum Sq"]
+#   resid.df=aov.lm[nrow(aov.lm), "Df"]
+#   model.ss=total.ss-resid.ss
+#   model.df=total.df-resid.df
+#   model.F=(model.ss/model.df)/(resid.ss/resid.df)
+#   aov.lm=rbind(`[Model]`=c(model.ss, model.df, model.F, p.f(model.F, model.df, resid.df)),
+#                aov.lm[-1,])
+#   aov.lm$`Mean Sq`=aov.lm$`Sum Sq`/aov.lm$Df
+#   aov.lm$sig=sig.trans(aov.lm$`Pr(>F)`)
+#   aov.lm$eta2=mapply(function(f, df1, df2) {f*df1/(f*df1+df2)},
+#                      aov.lm$`F value`, aov.lm$Df, aov.lm$Df[nrow(aov.lm)])
+#   aov.lm$Df=formatF(aov.lm$Df, 0)
+#   aov.lm$`F value`=formatF(aov.lm$`F value`, 2)
+#   aov.lm$`Pr(>F)`=p.trans(aov.lm$`Pr(>F)`)
+#   aov.lm$eta2=formatF(aov.lm$eta2, 3)
+#   aov.lm=aov.lm[,c(1,2,5,3,4,6,7)]
+#   if(add.total) {
+#     aov.lm=rbind(aov.lm,
+#                  Total=c(total.ss, total.df, total.ss/total.df,
+#                          NA, NA, NA, NA))
+#     aov.lm[(nrow(aov.lm)-1):nrow(aov.lm),
+#            c("F value", "Pr(>F)", "sig", "eta2")]=""
+#   } else {
+#     aov.lm[nrow(aov.lm),
+#            c("F value", "Pr(>F)", "sig", "eta2")]=""
+#   }
+#   names(aov.lm)[5:7]=c("p", " ", "\u03b7\u00b2p")
+#   print_table(aov.lm, nsmalls=2)
+# }
+
+
 ## Check many assumptions for (OLS and multilevel) regression models
 ##
 ## Based on the functions in \code{performance} (see \code{performance::\link[performance]{check_model}}), it checks for
@@ -129,6 +166,124 @@
 #                                "ncv",  # heteroscedasticity
 #                                "reqq"))
 #   }
+# }
+
+
+
+#### Indirect Effect: Sobel Test & MCMC ####
+
+
+## Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo simulation.
+##
+## @description
+## Estimating indirect effect from regression coefficients and standard errors (\emph{SE}) by using Sobel test and Monte Carlo simulation.
+##
+## Total effect (\strong{c}) = Direct effect (\strong{c'}) + Indirect effect (\strong{a*b})
+##
+## @param a Path \strong{a} (X -> Mediator).
+## @param SEa \emph{SE} of path \strong{a}.
+## @param b Path \strong{b} (Mediator -> Y).
+## @param SEb \emph{SE} of path \strong{b}.
+## @param direct [optional] Path \strong{c'} (X -> Y \strong{direct} effect, with M also included in model).
+## @param total [optional] Path \strong{c} (X -> Y \strong{total} effect, without M).
+## @param cov_ab Covariance between \strong{a} and \strong{b}.
+##
+## See \href{http://www.quantpsy.org/medmc/medmc.htm}{Selig & Preacher (2008)}:
+##
+## \emph{If you use SEM, path analysis, multilevel modeling, or some other multivariate method to obtain both a and b from a single model, then cov(a,b) can be found in the asymptotic covariance matrix of the parameter estimates.
+## If you use regression to obtain a and b in separate steps, then cov(a,b) = 0.}
+## @param seed Random seed.
+## @param rep Number of repetitions for Monte Carlo simulation. Default is 50,000. More than 1,000 are recommended.
+## @param nsmall Number of decimal places of output. Default is 3.
+##
+## @references
+## Sobel, M. E. (1982). Asymptotic confidence intervals for indirect effects in Structural Equation Models. \emph{Sociological Methodology, 13,} 290-312.
+##
+## Selig, J. P., & Preacher, K. J. (2008). Monte Carlo method for assessing mediation: An interactive tool for creating confidence intervals for indirect effects. \url{http://www.quantpsy.org/medmc/medmc.htm}
+##
+## @examples
+## med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80)
+## med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, total=4.50)
+## med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, direct=1.50)
+##
+## @export
+# med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
+#                 cov_ab=0, seed=NULL, rep=50000, nsmall=3) {
+#   indirect=a*b
+#   if(is.null(total)) {
+#     if(is.null(direct)) {
+#       # Print("No input for 'direct' or 'total' effect.")
+#     } else {
+#       total=direct+indirect
+#     }
+#   } else {
+#     if(is.null(direct)) {
+#       direct=total-indirect
+#     } else {
+#       total=direct+indirect  # priority: direct > total
+#       warning("Total effect is replaced by the sum of direct and indirect effects.")
+#     }
+#   }
+#
+#   ## Direct and Indirect Effects ##
+#   if(is.null(total)==FALSE) {
+#     effect=data.frame(total, direct, indirect,
+#                       ratioTotal=indirect/total,
+#                       ratioRelative=abs(indirect/direct))
+#     names(effect)=c("Total", "Direct", "Indirect", "Ratio.Total", "Ratio.Relative")
+#     Print("Direct and Indirect Effects:")
+#     print_table(effect, row.names=FALSE, nsmalls=nsmall)
+#     Print("<<blue Total = Direct + Indirect
+#     Ratio.Total = Indirect / Total
+#     Ratio.Relative = Indirect / Direct
+#     \n>>")
+#   }
+#
+#   ## Indirect Effect: Sobel Test & MCMAM ##
+#   sobel=sobel(a, SEa, b, SEb)
+#   mcmam=mcmam(a, SEa, b, SEb, cov_ab=cov_ab, seed=seed, rep=rep)
+#   mediation=rbind(sobel, mcmam)
+#   names(mediation)=c("a", "b", "a*b", "SE(a*b)", "z", "pval", "[95% ", "  CI]", "sig")
+#   Print("Test for Indirect Effect (a*b):")
+#   print_table(mediation, nsmalls=nsmall)
+# }
+#
+#
+# sobel=function(a, SEa, b, SEb) {
+#   ab=a*b
+#   SEab=sqrt(a^2*SEb^2 + b^2*SEa^2) # Sobel (1982) first-order solution
+#   # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 - SEa^2*SEb^2) # Goodman (1960) unbiased solution
+#   # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 + SEa^2*SEb^2) # Aroian (1944) second-order exact solution
+#   z=ab/SEab
+#   p=p.z(z)
+#   abLLCI=ab-1.96*SEab
+#   abULCI=ab+1.96*SEab
+#   sig=sig.trans(p)
+#   out=data.frame(a, b, ab, SEab, z, p, abLLCI, abULCI, sig)
+#   row.names(out)="Sobel test"
+#   return(out)
+# }
+#
+#
+# mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
+#   # http://www.quantpsy.org/medmc/medmc.htm
+#   if(!is.null(seed)) set.seed(seed)
+#   acov=matrix(c(
+#     SEa^2, cov_ab,
+#     cov_ab, SEb^2
+#   ), 2, 2)
+#   mcmc=MASS::mvrnorm(rep, c(a, b), acov, empirical=FALSE)
+#   abMC=mcmc[,1]*mcmc[,2]
+#   ab=mean(abMC)
+#   SEab=stats::sd(abMC)
+#   # z=ab/SEab
+#   # p=p.z(z)
+#   abLLCI=as.numeric(stats::quantile(abMC, (1-conf)/2))  # 0.025
+#   abULCI=as.numeric(stats::quantile(abMC, 1-(1-conf)/2))  # 0.975
+#   sig=ifelse(abLLCI>0 | abULCI<0, "yes", "no")
+#   out=data.frame(a, b, ab, SEab, z=NA, p=NA, abLLCI, abULCI, sig)
+#   row.names(out)="Monte Carlo"
+#   return(out)
 # }
 
 
@@ -192,6 +347,27 @@
 #   med_mc(a1, SEa1, b, SEb, nsmall=nsmall)
 #   Print("High Moderator (<<italic z>> = +1):")
 #   med_mc(a1+a3*SDmod, SEa1, b, SEb, nsmall=nsmall)
+# }
+
+
+## Compute CI for random effects
+# print_variance_ci=function(model) {
+#   suppressMessages({
+#     varCI=confint(model, parm=c(".sig01", ".sig02", ".sig03",
+#                                 ".sig04", ".sig05", ".sig06",
+#                                 ".sig07", ".sig08", ".sig09",
+#                                 ".sigma"))^2
+#   })
+#   varCI=as.data.frame(varCI)
+#   vc=row.names(varCI) %>% gsub("\\.", "", .) %>%
+#     gsub("sigma", "sigerror", .) %>%
+#     gsub("sig", "sigma_", .) %>%
+#     paste0("^2")
+#   varCI=cbind(`Variance Component`=vc, varCI)
+#   names(varCI)[2:3]=c("[95% ", "  CI]")
+#   cat("\n")
+#   print_table(varCI, row.names=FALSE, nsmalls=5)
+#   invisible(varCI)
 # }
 
 

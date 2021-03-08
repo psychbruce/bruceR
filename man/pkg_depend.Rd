@@ -16,12 +16,10 @@ Useful if you want to see the unique contribution of \code{pkg}.}
 Check dependencies of a package.
 }
 \examples{
-pkg_depend("MuMIn")
+## Not run:
 
-pkg_depend("sjstats")
-pkg_depend("sjstats", exclude="tidyverse")  # partial dependencies
+# pkg_depend("jmv")
+# pkg_depend("dplyr", exclude="jmv")  # no unique contribution
 
-pkg_depend("dplyr", exclude="tidyverse")  # no unique contribution
-pkg_depend("lme4", exclude=c("tidyverse", "ggstatsplot"))  # no unique contribution
-
+## End(Not run)
 }

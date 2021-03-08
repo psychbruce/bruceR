@@ -68,13 +68,12 @@ Significant correlations with \emph{negative time lags} suggest
 shifts in a predictor \emph{precede} shifts in an outcome.
 }
 \examples{
-(d=lmtest::ChickEgg)  # time-series data
-p1=ccf_plot(chicken ~ egg, data=d)
-p2=ccf_plot(chicken ~ egg, data=d, alpha.ns=0.3,
-            pos.color=see::social_colors("red"),
-            neg.color=see::social_colors("blue grey"),
-            ci.color="black")
-ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
+# p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
+# p2=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
+#             pos.color="#CD201F",
+#             neg.color="#21759B",
+#             ci.color="black")
+# ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
 
 }
 \seealso{

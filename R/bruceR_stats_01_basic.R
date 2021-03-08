@@ -142,9 +142,9 @@ sig.trans=function(p) {
 #' #          save.file="Descriptive Statistics.png",
 #' #          width=10, height=8, dpi=500)
 #'
+#' @import ggplot2
 #' @importFrom psych describe
-#' @importFrom GGally ggpairs wrap
-#' @importFrom ggplot2 ggsave
+## @importFrom GGally ggpairs wrap
 #' @export
 Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
                   save.file=NULL, width=8, height=6, dpi=500) {
@@ -177,9 +177,9 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
                   "none"="points",
                   "lm"="smooth",
                   "loess"="smooth_loess")
-    p=ggpairs(data,
-              lower=list(continuous=wrap(smooth, size=1, shape=16, alpha=0.3)),
-              upper=list(continuous=wrap("cor", color="black"))) +
+    p=GGally::ggpairs(data,
+              lower=list(continuous=GGally::wrap(smooth, size=1, shape=16, alpha=0.3)),
+              upper=list(continuous=GGally::wrap("cor", color="black"))) +
       theme_bruce(panel.bg="grey95")
     if(is.null(save.file)) {
       print(p)
@@ -223,9 +223,9 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
   if(sort=="")
     print_table(output, nsmalls=c(0, nsmall))
   else if(sort=="-")
-    print_table(output[order(output[,"N"], decreasing=T),], nsmalls=c(0, nsmall))
+    print_table(output[order(output[,"N"], decreasing=TRUE),], nsmalls=c(0, nsmall))
   else if(sort=="+")
-    print_table(output[order(output[,"N"], decreasing=F),], nsmalls=c(0, nsmall))
+    print_table(output[order(output[,"N"], decreasing=FALSE),], nsmalls=c(0, nsmall))
   Print("Total <<italic N>> = {formatN(N)}")
   if(N.na>0) Print("Valid <<italic N>> = {formatN(N-N.na)}")
 

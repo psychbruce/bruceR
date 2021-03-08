@@ -4,13 +4,7 @@
 \alias{granger_test}
 \title{Granger causality test.}
 \usage{
-granger_test(
-  formula,
-  data,
-  lags = 1:5,
-  test.reverse = FALSE,
-  na.action = na.omit
-)
+granger_test(formula, data, lags = 1:5, test.reverse = FALSE)
 }
 \arguments{
 \item{formula}{Model formula like \code{y ~ x}.}
@@ -20,8 +14,6 @@ granger_test(
 \item{lags}{Time lags. Default is \code{1:5}.}
 
 \item{test.reverse}{Whether to test reverse causality. Default is \code{FALSE}.}
-
-\item{na.action}{What to do with missing values. Default is \code{na.omit}.}
 }
 \description{
 Granger test of predictive causality (between two time-series variables)
@@ -36,9 +28,8 @@ the lagged values of the outcome itself.
 It compares the two models by using an \emph{F} test.
 }
 \examples{
-(d=lmtest::ChickEgg)  # time-series data
-granger_test(chicken ~ egg, data=d)
-granger_test(chicken ~ egg, data=d, lags=1:10, test.reverse=TRUE)
+# granger_test(chicken ~ egg, data=lmtest::ChickEgg)
+# granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 
 }
 \seealso{

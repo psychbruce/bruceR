@@ -77,13 +77,11 @@ find=function(vars, list) {
 #'
 #' @seealso \code{\link{group_mean_center}}
 #'
-#' @importFrom data.table is.data.table as.data.table
 #' @export
 grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
   data_c=as.data.frame(data)
   for(var in vars)
     data_c[paste0(var, add_suffix)]=scale(data_c[var], center=TRUE, scale=std)
-  if(is.data.table(data)) data_c=as.data.table(data_c)
   return(data_c)
 }
 
@@ -108,7 +106,6 @@ grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
 #'
 #' @seealso \code{\link{grand_mean_center}}
 #'
-#' @importFrom data.table is.data.table as.data.table
 #' @export
 group_mean_center=function(data, vars, by,
                            std=FALSE,
@@ -122,7 +119,6 @@ group_mean_center=function(data, vars, by,
       data_c[which(data_c[by]==group), paste0(var, add_suffix)]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=std)
     }
   }
-  if(is.data.table(data)) data_c=as.data.table(data_c)
   return(data_c)
 }
 
@@ -132,31 +128,34 @@ group_mean_center=function(data, vars, by,
 #' @inheritParams GLM_summary
 #' @inheritParams HLM_summary
 #' @param formula Model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).
-#' @param data \code{data.frame} or \code{data.table}.
+#' @param data Data frame.
 #' @param family [optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).
 #'
 #' @examples
 #' ## lm
-#' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=T)
+#' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 #'
 #' ## glm
 #' regress(case ~ age + parity + education + spontaneous + induced,
 #'         data=infert, family=binomial, robust="HC1", cluster="stratum")
 #'
 #' ## lmer
-#' regress(Reaction ~ Days + (Days | Subject), data=lme4::sleepstudy)
-#' regress(Preference ~ Sweetness + Gender * Age + Frequency + (1 | Consumer), data=lmerTest::carrots,
+#' library(lmerTest)
+#' regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#' regress(Preference ~ Sweetness + Gender + Age + Frequency +
+#'           (1 | Consumer), data=carrots,
 #'         level2.predictors="Consumer: Gender + Age + Frequency")
 #'
 #' ## glmer
-#' data.glmm=MASS::bacteria
-#' data.glmm$week.2=(data.glmm$week>2) %>% as.numeric()
-#' regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
+#' # data.glmm=MASS::bacteria
+#' # data.glmm$week.2=as.numeric(data.glmm$week>2)
+#' # regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 #'
 #' @export
 regress=function(formula, data, family=NULL, nsmall=3,
                  robust=FALSE, cluster=NULL,
-                 level2.predictors="", vartypes=NULL, t2r=FALSE, test.rand=FALSE) {
+                 level2.predictors="", vartypes=NULL,
+                 t2r=FALSE, test.rand=FALSE) {
   call=sys.call()[-1]  # get function call (parameter list)
   if(!is.null(family))
     family.text=ifelse(!is.null(call$family),
@@ -241,9 +240,9 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(lm1)
 #' model_summary(lm2)
 #' model_summary(list(lm1, lm2))
-#' model_summary(list(lm1, lm2), std=T, digits=2)
-#' model_summary(list(lm1, lm2), file="OLS Models.doc")
-#' model_summary(list(lm1, lm2), file="OLS Models.html")
+#' model_summary(list(lm1, lm2), std=TRUE, digits=2)
+#' # model_summary(list(lm1, lm2), file="OLS Models.doc")
+#' # model_summary(list(lm1, lm2), file="OLS Models.html")
 #'
 #' ## Example 2: Generalized Linear Model
 #' glm1=glm(case ~ age + parity,
@@ -251,7 +250,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' glm2=glm(case ~ age + parity + education + spontaneous + induced,
 #'          data=infert, family=binomial)
 #' model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
-#' model_summary(list(glm1, glm2), file="GLM Models.doc")
+#' # model_summary(list(glm1, glm2), file="GLM Models.doc")
 #'
 #' ## Example 3: Linear Mixed Model
 #' library(lmerTest)
@@ -259,27 +258,27 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
 #' hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 #' model_summary(list(hlm1, hlm2, hlm3))
-#' model_summary(list(hlm1, hlm2, hlm3), std=T)
-#' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
+#' model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
+#' # model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 #'
 #' ## Example 4: Generalized Linear Mixed Model
-#' library(lmerTest)
-#' data.glmm=MASS::bacteria
-#' glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-#' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
-#' model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
-#' model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+#' # data.glmm=MASS::bacteria
+#' # glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#' # glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+#' # model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+#' # model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
 #'
 #' ## Example 5: Multinomial Logistic Model
 #' library(nnet)
 #' d=airquality
 #' d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
-#' mn1=multinom(Month ~ Temp, data=d, Hess=T)
-#' mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=T)
+#' mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
+#' mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
 #' model_summary(mn1)
 #' model_summary(mn2)
-#' model_summary(mn2, file="Multinomial Logistic Model.doc")
+#' # model_summary(mn2, file="Multinomial Logistic Model.doc")
 #'
+#' @importFrom stringr str_replace str_replace_all
 #' @export
 model_summary=function(model_list,
                        std_coef=FALSE,
@@ -307,14 +306,14 @@ model_summary=function(model_list,
   }
   model_std_coef=function(model) { MuMIn::std.coef(model, partial.sd=FALSE)[,1] }
   model_std_s.e.=function(model) { MuMIn::std.coef(model, partial.sd=FALSE)[,2] }
-  model_R2m=function(model) { MuMIn::r.squaredGLMM(model)[1, "R2m"] %>% as.numeric() %>% round(digits) }
-  model_R2c=function(model) { MuMIn::r.squaredGLMM(model)[1, "R2c"] %>% as.numeric() %>% round(digits) }
-  model_R2mcfadden=function(model) { performance::r2_mcfadden(model)[1] %>% as.numeric() %>% round(digits) }
-  model_R2nagelkerke=function(model) { performance::r2_nagelkerke(model) %>% as.numeric() %>% round(digits) }
+  model_R2m=function(model) { round(as.numeric( MuMIn::r.squaredGLMM(model)[1, "R2m"] ), digits) }
+  model_R2c=function(model) { round(as.numeric( MuMIn::r.squaredGLMM(model)[1, "R2c"] ), digits) }
+  model_R2mcfadden=function(model) { round(as.numeric( performance::r2_mcfadden(model)[1] ), digits) }
+  model_R2nagelkerke=function(model) { round(as.numeric( performance::r2_nagelkerke(model) ), digits) }
 
   new.model.names=NULL
   try({
-    new.model.names=lapply(model_list, model_y) %>% as.character()
+    new.model.names=as.character(lapply(model_list, model_y))
     if(length(model_list)>1)
       new.model.names=paste(paste0("(", 1:length(model_list), ")"), new.model.names)
     if(any(unlist(lapply(model_list, class)) %in% "nnet")) {
@@ -345,8 +344,8 @@ model_summary=function(model_list,
       names.R2=c("McFadden\u2019s R<sup>2</sup>",
                  "Nagelkerke\u2019s R<sup>2</sup>")
     new.R2=list(
-      R2mcfadden=lapply(model_list, model_R2mcfadden) %>% as.numeric(),
-      R2nagelkerke=lapply(model_list, model_R2nagelkerke) %>% as.numeric()
+      R2mcfadden=as.numeric(lapply(model_list, model_R2mcfadden)),
+      R2nagelkerke=as.numeric(lapply(model_list, model_R2nagelkerke))
     )
     names(new.R2)=names.R2
   } else if(any(unlist(lapply(model_list, class)) %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))) {
@@ -358,8 +357,8 @@ model_summary=function(model_list,
                  "Conditional R<sup>2</sup>")
     suppressWarnings({
       new.R2=list(
-        R2m=lapply(model_list, model_R2m) %>% as.numeric(),
-        R2c=lapply(model_list, model_R2c) %>% as.numeric()
+        R2m=as.numeric(lapply(model_list, model_R2m)),
+        R2c=as.numeric(lapply(model_list, model_R2c))
       )
     })
     names(new.R2)=names.R2
@@ -392,29 +391,26 @@ model_summary=function(model_list,
     if(is.null(file)) {
       print(output)
     } else {
-      output=str_replace(output, "utf-8", "gbk") %>%
-        str_replace_all("<td>-", "<td>\u2013")
+      output= str_replace_all(str_replace(output, "utf-8", "gbk"),
+                              "<td>-", "<td>\u2013")
       if(grepl(".doc$", file)) {
         output=str_replace(
-          output,
-          "<style>",
-          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman}") %>%
-          # str_replace("<tfoot>(.|\\n)*</tfoot>", "") %>%
-          str_replace(
-            "<body>",
-            paste0(
-              "<body>\n<b>Table X. Regression Models",
-              ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
-                     paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
-                     ""),
-              ".</b>")) %>%
-          str_replace(
-            "</body>",
-            paste0("<i>Note</i>. ",
-                   ifelse(std_coef, "Standardized ", "Unstandardized "),
-                   "regression coefficients are displayed, with standard errors in parentheses.<br/>",
-                   "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
-                   "</body>"))
+          output, "<style>",
+          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman}")
+        output=str_replace(
+          output, "<body>",
+          paste0("<body>\n<b>Table X. Regression Models",
+                 ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
+                        paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
+                        ""),
+                 ".</b>"))
+        output=str_replace(
+          output, "</body>",
+          paste0("<i>Note</i>. ",
+                 ifelse(std_coef, "Standardized ", "Unstandardized "),
+                 "regression coefficients are displayed, with standard errors in parentheses.<br/>",
+                 "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
+                 "</body>"))
       }
       sink(file)
       cat(output)
@@ -426,7 +422,7 @@ model_summary=function(model_list,
 
   if(is.null(file) & length(model_list)==1) {
     cat("\n")
-    print(performance::check_collinearity(model_list[[1]]))
+    print( performance::check_collinearity(model_list[[1]]) )
   }
 
   invisible(output)
@@ -436,43 +432,6 @@ model_summary=function(model_list,
 
 
 #### GLM Functions ####
-
-
-## Print ANOVA Table of GLM
-GLM_anova=function(model, add.total=TRUE) {
-  Print("ANOVA table:")
-  aov.lm=as.data.frame(car::Anova(model, type=3))
-  total.ss=sum(aov.lm[-1, "Sum Sq"])
-  total.df=sum(aov.lm[-1, "Df"])
-  resid.ss=aov.lm[nrow(aov.lm), "Sum Sq"]
-  resid.df=aov.lm[nrow(aov.lm), "Df"]
-  model.ss=total.ss-resid.ss
-  model.df=total.df-resid.df
-  model.F=(model.ss/model.df)/(resid.ss/resid.df)
-  aov.lm=rbind(`[Model]`=c(model.ss, model.df, model.F, p.f(model.F, model.df, resid.df)),
-               aov.lm[-1,])
-  aov.lm$`Mean Sq`=aov.lm$`Sum Sq`/aov.lm$Df
-  aov.lm$sig=sig.trans(aov.lm$`Pr(>F)`)
-  aov.lm$eta2=mapply(function(f, df1, df2) {f*df1/(f*df1+df2)},
-                     aov.lm$`F value`, aov.lm$Df, aov.lm$Df[nrow(aov.lm)])
-  aov.lm$Df=formatF(aov.lm$Df, 0)
-  aov.lm$`F value`=formatF(aov.lm$`F value`, 2)
-  aov.lm$`Pr(>F)`=p.trans(aov.lm$`Pr(>F)`)
-  aov.lm$eta2=formatF(aov.lm$eta2, 3)
-  aov.lm=aov.lm[,c(1,2,5,3,4,6,7)]
-  if(add.total) {
-    aov.lm=rbind(aov.lm,
-                 Total=c(total.ss, total.df, total.ss/total.df,
-                         NA, NA, NA, NA))
-    aov.lm[(nrow(aov.lm)-1):nrow(aov.lm),
-           c("F value", "Pr(>F)", "sig", "eta2")]=""
-  } else {
-    aov.lm[nrow(aov.lm),
-           c("F value", "Pr(>F)", "sig", "eta2")]=""
-  }
-  names(aov.lm)[5:7]=c("p", " ", "\u03b7\u00b2p")
-  print_table(aov.lm, nsmalls=2)
-}
 
 
 #' Advanced report of GLM (\code{lm} and \code{glm} models).
@@ -505,8 +464,7 @@ GLM_anova=function(model, add.total=TRUE) {
 #'
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
-#' @importFrom stats qt
-#' @importFrom jtools summ
+#' @importFrom stats qt anova
 #' @importFrom MuMIn std.coef
 #' @importFrom performance r2_nagelkerke
 #' @export
@@ -547,8 +505,8 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     ")
 
     ## Print: ANOVA Table ##
-    cat("\n")
-    GLM_anova(model)
+    # cat("\n")
+    # GLM_anova(model)
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
@@ -731,9 +689,9 @@ HLM_vartypes=function(model=NULL,
   formula=formula_expand(formula)
   fx=as.character(formula)[3]
   ## Level-1 predictor variables with random slopes
-  L1.rand.comp=gsub(" ", "", str_extract_all(fx, "(?<=\\()[^\\)]+(?=\\))", simplify=T)) %>% str_split("\\|")
+  L1.rand.comp=stringr::str_split(gsub(" ", "", stringr::str_extract_all(fx, "(?<=\\()[^\\)]+(?=\\))", simplify=T)), "\\|")
   for(comp in L1.rand.comp) {
-    vars.1=str_split(comp[1], "\\+")  # a list
+    vars.1=stringr::str_split(comp[1], "\\+")  # a list
     for(var in vars.1[[1]]) {
       if(var %in% names(data))
         if(is.factor(data[,var]))
@@ -742,10 +700,9 @@ HLM_vartypes=function(model=NULL,
     L1.rand.vars[comp[2]]=vars.1
   }
   ## Level-2 predictor variables
-  L2.comp=level2.predictors %>% gsub(" ", "", .) %>%
-    str_split(";", simplify=T) %>% str_split(":")
+  L2.comp=stringr::str_split(stringr::str_split(gsub(" ", "", level2.predictors), ";", simplify=T), ":")
   for(comp in L2.comp) {
-    vars.2=str_split(comp[2], "\\+")  # a list
+    vars.2=stringr::str_split(comp[2], "\\+")  # a list
     for(var in vars.2[[1]]) {
       if(var %in% names(data))
         if(is.factor(data[,var]))
@@ -761,7 +718,7 @@ HLM_vartypes=function(model=NULL,
       vartype="Intercept"
     } else if(grepl(":", var)) {
       ## interaction term ##
-      inter.vars=str_split(var, ":")[[1]]
+      inter.vars=stringr::str_split(var, ":")[[1]]
       fd.1=find(inter.vars, L1.rand.vars)
       fd.2=find(inter.vars, L2.vars)
       if(fd.2$n==length(inter.vars)) {
@@ -835,30 +792,30 @@ HLM_df=function(sumModel, vartypes) {
 HLM_ICC=function(model, nsmall=3) {
   ## Extract components from model ##
   sumModel=summary(model)
-  data=as.data.table(model@frame)
+  data=as.data.frame(model@frame)
   RE=as.data.frame(sumModel[["varcor"]])
   RE=RE[is.na(RE[[3]]), -3]
 
   ## Initialize ICC data.frame ##
   N=nrow(model@frame)
   K=sumModel[["ngrps"]][RE$grp]
-  group.id=na.omit(names(K))
+  group.id=stats::na.omit(names(K))
   ICC=data.frame(RE[1], K, RE[2], RE[3])
   names(ICC)=c("Group", "K", "Parameter", "Variance")
   var.resid=ICC[ICC$Group=="Residual", "Variance"]
   var.total=sum(ICC[ICC$Parameter=="(Intercept)" | ICC$Group=="Residual", "Variance"])
 
   ## Mean sample size of each group ##
-  n.mean=c()
-  for(group in group.id) n.mean=c(n.mean, (N-sum(data[,.(n=.N^2), by=group]$n)/N) / (nlevels(data[[group]])-1) )  # quite similar to "N / K"
-  n.mean=c(n.mean, NA)
+  # n.mean=c()
+  # for(group in group.id) n.mean=c(n.mean, (N-sum(data[,.(n=.N^2), by=group]$n)/N) / (nlevels(data[[group]])-1) )  # quite similar to "N / K"
+  # n.mean=c(n.mean, NA)
 
   ## Test for variance (Wen Fuxing, 2009, pp.85-97; Snijders & Bosker, 2012, pp.190-191) ##
   var=ICC$Variance
   # var.se=var.resid * (2/N) * sqrt(1/(n.mean-1) + 2*var/var.resid + n.mean*var^2/var.resid^2)  # error !!!
-  var.se=sqrt(2*(var+var.resid/n.mean)^2/(K-1) + 2*var.resid^2/((N-K)*n.mean^2))
-  var.wald.z=var/var.se
-  var.p=p.z(var.wald.z)
+  # var.se=sqrt(2*(var+var.resid/n.mean)^2/(K-1) + 2*var.resid^2/((N-K)*n.mean^2))
+  # var.wald.z=var/var.se
+  # var.p=p.z(var.wald.z)
 
   ## Compute and test for ICC (Snijders & Bosker, 2012, pp.20-21) ##
   icc=var/var.total
@@ -868,41 +825,20 @@ HLM_ICC=function(model, nsmall=3) {
   ## Combine results ##
   ICC$K=formatF(ICC$K, nsmall=0)
   ICC$Variance=formatF(ICC$Variance, nsmall=5)
-  ICC$S.E.=formatF(var.se, nsmall=nsmall)
-  ICC$Wald.Z=formatF(var.wald.z, nsmall=2)
-  ICC$p=p.trans(var.p)
-  ICC$sig=sig.trans(var.p)
+  # ICC$S.E.=formatF(var.se, nsmall=nsmall)
+  # ICC$Wald.Z=formatF(var.wald.z, nsmall=2)
+  # ICC$p=p.trans(var.p)
+  # ICC$sig=sig.trans(var.p)
   ICC$ICC=formatF(icc, nsmall=5)
-  ICC[ICC$Group=="Residual", c("K", "Parameter", "S.E.", "Wald.Z", "p", "ICC")] = ""
+  ICC[ICC$Group=="Residual", c("K", "Parameter", "ICC")] = ""
   ICC[ICC$Parameter!="(Intercept)" & ICC$Group!="Residual", c("Group", "K", "ICC")] = ""
   names(ICC)[1]=paste0("Cluster", rep_char(" ", max(nchar(ICC$Group))-7))
-  names(ICC)[2]="K "
+  names(ICC)[2]="K  "
   names(ICC)[3]=paste0("Parameter", rep_char(" ", max(nchar(ICC$Parameter))-9))
-  names(ICC)[6]="Wald Z"
-  names(ICC)[8]=" "
+  # names(ICC)[6]="Wald Z"
+  # names(ICC)[8]=" "
 
   return(ICC)
-}
-
-
-## Compute CI for random effects
-print_variance_ci=function(model) {
-  suppressMessages({
-    varCI=confint(model, parm=c(".sig01", ".sig02", ".sig03",
-                                ".sig04", ".sig05", ".sig06",
-                                ".sig07", ".sig08", ".sig09",
-                                ".sigma"))^2
-  })
-  varCI=as.data.frame(varCI)
-  vc=row.names(varCI) %>% gsub("\\.", "", .) %>%
-    gsub("sigma", "sigerror", .) %>%
-    gsub("sig", "sigma_", .) %>%
-    paste0("^2")
-  varCI=cbind(`Variance Component`=vc, varCI)
-  names(varCI)[2:3]=c("[95% ", "  CI]")
-  cat("\n")
-  print_table(varCI, row.names=FALSE, nsmalls=5)
-  invisible(varCI)
 }
 
 
@@ -947,8 +883,6 @@ print_variance_ci=function(model) {
 #' *** See an example in Wei et al.'s paper (2017, \emph{\href{https://doi.org/10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
 #' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
 #' and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).
-## @param variance.ci \strong{[only for \code{lmer} and \code{glmer}]} \code{TRUE} or \code{FALSE} (default).
-## Print the confidence intervals (CI) for variance components.
 #' @param test.rand \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 ## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
@@ -986,10 +920,10 @@ print_variance_ci=function(model) {
 #'
 #' ## Example 3: data from MASS::bacteria
 #' # GLMM with binomial outcome (multilevel logistic regression)
-#' data.glmm=MASS::bacteria
-#' data.glmm$week.2=(data.glmm$week>2) %>% as.numeric()
-#' glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
-#' HLM_summary(glmm)
+#' # data.glmm=MASS::bacteria
+#' # data.glmm$week.2=as.numeric(data.glmm$week>2)
+#' # glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
+#' # HLM_summary(glmm)
 #'
 #' @references
 #' Hox, J. J. (2010). \emph{Multilevel analysis: Techniques and applications} (2nd ed.). New York, NY: Routledge. \url{https://doi.org/10.4324/9780203852279}
@@ -1000,20 +934,17 @@ print_variance_ci=function(model) {
 #'
 #' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
 #'
-#' @importFrom car Anova
-#' @importFrom stats qt var model.response model.frame
+#' @importFrom stats qt var residuals model.response model.frame anova
 #' @importFrom MuMIn std.coef r.squaredGLMM
 #' @export
 HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
                      vartypes=NULL,
                      t2r=FALSE,
-                     # variance.ci=FALSE,  # time-consuming in big datasets
                      test.rand=FALSE,  # time-consuming in big datasets
                      nsmall=3,
                      ...) {
   dots=list(...)
-  ngrps=lme4::ngrps
   if(c("formula", "data") %allin% names(dots)) {
     # re-modeling
     formula=dots$formula
@@ -1027,6 +958,7 @@ HLM_summary=function(model=NULL,
   }
   dv=formula[[2]]
   sumModel=summary(model, cor=F)
+  ngrps=sumModel[["ngrps"]]
 
   ## lmer vs. glmer ##
   if(class(model)=="lmerModLmerTest") {
@@ -1069,7 +1001,7 @@ HLM_summary=function(model=NULL,
     # .prt.grps(ngrps=ngrps(model), nobs=nobs(model))
     Print("\n\n
     Level-1 Observations: <<italic N>> = {nobs(model)}
-    Level-2 Groups/Clusters: {paste(paste(names(ngrps(model)), ngrps(model), sep=', '), collapse='; ')}
+    Level-2 Groups/Clusters: {paste(paste(names(ngrps), ngrps, sep=', '), collapse='; ')}
     ")
 
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria ##
@@ -1093,10 +1025,13 @@ HLM_summary=function(model=NULL,
     ")
 
     ## Print: ANOVA Table ##
-    cat("\n")
-    Print("ANOVA table:")
-    aov.hlm=car::Anova(model, type=3)
-    print_table(aov.hlm, nsmalls=c(2,0))
+    # aov.hlm=car::Anova(model, type=3)
+    aov.hlm=stats::anova(model)
+    if(nrow(aov.hlm)>0) {
+      cat("\n")
+      Print("ANOVA table:")
+      print_table(aov.hlm, nsmalls=2)
+    }
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
@@ -1151,9 +1086,7 @@ HLM_summary=function(model=NULL,
     # res=sumModel[["sigma"]]^2
     # print(RE, comp="Variance")
     RE=HLM_ICC(model, nsmall=nsmall)
-    # print_table(RE, row.names=F)
-    print_table(RE[c(1:4, 9)], row.names=F)
-    # if(variance.ci) print_variance_ci(model)
+    print_table(RE, row.names=FALSE)
   } else if(class(model)=="glmerMod") {
     summ=jtools::summ(model, digits=nsmall, re.variance="var")
     # summ(model, digits=nsmall, stars=T, exp=T, confint=T, re.variance="var")
@@ -1167,7 +1100,7 @@ HLM_summary=function(model=NULL,
 
     Formula: {formula_paste(formula)}
     Level-1 Observations: <<italic N>> = {nobs(model)}
-    Level-2 Groups/Clusters: {paste(paste(names(ngrps(model)), ngrps(model), sep=', '), collapse='; ')}
+    Level-2 Groups/Clusters: {paste(paste(names(ngrps), ngrps, sep=', '), collapse='; ')}
     ")
 
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria) ##
@@ -1215,8 +1148,9 @@ HLM_summary=function(model=NULL,
     ICC$Group=as.character(ICC$Group)
     ICC$K=as.numeric(as.character(ICC$K))
     ICC$ICC=as.numeric(as.character(ICC$ICC))
-    RE=left_join(RE[1], ICC[1:2], by="Group") %>%
-      cbind(RE[2:3]) %>% left_join(ICC[c(1,3)], by="Group")
+    RE=left_join(cbind(left_join(RE[1], ICC[1:2], by="Group"),
+                       RE[2:3]),
+                 ICC[c(1,3)], by="Group")
     RE$K=formatF(RE$K, 0)
     RE$Variance=formatF(RE$Variance, 5)
     RE$ICC=formatF(RE$ICC, 5)
@@ -1226,7 +1160,6 @@ HLM_summary=function(model=NULL,
     names(RE)[2]="K "
     names(RE)[3]=paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
     print_table(RE, row.names=F)
-    # if(variance.ci) print_variance_ci(model)
     Print("<<blue Residual variance is not reported for generalized linear mixed models,
            but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
            and log(1/exp(intercept)+1) in poisson models (count data).>>")

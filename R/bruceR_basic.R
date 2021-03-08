@@ -91,16 +91,15 @@
 #' If \code{NULL}, set working directory to the path of \strong{the current R script}.
 #'
 #' @examples
-#' set.wd()  # set working directory to the path of the current R script
-#' set.wd("D:/")  # "\" is not allowed, you should use "/"
-#' set.wd("../")  # set working directory to the parent directory
+#' # set.wd()  # set working directory to the path of the current R script
+#' # set.wd("D:/")  # "\" is not allowed, you should use "/"
+#' # set.wd("../")  # set working directory to the parent directory
 #'
 #' @seealso \code{\link{setwd}}
 #'
-#' @importFrom rstudioapi getSourceEditorContext
 #' @export
 set.wd=function(dir=NULL) {
-  if(is.null(dir)) dir=dirname(getSourceEditorContext()$path)
+  if(is.null(dir)) dir=dirname(rstudioapi::getActiveDocumentContext()$path)
   setwd(dir)
   path=getwd()
   Print("<<green \u2714>> Set working directory to <<blue '{path}'>>")
@@ -114,15 +113,13 @@ set.wd=function(dir=NULL) {
 #' Useful if you want to see the unique contribution of \code{pkg}.
 #'
 #' @examples
-#' pkg_depend("MuMIn")
+#' ## Not run:
 #'
-#' pkg_depend("sjstats")
-#' pkg_depend("sjstats", exclude="tidyverse")  # partial dependencies
+#' # pkg_depend("jmv")
+#' # pkg_depend("dplyr", exclude="jmv")  # no unique contribution
 #'
-#' pkg_depend("dplyr", exclude="tidyverse")  # no unique contribution
-#' pkg_depend("lme4", exclude=c("tidyverse", "ggstatsplot"))  # no unique contribution
-#'
-#' @importFrom tools package_dependencies
+#' ## End(Not run)
+## @importFrom tools package_dependencies
 ## @importFrom utils packageDescription
 #' @export
 pkg_depend=function(pkg, exclude=NULL) {
@@ -133,8 +130,8 @@ pkg_depend=function(pkg, exclude=NULL) {
                  "tcltk", "tools", "translations", "utils")
   exclude.pkgs=default.pkgs
   for(ex in exclude)
-    exclude.pkgs=union(exclude.pkgs, unlist(package_dependencies(ex, recursive=TRUE)))
-  pkgs=unlist(package_dependencies(pkg, recursive=TRUE))
+    exclude.pkgs=union(exclude.pkgs, unlist(tools::package_dependencies(ex, recursive=TRUE)))
+  pkgs=unlist(tools::package_dependencies(pkg, recursive=TRUE))
   pkgs=sort(setdiff(union(pkg, pkgs), exclude.pkgs))
   if(length(pkgs)==0) {
     Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>")
@@ -467,7 +464,6 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 #'
-#' @importFrom data.table is.data.table as.data.table
 #' @importFrom dplyr left_join
 #' @export
 LOOKUP=function(data, vars,
@@ -480,19 +476,11 @@ LOOKUP=function(data, vars,
   data.new=left_join(data,
                      data.ref[c(vars.ref, vars.lookup)],
                      by=by)
-  if(nrow(data.new)>nrow(data)) {
-    data.ref=as.data.table(data.ref)
-    data.ref=unique(data.ref, by=vars.ref)
-    data.new=left_join(data,
-                       data.ref[c(vars.ref, vars.lookup)],
-                       by=by)
-    data.new=as.data.frame(data.new)
-    warning("More than one values were matched, only the first value in 'data.ref' was returned. Please check your reference data!")
-  }
+  if(nrow(data.new)>nrow(data))
+    warning("More than one values are matched!")
   if(length(return)==3) return="new.data"
   if(return=="new.value" & length(vars.lookup)>=2) return="new.var"
   if(return=="new.data") {
-    if(is.data.table(data)) data.new=as.data.table(data.new)
     return(data.new)
   } else if(return=="new.var") {
     return(data.new[vars.lookup])

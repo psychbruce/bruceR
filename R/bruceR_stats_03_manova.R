@@ -1,6 +1,6 @@
-#### MANOVA ####
+#### Demo Data ####
 
-## Demo data
+
 if(FALSE) {
   library(rio)
   between.1=import("data-raw/between.1.sav", haven=F); names(between.1)[2]="SCORE"
@@ -24,28 +24,16 @@ if(FALSE) {
 }
 
 
-#' Multi-factor ANOVA.
+#' Demo data.
 #'
 #' @description
-#' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
-#'
-#' @details
-#' This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
-#' You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
-#' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
-#' 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
-#'
-#' In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
-#' \eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
-#' For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
-#'
-#' \strong{Demo Datasets:}
-#'
-#' The demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
+#' These demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
 #' In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
 #' The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
 #' Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
 #' Many thanks go to the contributors of the datasets.
+#'
+#' @format
 #' \describe{
 #'   \item{\strong{1. Between-Subjects Design}}{
 #'     \itemize{
@@ -70,7 +58,35 @@ if(FALSE) {
 #'   }
 #' }
 #'
-#' @param data Data object (e.g., \code{data.frame, data.table}). Both \strong{long-format} and \strong{wide-format} can be used.
+#' @name bruceR-demodata
+#' @aliases
+#' between.1 between.2 between.3
+#' mixed.2_1b1w mixed.3_1b2w mixed.3_2b1w
+#' within.1 within.2 within.3
+NULL
+
+
+
+
+#### MANOVA ####
+
+
+#' Multi-factor ANOVA.
+#'
+#' @description
+#' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
+#'
+#' @details
+#' This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
+#' You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
+#' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
+#' 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
+#'
+#' In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
+#' \eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
+#' For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
+#'
+#' @param data Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
 #' \itemize{
 #'   \item If you input a \strong{long-format} data, please also specify \strong{subID}.
 #'   \item If you input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
@@ -197,12 +213,10 @@ if(FALSE) {
 #' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
 #' \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
 #'
-#' @seealso \code{\link{EMMEANS}}
+#' @seealso \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 #'
 #' @importFrom dplyr mutate
-#' @importFrom afex aov_ez
 #' @importFrom sjstats anova_stats
-#' @importFrom tidyr pivot_longer
 #' @importFrom stats complete.cases
 #' @export
 MANOVA=function(data, subID=NULL, dv=NULL,
@@ -235,10 +249,11 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       else
         dv.vars=dvs
       dv="bruceY"  # "Y" will generate an error when dvs are like "X1Y1"
-      data=pivot_longer(data, cols=dv.vars,
-                        names_to=within,
-                        names_pattern=dvs.pattern,
-                        values_to=dv)
+      eval(parse(
+        text="data=tidyr::pivot_longer(data, cols=dv.vars,
+                                       names_to=within,
+                                       names_pattern=dvs.pattern,
+                                       values_to=dv)"))
       data=as.data.frame(data)
     }
   } else {
@@ -266,26 +281,24 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 
   ## Main MANOVA Functions
   suppressMessages({
-    aov.ez=aov_ez(data=data, id=subID, dv=dv,
-                  between=between,
-                  within=within,
-                  covariate=covariate,
-                  observed=which.observed,
-                  anova_table=list(correction=sph.correction,
-                                   es="ges"),
-                  fun_aggregate=mean,
-                  include_aov=TRUE,  # see EMMEANS, default will be FALSE
-                  factorize=FALSE,
-                  print.formula=FALSE)
+    aov.ez=afex::aov_ez(data=data, id=subID, dv=dv,
+                        between=between,
+                        within=within,
+                        covariate=covariate,
+                        observed=which.observed,
+                        anova_table=list(correction=sph.correction,
+                                         es="ges"),
+                        fun_aggregate=mean,
+                        include_aov=TRUE,  # see EMMEANS, default will be FALSE
+                        factorize=FALSE,
+                        print.formula=FALSE)
   })
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
-  at=mutate(at,
-            MS=`F`*`MSE`,
-            # g.eta2=at$ges,
-            p.eta2=mapply(eta_sq_ci, `F`, `df1`, `df2`, return="eta2"),
-            LLCI=mapply(eta_sq_ci, `F`, `df1`, `df2`, return="LLCI"),
-            ULCI=mapply(eta_sq_ci, `F`, `df1`, `df2`, return="ULCI"))
+  at$MS=at$`F`*at$`MSE`
+  at$p.eta2=mapply(eta_sq_ci, at$`F`, at$df1, at$df2, return="eta2")
+  at$LLCI=mapply(eta_sq_ci, at$`F`, at$df1, at$df2, return="LLCI")
+  at$ULCI=mapply(eta_sq_ci, at$`F`, at$df1, at$df2, return="ULCI")
   at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
               "p.eta2", "LLCI", "ULCI")]
   names(at)[7:9]=c("  \u03b7\u00b2p",
@@ -490,12 +503,12 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' # View(between.1)
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A")
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
-#'   EMMEANS("A", p.adjust="tukey")
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
-#'   EMMEANS("A", contrast="seq")
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
-#'   EMMEANS("A", contrast="poly")
+#' # MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' #   EMMEANS("A", p.adjust="tukey")
+#' # MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' #   EMMEANS("A", contrast="seq")
+#' # MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' #   EMMEANS("A", contrast="poly")
 #'
 #' # View(between.2)
 #' MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) %>%
@@ -560,19 +573,16 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #'
 #' #### Other Examples ####
-#' air=airquality
-#' air$Day.1or2=ifelse(air$Day %% 2 == 1, 1, 2) %>%
-#'   factor(levels=1:2, labels=c("odd", "even"))
-#' MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
-#'        covariate=c("Solar.R", "Wind")) %>%
-#'   EMMEANS("Month", contrast="seq") %>%
-#'   EMMEANS("Month", by="Day.1or2", contrast="poly")
+#' # air=airquality
+#' # air$Day.1or2=ifelse(air$Day %% 2 == 1, 1, 2) %>%
+#' #   factor(levels=1:2, labels=c("odd", "even"))
+#' # MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
+#' #        covariate=c("Solar.R", "Wind")) %>%
+#' #   EMMEANS("Month", contrast="seq") %>%
+#' #   EMMEANS("Month", by="Day.1or2", contrast="poly")
 #'
-#' @seealso \code{\link{MANOVA}}
+#' @seealso \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 #'
-#' @importFrom emmeans joint_tests emmeans contrast eff_size
-#' @importFrom psych t2r r2d
-#' @importFrom stats confint df.residual
 #' @export
 EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
@@ -608,13 +618,13 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   tryCatch({
     err=TRUE
     suppressMessages({
-      sim=joint_tests(model, by=by, weights="equal")
+      sim=emmeans::joint_tests(model, by=by, weights="equal")
     })
     err=FALSE
   }, error=function(e) {
     message(repair.msg)
   }, silent=TRUE)
-  if(err) sim=joint_tests(model.raw, by=by, weights="equal")
+  if(err) sim=emmeans::joint_tests(model.raw, by=by, weights="equal")
   if("note" %in% names(sim)) {
     error=TRUE
     message("\nWarning message:
@@ -627,10 +637,10 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   } else {
     error=FALSE
     sim$sig=sig.trans(sim$p.value)
-    sim$p.eta2=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="eta2") %>% round(nsmall+1)
-    sim$LLCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="LLCI") %>% formatF(nsmall+1)
+    sim$p.eta2=round(mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="eta2"), nsmall+1)
+    sim$LLCI=round(mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="LLCI"), nsmall+1)
     sim$LLCI=paste0("[", sim$LLCI, ",")
-    sim$ULCI=mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="ULCI") %>% formatF(nsmall+1)
+    sim$ULCI=round(mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="ULCI"), nsmall+1)
     sim$ULCI=paste0(sim$ULCI, "]")
     sim$F.ratio=round(sim$F.ratio, nsmall)
     sim$p.value=p.trans(sim$p.value)
@@ -644,7 +654,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   ## Estimated Marginal Means (emmeans)
   Print("<<underline Estimated Marginal Means of \"{effect.text}\":>>")
   suppressMessages({
-    emm0=emm=emmeans(model, specs=effect, by=by, weights="equal")
+    emm0=emm=emmeans::emmeans(model, specs=effect, by=by, weights="equal")
   })
   emm=summary(emm)  # to a data.frame (class 'summary_emm')
   emm$emmean=formatF(emm$emmean, nsmall)
@@ -673,9 +683,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   if(contrast=="seq") contrast="consec"
   if(contrast=="consec") reverse=FALSE
   if(contrast=="poly") p.adjust="none"
-  con0=con=contrast(emm0, method=contrast, adjust=p.adjust, reverse=reverse)
+  con0=con=emmeans::contrast(emm0, method=contrast, adjust=p.adjust, reverse=reverse)
   # pairs(emm, simple="each", reverse=TRUE, combine=TRUE)
-  conCI=confint(con)
+  conCI=stats::confint(con)
   con=summary(con)  # to a data.frame (class 'summary_emm')
   con$sig=sig.trans(con$p.value)
   # Cohen's d: 3 methods
@@ -683,7 +693,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     # WARNING: NOT Accurate!
     if(contrast!="poly")
       message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
-    con$d=r2d(t2r(con$t.ratio, con$df))
+    con$d=psych::r2d(psych::t2r(con$t.ratio, con$df))
     con$d.LLCI=paste0("[", formatF(conCI$lower.CL*con$d/con$estimate, nsmall), ",")
     con$d.ULCI=paste0(formatF(conCI$upper.CL*con$d/con$estimate, nsmall), "]")
   } else if(cohen.d=="eff_size") {
@@ -693,9 +703,10 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     term=c()
     for(i in rn) if(i %in% effect) term=c(term, i)
     term=paste(term, collapse=":")
-    es=eff_size(emm0, method=contrast,
-                sigma=sqrt(model$anova_table[term, "MSE"]),
-                edf=df.residual(model$lm)) %>% summary()
+    es=emmeans::eff_size(emm0, method=contrast,
+                         sigma=sqrt(model$anova_table[term, "MSE"]),
+                         edf=stats::df.residual(model$lm))
+    es=summary(es)
     con$d=es$effect.size
     con$d.LLCI=paste0("[", formatF(es$lower.CL, nsmall), ",")
     con$d.ULCI=paste0(formatF(es$upper.CL, nsmall), "]")

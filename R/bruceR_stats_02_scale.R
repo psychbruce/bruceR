@@ -121,7 +121,7 @@ scaler=function(v, min=0, max=1) {
 #' )]
 #'
 #' @name %%COMPUTE%%
-#' @aliases COUNT SUM MEAN STD CONSEC
+## @aliases COUNT SUM MEAN STD CONSEC
 NULL
 
 
@@ -393,7 +393,6 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' If the model has high-order factors, only "lavaan" style will be output.
 #' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 #' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
-#' @param plot \code{TRUE} or \code{FALSE} (default), provide a path diagram of the model.
 #'
 #' @seealso
 #' \code{jmv::\link[jmv]{cfa}}
@@ -413,16 +412,13 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' data.bfi=data.bfi[complete.cases(data.bfi),]
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 #'
-#' @importFrom lavaan cfa modificationIndices
-#' @importFrom semPlot semPaths
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",
-             style=c("jmv", "lavaan"), CI=FALSE, MI=FALSE, plot=FALSE) {
+             style=c("jmv", "lavaan"), CI=FALSE, MI=FALSE) {
   model.jmv=modelCFA.trans("jmv", model)
   model.lav=modelCFA.trans("lavaan", model, highorder)
   if(orthogonal==TRUE | highorder!="") style="lavaan"
-  if(plot==TRUE & "lavaan" %notin% style) style=append(style, "lavaan")
 
   Print("#### Latent variable definitions ####")
   cat(model.lav, "\n\n")
@@ -456,9 +452,9 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
                         missing=missing) # fiml, listwise (default)
     cat("#### lavaan style output ####\n\n")
     summary(fit.lav, fit.measures=TRUE, standard=TRUE)
-    if(MI) print(modificationIndices(fit.lav))
-    if(plot) semPaths(fit.lav, "std", curveAdjacent=TRUE,
-                      style="lisrel", nDigits=2, edge.label.cex=1)
+    if(MI) print(lavaan::modificationIndices(fit.lav))
+    # if(plot) semPaths(fit.lav, "std", curveAdjacent=TRUE,
+    #                   style="lisrel", nDigits=2, edge.label.cex=1)
     results=c(results, fit.lavaan=fit.lav)
   }
 

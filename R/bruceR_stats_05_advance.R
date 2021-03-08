@@ -13,52 +13,37 @@
 #' For details, see the "Value" section in \code{\link[mediation]{mediate}}.
 #'
 #' @examples
-#' library(mediation)
-#' ?mediation::mediate
+#' # library(mediation)
+#' # ?mediation::mediate
 #'
 #' ## Example 1: OLS Regression
-#' # Data and correlation matrix
-#' Corr(airquality)
-#' # Hypothesis: Solar radiation -> Ozone -> Daily temperature
-#' lm.m=lm(Ozone ~ Solar.R + Month + Wind, data=airquality)
-#' lm.y=lm(Temp ~ Ozone + Solar.R + Month + Wind, data=airquality)
-#' # Model summary
-#' model_summary(list(lm.m, lm.y))
-#' check_collinearity(lm.m)
-#' check_collinearity(lm.y)
-#' # Mediation analysis
-#' set.seed(123)  # set a random seed for reproduction
-#' med=mediate(lm.m, lm.y,
-#'             treat="Solar.R", mediator="Ozone",
-#'             sims=1000, boot=TRUE, boot.ci.type="bca")
-#' # Bias-corrected and accelerated (BCa) bootstrap confidence intervals
-#' med_summary(med)
+#' ## Bias-corrected and accelerated (BCa) bootstrap confidence intervals
+#'
+#' ## Hypothesis: Solar radiation -> Ozone -> Daily temperature
+#' # lm.m=lm(Ozone ~ Solar.R + Month + Wind, data=airquality)
+#' # lm.y=lm(Temp ~ Ozone + Solar.R + Month + Wind, data=airquality)
+#' # set.seed(123)  # set a random seed for reproduction
+#' # med=mediate(lm.m, lm.y,
+#' #             treat="Solar.R", mediator="Ozone",
+#' #             sims=1000, boot=TRUE, boot.ci.type="bca")
+#' # med_summary(med)
 #'
 #' ## Example 2: Multilevel Linear Model (Linear Mixed Model)
-#' # Data and correlation matrix
-#' library(lmerTest)
-#' ?carrots  # long-format data
-#' data=na.omit(carrots)  # omit missing values
-#' setDT(data)  # set as data.table
-#' Corr(data[,.(Preference, Crisp, Sweetness)])
-#' # Hypothesis: Crips -> Sweetness -> Preference (for carrots)
-#' # (models must be fit using "lme4::lmer" rather than "lmerTest::lmer")
-#' lmm.m=lme4::lmer(Sweetness ~ Crisp + Gender + Age + (1 | Consumer), data=data)
-#' lmm.y=lme4::lmer(Preference ~ Sweetness + Crisp + Gender + Age + (1 | Consumer), data=data)
-#' # Model summary
-#' model_summary(list(lmm.m, lmm.y))
-#' check_collinearity(lmm.m)
-#' check_collinearity(lmm.y)
-#' # Mediation analysis
-#' set.seed(123)  # set a random seed for reproduction
-#' med.lmm=mediate(lmm.m, lmm.y,
-#'                 treat="Crisp", mediator="Sweetness",
-#'                 sims=1000)
-#' # Monte Carlo simulation (quasi-Bayesian approximation)
-#' # (bootstrap method is not applicable to "lmer" models)
-#' med_summary(med.lmm)
+#' ## (models must be fit using "lme4::lmer" rather than "lmerTest::lmer")
+#' ## Monte Carlo simulation (quasi-Bayesian approximation)
+#' ## (bootstrap method is not applicable to "lmer" models)
 #'
-#' @importFrom stats model.frame
+#' ## Hypothesis: Crips -> Sweetness -> Preference (for carrots)
+#' # data=lmerTest::carrots  # long-format data
+#' # data=na.omit(data)  # omit missing values
+#' # lmm.m=lme4::lmer(Sweetness ~ Crisp + Gender + Age + (1 | Consumer), data=data)
+#' # lmm.y=lme4::lmer(Preference ~ Sweetness + Crisp + Gender + Age + (1 | Consumer), data=data)
+#' # set.seed(123)  # set a random seed for reproduction
+#' # med.lmm=mediate(lmm.m, lmm.y,
+#' #                 treat="Crisp", mediator="Sweetness",
+#' #                 sims=1000)
+#' # med_summary(med.lmm)
+#'
 #' @export
 med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   # for raw function, see:
@@ -87,7 +72,7 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   Print("Model Hypothesis:")
   X=x[["treat"]]
   M=x[["mediator"]]
-  Y=names(model.frame(x[["model.y"]]))[1]
+  Y=names(stats::model.frame(x[["model.y"]]))[1]
   Print("{X} ==> {M} ==> {Y}")
 
   if (print.avg) {
@@ -125,123 +110,6 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   Print("Simulations: {x$sims} ({ifelse(x$boot, 'Bootstrap', 'Monte Carlo')})")
   cat("\n")
   invisible(x)
-}
-
-
-#### Indirect Effect: Sobel Test & MCMC ####
-
-
-#' Mediation analysis based on \emph{b} and \emph{SE} with Sobel test and Monte Carlo simulation.
-#'
-#' @description
-#' Estimating indirect effect from regression coefficients and standard errors (\emph{SE}) by using Sobel test and Monte Carlo simulation.
-#'
-#' Total effect (\strong{c}) = Direct effect (\strong{c'}) + Indirect effect (\strong{a*b})
-#'
-#' @param a Path \strong{a} (X -> Mediator).
-#' @param SEa \emph{SE} of path \strong{a}.
-#' @param b Path \strong{b} (Mediator -> Y).
-#' @param SEb \emph{SE} of path \strong{b}.
-#' @param direct [optional] Path \strong{c'} (X -> Y \strong{direct} effect, with M also included in model).
-#' @param total [optional] Path \strong{c} (X -> Y \strong{total} effect, without M).
-#' @param cov_ab Covariance between \strong{a} and \strong{b}.
-#'
-#' See \href{http://www.quantpsy.org/medmc/medmc.htm}{Selig & Preacher (2008)}:
-#'
-#' \emph{If you use SEM, path analysis, multilevel modeling, or some other multivariate method to obtain both a and b from a single model, then cov(a,b) can be found in the asymptotic covariance matrix of the parameter estimates.
-#' If you use regression to obtain a and b in separate steps, then cov(a,b) = 0.}
-#' @param seed Random seed.
-#' @param rep Number of repetitions for Monte Carlo simulation. Default is 50,000. More than 1,000 are recommended.
-#' @param nsmall Number of decimal places of output. Default is 3.
-#'
-#' @references
-#' Sobel, M. E. (1982). Asymptotic confidence intervals for indirect effects in Structural Equation Models. \emph{Sociological Methodology, 13,} 290-312.
-#'
-#' Selig, J. P., & Preacher, K. J. (2008). Monte Carlo method for assessing mediation: An interactive tool for creating confidence intervals for indirect effects. \url{http://www.quantpsy.org/medmc/medmc.htm}
-#'
-#' @examples
-#' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80)
-#' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, total=4.50)
-#' med_mc(a=1.50, SEa=0.50, b=2.00, SEb=0.80, direct=1.50)
-#'
-#' @export
-med_mc=function(a, SEa, b, SEb, direct=NULL, total=NULL,
-                cov_ab=0, seed=NULL, rep=50000, nsmall=3) {
-  indirect=a*b
-  if(is.null(total)) {
-    if(is.null(direct)) {
-      # Print("No input for 'direct' or 'total' effect.")
-    } else {
-      total=direct+indirect
-    }
-  } else {
-    if(is.null(direct)) {
-      direct=total-indirect
-    } else {
-      total=direct+indirect  # priority: direct > total
-      warning("Total effect is replaced by the sum of direct and indirect effects.")
-    }
-  }
-
-  ## Direct and Indirect Effects ##
-  if(is.null(total)==FALSE) {
-    effect=data.frame(total, direct, indirect,
-                      ratioTotal=indirect/total,
-                      ratioRelative=abs(indirect/direct))
-    names(effect)=c("Total", "Direct", "Indirect", "Ratio.Total", "Ratio.Relative")
-    Print("Direct and Indirect Effects:")
-    print_table(effect, row.names=FALSE, nsmalls=nsmall)
-    Print("<<blue Total = Direct + Indirect
-    Ratio.Total = Indirect / Total
-    Ratio.Relative = Indirect / Direct
-    \n>>")
-  }
-
-  ## Indirect Effect: Sobel Test & MCMAM ##
-  sobel=sobel(a, SEa, b, SEb)
-  mcmam=mcmam(a, SEa, b, SEb, cov_ab=cov_ab, seed=seed, rep=rep)
-  mediation=rbind(sobel, mcmam)
-  names(mediation)=c("a", "b", "a*b", "SE(a*b)", "z", "pval", "[95% ", "  CI]", "sig")
-  Print("Test for Indirect Effect (a*b):")
-  print_table(mediation, nsmalls=nsmall)
-}
-
-
-sobel=function(a, SEa, b, SEb) {
-  ab=a*b
-  SEab=sqrt(a^2*SEb^2 + b^2*SEa^2) # Sobel (1982) first-order solution
-  # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 - SEa^2*SEb^2) # Goodman (1960) unbiased solution
-  # SEab=sqrt(a^2*SEb^2 + b^2*SEa^2 + SEa^2*SEb^2) # Aroian (1944) second-order exact solution
-  z=ab/SEab
-  p=p.z(z)
-  abLLCI=ab-1.96*SEab
-  abULCI=ab+1.96*SEab
-  sig=sig.trans(p)
-  out=data.frame(a, b, ab, SEab, z, p, abLLCI, abULCI, sig)
-  row.names(out)="Sobel test"
-  return(out)
-}
-
-
-mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
-  # http://www.quantpsy.org/medmc/medmc.htm
-  if(!is.null(seed)) set.seed(seed)
-  acov=matrix(c(
-    SEa^2, cov_ab,
-    cov_ab, SEb^2
-  ), 2, 2)
-  mcmc=MASS::mvrnorm(rep, c(a, b), acov, empirical=FALSE)
-  abMC=mcmc[,1]*mcmc[,2]
-  ab=mean(abMC)
-  SEab=stats::sd(abMC)
-  # z=ab/SEab
-  # p=p.z(z)
-  abLLCI=as.numeric(stats::quantile(abMC, (1-conf)/2))  # 0.025
-  abULCI=as.numeric(stats::quantile(abMC, 1-(1-conf)/2))  # 0.975
-  sig=ifelse(abLLCI>0 | abULCI<0, "yes", "no")
-  out=data.frame(a, b, ab, SEab, z=NA, p=NA, abLLCI, abULCI, sig)
-  row.names(out)="Monte Carlo"
-  return(out)
 }
 
 
@@ -283,20 +151,16 @@ mcmam=function(a, SEa, b, SEb, cov_ab=0, seed=NULL, rep=50000, conf=0.95) {
 #' and save using the \code{ggsave} function.
 #'
 #' @examples
-#' (d=lmtest::ChickEgg)  # time-series data
-#' p1=ccf_plot(chicken ~ egg, data=d)
-#' p2=ccf_plot(chicken ~ egg, data=d, alpha.ns=0.3,
-#'             pos.color=see::social_colors("red"),
-#'             neg.color=see::social_colors("blue grey"),
-#'             ci.color="black")
-#' ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
+#' # p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
+#' # p2=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
+#' #             pos.color="#CD201F",
+#' #             neg.color="#21759B",
+#' #             ci.color="black")
+#' # ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
 #'
 #' @seealso \code{\link{granger_test}}
 #'
 #' @import ggplot2
-#' @importFrom stats ccf qt
-#' @importFrom dplyr mutate
-#' @importFrom psych t2r
 #' @export
 ccf_plot=function(formula, data,
                   lag.max=30, sig.level=0.05,
@@ -312,15 +176,17 @@ ccf_plot=function(formula, data,
   if(is.null(title)) title=Glue("{x} \u2192 {y}")
 
   cc=stats::ccf(x=data[[x]], y=data[[y]], lag.max=lag.max, plot=FALSE)
-  ccdata=with(cc, data.frame(`lag`, `acf`))
+  ccdata=with(cc, data.frame(lag, acf))
   n=cc$n.used
-  rsig=t2r(qt(sig.level/2, n, lower.tail=F), n-2)
-  ccdata=mutate(ccdata,
-                `sig`=as.factor(ifelse(abs(acf)<rsig, 0, 1)),
-                `direc`=as.factor(ifelse(acf<0, 0, 1)))
+  rsig=psych::t2r(stats::qt(sig.level/2, n, lower.tail=F), n-2)
+  ccdata$sig=as.factor(ifelse(abs(ccdata$acf)<rsig, 0, 1))
+  ccdata$direc=as.factor(ifelse(ccdata$acf<0, 0, 1))
 
-  p=ggplot(ccdata, aes(x=lag, y=acf, color=direc, alpha=sig)) +
-    geom_segment(aes(xend=lag, yend=0), show.legend=FALSE) +
+  eval(parse(text="
+             p=ggplot(ccdata, aes(x=lag, y=acf, color=direc, alpha=sig)) +
+                 geom_segment(aes(xend=lag, yend=0), show.legend=FALSE)
+             "))
+  p=p +
     geom_hline(aes(yintercept=0), linetype=1, color="black") +
     geom_hline(aes(yintercept=rsig), linetype=2, color=ci.color) +
     geom_hline(aes(yintercept=-rsig), linetype=2, color=ci.color) +
@@ -353,37 +219,33 @@ ccf_plot=function(formula, data,
 #' @inheritParams ccf_plot
 #' @param lags Time lags. Default is \code{1:5}.
 #' @param test.reverse Whether to test reverse causality. Default is \code{FALSE}.
-#' @param na.action What to do with missing values. Default is \code{na.omit}.
 #'
 #' @examples
-#' (d=lmtest::ChickEgg)  # time-series data
-#' granger_test(chicken ~ egg, data=d)
-#' granger_test(chicken ~ egg, data=d, lags=1:10, test.reverse=TRUE)
+#' # granger_test(chicken ~ egg, data=lmtest::ChickEgg)
+#' # granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 #'
 #' @seealso \code{\link{ccf_plot}}
 #'
-#' @importFrom stats na.omit as.formula
-#' @importFrom lmtest grangertest
 #' @export
 granger_test=function(formula, data, lags=1:5,
-                      test.reverse=FALSE, na.action=na.omit) {
+                      test.reverse=FALSE) {
   Print("<<bold <<underline Granger Test of Predictive Causality>>>>")
 
   Print("\n\n\n<<bold Hypothesized direction:>>")
   Print("<<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>")
   for(lag in lags) {
-    gt=lmtest::grangertest(formula=formula, data=data, order=lag, na.action=na.action)
-    result=bruceR::p(f=gt[2,"F"], df1=-gt[2,"Df"], df2=gt[1,"Res.Df"])
+    eval(parse(text="gt=lmtest::grangertest(formula=formula, data=data, order=lag, na.action=na.omit)"))
+    eval(parse(text="result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])"))
     Print("Lags = {lag}: {result}")
   }
 
   if(test.reverse) {
     Print("\n\n\n<<bold Reverse direction:>>")
     Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
-    formula.rev=as.formula(paste(formula[3], formula[1], formula[2]))
+    formula.rev=stats::as.formula(paste(formula[3], formula[1], formula[2]))
     for(lag in lags) {
-      gt=lmtest::grangertest(formula=formula.rev, data=data, order=lag, na.action=na.action)
-      result=bruceR::p(f=gt[2,"F"], df1=-gt[2,"Df"], df2=gt[1,"Res.Df"])
+      eval(parse(text="gt=lmtest::grangertest(formula=formula.rev, data=data, order=lag, na.action=na.omit)"))
+      eval(parse(text="result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])"))
       Print("Lags = {lag}: {result}")
     }
   }

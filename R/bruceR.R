@@ -3,15 +3,10 @@
 # Check Package:   'Ctrl + Shift + E'
 # Test Package:    'Ctrl + Shift + T'
 
-#### For User ####
-# devtools::install_github("psychbruce/bruceR")
-# remove.packages("bruceR")
-
-#### Version Control ####
-# DESCRIPTION, README.md
-
 
 #### Main Description ####
+
+
 #' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}ollections and \strong{E}xtensions of \strong{R} functions
 #'
 #' @description
@@ -35,7 +30,6 @@
 #'   \item \strong{\code{performance}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
 #'   \item \strong{\code{ggplot2}}: Data visualization.
 #'   \item \strong{\code{cowplot}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
-#'   \item \strong{\code{ggthemes}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 #'   \item \strong{\code{see}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
 #' }
 #'
@@ -155,8 +149,8 @@ NULL
 #### Package-Loading Information ####
 
 #' @importFrom utils packageVersion
-#' @importFrom rvest html_text html_node
-#' @importFrom xml2 read_html
+## @importFrom rvest html_text html_node
+## @importFrom xml2 read_html
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
 
@@ -171,13 +165,13 @@ NULL
       ## STAT ##
       "psych", "emmeans", "effectsize", "performance",
       ## PLOT ##
-      "ggplot2", "cowplot", "ggthemes", "see")
+      "ggplot2", "cowplot", "see")
   })
 
   user.ver=curr.ver=as.character(packageVersion("bruceR"))
-  try({
-    curr.ver=html_text(html_node(read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
-  }, silent=T)
+  # try({
+  #   curr.ver=html_text(html_node(read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
+  # }, silent=T)
 
   if(user.ver==curr.ver) {
     update_msg="\n"
@@ -191,6 +185,8 @@ NULL
   }
 
   # {rep_char('=', 56)}
+  # \u2714
+  # \u2501
   LOGO=c(bell="\ud83d\udd14",
          bulb="\ud83d\udca1",
          gift="\ud83c\udf81",
@@ -204,16 +200,16 @@ NULL
   >>>>
 
   <<bold <<blue Loaded R packages:>>>>
-  <<green \u2714 <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table>>
-  <<green \u2714 <<yellow [Stat]:>> psych / emmeans / effectsize / performance>>
-  <<green \u2714 <<yellow [Plot]:>> ggplot2 / cowplot / ggthemes / see>>
+  <<green <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table>>
+  <<green <<yellow [Stat]:>> psych / emmeans / effectsize / performance>>
+  <<green <<yellow [Plot]:>> ggplot2 / cowplot / see>>
 
   <<bold <<blue Suggested R packages:>>>>
-  <<green \u2501 mediation / interactions / processR / lavaan / metafor / apaTables>>
+  <<green mediation / interactions / processR / lavaan / metafor / apaTables>>
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
-  <<cyan \u2501 Describe() / Freq() / Corr() / Alpha() / SUM() / MEAN()>>
-  <<cyan \u2501 MANOVA() / EMMEANS() / model_summary() / theme_bruce()>>
+  <<cyan Describe() / Freq() / Corr() / Alpha() / SUM() / MEAN()>>
+  <<cyan MANOVA() / EMMEANS() / model_summary() / theme_bruce()>>
 
   <<bold <<blue Citation:>>>>
   Bao, H.-W.-S. (2021). bruceR: Broadly useful collections and extensions of R functions [R package v{as.character(packageVersion('bruceR'))}]. <<underline https://github.com/psychbruce/bruceR>>
