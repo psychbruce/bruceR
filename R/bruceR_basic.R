@@ -106,51 +106,76 @@ set.wd=function(dir=NULL) {
 }
 
 
-#' Check dependencies of a package.
+#' Check dependencies of R packages.
 #'
-#' @param pkg Package name (a character string).
-#' @param exclude [optional] Package(s) and their dependencies excluded from the dependencies of \code{pkg}.
-#' Useful if you want to see the unique contribution of \code{pkg}.
+#' @param pkgs Package(s).
+#' @param excludes [optional] Package(s) and their dependencies excluded from the dependencies of \code{pkgs}.
+#' Useful if you want to see the unique dependencies of \code{pkgs}.
 #'
 #' @examples
 #' ## Not run:
 #'
 #' # pkg_depend("jmv")
-#' # pkg_depend("dplyr", exclude="jmv")  # no unique contribution
+#' # pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
+#'
+#' # pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
 #'
 #' ## End(Not run)
 #'
 #' @export
-pkg_depend=function(pkg, exclude=NULL) {
-  default.pkgs=c("base", "boot", "class", "cluster", "codetools", "compiler",
-                 "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
-                 "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet", "parallel",
-                 "rpart", "spatial", "splines", "stats", "stats4", "survival",
-                 "tcltk", "tools", "translations", "utils")
+pkg_depend=function(pkgs, excludes=NULL) {
+  default.pkgs=c("base", "boot", "class",
+                 "cluster", "codetools", "compiler",
+                 "datasets", "foreign", "graphics",
+                 "grDevices", "grid", "KernSmooth",
+                 "lattice", "MASS", "Matrix",
+                 "methods", "mgcv", "nlme",
+                 "nnet", "parallel", "rpart",
+                 "spatial", "splines", "stats",
+                 "stats4", "survival", "tcltk",
+                 "tools", "translations", "utils")
   exclude.pkgs=default.pkgs
-  for(ex in exclude)
+  for(ex in excludes)
     exclude.pkgs=union(exclude.pkgs, unlist(tools::package_dependencies(ex, recursive=TRUE)))
-  pkgs=unlist(tools::package_dependencies(pkg, recursive=TRUE))
-  pkgs=sort(setdiff(union(pkg, pkgs), exclude.pkgs))
-  if(length(pkgs)==0) {
-    Print("<<blue Package <<green '{pkg}'>> is already a dependency of your excluded package(s).>>")
-  } else {
-    if(is.null(exclude)==FALSE)
-      Print("<<blue Package <<green '{pkg}'>> is NOT a dependency of your excluded package(s).>>")
-    # packages=data.frame(Package=pkgs, Description=mapply(utils::packageDescription, pkgs, fields="Title"))
-    # View(packages, pkg)
-    return(pkgs)
-  }
+  for(pkg in pkgs)
+    pkgs=union(pkgs, unlist(tools::package_dependencies(pkg, recursive=TRUE)))
+  return(sort(setdiff(pkgs, exclude.pkgs)))
 }
 
 
-#' Print with rich formats and colors.
+#' Install suggested R packages.
+#'
+#' It checks and installs R packages suggested by \code{bruceR} (default)
+#' or any other package.
+#'
+#' @param by Suggested by which package? Default is \code{"bruceR"}.
+#'
+#' @examples
+#' # pkg_depend("irr")
+#' # pacman::p_delete(irr, lpSolve)
+#' # pkg_install_suggested()
+#'
+#' @export
+pkg_install_suggested=function(by="bruceR") {
+  pkgs.depends=pacman::p_depends(by, character.only=TRUE, local=TRUE)
+  pkgs.installed=pacman::p_library()
+  pkgs.need.install=setdiff(union(pkgs.depends$Imports,
+                                  pkgs.depends$Suggests),
+                            pkgs.installed)
+  if(length(pkgs.need.install)>0)
+    utils::install.packages(pkgs.need.install)
+  else
+    Print("<<green All packages suggested by `{by}` have been installed!>>")
+}
+
+
+#' Print texts with rich formats and colors.
 #'
 #' @describeIn Print Paste and print strings.
 #'
 #' @description
 #' Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
-#' Run \strong{\code{example("Print")}} and see what it can do.
+#' Run examples to see what it can do.
 #'
 #' @details
 #' See more details in \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.

@@ -3,7 +3,7 @@
 \name{Print}
 \alias{Print}
 \alias{Glue}
-\title{Print with rich formats and colors.}
+\title{Print texts with rich formats and colors.}
 \usage{
 Print(...)
 
@@ -20,7 +20,7 @@ Leading whitespace and blank lines from the first and last lines are automatical
 }
 \description{
 Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
-Run \strong{\code{example("Print")}} and see what it can do.
+Run examples to see what it can do.
 }
 \details{
 See more details in \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.

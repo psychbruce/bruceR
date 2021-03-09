@@ -10,10 +10,20 @@
 #' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions
 #'
 #' @description
-#' \strong{
-#' BRoadly Useful Convenient and Efficient R functions that
-#' BRing Users Concise and Elegent R data analyses.
-#' }
+#' \strong{BR}oadly
+#' \strong{U}seful
+#' \strong{C}onvenient
+#' and
+#' \strong{E}fficient
+#' \strong{R}
+#' functions that
+#' \strong{BR}ing
+#' \strong{U}sers
+#' \strong{C}oncise
+#' and
+#' \strong{E}legent
+#' \strong{R}
+#' data analyses.
 #'
 #' Check updates on \url{https://github.com/psychbruce/bruceR}
 #'
@@ -62,6 +72,8 @@
 #'
 #'       \code{\link{pkg_depend}}  (check package dependencies)
 #'
+#'       \code{\link{pkg_install_suggested}}  (install suggested packages)
+#'
 #'       \code{\link{dtime}}  (compute time difference)
 #'
 #'       \code{\link{\%notin\%}}  (the reverse of \code{\%in\%}, return a logical vector specifying values not in a table)
@@ -84,15 +96,15 @@
 #'
 #'       \code{\link{RESCALE}}  (rescale a variable; e.g., from 5-point to 7-point scale)
 #'
-#'       \code{\link{COUNT}}  (count values across variables)
-#'
-#'       \code{\link{MODE}}  (compute multivariate mode)
-#'
 #'       \code{\link{SUM}}  (compute multivariate sum)
 #'
 #'       \code{\link{MEAN}}  (compute multivariate mean)
 #'
 #'       \code{\link{STD}}  (compute multivariate standard deviation)
+#'
+#'       \code{\link{MODE}}  (compute multivariate mode)
+#'
+#'       \code{\link{COUNT}}  (count values across variables)
 #'
 #'       \code{\link{CONSEC}}  (count "consecutive identical digits" across variables)
 #'   }
@@ -111,7 +123,7 @@
 #'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
 #'   }
 #'
-#'   \item{\strong{(5) Advanced Toolbox for Statistics}}{
+#'   \item{\strong{(5) Advanced Statistical Toolbox and Tidy Report}}{
 #'       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
 #'
 #'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
@@ -177,20 +189,19 @@ NULL
   #   curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
   # }, silent=T)
 
-  # if(user.ver==curr.ver) {
-  #   update_msg="\n"
-  # } else {
-  #   update_msg=Glue("
-  #   \n
-  #   <<bold <<red \u26a0 NEWS: A new version of 'bruceR' (<<underline v{curr.ver}>>) is now available!>>>>
-  #   <<bold <<green \u25b6 Run this to update:>>>>
-  #   devtools::install_github(\"psychbruce/bruceR\")
-  #   \n\n\n")
-  # }
+  pkgs.need.update=c()
+  try({ pkgs.need.update=pacman::p_update(update=FALSE) }, silent=T)
+  if("bruceR" %in% pkgs.need.update) {
+    update.msg=Glue("
+    <<bold <<red \u26a0 NEWS: A new version of `bruceR` is now available!>>>>
+    \n\n\n")
+  } else {
+    update.msg=""
+  }
 
   # {rep_char('=', 56)}
-  # \u2714
-  # \u2501
+  # \u2714 yes
+  # \u2501 hyphen
   LOGO=c(bell="\ud83d\udd14",
          bulb="\ud83d\udca1",
          gift="\ud83c\udf81",
@@ -209,7 +220,9 @@ NULL
   <<green <<yellow [Plot]:>> ggplot2 / cowplot / see>>
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
-  <<cyan Describe() / Freq() / Corr() / Alpha() / SUM() / MEAN()>>
+  <<cyan Describe() / Freq() / Corr() / Alpha() / MEAN()>>
   <<cyan MANOVA() / EMMEANS() / model_summary() / theme_bruce()>>
+
+  {update.msg}
   ")
 }

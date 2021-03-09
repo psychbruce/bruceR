@@ -11,7 +11,8 @@ Corr(
   p.adjust = "none",
   plot = TRUE,
   plot.range = c(-1, 1),
-  plot.color = c("#B52127", "white", "#2171B5"),
+  plot.palette = NULL,
+  plot.color.levels = 201,
   save.file = NULL,
   width = 8,
   height = 6,
@@ -19,7 +20,7 @@ Corr(
 )
 }
 \arguments{
-\item{data}{Data frame or a numeric vector.}
+\item{data}{Data frame or numeric vector.}
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
@@ -32,8 +33,10 @@ For details, see \code{stats::\link[stats]{p.adjust}}.}
 
 \item{plot.range}{Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.}
 
-\item{plot.color}{Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
+\item{plot.palette}{Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
 You may also set it to, e.g., \code{c("red", "white", "blue")}.}
+
+\item{plot.color.levels}{Default is \code{201}.}
 
 \item{save.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
@@ -54,4 +57,7 @@ Corr(airquality, p.adjust="bonferroni")
 Corr(bfi[c("gender", "age", "education")])
 # Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
 
+}
+\seealso{
+\link{Describe}
 }

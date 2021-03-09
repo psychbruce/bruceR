@@ -393,8 +393,8 @@ model_summary=function(model_list,
     if(is.null(file)) {
       print(output)
     } else {
-      output=stringr::str_replace_all(stringr::str_replace(output, "utf-8", "gbk"),
-                                      "<td>-", "<td>\u2013")
+      output=stringr::str_replace_all(stringr::str_replace(
+        output, "utf-8", "gbk"), "<td>-", "<td>\u2013")
       if(grepl(".doc$", file)) {
         output=stringr::str_replace(
           output, "<style>",

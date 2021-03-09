@@ -1,11 +1,10 @@
 # bruceR
 
-**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legent **R** data analyses.
 
-![](https://img.shields.io/badge/R-package-success)
-![](https://img.shields.io/badge/Version-0.6.0-success)
-![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success)
-[![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+![](https://img.shields.io/badge/R-Package-green)
+![](https://img.shields.io/badge/Version-0.6.0-yellow)
+![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=blue)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <a href="https://en.wikipedia.org/wiki/Creative_Commons_license"><img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"></a>
@@ -26,14 +25,6 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 [知乎](https://www.zhihu.com/people/psychbruce)
 
 
-## Citation
-
-```r
-citation("bruceR")
-```
-Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package version 0.6.0. https://github.com/psychbruce/bruceR
-
-
 ## User Guide
 
 ### Installation
@@ -42,15 +33,29 @@ Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R function
 ## Method 1: Install from CRAN (coming soon...)
 install.packages("bruceR")
 
-## Method 2: Install from GitHub (using "devtools")
-install.packages("devtools")
-devtools::install_github("psychbruce/bruceR")
-
-## Method 3: Install from GitHub (using "pacman")
+## Method 2: Install from GitHub (using "pacman" package)
 install.packages("pacman")
 pacman::p_install_gh("psychbruce/bruceR")
+
+## Method 3: Install from GitHub (using "devtools" package)
+install.packages("devtools")
+devtools::install_github("psychbruce/bruceR")
 ```
-- [Installation Guide for bruceR (安装遇到问题时请阅读！)](https://github.com/psychbruce/stats/blob/master/Installation_Guide_for_bruceR.md)
+
+**Tips:**
+1. Please **restart (close and reopen) RStudio** before installation!
+2. It would be better to update R to its [latest version](https://www.r-project.org/).
+3. It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
+4. If you see a dialog asking “Do you want to install from sources the package which needs compilation”, it would be better to **choose “No”** (to save your time).
+5. If you fail to install, please read carefully the warning messages and find out the key R package(s) leading to the failure, and then **manually uninstall and re-install these R packages** and retry the main installation.
+
+
+### Citation
+
+```r
+citation("bruceR")
+```
+Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package version 0.6.0. https://github.com/psychbruce/bruceR
 
 
 ### Package Dependency
@@ -59,7 +64,7 @@ pacman::p_install_gh("psychbruce/bruceR")
 
 Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
-- [Data]:
+- **[Data]:**
   + [`rio`](https://cran.r-project.org/package=rio):
   Data import and export (for all file formats).
   + [`dplyr`](https://cran.r-project.org/package=dplyr):
@@ -73,7 +78,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
   + [`data.table`](https://cran.r-project.org/package=data.table):
   Advanced `data.frame` with higher efficiency.
 
-- [Stat]:
+- **[Stat]:**
   + [`psych`](https://cran.r-project.org/package=psych):
   Toolbox for psychological and psychometric research.
   + [`emmeans`](https://cran.r-project.org/package=emmeans):
@@ -83,7 +88,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
   + [`performance`](https://cran.r-project.org/package=performance):
   Assessment of regression models performance.
 
-- [Plot]:
+- **[Plot]:**
   + [`ggplot2`](https://cran.r-project.org/package=ggplot2):
   Data visualization.
   + [`cowplot`](https://cran.r-project.org/package=cowplot):
@@ -98,13 +103,15 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 - [x] Basic Use and Analysis
   + `set.wd()`
+  + `pkg_depend()`, `pkg_install_suggested()`
+  + `formatF()`, `formatN()`
   + `Print()`, `Glue()`
   + `Describe()`, `Freq()`, `Corr()`
   + `LOOKUP()`, `RANDBETWEEN()`
   + `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
 - [x] Multivariate Computation
   + `RECODE()`, `RESCALE()`
-  + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
+  + `SUM()`, `MEAN()`, `STD()`, `MODE()`, `COUNT()`, `CONSEC()`
 - [x] Reliability and Validity Analysis
   + `Alpha()`
   + `EFA()`
@@ -112,9 +119,9 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 - [x] Multi-Factor Analysis of Variance, Simple-Effect Analysis, and Multiple Comparison
   + `MANOVA()`
   + `EMMEANS()`
-- [x] Advanced Toolbox for Statistics
+- [x] Advanced Statistical Toolbox and Tidy Report
   + `grand_mean_center()`, `group_mean_center()`
-  + `GLM_summary()`, `HLM_summary()`, `regress()`
+  + `regress()`, `GLM_summary()`, `HLM_summary()`
   + `model_summary()`
   + `med_summary()`
   + `ccf_plot()`

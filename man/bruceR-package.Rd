@@ -6,10 +6,20 @@
 \alias{bruceR}
 \title{bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions}
 \description{
-\strong{
-BRoadly Useful Convenient and Efficient R functions that
-BRing Users Concise and Elegent R data analyses.
-}
+\strong{BR}oadly
+\strong{U}seful
+\strong{C}onvenient
+and
+\strong{E}fficient
+\strong{R}
+functions that
+\strong{BR}ing
+\strong{U}sers
+\strong{C}oncise
+and
+\strong{E}legent
+\strong{R}
+data analyses.
 
 Check updates on \url{https://github.com/psychbruce/bruceR}
 
@@ -66,6 +76,8 @@ can be accessed from \url{https://www.rstudio.com/products/rstudio/download/prev
 
       \code{\link{pkg_depend}}  (check package dependencies)
 
+      \code{\link{pkg_install_suggested}}  (install suggested packages)
+
       \code{\link{dtime}}  (compute time difference)
 
       \code{\link{\%notin\%}}  (the reverse of \code{\%in\%}, return a logical vector specifying values not in a table)
@@ -88,15 +100,15 @@ can be accessed from \url{https://www.rstudio.com/products/rstudio/download/prev
 
       \code{\link{RESCALE}}  (rescale a variable; e.g., from 5-point to 7-point scale)
 
-      \code{\link{COUNT}}  (count values across variables)
-
-      \code{\link{MODE}}  (compute multivariate mode)
-
       \code{\link{SUM}}  (compute multivariate sum)
 
       \code{\link{MEAN}}  (compute multivariate mean)
 
       \code{\link{STD}}  (compute multivariate standard deviation)
+
+      \code{\link{MODE}}  (compute multivariate mode)
+
+      \code{\link{COUNT}}  (count values across variables)
 
       \code{\link{CONSEC}}  (count "consecutive identical digits" across variables)
   }
@@ -115,7 +127,7 @@ can be accessed from \url{https://www.rstudio.com/products/rstudio/download/prev
       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
   }
 
-  \item{\strong{(5) Advanced Toolbox for Statistics}}{
+  \item{\strong{(5) Advanced Statistical Toolbox and Tidy Report}}{
       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
 
       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))

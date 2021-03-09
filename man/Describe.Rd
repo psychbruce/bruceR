@@ -8,7 +8,9 @@ Describe(
   data,
   nsmall = 2,
   plot = FALSE,
-  smooth = "none",
+  plot.all.continuous = TRUE,
+  upper.triangle = FALSE,
+  upper.smooth = "none",
   save.file = NULL,
   width = 8,
   height = 6,
@@ -16,14 +18,20 @@ Describe(
 )
 }
 \arguments{
-\item{data}{Data frame or a numeric vector.}
+\item{data}{Data frame or numeric vector.}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 
 \item{plot}{\code{TRUE} or \code{FALSE} (default).
 Visualize the descriptive statistics using \code{GGally::\link[GGally]{ggpairs}}.}
 
-\item{smooth}{\code{"none"} (default), \code{"lm"}, or \code{"loess"}.
+\item{plot.all.continuous}{\code{TRUE} (default) or \code{FALSE}.
+Before plotting, transform all variables to continuous.}
+
+\item{upper.triangle}{\code{TRUE} or \code{FALSE} (default).
+Add (scatter) plots to upper triangle (time consuming when sample size is large).}
+
+\item{upper.smooth}{\code{"none"} (default), \code{"lm"}, or \code{"loess"}.
 Add fitting lines to scatter plots (if any).}
 
 \item{save.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
@@ -38,18 +46,28 @@ Add fitting lines to scatter plots (if any).}
 Descriptive statistics.
 }
 \examples{
+# set.seed(1)
+# Describe(rnorm(1000000), plot=TRUE)
+
+Describe(airquality, plot=TRUE)
+
 d=as.data.table(bfi)
 d[,`:=`(
   gender=as.factor(gender),
   education=as.factor(education),
+  A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
 Describe(bfi[c("age", "gender", "education")])
-Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
+# Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
+# Describe(d[,.(age, A, E, O)], plot=TRUE)
 
 # Describe(airquality, plot=TRUE, smooth="lm",
 #          save.file="Descriptive Statistics.png",
 #          width=10, height=8, dpi=500)
 
+}
+\seealso{
+\link{Corr}
 }

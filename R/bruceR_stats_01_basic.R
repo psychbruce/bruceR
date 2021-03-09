@@ -116,11 +116,15 @@ sig.trans=function(p) {
 
 #' Descriptive statistics.
 #'
-#' @param data Data frame or a numeric vector.
+#' @param data Data frame or numeric vector.
 #' @param nsmall Number of decimal places of output. Default is \code{2}.
 #' @param plot \code{TRUE} or \code{FALSE} (default).
 #' Visualize the descriptive statistics using \code{GGally::\link[GGally]{ggpairs}}.
-#' @param smooth \code{"none"} (default), \code{"lm"}, or \code{"loess"}.
+#' @param plot.all.continuous \code{TRUE} (default) or \code{FALSE}.
+#' Before plotting, transform all variables to continuous.
+#' @param upper.triangle \code{TRUE} or \code{FALSE} (default).
+#' Add (scatter) plots to upper triangle (time consuming when sample size is large).
+#' @param upper.smooth \code{"none"} (default), \code{"lm"}, or \code{"loess"}.
 #' Add fitting lines to scatter plots (if any).
 #' @param save.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
 #' @param width Width (in "inch") of the saved plot. Default is \code{8}.
@@ -128,23 +132,34 @@ sig.trans=function(p) {
 #' @param dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
 #'
 #' @examples
+#' # set.seed(1)
+#' # Describe(rnorm(1000000), plot=TRUE)
+#'
+#' Describe(airquality, plot=TRUE)
+#'
 #' d=as.data.table(bfi)
 #' d[,`:=`(
 #'   gender=as.factor(gender),
 #'   education=as.factor(education),
+#'   A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
 #'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
 #' Describe(bfi[c("age", "gender", "education")])
-#' Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
+#' # Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
+#' # Describe(d[,.(age, A, E, O)], plot=TRUE)
 #'
 #' # Describe(airquality, plot=TRUE, smooth="lm",
 #' #          save.file="Descriptive Statistics.png",
 #' #          width=10, height=8, dpi=500)
 #'
+#' @seealso \link{Corr}
+#'
 #' @import ggplot2
 #' @export
-Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
+Describe=function(data, nsmall=2,
+                  plot=FALSE, plot.all.continuous=TRUE,
+                  upper.triangle=FALSE, upper.smooth="none",
                   save.file=NULL, width=8, height=6, dpi=500) {
   Print("Descriptive statistics:")
 
@@ -171,14 +186,29 @@ Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
 
   p=NULL
   if(plot) {
-    smooth=switch(smooth,
-                  "none"="points",
-                  "lm"="smooth",
-                  "loess"="smooth_loess")
-    p=GGally::ggpairs(data,
-              lower=list(continuous=GGally::wrap(smooth, size=1, shape=16, alpha=0.3)),
-              upper=list(continuous=GGally::wrap("cor", color="black"))) +
-      theme_bruce(panel.bg="grey95")
+    data.plot=as.data.frame(data)
+    if(plot.all.continuous) {
+      for(var in names(data.plot))
+        data.plot[[var]]=as.numeric(data.plot[[var]])
+    }
+    if(upper.triangle) {
+      smooth=switch(upper.smooth,
+                    "none"="points",
+                    "lm"="smooth",
+                    "loess"="smooth_loess")
+      upper=list(continuous=GGally::wrap(
+        smooth, size=1, shape=16, alpha=0.3))
+    } else {
+      upper="blank"
+    }
+    p=GGally::ggpairs(
+      data.plot, switch="both", axisLabels="none",
+      upper=upper,
+      lower=list(continuous=GGally::wrap(
+        "cor", digits=nsmall,
+        use="pairwise.complete.obs",
+        size=4, color="black"))
+    ) + theme_bruce() + theme(strip.text=element_text(size=12, color="black"))
     if(is.null(save.file)) {
       print(p)
     } else {
@@ -239,8 +269,9 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' For details, see \code{stats::\link[stats]{p.adjust}}.
 #' @param plot \code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.
 #' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
-#' @param plot.color Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
+#' @param plot.palette Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
+#' @param plot.color.levels Default is \code{201}.
 #'
 #' @examples
 #' Corr(airquality)
@@ -250,11 +281,13 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' Corr(bfi[c("gender", "age", "education")])
 #' # Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
 #'
+#' @seealso \link{Describe}
+#'
 #' @export
 Corr=function(data, method="pearson", nsmall=2,
               p.adjust="none",
               plot=TRUE, plot.range=c(-1, 1),
-              plot.color=c("#B52127", "white", "#2171B5"),
+              plot.palette=NULL, plot.color.levels=201,
               save.file=NULL, width=8, height=6, dpi=500) {
   data=as.data.frame(data)
   exclude.vars=c()
@@ -302,15 +335,17 @@ Corr=function(data, method="pearson", nsmall=2,
 
   cor=cor0
   if(plot) {
+    if(is.null(plot.palette))
+      plot.palette=c("#B52127", "white", "#2171B5")
     if(!is.null(save.file)) {
       grDevices::png(filename=save.file, width=width, height=height, units="in", res=dpi)
     }
-    psych::cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
-                    diag=FALSE, xlas=2, n=201,
-                    pval=cor$p, stars=TRUE,
-                    alpha=1,
-                    gr=grDevices::colorRampPalette(plot.color),
-                    main="Correlation Matrix")
+    cor_plot(r=cor$r, adjust="none", nsmall=nsmall,
+             numbers=TRUE, zlim=plot.range,
+             diag=FALSE, xlas=2, n=plot.color.levels,
+             pval=cor$p, stars=TRUE,
+             alpha=1, gr=grDevices::colorRampPalette(plot.palette),
+             main="Correlation Matrix")
     if(!is.null(save.file)) {
       grDevices::dev.off()
       path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
@@ -319,6 +354,217 @@ Corr=function(data, method="pearson", nsmall=2,
   }
 
   invisible(cor)
+}
+
+
+
+## modified `psych::cor.plot()`
+## see comment lines
+cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
+  zlim = c(-1, 1), show.legend = TRUE, labels = NULL, n.legend = 10,
+  keep.par = TRUE, select = NULL, pval = NULL, cuts = c(0.001,
+    0.01), scale = TRUE, cex, MAR, upper = TRUE, diag = TRUE,
+  symmetric = TRUE, stars = FALSE, adjust = "holm", xaxis = 1,
+  xlas = 0, ylas = 2, gr = NULL, alpha = 0.75, min.length = NULL,
+  nsmall=2,  # added in bruceR
+  ...)
+{
+  if (keep.par)
+    op <- graphics::par(no.readonly = TRUE)
+  if (missing(MAR))
+    MAR <- 5
+  if (!is.matrix(r) & (!is.data.frame(r))) {
+    if ((length(class(r)) > 1) & (inherits(r, "psych"))) {
+      switch(class(r)[2], omega = {
+        r <- r$schmid$sl
+        nff <- ncol(r)
+        r <- r[, 1:(nff - 3)]
+        if (is.null(main)) {
+          main <- "Omega plot"
+        }
+      }, cor.ci = {
+        pval <- 2 * (1 - r$ptci)
+        r <- r$rho
+      }, fa = {
+        r <- r$loadings
+        if (is.null(main)) {
+          main <- "Factor Loadings plot"
+        }
+      }, pc = {
+        r <- r$loadings
+        if (is.null(main)) {
+          main <- "PCA Loadings plot"
+        }
+      }, principal = {
+        r <- r$loadings
+        if (is.null(main)) {
+          main <- "PCA Loadings plot"
+        }
+      })
+    }
+  }
+  else {
+    if (symmetric & !psych::isCorrelation(r) & (nrow(r) != ncol(r))) {
+      cp <- psych::corr.test(r, adjust = adjust)
+      r <- cp$r
+      pval <- cp$p
+      if (is.null(main)) {
+        main <- "Correlation plot"
+      }
+    }
+  }
+  R <- r <- as.matrix(r)
+  if (!is.null(select))
+    r <- r[select, select]
+  if (min(dim(r)) < 2) {
+    stop("You need at least two dimensions to make a meaningful plot")
+  }
+  if (is.null(n)) {
+    n <- dim(r)[2]
+  }
+  nf <- dim(r)[2]
+  nvar <- dim(r)[1]
+  if (!upper)
+    r[col(r) > row(r)] <- NA
+  if (!diag)
+    r[col(r) == row(r)] <- NA
+  if (nf == nvar)
+    r <- t(r)
+  if (missing(pval) | is.null(pval)) {
+    pval <- matrix(rep(1, nvar * nf), nvar)
+  }
+  else {
+    if (length(pval) != nvar * nf) {
+      pr = matrix(0, nvar, nf)
+      pr[row(pr) > col(pr)] <- pval
+      pr <- pr + t(pr)
+      diag(pr) <- 0
+      pval <- pr
+    }
+    if (!stars) {
+      pval <- psych::con2cat(pval, cuts = cuts)
+      pval <- (length(cuts) + 1 - pval)/length(cuts)
+    }
+    pval <- t(pval)
+  }
+  if (is.null(labels)) {
+    if (is.null(rownames(r)))
+      rownames(r) <- paste("V", 1:nvar)
+    if (is.null(colnames(r)))
+      colnames(r) <- paste("V", 1:nf)
+  }
+  else {
+    rownames(r) <- colnames(r) <- labels
+  }
+  if (!is.null(min.length)) {
+    rownames(r) <- abbreviate(rownames(r), minlength = min.length)
+    colnames(r) <- abbreviate(colnames(r), minlength = min.length)
+  }
+  max.len <- max(nchar(rownames(r)))/6
+  if (is.null(zlim)) {
+    zlim <- range(r)
+  }
+  if (colors) {
+    if (missing(gr)) {
+      gr <- grDevices::colorRampPalette(c("red", "white", "blue"))
+    }
+    if (max(r, na.rm = TRUE) > 1) {
+      maxr <- max(r)
+      n1 <- n * (zlim[2] - zlim[1])/(maxr - zlim[1])
+      colramp <- rep(NA, n)
+      n1 <- ceiling(n1)
+      colramp[1:(n1 + 1)] <- gr(n1 + 1)
+      colramp[(n1 + 1):n] <- colramp[n1 + 1]
+      zlim[2] <- maxr
+    }
+    else {
+      colramp <- gr(n)
+    }
+  }
+  else {
+    colramp <- grDevices::grey((n:0)/n)
+  }
+  colramp <- grDevices::adjustcolor(colramp, alpha.f = alpha)
+  if (nvar != nf) {
+    r <- t(r)
+  }
+  ord1 <- seq(nvar, 1, -1)
+  if (nf == nvar) {
+    r <- r[, ord1]
+    pval <- pval[, ord1]
+  }
+  else {
+    r <- r[, ord1]
+    pval <- t(pval[ord1, ])
+  }
+  graphics::par(mar = c(MAR + max.len, MAR + max.len, 4, 0.5))
+  if (show.legend) {
+    graphics::layout(matrix(c(1, 2), nrow = 1), widths = c(0.9, 0.1),
+      heights = c(1, 1))
+  }
+  graphics::image(r, col = colramp, axes = FALSE, main = main, zlim = zlim)
+  graphics::box()
+  at1 <- (0:(nf - 1))/(nf - 1)
+  at2 <- (0:(nvar - 1))/(nvar - 1)
+  lab1 <- rownames(r)
+  lab2 <- colnames(r)
+  if (xaxis == 3) {
+    line <- -0.5
+    tick <- FALSE
+  }
+  else {
+    line <- NA
+    tick <- TRUE
+  }
+  if (max.len > 0.5) {
+    graphics::axis(2, at = at2, labels = lab2, las = ylas, ...)
+    graphics::axis(xaxis, at = at1, labels = lab1, las = xlas, line = line,
+      tick = tick, ...)
+  }
+  else {
+    graphics::axis(2, at = at2, labels = lab2, las = ylas, ...)
+    graphics::axis(xaxis, at = at1, labels = lab1, las = xlas, line = line,
+      tick = tick, ...)
+  }
+  if (numbers) {
+    rx <- rep(at1, ncol(r))
+    ry <- rep(at2, each = nrow(r))
+    # rv <- round(r, 2)  # modified in bruceR
+    rv <- formatF(r, nsmall)  # modified in bruceR
+    if (stars) {
+      symp <- stats::symnum(pval, corr = FALSE, cutpoints = c(0,
+        0.001, 0.01, 0.05, 1), symbols = c("***", "**",
+        "*", " "), legend = FALSE)
+      rv[!is.na(rv)] <- paste0(rv[!is.na(rv)], symp[!is.na(rv)])
+      rv <- gsub("NA.*", "", rv)  # modified in bruceR
+      if (missing(cex))
+        cex = 9/max(nrow(r), ncol(r))
+      graphics::text(rx, ry, rv, cex = cex, ...)
+    }
+    else {
+      if (missing(cex))
+        cex = 9/max(nrow(r), ncol(r))
+      if (scale) {
+        graphics::text(rx, ry, rv, cex = pval * cex, ...)
+      }
+      else {
+        graphics::text(rx, ry, rv, cex = cex, ...)
+      }
+    }
+  }
+  if (show.legend) {
+    leg <- matrix(seq(from = zlim[1], to = zlim[2], by = (zlim[2] -
+      zlim[1])/n), nrow = 1)
+    graphics::par(mar = c(MAR, 0, 4, 3))
+    graphics::image(leg, col = colramp, axes = FALSE, zlim = zlim)
+    at2 <- seq(0, 1, 1/n.legend)
+    labels = seq(zlim[1], zlim[2], (zlim[2] - zlim[1])/(length(at2) -
+      1))
+    graphics::axis(4, at = at2, labels = labels, las = 2, ...)
+  }
+  if (keep.par)
+    graphics::par(op)
+  invisible(R)
 }
 
 

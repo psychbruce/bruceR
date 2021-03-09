@@ -2,24 +2,26 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{pkg_depend}
 \alias{pkg_depend}
-\title{Check dependencies of a package.}
+\title{Check dependencies of R packages.}
 \usage{
-pkg_depend(pkg, exclude = NULL)
+pkg_depend(pkgs, excludes = NULL)
 }
 \arguments{
-\item{pkg}{Package name (a character string).}
+\item{pkgs}{Package(s).}
 
-\item{exclude}{[optional] Package(s) and their dependencies excluded from the dependencies of \code{pkg}.
-Useful if you want to see the unique contribution of \code{pkg}.}
+\item{excludes}{[optional] Package(s) and their dependencies excluded from the dependencies of \code{pkgs}.
+Useful if you want to see the unique dependencies of \code{pkgs}.}
 }
 \description{
-Check dependencies of a package.
+Check dependencies of R packages.
 }
 \examples{
 ## Not run:
 
 # pkg_depend("jmv")
-# pkg_depend("dplyr", exclude="jmv")  # no unique contribution
+# pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
+
+# pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
 
 ## End(Not run)
 
