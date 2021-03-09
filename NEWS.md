@@ -5,7 +5,7 @@
 ### BREAKING NEWS
 
 -   Ready for published on CRAN.
--   Passed R CMD check: `0 errors ¡Ì | 0 warnings ¡Ì | 0 notes ¡Ì`
+-   Passed R CMD check: `0 errors âˆš | 0 warnings âˆš | 0 notes âˆš`
 
 ### NEW FEATURES
 
