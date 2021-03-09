@@ -2,9 +2,9 @@
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legent **R** data analyses.
 
-![](https://img.shields.io/badge/R-Package-green)
-![](https://img.shields.io/badge/Version-0.6.0-yellow)
-![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=blue)
+![](https://img.shields.io/badge/R-Package-blue)
+![](https://img.shields.io/badge/Version-0.6.0-red)
+![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=green)
 [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <a href="https://en.wikipedia.org/wiki/Creative_Commons_license"><img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"></a>
@@ -47,7 +47,7 @@ devtools::install_github("psychbruce/bruceR")
 2. It would be better to update R to its [latest version](https://www.r-project.org/).
 3. It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
 4. If you see a dialog asking “Do you want to install from sources the package which needs compilation”, it would be better to **choose “No”** (to save your time).
-5. If you fail to install, please read carefully the warning messages and find out the key R package(s) leading to the failure, and then **manually uninstall and re-install these R packages** and retry the main installation.
+5. If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R packages**, and then retry the main installation.
 
 
 ### Citation
@@ -55,7 +55,7 @@ devtools::install_github("psychbruce/bruceR")
 ```r
 citation("bruceR")
 ```
-Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package version 0.6.0. https://github.com/psychbruce/bruceR
+- Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package version 0.6.0. https://github.com/psychbruce/bruceR
 
 
 ### Package Dependency
@@ -95,8 +95,6 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
   Advanced toolbox for `ggplot2` (arrange multiple plots and add labels).
   + [`see`](https://cran.r-project.org/package=see):
   Advanced toolbox for `ggplot2` (extra geoms, scales, themes, and color palettes).
-
-`library(bruceR)` is enough.
 
 
 ### Main Functions in `bruceR`
@@ -156,35 +154,5 @@ library(bruceR)
 
 ## Release Notes
 
-### Current Version: `0.6.0`
+See [NEWS.md](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
-### Major Changes:
-
-- `0.6.0` - 2021.03
-  + Passed R CMD check: `0 errors √ | 0 warnings √ | 0 notes √`
-  + New function `model_summary()`: Tidy report of (single/multiple) regression models (into console or to a Word/HTML file; based on the `texreg` package; supporting most types of models)
-  + New function `med_summary()`: Tidy report of (simple/moderated) mediation analyses (based on the `mediation` package)
-  + New function `ccf_plot`: Cross-correlation analysis (plotting with `ggplot2`)
-  + New function `granger_test`: Granger test of predictive causality (based on the `lmtest::grangertest()` function)
-  + More packages for default loading
-  + Less packages for default installation (you can install all suggested packages by using the `pkg_install_suggested()` function)
-  + Tidy welcome messages when you `library(bruceR)`
-  + Deprecated some useless/defective functions (see [details](https://github.com/psychbruce/bruceR/blob/master/R/deprecated.R))
-  + Reorganized [raw code files](https://github.com/psychbruce/bruceR/tree/master/R)
-  + Fixed some bugs and improved some functions
-- `0.5.0` - 2020.08
-  + Automatically checking updates when `library(bruceR)`
-  + Requiring R version 4.0+
-  + Improved many functions
-  + Fixed many bugs
-- `0.4.0` - 2019.12
-  + Added citation information
-  + General bug-fixes and improvements
-- `0.3.0` - 2019.10
-  + New functions `MANOVA` and `EMMEANS`: ANOVA, simple-effect analyses, and multiple comparisons (based on the `afex` and `emmeans` packages)
-  + General bug-fixes and improvements
-- `0.2.0` - 2019.08
-  + Added help pages
-  + General bug-fixes and improvements
-- `0.1.0` - 2019.06
-  + Initial commit
