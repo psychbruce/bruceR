@@ -7,46 +7,47 @@
 #### Main Description ####
 
 
-#' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}ollections and \strong{E}xtensions of \strong{R} functions
+#' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions
 #'
 #' @description
-#' Packing many useful R packages and functions into one package.
-#' Making data analyses and statistics more elegant.
+#' \strong{
+#' BRoadly Useful Convenient and Efficient R functions that
+#' BRing Users Concise and Elegent R data analyses.
+#' }
 #'
 #' Check updates on \url{https://github.com/psychbruce/bruceR}
 #'
-#' Once you load \code{bruceR} with \code{library()}, it will also load these packages:
+#' Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages for you:
 #'
+#' \strong{[Data]:}
 #' \itemize{
-#'   \item \strong{\code{rio}}: Data input and output (for all file formats within one function). (see \code{\link[rio]{import}} / \code{\link[rio]{export}})
-#'   \item \strong{\code{dplyr}}: Data manipulation and preprocessing.
+#'   \item \strong{\code{rio}}: Data import and export (for all file formats). (\code{\link[rio]{import}} / \code{\link[rio]{export}})
+#'   \item \strong{\code{dplyr}}: Data manipulation and processing.
 #'   \item \strong{\code{tidyr}}: Data cleaning and reshaping.
 #'   \item \strong{\code{stringr}}: Toolbox for string operation (with regular expressions).
 #'   \item \strong{\code{forcats}}: Toolbox for factor manipulation (for categorical variables).
-#'   \item \strong{\code{data.table}}: Advanced 'data.frame' with higher efficiency.
+#'   \item \strong{\code{data.table}}: Advanced \code{data.frame} with higher efficiency.
+#' }
+#'
+#' \strong{[Stat]:}
+#' \itemize{
 #'   \item \strong{\code{psych}}: Toolbox for psychological and psychometric research.
 #'   \item \strong{\code{emmeans}}: Toolbox for estimated marginal means and contrasts.
 #'   \item \strong{\code{effectsize}}: Indices of effect size and standardized parameters.
-#'   \item \strong{\code{performance}}: Assessment of regression models performance. (see \code{\link[performance]{model_performance}})
-#'   \item \strong{\code{ggplot2}}: Data visualization.
-#'   \item \strong{\code{cowplot}}: Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
-#'   \item \strong{\code{see}}: Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+#'   \item \strong{\code{performance}}: Assessment of regression models performance.
 #' }
 #'
-#' Loading \code{bruceR} is enough:
-#' \strong{\code{library(bruceR)}}
+#' \strong{[Plot]:}
+#' \itemize{
+#'   \item \strong{\code{ggplot2}}: Data visualization.
+#'   \item \strong{\code{cowplot}}: Advanced toolbox for \code{ggplot2} (arrange multiple plots and add labels).
+#'   \item \strong{\code{see}}: Advanced toolbox for \code{ggplot2} (extra geoms, scales, themes, and color palettes).
+#' }
 #'
 #' @section Main Functions in \code{bruceR}:
-#' \code{bruceR} includes functions for
-#' \strong{(1)} basic use and analyses (e.g., correlation matrix with plot),
-#' \strong{(2)} multivariate computation (e.g., scale mean score with reverse scoring),
-#' \strong{(3)} reliability and validity analyses (e.g., Cronbach's \eqn{\alpha}, EFA, CFA),
-#' \strong{(4)} MANOVA, simple-effect analysis, and multiple comparison,
-#' \strong{(5)} advanced toolbox and output for regression models, and
-#' \strong{(6)} nice themes for \code{ggplot2}.
 #'
 #' \describe{
-#'   \item{\strong{(1) Basic Use and Analyses}}{
+#'   \item{\strong{(1) Basic Use and Analysis}}{
 #'       \code{\link{Print}}  (print texts to console with rich formats and colors)
 #'
 #'       \code{\link{Describe}}  (descriptive statistics)
@@ -77,6 +78,7 @@
 #'
 #'       \code{\link{LOOKUP}}  (search, match, and look up values, like Excel's functions \code{INDEX + MATCH})
 #'   }
+#'
 #'   \item{\strong{(2) Multivariate Computation}}{
 #'       \code{\link{RECODE}}  (recode a variable)
 #'
@@ -94,18 +96,21 @@
 #'
 #'       \code{\link{CONSEC}}  (count "consecutive identical digits" across variables)
 #'   }
-#'   \item{\strong{(3) Reliability and Validity Analyses}}{
+#'
+#'   \item{\strong{(3) Reliability and Validity Analysis}}{
 #'       \code{\link{Alpha}}  (reliability analysis, Cronbach's \eqn{\alpha})
 #'
 #'       \code{\link{EFA}}  (exploratory factor analysis)
 #'
 #'       \code{\link{CFA}}  (confirmatory factor analysis)
 #'   }
+#'
 #'   \item{\strong{(4) MANOVA, Simple-Effect Analysis, & Multiple Comparison}}{
 #'       \code{\link{MANOVA}}  (between-subjects, within-subjects, and mixed design ANOVA)
 #'
 #'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
 #'   }
+#'
 #'   \item{\strong{(5) Advanced Toolbox for Statistics}}{
 #'       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
 #'
@@ -125,15 +130,18 @@
 #'
 #'       \code{\link{granger_test}}  (Granger causality test based on the \code{lmtest::\link[lmtest]{grangertest}} function)
 #'   }
+#'
 #'   \item{\strong{(6) Theme for \code{ggplot2}}}{
 #'       \code{\link{theme_bruce}}  (a set of nice themes for scientific publication)
 #'   }
 #' }
 #'
 #' @note
-#' Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R software.
+#' Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R software.
 #'
-#' The "truly" latest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio} can be accessed from \url{https://www.rstudio.com/products/rstudio/download/preview/}
+#' The "truly" latest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' can be accessed from \url{https://www.rstudio.com/products/rstudio/download/preview/}
 #'
 #' @author
 #' \href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}
@@ -148,9 +156,6 @@ NULL
 
 #### Package-Loading Information ####
 
-#' @importFrom utils packageVersion
-## @importFrom rvest html_text html_node
-## @importFrom xml2 read_html
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
 
@@ -159,7 +164,6 @@ NULL
 
   suppressMessages({
     pacman::p_load(
-      "MASS",  # to prevent `dplyr::select` being masked by `MASS::select`,
       ## DATA ##
       "rio", "dplyr", "tidyr", "stringr", "forcats", "data.table",
       ## STAT ##
@@ -168,21 +172,21 @@ NULL
       "ggplot2", "cowplot", "see")
   })
 
-  user.ver=curr.ver=as.character(packageVersion("bruceR"))
+  # user.ver=curr.ver=as.character(utils::packageVersion("bruceR"))
   # try({
-  #   curr.ver=html_text(html_node(read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
+  #   curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
   # }, silent=T)
 
-  if(user.ver==curr.ver) {
-    update_msg="\n"
-  } else {
-    update_msg=Glue("
-    \n
-    <<bold <<red \u26a0 NEWS: A new version of 'bruceR' (<<underline v{curr.ver}>>) is now available!>>>>
-    <<bold <<green \u25b6 Run this to update:>>>>
-    devtools::install_github(\"psychbruce/bruceR\")
-    \n\n\n")
-  }
+  # if(user.ver==curr.ver) {
+  #   update_msg="\n"
+  # } else {
+  #   update_msg=Glue("
+  #   \n
+  #   <<bold <<red \u26a0 NEWS: A new version of 'bruceR' (<<underline v{curr.ver}>>) is now available!>>>>
+  #   <<bold <<green \u25b6 Run this to update:>>>>
+  #   devtools::install_github(\"psychbruce/bruceR\")
+  #   \n\n\n")
+  # }
 
   # {rep_char('=', 56)}
   # \u2714
@@ -196,7 +200,7 @@ NULL
   Print("
   \n
   <<bold <<magenta
-  {logo} bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>ollections and <<underline E>>xtensions of <<underline R>> functions
+  {logo} bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
   >>>>
 
   <<bold <<blue Loaded R packages:>>>>
@@ -204,14 +208,8 @@ NULL
   <<green <<yellow [Stat]:>> psych / emmeans / effectsize / performance>>
   <<green <<yellow [Plot]:>> ggplot2 / cowplot / see>>
 
-  <<bold <<blue Suggested R packages:>>>>
-  <<green mediation / interactions / processR / lavaan / metafor / apaTables>>
-
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
   <<cyan Describe() / Freq() / Corr() / Alpha() / SUM() / MEAN()>>
   <<cyan MANOVA() / EMMEANS() / model_summary() / theme_bruce()>>
-
-  <<bold <<blue Citation:>>>>
-  Bao, H.-W.-S. (2021). bruceR: Broadly useful collections and extensions of R functions [R package v{as.character(packageVersion('bruceR'))}]. <<underline https://github.com/psychbruce/bruceR>>
-  {update_msg}")
+  ")
 }

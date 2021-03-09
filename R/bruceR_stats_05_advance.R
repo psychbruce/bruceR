@@ -234,8 +234,8 @@ granger_test=function(formula, data, lags=1:5,
   Print("\n\n\n<<bold Hypothesized direction:>>")
   Print("<<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>")
   for(lag in lags) {
-    eval(parse(text="gt=lmtest::grangertest(formula=formula, data=data, order=lag, na.action=na.omit)"))
-    eval(parse(text="result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])"))
+    gt=lmtest::grangertest(formula=formula, data=data, order=lag, na.action=stats::na.omit)
+    result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])
     Print("Lags = {lag}: {result}")
   }
 
@@ -244,8 +244,8 @@ granger_test=function(formula, data, lags=1:5,
     Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
     formula.rev=stats::as.formula(paste(formula[3], formula[1], formula[2]))
     for(lag in lags) {
-      eval(parse(text="gt=lmtest::grangertest(formula=formula.rev, data=data, order=lag, na.action=na.omit)"))
-      eval(parse(text="result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])"))
+      gt=lmtest::grangertest(formula=formula.rev, data=data, order=lag, na.action=stats::na.omit)
+      result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])
       Print("Lags = {lag}: {result}")
     }
   }

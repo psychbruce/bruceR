@@ -143,15 +143,13 @@ sig.trans=function(p) {
 #' #          width=10, height=8, dpi=500)
 #'
 #' @import ggplot2
-#' @importFrom psych describe
-## @importFrom GGally ggpairs wrap
 #' @export
 Describe=function(data, nsmall=2, plot=FALSE, smooth="none",
                   save.file=NULL, width=8, height=6, dpi=500) {
   Print("Descriptive statistics:")
 
   if(is.numeric(data)) data=data.frame(X=data)
-  desc=as.data.frame(describe(data, fast=FALSE))
+  desc=as.data.frame(psych::describe(data, fast=FALSE))
   desc$vars = desc$trimmed = desc$mad = desc$range = desc$se = NULL
   names(desc)=c("N", "Mean", "SD", "Median", "Min", "Max", "Skewness", "Kurtosis")
   desc$`|`="|"
@@ -252,8 +250,6 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' Corr(bfi[c("gender", "age", "education")])
 #' # Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
 #'
-#' @importFrom psych corr.test cor.plot
-#' @importFrom grDevices colorRampPalette png dev.off
 #' @export
 Corr=function(data, method="pearson", nsmall=2,
               p.adjust="none",
@@ -269,7 +265,7 @@ Corr=function(data, method="pearson", nsmall=2,
     }
   }
 
-  cor=cor0=corr.test(data, method=method, adjust=p.adjust)
+  cor=cor0=psych::corr.test(data, method=method, adjust=p.adjust)
   # print(cor, digits=nsmall, short=!CI)
 
   Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
@@ -307,16 +303,16 @@ Corr=function(data, method="pearson", nsmall=2,
   cor=cor0
   if(plot) {
     if(!is.null(save.file)) {
-      png(filename=save.file, width=width, height=height, units="in", res=dpi)
+      grDevices::png(filename=save.file, width=width, height=height, units="in", res=dpi)
     }
-    cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
-             diag=FALSE, xlas=2, n=201,
-             pval=cor$p, stars=TRUE,
-             alpha=1,
-             gr=colorRampPalette(plot.color),
-             main="Correlation Matrix")
+    psych::cor.plot(r=cor$r, adjust="none", numbers=TRUE, zlim=plot.range,
+                    diag=FALSE, xlas=2, n=201,
+                    pval=cor$p, stars=TRUE,
+                    alpha=1,
+                    gr=grDevices::colorRampPalette(plot.color),
+                    main="Correlation Matrix")
     if(!is.null(save.file)) {
-      dev.off()
+      grDevices::dev.off()
       path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }

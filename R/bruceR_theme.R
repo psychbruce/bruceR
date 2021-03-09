@@ -55,7 +55,6 @@
 #'   theme_bruce(bg="wsj")
 #'
 #' @import ggplot2
-#' @importFrom grDevices windowsFont windowsFonts
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
                      border="black",
@@ -76,7 +75,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
             bg) # see ggthemr::ggthemr()$palette$background
   # ggthemr::colour_plot(c(solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))
   margin=ggplot2::margin
-  if(!is.null(font)) windowsFonts(FONT=windowsFont(font))
+  if(!is.null(font)) grDevices::windowsFonts(FONT=grDevices::windowsFont(font))
   theme = theme_bw() +
     theme(
       panel.grid.minor=element_blank(),
@@ -117,6 +116,3 @@ theme_bruce=function(base.size=12, line.size=0.5,
 
 # theme_stata=ggthemes::theme_stata(scheme="sj")
 # theme_stata=ggthemes::theme_stata(scheme="s1color")
-# theme_stata$axis.text.y$angle=0
-# theme_stata$axis.text$size=12
-# theme_stata$axis.title$size=12

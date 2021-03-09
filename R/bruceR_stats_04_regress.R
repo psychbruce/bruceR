@@ -22,16 +22,15 @@ formula_paste=function(formula) {
 #' @examples
 #' formula_expand(y ~ a*b*c)
 #'
-#' @importFrom stringr str_extract str_extract_all str_remove_all
 #' @importFrom stats terms.formula as.formula
 #' @export
 formula_expand=function(formula) {
   inter_expand=function(inter) paste(attr(terms.formula(as.formula(paste("~", inter))), "term.labels"), collapse=" + ")
   f=as.character(formula)
   fx=f[3]
-  fx.R=str_extract_all(fx, "\\([^\\)]+\\)", simplify=T)
-  if(length(fx.R)>0) for(i in 1:length(fx.R)) if(grepl("\\*", fx.R[i])) fx.R[i]=paste0("(", inter_expand(str_remove_all(fx.R[i], "\\(|\\|.*")), " ", str_extract(fx.R[i], "\\|.*"))
-  fx.F=str_remove_all(fx, "[\\+ ]*\\([^\\)]+\\)[\\+ ]*")
+  fx.R=stringr::str_extract_all(fx, "\\([^\\)]+\\)", simplify=T)
+  if(length(fx.R)>0) for(i in 1:length(fx.R)) if(grepl("\\*", fx.R[i])) fx.R[i]=paste0("(", inter_expand(stringr::str_remove_all(fx.R[i], "\\(|\\|.*")), " ", stringr::str_extract(fx.R[i], "\\|.*"))
+  fx.F=stringr::str_remove_all(fx, "[\\+ ]*\\([^\\)]+\\)[\\+ ]*")
   fx.F=ifelse(fx.F=="", "", inter_expand(fx.F))
   fx=paste(fx.F, paste(fx.R, collapse=" + "), sep=ifelse(length(fx.R)==0 | fx.F=="", "", " + "))
   f=as.formula(paste(f[2], f[1], fx))
@@ -82,6 +81,8 @@ grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
   data_c=as.data.frame(data)
   for(var in vars)
     data_c[paste0(var, add_suffix)]=scale(data_c[var], center=TRUE, scale=std)
+  if(data.table::is.data.table(data))
+    data_c=data.table::as.data.table(data_c)
   return(data_c)
 }
 
@@ -119,6 +120,8 @@ group_mean_center=function(data, vars, by,
       data_c[which(data_c[by]==group), paste0(var, add_suffix)]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=std)
     }
   }
+  if(data.table::is.data.table(data))
+    data_c=data.table::as.data.table(data_c)
   return(data_c)
 }
 
@@ -278,7 +281,6 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(mn2)
 #' # model_summary(mn2, file="Multinomial Logistic Model.doc")
 #'
-#' @importFrom stringr str_replace str_replace_all
 #' @export
 model_summary=function(model_list,
                        std_coef=FALSE,
@@ -391,20 +393,20 @@ model_summary=function(model_list,
     if(is.null(file)) {
       print(output)
     } else {
-      output= str_replace_all(str_replace(output, "utf-8", "gbk"),
-                              "<td>-", "<td>\u2013")
+      output=stringr::str_replace_all(stringr::str_replace(output, "utf-8", "gbk"),
+                                      "<td>-", "<td>\u2013")
       if(grepl(".doc$", file)) {
-        output=str_replace(
+        output=stringr::str_replace(
           output, "<style>",
           "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman}")
-        output=str_replace(
+        output=stringr::str_replace(
           output, "<body>",
           paste0("<body>\n<b>Table X. Regression Models",
                  ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
                         paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
                         ""),
                  ".</b>"))
-        output=str_replace(
+        output=stringr::str_replace(
           output, "</body>",
           paste0("<i>Note</i>. ",
                  ifelse(std_coef, "Standardized ", "Unstandardized "),
@@ -465,8 +467,6 @@ model_summary=function(model_list,
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
 #' @importFrom stats qt anova
-#' @importFrom MuMIn std.coef
-#' @importFrom performance r2_nagelkerke
 #' @export
 GLM_summary=function(model, robust=FALSE, cluster=NULL,
                      nsmall=3, ...) {
@@ -935,7 +935,6 @@ HLM_ICC=function(model, nsmall=3) {
 #' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
 #'
 #' @importFrom stats qt var residuals model.response model.frame anova
-#' @importFrom MuMIn std.coef r.squaredGLMM
 #' @export
 HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
@@ -1148,9 +1147,9 @@ HLM_summary=function(model=NULL,
     ICC$Group=as.character(ICC$Group)
     ICC$K=as.numeric(as.character(ICC$K))
     ICC$ICC=as.numeric(as.character(ICC$ICC))
-    RE=left_join(cbind(left_join(RE[1], ICC[1:2], by="Group"),
-                       RE[2:3]),
-                 ICC[c(1,3)], by="Group")
+    RE=dplyr::left_join(cbind(dplyr::left_join(RE[1], ICC[1:2], by="Group"),
+                              RE[2:3]),
+                        ICC[c(1,3)], by="Group")
     RE$K=formatF(RE$K, 0)
     RE$Variance=formatF(RE$Variance, 5)
     RE$ICC=formatF(RE$ICC, 5)

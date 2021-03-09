@@ -1,31 +1,33 @@
 Type: Package
 Package: bruceR
-Title: BRoadly Useful Collections and Extensions of R functions
 Version: 0.6.0
+Date: 2021-03-09
+Title: BRoadly Useful Convenient and Efficient R functions
 Authors@R: c(
-  person("Han-Wu-Shuang", "Bao", email="baohws@foxmail.com", role=c("aut", "cre"))
+  person("Bao, H.-W.-S.", email="baohws@foxmail.com", role=c("aut", "cre"))
   )
 Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
-Description: Packing many useful R packages and functions into one package.
-             Making data analyses and statistics more elegant.
+Description: BRoadly Useful Convenient and Efficient R functions that
+             BRing Users Concise and Elegent R data analyses.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
-Imports: jmv, pacman, dplyr, stringr, glue, crayon,
-         car, psych, emmeans, lmerTest, lavaan,
-         MBESS, MuMIn, performance, jtools, sjstats, texreg,
-         ggplot2, cowplot, see
+Imports: jmv, pacman, performance, MBESS, MuMIn,
+         jtools, sjstats, texreg, cowplot, see,
+         glue, crayon, ggplot2
 Suggests: installr, rstudioapi,
           tidyverse, ggstatsplot,
-          mediation, JSmediation, interactions, processR,
-          afex, irr, correlation, forecast,
-          AER, BayesFactor, metafor,
-          pwr, simr, r2mlm, multilevel,
+          rio, dplyr, tidyr, stringr, forcats, data.table,
+          car, psych, afex, emmeans, lmtest, lmerTest,
+          mediation, JSmediation, interactions, processR, lavaan,
+          irr, correlation, forecast, AER, BayesFactor, metafor,
+          pwr, simr, r2mlm, multilevel, effectsize,
           reghelper, summarytools, apaTables, semPlot,
           nnet, caret, party, randomForest,
+          rvest, xml2,
           ggrepel, ggsignif, ggExtra, ggridges, ggthemes, GGally
 RoxygenNote: 7.1.1

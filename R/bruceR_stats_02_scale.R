@@ -238,7 +238,6 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
-#' @importFrom stringr str_extract_all
 #' @export
 CONSEC=function(data, var=NULL, items=NULL,
                 vars=NULL,
@@ -247,7 +246,7 @@ CONSEC=function(data, var=NULL, items=NULL,
   Conseq=function(string, number=values) {
     # Consecutive Identical Digits
     pattern=paste(paste0(number, "{2,}"), collapse="|")
-    ifelse(grepl(pattern, string), max(nchar(str_extract_all(string=string, pattern=pattern, simplify=TRUE))), 0)
+    ifelse(grepl(pattern, string), max(nchar(stringr::str_extract_all(string=string, pattern=pattern, simplify=TRUE))), 0)
   }
   v.r=convert2vars(data, var, items, vars, varrange)
   vars=v.r$vars
@@ -275,14 +274,13 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' @seealso
 #' \code{jmv::\link[jmv]{reliability}}
 #'
-#' @importFrom jmv reliability
 #' @export
 Alpha=function(data, var, items, vars=NULL, rev=NULL) {
   if(is.null(vars)) vars=paste0(var, items)
   if(is.numeric(rev)) rev=paste0(var, rev)
-  reliability(data, vars=eval(vars), revItems=eval(rev),
-              meanScale=TRUE, sdScale=TRUE,
-              itemRestCor=TRUE, alphaItems=TRUE)
+  jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
+                   meanScale=TRUE, sdScale=TRUE,
+                   itemRestCor=TRUE, alphaItems=TRUE)
 }
 
 
@@ -309,21 +307,20 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 #' @examples
 #' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 #'
-#' @importFrom jmv efa
 #' @export
 EFA=function(data, vartext,
              method="eigen", extraction="pa", rotation="varimax",
              nFactors=1, hideLoadings=0.3) {
-  efa(data, vars=eval(expand_vars(vartext)),
-      nFactorMethod=method,  # "eigen", "parallel", "fixed"
-      extraction=extraction,  # "pa", "ml", "minres"
-      rotation=rotation,  # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
-      minEigen=1,
-      nFactors=nFactors,
-      hideLoadings=hideLoadings, sortLoadings=TRUE,
-      screePlot=TRUE, eigen=TRUE,
-      factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
-      kmo=TRUE, bartlett=TRUE)
+  jmv::efa(data, vars=eval(expand_vars(vartext)),
+           nFactorMethod=method,  # "eigen", "parallel", "fixed"
+           extraction=extraction,  # "pa", "ml", "minres"
+           rotation=rotation,  # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
+           minEigen=1,
+           nFactors=nFactors,
+           hideLoadings=hideLoadings, sortLoadings=TRUE,
+           screePlot=TRUE, eigen=TRUE,
+           factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
+           kmo=TRUE, bartlett=TRUE)
 }
 
 

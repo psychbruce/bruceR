@@ -22,4 +22,5 @@ Check dependencies of a package.
 # pkg_depend("dplyr", exclude="jmv")  # no unique contribution
 
 ## End(Not run)
+
 }

@@ -119,8 +119,7 @@ set.wd=function(dir=NULL) {
 #' # pkg_depend("dplyr", exclude="jmv")  # no unique contribution
 #'
 #' ## End(Not run)
-## @importFrom tools package_dependencies
-## @importFrom utils packageDescription
+#'
 #' @export
 pkg_depend=function(pkg, exclude=NULL) {
   default.pkgs=c("base", "boot", "class", "cluster", "codetools", "compiler",
@@ -138,7 +137,7 @@ pkg_depend=function(pkg, exclude=NULL) {
   } else {
     if(is.null(exclude)==FALSE)
       Print("<<blue Package <<green '{pkg}'>> is NOT a dependency of your excluded package(s).>>")
-    # packages=data.frame(Package=pkgs, Description=mapply(packageDescription, pkgs, fields="Title"))
+    # packages=data.frame(Package=pkgs, Description=mapply(utils::packageDescription, pkgs, fields="Title"))
     # View(packages, pkg)
     return(pkgs)
   }
@@ -171,8 +170,6 @@ pkg_depend=function(pkg, exclude=NULL) {
 #'        <<italic <<green 1 + 1 = {1 + 1}.>>>>
 #'        sqrt({x}) = <<red {sqrt(x):.3}>>", x=10)
 #'
-#' @importFrom glue glue glue_col
-#' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
 #' @export
 Print=function(...) {
   tryCatch({
@@ -189,7 +186,9 @@ Print=function(...) {
 #' @describeIn Print Paste strings.
 #'
 #' @importFrom glue glue glue_col
-#' @importFrom crayon reset bold italic underline strikethrough black silver white red green blue yellow magenta cyan
+#' @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
+#' @importFrom crayon black white silver red green blue yellow cyan magenta
+#' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 #' @export
 Glue=function(...) {
   output=glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
@@ -377,10 +376,9 @@ formatF=function(x, nsmall=3) {
 #' RGB(255, 0, 0)  # red: "#FF0000"
 #' RGB(255, 0, 0, 0.8)  # red with 80\% opacity: "#FF0000CC"
 #'
-#' @importFrom grDevices rgb
 #' @export
 RGB=function(r, g, b, alpha) {
-  rgb(r/255, g/255, b/255, alpha)
+  grDevices::rgb(r/255, g/255, b/255, alpha)
 }
 
 
@@ -464,7 +462,6 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 #'
-#' @importFrom dplyr left_join
 #' @export
 LOOKUP=function(data, vars,
                 data.ref, vars.ref,
@@ -473,9 +470,9 @@ LOOKUP=function(data, vars,
   by=vars.ref
   names(by)=vars
   data.ref=as.data.frame(data.ref)
-  data.new=left_join(data,
-                     data.ref[c(vars.ref, vars.lookup)],
-                     by=by)
+  data.new=dplyr::left_join(data,
+                            data.ref[c(vars.ref, vars.lookup)],
+                            by=by)
   if(nrow(data.new)>nrow(data))
     warning("More than one values are matched!")
   if(length(return)==3) return="new.data"

@@ -1,6 +1,6 @@
 # bruceR
 
-**BR**oadly **U**seful **C**ollections and **E**xtensions of **R** functions
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions
 
 ![](https://img.shields.io/badge/R-package-success)
 ![](https://img.shields.io/badge/Version-0.6.0-success)
@@ -28,42 +28,42 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
-Bao, H.-W.-S. (2021). bruceR: Broadly useful collections and extensions of R functions [R package]. https://github.com/psychbruce/bruceR
+```r
+citation("bruceR")
+```
+Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package version 0.6.0. https://github.com/psychbruce/bruceR
 
 
 ## User Guide
 
-### Install
+### Installation
 
 ```r
-#### 安装步骤 ####
+## Method 1: Install from CRAN (coming soon...)
+install.packages("bruceR")
 
-## 第1步：安装基础R包（如果已经安装过，请忽略）
+## Method 2: Install from GitHub (using "devtools")
 install.packages("devtools")
-install.packages("tidyverse")
-install.packages("ggstatsplot")
-
-## 第2步：更新所有R包（为了避免第3步频繁出错）
-update.packages(ask=F)
-
-## 第3步：安装bruceR包
 devtools::install_github("psychbruce/bruceR")
+
+## Method 3: Install from GitHub (using "pacman")
+install.packages("pacman")
+pacman::p_install_gh("psychbruce/bruceR")
 ```
-- Please DO NOT use `install.packages("bruceR")`, because this package HAS NOT BEEN put on the [CRAN](https://cran.r-project.org/).
 - [Installation Guide for bruceR (安装遇到问题时请阅读！)](https://github.com/psychbruce/stats/blob/master/Installation_Guide_for_bruceR.md)
 
 
-### Package dependency
+### Package Dependency
 
-`bruceR` depends on some important packages and also automatically installs many other useful packages for users. Many functions in `bruceR` are extensions of the functions in these packages.
+`bruceR` depends on many important R packages.
 
-Once you load `bruceR` with `library()`, it will also load these packages:
+Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 - [Data]:
   + [`rio`](https://cran.r-project.org/package=rio):
-  Data input and output (for all file formats within one function).
+  Data import and export (for all file formats).
   + [`dplyr`](https://cran.r-project.org/package=dplyr):
-  Data manipulation and preprocessing.
+  Data manipulation and processing.
   + [`tidyr`](https://cran.r-project.org/package=tidyr):
   Data cleaning and reshaping.
   + [`stringr`](https://cran.r-project.org/package=stringr):
@@ -71,7 +71,7 @@ Once you load `bruceR` with `library()`, it will also load these packages:
   + [`forcats`](https://cran.r-project.org/package=forcats):
   Toolbox for factor manipulation (for categorical variables).
   + [`data.table`](https://cran.r-project.org/package=data.table):
-  Advanced 'data.frame' with higher efficiency.
+  Advanced `data.frame` with higher efficiency.
 
 - [Stat]:
   + [`psych`](https://cran.r-project.org/package=psych):
@@ -87,43 +87,43 @@ Once you load `bruceR` with `library()`, it will also load these packages:
   + [`ggplot2`](https://cran.r-project.org/package=ggplot2):
   Data visualization.
   + [`cowplot`](https://cran.r-project.org/package=cowplot):
-  Advanced toolbox for 'ggplot2' (arrange multiple plots and add labels).
+  Advanced toolbox for `ggplot2` (arrange multiple plots and add labels).
   + [`see`](https://cran.r-project.org/package=see):
-  Advanced toolbox for 'ggplot2' (extra geoms, scales, themes, and color palettes).
+  Advanced toolbox for `ggplot2` (extra geoms, scales, themes, and color palettes).
 
 `library(bruceR)` is enough.
 
 
-### Main functions in `bruceR`
+### Main Functions in `bruceR`
 
-- [x] Basic use and analysis
+- [x] Basic Use and Analysis
   + `set.wd()`
-  + `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
   + `Print()`, `Glue()`
   + `Describe()`, `Freq()`, `Corr()`
   + `LOOKUP()`, `RANDBETWEEN()`
-- [x] Multivariate computation
+  + `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
+- [x] Multivariate Computation
   + `RECODE()`, `RESCALE()`
   + `COUNT()`, `MODE()`, `SUM()`, `MEAN()`, `STD()`, `CONSEC()`
-- [x] Reliability and validity analysis
+- [x] Reliability and Validity Analysis
   + `Alpha()`
   + `EFA()`
   + `CFA()`
-- [x] Analysis of variance, simple-effect analysis, and multiple comparison
+- [x] Multi-Factor Analysis of Variance, Simple-Effect Analysis, and Multiple Comparison
   + `MANOVA()`
   + `EMMEANS()`
-- [x] Advanced toolbox for statistics
+- [x] Advanced Toolbox for Statistics
   + `grand_mean_center()`, `group_mean_center()`
   + `GLM_summary()`, `HLM_summary()`, `regress()`
   + `model_summary()`
   + `med_summary()`
   + `ccf_plot()`
-  + `granger_test`
+  + `granger_test()`
 - [x] Theme for `ggplot2`
   + `theme_bruce()`
 
 
-### Learn more from help pages
+### Learn More From Help Pages
 
 ```r
 library(bruceR)
@@ -131,8 +131,12 @@ library(bruceR)
 ## Overview
 ?bruceR
 
-## See help pages of functions
+## See help pages of R functions
 ## (use `?function` or `help(function)`)
+?Describe
+?Corr
+?SUM
+?MEAN
 ?MANOVA
 ?EMMEANS
 ?model_summary
@@ -145,9 +149,9 @@ library(bruceR)
 
 ## Release Notes
 
-### Current version: `0.6.0`
+### Current Version: `0.6.0`
 
-### Major changes:
+### Major Changes:
 
 - `0.6.0` - 2021.03
   + Passed R CMD check: `0 errors √ | 0 warnings √ | 0 notes √`
@@ -155,7 +159,8 @@ library(bruceR)
   + New function `med_summary()`: Tidy report of (simple/moderated) mediation analyses (based on the `mediation` package)
   + New function `ccf_plot`: Cross-correlation analysis (plotting with `ggplot2`)
   + New function `granger_test`: Granger test of predictive causality (based on the `lmtest::grangertest()` function)
-  + More R packages for default installation and loading
+  + More packages for default loading
+  + Less packages for default installation (you can install all suggested packages by using the `pkg_install_suggested()` function)
   + Tidy welcome messages when you `library(bruceR)`
   + Deprecated some useless/defective functions (see [details](https://github.com/psychbruce/bruceR/blob/master/R/deprecated.R))
   + Reorganized [raw code files](https://github.com/psychbruce/bruceR/tree/master/R)
