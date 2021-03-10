@@ -75,8 +75,8 @@ A nice \code{ggplot2} theme for scientific publication.
 \examples{
 ## Example 1 (bivariate correlation)
 d=as.data.table(bfi)
-d[,":="(E=MEAN(d,"E",1:5,rev=c(1,2),likert=1:6),
-        O=MEAN(d,"O",1:5,rev=c(2,5),likert=1:6))]
+d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+        O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
 ggplot(data=d, aes(x=E, y=O)) +
   geom_point(alpha=0.1) +
   geom_smooth(method="loess") +
@@ -95,6 +95,7 @@ ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
   scale_y_continuous(expand=expansion(add=0),
                      limits=c(0,8), breaks=0:8) +
   scale_fill_brewer(palette="Set1") +
-  theme_bruce(bg="wsj")
+  labs(x="Independent Variable", y="Dependent Variable", title="Demo") +
+  theme_bruce(border="")
 
 }

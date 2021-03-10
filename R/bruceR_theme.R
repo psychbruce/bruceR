@@ -32,8 +32,8 @@
 #' @examples
 #' ## Example 1 (bivariate correlation)
 #' d=as.data.table(bfi)
-#' d[,":="(E=MEAN(d,"E",1:5,rev=c(1,2),likert=1:6),
-#'         O=MEAN(d,"O",1:5,rev=c(2,5),likert=1:6))]
+#' d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+#'         O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
 #' ggplot(data=d, aes(x=E, y=O)) +
 #'   geom_point(alpha=0.1) +
 #'   geom_smooth(method="loess") +
@@ -52,7 +52,8 @@
 #'   scale_y_continuous(expand=expansion(add=0),
 #'                      limits=c(0,8), breaks=0:8) +
 #'   scale_fill_brewer(palette="Set1") +
-#'   theme_bruce(bg="wsj")
+#'   labs(x="Independent Variable", y="Dependent Variable", title="Demo") +
+#'   theme_bruce(border="")
 #'
 #' @import ggplot2
 #' @export
@@ -79,11 +80,11 @@ theme_bruce=function(base.size=12, line.size=0.5,
   theme = theme_bw() +
     theme(
       panel.grid.minor=element_blank(),
-      panel.grid.major.x=if(grid.x=="" | grid.x==F) element_blank() else
+      panel.grid.major.x=if(grid.x=="" | grid.x==FALSE) element_blank() else
         element_line(size=line.size, color=grid.x),
-      panel.grid.major.y=if(grid.y=="" | grid.y==F) element_blank() else
+      panel.grid.major.y=if(grid.y=="" | grid.y==FALSE) element_blank() else
         element_line(size=line.size, color=grid.y),
-      panel.border=if(border=="" | border==F) element_blank() else
+      panel.border=if(border=="" | border==FALSE) element_blank() else
         element_rect(size=line.size+0.4, color=border, fill=NA),
       panel.background=element_rect(fill=panel.bg),
       axis.line=element_line(size=line.size, color="black"),  # lineend="square"
@@ -106,11 +107,16 @@ theme_bruce=function(base.size=12, line.size=0.5,
       plot.background=element_rect(color=bg, fill=bg),
       plot.margin=margin(0.02, 0.02, 0.02, 0.02, "npc")
     )
-  if(!is.null(font)) theme = theme + theme(text=element_text(family="FONT"))
-  if(border!="" | line.x==F) theme = theme + theme(axis.line.x=element_blank())
-  if(border!="" | line.y==F) theme = theme + theme(axis.line.y=element_blank())
-  if(!tick.x) theme = theme + theme(axis.ticks.x=element_blank())
-  if(!tick.y) theme = theme + theme(axis.ticks.y=element_blank())
+  if(!is.null(font))
+    theme = theme + theme(text=element_text(family="FONT"))
+  if((border!="" & border!=FALSE) | line.x==FALSE)
+    theme = theme + theme(axis.line.x=element_blank())
+  if((border!="" & border!=FALSE) | line.y==FALSE)
+    theme = theme + theme(axis.line.y=element_blank())
+  if(!tick.x)
+    theme = theme + theme(axis.ticks.x=element_blank())
+  if(!tick.y)
+    theme = theme + theme(axis.ticks.y=element_blank())
   return(theme)
 }
 

@@ -19,8 +19,7 @@ Depends: R (>= 4.0.0)
 Imports: jmv, pacman, performance, MBESS, MuMIn,
          jtools, sjstats, texreg, cowplot, see,
          glue, crayon, ggplot2
-Suggests: installr, rstudioapi,
-          tidyverse, ggstatsplot,
+Suggests: devtools, rstudioapi, tidyverse, ggstatsplot,
           rio, dplyr, tidyr, stringr, forcats, data.table,
           car, psych, afex, emmeans, lmtest, lmerTest,
           mediation, JSmediation, interactions, processR, lavaan,
@@ -28,6 +27,6 @@ Suggests: installr, rstudioapi,
           pwr, simr, r2mlm, multilevel, effectsize,
           reghelper, summarytools, apaTables, semPlot,
           nnet, caret, party, randomForest,
-          rvest, xml2,
-          ggrepel, ggsignif, ggExtra, ggridges, ggthemes, GGally
+          rvest, xml2, jiebaR,
+          ggrepel, ggsignif, ggExtra, ggridges, ggthemes, GGally, showtext
 RoxygenNote: 7.1.1
