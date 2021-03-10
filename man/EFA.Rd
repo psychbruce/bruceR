@@ -22,7 +22,7 @@ EFA(
 \item{method}{\code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.}
 
 \item{extraction}{\code{"pa"} (default), \code{"ml"}, or \code{"minres"},
-using "prinicipal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.}
+using "principal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.}
 
 \item{rotation}{\code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.}
 

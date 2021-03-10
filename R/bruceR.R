@@ -3,6 +3,10 @@
 # Check Package:   'Ctrl + Shift + E'
 # Test Package:    'Ctrl + Shift + T'
 
+# devtools::check()
+# devtools::spell_check()
+# devtools::check_rhub()
+
 
 #### Main Description ####
 
@@ -21,7 +25,7 @@
 #' \strong{U}sers
 #' \strong{C}oncise
 #' and
-#' \strong{E}legent
+#' \strong{E}legant
 #' \strong{R}
 #' data analyses.
 #'
@@ -149,11 +153,8 @@
 #' }
 #'
 #' @note
-#' Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' Please always use \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
 #' as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R software.
-#'
-#' The "truly" latest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
-#' can be accessed from \url{https://www.rstudio.com/products/rstudio/download/preview/}
 #'
 #' @author
 #' \href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}

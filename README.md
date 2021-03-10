@@ -1,6 +1,6 @@
 # bruceR
 
-**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legent **R** data analyses.
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
 ![](https://img.shields.io/badge/R-Package-blue) ![](https://img.shields.io/badge/Version-0.6.0-red) ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success) ![](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?label=Commits&color=orange) [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -38,10 +38,10 @@ devtools::install_github("psychbruce/bruceR")
 **Tips:**
 
 1.  Please **restart (close and reopen) RStudio** before installation!
-2.  It would be better to update R to its [latest version](https://www.r-project.org/).
-3.  It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
-4.  If you see a dialog asking "Do you want to install from sources the package which needs compilation", it would be better to **choose "No"** (to save your time).
-5.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R packages**, and then retry the main installation.
+2.  If you see a dialog asking *"Do you want to install from sources the package which needs compilation"*, it would be better to **choose "No"** (to save your time).
+3.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
+4.  It would be better to update R to its [latest version](https://www.r-project.org/) (v4.0+).
+5.  It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
 
 ### Citation
 

@@ -9,7 +9,7 @@
 
 There were no ERRORs, WARNINGs, or NOTEs.
 
-This is the first time to submit to CRAN.
+This is the first-time submission to CRAN.
 
 
 ## Downstream dependencies

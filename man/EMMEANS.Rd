@@ -46,7 +46,7 @@ This method divides the raw means and CIs by the pooled \emph{SD} corresponding 
 One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
 Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
 However, its CI estimates seem a little bit confusing.
-For details about this method, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
+For details about this method, see \href{https://CRAN.R-project.org/package=emmeans}{Comparisons and contrasts}.
 
 Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
 \emph{t}-to-\emph{r} (\code{psych::t2r}) and \emph{r}-to-\emph{d} (\code{psych::r2d}) transformations.}

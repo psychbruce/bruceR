@@ -27,7 +27,7 @@ if(FALSE) {
 #' Demo data.
 #'
 #' @description
-#' These demo datasets were obtained from a course of "multifactor experimental design" in \emph{Beijing Normal University} (2016).
+#' These demo datasets were obtained from a course of "multi-factor experimental design" in \emph{Beijing Normal University} (2016).
 #' In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
 #' The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
 #' Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
@@ -107,7 +107,7 @@ NULL
 #'
 #' Variable names of repeated measures.
 #' \itemize{
-#'   \item You can use \code{":"} to specify a range of vairables: e.g., \code{"A1B1:A2B3"}
+#'   \item You can use \code{":"} to specify a range of variables: e.g., \code{"A1B1:A2B3"}
 #'   (similar to the SPSS syntax "TO"; the variables should be put in order)
 #'   \item You can also use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
 #' }
@@ -211,10 +211,10 @@ NULL
 #' }
 #' @references
 #' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
-#' \emph{Psychological Methods, 8}(4), 434-447. \url{https://doi.org/10.1037/1082-989X.8.4.434}
+#' \emph{Psychological Methods, 8}(4), 434-447. \doi{10.1037/1082-989X.8.4.434}
 #'
 #' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
-#' \emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
+#' \emph{Psychological Methods, 9}(2), 164-182. \doi{10.1037/1082-989X.9.2.164}
 #'
 #' @seealso \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 #'
@@ -483,7 +483,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
 #' Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
 #' However, its CI estimates seem a little bit confusing.
-#' For details about this method, see \href{https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html}{Comparisons and contrasts in emmeans}.
+#' For details about this method, see \href{https://CRAN.R-project.org/package=emmeans}{Comparisons and contrasts}.
 #'
 #' Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
 #' \emph{t}-to-\emph{r} (\code{psych::t2r}) and \emph{r}-to-\emph{d} (\code{psych::r2d}) transformations.

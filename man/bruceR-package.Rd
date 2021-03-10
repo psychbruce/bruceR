@@ -17,7 +17,7 @@ functions that
 \strong{U}sers
 \strong{C}oncise
 and
-\strong{E}legent
+\strong{E}legant
 \strong{R}
 data analyses.
 
@@ -51,11 +51,8 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
 }
 }
 \note{
-Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+Please always use \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
 as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R software.
-
-The "truly" latest version of \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
-can be accessed from \url{https://www.rstudio.com/products/rstudio/download/preview/}
 }
 \section{Main Functions in \code{bruceR}}{
 

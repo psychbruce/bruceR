@@ -43,7 +43,7 @@ MANOVA(
 
 Variable names of repeated measures.
 \itemize{
-  \item You can use \code{":"} to specify a range of vairables: e.g., \code{"A1B1:A2B3"}
+  \item You can use \code{":"} to specify a range of variables: e.g., \code{"A1B1:A2B3"}
   (similar to the SPSS syntax "TO"; the variables should be put in order)
   \item You can also use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
 }}
@@ -168,10 +168,10 @@ MANOVA(data=afex::obk.long, subID="id", dv="value",
 }
 \references{
 Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
-\emph{Psychological Methods, 8}(4), 434-447. \url{https://doi.org/10.1037/1082-989X.8.4.434}
+\emph{Psychological Methods, 8}(4), 434-447. \doi{10.1037/1082-989X.8.4.434}
 
 Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
-\emph{Psychological Methods, 9}(2), 164-182. \url{https://doi.org/10.1037/1082-989X.9.2.164}
+\emph{Psychological Methods, 9}(2), 164-182. \doi{10.1037/1082-989X.9.2.164}
 }
 \seealso{
 \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}

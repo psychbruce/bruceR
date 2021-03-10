@@ -882,7 +882,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' @param t2r \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Add a column of another kind of multilevel effect sizes: standardized partial effect size \emph{r} by \emph{t}-to-\emph{r} transformation.
 #'
-#' *** See an example in Wei et al.'s paper (2017, \emph{\href{https://doi.org/10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
+#' *** See an example in Wei et al.'s paper (2017, \emph{\doi{10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
 #' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
 #' and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).
 #' @param test.rand \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
@@ -928,11 +928,17 @@ HLM_ICC=function(model, nsmall=3) {
 #' # HLM_summary(glmm)
 #'
 #' @references
-#' Hox, J. J. (2010). \emph{Multilevel analysis: Techniques and applications} (2nd ed.). New York, NY: Routledge. \url{https://doi.org/10.4324/9780203852279}
+#' Hox, J. J. (2010).
+#' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).
+#' New York, NY: Routledge. \doi{10.4324/9780203852279}
 #'
-#' Nakagawa, S., & Schielzeth, H. (2013). A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution, 4,} 133-142. \url{https://doi.org/10.1111/j.2041-210x.2012.00261.x}
+#' Nakagawa, S., & Schielzeth, H. (2013).
+#' A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models.
+#' \emph{Methods in Ecology and Evolution, 4,} 133-142. \doi{10.1111/j.2041-210x.2012.00261.x}
 #'
-#' Xu, R. (2003). Measuring explained variation in linear mixed effects models. \emph{Statistics in Medicine, 22,} 3527-3541. \url{https://doi.org/10.1002/sim.1572}
+#' Xu, R. (2003).
+#' Measuring explained variation in linear mixed effects models.
+#' \emph{Statistics in Medicine, 22,} 3527-3541. \doi{10.1002/sim.1572}
 #'
 #' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
 #'
