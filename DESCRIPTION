@@ -15,10 +15,12 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
-Depends: R (>= 4.0.0)
-Imports: rstudioapi, pacman, jmv, jtools, MuMIn, performance, texreg, cowplot, see,
+Depends: R (>= 3.6.0)
+Imports: pacman, jmv, mediation, interactions,
+         MuMIn, performance, texreg, cowplot, see,
          glue, crayon, ggplot2
-Suggests: rio, dplyr, tidyr, stringr, forcats, data.table,
-          car, psych, afex, emmeans, effectsize,
-          lavaan, lmtest, lmerTest, GGally
+Suggests: rstudioapi,
+          rio, dplyr, tidyr, stringr, forcats, data.table,
+          car, psych, afex, emmeans, effectsize, jtools,
+          lavaan, lmtest, lme4, lmerTest, GGally
 RoxygenNote: 7.1.1

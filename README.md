@@ -2,34 +2,27 @@
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legent **R** data analyses.
 
-![](https://img.shields.io/badge/R-Package-blue)
-![](https://img.shields.io/badge/Version-0.6.0-red)
-![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=green)
-[![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+![](https://img.shields.io/badge/R-Package-blue) ![](https://img.shields.io/badge/Version-0.6.0-red) ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success) ![](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?label=Commits&color=orange) [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
-<a href="https://en.wikipedia.org/wiki/Creative_Commons_license"><img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"></a>
+<img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
 
-- 复制、修改、使用、分享本代码库，必须遵守<b>「创作共用许可协议 CC BY-NC-SA」（原作者署名-非商业用途使用-相同方式共享）</b>
-
+-   复制、修改、使用、分享本代码库，必须遵守**「创作共用许可协议 [CC BY-NC-SA](https://en.wikipedia.org/wiki/Creative_Commons_license)」（原作者署名-非商业用途使用-相同方式共享）**
 
 ## Author
 
 [包寒吴霜 \| Bao H.-W.-S.](https://psychbruce.github.io)
 
-E-mail: [baohws@foxmail.com](mailto:baohws@foxmail.com)
+E-mail: [baohws\@foxmail.com](mailto:baohws@foxmail.com)
 
 Website: [psychbruce.github.io](https://psychbruce.github.io)
 
-[ResearchGate](https://www.researchgate.net/profile/Han_Wu_Shuang_Bao) |
-[GitHub](https://github.com/psychbruce) |
-[知乎](https://www.zhihu.com/people/psychbruce)
-
+[ResearchGate](https://www.researchgate.net/profile/Han_Wu_Shuang_Bao) \| [GitHub](https://github.com/psychbruce) \| [知乎](https://www.zhihu.com/people/psychbruce)
 
 ## User Guide
 
 ### Installation
 
-```r
+``` r
 ## Method 1: Install from CRAN (coming soon...)
 install.packages("bruceR")
 
@@ -43,20 +36,20 @@ devtools::install_github("psychbruce/bruceR")
 ```
 
 **Tips:**
-1. Please **restart (close and reopen) RStudio** before installation!
-2. It would be better to update R to its [latest version](https://www.r-project.org/).
-3. It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
-4. If you see a dialog asking “Do you want to install from sources the package which needs compilation”, it would be better to **choose “No”** (to save your time).
-5. If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R packages**, and then retry the main installation.
 
+1.  Please **restart (close and reopen) RStudio** before installation!
+2.  It would be better to update R to its [latest version](https://www.r-project.org/).
+3.  It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
+4.  If you see a dialog asking "Do you want to install from sources the package which needs compilation", it would be better to **choose "No"** (to save your time).
+5.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R packages**, and then retry the main installation.
 
 ### Citation
 
-```r
+``` r
 citation("bruceR")
 ```
-- Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package version 0.6.0. https://github.com/psychbruce/bruceR
 
+-   Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package. <https://github.com/psychbruce/bruceR>
 
 ### Package Dependency
 
@@ -64,73 +57,72 @@ citation("bruceR")
 
 Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
-- **[Data]:**
-  + [`rio`](https://cran.r-project.org/package=rio):
-  Data import and export (for all file formats).
-  + [`dplyr`](https://cran.r-project.org/package=dplyr):
-  Data manipulation and processing.
-  + [`tidyr`](https://cran.r-project.org/package=tidyr):
-  Data cleaning and reshaping.
-  + [`stringr`](https://cran.r-project.org/package=stringr):
-  Toolbox for string operation (with regular expressions).
-  + [`forcats`](https://cran.r-project.org/package=forcats):
-  Toolbox for factor manipulation (for categorical variables).
-  + [`data.table`](https://cran.r-project.org/package=data.table):
-  Advanced `data.frame` with higher efficiency.
+-   **[Data]:**
 
-- **[Stat]:**
-  + [`psych`](https://cran.r-project.org/package=psych):
-  Toolbox for psychological and psychometric research.
-  + [`emmeans`](https://cran.r-project.org/package=emmeans):
-  Toolbox for estimated marginal means and contrasts.
-  + [`effectsize`](https://cran.r-project.org/package=effectsize):
-  Indices of effect size and standardized parameters.
-  + [`performance`](https://cran.r-project.org/package=performance):
-  Assessment of regression models performance.
+    -   [`rio`](https://cran.r-project.org/package=rio): Data import and export (for all file formats).
+    -   [`dplyr`](https://cran.r-project.org/package=dplyr): Data manipulation and processing.
+    -   [`tidyr`](https://cran.r-project.org/package=tidyr): Data cleaning and reshaping.
+    -   [`stringr`](https://cran.r-project.org/package=stringr): Toolbox for string operation (with regular expressions).
+    -   [`forcats`](https://cran.r-project.org/package=forcats): Toolbox for factor manipulation (for categorical variables).
+    -   [`data.table`](https://cran.r-project.org/package=data.table): Advanced `data.frame` with higher efficiency.
 
-- **[Plot]:**
-  + [`ggplot2`](https://cran.r-project.org/package=ggplot2):
-  Data visualization.
-  + [`cowplot`](https://cran.r-project.org/package=cowplot):
-  Advanced toolbox for `ggplot2` (arrange multiple plots and add labels).
-  + [`see`](https://cran.r-project.org/package=see):
-  Advanced toolbox for `ggplot2` (extra geoms, scales, themes, and color palettes).
+-   **[Stat]:**
 
+    -   [`psych`](https://cran.r-project.org/package=psych): Toolbox for psychological and psychometric research.
+    -   [`emmeans`](https://cran.r-project.org/package=emmeans): Toolbox for estimated marginal means and contrasts.
+    -   [`effectsize`](https://cran.r-project.org/package=effectsize): Indices of effect size and standardized parameters.
+    -   [`performance`](https://cran.r-project.org/package=performance): Assessment of regression models performance.
+
+-   **[Plot]:**
+
+    -   [`ggplot2`](https://cran.r-project.org/package=ggplot2): Data visualization.
+    -   [`cowplot`](https://cran.r-project.org/package=cowplot): Advanced toolbox for `ggplot2` (arrange multiple plots and add labels).
+    -   [`see`](https://cran.r-project.org/package=see): Advanced toolbox for `ggplot2` (extra geoms, scales, themes, and color palettes).
 
 ### Main Functions in `bruceR`
 
-- [x] Basic Use and Analysis
-  + `set.wd()`
-  + `pkg_depend()`, `pkg_install_suggested()`
-  + `formatF()`, `formatN()`
-  + `Print()`, `Glue()`
-  + `Describe()`, `Freq()`, `Corr()`
-  + `LOOKUP()`, `RANDBETWEEN()`
-  + `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
-- [x] Multivariate Computation
-  + `RECODE()`, `RESCALE()`
-  + `SUM()`, `MEAN()`, `STD()`, `MODE()`, `COUNT()`, `CONSEC()`
-- [x] Reliability and Validity Analysis
-  + `Alpha()`
-  + `EFA()`
-  + `CFA()`
-- [x] Multi-Factor Analysis of Variance, Simple-Effect Analysis, and Multiple Comparison
-  + `MANOVA()`
-  + `EMMEANS()`
-- [x] Advanced Statistical Toolbox and Tidy Report
-  + `grand_mean_center()`, `group_mean_center()`
-  + `regress()`, `GLM_summary()`, `HLM_summary()`
-  + `model_summary()`
-  + `med_summary()`
-  + `ccf_plot()`
-  + `granger_test()`
-- [x] Theme for `ggplot2`
-  + `theme_bruce()`
+-   [x] Basic Use and Analysis
 
+    -   `set.wd()`
+    -   `pkg_depend()`, `pkg_install_suggested()`
+    -   `formatF()`, `formatN()`
+    -   `Print()`, `Glue()`
+    -   `Describe()`, `Freq()`, `Corr()`
+    -   `LOOKUP()`, `RANDBETWEEN()`
+    -   `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
+
+-   [x] Multivariate Computation
+
+    -   `RECODE()`, `RESCALE()`
+    -   `SUM()`, `MEAN()`, `STD()`, `MODE()`, `COUNT()`, `CONSEC()`
+
+-   [x] Reliability and Validity Analysis
+
+    -   `Alpha()`
+    -   `EFA()`
+    -   `CFA()`
+
+-   [x] Multi-Factor Analysis of Variance, Simple-Effect Analysis, and Multiple Comparison
+
+    -   `MANOVA()`
+    -   `EMMEANS()`
+
+-   [x] Advanced Statistical Toolbox and Tidy Report
+
+    -   `grand_mean_center()`, `group_mean_center()`
+    -   `regress()`, `GLM_summary()`, `HLM_summary()`
+    -   `model_summary()`
+    -   `med_summary()`
+    -   `ccf_plot()`
+    -   `granger_test()`
+
+-   [x] Theme for `ggplot2`
+
+    -   `theme_bruce()`
 
 ### Learn More From Help Pages
 
-```r
+``` r
 library(bruceR)
 
 ## Overview
@@ -151,13 +143,8 @@ library(bruceR)
 ...
 ```
 
-
 ## Release Notes
 
 See [NEWS.md](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
-
-<!-- badges: start -->
 [![Travis build status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR)
-<!-- badges: end -->
-

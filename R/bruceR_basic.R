@@ -164,13 +164,14 @@ pkg_install_suggested=function(by="bruceR") {
   if(by=="bruceR") {
     pkgs.suggests=c(
       "devtools", "tidyverse", "ggstatsplot",
-      "mediation", "JSmediation", "interactions", "processR", "lavaan",
-      "irr", "correlation", "forecast", "AER", "BayesFactor", "metafor",
+      "sampling", "irr", "correlation", "forecast",
+      "JSmediation", "processR", "lavaan", "metafor",
+      "AER", "TOSTER", "BEST", "BayesFactor",
       "pwr", "simr", "r2mlm", "multilevel",
-      "nnet", "caret", "party", "randomForest",
-      "rvest", "xml2", "jiebaR",
+      "caret", "party", "randomForest", "jiebaR",
       "sjstats", "reghelper", "summarytools", "apaTables",
-      "ggrepel", "ggsignif", "ggridges", "ggthemes", "ggExtra", "showtext"
+      "ggrepel", "ggsignif", "ggridges", "ggthemes", "ggExtra",
+      "corrplot", "showtext"
     )
   } else {
     pkgs.suggests=pacman::p_depends(by, character.only=TRUE, local=TRUE)$Suggests

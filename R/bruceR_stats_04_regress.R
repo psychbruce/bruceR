@@ -237,32 +237,34 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' Invisibly return the plain text of output.
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' ## Example 1: Linear Model
-#' # lm1=lm(Temp ~ Month + Day, data=airquality)
-#' # lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
-#' # model_summary(lm1)
-#' # model_summary(lm2)
-#' # model_summary(list(lm1, lm2))
-#' # model_summary(list(lm1, lm2), std=TRUE, digits=2)
-#' # model_summary(list(lm1, lm2), file="OLS Models.doc")
-#' # model_summary(list(lm1, lm2), file="OLS Models.html")
+#' lm1=lm(Temp ~ Month + Day, data=airquality)
+#' lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+#' model_summary(lm1)
+#' model_summary(lm2)
+#' model_summary(list(lm1, lm2))
+#' model_summary(list(lm1, lm2), std=TRUE, digits=2)
+#' model_summary(list(lm1, lm2), file="OLS Models.doc")
+#' model_summary(list(lm1, lm2), file="OLS Models.html")
 #'
 #' ## Example 2: Generalized Linear Model
-#' # glm1=glm(case ~ age + parity,
-#' #          data=infert, family=binomial)
-#' # glm2=glm(case ~ age + parity + education + spontaneous + induced,
-#' #          data=infert, family=binomial)
-#' # model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
-#' # model_summary(list(glm1, glm2), file="GLM Models.doc")
+#' glm1=glm(case ~ age + parity,
+#'          data=infert, family=binomial)
+#' glm2=glm(case ~ age + parity + education + spontaneous + induced,
+#'          data=infert, family=binomial)
+#' model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
+#' model_summary(list(glm1, glm2), file="GLM Models.doc")
 #'
 #' ## Example 3: Linear Mixed Model
-#' # library(lmerTest)
-#' # hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
-#' # hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
-#' # hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
-#' # model_summary(list(hlm1, hlm2, hlm3))
-#' # model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
-#' # model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
+#' library(lmerTest)
+#' hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
+#' hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
+#' hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#' model_summary(list(hlm1, hlm2, hlm3))
+#' model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
+#' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 #'
 #' ## Example 4: Generalized Linear Mixed Model
 #' # library(lmerTest)
@@ -282,6 +284,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' # model_summary(mn2)
 #' # model_summary(mn2, file="Multinomial Logistic Model.doc")
 #'
+#' }
 #' @export
 model_summary=function(model_list,
                        std_coef=FALSE,
