@@ -294,13 +294,12 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
   at$MS=at$`F`*at$`MSE`
-  at$p.eta2=mapply(eta_sq_ci, at$`F`, at$df1, at$df2, return="eta2")
-  at$LLCI=mapply(eta_sq_ci, at$`F`, at$df1, at$df2, return="LLCI")
-  at$ULCI=mapply(eta_sq_ci, at$`F`, at$df1, at$df2, return="ULCI")
-  at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)",
-              "p.eta2", "LLCI", "ULCI")]
-  names(at)[7:9]=c("  \u03b7\u00b2p",
-                   "  [90% ", "  CI]")
+  eta2=effectsize::F_to_eta2(at$`F`, at$df1, at$df2)
+  at$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
+                   formatF(eta2$CI_low, nsmall+1), ", ",
+                   formatF(eta2$CI_high, nsmall+1), "]")
+  at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2")]
+  names(at)[7]=c("\u03b7\u00b2p [90% CI]")
   row.names(at)=row.names(aov.ez$anova_table)
   df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
   Print("
@@ -311,40 +310,38 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   Covariate(s):               {ifelse(is.null(covariate), '-', paste(covariate, collapse=', '))}
   ")
   print_table(at, nsmalls=c(nsmall, nsmall, df.nsmall, df.nsmall,
-                            nsmall, 0,
-                            nsmall+1, nsmall+1, nsmall+1))
-  Print("<<blue MSE = Mean Square Error (an estimate of the population variance \u03c3\u00b2).>>")
-  Print("<<blue 90% CIs of \u03b7\u00b2p are presented.>>")
+                            nsmall, 0, 0))
+  Print("<<blue MSE = Mean Square Error (an estimate of population variance \u03c3\u00b2).>>")
   if(sph.correction=="GG")
     Print("<<green Sphericity correction method: GG (Greenhouse-Geisser)>>")
   if(sph.correction=="HF")
     Print("<<green Sphericity correction method: HF (Huynh-Feldt)>>")
 
-  ## All Other Effect-Size Measures
+  ## All Other Effect-Size Measures (deprecated; please use `effectsize` package)
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
   # Replace partial.etasq and cohens.f, due to their wrong results
-  if(FALSE) {
-    Print("\n\n\n<<underline ANOVA Effect Size:>>")
-    suppressMessages({
-      effsize=sjstats::anova_stats(aov.ez$aov)
-    })
-    effsize$stratum=NULL
-    effsize=effsize[-which(effsize$term=="Residuals"),]
-    effsize=dplyr::mutate(effsize,
-                          partial.etasq=round(at0$p.eta2, 3),
-                          cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3),
-                          generalized.etasq=round(at0$g.eta2, 3))
-    names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
-                     "     \u03b7\u00b2",  # eta2
-                     "  \u03b7\u00b2[p]",  # eta2_p
-                     "     \u03c9\u00b2",  # omega2
-                     "  \u03c9\u00b2[p]",  # omega2_p
-                     "     \u03b5\u00b2",  # epsilon2
-                     "Cohen's f", "Post-Hoc Power",
-                     "  \u03b7\u00b2[G]")  # eta2_G
-    row.names(effsize)=effsize$Term
-    print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
-  }
+  # if(FALSE) {
+  #   Print("\n\n\n<<underline ANOVA Effect Size:>>")
+  #   suppressMessages({
+  #     effsize=sjstats::anova_stats(aov.ez$aov)
+  #   })
+  #   effsize$stratum=NULL
+  #   effsize=effsize[-which(effsize$term=="Residuals"),]
+  #   effsize=dplyr::mutate(effsize,
+  #                         partial.etasq=round(at0$p.eta2, 3),
+  #                         cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3),
+  #                         generalized.etasq=round(at0$g.eta2, 3))
+  #   names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
+  #                    "     \u03b7\u00b2",  # eta2
+  #                    "  \u03b7\u00b2[p]",  # eta2_p
+  #                    "     \u03c9\u00b2",  # omega2
+  #                    "  \u03c9\u00b2[p]",  # omega2_p
+  #                    "     \u03b5\u00b2",  # epsilon2
+  #                    "Cohen's f", "Post-Hoc Power",
+  #                    "  \u03b7\u00b2[G]")  # eta2_G
+  #   row.names(effsize)=effsize$Term
+  #   print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
+  # }
   Print("\n\n\n<<magenta
   \u03c9\u00b2 = omega-squared = (SS - df1 * MSE) / (SST + MSE)
   \u03b7\u00b2 = eta-squared = SS / SST
@@ -635,16 +632,14 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   } else {
     error=FALSE
     sim$sig=sig.trans(sim$p.value)
-    sim$p.eta2=round(mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="eta2"), nsmall+1)
-    sim$LLCI=round(mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="LLCI"), nsmall+1)
-    sim$LLCI=paste0("[", sim$LLCI, ",")
-    sim$ULCI=round(mapply(eta_sq_ci, sim$F.ratio, sim$df1, sim$df2, return="ULCI"), nsmall+1)
-    sim$ULCI=paste0(sim$ULCI, "]")
-    sim$F.ratio=round(sim$F.ratio, nsmall)
+    # eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2)
+    # sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall), " [",
+    #                   formatF(eta2$CI_low, nsmall), ", ",
+    #                   formatF(eta2$CI_high, nsmall), "]")
+    sim$F.ratio=formatF(sim$F.ratio, nsmall)
     sim$p.value=p.trans(sim$p.value)
-    names(sim)[c(1,(length(by)+2):(length(by)+9))]=
-      c("----", "df1", "df2", "F", "p", "sig",
-        "  \u03b7\u00b2p", " [90%", "  CI]")
+    names(sim)[c(1,(length(by)+2):(length(by)+6))]=
+      c("----", "df1", "df2", "F", "p", " ")
   }
   print(sim)
   if(error) cat("\n")
@@ -657,10 +652,13 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   emm=summary(emm)  # to a data.frame (class 'summary_emm')
   emm$emmean=formatF(emm$emmean, nsmall)
   emm$SE=paste0("(", formatF(emm$SE, nsmall), ")")
-  emm$lower.CL=paste0("[", formatF(emm$lower.CL, nsmall), ",")
-  emm$upper.CL=paste0(formatF(emm$upper.CL, nsmall), "]")
-  names(emm)[(length(emm)-4):length(emm)]=
-    c("Mean", "S.E.", "df", " [95%", "  CI]")
+  emm$CI=paste0("[",
+                formatF(emm$lower.CL, nsmall), ", ",
+                formatF(emm$upper.CL, nsmall), "]")
+  emm$lower.CL=NULL
+  emm$upper.CL=NULL
+  names(emm)[(length(emm)-3):length(emm)]=
+    c("Mean", "S.E.", "df", "[95% CI of Mean]")
   attr(emm, "mesg")[which(grepl("^Confidence", attr(emm, "mesg")))]=
     "Estimated means use an equally weighted average."
   print(emm)
@@ -691,9 +689,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     # WARNING: NOT Accurate!
     if(contrast!="poly")
       message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
-    con$d=psych::r2d(psych::t2r(con$t.ratio, con$df))
-    con$d.LLCI=paste0("[", formatF(conCI$lower.CL*con$d/con$estimate, nsmall), ",")
-    con$d.ULCI=paste0(formatF(conCI$upper.CL*con$d/con$estimate, nsmall), "]")
+    con$d=paste0(formatF(psych::r2d(psych::t2r(con$t.ratio, con$df)), nsmall), " [",
+                 formatF(conCI$lower.CL*con$d/con$estimate, nsmall), ", ",
+                 formatF(conCI$upper.CL*con$d/con$estimate, nsmall), "]")
   } else if(cohen.d=="eff_size") {
     if(contrast!="poly")
       message("NOTE: Cohen's d was estimated by 'eff_size()' in the 'emmeans' package.")
@@ -705,9 +703,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                          sigma=sqrt(model$anova_table[term, "MSE"]),
                          edf=stats::df.residual(model$lm))
     es=summary(es)
-    con$d=es$effect.size
-    con$d.LLCI=paste0("[", formatF(es$lower.CL, nsmall), ",")
-    con$d.ULCI=paste0(formatF(es$upper.CL, nsmall), "]")
+    con$d=paste0(formatF(es$effect.size, nsmall), " [",
+                 formatF(es$lower.CL, nsmall), ", ",
+                 formatF(es$upper.CL, nsmall), "]")
   } else if(cohen.d=="accurate") {
     if(is.null(sd.pooled)) {
       rn=row.names(model$anova_table)
@@ -718,9 +716,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     } else {
       SDpool=sd.pooled
     }
-    con$d=formatF(con$estimate/SDpool, nsmall)
-    con$d.LLCI=paste0("[", formatF(conCI$lower.CL/SDpool, nsmall), ",")
-    con$d.ULCI=paste0(formatF(conCI$upper.CL/SDpool, nsmall), "]")
+    con$d=paste0(formatF(con$estimate/SDpool, nsmall), " [",
+                 formatF(conCI$lower.CL/SDpool, nsmall), ", ",
+                 formatF(conCI$upper.CL/SDpool, nsmall), "]")
     if(contrast!="poly")
       attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(SDpool, 2)}"),
                           attr(con, "mesg"))
@@ -732,10 +730,10 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   con$t.ratio=formatF(con$t.ratio, nsmall)
   con$p.value=p.trans(con$p.value)
   p.mesg.index=grepl("^P value adjustment", attr(con, "mesg"))
-  names(con)[c(1, (length(con)-8):length(con))]=
+  names(con)[c(1, (length(con)-6):length(con))]=
     c("Contrast", "b", "S.E.", "df", "t",
       ifelse(any(p.mesg.index), "p*", "p"),
-      "sig", "Cohen's d", " [95%", "  CI]")
+      " ", "Cohen's d [95% CI]")
   if(any(p.mesg.index)) {
     p.mesg=attr(con, "mesg")[which(p.mesg.index)]
     method.mesg=stringr::str_extract(p.mesg, "(?<=: ).+(?= method)")
@@ -750,7 +748,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                         "No need to adjust p values.")
   }
   if(contrast=="poly")
-    con[c("Cohen's d", " [95%", "  CI]")]=NULL
+    con[c("Cohen's d [95% CI]")]=NULL
   print(con)
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
@@ -759,22 +757,6 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 
   ## Return (return the raw model for recycling across '%>%' pipelines)
   invisible(model.raw)
-}
-
-
-## Compute the confidence interval (CI) of partial eta^2 in ANOVA
-eta_sq_ci=function(F.value, df.1, df.2, conf.level=0.90, return="all") {
-  eta2=MBESS::F2Rsquare(F.value=F.value, df.1=df.1, df.2=df.2)
-  ci=MBESS::ci.R2(F.value=F.value, df.1=df.1, df.2=df.2,
-                  Random.Predictors=FALSE, conf.level=conf.level)
-  if(return=="all")
-    return(c(eta2, ci$Lower.Conf.Limit.R2, ci$Upper.Conf.Limit.R2))
-  if(return=="eta2")
-    return(eta2)
-  if(return=="LLCI")
-    return(ci$Lower.Conf.Limit.R2)
-  if(return=="ULCI")
-    return(ci$Upper.Conf.Limit.R2)
 }
 
 

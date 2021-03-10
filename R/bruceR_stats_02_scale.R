@@ -450,8 +450,8 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
     cat("#### lavaan style output ####\n\n")
     summary(fit.lav, fit.measures=TRUE, standard=TRUE)
     if(MI) print(lavaan::modificationIndices(fit.lav))
-    # if(plot) semPaths(fit.lav, "std", curveAdjacent=TRUE,
-    #                   style="lisrel", nDigits=2, edge.label.cex=1)
+    # if(plot) semPlot::semPaths(fit.lav, "std", curveAdjacent=TRUE,
+    #                            style="lisrel", nDigits=2, edge.label.cex=1)
     results=c(results, fit.lavaan=fit.lav)
   }
 

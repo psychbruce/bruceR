@@ -16,7 +16,7 @@
 
 ### MAJOR CHANGES
 
--   Improved many major functions, especially `Describe()`, `Corr()`.
+-   Improved many major functions, especially `Describe()`, `Corr()`, `MANOVA()`, and `EMMEANS()`.
 -   Tidy welcome messages when you `library(bruceR)`.
 -   More packages for default loading (see [details](https://github.com/psychbruce/bruceR#package-dependency)).
 -   Less packages for default installation (you can install all suggested packages by using the `pkg_install_suggested()` function).

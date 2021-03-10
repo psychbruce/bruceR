@@ -26,3 +26,6 @@ Check dependencies of R packages.
 ## End(Not run)
 
 }
+\seealso{
+\link{pkg_install_suggested}
+}

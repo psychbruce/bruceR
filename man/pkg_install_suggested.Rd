@@ -19,3 +19,6 @@ or any other package.
 # pkg_install_suggested()
 
 }
+\seealso{
+\link{pkg_depend}
+}

@@ -122,6 +122,8 @@ set.wd=function(dir=NULL) {
 #'
 #' ## End(Not run)
 #'
+#' @seealso \link{pkg_install_suggested}
+#'
 #' @export
 pkg_depend=function(pkgs, excludes=NULL) {
   default.pkgs=c("base", "boot", "class",
@@ -155,13 +157,26 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #' # pacman::p_delete(irr, lpSolve)
 #' # pkg_install_suggested()
 #'
+#' @seealso \link{pkg_depend}
+#'
 #' @export
 pkg_install_suggested=function(by="bruceR") {
-  pkgs.depends=pacman::p_depends(by, character.only=TRUE, local=TRUE)
+  if(by=="bruceR") {
+    pkgs.suggests=c(
+      "devtools", "tidyverse", "ggstatsplot",
+      "mediation", "JSmediation", "interactions", "processR", "lavaan",
+      "irr", "correlation", "forecast", "AER", "BayesFactor", "metafor",
+      "pwr", "simr", "r2mlm", "multilevel",
+      "nnet", "caret", "party", "randomForest",
+      "rvest", "xml2", "jiebaR",
+      "sjstats", "reghelper", "summarytools", "apaTables",
+      "ggrepel", "ggsignif", "ggridges", "ggthemes", "ggExtra", "showtext"
+    )
+  } else {
+    pkgs.suggests=pacman::p_depends(by, character.only=TRUE, local=TRUE)$Suggests
+  }
   pkgs.installed=pacman::p_library()
-  pkgs.need.install=setdiff(union(pkgs.depends$Imports,
-                                  pkgs.depends$Suggests),
-                            pkgs.installed)
+  pkgs.need.install=setdiff(pkgs.suggests, pkgs.installed)
   if(length(pkgs.need.install)>0)
     utils::install.packages(pkgs.need.install)
   else
@@ -299,8 +314,8 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
       x[grepl("\\.", x[,j])==FALSE, j]=""  # remove ( ) from blank S.E.
       if(grepl("S\\.E\\.", names(x)[j])==FALSE) names(x)[j]="S.E."
     }
-    if(grepl("\\[", names(x)[j])) x[,j]=paste0("[", x[,j], ",")
-    if(grepl("\\]", names(x)[j])) x[,j]=paste0(x[,j], "]")
+    # if(grepl("\\[", names(x)[j])) x[,j]=paste0("[", x[,j], ",")
+    # if(grepl("\\]", names(x)[j])) x[,j]=paste0(x[,j], "]")
     # if(grepl("^[Ee]stimate$", names(x)[j])) names(x)[j]="Coef."
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
