@@ -3,3 +3,4 @@
 data-raw
 ^cran-comments\.md$
 ^NEWS\.md$
+^\.travis\.yml$

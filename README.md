@@ -156,3 +156,8 @@ library(bruceR)
 
 See [NEWS.md](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
+
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR)
+<!-- badges: end -->
+
