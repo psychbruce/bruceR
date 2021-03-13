@@ -6,7 +6,7 @@
 
 <img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
 
--   复制、修改、使用、分享本代码库，必须遵守**「创作共用许可协议 [CC BY-NC-SA](https://en.wikipedia.org/wiki/Creative_Commons_license)」（原作者署名-非商业用途使用-相同方式共享）**
+-   复制、修改、使用、分享本代码库，必须遵守「创作共用许可协议 [CC BY-NC-SA](https://en.wikipedia.org/wiki/Creative_Commons_license)」（原作者署名-非商业用途使用-相同方式共享）
 
 ## Author
 
@@ -16,7 +16,7 @@ E-mail: [baohws\@foxmail.com](mailto:baohws@foxmail.com)
 
 Website: [psychbruce.github.io](https://psychbruce.github.io)
 
-[ResearchGate](https://www.researchgate.net/profile/Han_Wu_Shuang_Bao) \| [GitHub](https://github.com/psychbruce) \| [知乎](https://www.zhihu.com/people/psychbruce)
+[ResearchGate](https://www.researchgate.net/profile/Han-Wu-Shuang-Bao) \| [GitHub](https://github.com/psychbruce) \| [知乎](https://www.zhihu.com/people/psychbruce)
 
 ## User Guide
 
@@ -41,7 +41,7 @@ devtools::install_github("psychbruce/bruceR")
 2.  If you see a dialog asking *"Do you want to install from sources the package which needs compilation"*, it would be better to **choose "No"** (to save your time).
 3.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
 4.  It would be better to update R to its [latest version](https://www.r-project.org/) (v4.0+).
-5.  It would be better to download and install [Rtools.exe](http://cran.r-project.org/bin/windows/Rtools/) on Windows system.
+5.  It would be better to download and install [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) on Windows system.
 
 ### Citation
 
@@ -50,6 +50,20 @@ citation("bruceR")
 ```
 
 -   Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package. <https://github.com/psychbruce/bruceR>
+
+### Help Page
+
+``` r
+## Overview
+help("bruceR")
+help(bruceR)
+?bruceR
+
+## Function (take `Describe()` for example)
+help("Describe")
+help(Describe)
+?Describe
+```
 
 ### Package Dependency
 
@@ -87,7 +101,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
     -   `Print()`, `Glue()`
-    -   `Describe()`, `Freq()`, `Corr()`
+    -   `Describe()`, `Freq()`, `Corr()`, `cor_diff()`
     -   `LOOKUP()`, `RANDBETWEEN()`
     -   `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
 

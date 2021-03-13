@@ -14,8 +14,6 @@ It checks and installs R packages suggested by \code{bruceR} (default)
 or any other package.
 }
 \examples{
-# pkg_depend("irr")
-# pacman::p_delete(irr, lpSolve)
 # pkg_install_suggested()
 
 }

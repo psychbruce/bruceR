@@ -7,8 +7,8 @@
 Describe(
   data,
   nsmall = 2,
+  all.as.numeric = TRUE,
   plot = FALSE,
-  plot.all.continuous = TRUE,
   upper.triangle = FALSE,
   upper.smooth = "none",
   save.file = NULL,
@@ -22,11 +22,11 @@ Describe(
 
 \item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 
+\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
+Transform all variables into numeric (continuous).}
+
 \item{plot}{\code{TRUE} or \code{FALSE} (default).
 Visualize the descriptive statistics using \code{GGally::\link[GGally]{ggpairs}}.}
-
-\item{plot.all.continuous}{\code{TRUE} (default) or \code{FALSE}.
-Before plotting, transform all variables to continuous.}
 
 \item{upper.triangle}{\code{TRUE} or \code{FALSE} (default).
 Add (scatter) plots to upper triangle (time consuming when sample size is large).}
@@ -51,22 +51,25 @@ Descriptive statistics.
 
 Describe(airquality, plot=TRUE)
 
-d=as.data.table(bfi)
+?psych::bfi
+Describe(bfi[c("age", "gender", "education")])
+
+d=as.data.table(psych::bfi)
 d[,`:=`(
   gender=as.factor(gender),
   education=as.factor(education),
-  A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+  A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
+  C=MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
+  N=MEAN(d, "N", 1:5, likert=1:6),
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
-Describe(bfi[c("age", "gender", "education")])
-# Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
-# Describe(d[,.(age, A, E, O)], plot=TRUE)
+Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
+Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 
 # Describe(airquality, plot=TRUE, smooth="lm",
 #          save.file="Descriptive Statistics.png",
 #          width=10, height=8, dpi=500)
-
 }
 \seealso{
 \link{Corr}

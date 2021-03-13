@@ -120,8 +120,8 @@ sig.trans=function(p) {
 #' @param nsmall Number of decimal places of output. Default is \code{2}.
 #' @param plot \code{TRUE} or \code{FALSE} (default).
 #' Visualize the descriptive statistics using \code{GGally::\link[GGally]{ggpairs}}.
-#' @param plot.all.continuous \code{TRUE} (default) or \code{FALSE}.
-#' Before plotting, transform all variables to continuous.
+#' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
+#' Transform all variables into numeric (continuous).
 #' @param upper.triangle \code{TRUE} or \code{FALSE} (default).
 #' Add (scatter) plots to upper triangle (time consuming when sample size is large).
 #' @param upper.smooth \code{"none"} (default), \code{"lm"}, or \code{"loess"}.
@@ -137,28 +137,32 @@ sig.trans=function(p) {
 #'
 #' Describe(airquality, plot=TRUE)
 #'
-#' d=as.data.table(bfi)
+#' ?psych::bfi
+#' Describe(bfi[c("age", "gender", "education")])
+#'
+#' d=as.data.table(psych::bfi)
 #' d[,`:=`(
 #'   gender=as.factor(gender),
 #'   education=as.factor(education),
-#'   A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
 #'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+#'   A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
+#'   C=MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
+#'   N=MEAN(d, "N", 1:5, likert=1:6),
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
-#' Describe(bfi[c("age", "gender", "education")])
-#' # Describe(d[,.(age, gender, education, E, O)], plot=TRUE)
-#' # Describe(d[,.(age, A, E, O)], plot=TRUE)
+#' Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
+#' Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #'
 #' # Describe(airquality, plot=TRUE, smooth="lm",
 #' #          save.file="Descriptive Statistics.png",
 #' #          width=10, height=8, dpi=500)
-#'
 #' @seealso \link{Corr}
 #'
 #' @import ggplot2
 #' @export
 Describe=function(data, nsmall=2,
-                  plot=FALSE, plot.all.continuous=TRUE,
+                  all.as.numeric=TRUE,
+                  plot=FALSE,
                   upper.triangle=FALSE, upper.smooth="none",
                   save.file=NULL, width=8, height=6, dpi=500) {
   Print("Descriptive statistics:")
@@ -184,13 +188,21 @@ Describe=function(data, nsmall=2,
     print_table(desc, nsmalls=c(0, 0, rep(nsmall, 8)))
   }
 
+  data.new=as.data.frame(data)
+  vars.not.numeric=c()
+  if(all.as.numeric) {
+    for(var in names(data.new)) {
+      if(!is.numeric(data.new[[var]])) {
+        data.new[[var]]=as.numeric(data.new[[var]])
+        vars.not.numeric=c(vars.not.numeric, var)
+      }
+    }
+  }
+  if(length(vars.not.numeric)>0)
+    Print("\n\n\n<<yellow NOTE: `{paste(vars.not.numeric, collapse='`, `')}` transformed to numeric.>>")
+
   p=NULL
   if(plot) {
-    data.plot=as.data.frame(data)
-    if(plot.all.continuous) {
-      for(var in names(data.plot))
-        data.plot[[var]]=as.numeric(data.plot[[var]])
-    }
     if(upper.triangle) {
       smooth=switch(upper.smooth,
                     "none"="points",
@@ -202,7 +214,7 @@ Describe=function(data, nsmall=2,
       upper="blank"
     }
     p=GGally::ggpairs(
-      data.plot, switch="both", axisLabels="none",
+      data.new, switch="both", axisLabels="none",
       upper=upper,
       lower=list(continuous=GGally::wrap(
         "cor", digits=nsmall,
@@ -267,7 +279,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
 #' @param p.adjust Adjustment of \emph{p} values for multiple tests: \code{"none", "fdr", "holm", "bonferroni", ...}
 #' For details, see \code{stats::\link[stats]{p.adjust}}.
-#' @param plot \code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.
+#' @param plot \code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.
 #' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
 #' @param plot.palette Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
@@ -278,41 +290,50 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' Corr(airquality, p.adjust="bonferroni")
 #' # Corr(airquality, save.file="Air-Corr.png")
 #'
-#' Corr(bfi[c("gender", "age", "education")])
-#' # Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
+#' d=as.data.table(psych::bfi)
+#' d[,`:=`(
+#'   gender=as.factor(gender),
+#'   education=as.factor(education),
+#'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+#'   A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
+#'   C=MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
+#'   N=MEAN(d, "N", 1:5, likert=1:6),
+#'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
+#' )]
+#' Corr(d[,.(age, gender, education, E, A, C, N, O)])
 #'
 #' @seealso \link{Describe}
 #'
 #' @export
 Corr=function(data, method="pearson", nsmall=2,
-              p.adjust="none",
+              p.adjust="none", all.as.numeric=TRUE,
               plot=TRUE, plot.range=c(-1, 1),
               plot.palette=NULL, plot.color.levels=201,
               save.file=NULL, width=8, height=6, dpi=500) {
-  data=as.data.frame(data)
-  exclude.vars=c()
-  for(var in names(data)) {
-    if(class(data[[var]]) %in% c("character", "factor")) {
-      data[var]=NULL
-      exclude.vars=c(exclude.vars, var)
+  data.new=as.data.frame(data)
+  vars.not.numeric=c()
+  if(all.as.numeric) {
+    for(var in names(data.new)) {
+      if(!is.numeric(data.new[[var]])) {
+        data.new[[var]]=as.numeric(data.new[[var]])
+        vars.not.numeric=c(vars.not.numeric, var)
+      }
     }
   }
 
-  cor=cor0=psych::corr.test(data, method=method, adjust=p.adjust)
+  cor=cor0=psych::corr.test(data.new, method=method, adjust=p.adjust)
   # print(cor, digits=nsmall, short=!CI)
 
   Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
   cor$r[cor$r==1]=NA
   print_table(cor$r, nsmalls=nsmall)
 
-  Print("\n\n\nSig. (2-tailed):")
+  Print("\n\n\n<<italic p>>-values (2-tailed):")
   cor$p=gsub("=", " ", gsub(" ", "", p.trans2(cor$p)))
   for(i in 1:nrow(cor$p)) cor$p[i,i]=""
   print_table(cor$p)
-
-  if(p.adjust!="none") {
-    Print("<<blue P-values above the diagonal are adjusted for multiple tests ({capitalize(p.adjust)} method).>>")
-  }
+  if(p.adjust!="none")
+    Print("<<blue <<italic p>>-values above the diagonal are adjusted for multiple tests ({capitalize(p.adjust)} method).>>")
 
   if("matrix" %in% class(cor$n)) {
     Print("\n\n\nSample size:")
@@ -321,17 +342,15 @@ Corr=function(data, method="pearson", nsmall=2,
     Print("\n\n\nSample size: <<italic N>> = {cor$n}")
   }
 
-  Print("\n\n\n95% CI for <<italic r>>:")
-  cor$ci=cor$ci[c(2,1,3,4)]
-  names(cor$ci)=c("r", "[95% ", "  CI]", "pval")
-  print_table(cor$ci, nsmalls=nsmall)
+  Print("\n\n\n95% CI of <<italic r>>:")
+  names(cor$ci)=c("LLCI", "r", "ULCI", "pval")
+  cor$ci$`[95% CI of r]`=paste0(
+    "[", formatF(cor$ci$LLCI, nsmall), ", ",
+    formatF(cor$ci$ULCI, nsmall), "]")
+  print_table(cor$ci[c(2,5,4)], nsmalls=nsmall)
 
-  if(length(exclude.vars)>0) {
-    cat("\n")
-    Print("<<red !! Excluded non-numeric variable(s):>>")
-    cat(paste(exclude.vars, collapse=", "))
-    cat("\n")
-  }
+  if(length(vars.not.numeric)>0)
+      Print("\n\n\n<<yellow NOTE: `{paste(vars.not.numeric, collapse='`, `')}` transformed to numeric.>>")
 
   cor=cor0
   if(plot) {
@@ -613,7 +632,7 @@ cor_diff=function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
     Print("
     <<italic r>>1 = {formatF(r1)}
     <<italic r>>2 = {formatF(r2)}
-    (<<italic N>> = {formatN(n1)}, <<italic r>>_cov = {formatF(rcov)})
+    (<<italic N>> = {formatN(n)}, <<italic r>>_cov = {formatF(rcov)})
     Difference of correlation: {p(t=tdiff, df=n-3)}
     ")
   }

@@ -9,6 +9,7 @@ Corr(
   method = "pearson",
   nsmall = 2,
   p.adjust = "none",
+  all.as.numeric = TRUE,
   plot = TRUE,
   plot.range = c(-1, 1),
   plot.palette = NULL,
@@ -29,7 +30,10 @@ Corr(
 \item{p.adjust}{Adjustment of \emph{p} values for multiple tests: \code{"none", "fdr", "holm", "bonferroni", ...}
 For details, see \code{stats::\link[stats]{p.adjust}}.}
 
-\item{plot}{\code{TRUE} (default) or \code{FALSE}, plot the correlation matrix.}
+\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
+Transform all variables into numeric (continuous).}
+
+\item{plot}{\code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.}
 
 \item{plot.range}{Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.}
 
@@ -54,8 +58,17 @@ Corr(airquality)
 Corr(airquality, p.adjust="bonferroni")
 # Corr(airquality, save.file="Air-Corr.png")
 
-Corr(bfi[c("gender", "age", "education")])
-# Corr(bfi, save.file="BFI-Corr.png", width=9, height=9)
+d=as.data.table(psych::bfi)
+d[,`:=`(
+  gender=as.factor(gender),
+  education=as.factor(education),
+  E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+  A=MEAN(d, "A", 1:5, rev=1, likert=1:6),
+  C=MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
+  N=MEAN(d, "N", 1:5, likert=1:6),
+  O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
+)]
+Corr(d[,.(age, gender, education, E, A, C, N, O)])
 
 }
 \seealso{

@@ -8,8 +8,8 @@ Authors@R: c(
   )
 Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
-Description: "BRoadly" Useful Convenient and Efficient R functions that
-             "BRing" Users Concise and Elegant R data analyses.
+Description: BRoadly Useful Convenient and Efficient R functions that
+             BRing Users Concise and Elegant R data analyses.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true

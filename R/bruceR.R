@@ -190,15 +190,14 @@ NULL
   #   curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
   # }, silent=T)
 
-  pkgs.need.update=c()
-  try({ pkgs.need.update=pacman::p_update(update=FALSE) }, silent=T)
-  if("bruceR" %in% pkgs.need.update) {
-    update.msg=Glue("
-    <<bold <<red \u26a0 NEWS: A new version of `bruceR` is now available!>>>>
-    \n\n\n")
-  } else {
-    update.msg=""
-  }
+  update.msg=""
+  # pkgs.need.update=c()
+  # try({ pkgs.need.update=pacman::p_update(update=FALSE) }, silent=T)
+  # if("bruceR" %in% pkgs.need.update) {
+  #   update.msg=Glue("
+  #   <<bold <<red \u26a0 NEWS: A new version of `bruceR` is now available!>>>>
+  #   \n\n\n")
+  # }
 
   # {rep_char('=', 56)}
   # \u2714 yes

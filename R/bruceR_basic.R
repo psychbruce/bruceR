@@ -153,8 +153,6 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #' @param by Suggested by which package? Default is \code{"bruceR"}.
 #'
 #' @examples
-#' # pkg_depend("irr")
-#' # pacman::p_delete(irr, lpSolve)
 #' # pkg_install_suggested()
 #'
 #' @seealso \link{pkg_depend}
