@@ -1,7 +1,7 @@
-^.*\.Rproj$
-^\.Rproj\.user$
 data-raw
 ignore
+^.*\.Rproj$
+^\.Rproj\.user$
 ^\.travis\.yml$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
