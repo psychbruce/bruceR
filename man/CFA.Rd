@@ -37,6 +37,8 @@ If the model has high-order factors, only "lavaan" style will be output.}
 An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 }
 \examples{
+if(FALSE) {
+
 data.cfa=lavaan::HolzingerSwineford1939
 CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
 CFA(data.cfa, model="
@@ -45,10 +47,10 @@ CFA(data.cfa, model="
     Speed =~ x7 + x8 + x9
     ", highorder="Ability")
 
-data.bfi=psych::bfi
-data.bfi=data.bfi[complete.cases(data.bfi),]
+data.bfi=na.omit(psych::bfi)
 CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 
+}
 }
 \seealso{
 \code{jmv::\link[jmv]{cfa}}

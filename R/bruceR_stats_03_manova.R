@@ -480,17 +480,13 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term
 #' (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
 #'
-#' One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
+#' One alternative can be \code{"eff_size"}, which uses the \code{\link[emmeans]{eff_size}} function in the \code{emmeans} package.
 #' Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
 #' However, its CI estimates seem a little bit confusing.
 #' For details about this method, see \href{https://CRAN.R-project.org/package=emmeans}{Comparisons and contrasts}.
-#'
-#' Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
-#' \emph{t}-to-\emph{r} (\code{psych::t2r}) and \emph{r}-to-\emph{d} (\code{psych::r2d}) transformations.
 #' @param nsmall Number of decimal places of output. Default is 2.
 #' @param sd.pooled By default, it will use \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
-#' This default method is highly recommended.
-#' Yet, users can still manually set the SD_pooled (e.g., the SD of a reference group).
+#' Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
 #' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
 #' Then, you may set \code{repair="TRUE"} to have the adjusted results.
@@ -690,46 +686,33 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   conCI=stats::confint(con)
   con=summary(con)  # to a data.frame (class 'summary_emm')
   con$sig=sig.trans(con$p.value)
-  # Cohen's d: 3 methods
-  if(cohen.d=="t2d") {
-    # WARNING: NOT Accurate!
-    if(contrast!="poly")
-      message("NOTE: Cohen's d was estimated by 't-to-r' and 'r-to-d' transformations.")
-    con$d=paste0(formatF(psych::r2d(psych::t2r(con$t.ratio, con$df)), nsmall), " [",
-                 formatF(conCI$lower.CL*con$d/con$estimate, nsmall), ", ",
-                 formatF(conCI$upper.CL*con$d/con$estimate, nsmall), "]")
-  } else if(cohen.d=="eff_size") {
-    if(contrast!="poly")
-      message("NOTE: Cohen's d was estimated by 'eff_size()' in the 'emmeans' package.")
-    rn=row.names(model$anova_table)
-    term=c()
-    for(i in rn) if(i %in% effect) term=c(term, i)
-    term=paste(term, collapse=":")
+
+  # Cohen's d: 2 methods
+  rn=row.names(model$anova_table)
+  term=c()
+  for(i in rn) if(i %in% effect) term=c(term, i)
+  term=paste(term, collapse=":")
+  if(is.null(sd.pooled)) {
+    if(cohen.d=="eff_size")
+      sd.pooled=stats::sigma(model$lm)
+    else
+      sd.pooled=sqrt(model$anova_table[term, "MSE"])
+  }
+  if(contrast!="poly")
+    attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(sd.pooled, 2)}"),
+                        attr(con, "mesg"))
+  if(cohen.d=="eff_size") {
     es=emmeans::eff_size(emm0, method=contrast,
-                         sigma=sqrt(model$anova_table[term, "MSE"]),
+                         sigma=sd.pooled,
                          edf=stats::df.residual(model$lm))
     es=summary(es)
     con$d=paste0(formatF(es$effect.size, nsmall), " [",
                  formatF(es$lower.CL, nsmall), ", ",
                  formatF(es$upper.CL, nsmall), "]")
-  } else if(cohen.d=="accurate") {
-    if(is.null(sd.pooled)) {
-      rn=row.names(model$anova_table)
-      term=c()
-      for(i in rn) if(i %in% effect) term=c(term, i)
-      term=paste(term, collapse=":")
-      SDpool=sqrt(model$anova_table[term, "MSE"])
-    } else {
-      SDpool=sd.pooled
-    }
-    con$d=paste0(formatF(con$estimate/SDpool, nsmall), " [",
-                 formatF(conCI$lower.CL/SDpool, nsmall), ", ",
-                 formatF(conCI$upper.CL/SDpool, nsmall), "]")
-    if(contrast!="poly")
-      attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(SDpool, 2)}"),
-                          attr(con, "mesg"))
   } else {
-    stop("Please set cohen.d = 'accurate', 'eff_size', or 't2d'.")
+    con$d=paste0(formatF(con$estimate/sd.pooled, nsmall), " [",
+                 formatF(conCI$lower.CL/sd.pooled, nsmall), ", ",
+                 formatF(conCI$upper.CL/sd.pooled, nsmall), "]")
   }
   con$estimate=formatF(con$estimate, nsmall)
   con$SE=paste0("(", formatF(con$SE, nsmall), ")")

@@ -43,19 +43,15 @@ Default is \code{"accurate"}, which will give the most reasonable estimates of C
 This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term
 (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
 
-One alternative can be \code{"eff_size"}, which will use the function \code{\link[emmeans]{eff_size}} in the latest \code{emmeans} package (version 1.4.2 released on 2019-10-24).
+One alternative can be \code{"eff_size"}, which uses the \code{\link[emmeans]{eff_size}} function in the \code{emmeans} package.
 Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
 However, its CI estimates seem a little bit confusing.
-For details about this method, see \href{https://CRAN.R-project.org/package=emmeans}{Comparisons and contrasts}.
-
-Another (NOT suggested) alternative can be \code{"t2d"}, which will estimate Cohen's \emph{d} by the
-\emph{t}-to-\emph{r} (\code{psych::t2r}) and \emph{r}-to-\emph{d} (\code{psych::r2d}) transformations.}
+For details about this method, see \href{https://CRAN.R-project.org/package=emmeans}{Comparisons and contrasts}.}
 
 \item{nsmall}{Number of decimal places of output. Default is 2.}
 
 \item{sd.pooled}{By default, it will use \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
-This default method is highly recommended.
-Yet, users can still manually set the SD_pooled (e.g., the SD of a reference group).}
+Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 

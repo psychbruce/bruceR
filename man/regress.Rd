@@ -64,6 +64,8 @@ The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} 
 Regression analysis.
 }
 \examples{
+if(FALSE) {
+
 ## lm
 regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 
@@ -83,4 +85,5 @@ regress(Preference ~ Sweetness + Gender + Age + Frequency +
 # data.glmm$week.2=as.numeric(data.glmm$week>2)
 # regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 
+}
 }

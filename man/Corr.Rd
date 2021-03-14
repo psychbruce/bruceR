@@ -54,6 +54,8 @@ You may also set it to, e.g., \code{c("red", "white", "blue")}.}
 Correlation analysis with test and plot.
 }
 \examples{
+if(FALSE) {
+
 Corr(airquality)
 Corr(airquality, p.adjust="bonferroni")
 # Corr(airquality, save.file="Air-Corr.png")
@@ -70,6 +72,7 @@ d[,`:=`(
 )]
 Corr(d[,.(age, gender, education, E, A, C, N, O)])
 
+}
 }
 \seealso{
 \link{Describe}

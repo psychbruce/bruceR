@@ -68,6 +68,8 @@ Significant correlations with \emph{negative time lags} suggest
 shifts in a predictor \emph{precede} shifts in an outcome.
 }
 \examples{
+if(FALSE) {
+
 p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
 p1
 
@@ -79,6 +81,7 @@ p2
 
 # ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
 
+}
 }
 \seealso{
 \code{\link{granger_test}}

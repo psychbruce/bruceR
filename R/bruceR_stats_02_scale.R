@@ -267,11 +267,14 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' @inheritParams %%COMPUTE%%
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' ?psych::bfi
 #' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
 #' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 #' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
 #'
+#' }
 #' @seealso
 #' \code{jmv::\link[jmv]{reliability}}
 #'
@@ -306,8 +309,11 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 #' \code{jmv::\link[jmv]{efa}}
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 #'
+#' }
 #' @export
 EFA=function(data, vartext,
              method="eigen", extraction="pa", rotation="varimax",
@@ -398,6 +404,8 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' \code{lavaan::\link[lavaan]{cfa}}
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' data.cfa=lavaan::HolzingerSwineford1939
 #' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
 #' CFA(data.cfa, model="
@@ -406,10 +414,10 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #'     Speed =~ x7 + x8 + x9
 #'     ", highorder="Ability")
 #'
-#' data.bfi=psych::bfi
-#' data.bfi=data.bfi[complete.cases(data.bfi),]
+#' data.bfi=na.omit(psych::bfi)
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 #'
+#' }
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",

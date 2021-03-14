@@ -46,10 +46,15 @@ Add fitting lines to scatter plots (if any).}
 Descriptive statistics.
 }
 \examples{
-# set.seed(1)
-# Describe(rnorm(1000000), plot=TRUE)
+if(FALSE) {
+
+set.seed(1)
+Describe(rnorm(1000000), plot=TRUE)
 
 Describe(airquality, plot=TRUE)
+# Describe(airquality, plot=TRUE, smooth="lm",
+#          save.file="Descriptive Statistics.png",
+#          width=10, height=8, dpi=500)
 
 ?psych::bfi
 Describe(bfi[c("age", "gender", "education")])
@@ -67,9 +72,7 @@ d[,`:=`(
 Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 
-# Describe(airquality, plot=TRUE, smooth="lm",
-#          save.file="Descriptive Statistics.png",
-#          width=10, height=8, dpi=500)
+}
 }
 \seealso{
 \link{Corr}

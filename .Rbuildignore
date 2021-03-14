@@ -1,5 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 data-raw
-^cran-comments\.md$
+ignore
 ^\.travis\.yml$
+^cran-comments\.md$
+^CRAN-RELEASE$

@@ -154,6 +154,8 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
 #' and save using the \code{ggsave} function.
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
 #' p1
 #'
@@ -165,6 +167,7 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
 #'
 #' # ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
 #'
+#' }
 #' @seealso \code{\link{granger_test}}
 #'
 #' @import ggplot2
@@ -228,9 +231,12 @@ ccf_plot=function(formula, data,
 #' @param test.reverse Whether to test reverse causality. Default is \code{FALSE}.
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 #'
+#' }
 #' @seealso \code{\link{ccf_plot}}
 #'
 #' @export

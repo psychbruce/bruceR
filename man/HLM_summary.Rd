@@ -68,6 +68,8 @@ Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated 
 the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 }
 \examples{
+if(FALSE) {
+
 library(lmerTest)
 
 ## Example 1: data from lme4::sleepstudy
@@ -100,6 +102,7 @@ HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 # glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 # HLM_summary(glmm)
 
+}
 }
 \references{
 Hox, J. J. (2010).

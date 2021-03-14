@@ -28,9 +28,12 @@ the lagged values of the outcome itself.
 It compares the two models by using an \emph{F} test.
 }
 \examples{
+if(FALSE) {
+
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 
+}
 }
 \seealso{
 \code{\link{ccf_plot}}

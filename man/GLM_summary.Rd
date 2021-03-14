@@ -27,6 +27,8 @@ If you specify \code{cluster}, you may also specify the type of \code{robust}. I
 Advanced report of GLM (\code{lm} and \code{glm} models).
 }
 \examples{
+if(FALSE) {
+
 ## Example 1: OLS regression
 lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 GLM_summary(lm)
@@ -40,6 +42,7 @@ glm=glm(case ~ age + parity + education + spontaneous + induced,
 GLM_summary(glm)
 GLM_summary(glm, robust="HC1", cluster="stratum")
 
+}
 }
 \seealso{
 \code{\link{HLM_summary}}, \code{\link{regress}}

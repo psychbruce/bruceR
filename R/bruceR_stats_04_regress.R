@@ -135,6 +135,8 @@ group_mean_center=function(data, vars, by,
 #' @param family [optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' ## lm
 #' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 #'
@@ -154,6 +156,7 @@ group_mean_center=function(data, vars, by,
 #' # data.glmm$week.2=as.numeric(data.glmm$week>2)
 #' # regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 #'
+#' }
 #' @export
 regress=function(formula, data, family=NULL, nsmall=3,
                  robust=FALSE, cluster=NULL,
@@ -455,6 +458,8 @@ model_summary=function(model_list,
 #' @param ... Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' ## Example 1: OLS regression
 #' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' GLM_summary(lm)
@@ -468,6 +473,7 @@ model_summary=function(model_list,
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
 #'
+#' }
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
 #' @importFrom stats qt anova
@@ -895,6 +901,8 @@ HLM_ICC=function(model, nsmall=3) {
 #' @param ... Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
 #' @examples
+#' if(FALSE) {
+#'
 #' library(lmerTest)
 #'
 #' ## Example 1: data from lme4::sleepstudy
@@ -927,6 +935,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' # glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
 #' # HLM_summary(glmm)
 #'
+#' }
 #' @references
 #' Hox, J. J. (2010).
 #' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).

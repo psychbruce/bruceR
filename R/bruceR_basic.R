@@ -99,10 +99,18 @@
 #'
 #' @export
 set.wd=function(dir=NULL) {
-  if(is.null(dir)) dir=dirname(rstudioapi::getActiveDocumentContext()$path)
-  setwd(dir)
-  path=getwd()
-  Print("<<green \u2714>> Set working directory to <<blue '{path}'>>")
+  tryCatch({
+    if(is.null(dir))
+      path=dirname(rstudioapi::getActiveDocumentContext()$path)
+    setwd(path)
+    path=getwd()
+    Print("<<green \u2714>> Set working directory to <<blue '{path}'>>")
+  }, error=function(e) {
+    if(is.null(dir))
+      Print("<<red Error: Please use `set.wd()` in an R script rather than in the console.>>")
+    else
+      Print("<<red Error: Please check if '{dir}' is a valid path.>>")
+  }, silent=TRUE)
 }
 
 

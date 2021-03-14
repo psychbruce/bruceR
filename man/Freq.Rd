@@ -19,8 +19,11 @@ Freq(var, label = NULL, sort = "", nsmall = 1)
 Frequency statistics with histogram and density plot.
 }
 \examples{
+if(FALSE) {
+
 Freq(bfi$education)
 Freq(bfi$gender, label=c("Male", "Female"))
 Freq(bfi$age)
 
+}
 }
