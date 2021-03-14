@@ -5,4 +5,5 @@
 .Ruserdata
 data-raw
 ignore
+^cran-comments\.md$
 ^CRAN-RELEASE$

@@ -10,7 +10,7 @@ Authors@R:
              email = "baohws@foxmail.com"))
 Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
-Description: bruceR: broadly useful convenient and efficient R functions
+Description: Broadly useful convenient and efficient R functions
              that bring users concise and elegant R data analyses.
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
