@@ -45,11 +45,7 @@ devtools::install_github("psychbruce/bruceR")
 
 ### Citation
 
-``` r
-citation("bruceR")
-```
-
--   Bao, H.-W.-S. (2021). bruceR: BRoadly Useful Convenient and Efficient R functions. R package. <https://github.com/psychbruce/bruceR>
+-   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package. <https://github.com/psychbruce/bruceR>
 
 ### Help Page
 

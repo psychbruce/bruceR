@@ -13,8 +13,7 @@ EMMEANS(
   cohen.d = "accurate",
   nsmall = 2,
   sd.pooled = NULL,
-  reverse = TRUE,
-  repair = FALSE
+  reverse = TRUE
 )
 }
 \arguments{
@@ -54,9 +53,6 @@ For details about this method, see \href{https://CRAN.R-project.org/package=emme
 Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
-
-\item{repair}{In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
-Then, you may set \code{repair="TRUE"} to have the adjusted results.}
 }
 \description{
 Easily perform (1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
@@ -64,7 +60,7 @@ and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), 
 (using methods such as Bonferroni, Tukey's HSD, and FDR).
 }
 \details{
-This function is based on and extends the 1) \code{\link[emmeans]{joint_tests}}, 2) \code{\link[emmeans]{emmeans}}, and 3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
+This function is based on and extends the (1) \code{\link[emmeans]{joint_tests}}, (2) \code{\link[emmeans]{emmeans}}, and (3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
 You only need to specify the model object, to-be-tested effect(s), and moderator(s).
 Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
@@ -109,7 +105,7 @@ Here, I explain what these terms actually refer to.
     However, these two terms should be distinguished. In many situations and softwares,
     "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
-    For example, we can perform the post-hoc comparisons of mean values 1) across multiple levels of one factor in a pairwise way or 2) particularly between the two conditions "A1B1" and "A2B2".
+    For example, we can perform the post-hoc comparisons of mean values (1) across multiple levels of one factor in a pairwise way or (2) particularly between the two conditions "A1B1" and "A2B2".
 
     Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
@@ -176,8 +172,7 @@ View(within.2)
 MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
-  EMMEANS("B", by="A") \%>\%  # with some errors
-  EMMEANS("B", by="A", repair=TRUE)
+  EMMEANS("B", by="A")
 
 View(within.3)
 MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",

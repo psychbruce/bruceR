@@ -390,7 +390,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' (using methods such as Bonferroni, Tukey's HSD, and FDR).
 #'
 #' @details
-#' This function is based on and extends the 1) \code{\link[emmeans]{joint_tests}}, 2) \code{\link[emmeans]{emmeans}}, and 3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
+#' This function is based on and extends the (1) \code{\link[emmeans]{joint_tests}}, (2) \code{\link[emmeans]{emmeans}}, and (3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
 #' You only need to specify the model object, to-be-tested effect(s), and moderator(s).
 #' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
@@ -435,7 +435,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'     However, these two terms should be distinguished. In many situations and softwares,
 #'     "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
 #'     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
-#'     For example, we can perform the post-hoc comparisons of mean values 1) across multiple levels of one factor in a pairwise way or 2) particularly between the two conditions "A1B1" and "A2B2".
+#'     For example, we can perform the post-hoc comparisons of mean values (1) across multiple levels of one factor in a pairwise way or (2) particularly between the two conditions "A1B1" and "A2B2".
 #'
 #'     Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
 #'     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
@@ -488,8 +488,6 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @param sd.pooled By default, it will use \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
 #' Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
-#' @param repair In a few cases, some problems in your data may generate some errors in output (see \code{within.2} in Examples).
-#' Then, you may set \code{repair="TRUE"} to have the adjusted results.
 #'
 #' @examples
 #' if(FALSE) {
@@ -533,8 +531,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 #'        within=c("A", "B")) %>%
 #'   EMMEANS("A", by="B") %>%
-#'   EMMEANS("B", by="A") %>%  # with some errors
-#'   EMMEANS("B", by="A", repair=TRUE)
+#'   EMMEANS("B", by="A")
 #'
 #' View(within.3)
 #' MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
@@ -587,67 +584,85 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  cohen.d="accurate",
                  nsmall=2,
                  sd.pooled=NULL,
-                 reverse=TRUE,
-                 repair=FALSE) {
-  model.raw=model
+                 reverse=TRUE) {
+  # model.raw=model
 
   # IMPORTANT: If include 'aov', the 'emmeans' results of
   # within-subjects design will not be equal to those in SPSS!
   # So we do not include 'aov' object but instead use 'lm' and 'mlm'
   # objects to do the follow-up 'emmeans' analyses!
-  if(!repair) model$aov=NULL
-  repair.msg="NOTE: Repaired results are shown below.\nThe function works with the 'aov' object."
+  # if(!repair) model$aov=NULL
+  # repair.msg="NOTE: Repaired results are shown below.\nThe function works with the 'aov' object."
 
   # Bug: For within-sub 'effect' and between-sub 'by' in mixed design
-  if(!is.null(effect) & !is.null(model$within) & effect %anyin% model$within &
-     !is.null(by) & !is.null(model$between) & by %anyin% model$between) {
-    model=model.raw
+  # if(!is.null(effect) & !is.null(model$within) & effect %anyin% model$within &
+  #    !is.null(by) & !is.null(model$between) & by %anyin% model$between) {
+  #   model=model.raw
+  # }
+
+  ## Simple Effect (omnibus)
+  # see 'weights' in ?emmeans
+  sim=emmeans::joint_tests(model, by=by, weights="equal")
+  eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2)
+  sim$sig=sig.trans(sim$p.value)
+  sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
+                    formatF(eta2$CI_low, nsmall+1), ", ",
+                    formatF(eta2$CI_high, nsmall+1), "]")
+  sim$F.ratio=formatF(sim$F.ratio, nsmall)
+  sim$p.value=p.trans(sim$p.value)
+  names(sim)[c(1,(length(by)+2):(length(by)+7))]=
+    c("Effect", "df1", "df2", "F", "p", " ", "\u03b7\u00b2p [90% CI]")
+  if(!is.null(by)) {
+    for(i in 1:length(by)) {
+      sim[, i+1]=paste0("(", names(sim)[i+1], " = ", sim[, i+1], ")")
+      names(sim)[i+1]=paste0("(By: ", names(sim)[i+1], ")")
+    }
   }
 
   effect.text=paste(effect, collapse='\" & \"')
   Print("<<yellow ------ EMMEANS Output (effect = \"{effect.text}\") ------>>")
-  if(repair) message(repair.msg)
   cat("\n")
-
-  ## Simple Effect (omnibus)
-  # see 'weights' in ?emmeans
   Print("<<underline {ifelse(is.null(by), 'Omnibus Test', 'Simple Effects')} of \"{effect.text}\":>>")
-  tryCatch({
-    err=TRUE
-    suppressMessages({
-      sim=emmeans::joint_tests(model, by=by, weights="equal")
-    })
-    err=FALSE
-  }, error=function(e) {
-    message(repair.msg)
-  }, silent=TRUE)
-  if(err) sim=emmeans::joint_tests(model.raw, by=by, weights="equal")
-  if("note" %in% names(sim)) {
-    error=TRUE
-    message("\nWarning message:
-    Please check your data!
-    The WITHIN CELLS error matrix is SINGULAR.
-    Some variables are LINEARLY DEPENDENT.
-    So the tests below are misleading.
-    You may set 'repair = TRUE'.
-    ")
-  } else {
-    error=FALSE
-    sim$sig=sig.trans(sim$p.value)
-    # eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2)
-    # sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall), " [",
-    #                   formatF(eta2$CI_low, nsmall), ", ",
-    #                   formatF(eta2$CI_high, nsmall), "]")
-    sim$F.ratio=formatF(sim$F.ratio, nsmall)
-    sim$p.value=p.trans(sim$p.value)
-    names(sim)[c(1,(length(by)+2):(length(by)+6))]=
-      c("----", "df1", "df2", "F", "p", " ")
-  }
-  print(sim)
-  if(error) cat("\n")
+  print_table(sim, nsmalls=2, row.names=FALSE)
+  cat("\n")
+  # tryCatch({
+  #   err=TRUE
+  #   suppressMessages({
+  #     sim=emmeans::joint_tests(model, by=by, weights="equal")
+  #   })
+  #   err=FALSE
+  # }, error=function(e) {
+  #   message(repair.msg)
+  # }, silent=TRUE)
+  # if(err) sim=emmeans::joint_tests(model.raw, by=by, weights="equal")
+  # if("note" %in% names(sim)) {
+  #   error=TRUE
+  #   message("\nWarning message:
+  #   Please check your data!
+  #   The WITHIN CELLS error matrix is SINGULAR.
+  #   Some variables are LINEARLY DEPENDENT.
+  #   So the tests below are misleading.
+  #   You may set 'repair = TRUE'.
+  #   ")
+  # } else {
+  #   error=FALSE
+  #   sim$sig=sig.trans(sim$p.value)
+  #   eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2)
+  #   sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
+  #                     formatF(eta2$CI_low, nsmall+1), ", ",
+  #                     formatF(eta2$CI_high, nsmall+1), "]")
+  #   sim$F.ratio=formatF(sim$F.ratio, nsmall)
+  #   sim$p.value=p.trans(sim$p.value)
+  #   names(sim)[c(1,(length(by)+2):(length(by)+7))]=
+  #     c("Effect", "df1", "df2", "F", "p", " ", "\u03b7\u00b2p [90% CI]")
+  #   if(!is.null(by))
+  #     for(i in 1:length(by))
+  #       names(sim)[i+1]=paste("By: ", names(sim)[i+1])
+  #   print_table(sim, nsmalls=2, row.names=FALSE)
+  #   cat("\n")
+  # }
 
   ## Estimated Marginal Means (emmeans)
-  Print("<<underline Estimated Marginal Means of \"{effect.text}\":>>")
   suppressMessages({
     emm0=emm=emmeans::emmeans(model, specs=effect, by=by, weights="equal")
   })
@@ -663,6 +678,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     c("Mean", "S.E.", "df", "[95% CI of Mean]")
   attr(emm, "mesg")[which(grepl("^Confidence", attr(emm, "mesg")))]=
     "Estimated means use an equally weighted average."
+
+  Print("<<underline Estimated Marginal Means of \"{effect.text}\":>>")
   print(emm)
   cat("\n")
 
@@ -676,7 +693,6 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                       poly="Polynomial Contrasts",
                       eff="Effect Contrasts (vs. grand mean)",
                       "Multiple Comparisons")
-  Print("<<underline {contr.method} of \"{effect.text}\":>>")
   if(contrast=="pairwise" & reverse==TRUE) contrast="revpairwise"
   if(contrast=="seq") contrast="consec"
   if(contrast=="consec") reverse=FALSE
@@ -736,8 +752,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     attr(con, "mesg")=c(attr(con, "mesg"),
                         "No need to adjust p values.")
   }
-  if(contrast=="poly")
-    con[c("Cohen's d [95% CI]")]=NULL
+  if(contrast=="poly") con[c("Cohen's d [95% CI]")]=NULL
+
+  Print("<<underline {contr.method} of \"{effect.text}\":>>")
   print(con)
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
@@ -745,7 +762,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     cat("\n")
 
   ## Return (return the raw model for recycling across '%>%' pipelines)
-  invisible(model.raw)
+  invisible(model)
 }
 
 
