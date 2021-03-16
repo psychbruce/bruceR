@@ -6,8 +6,6 @@
 
 <img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
 
--   复制、修改、使用、分享本代码库，必须遵守「创作共用许可协议 [CC BY-NC-SA](https://en.wikipedia.org/wiki/Creative_Commons_license)」（原作者署名-非商业用途使用-相同方式共享）
-
 ## Author
 
 [包寒吴霜 \| Bao H.-W.-S.](https://psychbruce.github.io)
@@ -24,9 +22,7 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## User Guide
 
-[Release Notes - 更新日志](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
-
-[User Guide (in Chinese) - 中文版使用指南](https://zhuanlan.zhihu.com/p/356411193)
+[Release Notes](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
 ### Installation
 

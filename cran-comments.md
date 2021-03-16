@@ -1,20 +1,23 @@
-## Resubmission
+## Resubmission (New)
+
+In this resubmission, I have addressed the two points mentioned by Uwe Ligges. (All the 7 problems pointed out by Julia Haider have been fixed in the last resubmission.)
+
+1. The 404 URL in README.md has been removed.
+
+2. "Is there some reference about the method you can add in the Description field in the form Authors (year) <doi:.....>?"
+
+Reply: No, but thanks for reminding me. The current version of this package does not use any novel method that was published in journals. For those useful references that some users may be interested in but were not critical to this package, I have provided references and their DOIs in the documentation of relevant functions.
+
+Thank you for inspecting the package and hope this version of resubmission can work.
+
+
+## Resubmission (Old)
 
 This is a resubmission. I have fixed all problems pointed out by Julia Haider:
 
 1. Removed "| file LICENSE" in DESCRIPTION file and added "^LICENSE$" in .Rbuildignore (otherwise, a NOTE would appear when conducting R CMD check).
 
 2. Added more details about the package functionality in the Description text.
-
-> Broadly useful convenient and efficient R functions
-that bring users concise and elegant R data analyses.
-The package includes easy-to-use functions for
-(1) basic use and analysis;
-(2) multivariate computation;
-(3) reliability and validity analysis;
-(4) multi-factor analysis of variance (ANOVA),
-simple-effect analysis, and post-hoc multiple comparison;
-and (5) advanced toolbox and tidy report of statistical models.
 
 3. Added all "\value" descriptions in the documentation.
 
