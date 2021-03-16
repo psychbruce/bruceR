@@ -9,12 +9,17 @@ pkg_install_suggested(by = "bruceR")
 \arguments{
 \item{by}{Suggested by which package? Default is \code{"bruceR"}.}
 }
+\value{
+No return value.
+}
 \description{
 It checks and installs R packages suggested by \code{bruceR} (default)
 or any other package.
 }
 \examples{
-# pkg_install_suggested()
+\dontrun{
+pkg_install_suggested()
+}
 
 }
 \seealso{

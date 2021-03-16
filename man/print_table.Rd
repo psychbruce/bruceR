@@ -13,6 +13,9 @@ print_table(x, row.names = TRUE, nsmalls = 3)
 
 \item{nsmalls}{A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.}
 }
+\value{
+No return value.
+}
 \description{
 Print a three-line table.
 }

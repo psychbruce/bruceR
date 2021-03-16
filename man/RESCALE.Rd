@@ -14,6 +14,9 @@ If not defined, it will compute the range of \code{var}.}
 
 \item{to}{Numeric vector, the range of new scale (e.g., \code{1:7}).}
 }
+\value{
+A vector of rescaled variable.
+}
 \description{
 Rescale likert scales (e.g., from 5-point to 7-point).
 }

@@ -31,6 +31,9 @@ Only relevant when \code{method="fixed"}.}
 
 \item{hideLoadings}{A number (0~1, default is 0.3) for hiding factor loadings below this value.}
 }
+\value{
+No return value.
+}
 \description{
 An extension of \code{jmv::\link[jmv]{efa}}.
 }

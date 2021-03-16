@@ -13,11 +13,16 @@ RANDBETWEEN(range, n = 1, seed = NULL)
 
 \item{seed}{Random seed.}
 }
+\value{
+Numeric or character vector (the same class as \code{range}).
+}
 \description{
 Random sampling (like Excel's function \code{RANDBETWEEN}).
 }
 \examples{
+\dontrun{
 RANDBETWEEN(1:10, n=1000000) \%>\% Freq()
 RANDBETWEEN(LETTERS, n=1000000) \%>\% Freq()
+}
 
 }

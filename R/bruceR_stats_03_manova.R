@@ -27,11 +27,10 @@ if(FALSE) {
 #' Demo data.
 #'
 #' @description
-#' These demo datasets were obtained from a course of "multi-factor experimental design" in \emph{Beijing Normal University} (2016).
-#' In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
-#' The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
-#' Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
-#' Many thanks go to the contributors of the datasets.
+#' These demo datasets were obtained from the book
+#' "\href{https://book.douban.com/subject/1195181/}{Factorial Experimental Design in Psychological and Educational Research}".
+#' The book provides these demo datasets to show different experimental designs and how to conduct MANOVA using syntax in SPSS.
+#' Here, I use these demo datasets as examples to show how the functions \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
 #'
 #' @format
 #' \describe{
@@ -71,10 +70,10 @@ NULL
 #### MANOVA ####
 
 
-#' Multi-factor ANOVA.
+#' Multifactor ANOVA.
 #'
 #' @description
-#' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
+#' Easily perform multifactor ANOVA (between-subjects, within-subjects, and mixed design).
 #'
 #' @details
 #' This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
@@ -147,8 +146,10 @@ NULL
 #' (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
 #' @param nsmall Number of decimal places of output. Default is 2.
 #'
+#' @return A result object returned by \code{afex::aov_ez}.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' #### Between-Subjects Design ####
 #'
@@ -209,6 +210,7 @@ NULL
 #'        sph.correction="GG")
 #'
 #' }
+#'
 #' @references
 #' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
 #' \emph{Psychological Methods, 8}(4), 434-447. \doi{10.1037/1082-989X.8.4.434}
@@ -489,8 +491,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).
 #' @param reverse The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").
 #'
+#' @return A result object returned by \code{afex::aov_ez} (the same as \link{MANOVA} for recursive use).
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' #### Between-Subjects Design ####
 #'
@@ -575,6 +579,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'   EMMEANS("Month", by="Day.1or2", contrast="poly")
 #'
 #' }
+#'
 #' @seealso \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 #'
 #' @export

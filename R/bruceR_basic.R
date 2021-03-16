@@ -6,6 +6,8 @@
 #' @param x Numeric or character vector.
 #' @param vector Numeric or character vector.
 #'
+#' @return A vector of \code{TRUE} or \code{FALSE}.
+#'
 #' @examples
 #' data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))
 #' data
@@ -23,6 +25,8 @@
 #'
 #' @inheritParams %notin%
 #'
+#' @return \code{TRUE} or \code{FALSE}.
+#'
 #' @examples
 #' 1:2 %allin% 1:3  # TRUE
 #' 3:4 %allin% 1:3  # FALSE
@@ -39,6 +43,8 @@
 #'
 #' @inheritParams %notin%
 #'
+#' @return \code{TRUE} or \code{FALSE}.
+#'
 #' @examples
 #' 3:4 %anyin% 1:3  # TRUE
 #' 4:5 %anyin% 1:3  # FALSE
@@ -54,6 +60,8 @@
 #' A simple extension of \code{\%in\%}.
 #'
 #' @inheritParams %notin%
+#'
+#' @return \code{TRUE} or \code{FALSE}.
 #'
 #' @examples
 #' 3:4 %nonein% 1:3  # FALSE
@@ -72,6 +80,8 @@
 #' @param pattern Character string containing \strong{regular expressions} to be matched.
 #' @param vector Character vector.
 #'
+#' @return \code{TRUE} or \code{FALSE}.
+#'
 #' @examples
 #' "Bei" %partin% c("Beijing", "Shanghai")  # TRUE
 #' "bei" %partin% c("Beijing", "Shanghai")  # FALSE
@@ -85,15 +95,21 @@
 }
 
 
-#' Set working directory to where the \strong{current} script is.
+#' Set working directory to where the current R script is.
 #'
 #' @param dir \code{NULL} (default) or a character string specifying the working directory.
 #' If \code{NULL}, set working directory to the path of \strong{the current R script}.
 #'
+#' @return No return value.
+#'
 #' @examples
-#' # set.wd()  # set working directory to the path of the current R script
-#' # set.wd("D:/")  # "\" is not allowed, you should use "/"
-#' # set.wd("../")  # set working directory to the parent directory
+#' \dontrun{
+#'
+#' set.wd()  # set working directory to the path of the current R script
+#' set.wd("D:/")  # or any other path (use "/" rather than "\")
+#' set.wd("../")  # set working directory to the parent directory
+#'
+#' }
 #'
 #' @seealso \code{\link{setwd}}
 #'
@@ -120,15 +136,17 @@ set.wd=function(dir=NULL) {
 #' @param excludes [optional] Package(s) and their dependencies excluded from the dependencies of \code{pkgs}.
 #' Useful if you want to see the unique dependencies of \code{pkgs}.
 #'
+#' @return A character vector of package names.
+#'
 #' @examples
-#' ## Not run:
+#' \dontrun{
 #'
-#' # pkg_depend("jmv")
-#' # pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
+#' pkg_depend("jmv")
+#' pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
 #'
-#' # pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
+#' pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
 #'
-#' ## End(Not run)
+#' }
 #'
 #' @seealso \link{pkg_install_suggested}
 #'
@@ -160,8 +178,12 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #'
 #' @param by Suggested by which package? Default is \code{"bruceR"}.
 #'
+#' @return No return value.
+#'
 #' @examples
-#' # pkg_install_suggested()
+#' \dontrun{
+#' pkg_install_suggested()
+#' }
 #'
 #' @seealso \link{pkg_depend}
 #'
@@ -209,6 +231,8 @@ pkg_install_suggested=function(by="bruceR") {
 #' Long strings are broken by line and concatenated together.
 #'
 #' Leading whitespace and blank lines from the first and last lines are automatically trimmed.
+#'
+#' @return Formatted text.
 #'
 #' @examples
 #' name="Bruce"
@@ -263,6 +287,8 @@ sprintf_transformer=function(text, envir) {
 #' @param char Character string.
 #' @param rep.times Times for repeat.
 #'
+#' @return Character string.
+#'
 #' @examples
 #' rep_char("a", 5)
 #'
@@ -285,6 +311,8 @@ capitalize=function(string) {
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
 #' @param row.names Whether to print row names. Default is \code{TRUE}.
 #' @param nsmalls A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.
+#'
+#' @return No return value.
 #'
 #' @examples
 #' model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
@@ -417,7 +445,7 @@ formatF=function(x, nsmall=3) {
 #' @param alpha Color transparency (opacity): 0~1.
 #' If not specified, an opaque color will be generated.
 #'
-#' @return \code{"#rrggbb"} or \code{"#rrggbbaa"}
+#' @return \code{"#rrggbb"} or \code{"#rrggbbaa"}.
 #'
 #' @examples
 #' RGB(255, 0, 0)  # red: "#FF0000"
@@ -434,6 +462,8 @@ RGB=function(r, g, b, alpha) {
 #' @param t0 Time at the beginning.
 #' @param unit Options: \code{"auto", "secs", "mins", "hours", "days", "weeks"}. Default is \code{"secs"}.
 #' @param nsmall Number of decimal places of output. Default is \code{0}.
+#'
+#' @return A character string of time difference.
 #'
 #' @examples
 #' t0=Sys.time()
@@ -457,9 +487,13 @@ dtime=function(t0, unit="secs", nsmall=0) {
 #' @param n Sample size for sampling. Default is \code{1}.
 #' @param seed Random seed.
 #'
+#' @return Numeric or character vector (the same class as \code{range}).
+#'
 #' @examples
+#' \dontrun{
 #' RANDBETWEEN(1:10, n=1000000) %>% Freq()
 #' RANDBETWEEN(LETTERS, n=1000000) %>% Freq()
+#' }
 #'
 #' @export
 RANDBETWEEN=function(range, n=1, seed=NULL) {
@@ -486,6 +520,8 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' @param return What to return. Default (\code{"new.data"}) is to return a \code{data.frame} or \code{data.table} with the lookup values added.
 #' You may also set it to \code{"new.var"} or \code{"new.value"}.
 #'
+#' @return New data object, new variable, or new value (see the parameter \code{return}).
+#'
 #' @seealso
 #' \code{dplyr::left_join}
 #'
@@ -503,7 +539,6 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #'                 year=c(2013, 2014, 2015, 2016, 2017))
 #' data
 #'
-#' # LOOKUP(data, "city", ref, "City", "GDP")  # return with a warning
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
 #' LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 #'

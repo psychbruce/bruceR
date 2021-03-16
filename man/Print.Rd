@@ -18,6 +18,9 @@ Long strings are broken by line and concatenated together.
 
 Leading whitespace and blank lines from the first and last lines are automatically trimmed.}
 }
+\value{
+Formatted text.
+}
 \description{
 Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
 Run examples to see what it can do.

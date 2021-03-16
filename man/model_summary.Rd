@@ -55,7 +55,7 @@ This function is an extension (and combination) of
 \code{MuMIn::\link[MuMIn]{r.squaredGLMM}}.
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 ## Example 1: Linear Model
 lm1=lm(Temp ~ Month + Day, data=airquality)
@@ -85,22 +85,23 @@ model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
 model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 
 ## Example 4: Generalized Linear Mixed Model
-# library(lmerTest)
-# data.glmm=MASS::bacteria
-# glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-# glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
-# model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
-# model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+library(lmerTest)
+data.glmm=MASS::bacteria
+glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
 
 ## Example 5: Multinomial Logistic Model
-# library(nnet)
-# d=airquality
-# d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
-# mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
-# mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
-# model_summary(mn1)
-# model_summary(mn2)
-# model_summary(mn2, file="Multinomial Logistic Model.doc")
+library(nnet)
+d=airquality
+d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
+mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
+mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
+model_summary(mn1)
+model_summary(mn2)
+model_summary(mn2, file="Multinomial Logistic Model.doc")
 
 }
+
 }

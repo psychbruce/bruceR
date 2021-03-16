@@ -8,6 +8,8 @@
 #' @param var Variable (numeric, character, or factor).
 #' @param recodes Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
 #'
+#' @return A vector of recoded variable.
+#'
 #' @examples
 #' d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
 #' d
@@ -27,6 +29,8 @@ RECODE=function(var, recodes) {
 #' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
 #' If not defined, it will compute the range of \code{var}.
 #' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
+#'
+#' @return A vector of rescaled variable.
 #'
 #' @examples
 #' d=data.table(var=rep(1:5, 2))
@@ -49,6 +53,8 @@ RESCALE=function(var, from=range(var, na.rm=T), to) {
 #' @param v Variable (numeric vector).
 #' @param min Minimum value (default is 0).
 #' @param max Maximum value (default is 1).
+#'
+#' @return A vector of rescaled variable.
 #'
 #' @examples
 #' scaler(1:5)
@@ -88,6 +94,8 @@ scaler=function(v, min=0, max=1) {
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
 #' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
 #'
+#' @return A vector of computed variable.
+#'
 #' @examples
 #' d=data.table(x1=1:5,
 #'              x4=c(2,2,5,4,5),
@@ -108,17 +116,13 @@ scaler=function(v, min=0, max=1) {
 #'         cons2=CONSEC(d, varrange="x1:x5")
 #'         )]
 #' d
-#' ## It has already changed.
-#' ## NOTE: ":=" is indeed a special function in the 'data.table' package.
-#' ## See a similar function "mutate()" in the 'dplyr' package: ?dplyr::mutate
-#' ## For data.table, you need NOT to re-assign the tranformed data object,
-#' ## because it can automatically update the variables in situ.
 #'
 #' data=as.data.table(bfi)
 #' data[,`:=`(
 #'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
+#' data
 #'
 #' @name %%COMPUTE%%
 ## @aliases COUNT SUM MEAN STD CONSEC
@@ -266,8 +270,10 @@ CONSEC=function(data, var=NULL, items=NULL,
 #'
 #' @inheritParams %%COMPUTE%%
 #'
+#' @return No return value.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' ?psych::bfi
 #' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
@@ -275,6 +281,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
 #'
 #' }
+#'
 #' @seealso
 #' \code{jmv::\link[jmv]{reliability}}
 #'
@@ -302,6 +309,8 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 #' @param nFactors An integer (default is 1) fixing the number of factors.
 #' Only relevant when \code{method="fixed"}.
 #' @param hideLoadings A number (0~1, default is 0.3) for hiding factor loadings below this value.
+#'
+#' @return No return value.
 #'
 #' @note It does not have the extraction method "Principal Components". You may still use SPSS.
 #'
@@ -397,6 +406,8 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' If the model has high-order factors, only "lavaan" style will be output.
 #' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 #' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
+#'
+#' @return A list of results returned by \code{jmv::cfa} and \code{lavaan::cfa}.
 #'
 #' @seealso
 #' \code{jmv::\link[jmv]{cfa}}

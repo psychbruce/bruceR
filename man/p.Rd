@@ -36,6 +36,9 @@ p.chi2(chi2, df)
 
 \item{n, df, df1, df2}{Sample size or degree of freedom.}
 }
+\value{
+\emph{p} value statistics.
+}
 \description{
 Compute \emph{p} value.
 }

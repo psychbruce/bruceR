@@ -13,17 +13,17 @@ Freq(var, label = NULL, sort = "", nsmall = 1)
 
 \item{sort}{\code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).}
 
-\item{nsmall}{Number of decimal places of output. Default is 1.}
+\item{nsmall}{Number of decimal places of output. Default is \code{1}.}
+}
+\value{
+A data frame of frequency statistics.
 }
 \description{
 Frequency statistics with histogram and density plot.
 }
 \examples{
-if(FALSE) {
-
 Freq(bfi$education)
 Freq(bfi$gender, label=c("Male", "Female"))
 Freq(bfi$age)
 
-}
 }

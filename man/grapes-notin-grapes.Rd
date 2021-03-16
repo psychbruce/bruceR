@@ -11,6 +11,9 @@ x \%notin\% vector
 
 \item{vector}{Numeric or character vector.}
 }
+\value{
+A vector of \code{TRUE} or \code{FALSE}.
+}
 \description{
 A simple extension of \code{\%in\%}.
 }

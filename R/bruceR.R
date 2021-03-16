@@ -121,13 +121,13 @@
 #'       \code{\link{CFA}}  (confirmatory factor analysis)
 #'   }
 #'
-#'   \item{\strong{(4) MANOVA, Simple-Effect Analysis, & Multiple Comparison}}{
+#'   \item{\strong{(4) Multifactor ANOVA, Simple-Effect Analysis, and Multiple Comparison}}{
 #'       \code{\link{MANOVA}}  (between-subjects, within-subjects, and mixed design ANOVA)
 #'
 #'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
 #'   }
 #'
-#'   \item{\strong{(5) Advanced Statistical Toolbox and Tidy Report}}{
+#'   \item{\strong{(5) Advanced Toolbox and Tidy Report of Statistical Models}}{
 #'       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
 #'
 #'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
@@ -172,9 +172,6 @@ NULL
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
 
-  # options(contrasts=c("contr.sum", "contr.poly"))
-  # message("Contrasts have been changed to the orthogonal 'sum-to-zero' contrasts.")
-
   suppressMessages({
     pacman::p_load(
       ## DATA ##
@@ -184,20 +181,6 @@ NULL
       ## PLOT ##
       "ggplot2", "cowplot", "see")
   })
-
-  # user.ver=curr.ver=as.character(utils::packageVersion("bruceR"))
-  # try({
-  #   curr.ver=rvest::html_text(rvest::html_node(xml2::read_html("https://github.com/psychbruce/bruceR"), "h2+ h3 code"))
-  # }, silent=T)
-
-  update.msg=""
-  # pkgs.need.update=c()
-  # try({ pkgs.need.update=pacman::p_update(update=FALSE) }, silent=T)
-  # if("bruceR" %in% pkgs.need.update) {
-  #   update.msg=Glue("
-  #   <<bold <<red \u26a0 NEWS: A new version of `bruceR` is now available!>>>>
-  #   \n\n\n")
-  # }
 
   # {rep_char('=', 56)}
   # \u2714 yes
@@ -220,9 +203,8 @@ NULL
   <<green <<yellow [Plot]:>> ggplot2 / cowplot / see>>
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
-  <<cyan Describe() / Freq() / Corr() / Alpha() / MEAN()>>
+  <<cyan set.wd() / Describe() / Freq() / Corr() / Alpha() / MEAN()>>
   <<cyan MANOVA() / EMMEANS() / model_summary() / theme_bruce()>>
-
-  {update.msg}
+  \n
   ")
 }

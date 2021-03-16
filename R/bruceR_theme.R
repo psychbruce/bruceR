@@ -29,6 +29,8 @@
 #' @param tick.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.
 #' @param tick.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.
 #'
+#' @return A theme object that should be used for \code{ggplot2}.
+#'
 #' @examples
 #' ## Example 1 (bivariate correlation)
 #' d=as.data.table(bfi)

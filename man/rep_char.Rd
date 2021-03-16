@@ -11,6 +11,9 @@ rep_char(char, rep.times)
 
 \item{rep.times}{Times for repeat.}
 }
+\value{
+Character string.
+}
 \description{
 Repeat a character string for many times and paste them up.
 }

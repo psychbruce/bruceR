@@ -5,6 +5,8 @@
 #'
 #' @param formula R formula.
 #'
+#' @return A character string indicating the formula.
+#'
 #' @examples
 #' formula_paste(y ~ x)
 #' formula_paste(y ~ x + (1 | g))
@@ -18,6 +20,8 @@ formula_paste=function(formula) {
 #' Expand all interaction terms in a formula.
 #'
 #' @inheritParams formula_paste
+#'
+#' @return A formula object including all expanded terms.
 #'
 #' @examples
 #' formula_expand(y ~ a*b*c)
@@ -58,12 +62,13 @@ find=function(vars, list) {
 #' Compute grand-mean centered variables.
 #' Usually used for GLM interaction-term predictors and HLM level-2 predictors.
 #'
-#' @param data Data frame.
+#' @param data Data object.
 #' @param vars Variable(s) to be centered.
 #' @param std Standardized or not. Default is \code{FALSE}.
 #' @param add_suffix The suffix of the centered variable(s).
-#' Default is \code{""}.
-#' You may set it to \code{"_c"}, \code{"_center"}, etc.
+#' Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.
+#'
+#' @return A new data object containing the centered variable(s).
 #'
 #' @examples
 #' d=data.table(a=1:5, b=6:10)
@@ -95,6 +100,8 @@ grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
 #' @param by Grouping variable.
 #' @param add_group_mean The suffix of the variable name(s) of group means.
 #' Default is \code{"_mean"} (see Examples).
+#'
+#' @return A new data object containing the centered variable(s).
 #'
 #' @examples
 #' d=data.table(x=1:9, g=rep(1:3, each=3))
@@ -134,8 +141,10 @@ group_mean_center=function(data, vars, by,
 #' @param data Data frame.
 #' @param family [optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).
 #'
+#' @return No return value.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' ## lm
 #' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
@@ -144,19 +153,15 @@ group_mean_center=function(data, vars, by,
 #' regress(case ~ age + parity + education + spontaneous + induced,
 #'         data=infert, family=binomial, robust="HC1", cluster="stratum")
 #'
-#' ## lmer
+#' ## (g)lmer
 #' library(lmerTest)
 #' regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 #' regress(Preference ~ Sweetness + Gender + Age + Frequency +
 #'           (1 | Consumer), data=carrots,
 #'         level2.predictors="Consumer: Gender + Age + Frequency")
 #'
-#' ## glmer
-#' # data.glmm=MASS::bacteria
-#' # data.glmm$week.2=as.numeric(data.glmm$week>2)
-#' # regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
-#'
 #' }
+#'
 #' @export
 regress=function(formula, data, family=NULL, nsmall=3,
                  robust=FALSE, cluster=NULL,
@@ -174,33 +179,32 @@ regress=function(formula, data, family=NULL, nsmall=3,
     # lm & glm
     if(is.null(family)) {
       # model=lm(formula=formula, data=data)
-      model=GLM_summary(model=NULL,
-                        robust, cluster,
-                        nsmall,
-                        formula=formula, data=data)
+      GLM_summary(model=NULL,
+                  robust, cluster,
+                  nsmall,
+                  formula=formula, data=data)
     } else {
       # model=glm(formula=formula, data=data, family=family)
-      model=GLM_summary(model=NULL,
-                        robust, cluster,
-                        nsmall,
-                        formula=formula, data=data, family=family.text)
+      GLM_summary(model=NULL,
+                  robust, cluster,
+                  nsmall,
+                  formula=formula, data=data, family=family.text)
     }
   } else {
     # lmer & glmer
     if(is.null(family)) {
       # model=lmerTest::lmer(formula=formula, data=data)
-      model=HLM_summary(model=NULL, level2.predictors, vartypes,
-                        t2r,
-                        test.rand, nsmall,
-                        formula=formula, data=data)
+      HLM_summary(model=NULL, level2.predictors, vartypes,
+                  t2r,
+                  test.rand, nsmall,
+                  formula=formula, data=data)
     } else {
       # model=lme4::glmer(formula=formula, data=data, family=family)
-      model=HLM_summary(model=NULL,
-                        test.rand=test.rand, nsmall=nsmall,
-                        formula=formula, data=data, family=family.text)
+      HLM_summary(model=NULL,
+                  test.rand=test.rand, nsmall=nsmall,
+                  formula=formula, data=data, family=family.text)
     }
   }
-  invisible(model)
 }
 
 
@@ -236,11 +240,10 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' \code{\link[texreg]{screenreg}} or
 #' \code{\link[texreg]{htmlreg}} function.
 #'
-#' @return
-#' Invisibly return the plain text of output.
+#' @return Invisibly return the plain text of output.
 #'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' ## Example 1: Linear Model
 #' lm1=lm(Temp ~ Month + Day, data=airquality)
@@ -270,24 +273,25 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 #'
 #' ## Example 4: Generalized Linear Mixed Model
-#' # library(lmerTest)
-#' # data.glmm=MASS::bacteria
-#' # glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-#' # glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
-#' # model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
-#' # model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+#' library(lmerTest)
+#' data.glmm=MASS::bacteria
+#' glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+#' model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+#' model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
 #'
 #' ## Example 5: Multinomial Logistic Model
-#' # library(nnet)
-#' # d=airquality
-#' # d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
-#' # mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
-#' # mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
-#' # model_summary(mn1)
-#' # model_summary(mn2)
-#' # model_summary(mn2, file="Multinomial Logistic Model.doc")
+#' library(nnet)
+#' d=airquality
+#' d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
+#' mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
+#' mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
+#' model_summary(mn1)
+#' model_summary(mn2)
+#' model_summary(mn2, file="Multinomial Logistic Model.doc")
 #'
 #' }
+#'
 #' @export
 model_summary=function(model_list,
                        std_coef=FALSE,
@@ -457,8 +461,10 @@ model_summary=function(model_list,
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' @param ... Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
+#' @return No return value.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' ## Example 1: OLS regression
 #' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
@@ -472,8 +478,8 @@ model_summary=function(model_list,
 #'         data=infert, family=binomial)
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
-#'
 #' }
+#'
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
 #' @importFrom stats qt anova
@@ -676,8 +682,6 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
   } else {
     stop("'GLM_summary' can only deal with 'lm' or 'glm' models.")
   }
-
-  invisible(list(model.summary=sumModel, FE=FE))
 }
 
 
@@ -861,9 +865,9 @@ HLM_ICC=function(model, nsmall=3) {
 #' Predictor variables at different levels may have five types:
 #' \describe{
 #'   \item{1. Intercept}{The overall intercept (\eqn{\gamma_00})}
-#'   \item{2. L1fixed}{Level-1 predicter with \strong{fixed} slope}
-#'   \item{3. L1random-GROUP-L1VAR}{Level-1 predicter with \strong{random} slopes nested with a grouping/clustering variable}
-#'   \item{4. L2-GROUP}{Level-2 predicter (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
+#'   \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
+#'   \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
+#'   \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
 #'
 #'   *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
 #'   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
@@ -900,8 +904,10 @@ HLM_ICC=function(model, nsmall=3) {
 #' But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.
 #' @param ... Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
+#' @return No return value.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' library(lmerTest)
 #'
@@ -926,16 +932,10 @@ HLM_ICC=function(model, nsmall=3) {
 #'              (Sweetness | Consumer) + (1 | Product), data=carrots)
 #' HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 #' HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
-#' # anova(hlm.1, hlm.2)
-#'
-#' ## Example 3: data from MASS::bacteria
-#' # GLMM with binomial outcome (multilevel logistic regression)
-#' # data.glmm=MASS::bacteria
-#' # data.glmm$week.2=as.numeric(data.glmm$week>2)
-#' # glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
-#' # HLM_summary(glmm)
+#' anova(hlm.1, hlm.2)
 #'
 #' }
+#'
 #' @references
 #' Hox, J. J. (2010).
 #' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).
@@ -1193,10 +1193,8 @@ HLM_summary=function(model=NULL,
   # ANOVA-like table for random-effects: Single term deletions
   if(test.rand) {
     cat("\n")
-    RE.test=lmerTest::rand(model) # the same: ranova()
+    RE.test=lmerTest::rand(model)  # the same: ranova()
     print(RE.test)
   }
-
-  invisible(list(model.summary=sumModel, FE=FE.raw, RE=RE))
 }
 

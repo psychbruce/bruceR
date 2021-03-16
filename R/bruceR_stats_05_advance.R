@@ -12,8 +12,10 @@
 #' @param print.avg Just set as \code{TRUE} for a concise output.
 #' For details, see the "Value" section in \code{\link[mediation]{mediate}}.
 #'
+#' @return Invisibly return a data frame containing the results.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' library(mediation)
 #' ?mediation::mediate
@@ -47,6 +49,7 @@
 #' med_summary(med.lmm)
 #'
 #' }
+#'
 #' @export
 med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   # for raw function, see:
@@ -102,17 +105,19 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
       "Indirect Effect (average)", "Direct Effect (average)",
       "Total Effect")
   }
-  colnames(smat) <- c("Estimate",
-                      paste0(clp, "% LLCI"),
-                      paste0(clp, "% ULCI"),
-                      "pval")
-  print_table(smat, nsmalls=nsmall)
+  smat=as.data.frame(smat)
+  names(smat)=c("Estimate", "LLCI", "ULCI", "pval")
+  smat$CI=paste0("[",
+                 formatF(smat$LLCI, nsmall), ", ",
+                 formatF(smat$ULCI, nsmall), "]")
+  names(smat)[5]=paste0("[", ifelse(x$boot, "Bootstrap ", ""), clp, "% CI]")
+  print_table(smat[c(1,5,4)], nsmalls=nsmall)
   cat("\n")
 
   Print("Sample Size: {x$nobs}")
   Print("Simulations: {x$sims} ({ifelse(x$boot, 'Bootstrap', 'Monte Carlo')})")
   cat("\n")
-  invisible(x)
+  invisible(smat)
 }
 
 
@@ -150,11 +155,11 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
 #' @param ylab Y-axis title. Default is \code{"Cross-Correlation"}.
 #'
 #' @return
-#' A \code{gg} object, which you can further modify using \code{ggplot2} syntax
-#' and save using the \code{ggsave} function.
+#' A \code{ggplot2} object, which you can further modify using
+#' \code{ggplot2} syntax and save using \code{ggsave()}.
 #'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
 #' p1
@@ -165,9 +170,10 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
 #'             ci.color="black")
 #' p2
 #'
-#' # ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
+#' ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
 #'
 #' }
+#'
 #' @seealso \code{\link{granger_test}}
 #'
 #' @import ggplot2
@@ -230,13 +236,12 @@ ccf_plot=function(formula, data,
 #' @param lags Time lags. Default is \code{1:5}.
 #' @param test.reverse Whether to test reverse causality. Default is \code{FALSE}.
 #'
-#' @examples
-#' if(FALSE) {
+#' @return No return value.
 #'
+#' @examples
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 #'
-#' }
 #' @seealso \code{\link{ccf_plot}}
 #'
 #' @export

@@ -12,18 +12,21 @@ pkg_depend(pkgs, excludes = NULL)
 \item{excludes}{[optional] Package(s) and their dependencies excluded from the dependencies of \code{pkgs}.
 Useful if you want to see the unique dependencies of \code{pkgs}.}
 }
+\value{
+A character vector of package names.
+}
 \description{
 Check dependencies of R packages.
 }
 \examples{
-## Not run:
+\dontrun{
 
-# pkg_depend("jmv")
-# pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
+pkg_depend("jmv")
+pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
 
-# pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
+pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
 
-## End(Not run)
+}
 
 }
 \seealso{

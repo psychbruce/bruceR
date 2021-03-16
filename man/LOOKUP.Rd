@@ -28,6 +28,9 @@ specifying the reference variable(s) to be matched in \code{data.ref}.}
 \item{return}{What to return. Default (\code{"new.data"}) is to return a \code{data.frame} or \code{data.table} with the lookup values added.
 You may also set it to \code{"new.var"} or \code{"new.value"}.}
 }
+\value{
+New data object, new variable, or new value (see the parameter \code{return}).
+}
 \description{
 In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019),
 or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
@@ -48,7 +51,6 @@ data=data.table(sub=1:5,
                 year=c(2013, 2014, 2015, 2016, 2017))
 data
 
-# LOOKUP(data, "city", ref, "City", "GDP")  # return with a warning
 LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")
 LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 

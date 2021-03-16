@@ -33,6 +33,9 @@ If the model has high-order factors, only "lavaan" style will be output.}
 
 \item{MI}{\code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.}
 }
+\value{
+A list of results returned by \code{jmv::cfa} and \code{lavaan::cfa}.
+}
 \description{
 An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 }

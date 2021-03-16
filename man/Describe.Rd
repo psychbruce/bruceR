@@ -42,19 +42,24 @@ Add fitting lines to scatter plots (if any).}
 
 \item{dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
+\value{
+Invisibly return a list consisting of
+(1) a data frame of descriptive statistics and
+(2) a \code{ggplot2} object if users set \code{plot=TRUE}.
+}
 \description{
 Descriptive statistics.
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 set.seed(1)
 Describe(rnorm(1000000), plot=TRUE)
 
 Describe(airquality, plot=TRUE)
-# Describe(airquality, plot=TRUE, smooth="lm",
-#          save.file="Descriptive Statistics.png",
-#          width=10, height=8, dpi=500)
+Describe(airquality, plot=TRUE, smooth="lm",
+         save.file="Descriptive Statistics.png",
+         width=10, height=8, dpi=500)
 
 ?psych::bfi
 Describe(bfi[c("age", "gender", "education")])
@@ -73,6 +78,7 @@ Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 
 }
+
 }
 \seealso{
 \link{Corr}

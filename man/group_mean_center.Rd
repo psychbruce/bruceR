@@ -14,7 +14,7 @@ group_mean_center(
 )
 }
 \arguments{
-\item{data}{Data frame.}
+\item{data}{Data object.}
 
 \item{vars}{Variable(s) to be centered.}
 
@@ -23,11 +23,13 @@ group_mean_center(
 \item{std}{Standardized or not. Default is \code{FALSE}.}
 
 \item{add_suffix}{The suffix of the centered variable(s).
-Default is \code{""}.
-You may set it to \code{"_c"}, \code{"_center"}, etc.}
+Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 
 \item{add_group_mean}{The suffix of the variable name(s) of group means.
 Default is \code{"_mean"} (see Examples).}
+}
+\value{
+A new data object containing the centered variable(s).
 }
 \description{
 Compute group-mean centered variables.

@@ -60,11 +60,14 @@ and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we
 Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).}
 }
+\value{
+No return value.
+}
 \description{
 Regression analysis.
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 ## lm
 regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
@@ -73,17 +76,13 @@ regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 regress(case ~ age + parity + education + spontaneous + induced,
         data=infert, family=binomial, robust="HC1", cluster="stratum")
 
-## lmer
+## (g)lmer
 library(lmerTest)
 regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 regress(Preference ~ Sweetness + Gender + Age + Frequency +
           (1 | Consumer), data=carrots,
         level2.predictors="Consumer: Gender + Age + Frequency")
 
-## glmer
-# data.glmm=MASS::bacteria
-# data.glmm$week.2=as.numeric(data.glmm$week>2)
-# regress(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
-
 }
+
 }

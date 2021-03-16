@@ -54,6 +54,9 @@ Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).}
 
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 }
+\value{
+A result object returned by \code{afex::aov_ez} (the same as \link{MANOVA} for recursive use).
+}
 \description{
 Easily perform (1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
@@ -131,7 +134,7 @@ Here, I explain what these terms actually refer to.
 }
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 #### Between-Subjects Design ####
 
@@ -216,6 +219,7 @@ MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
   EMMEANS("Month", by="Day.1or2", contrast="poly")
 
 }
+
 }
 \seealso{
 \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}

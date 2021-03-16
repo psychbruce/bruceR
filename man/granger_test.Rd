@@ -15,6 +15,9 @@ granger_test(formula, data, lags = 1:5, test.reverse = FALSE)
 
 \item{test.reverse}{Whether to test reverse causality. Default is \code{FALSE}.}
 }
+\value{
+No return value.
+}
 \description{
 Granger test of predictive causality (between two time-series variables)
 using the \code{lmtest::\link[lmtest]{grangertest}} function.
@@ -28,12 +31,9 @@ the lagged values of the outcome itself.
 It compares the two models by using an \emph{F} test.
 }
 \examples{
-if(FALSE) {
-
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 
-}
 }
 \seealso{
 \code{\link{ccf_plot}}

@@ -50,15 +50,18 @@ You may also set it to, e.g., \code{c("red", "white", "blue")}.}
 
 \item{dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
+\value{
+Invisibly return the correlation results obtained from \code{psych::corr.test}.
+}
 \description{
 Correlation analysis with test and plot.
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 Corr(airquality)
 Corr(airquality, p.adjust="bonferroni")
-# Corr(airquality, save.file="Air-Corr.png")
+Corr(airquality, save.file="Air-Corr.png")
 
 d=as.data.table(psych::bfi)
 d[,`:=`(
@@ -73,6 +76,7 @@ d[,`:=`(
 Corr(d[,.(age, gender, education, E, A, C, N, O)])
 
 }
+
 }
 \seealso{
 \link{Describe}

@@ -80,6 +80,9 @@ If not provided, it will be automatically estimated from the given data (BUT you
 
 \item{values}{[only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).}
 }
+\value{
+A vector of computed variable.
+}
 \description{
 Easily compute the sum, mean, or other indexes of a scale.
 Reverse scoring can also be easily implemented, without generating extra variables
@@ -127,16 +130,12 @@ d[,":="(na=COUNT(d, "x", 1:5, value=NA),
         cons2=CONSEC(d, varrange="x1:x5")
         )]
 d
-## It has already changed.
-## NOTE: ":=" is indeed a special function in the 'data.table' package.
-## See a similar function "mutate()" in the 'dplyr' package: ?dplyr::mutate
-## For data.table, you need NOT to re-assign the tranformed data object,
-## because it can automatically update the variables in situ.
 
 data=as.data.table(bfi)
 data[,`:=`(
   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
+data
 
 }

@@ -69,6 +69,9 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 
 \item{tick.y}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.}
 }
+\value{
+A theme object that should be used for \code{ggplot2}.
+}
 \description{
 A nice \code{ggplot2} theme for scientific publication.
 }

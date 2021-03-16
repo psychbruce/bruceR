@@ -23,11 +23,14 @@ If you specify \code{cluster}, you may also specify the type of \code{robust}. I
 
 \item{...}{Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
+\value{
+No return value.
+}
 \description{
 Advanced report of GLM (\code{lm} and \code{glm} models).
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 ## Example 1: OLS regression
 lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
@@ -41,8 +44,8 @@ glm=glm(case ~ age + parity + education + spontaneous + induced,
         data=infert, family=binomial)
 GLM_summary(glm)
 GLM_summary(glm, robust="HC1", cluster="stratum")
-
 }
+
 }
 \seealso{
 \code{\link{HLM_summary}}, \code{\link{regress}}

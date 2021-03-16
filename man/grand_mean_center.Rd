@@ -7,15 +7,17 @@
 grand_mean_center(data, vars, std = FALSE, add_suffix = "")
 }
 \arguments{
-\item{data}{Data frame.}
+\item{data}{Data object.}
 
 \item{vars}{Variable(s) to be centered.}
 
 \item{std}{Standardized or not. Default is \code{FALSE}.}
 
 \item{add_suffix}{The suffix of the centered variable(s).
-Default is \code{""}.
-You may set it to \code{"_c"}, \code{"_center"}, etc.}
+Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
+}
+\value{
+A new data object containing the centered variable(s).
 }
 \description{
 Compute grand-mean centered variables.

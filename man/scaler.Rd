@@ -13,6 +13,9 @@ scaler(v, min = 0, max = 1)
 
 \item{max}{Maximum value (default is 1).}
 }
+\value{
+A vector of rescaled variable.
+}
 \description{
 This function resembles \code{\link[bruceR]{RESCALE}},
 and it is just equivalent to using \code{RESCALE(var, to=0:1)}.

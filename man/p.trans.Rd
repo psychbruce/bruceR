@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{p.trans}
 \alias{p.trans}
-\title{Transform p values.}
+\title{Transform \emph{p} value.}
 \usage{
 p.trans(p, nsmall.p = 3)
 }
@@ -11,8 +11,11 @@ p.trans(p, nsmall.p = 3)
 
 \item{nsmall.p}{Number of decimal places of \emph{p} value. Default is \code{3}.}
 }
+\value{
+A character string of transformed \emph{p} value.
+}
 \description{
-Transform p values.
+Transform \emph{p} value.
 }
 \examples{
 p.trans(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) \%>\% data.table(p=.)

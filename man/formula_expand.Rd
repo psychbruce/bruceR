@@ -9,6 +9,9 @@ formula_expand(formula)
 \arguments{
 \item{formula}{R formula.}
 }
+\value{
+A formula object including all expanded terms.
+}
 \description{
 Expand all interaction terms in a formula.
 }

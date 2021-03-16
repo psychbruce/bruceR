@@ -9,6 +9,9 @@ formula_paste(formula)
 \arguments{
 \item{formula}{R formula.}
 }
+\value{
+A character string indicating the formula.
+}
 \description{
 Paste a formula into a string.
 }

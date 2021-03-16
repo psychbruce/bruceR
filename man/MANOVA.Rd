@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_03_manova.R
 \name{MANOVA}
 \alias{MANOVA}
-\title{Multi-factor ANOVA.}
+\title{Multifactor ANOVA.}
 \usage{
 MANOVA(
   data,
@@ -90,8 +90,11 @@ The generalized \eqn{\eta^2} requires correct specification of the observed (vs.
 
 \item{nsmall}{Number of decimal places of output. Default is 2.}
 }
+\value{
+A result object returned by \code{afex::aov_ez}.
+}
 \description{
-Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
+Easily perform multifactor ANOVA (between-subjects, within-subjects, and mixed design).
 }
 \details{
 This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
@@ -104,7 +107,7 @@ In addition to partial \eqn{\eta^2}, it will also output many other effect-size 
 For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 #### Between-Subjects Design ####
 
@@ -165,6 +168,7 @@ MANOVA(data=afex::obk.long, subID="id", dv="value",
        sph.correction="GG")
 
 }
+
 }
 \references{
 Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.

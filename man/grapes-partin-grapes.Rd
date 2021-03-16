@@ -11,6 +11,9 @@ pattern \%partin\% vector
 
 \item{vector}{Character vector.}
 }
+\value{
+\code{TRUE} or \code{FALSE}.
+}
 \description{
 A simple extension of \code{\%in\%}.
 }

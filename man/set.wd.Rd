@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{set.wd}
 \alias{set.wd}
-\title{Set working directory to where the \strong{current} script is.}
+\title{Set working directory to where the current R script is.}
 \usage{
 set.wd(dir = NULL)
 }
@@ -10,13 +10,20 @@ set.wd(dir = NULL)
 \item{dir}{\code{NULL} (default) or a character string specifying the working directory.
 If \code{NULL}, set working directory to the path of \strong{the current R script}.}
 }
+\value{
+No return value.
+}
 \description{
-Set working directory to where the \strong{current} script is.
+Set working directory to where the current R script is.
 }
 \examples{
-# set.wd()  # set working directory to the path of the current R script
-# set.wd("D:/")  # "\" is not allowed, you should use "/"
-# set.wd("../")  # set working directory to the parent directory
+\dontrun{
+
+set.wd()  # set working directory to the path of the current R script
+set.wd("D:/")  # or any other path (use "/" rather than "\")
+set.wd("../")  # set working directory to the parent directory
+
+}
 
 }
 \seealso{

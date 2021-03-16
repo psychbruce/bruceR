@@ -13,6 +13,9 @@ dtime(t0, unit = "secs", nsmall = 0)
 
 \item{nsmall}{Number of decimal places of output. Default is \code{0}.}
 }
+\value{
+A character string of time difference.
+}
 \description{
 Timer (compute time difference).
 }

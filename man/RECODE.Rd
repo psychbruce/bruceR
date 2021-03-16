@@ -11,6 +11,9 @@ RECODE(var, recodes)
 
 \item{recodes}{Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.}
 }
+\value{
+A vector of recoded variable.
+}
 \description{
 Based on \code{car::\link[car]{recode}}.
 }

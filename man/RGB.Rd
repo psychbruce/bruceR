@@ -13,7 +13,7 @@ RGB(r, g, b, alpha)
 If not specified, an opaque color will be generated.}
 }
 \value{
-\code{"#rrggbb"} or \code{"#rrggbbaa"}
+\code{"#rrggbb"} or \code{"#rrggbbaa"}.
 }
 \description{
 A simple extension of \code{rgb()}.

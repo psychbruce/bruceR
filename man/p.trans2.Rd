@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{p.trans2}
 \alias{p.trans2}
-\title{Transform p values.}
+\title{Transform \emph{p} value.}
 \usage{
 p.trans2(p, nsmall.p = 3, p.min = 1e-99)
 }
@@ -13,8 +13,11 @@ p.trans2(p, nsmall.p = 3, p.min = 1e-99)
 
 \item{p.min}{Minimum of \emph{p}. Default is \code{1e-99}.}
 }
+\value{
+A character string of transformed \emph{p} value.
+}
 \description{
-Transform p values.
+Transform \emph{p} value.
 }
 \examples{
 p.trans2(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) \%>\% data.table(p=.)

@@ -6,6 +6,8 @@
 #' @param z,t,f,r,chi2 \emph{z}, \emph{t}, \emph{F}, \emph{r}, \eqn{\chi}^2 value.
 #' @param n,df,df1,df2 Sample size or degree of freedom.
 #'
+#' @return \emph{p} value statistics.
+#'
 #' @examples
 #' p.z(1.96)
 #' p.t(2, 100)
@@ -55,10 +57,12 @@ p.r=function(r, n) p.t(r/sqrt((1-r^2)/(n-2)), n-2)
 p.chi2=function(chi2, df) pchisq(chi2, df, lower.tail=FALSE)
 
 
-#' Transform p values.
+#' Transform \emph{p} value.
 #'
 #' @param p \emph{p} value.
 #' @param nsmall.p Number of decimal places of \emph{p} value. Default is \code{3}.
+#'
+#' @return A character string of transformed \emph{p} value.
 #'
 #' @examples
 #' p.trans(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
@@ -75,10 +79,12 @@ p.trans=function(p, nsmall.p=3) {
 }
 
 
-#' Transform p values.
+#' Transform \emph{p} value.
 #'
 #' @inheritParams p.trans
 #' @param p.min Minimum of \emph{p}. Default is \code{1e-99}.
+#'
+#' @return A character string of transformed \emph{p} value.
 #'
 #' @examples
 #' p.trans2(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
@@ -94,9 +100,11 @@ p.trans2=function(p, nsmall.p=3, p.min=1e-99) {
 }
 
 
-#' Transform p value to significance code.
+#' Transform \emph{p} value to significance code.
 #'
 #' @inheritParams p.trans
+#'
+#' @return A character string of significance code.
 #'
 #' @examples
 #' sig.trans(c(1, 0.09, 0.049, 0.009, 0.001, 0.0001, 1e-50)) %>% data.table(sig=.)
@@ -131,16 +139,21 @@ sig.trans=function(p) {
 #' @param height Height (in "inch") of the saved plot. Default is \code{6}.
 #' @param dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
 #'
+#' @return
+#' Invisibly return a list consisting of
+#' (1) a data frame of descriptive statistics and
+#' (2) a \code{ggplot2} object if users set \code{plot=TRUE}.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' set.seed(1)
 #' Describe(rnorm(1000000), plot=TRUE)
 #'
 #' Describe(airquality, plot=TRUE)
-#' # Describe(airquality, plot=TRUE, smooth="lm",
-#' #          save.file="Descriptive Statistics.png",
-#' #          width=10, height=8, dpi=500)
+#' Describe(airquality, plot=TRUE, smooth="lm",
+#'          save.file="Descriptive Statistics.png",
+#'          width=10, height=8, dpi=500)
 #'
 #' ?psych::bfi
 #' Describe(bfi[c("age", "gender", "education")])
@@ -159,6 +172,7 @@ sig.trans=function(p) {
 #' Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #'
 #' }
+#'
 #' @seealso \link{Corr}
 #'
 #' @import ggplot2
@@ -242,16 +256,15 @@ Describe=function(data, nsmall=2,
 #' @param var Vector or variable.
 #' @param label [optional] A vector re-defining the labels of values.
 #' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).
-#' @param nsmall Number of decimal places of output. Default is 1.
+#' @param nsmall Number of decimal places of output. Default is \code{1}.
+#'
+#' @return A data frame of frequency statistics.
 #'
 #' @examples
-#' if(FALSE) {
-#'
 #' Freq(bfi$education)
 #' Freq(bfi$gender, label=c("Male", "Female"))
 #' Freq(bfi$age)
 #'
-#' }
 #' @export
 Freq=function(var, label=NULL, sort="", nsmall=1) {
   Print("Frequency table:")
@@ -291,12 +304,14 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
 #' @param plot.color.levels Default is \code{201}.
 #'
+#' @return Invisibly return the correlation results obtained from \code{psych::corr.test}.
+#'
 #' @examples
-#' if(FALSE) {
+#' \dontrun{
 #'
 #' Corr(airquality)
 #' Corr(airquality, p.adjust="bonferroni")
-#' # Corr(airquality, save.file="Air-Corr.png")
+#' Corr(airquality, save.file="Air-Corr.png")
 #'
 #' d=as.data.table(psych::bfi)
 #' d[,`:=`(
@@ -311,6 +326,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' Corr(d[,.(age, gender, education, E, A, C, N, O)])
 #'
 #' }
+#'
 #' @seealso \link{Describe}
 #'
 #' @export
@@ -610,8 +626,7 @@ cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
 #'
 #' we should also consider \code{rcov}: r(Y,Z)
 #'
-#' @return
-#' Invisibly return the \emph{p} value.
+#' @return Invisibly return the \emph{p} value.
 #'
 #' @examples
 #' # two independent rs (X~Y vs. Z~W)

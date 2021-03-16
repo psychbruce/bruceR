@@ -16,11 +16,14 @@ med_summary(model, digits = nsmall, nsmall = 3, print.avg = TRUE)
 \item{print.avg}{Just set as \code{TRUE} for a concise output.
 For details, see the "Value" section in \code{\link[mediation]{mediate}}.}
 }
+\value{
+Invisibly return a data frame containing the results.
+}
 \description{
 Tidy report of mediation analysis based on the \code{\link[mediation]{mediation}} package.
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 library(mediation)
 ?mediation::mediate
@@ -54,4 +57,5 @@ med.lmm=mediate(lmm.m, lmm.y,
 med_summary(med.lmm)
 
 }
+
 }

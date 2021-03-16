@@ -2,7 +2,7 @@
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-![](https://img.shields.io/badge/R-Package-blue) ![](https://img.shields.io/badge/Version-0.6.0-red) ![](https://img.shields.io/github/license/psychbruce/bruceR?label=License&color=success) ![](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?label=Commits&color=orange) [![](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+[![Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=blue)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![CRAN-Status-Badge](https://www.r-pkg.org/badges/version/bruceR?color=orange)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads-Badge](https://cranlogs.r-pkg.org/badges/grand-total/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
 
@@ -18,21 +18,25 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 [ResearchGate](https://www.researchgate.net/profile/Han-Wu-Shuang-Bao) \| [GitHub](https://github.com/psychbruce) \| [知乎](https://www.zhihu.com/people/psychbruce)
 
+## Citation
+
+-   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package. <https://CRAN.R-project.org/package=bruceR> or <https://github.com/psychbruce/bruceR>
+
 ## User Guide
+
+[Release Notes - 更新日志](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
+
+[User Guide (in Chinese) - 中文版使用指南](https://zhuanlan.zhihu.com/p/356411193)
 
 ### Installation
 
 ``` r
-## Method 1: Install from CRAN (coming soon...)
+## Method 1: Install from CRAN
 install.packages("bruceR")
 
-## Method 2: Install from GitHub (using "pacman" package)
-install.packages("pacman")
-pacman::p_install_gh("psychbruce/bruceR")
-
-## Method 3: Install from GitHub (using "devtools" package)
+## Method 2: Install from GitHub
 install.packages("devtools")
-devtools::install_github("psychbruce/bruceR")
+devtools::install_github("psychbruce/bruceR", force=TRUE, upgrade=FALSE)
 ```
 
 **Tips:**
@@ -42,24 +46,6 @@ devtools::install_github("psychbruce/bruceR")
 3.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
 4.  It would be better to update R to its [latest version](https://www.r-project.org/) (v4.0+).
 5.  It would be better to download and install [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) on Windows system.
-
-### Citation
-
--   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package. <https://github.com/psychbruce/bruceR>
-
-### Help Page
-
-``` r
-## Overview
-help("bruceR")
-help(bruceR)
-?bruceR
-
-## Function (take `Describe()` for example)
-help("Describe")
-help(Describe)
-?Describe
-```
 
 ### Package Dependency
 
@@ -91,7 +77,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 ### Main Functions in `bruceR`
 
--   [x] Basic Use and Analysis
+1.  **Basic Use and Analysis**
 
     -   `set.wd()`
     -   `pkg_depend()`, `pkg_install_suggested()`
@@ -101,23 +87,23 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `LOOKUP()`, `RANDBETWEEN()`
     -   `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
 
--   [x] Multivariate Computation
+2.  **Multivariate Computation**
 
     -   `RECODE()`, `RESCALE()`
     -   `SUM()`, `MEAN()`, `STD()`, `MODE()`, `COUNT()`, `CONSEC()`
 
--   [x] Reliability and Validity Analysis
+3.  **Reliability and Validity Analysis**
 
     -   `Alpha()`
     -   `EFA()`
     -   `CFA()`
 
--   [x] Multi-Factor Analysis of Variance, Simple-Effect Analysis, and Multiple Comparison
+4.  **Multifactor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison**
 
     -   `MANOVA()`
     -   `EMMEANS()`
 
--   [x] Advanced Statistical Toolbox and Tidy Report
+5.  **Advanced Toolbox and Tidy Report of Statistical Models**
 
     -   `grand_mean_center()`, `group_mean_center()`
     -   `regress()`, `GLM_summary()`, `HLM_summary()`
@@ -126,7 +112,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `ccf_plot()`
     -   `granger_test()`
 
--   [x] Theme for `ggplot2`
+6.  **Theme for `ggplot2`**
 
     -   `theme_bruce()`
 
@@ -136,9 +122,11 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 library(bruceR)
 
 ## Overview
+help("bruceR")
+help(bruceR)
 ?bruceR
 
-## See help pages of R functions
+## See help pages of functions
 ## (use `?function` or `help(function)`)
 ?Describe
 ?Corr
@@ -152,9 +140,3 @@ library(bruceR)
 ?HLM_summary
 ...
 ```
-
-## Release Notes
-
-See [NEWS.md](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
-
-[![Travis build status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR)

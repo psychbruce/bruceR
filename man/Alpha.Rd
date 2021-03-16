@@ -19,11 +19,14 @@ Alpha(data, var, items, vars = NULL, rev = NULL)
 1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
 2) a character vector directly specifying the variable list (recommended).}
 }
+\value{
+No return value.
+}
 \description{
 An extension of \code{jmv::\link[jmv]{reliability}}.
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 ?psych::bfi
 Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
@@ -31,6 +34,7 @@ Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
 
 }
+
 }
 \seealso{
 \code{jmv::\link[jmv]{reliability}}

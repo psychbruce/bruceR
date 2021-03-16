@@ -38,9 +38,8 @@
 }
 }
 \description{
-These demo datasets were obtained from a course of "multi-factor experimental design" in \emph{Beijing Normal University} (2016).
-In this course, we used a book written by Prof. Hua Shu (\strong{\emph{"Factorial Experimental Design in Psychological and Educational Research"}}).
-The book provided a seires of demo datasets to show different experimental designs and how to do MANOVA in SPSS.
-Here, we reuse these excellent demo datasets to show how the R function \code{MANOVA} can easily handle almost all types of designs.
-Many thanks go to the contributors of the datasets.
+These demo datasets were obtained from the book
+"\href{https://book.douban.com/subject/1195181/}{Factorial Experimental Design in Psychological and Educational Research}".
+The book provides these demo datasets to show different experimental designs and how to conduct MANOVA using syntax in SPSS.
+Here, I use these demo datasets as examples to show how the functions \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
 }

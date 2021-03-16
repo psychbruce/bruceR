@@ -46,6 +46,9 @@ But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise informa
 
 \item{...}{Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
+\value{
+No return value.
+}
 \description{
 Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
 HLM, MLM, or LMM (the same) refers to a model with nested data (e.g., Level-1: participants, Level-2: city; or Level-1: repeated-measures within a participant, Level-2: participants).
@@ -55,9 +58,9 @@ Hierarchical Linear Model (HLM), aka. Multilevel Linear Model (MLM) or Linear Mi
 Predictor variables at different levels may have five types:
 \describe{
   \item{1. Intercept}{The overall intercept (\eqn{\gamma_00})}
-  \item{2. L1fixed}{Level-1 predicter with \strong{fixed} slope}
-  \item{3. L1random-GROUP-L1VAR}{Level-1 predicter with \strong{random} slopes nested with a grouping/clustering variable}
-  \item{4. L2-GROUP}{Level-2 predicter (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
+  \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
+  \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
+  \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
 
   *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
@@ -68,7 +71,7 @@ Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated 
 the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 }
 \examples{
-if(FALSE) {
+\dontrun{
 
 library(lmerTest)
 
@@ -93,16 +96,10 @@ hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
              (Sweetness | Consumer) + (1 | Product), data=carrots)
 HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
-# anova(hlm.1, hlm.2)
-
-## Example 3: data from MASS::bacteria
-# GLMM with binomial outcome (multilevel logistic regression)
-# data.glmm=MASS::bacteria
-# data.glmm$week.2=as.numeric(data.glmm$week>2)
-# glmm=glmer(y ~ trt + week.2 + (1 | ID), data=data.glmm, family=binomial)
-# HLM_summary(glmm)
+anova(hlm.1, hlm.2)
 
 }
+
 }
 \references{
 Hox, J. J. (2010).

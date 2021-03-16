@@ -118,13 +118,13 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
       \code{\link{CFA}}  (confirmatory factor analysis)
   }
 
-  \item{\strong{(4) MANOVA, Simple-Effect Analysis, & Multiple Comparison}}{
+  \item{\strong{(4) Multifactor ANOVA, Simple-Effect Analysis, and Multiple Comparison}}{
       \code{\link{MANOVA}}  (between-subjects, within-subjects, and mixed design ANOVA)
 
       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
   }
 
-  \item{\strong{(5) Advanced Statistical Toolbox and Tidy Report}}{
+  \item{\strong{(5) Advanced Toolbox and Tidy Report of Statistical Models}}{
       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
 
       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))

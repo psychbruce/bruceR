@@ -25,6 +25,7 @@
 
 -   Changed package title and description of `bruceR`: **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 -   Reorganized [raw code files](https://github.com/psychbruce/bruceR/tree/master/R).
+-   Fixed problems in help pages according to a CRAN team member.
 
 ### Bug Fixes
 
