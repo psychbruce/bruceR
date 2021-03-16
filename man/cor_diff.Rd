@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{cor_diff}
 \alias{cor_diff}
-\title{Test the difference between two correlations (independent / nonindependent).}
+\title{Test the difference between two correlations.}
 \usage{
 cor_diff(r1, n1, r2, n2, n = NULL, rcov = NULL)
 }
@@ -11,7 +11,7 @@ cor_diff(r1, n1, r2, n2, n = NULL, rcov = NULL)
 
 \item{n, n1, n2}{Sample sizes.}
 
-\item{rcov}{[Optional] Only for nonindependent \emph{r}s:
+\item{rcov}{[optional] Only for nonindependent \emph{r}s:
 
 \code{r1} is r(X,Y),
 
@@ -25,7 +25,7 @@ we should also consider \code{rcov}: r(Y,Z)}
 Invisibly return the \emph{p} value.
 }
 \description{
-Test the difference between two correlations (independent / nonindependent).
+Test the difference between two correlations.
 }
 \examples{
 # two independent rs (X~Y vs. Z~W)

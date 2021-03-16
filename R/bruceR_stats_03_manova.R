@@ -70,10 +70,10 @@ NULL
 #### MANOVA ####
 
 
-#' Multifactor ANOVA.
+#' Multi-factor ANOVA.
 #'
 #' @description
-#' Easily perform multifactor ANOVA (between-subjects, within-subjects, and mixed design).
+#' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
 #'
 #' @details
 #' This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
@@ -81,25 +81,21 @@ NULL
 #' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
 #'
-#' In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
-#' \eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
-#' For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
-#'
 #' @param data Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
 #' \itemize{
-#'   \item If you input a \strong{long-format} data, please also specify \strong{subID}.
-#'   \item If you input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
-#'   the function can \strong{\emph{automatically}} transform it into a \strong{long-format} data.
+#'   \item If you input \strong{long-format} data, please also set \strong{subID}.
+#'   \item If you input \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
+#'   the function can \strong{\emph{automatically}} transform the data into \strong{long-format}.
 #' }
 #' @param subID Subject ID.
 #' \itemize{
-#'   \item If you input a \strong{long-format} data, you should specify the subject ID.
-#'   \item If you input a \strong{wide-format} data, no need to specify this parameter.
+#'   \item If you input \strong{long-format} data, you should set the subject ID.
+#'   \item If you input \strong{wide-format} data, no need to set this parameter.
 #' }
 #' @param dv Variable name of dependent variable.
 #' \itemize{
-#'   \item If you input a \strong{long-format} data, then \code{dv} is the outcome variable.
-#'   \item If you input a \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
+#'   \item If you input \strong{long-format} data, then \code{dv} is the outcome variable.
+#'   \item If you input \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
 #'   For designs with any repeated measures, please use \code{dvs} and \code{dvs.pattern}.
 #' }
 #' @param dvs \strong{[only for "wide-format" data and designs with repeated measures]}
@@ -392,15 +388,19 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' (using methods such as Bonferroni, Tukey's HSD, and FDR).
 #'
 #' @details
-#' This function is based on and extends the (1) \code{\link[emmeans]{joint_tests}}, (2) \code{\link[emmeans]{emmeans}}, and (3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
+#' This function is based on and extends the
+#' (1) \code{\link[emmeans]{joint_tests}},
+#' (2) \code{\link[emmeans]{emmeans}}, and
+#' (3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
 #' You only need to specify the model object, to-be-tested effect(s), and moderator(s).
-#' Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
+#' Then, almost all the outputs you need will be displayed in an elegant manner,
+#' including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
 #'
 #' \strong{Statistical Details:}
 #'
-#' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons". Unfortunately, such a confusion is not uncommon.
-#' Here, I explain what these terms actually refer to.
+#' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
+#' Such a confusion is not uncommon. Here, I explain what these terms actually refer to.
 #' \describe{
 #'   \item{\strong{1. Simple Effect}}{
 #'     When we speak of "simple effect", we are referring to ...
@@ -422,7 +422,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'     That is, on the different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
 #'
 #'     In SPSS, we usually use the \code{MANOVA} and/or the \code{GLM + /EMMEANS} syntax to perform such analyses.
-#'     Tutorials of the SPSS syntax (in Chinese) can be found in my personal profile on Zhihu.com:
+#'     Tutorials (in Chinese) for the SPSS syntax can be found in:
 #'     \href{https://zhuanlan.zhihu.com/p/30037168}{Tutorial #1},
 #'     \href{https://zhuanlan.zhihu.com/p/31863288}{Tutorial #2}, and
 #'     \href{https://zhuanlan.zhihu.com/p/35011046}{Tutorial #3}.
@@ -452,7 +452,6 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'     If you are familiar with SPSS syntax, you may feel that the current R functions \code{MANOVA} and \code{EMMEANS} are a nice combination of the SPSS syntax \code{MANOVA} and \code{GLM + /EMMEANS}.
 #'     Yes, they are. More importantly, they outperform the SPSS syntax, either for its higher convenience or for its more fruitful outputs.
 #'
-#'     Now, you can forget the overcomplicated SPSS syntax and join in the warm family of R. Welcome!
 #'     \itemize{
 #'       \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
 #'       \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons
@@ -475,7 +474,6 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' Alternatives can be \code{"none"; "fdr", "hochberg", "hommel", "holm"; "tukey", "mvt", "dunnettx", "sidak", "scheffe", "bonferroni"}.
 #' The latter six methods are recommended!
-#'
 #' For details, see \code{stats::p.adjust} and \code{emmeans::confint.emmGrid}.
 #' @param cohen.d Method to compute Cohen's \emph{d} in multiple comparisons.
 #' Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.

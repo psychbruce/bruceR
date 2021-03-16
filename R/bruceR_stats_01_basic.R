@@ -251,7 +251,7 @@ Describe=function(data, nsmall=2,
 }
 
 
-#' Frequency statistics with histogram and density plot.
+#' Frequency statistics.
 #'
 #' @param var Vector or variable.
 #' @param label [optional] A vector re-defining the labels of values.
@@ -292,7 +292,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 }
 
 
-#' Correlation analysis with test and plot.
+#' Correlation analysis.
 #'
 #' @inheritParams Describe
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
@@ -612,11 +612,11 @@ cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
 }
 
 
-#' Test the difference between two correlations (independent / nonindependent).
+#' Test the difference between two correlations.
 #'
 #' @param r1,r2 Correlation coefficients (Pearson's \emph{r}).
 #' @param n,n1,n2 Sample sizes.
-#' @param rcov [Optional] Only for nonindependent \emph{r}s:
+#' @param rcov [optional] Only for nonindependent \emph{r}s:
 #'
 #' \code{r1} is r(X,Y),
 #'

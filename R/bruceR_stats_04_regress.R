@@ -478,6 +478,7 @@ model_summary=function(model_list,
 #'         data=infert, family=binomial)
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
+#'
 #' }
 #'
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}

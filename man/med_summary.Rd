@@ -2,12 +2,12 @@
 % Please edit documentation in R/bruceR_stats_05_advance.R
 \name{med_summary}
 \alias{med_summary}
-\title{Tidy report of mediation analysis based on the \code{mediation} package.}
+\title{Tidy report of mediation analysis.}
 \usage{
 med_summary(model, digits = nsmall, nsmall = 3, print.avg = TRUE)
 }
 \arguments{
-\item{model}{Mediation model built with the \code{mediation} package (see \code{\link[mediation]{mediate}}).}
+\item{model}{Mediation model built using \code{mediation::\link[mediation]{mediate}}.}
 
 \item{digits}{Number of decimal places of output. Default is \code{3}.}
 
@@ -20,7 +20,8 @@ For details, see the "Value" section in \code{\link[mediation]{mediate}}.}
 Invisibly return a data frame containing the results.
 }
 \description{
-Tidy report of mediation analysis based on the \code{\link[mediation]{mediation}} package.
+Tidy report of mediation analysis,
+which is performed using the \code{\link[mediation]{mediation}} package.
 }
 \examples{
 \dontrun{

@@ -1,12 +1,13 @@
 #### Indirect Effect: Model-Based (using the "mediation" package) ####
 
 
-#' Tidy report of mediation analysis based on the \code{mediation} package.
+#' Tidy report of mediation analysis.
 #'
 #' @description
-#' Tidy report of mediation analysis based on the \code{\link[mediation]{mediation}} package.
+#' Tidy report of mediation analysis,
+#' which is performed using the \code{\link[mediation]{mediation}} package.
 #'
-#' @param model Mediation model built with the \code{mediation} package (see \code{\link[mediation]{mediate}}).
+#' @param model Mediation model built using \code{mediation::\link[mediation]{mediate}}.
 #' @param digits Number of decimal places of output. Default is \code{3}.
 #' @param nsmall The same as \code{digits}.
 #' @param print.avg Just set as \code{TRUE} for a concise output.
@@ -239,8 +240,12 @@ ccf_plot=function(formula, data,
 #' @return No return value.
 #'
 #' @examples
+#' \dontrun{
+#'
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
+#'
+#' }
 #'
 #' @seealso \code{\link{ccf_plot}}
 #'

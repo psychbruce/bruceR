@@ -182,7 +182,9 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #'
 #' @examples
 #' \dontrun{
+#'
 #' pkg_install_suggested()
+#'
 #' }
 #'
 #' @seealso \link{pkg_depend}
@@ -491,8 +493,10 @@ dtime=function(t0, unit="secs", nsmall=0) {
 #'
 #' @examples
 #' \dontrun{
+#'
 #' RANDBETWEEN(1:10, n=1000000) %>% Freq()
 #' RANDBETWEEN(LETTERS, n=1000000) %>% Freq()
+#'
 #' }
 #'
 #' @export

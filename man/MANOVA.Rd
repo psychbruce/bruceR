@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_03_manova.R
 \name{MANOVA}
 \alias{MANOVA}
-\title{Multifactor ANOVA.}
+\title{Multi-factor ANOVA.}
 \usage{
 MANOVA(
   data,
@@ -21,21 +21,21 @@ MANOVA(
 \arguments{
 \item{data}{Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
 \itemize{
-  \item If you input a \strong{long-format} data, please also specify \strong{subID}.
-  \item If you input a \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
-  the function can \strong{\emph{automatically}} transform it into a \strong{long-format} data.
+  \item If you input \strong{long-format} data, please also set \strong{subID}.
+  \item If you input \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
+  the function can \strong{\emph{automatically}} transform the data into \strong{long-format}.
 }}
 
 \item{subID}{Subject ID.
 \itemize{
-  \item If you input a \strong{long-format} data, you should specify the subject ID.
-  \item If you input a \strong{wide-format} data, no need to specify this parameter.
+  \item If you input \strong{long-format} data, you should set the subject ID.
+  \item If you input \strong{wide-format} data, no need to set this parameter.
 }}
 
 \item{dv}{Variable name of dependent variable.
 \itemize{
-  \item If you input a \strong{long-format} data, then \code{dv} is the outcome variable.
-  \item If you input a \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
+  \item If you input \strong{long-format} data, then \code{dv} is the outcome variable.
+  \item If you input \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
   For designs with any repeated measures, please use \code{dvs} and \code{dvs.pattern}.
 }}
 
@@ -94,17 +94,13 @@ The generalized \eqn{\eta^2} requires correct specification of the observed (vs.
 A result object returned by \code{afex::aov_ez}.
 }
 \description{
-Easily perform multifactor ANOVA (between-subjects, within-subjects, and mixed design).
+Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
 }
 \details{
 This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
 You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
 Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
-
-In addition to partial \eqn{\eta^2}, it will also output many other effect-size measures:
-\eqn{\eta^2}, generalized \eqn{\eta^2}, \eqn{\omega^2}, and Cohen's \emph{f}.
-For statistical details, see \url{https://en.wikipedia.org/wiki/Effect_size}
 }
 \examples{
 \dontrun{

@@ -6,6 +6,10 @@
 # devtools::check()
 # devtools::spell_check()
 # devtools::check_rhub()
+# devtools::check_win_devel()
+
+# devtools::release()
+# devtools::submit_cran()
 
 
 #### Main Description ####
@@ -121,8 +125,8 @@
 #'       \code{\link{CFA}}  (confirmatory factor analysis)
 #'   }
 #'
-#'   \item{\strong{(4) Multifactor ANOVA, Simple-Effect Analysis, and Multiple Comparison}}{
-#'       \code{\link{MANOVA}}  (between-subjects, within-subjects, and mixed design ANOVA)
+#'   \item{\strong{(4) Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
+#'       \code{\link{MANOVA}}  (multi-factor between-subjects, within-subjects, and mixed design ANOVA)
 #'
 #'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
 #'   }

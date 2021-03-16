@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Freq}
 \alias{Freq}
-\title{Frequency statistics with histogram and density plot.}
+\title{Frequency statistics.}
 \usage{
 Freq(var, label = NULL, sort = "", nsmall = 1)
 }
@@ -19,7 +19,7 @@ Freq(var, label = NULL, sort = "", nsmall = 1)
 A data frame of frequency statistics.
 }
 \description{
-Frequency statistics with histogram and density plot.
+Frequency statistics.
 }
 \examples{
 Freq(bfi$education)

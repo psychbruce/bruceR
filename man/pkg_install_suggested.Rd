@@ -18,7 +18,9 @@ or any other package.
 }
 \examples{
 \dontrun{
+
 pkg_install_suggested()
+
 }
 
 }

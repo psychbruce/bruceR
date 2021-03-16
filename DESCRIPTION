@@ -16,7 +16,7 @@ Description: Broadly useful convenient and efficient R functions
              (1) basic use and analysis;
              (2) multivariate computation;
              (3) reliability and validity analysis;
-             (4) multifactor analysis of variance (ANOVA),
+             (4) multi-factor analysis of variance (ANOVA),
              simple-effect analysis, and post-hoc multiple comparison;
              and (5) advanced toolbox and tidy report of statistical models.
 License: GPL-3

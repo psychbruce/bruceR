@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Corr}
 \alias{Corr}
-\title{Correlation analysis with test and plot.}
+\title{Correlation analysis.}
 \usage{
 Corr(
   data,
@@ -54,7 +54,7 @@ You may also set it to, e.g., \code{c("red", "white", "blue")}.}
 Invisibly return the correlation results obtained from \code{psych::corr.test}.
 }
 \description{
-Correlation analysis with test and plot.
+Correlation analysis.
 }
 \examples{
 \dontrun{

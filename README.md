@@ -98,7 +98,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `EFA()`
     -   `CFA()`
 
-4.  **Multifactor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison**
+4.  **Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison**
 
     -   `MANOVA()`
     -   `EMMEANS()`

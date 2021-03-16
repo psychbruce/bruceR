@@ -118,8 +118,8 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
       \code{\link{CFA}}  (confirmatory factor analysis)
   }
 
-  \item{\strong{(4) Multifactor ANOVA, Simple-Effect Analysis, and Multiple Comparison}}{
-      \code{\link{MANOVA}}  (between-subjects, within-subjects, and mixed design ANOVA)
+  \item{\strong{(4) Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
+      \code{\link{MANOVA}}  (multi-factor between-subjects, within-subjects, and mixed design ANOVA)
 
       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
   }

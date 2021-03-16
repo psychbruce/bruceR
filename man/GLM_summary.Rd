@@ -44,6 +44,7 @@ glm=glm(case ~ age + parity + education + spontaneous + induced,
         data=infert, family=binomial)
 GLM_summary(glm)
 GLM_summary(glm, robust="HC1", cluster="stratum")
+
 }
 
 }
