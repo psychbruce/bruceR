@@ -2,27 +2,37 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{set.wd}
 \alias{set.wd}
-\title{Set working directory to where the current R script is.}
+\title{Set working directory to where the current file is.}
 \usage{
-set.wd(dir = NULL)
+set.wd(path = NULL, execute = TRUE, ask = FALSE)
 }
 \arguments{
-\item{dir}{\code{NULL} (default) or a character string specifying the working directory.
-If \code{NULL}, set working directory to the path of \strong{the current R script}.}
+\item{path}{\code{NULL} (default) or a specific path.
+Default is to extract the path of the currently opened file
+(can be any type, usually an R or Rmd file).}
+
+\item{execute}{\code{TRUE} (default) or \code{FALSE}.
+Default is to send code \code{setwd("...")} to the R console AND execute it.}
+
+\item{ask}{\code{TRUE} or \code{FALSE} (default).
+If \code{TRUE}, then you can select a folder with the prompt of a dialog.}
 }
 \value{
-No return value.
+Invisibly return the path of the currently opened file.
 }
 \description{
-Set working directory to where the current R script is.
+Set working directory to the path of the currently opened file.
+You can use this function in both \strong{.R/.Rmd files and the R console}.
+\href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
+is required for running this function.
 }
 \examples{
 \dontrun{
-
-set.wd()  # set working directory to the path of the current R script
+# RStudio is required for running this function.
+set.wd()  # set working directory to the path of the currently opened file
 set.wd("D:/")  # or any other path (use "/" rather than "\")
 set.wd("../")  # set working directory to the parent directory
-
+set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
 }
 
 }

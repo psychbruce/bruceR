@@ -51,15 +51,11 @@ Invisibly return a list consisting of
 Descriptive statistics.
 }
 \examples{
-\dontrun{
-
-set.seed(1)
+\donttest{set.seed(1)
 Describe(rnorm(1000000), plot=TRUE)
 
-Describe(airquality, plot=TRUE)
-Describe(airquality, plot=TRUE, smooth="lm",
-         save.file="Descriptive Statistics.png",
-         width=10, height=8, dpi=500)
+Describe(airquality)
+Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
 
 ?psych::bfi
 Describe(bfi[c("age", "gender", "education")])
@@ -76,9 +72,7 @@ d[,`:=`(
 )]
 Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
-
 }
-
 }
 \seealso{
 \link{Corr}

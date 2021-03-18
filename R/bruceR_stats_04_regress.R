@@ -144,29 +144,30 @@ group_mean_center=function(data, vars, by,
 #' @return No return value.
 #'
 #' @examples
-#' \dontrun{
-#'
-#' ## lm
+#' \donttest{## lm
 #' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 #'
 #' ## glm
 #' regress(case ~ age + parity + education + spontaneous + induced,
 #'         data=infert, family=binomial, robust="HC1", cluster="stratum")
 #'
-#' ## (g)lmer
+#' ## lmer
 #' library(lmerTest)
 #' regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 #' regress(Preference ~ Sweetness + Gender + Age + Frequency +
-#'           (1 | Consumer), data=carrots,
-#'         level2.predictors="Consumer: Gender + Age + Frequency")
+#'           (1 | Consumer), data=carrots)
 #'
+#' ## glmer
+#' library(lmerTest)
+#' data.glmm=MASS::bacteria
+#' regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#' regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' }
-#'
 #' @export
 regress=function(formula, data, family=NULL, nsmall=3,
                  robust=FALSE, cluster=NULL,
                  level2.predictors="", vartypes=NULL,
-                 t2r=FALSE, test.rand=FALSE) {
+                 test.rand=FALSE) {
   call=sys.call()[-1]  # get function call (parameter list)
   if(!is.null(family))
     family.text=ifelse(!is.null(call$family),
@@ -195,7 +196,6 @@ regress=function(formula, data, family=NULL, nsmall=3,
     if(is.null(family)) {
       # model=lmerTest::lmer(formula=formula, data=data)
       HLM_summary(model=NULL, level2.predictors, vartypes,
-                  t2r,
                   test.rand, nsmall,
                   formula=formula, data=data)
     } else {
@@ -243,9 +243,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @return Invisibly return the plain text of output.
 #'
 #' @examples
-#' \dontrun{
-#'
-#' ## Example 1: Linear Model
+#' \donttest{## Example 1: Linear Model
 #' lm1=lm(Temp ~ Month + Day, data=airquality)
 #' lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' model_summary(lm1)
@@ -254,6 +252,8 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(list(lm1, lm2), std=TRUE, digits=2)
 #' model_summary(list(lm1, lm2), file="OLS Models.doc")
 #' model_summary(list(lm1, lm2), file="OLS Models.html")
+#' unlink("OLS Models.doc")  # delete file for test
+#' unlink("OLS Models.html")  # delete file for test
 #'
 #' ## Example 2: Generalized Linear Model
 #' glm1=glm(case ~ age + parity,
@@ -262,6 +262,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #'          data=infert, family=binomial)
 #' model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
 #' model_summary(list(glm1, glm2), file="GLM Models.doc")
+#' unlink("GLM Models.doc")  # delete file for test
 #'
 #' ## Example 3: Linear Mixed Model
 #' library(lmerTest)
@@ -271,6 +272,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(list(hlm1, hlm2, hlm3))
 #' model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
 #' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
+#' unlink("HLM Models.doc")  # delete file for test
 #'
 #' ## Example 4: Generalized Linear Mixed Model
 #' library(lmerTest)
@@ -279,6 +281,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
 #' model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+#' unlink("GLMM Models.doc")  # delete file for test
 #'
 #' ## Example 5: Multinomial Logistic Model
 #' library(nnet)
@@ -289,7 +292,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(mn1)
 #' model_summary(mn2)
 #' model_summary(mn2, file="Multinomial Logistic Model.doc")
-#'
+#' unlink("Multinomial Logistic Model.doc")  # delete file for test
 #' }
 #'
 #' @export
@@ -464,9 +467,7 @@ model_summary=function(model_list,
 #' @return No return value.
 #'
 #' @examples
-#' \dontrun{
-#'
-#' ## Example 1: OLS regression
+#' \donttest{## Example 1: OLS regression
 #' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' GLM_summary(lm)
 #' GLM_summary(lm, robust="HC1")
@@ -478,9 +479,7 @@ model_summary=function(model_list,
 #'         data=infert, family=binomial)
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
-#'
 #' }
-#'
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
 #' @importFrom stats qt anova
@@ -890,12 +889,6 @@ HLM_ICC=function(model, nsmall=3) {
 #'
 #' *** If there is no level-2 predictor in the formula of \code{lmer}, just leave this parameter blank.
 #' @param vartypes \strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.
-#' @param t2r \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
-#' Add a column of another kind of multilevel effect sizes: standardized partial effect size \emph{r} by \emph{t}-to-\emph{r} transformation.
-#'
-#' *** See an example in Wei et al.'s paper (2017, \emph{\doi{10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
-#' However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
-#' and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).
 #' @param test.rand \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 ## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
@@ -908,9 +901,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' @return No return value.
 #'
 #' @examples
-#' \dontrun{
-#'
-#' library(lmerTest)
+#' \donttest{library(lmerTest)
 #'
 #' ## Example 1: data from lme4::sleepstudy
 #' # (1) 'Subject' is a grouping/clustering variable
@@ -934,9 +925,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 #' HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 #' anova(hlm.1, hlm.2)
-#'
 #' }
-#'
 #' @references
 #' Hox, J. J. (2010).
 #' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).
@@ -957,7 +946,6 @@ HLM_ICC=function(model, nsmall=3) {
 HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
                      vartypes=NULL,
-                     t2r=FALSE,
                      test.rand=FALSE,  # time-consuming in big datasets
                      nsmall=3,
                      ...) {
@@ -1086,16 +1074,12 @@ HLM_summary=function(model=NULL,
         `sig*`=sig.trans(p),
         CI=paste0("[",
                   formatF(FE.std[,1]+qt(0.025, df)*FE.std[,2], nsmall), ", ",
-                  formatF(FE.std[,1]+qt(0.975, df)*FE.std[,2], nsmall), "]"),
-        r.HLM=sign(t)*sqrt(t^2/(t^2+df)))
+                  formatF(FE.std[,1]+qt(0.975, df)*FE.std[,2], nsmall), "]"))
       FE.std$`p*`=p.trans(FE.std$`p*`)
       names(FE.std)[6:7]=c(" ", "[95% CI of Beta]")
       cat("\n")
       Print("Standardized coefficients: {dv}")
-      if(t2r)
-        print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, 0, nsmall))
-      else
-        print_table(FE.std[1:7], nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, 0))
+      print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, 0))
       if(is.null(vartypes)==FALSE)
         Print("<<blue 'df*' is calculated based on variable types.>>")
     }

@@ -57,11 +57,8 @@ Invisibly return the correlation results obtained from \code{psych::corr.test}.
 Correlation analysis.
 }
 \examples{
-\dontrun{
-
 Corr(airquality)
 Corr(airquality, p.adjust="bonferroni")
-Corr(airquality, save.file="Air-Corr.png")
 
 d=as.data.table(psych::bfi)
 d[,`:=`(
@@ -74,8 +71,6 @@ d[,`:=`(
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
 Corr(d[,.(age, gender, education, E, A, C, N, O)])
-
-}
 
 }
 \seealso{

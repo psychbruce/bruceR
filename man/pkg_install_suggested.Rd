@@ -16,14 +16,6 @@ No return value.
 It checks and installs R packages suggested by \code{bruceR} (default)
 or any other package.
 }
-\examples{
-\dontrun{
-
-pkg_install_suggested()
-
-}
-
-}
 \seealso{
 \link{pkg_depend}
 }

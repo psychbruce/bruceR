@@ -1,36 +1,32 @@
 #### Demo Data ####
 
 
-if(FALSE) {
-  library(rio)
-  between.1=import("data-raw/between.1.sav", haven=F); names(between.1)[2]="SCORE"
-  between.2=import("data-raw/between.2.sav", haven=F)
-  between.3=import("data-raw/between.3.sav", haven=F)
-  usethis::use_data(between.1, overwrite=TRUE)
-  usethis::use_data(between.2, overwrite=TRUE)
-  usethis::use_data(between.3, overwrite=TRUE)
-  within.1=import("data-raw/within.1.sav", haven=F)
-  within.2=import("data-raw/within.2.sav", haven=F)
-  within.3=import("data-raw/within.3.sav", haven=F)
-  usethis::use_data(within.1, overwrite=TRUE)
-  usethis::use_data(within.2, overwrite=TRUE)
-  usethis::use_data(within.3, overwrite=TRUE)
-  mixed.2_1b1w=import("data-raw/mixed.2_1b1w.sav", haven=F)
-  mixed.3_1b2w=import("data-raw/mixed.3_1b2w.sav", haven=F)
-  mixed.3_2b1w=import("data-raw/mixed.3_2b1w.sav", haven=F)
-  usethis::use_data(mixed.2_1b1w, overwrite=TRUE)
-  usethis::use_data(mixed.3_1b2w, overwrite=TRUE)
-  usethis::use_data(mixed.3_2b1w, overwrite=TRUE)
-}
+# library(rio)
+# between.1=import("data-raw/between.1.sav", haven=F); names(between.1)[2]="SCORE"
+# between.2=import("data-raw/between.2.sav", haven=F)
+# between.3=import("data-raw/between.3.sav", haven=F)
+# usethis::use_data(between.1, overwrite=TRUE)
+# usethis::use_data(between.2, overwrite=TRUE)
+# usethis::use_data(between.3, overwrite=TRUE)
+# within.1=import("data-raw/within.1.sav", haven=F)
+# within.2=import("data-raw/within.2.sav", haven=F)
+# within.3=import("data-raw/within.3.sav", haven=F)
+# usethis::use_data(within.1, overwrite=TRUE)
+# usethis::use_data(within.2, overwrite=TRUE)
+# usethis::use_data(within.3, overwrite=TRUE)
+# mixed.2_1b1w=import("data-raw/mixed.2_1b1w.sav", haven=F)
+# mixed.3_1b2w=import("data-raw/mixed.3_1b2w.sav", haven=F)
+# mixed.3_2b1w=import("data-raw/mixed.3_2b1w.sav", haven=F)
+# usethis::use_data(mixed.2_1b1w, overwrite=TRUE)
+# usethis::use_data(mixed.3_1b2w, overwrite=TRUE)
+# usethis::use_data(mixed.3_2b1w, overwrite=TRUE)
 
 
 #' Demo data.
 #'
 #' @description
-#' These demo datasets were obtained from the book
-#' "\href{https://book.douban.com/subject/1195181/}{Factorial Experimental Design in Psychological and Educational Research}".
-#' The book provides these demo datasets to show different experimental designs and how to conduct MANOVA using syntax in SPSS.
-#' Here, I use these demo datasets as examples to show how the functions \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
+#' Demo datasets of multi-factor ANOVA as examples to show how the functions
+#' \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
 #'
 #' @format
 #' \describe{
@@ -56,6 +52,9 @@ if(FALSE) {
 #'     }
 #'   }
 #' }
+#'
+#' @source
+#' \href{https://book.douban.com/subject/1195181/}{Multi-Factor Experimental Design in Psychology and Education}
 #'
 #' @name bruceR-demodata
 #' @aliases
@@ -145,51 +144,49 @@ NULL
 #' @return A result object returned by \code{afex::aov_ez}.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{#### Between-Subjects Design ####
 #'
-#' #### Between-Subjects Design ####
-#'
-#' View(between.1)
+#' between.1
 #' MANOVA(data=between.1, dv="SCORE", between="A")
 #'
-#' View(between.2)
+#' between.2
 #' MANOVA(data=between.2, dv="SCORE", between=c("A", "B"))
 #'
-#' View(between.3)
+#' between.3
 #' MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C"))
 #'
 #'
 #' #### Within-Subjects Design ####
 #'
-#' View(within.1)
+#' within.1
 #' MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
 #'        within="A")
 #' ## the same:
 #' MANOVA(data=within.1, dvs=c("A1", "A2", "A3", "A4"), dvs.pattern="A(.)",
 #'        within="MyFactor")  # renamed the within-subjects factor
 #'
-#' View(within.2)
+#' within.2
 #' MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 #'        within=c("A", "B"))
 #'
-#' View(within.3)
+#' within.3
 #' MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 #'        within=c("A", "B", "C"))
 #'
 #'
 #' #### Mixed Design ####
 #'
-#' View(mixed.2_1b1w)
+#' mixed.2_1b1w
 #' MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B")
 #' MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B", sph.correction="GG")
 #'
-#' View(mixed.3_1b2w)
+#' mixed.3_1b2w
 #' MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 #'        between="A", within=c("B", "C"))
 #'
-#' View(mixed.3_2b1w)
+#' mixed.3_2b1w
 #' MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 #'        between=c("A", "C"), within="B")
 #'
@@ -200,13 +197,11 @@ NULL
 #' MANOVA(data=data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
 #'        between="Group", within="Condition")  # renamed the within-subjects factor
 #'
-#' View(afex::obk.long)
+#' ?afex::obk.long
 #' MANOVA(data=afex::obk.long, subID="id", dv="value",
 #'        between=c("treatment", "gender"), within=c("phase", "hour"), cov="age",
 #'        sph.correction="GG")
-#'
 #' }
-#'
 #' @references
 #' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
 #' \emph{Psychological Methods, 8}(4), 434-447. \doi{10.1037/1082-989X.8.4.434}
@@ -320,29 +315,6 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 
   ## All Other Effect-Size Measures (deprecated; please use `effectsize` package)
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
-  # Replace partial.etasq and cohens.f, due to their wrong results
-  # if(FALSE) {
-  #   Print("\n\n\n<<underline ANOVA Effect Size:>>")
-  #   suppressMessages({
-  #     effsize=sjstats::anova_stats(aov.ez$aov)
-  #   })
-  #   effsize$stratum=NULL
-  #   effsize=effsize[-which(effsize$term=="Residuals"),]
-  #   effsize=dplyr::mutate(effsize,
-  #                         partial.etasq=round(at0$p.eta2, 3),
-  #                         cohens.f=round(sqrt(partial.etasq/(1-partial.etasq)), 3),
-  #                         generalized.etasq=round(at0$g.eta2, 3))
-  #   names(effsize)=c("Term", "df", "Sum Sq", "Mean Sq", "F", "p",
-  #                    "     \u03b7\u00b2",  # eta2
-  #                    "  \u03b7\u00b2[p]",  # eta2_p
-  #                    "     \u03c9\u00b2",  # omega2
-  #                    "  \u03c9\u00b2[p]",  # omega2_p
-  #                    "     \u03b5\u00b2",  # epsilon2
-  #                    "Cohen's f", "Post-Hoc Power",
-  #                    "  \u03b7\u00b2[G]")  # eta2_G
-  #   row.names(effsize)=effsize$Term
-  #   print(effsize[c(9, 7, 14, 8, 12)])  # omega2, eta2, eta2g, eta2p, f
-  # }
   Print("\n\n\n<<magenta
   \u03c9\u00b2 = omega-squared = (SS - df1 * MSE) / (SST + MSE)
   \u03b7\u00b2 = eta-squared = SS / SST
@@ -492,11 +464,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @return A result object returned by \code{afex::aov_ez} (the same as \link{MANOVA} for recursive use).
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{#### Between-Subjects Design ####
 #'
-#' #### Between-Subjects Design ####
-#'
-#' View(between.1)
+#' between.1
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A")
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
@@ -506,14 +476,14 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' MANOVA(data=between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="poly")
 #'
-#' View(between.2)
+#' between.2
 #' MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) %>%
 #'   EMMEANS("A") %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B") %>%
 #'   EMMEANS("B", by="A")
 #'
-#' View(between.3)
+#' between.3
 #' MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
@@ -524,18 +494,18 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' #### Within-Subjects Design ####
 #'
-#' View(within.1)
+#' within.1
 #' MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
 #'        within="A") %>%
 #'   EMMEANS("A")
 #'
-#' View(within.2)
+#' within.2
 #' MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 #'        within=c("A", "B")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")
 #'
-#' View(within.3)
+#' within.3
 #' MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 #'        within=c("A", "B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%
@@ -545,20 +515,20 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' #### Mixed Design ####
 #'
-#' View(mixed.2_1b1w)
+#' mixed.2_1b1w
 #' MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B", sph.correction="GG") %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")
 #'
-#' View(mixed.3_1b2w)
+#' mixed.3_1b2w
 #' MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 #'        between="A", within=c("B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("A", by=c("B", "C"))
 #'
-#' View(mixed.3_2b1w)
+#' mixed.3_2b1w
 #' MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 #'        between=c("A", "C"), within="B") %>%
 #'   EMMEANS("A", by="B") %>%
@@ -575,9 +545,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'        covariate=c("Solar.R", "Wind")) %>%
 #'   EMMEANS("Month", contrast="seq") %>%
 #'   EMMEANS("Month", by="Day.1or2", contrast="poly")
-#'
 #' }
-#'
 #' @seealso \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 #'
 #' @export

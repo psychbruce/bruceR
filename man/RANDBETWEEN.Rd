@@ -20,11 +20,7 @@ Numeric or character vector (the same class as \code{range}).
 Random sampling (like Excel's function \code{RANDBETWEEN}).
 }
 \examples{
-\dontrun{
-
-RANDBETWEEN(1:10, n=1000000) \%>\% Freq()
-RANDBETWEEN(LETTERS, n=1000000) \%>\% Freq()
-
-}
+RANDBETWEEN(1:10, n=1000) \%>\% Freq()
+RANDBETWEEN(LETTERS, n=1000) \%>\% Freq()
 
 }

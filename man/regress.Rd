@@ -13,7 +13,6 @@ regress(
   cluster = NULL,
   level2.predictors = "",
   vartypes = NULL,
-  t2r = FALSE,
   test.rand = FALSE
 )
 }
@@ -49,13 +48,6 @@ and there is no house-level predictor.
 
 \item{vartypes}{\strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
 
-\item{t2r}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
-Add a column of another kind of multilevel effect sizes: standardized partial effect size \emph{r} by \emph{t}-to-\emph{r} transformation.
-
-*** See an example in Wei et al.'s paper (2017, \emph{\doi{10.1038/s41562-017-0240-0}{Nature Human Behaviour}}).
-However, I personally did not recommend reporting this \emph{r}, because it could be misleading and sometimes ridiculous (e.g., an actually small effect may surprisingly have an \emph{r} > 0.6,
-and the interpretation of this \emph{r} is not same as the Pearson's \emph{r} we are familiar with).}
-
 \item{test.rand}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).}
@@ -67,22 +59,23 @@ No return value.
 Regression analysis.
 }
 \examples{
-\dontrun{
-
-## lm
+\donttest{## lm
 regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 
 ## glm
 regress(case ~ age + parity + education + spontaneous + induced,
         data=infert, family=binomial, robust="HC1", cluster="stratum")
 
-## (g)lmer
+## lmer
 library(lmerTest)
 regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 regress(Preference ~ Sweetness + Gender + Age + Frequency +
-          (1 | Consumer), data=carrots,
-        level2.predictors="Consumer: Gender + Age + Frequency")
+          (1 | Consumer), data=carrots)
 
+## glmer
+library(lmerTest)
+data.glmm=MASS::bacteria
+regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 }
-
 }

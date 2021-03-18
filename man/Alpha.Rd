@@ -26,14 +26,10 @@ No return value.
 An extension of \code{jmv::\link[jmv]{reliability}}.
 }
 \examples{
-\dontrun{
-
 ?psych::bfi
 Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
 Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
-
-}
 
 }
 \seealso{

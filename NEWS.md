@@ -4,7 +4,7 @@
 
 ### Breaking News
 
--   Ready for published on CRAN.
+-   Ready for being published on CRAN!
 -   Passed R CMD check and Travis CI test: `0 errors √ | 0 warnings √ | 0 notes √`
 
 ### New Features
@@ -16,7 +16,7 @@
 
 ### Major Changes
 
--   Improved many major functions, especially `Describe()`, `Corr()`, `MANOVA()`, and `EMMEANS()`.
+-   Improved many major functions, especially `set.wd()`, `Describe()`, `Corr()`, `MANOVA()`, and `EMMEANS()`.
 -   Tidy welcome messages when you `library(bruceR)`.
 -   More packages for default loading (see [details](https://github.com/psychbruce/bruceR#package-dependency)).
 -   Less packages for default installation (you can install all suggested packages by using the `pkg_install_suggested()` function).
@@ -29,7 +29,7 @@
 ### Bug Fixes
 
 -   Fixed all bugs (errors, warnings, and notes) when conducting R CMD check.
--   Fixed all problems in the manual inspection by a CRAN team member.
+-   Fixed all problems in the manual inspection by CRAN team members.
 
 ### Notes
 

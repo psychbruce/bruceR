@@ -16,9 +16,7 @@
 #' @return Invisibly return a data frame containing the results.
 #'
 #' @examples
-#' \dontrun{
-#'
-#' library(mediation)
+#' \donttest{library(mediation)
 #' ?mediation::mediate
 #'
 #' ## Example 1: OLS Regression
@@ -48,9 +46,7 @@
 #'                 treat="Crisp", mediator="Sweetness",
 #'                 sims=1000)
 #' med_summary(med.lmm)
-#'
 #' }
-#'
 #' @export
 med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   # for raw function, see:
@@ -108,11 +104,14 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   }
   smat=as.data.frame(smat)
   names(smat)=c("Estimate", "LLCI", "ULCI", "pval")
-  smat$CI=paste0("[",
-                 formatF(smat$LLCI, nsmall), ", ",
-                 formatF(smat$ULCI, nsmall), "]")
-  names(smat)[5]=paste0("[", ifelse(x$boot, "Bootstrap ", ""), clp, "% CI]")
-  print_table(smat[c(1,5,4)], nsmalls=nsmall)
+  smat$Estimate.CI=paste0(
+    formatF(smat$Estimate, nsmall), " [",
+    formatF(smat$LLCI, nsmall), ", ",
+    formatF(smat$ULCI, nsmall), "]")
+  names(smat)[5]=paste0("Estimate [",
+                        ifelse(x$boot, "Bootstrap ", ""),
+                        clp, "% CI]")
+  print_table(smat[c(5,4)], nsmalls=0)
   cat("\n")
 
   Print("Sample Size: {x$nobs}")
@@ -156,24 +155,18 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
 #' @param ylab Y-axis title. Default is \code{"Cross-Correlation"}.
 #'
 #' @return
-#' A \code{ggplot2} object, which you can further modify using
+#' A \code{gg} object, which you can further modify using
 #' \code{ggplot2} syntax and save using \code{ggsave()}.
 #'
 #' @examples
-#' \dontrun{
-#'
+#' # resemble the default plot output by `ccf()`
 #' p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
-#' p1
 #'
+#' # a more colorful plot
 #' p2=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
 #'             pos.color="#CD201F",
 #'             neg.color="#21759B",
 #'             ci.color="black")
-#' p2
-#'
-#' ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
-#'
-#' }
 #'
 #' @seealso \code{\link{granger_test}}
 #'
@@ -240,12 +233,8 @@ ccf_plot=function(formula, data,
 #' @return No return value.
 #'
 #' @examples
-#' \dontrun{
-#'
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
-#'
-#' }
 #'
 #' @seealso \code{\link{ccf_plot}}
 #'

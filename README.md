@@ -1,8 +1,8 @@
 # bruceR
 
-**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses. The package includes easy-to-use functions for (1) basic use and analysis; (2) multivariate computation; (3) reliability and validity analysis; (4) multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; and (5) advanced toolbox and tidy report of statistical models.
 
-[![Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=blue)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![CRAN-Status-Badge](https://www.r-pkg.org/badges/version/bruceR?color=orange)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads-Badge](https://cranlogs.r-pkg.org/badges/grand-total/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+[![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=blue)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=orange)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
 
@@ -37,8 +37,8 @@ devtools::install_github("psychbruce/bruceR", force=TRUE, upgrade=FALSE)
 
 **Tips:**
 
-1.  Please **restart (close and reopen) RStudio** before installation!
-2.  If you see a dialog asking *"Do you want to install from sources the package which needs compilation"*, it would be better to **choose "No"** (to save your time).
+1.  Please **restart (close and reopen) RStudio** before installation.
+2.  If you see a dialog asking *"Do you want to install from sources the package which needs compilation?"*, it would be better to **choose "No"** (to save your time).
 3.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
 4.  It would be better to update R to its [latest version](https://www.r-project.org/) (v4.0+).
 5.  It would be better to download and install [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) on Windows system.

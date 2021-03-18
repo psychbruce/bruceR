@@ -41,10 +41,7 @@ An extension of \code{jmv::\link[jmv]{efa}}.
 It does not have the extraction method "Principal Components". You may still use SPSS.
 }
 \examples{
-if(FALSE) {
-
-EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
-
+\donttest{EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 }
 }
 \seealso{

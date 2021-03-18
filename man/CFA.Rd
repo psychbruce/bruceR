@@ -40,9 +40,7 @@ A list of results returned by \code{jmv::cfa} and \code{lavaan::cfa}.
 An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
 }
 \examples{
-if(FALSE) {
-
-data.cfa=lavaan::HolzingerSwineford1939
+\donttest{data.cfa=lavaan::HolzingerSwineford1939
 CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
 CFA(data.cfa, model="
     Visual =~ x[1:3]
@@ -52,7 +50,6 @@ CFA(data.cfa, model="
 
 data.bfi=na.omit(psych::bfi)
 CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
-
 }
 }
 \seealso{

@@ -56,7 +56,7 @@ Default is \code{"blue"}.}
 \item{ylab}{Y-axis title. Default is \code{"Cross-Correlation"}.}
 }
 \value{
-A \code{ggplot2} object, which you can further modify using
+A \code{gg} object, which you can further modify using
 \code{ggplot2} syntax and save using \code{ggsave()}.
 }
 \description{
@@ -68,20 +68,14 @@ Significant correlations with \emph{negative time lags} suggest
 shifts in a predictor \emph{precede} shifts in an outcome.
 }
 \examples{
-\dontrun{
-
+# resemble the default plot output by `ccf()`
 p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
-p1
 
+# a more colorful plot
 p2=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
             pos.color="#CD201F",
             neg.color="#21759B",
             ci.color="black")
-p2
-
-ggsave(plot=p2, filename="CCF.png", width=8, height=6, dpi=500)
-
-}
 
 }
 \seealso{

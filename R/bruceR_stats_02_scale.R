@@ -273,14 +273,10 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' @return No return value.
 #'
 #' @examples
-#' \dontrun{
-#'
 #' ?psych::bfi
 #' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
 #' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 #' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
-#'
-#' }
 #'
 #' @seealso
 #' \code{jmv::\link[jmv]{reliability}}
@@ -318,10 +314,7 @@ Alpha=function(data, var, items, vars=NULL, rev=NULL) {
 #' \code{jmv::\link[jmv]{efa}}
 #'
 #' @examples
-#' if(FALSE) {
-#'
-#' EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
-#'
+#' \donttest{EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 #' }
 #' @export
 EFA=function(data, vartext,
@@ -415,9 +408,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' \code{lavaan::\link[lavaan]{cfa}}
 #'
 #' @examples
-#' if(FALSE) {
-#'
-#' data.cfa=lavaan::HolzingerSwineford1939
+#' \donttest{data.cfa=lavaan::HolzingerSwineford1939
 #' CFA(data.cfa, "Visual =~ x[1:3]; Textual =~ x[c(4,5,6)]; Speed =~ x7 + x8 + x9")
 #' CFA(data.cfa, model="
 #'     Visual =~ x[1:3]
@@ -427,7 +418,6 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #'
 #' data.bfi=na.omit(psych::bfi)
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
-#'
 #' }
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",

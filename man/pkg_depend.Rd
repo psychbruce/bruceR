@@ -18,17 +18,6 @@ A character vector of package names.
 \description{
 Check dependencies of R packages.
 }
-\examples{
-\dontrun{
-
-pkg_depend("jmv")
-pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
-
-pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
-
-}
-
-}
 \seealso{
 \link{pkg_install_suggested}
 }

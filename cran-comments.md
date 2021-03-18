@@ -1,37 +1,21 @@
-## Resubmission (New)
+## Resubmission
 
-In this resubmission, I have addressed the two points mentioned by Uwe Ligges. (All the 7 problems pointed out by Julia Haider have been fixed in the last resubmission.)
+In this resubmission, I have fixed the 3 problems pointed out by Gregor Seyer.
 
-1. The 404 URL in README.md has been removed.
+1. Used `\donttest{}` to deal with all lengthy examples. In the example of `set.wd()`, I used `\dontrun{}` because RStudio is required for running this function.
 
-2. "Is there some reference about the method you can add in the Description field in the form Authors (year) <doi:.....>?"
+2. Ensured that now none of the examples are wrapped in `if(FALSE){}`.
 
-Reply: No, but thanks for reminding me. The current version of this package does not use any novel method that was published in journals. For those useful references that some users may be interested in but were not critical to this package, I have provided references and their DOIs in the documentation of relevant functions.
+3. Checked all scripts and fixed two places to ensure that the functions do not change the user's options, par, or working directory.
 
-Thank you for inspecting the package and hope this version of resubmission can work.
+  * `bruceR_stats_01_basic.R`: in lines 405-406, I used `on.exit()`.
+    ```
+    oldpar <- graphics::par(no.readonly = TRUE)
+    on.exit(graphics::par(oldpar))
+    ```
+  * `bruceR_basic.R`: in lines 127-139, for the function `set.wd()` (which is designed for setting working directory to where the currently opened file is), I modified the function so that it no longer executes `setwd()` directly within the function, but instead will send code containing `setwd("...")` to the R console via `rstudioapi::sendToConsole()`. Users can set whether to execute the code using the `execute` parameter. Hence, now this function does not change the user's working directory within itself, but it explicitly casts a line of code containing `setwd("...")` to the R console to let users be aware of that.
 
-
-## Resubmission (Old)
-
-This is a resubmission. I have fixed all problems pointed out by Julia Haider:
-
-1. Removed "| file LICENSE" in DESCRIPTION file and added "^LICENSE$" in .Rbuildignore (otherwise, a NOTE would appear when conducting R CMD check).
-
-2. Added more details about the package functionality in the Description text.
-
-3. Added all "\value" descriptions in the documentation.
-
-4. Used `\dontrun{}` to deal with lengthy examples.
-
-5. Ensured that code lines in examples are not commented out.
-
-6. Ensured that the functions do not change users' options. One function `set.wd()` was designed to help users set their working directory to where their current R script is. So the working directory will be set to where the users want when this function is exited. To remind users of this change, a message will be printed in the console if they use the `set.wd()` function.
-
-7. Prof. Hua Shu is not an author, contributor, or copyright holder. To describe the demo datasets more clearly, I rewrote the description of `bruceR-demodata` as follows:
-
-> These demo datasets were obtained from the book "\href{https://book.douban.com/subject/1195181/}{Factorial Experimental Design in Psychological and Educational Research}". The book provides these demo datasets to show different experimental designs and how to conduct MANOVA using syntax in SPSS. Here, I use these demo datasets as examples to show how the functions \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
-
-Thank you for inspecting the package and hope this version of resubmission can work.
+Thank you very much for inspecting the package and hope this version of resubmission can work.
 
 
 ## Test environments

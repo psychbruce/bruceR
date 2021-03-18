@@ -145,15 +145,11 @@ sig.trans=function(p) {
 #' (2) a \code{ggplot2} object if users set \code{plot=TRUE}.
 #'
 #' @examples
-#' \dontrun{
-#'
-#' set.seed(1)
+#' \donttest{set.seed(1)
 #' Describe(rnorm(1000000), plot=TRUE)
 #'
-#' Describe(airquality, plot=TRUE)
-#' Describe(airquality, plot=TRUE, smooth="lm",
-#'          save.file="Descriptive Statistics.png",
-#'          width=10, height=8, dpi=500)
+#' Describe(airquality)
+#' Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
 #'
 #' ?psych::bfi
 #' Describe(bfi[c("age", "gender", "education")])
@@ -170,9 +166,7 @@ sig.trans=function(p) {
 #' )]
 #' Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 #' Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
-#'
 #' }
-#'
 #' @seealso \link{Corr}
 #'
 #' @import ggplot2
@@ -307,11 +301,8 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' @return Invisibly return the correlation results obtained from \code{psych::corr.test}.
 #'
 #' @examples
-#' \dontrun{
-#'
 #' Corr(airquality)
 #' Corr(airquality, p.adjust="bonferroni")
-#' Corr(airquality, save.file="Air-Corr.png")
 #'
 #' d=as.data.table(psych::bfi)
 #' d[,`:=`(
@@ -324,8 +315,6 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
 #' Corr(d[,.(age, gender, education, E, A, C, N, O)])
-#'
-#' }
 #'
 #' @seealso \link{Describe}
 #'
@@ -406,17 +395,18 @@ Corr=function(data, method="pearson", nsmall=2,
 ## see comment lines
 cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
   zlim = c(-1, 1), show.legend = TRUE, labels = NULL, n.legend = 10,
-  keep.par = TRUE, select = NULL, pval = NULL, cuts = c(0.001,
-    0.01), scale = TRUE, cex, MAR, upper = TRUE, diag = TRUE,
+  select = NULL, pval = NULL, cuts = c(0.001, 0.01), scale = TRUE,
+  cex, MAR, upper = TRUE, diag = TRUE,
   symmetric = TRUE, stars = FALSE, adjust = "holm", xaxis = 1,
   xlas = 0, ylas = 2, gr = NULL, alpha = 0.75, min.length = NULL,
   nsmall=2,  # added in bruceR
   ...)
 {
-  if (keep.par)
-    op <- graphics::par(no.readonly = TRUE)
+  oldpar <- graphics::par(no.readonly = TRUE)
+  on.exit(graphics::par(oldpar))
   if (missing(MAR))
-    MAR <- 5
+    # MAR <- 5
+    MAR <- 3.5
   if (!is.matrix(r) & (!is.data.frame(r))) {
     if ((length(class(r)) > 1) & (inherits(r, "psych"))) {
       switch(class(r)[2], omega = {
@@ -541,7 +531,8 @@ cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
     r <- r[, ord1]
     pval <- t(pval[ord1, ])
   }
-  graphics::par(mar = c(MAR + max.len, MAR + max.len, 4, 0.5))
+  # graphics::par(mar = c(MAR + max.len, MAR + max.len, 4, 0.5))
+  graphics::par(mar = c(MAR + max.len, MAR + max.len, 2.5, 0.5))
   if (show.legend) {
     graphics::layout(matrix(c(1, 2), nrow = 1), widths = c(0.9, 0.1),
       heights = c(1, 1))
@@ -599,15 +590,14 @@ cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
   if (show.legend) {
     leg <- matrix(seq(from = zlim[1], to = zlim[2], by = (zlim[2] -
       zlim[1])/n), nrow = 1)
-    graphics::par(mar = c(MAR, 0, 4, 3))
+    # graphics::par(mar = c(MAR, 0, 4, 3))
+    graphics::par(mar = c(MAR, 0, 2.5, 3))
     graphics::image(leg, col = colramp, axes = FALSE, zlim = zlim)
     at2 <- seq(0, 1, 1/n.legend)
     labels = seq(zlim[1], zlim[2], (zlim[2] - zlim[1])/(length(at2) -
       1))
     graphics::axis(4, at = at2, labels = labels, las = 2, ...)
   }
-  if (keep.par)
-    graphics::par(op)
   invisible(R)
 }
 

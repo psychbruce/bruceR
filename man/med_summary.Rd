@@ -24,9 +24,7 @@ Tidy report of mediation analysis,
 which is performed using the \code{\link[mediation]{mediation}} package.
 }
 \examples{
-\dontrun{
-
-library(mediation)
+\donttest{library(mediation)
 ?mediation::mediate
 
 ## Example 1: OLS Regression
@@ -56,7 +54,5 @@ med.lmm=mediate(lmm.m, lmm.y,
                 treat="Crisp", mediator="Sweetness",
                 sims=1000)
 med_summary(med.lmm)
-
 }
-
 }

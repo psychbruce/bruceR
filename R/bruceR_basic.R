@@ -95,38 +95,47 @@
 }
 
 
-#' Set working directory to where the current R script is.
+#' Set working directory to where the current file is.
 #'
-#' @param dir \code{NULL} (default) or a character string specifying the working directory.
-#' If \code{NULL}, set working directory to the path of \strong{the current R script}.
+#' Set working directory to the path of the currently opened file.
+#' You can use this function in both \strong{.R/.Rmd files and the R console}.
+#' \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' is required for running this function.
 #'
-#' @return No return value.
+#' @param path \code{NULL} (default) or a specific path.
+#' Default is to extract the path of the currently opened file
+#' (can be any type, usually an R or Rmd file).
+#' @param execute \code{TRUE} (default) or \code{FALSE}.
+#' Default is to send code \code{setwd("...")} to the R console AND execute it.
+#' @param ask \code{TRUE} or \code{FALSE} (default).
+#' If \code{TRUE}, then you can select a folder with the prompt of a dialog.
+#'
+#' @return Invisibly return the path of the currently opened file.
 #'
 #' @examples
 #' \dontrun{
-#'
-#' set.wd()  # set working directory to the path of the current R script
+#' # RStudio is required for running this function.
+#' set.wd()  # set working directory to the path of the currently opened file
 #' set.wd("D:/")  # or any other path (use "/" rather than "\")
 #' set.wd("../")  # set working directory to the parent directory
-#'
+#' set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
 #' }
 #'
 #' @seealso \code{\link{setwd}}
 #'
 #' @export
-set.wd=function(dir=NULL) {
-  tryCatch({
-    if(is.null(dir))
-      path=dirname(rstudioapi::getActiveDocumentContext()$path)
-    setwd(path)
-    path=getwd()
-    Print("<<green \u2714>> Set working directory to <<blue '{path}'>>")
-  }, error=function(e) {
-    if(is.null(dir))
-      Print("<<red Error: Please use `set.wd()` in an R script rather than in the console.>>")
-    else
-      Print("<<red Error: Please check if '{dir}' is a valid path.>>")
-  }, silent=TRUE)
+set.wd=function(path=NULL, execute=TRUE, ask=FALSE) {
+  if(is.null(path)) {
+    if(ask) {
+      path=rstudioapi::selectDirectory(caption="Select Working Directory")
+    } else {
+      # path=dirname(rstudioapi::getActiveDocumentContext()$path)  # cannot work in console
+      path.parts=stringr::str_split(rstudioapi::documentPath(), "/", simplify=TRUE)
+      path=paste(path.parts[1:(length(path.parts)-1)], collapse="/")
+    }
+  }
+  rstudioapi::sendToConsole(Glue("setwd(\"{path}\")"), execute=execute)
+  invisible(path)
 }
 
 
@@ -138,16 +147,11 @@ set.wd=function(dir=NULL) {
 #'
 #' @return A character vector of package names.
 #'
-#' @examples
-#' \dontrun{
-#'
-#' pkg_depend("jmv")
-#' pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
-#'
-#' pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
-#'
-#' }
-#'
+## @examples
+## pkg_depend("jmv")
+## pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
+## pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
+##
 #' @seealso \link{pkg_install_suggested}
 #'
 #' @export
@@ -180,13 +184,9 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #'
 #' @return No return value.
 #'
-#' @examples
-#' \dontrun{
-#'
-#' pkg_install_suggested()
-#'
-#' }
-#'
+## @examples
+## pkg_install_suggested()
+##
 #' @seealso \link{pkg_depend}
 #'
 #' @export
@@ -492,12 +492,8 @@ dtime=function(t0, unit="secs", nsmall=0) {
 #' @return Numeric or character vector (the same class as \code{range}).
 #'
 #' @examples
-#' \dontrun{
-#'
-#' RANDBETWEEN(1:10, n=1000000) %>% Freq()
-#' RANDBETWEEN(LETTERS, n=1000000) %>% Freq()
-#'
-#' }
+#' RANDBETWEEN(1:10, n=1000) %>% Freq()
+#' RANDBETWEEN(LETTERS, n=1000) %>% Freq()
 #'
 #' @export
 RANDBETWEEN=function(range, n=1, seed=NULL) {

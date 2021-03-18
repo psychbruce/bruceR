@@ -37,9 +37,10 @@
   }
 }
 }
+\source{
+\href{https://book.douban.com/subject/1195181/}{Multi-Factor Experimental Design in Psychology and Education}
+}
 \description{
-These demo datasets were obtained from the book
-"\href{https://book.douban.com/subject/1195181/}{Factorial Experimental Design in Psychological and Educational Research}".
-The book provides these demo datasets to show different experimental designs and how to conduct MANOVA using syntax in SPSS.
-Here, I use these demo datasets as examples to show how the functions \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
+Demo datasets of multi-factor ANOVA as examples to show how the functions
+\code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
 }
