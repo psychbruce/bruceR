@@ -16,8 +16,8 @@ Alpha(data, var, items, vars = NULL, rev = NULL)
 \item{vars}{\strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
 
 \item{rev}{[optional] Reverse-scoring variables. It can be
-1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
-2) a character vector directly specifying the variable list (recommended).}
+(1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
+(2) a character vector directly specifying the variable list (recommended).}
 }
 \value{
 No return value.

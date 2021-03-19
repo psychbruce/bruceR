@@ -87,9 +87,9 @@ scaler=function(v, min=0, max=1) {
 #' @param varrange \strong{[option 3]} Character with \code{":"} specifying the start and stop positions of variables (e.g., \code{"A1:E5"}).
 #' @param value [only for \code{COUNT}] The value to be counted.
 #' @param rev [optional] Reverse-scoring variables. It can be
-#' 1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
-#' 2) a character vector directly specifying the variable list (recommended).
-#' @param likert [optional] Range of likert scale (e.g., \code{1:5}, \code{c(1,5)}).
+#' (1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
+#' (2) a character vector directly specifying the variable list (recommended).
+#' @param likert [optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 #' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
 #' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).

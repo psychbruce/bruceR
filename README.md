@@ -1,8 +1,10 @@
 # bruceR
 
-**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses. The package includes easy-to-use functions for (1) basic use and analysis; (2) multivariate computation; (3) reliability and validity analysis; (4) multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; and (5) advanced toolbox and tidy report of statistical models.
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-[![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=blue)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=orange)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+The package includes easy-to-use functions for (1) basic use and analysis; (2) multivariate computation; (3) reliability and validity analysis; (4) multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; and (5) advanced toolbox and tidy report of statistical models.
+
+[![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=blue)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=orange)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR?color=red)](https://www.rdocumentation.org/packages/bruceR) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
 
@@ -18,7 +20,7 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
--   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package. <https://CRAN.R-project.org/package=bruceR> or <https://github.com/psychbruce/bruceR>
+-   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package version 0.x.x. <https://CRAN.R-project.org/package=bruceR> or <https://github.com/psychbruce/bruceR>
 
 ## User Guide
 

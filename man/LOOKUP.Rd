@@ -16,16 +16,16 @@ LOOKUP(
 \arguments{
 \item{data}{Main data.}
 
-\item{vars}{Character or character vector, specifying the variable(s) to be searched in \code{data}.}
+\item{vars}{Character (vector), specifying the variable(s) to be searched in \code{data}.}
 
 \item{data.ref}{Reference data containing both the reference variable(s) and the lookup variable(s).}
 
-\item{vars.ref}{Character or character vector (with the \strong{same length and order} as \code{vars}),
+\item{vars.ref}{Character (vector), with the \strong{same length and order} as \code{vars},
 specifying the reference variable(s) to be matched in \code{data.ref}.}
 
-\item{vars.lookup}{Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.}
+\item{vars.lookup}{Character (vector), specifying the variable(s) to be looked up and returned from \code{data.ref}.}
 
-\item{return}{What to return. Default (\code{"new.data"}) is to return a \code{data.frame} or \code{data.table} with the lookup values added.
+\item{return}{What to return. Default (\code{"new.data"}) is to return a data frame with the lookup values added.
 You may also set it to \code{"new.var"} or \code{"new.value"}.}
 }
 \value{
