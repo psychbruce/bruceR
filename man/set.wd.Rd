@@ -15,22 +15,22 @@ Default is to extract the path of the currently opened file
 Default is to send code \code{setwd("...")} to the R console AND execute it.}
 
 \item{ask}{\code{TRUE} or \code{FALSE} (default).
-If \code{TRUE}, then you can select a folder with the prompt of a dialog.}
+If \code{TRUE}, you can select a folder with the prompt of a dialog.}
 }
 \value{
-Invisibly return the path of the currently opened file.
+Invisibly return the path.
 }
 \description{
 Set working directory to the path of the currently opened file.
 You can use this function in both \strong{.R/.Rmd files and the R console}.
 \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
-is required for running this function.
+(version >= 1.4.843) is required for running this function.
 }
 \examples{
 \dontrun{
-# RStudio is required for running this function.
+# RStudio (version >= 1.4.843) is required for running this function.
 set.wd()  # set working directory to the path of the currently opened file
-set.wd("D:/")  # or any other path (use "/" rather than "\")
+set.wd("~/")  # set working directory to the home directory
 set.wd("../")  # set working directory to the parent directory
 set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
 }

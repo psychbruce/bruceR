@@ -1,10 +1,14 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.6.1 (in development)
+
+-   Improved `set.wd()`: Now it converts the extracted path string from "UTF-8" to "GBK" on Windows system to support paths including Chinese characters (otherwise, the path would become messy code and cause an error). Note that this problem does not exist on Mac OS. In addition, warning messages will be printed into the console if the user's RStudio version is lower than required (RStudio version \>= 1.4.843 is required for a complete implementation of this function).
+
 # bruceR 0.6.0 (Mar 2021)
 
 ### Breaking News
 
--   Ready for being published on CRAN!
+-   Formally published on [CRAN](https://CRAN.R-project.org/package=bruceR)!!!
 -   Passed R CMD check and Travis CI test: `0 errors √ | 0 warnings √ | 0 notes √`
 
 ### New Features

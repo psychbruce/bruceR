@@ -100,7 +100,7 @@
 #' Set working directory to the path of the currently opened file.
 #' You can use this function in both \strong{.R/.Rmd files and the R console}.
 #' \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
-#' is required for running this function.
+#' (version >= 1.4.843) is required for running this function.
 #'
 #' @param path \code{NULL} (default) or a specific path.
 #' Default is to extract the path of the currently opened file
@@ -108,15 +108,15 @@
 #' @param execute \code{TRUE} (default) or \code{FALSE}.
 #' Default is to send code \code{setwd("...")} to the R console AND execute it.
 #' @param ask \code{TRUE} or \code{FALSE} (default).
-#' If \code{TRUE}, then you can select a folder with the prompt of a dialog.
+#' If \code{TRUE}, you can select a folder with the prompt of a dialog.
 #'
-#' @return Invisibly return the path of the currently opened file.
+#' @return Invisibly return the path.
 #'
 #' @examples
 #' \dontrun{
-#' # RStudio is required for running this function.
+#' # RStudio (version >= 1.4.843) is required for running this function.
 #' set.wd()  # set working directory to the path of the currently opened file
-#' set.wd("D:/")  # or any other path (use "/" rather than "\")
+#' set.wd("~/")  # set working directory to the home directory
 #' set.wd("../")  # set working directory to the parent directory
 #' set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
 #' }
@@ -125,16 +125,51 @@
 #'
 #' @export
 set.wd=function(path=NULL, execute=TRUE, ask=FALSE) {
+  if(rstudioapi::isAvailable()==FALSE)
+    stop("RStudio is required for running this function!\n\n",
+         "Please download and install the latest version of RStudio:\n",
+         "https://rstudio.com/products/rstudio/download/preview/")
+  is.windows=ifelse(Sys.info()[["sysname"]]=="Windows", TRUE, FALSE)
   if(is.null(path)) {
-    if(ask) {
-      path=rstudioapi::selectDirectory(caption="Select Working Directory")
-    } else {
-      # path=dirname(rstudioapi::getActiveDocumentContext()$path)  # cannot work in console
-      path.parts=stringr::str_split(rstudioapi::documentPath(), "/", simplify=TRUE)
-      path=paste(path.parts[1:(length(path.parts)-1)], collapse="/")
+    tryCatch({
+      if(ask) {
+        # RStudio version >= 1.1.287
+        if(is.windows)
+          path=iconv(rstudioapi::selectDirectory(), from="UTF-8", to="GBK")
+        else
+          path=rstudioapi::selectDirectory()
+      } else {
+        # RStudio version >= 1.4.843
+        if(is.windows)
+          file.path=iconv(rstudioapi::documentPath(), from="UTF-8", to="GBK")
+        else
+          file.path=rstudioapi::documentPath()
+        # path.parts=stringr::str_split(file.path, "/", simplify=TRUE)
+        # path=paste(path.parts[1:(length(path.parts)-1)], collapse="/")
+        path=dirname(file.path)
+      }
+    }, error=function(e) {
+      # Error: Function documentPath not found in RStudio
+      message("Your RStudio version is: ", rstudioapi::getVersion(), "\n")
+      message("Please update RStudio to the latest version:\n",
+              "https://rstudio.com/products/rstudio/download/preview/\n")
+    })
+  }
+  if(is.null(path)) {
+    # RStudio version >= 0.99.796
+    path=dirname(rstudioapi::getActiveDocumentContext()$path)
+    # this method cannot work in R console
+    if(path=="") {
+      if(ask==FALSE)
+        stop("If the version of RStudio is not >= 1.4.843, ",
+             "you can only use `set.wd()` in .R/.Rmd files but not in the R console.")
+      else
+        stop("If the version of RStudio is not >= 1.1.287, ",
+             "you can only use `set.wd()` in .R/.Rmd files with `ask=FALSE`.")
     }
   }
-  rstudioapi::sendToConsole(Glue("setwd(\"{path}\")"), execute=execute)
+  if(length(path)>0)
+    rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=execute)
   invisible(path)
 }
 
@@ -512,12 +547,12 @@ RANDBETWEEN=function(range, n=1, seed=NULL) {
 #' If multiple values were simultaneously matched, a warning message would be printed.
 #'
 #' @param data Main data.
-#' @param vars Character or character vector, specifying the variable(s) to be searched in \code{data}.
+#' @param vars Character (vector), specifying the variable(s) to be searched in \code{data}.
 #' @param data.ref Reference data containing both the reference variable(s) and the lookup variable(s).
-#' @param vars.ref Character or character vector (with the \strong{same length and order} as \code{vars}),
+#' @param vars.ref Character (vector), with the \strong{same length and order} as \code{vars},
 #' specifying the reference variable(s) to be matched in \code{data.ref}.
-#' @param vars.lookup Character or character vector, specifying the variable(s) to be looked up and returned from \code{data.ref}.
-#' @param return What to return. Default (\code{"new.data"}) is to return a \code{data.frame} or \code{data.table} with the lookup values added.
+#' @param vars.lookup Character (vector), specifying the variable(s) to be looked up and returned from \code{data.ref}.
+#' @param return What to return. Default (\code{"new.data"}) is to return a data frame with the lookup values added.
 #' You may also set it to \code{"new.var"} or \code{"new.value"}.
 #'
 #' @return New data object, new variable, or new value (see the parameter \code{return}).
