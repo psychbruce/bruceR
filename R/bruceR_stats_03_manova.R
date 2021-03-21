@@ -243,11 +243,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       else
         dv.vars=dvs
       dv="bruceY"  # "Y" will generate an error when dvs are like "X1Y1"
-      eval(parse(
-        text="data=tidyr::pivot_longer(data, cols=dv.vars,
-                                       names_to=within,
-                                       names_pattern=dvs.pattern,
-                                       values_to=dv)"))
+      data=tidyr::pivot_longer(data, cols=dv.vars,
+                               names_to=within,
+                               names_pattern=dvs.pattern,
+                               values_to=dv)
       data=as.data.frame(data)
     }
   } else {

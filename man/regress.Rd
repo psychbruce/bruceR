@@ -25,15 +25,17 @@ regress(
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
 
-\item{robust}{\strong{[only for \code{lm} and \code{glm}]} \code{FALSE} (default), \code{TRUE}, or an option from \code{"HC0", "HC1", "HC2", "HC3", "HC4", "HC4m", "HC5"}.
+\item{robust}{\strong{[only for \code{lm} and \code{glm}]}
+\code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
+\code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
 It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
-For details, see \code{\link[sandwich]{vcovHC}} and \code{\link[jtools]{summ.lm}}.
+For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 
-*** \strong{\code{"HC1"}} is the default of Stata, whereas \strong{\code{"HC3"}} is the default suggested by the \code{sandwich} package.
-Here we use \strong{\code{"HC1"}} as the default option.}
+*** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.}
 
-\item{cluster}{\strong{[only for \code{lm} and \code{glm}]} Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
-If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \strong{\code{"HC1"}} will be set as the default option.}
+\item{cluster}{\strong{[only for \code{lm} and \code{glm}]}
+Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
+If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.}
 
 \item{level2.predictors}{\strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
 If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,

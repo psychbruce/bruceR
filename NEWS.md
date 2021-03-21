@@ -2,7 +2,23 @@
 
 # bruceR 0.6.1 (in development)
 
+### New Features
+
+-   New function `HLM_ICC_rWG()`: Tidy report of HLM indices "ICC(1)" (non-independence of data), "ICC(2)" (reliability of group means), and "rWG"/"rWG(J)" (within-group agreement for single-item/multi-item measures).
+-   New function `show_colors`: Show multiple colors (or a palette) in a plot.
+
+### Major Changes
+
 -   Improved `set.wd()`: Now it converts the extracted path string from "UTF-8" to "GBK" on Windows system to support paths including Chinese characters (otherwise, the path would become messy code and cause an error). Note that this problem does not exist on Mac OS. In addition, warning messages will be printed into the console if the user's RStudio version is lower than required (RStudio version \>= 1.4.843 is required for a complete implementation of this function).
+-   Improved `Alpha()`: Now it adds a parameter `varrange` (to keep the same as `SUM()`, `MEAN()`, ...) and reports both Cronbach's α and McDonald's ω, with more detailed documentation.
+
+> Three ways to specify the variable list (implemented in the functions such as `SUM()`, `MEAN()`, `Alpha()`):
+>
+> 1\. **`var + items`**: use the common and unique parts of variable names. (e.g., `var="RSES", items=1:10, rev=c(3, 5, 8, 9, 10)`)
+>
+> 2\. **`vars`**: directly define the variable list. (e.g., `vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2")`)
+>
+> 3\. **`varrange`**: use the start and end positions of the variable list. (e.g., `varrange="E1:E5", rev=c("E1", "E2")`)
 
 # bruceR 0.6.0 (Mar 2021)
 

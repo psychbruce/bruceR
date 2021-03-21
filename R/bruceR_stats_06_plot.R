@@ -1,4 +1,4 @@
-#### Themes for ggplot2 ####
+#### Plot Toolbox ####
 
 
 #' A nice \code{ggplot2} theme for scientific publication.
@@ -124,3 +124,48 @@ theme_bruce=function(base.size=12, line.size=0.5,
 
 # theme_stata=ggthemes::theme_stata(scheme="sj")
 # theme_stata=ggthemes::theme_stata(scheme="s1color")
+
+
+#' Show colors.
+#'
+#' @param colors Color names.
+#'
+#' e.g.,
+#' \itemize{
+#'   \item \code{"red"} (R base color names)
+#'   \item \code{"#FF0000"} (hex color names)
+#'   \item \code{see::social_colors()}
+#'   \item \code{viridis::viridis_pal()(10)}
+#'   \item \code{RColorBrewer::brewer.pal(name="Set1", n=9)}
+#'   \item \code{RColorBrewer::brewer.pal(name="Set2", n=8)}
+#'   \item \code{RColorBrewer::brewer.pal(name="Spectral", n=11)}
+#' }
+#'
+#' @return A \code{gg} object.
+#'
+#' @examples
+#' show_colors()  # default is to show see::social_colors()
+#' show_colors("blue")  # blue
+#' show_colors("#0000FF")  # blue (hex name)
+#' show_colors(RGB(0, 0, 255))  # blue (RGB)
+#' show_colors(see::pizza_colors())  # a specific palette
+#'
+#' @export
+show_colors=function(colors=see::social_colors()) {
+  colors.names=names(colors)
+  if(is.null(colors.names)) colors.names=colors
+  dc=data.frame(names=forcats::as_factor(colors.names),
+                colors=forcats::as_factor(colors))
+  ggplot(dc, aes(x=forcats::fct_rev(names), y=1,
+                 fill=forcats::fct_rev(colors))) +
+    geom_bar(stat="identity", width=1, show.legend=FALSE) +
+    scale_fill_manual(values=rev(as.character(dc$colors))) +
+    scale_x_discrete(position="top") +  # flipped y position = "right"
+    coord_flip(expand=FALSE) +
+    labs(x=NULL, y=NULL) +
+    theme_void() +
+    theme(axis.text.y=element_text(size=12, hjust=0,
+                                   margin=margin(0, 0, 0, 1, "lines")),
+          plot.margin=margin(0.05, 0.05, 0.05, 0.05, "npc"))
+}
+

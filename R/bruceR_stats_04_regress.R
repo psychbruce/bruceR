@@ -450,17 +450,19 @@ model_summary=function(model_list,
 #### GLM Functions ####
 
 
-#' Advanced report of GLM (\code{lm} and \code{glm} models).
+#' Tidy report of GLM (\code{lm} and \code{glm} models).
 #'
 #' @param model A model fitted by \code{lm} or \code{glm} function.
-#' @param robust \strong{[only for \code{lm} and \code{glm}]} \code{FALSE} (default), \code{TRUE}, or an option from \code{"HC0", "HC1", "HC2", "HC3", "HC4", "HC4m", "HC5"}.
+#' @param robust \strong{[only for \code{lm} and \code{glm}]}
+#' \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
+#' \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
-#' For details, see \code{\link[sandwich]{vcovHC}} and \code{\link[jtools]{summ.lm}}.
+#' For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 #'
-#' *** \strong{\code{"HC1"}} is the default of Stata, whereas \strong{\code{"HC3"}} is the default suggested by the \code{sandwich} package.
-#' Here we use \strong{\code{"HC1"}} as the default option.
-#' @param cluster \strong{[only for \code{lm} and \code{glm}]} Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
-#' If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \strong{\code{"HC1"}} will be set as the default option.
+#' *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.
+#' @param cluster \strong{[only for \code{lm} and \code{glm}]}
+#' Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
+#' If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' @param ... Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
@@ -854,7 +856,7 @@ HLM_ICC=function(model, nsmall=3) {
 }
 
 
-#' Advanced report of HLM (\code{lmer} and \code{glmer} models).
+#' Tidy report of HLM (\code{lmer} and \code{glmer} models).
 #'
 #' @description
 #' Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
@@ -1182,4 +1184,185 @@ HLM_summary=function(model=NULL,
     print(RE.test)
   }
 }
+
+
+#' Tidy report of HLM indices: ICC(1), ICC(2), and rWG/rWG(J).
+#'
+#' @description
+#' Compute ICC(1) (non-independence of data),
+#' ICC(2) (reliability of group means),
+#' and rWG/rWG(J) (within-group agreement for single-item/multi-item measures)
+#' in multilevel analysis (HLM).
+#'
+#' @details
+#' \describe{
+#'   \item{* Note for the following formulas}{
+#'   \itemize{
+#'     \item \eqn{\sigma_u0^2}: between-group variance (i.e., tau00)
+#'     \item \eqn{\sigma_e^2}: within-group variance (i.e., residual variance)
+#'     \item \eqn{n_k}: group size of the k-th group
+#'     \item \eqn{K}: number of groups
+#'     \item \eqn{\sigma^2}: actual group variance of the k-th group
+#'     \item \eqn{\sigma_MJ^2}: mean value of actual group variance of the k-th group across all J items
+#'     \item \eqn{\sigma_EU^2}: expected random variance (i.e., the variance of uniform distribution)
+#'     \item \eqn{J}: number of items
+#'   }
+#'   }
+#'   \item{\strong{ICC(1) (intra-class correlation, or non-independence of data)}}{
+#'     ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_u0^2 / (\sigma_u0^2 + \sigma_e^2)})
+#'
+#'     ICC(1) is the ICC we often compute and report in multilevel analysis
+#'     (usually in the Null Model, where only the random intercept of group is included).
+#'     It can be interpreted as either \strong{"the proportion of variance explained by groups"} (i.e., \emph{heterogeneity} between groups)
+#'     or \strong{"the expectation of correlation coefficient between any two observations within any group"} (i.e., \emph{homogeneity} within groups).
+#'   }
+#'   \item{\strong{ICC(2) (reliability of group means)}}{
+#'     ICC(2) = mean(var.u0 / (var.u0 + var.e / n.k)) = \eqn{\Sigma[\sigma_u0^2 / (\sigma_u0^2 + \sigma_e^2 / n_k)] / K}
+#'
+#'     ICC(2) is a measure of \strong{"the representativeness of group-level aggregated means for within-group individual values"}.
+#'   }
+#'   \item{\strong{rWG/rWG(J) (within-group agreement for single-item/multi-item measures)}}{
+#'     rWG = \eqn{1 - \sigma^2 / \sigma_EU^2}
+#'
+#'     rWG(J) = \eqn{1 - (\sigma_MJ^2 / \sigma_EU^2) / [J * (1 - \sigma_MJ^2 / \sigma_EU^2) + \sigma_MJ^2 / \sigma_EU^2]}
+#'
+#'     rWG/rWG(J) is a measure of within-group agreement.
+#'   }
+#' }
+#'
+#' @param data Data frame.
+#' @param group Grouping variable.
+#' @param icc.var Key variable for analysis (usually the dependent variable).
+#' @param rwg.vars Default is \code{icc.var}. It can be:
+#' \itemize{
+#'   \item A single variable (\emph{single-item} measure), then computing rWG.
+#'   \item Multiple variables (\emph{multi-item} measure), then computing rWG(J), where J = the number of items.
+#' }
+#' @param rwg.levels As rWG/rWG(J) compares the actual group variance to the expected random variance (i.e., the variance of uniform distribution, \eqn{\sigma_EU^2}),
+#' it is required to specify which type of uniform distribution is.
+#' \itemize{
+#'   \item For \emph{continuous} uniform distribution, \eqn{\sigma_EU^2 = (max - min)^2 / 12}.
+#'   Then \code{rwg.levels} is not useful and will be set to \code{0} (the default).
+#'   \item For \emph{discrete} uniform distribution, \eqn{\sigma_EU^2 = (A^2 - 1) / 12},
+#'   where A is the number of response options (levels).
+#'   Then \code{rwg.levels} should be provided (= A in the above formula).
+#'   For example, if the measure is a 5-point Likert scale, you should set \code{rwg.levels=5}.
+#' }
+#' @param nsmall Number of decimal places of output. Default is 3.
+#'
+#' @return Invisibly return a list of results.
+#'
+#' @references
+#' Bliese, P. D. (2000). Within-group agreement, non-independence, and reliability: Implications for data aggregation and Analysis.
+#' In K. J. Klein & S. W. Kozlowski (Eds.), \emph{Multilevel theory, research, and methods in organizations} (pp. 349-381). San Francisco, CA: Jossey-Bass, Inc.
+#'
+#' James, L.R., Demaree, R.G., & Wolf, G. (1984). Estimating within-group interrater reliability with and without response bias. \emph{Journal of Applied Psychology, 69}, 85-98.
+#'
+#' @seealso
+#' \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}
+#'
+#' @examples
+#' data=lme4::sleepstudy  # continuous variable
+#' HLM_ICC_rWG(data, group="Subject", icc.var="Reaction")
+#'
+#' data=lmerTest::carrots  # 7-point scale
+#' HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
+#'             rwg.vars="Preference",
+#'             rwg.levels=7)
+#' HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
+#'             rwg.vars=c("Sweetness", "Bitter", "Crisp"),
+#'             rwg.levels=7)
+#'
+#' @export
+HLM_ICC_rWG=function(data, group, icc.var,
+                     rwg.vars=icc.var,
+                     rwg.levels=0,
+                     nsmall=3) {
+  data=as.data.frame(data)
+
+  ## ICC(1) and ICC(2)
+  model=lmerTest::lmer(as.formula(Glue("{icc.var} ~ (1 | {group})")), data=data)
+  d=model@frame
+  d.split=split(d[[icc.var]], d[[group]])
+  N=nrow(d)
+  n_k=sapply(d.split, length)
+  variance=as.data.frame(summary(model)[["varcor"]])[["vcov"]]
+  var.u0=variance[1]
+  var.e=variance[2]
+  ICC1=var.u0/(var.u0+var.e)
+  ICC2=mean(var.u0/(var.u0+var.e/n_k))
+
+  ## rWG and rWG(J)
+  if(rwg.levels==0)
+    var.ran=(max(data[rwg.vars], na.rm=TRUE)-min(data[rwg.vars], na.rm=TRUE))^2/12
+  else
+    var.ran=(rwg.levels^2-1)/12
+  ds=na.omit(data.frame(data[rwg.vars], data[group]))
+  ds.split=split(ds[, 1:(ncol(ds)-1)], ds[[group]])
+  if(length(rwg.vars)==1) {
+    rwg=sapply(ds.split, function(dsi) {
+      if(length(dsi)>1) {
+        var.dsi=min(var(dsi), var.ran)
+        out=1-(var.dsi/var.ran)
+        out
+      } else {
+        out=NA
+        out
+      }
+    })
+    n.k=sapply(ds.split, length)
+    rwg.name="rWG"
+    rwg.type="single-item measures"
+  } else {
+    rwg=sapply(ds.split, function(dsi) {
+      J=ncol(dsi)
+      if(nrow(dsi)>1) {
+        var.dsi=min(mean(apply(dsi, 2, var, na.rm=TRUE)), var.ran)
+        out=(J*(1-(var.dsi/var.ran))) / (J*(1-(var.dsi/var.ran)) + var.dsi/var.ran)
+        out
+      } else {
+        out=NA
+        out
+      }
+    })
+    n.k=sapply(ds.split, nrow)
+    rwg.name="rWG(J)"
+    rwg.type="multi-item measures"
+  }
+  rwg.out=data.frame(group=names(ds.split), size=n.k, rwg=rwg)
+  names(rwg.out)[3]=rwg.name
+
+  Print("
+  \n
+  <<yellow ---------- Sample Size Information ---------->>
+
+  Level 1: <<italic N>> = {N} observations (\"{icc.var}\")
+  Level 2: <<italic K>> = {length(n.k)} groups (\"{group}\")
+  \n
+  ")
+  summ_n_k=as.matrix(summary(n_k)[c(-2, -5)])
+  colnames(summ_n_k)="n (group sizes)"
+  print(summ_n_k)
+
+  Print("
+  \n
+  <<yellow ---------- ICC(1), ICC(2), and {rwg.name} ---------->>
+
+  ICC variable: \"{icc.var}\"
+
+  ICC(1) = {formatF(ICC1, nsmall)} <<blue (non-independence of data)>>
+  ICC(2) = {formatF(ICC2, nsmall)} <<blue (reliability of group means)>>
+
+  {rwg.name} variable{ifelse(length(rwg.vars)==1, '', 's')}: \"{paste(rwg.vars, collapse='\", \"')}\"
+
+  {rwg.name} <<blue (within-group agreement for {rwg.type})>>
+  ")
+  summ_rwg=as.data.frame(t(as.matrix(summary(rwg))))
+  rownames(summ_rwg)=rwg.name
+  print_table(summ_rwg, nsmalls=nsmall)
+  cat("\n")
+
+  invisible(list(ICC1=ICC1, ICC2=ICC2, rwg=rwg.out))
+}
+
 

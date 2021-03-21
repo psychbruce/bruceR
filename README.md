@@ -103,16 +103,21 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 5.  **Advanced Toolbox and Tidy Report of Statistical Models**
 
-    -   `grand_mean_center()`, `group_mean_center()`
-    -   `regress()`, `GLM_summary()`, `HLM_summary()`
+    -   `regress()`
     -   `model_summary()`
     -   `med_summary()`
+    -   `GLM_summary()`
+    -   `HLM_summary()`
+    -   `HLM_ICC_rWG()`
+    -   `grand_mean_center()`
+    -   `group_mean_center()`
     -   `ccf_plot()`
     -   `granger_test()`
 
-6.  **Theme for `ggplot2`**
+6.  **Plot Toolbox**
 
     -   `theme_bruce()`
+    -   `show_colors()`
 
 ### Learn More From Help Pages
 
