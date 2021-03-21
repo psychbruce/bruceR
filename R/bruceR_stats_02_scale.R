@@ -76,15 +76,19 @@ scaler=function(v, min=0, max=1) {
 #' Three ways to specify the variable list:
 #' \enumerate{
 #'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: manually define the variable list.
-#'   \item \strong{\code{varrange}}: use the start and stop positions.
+#'   \item \strong{\code{vars}}: directly define the variable list.
+#'   \item \strong{\code{varrange}}: use the start and end positions of the variable list.
 #' }
 #'
 #' @param data Data frame.
-#' @param var \strong{[option 1]} Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).
-#' @param items \strong{[option 1]} Unique part across multiple variables (e.g., \code{1:10}).
-#' @param vars \strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).
-#' @param varrange \strong{[option 3]} Character with \code{":"} specifying the start and stop positions of variables (e.g., \code{"A1:E5"}).
+#' @param var \strong{[option 1]}
+#' Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).
+#' @param items \strong{[option 1]}
+#' Unique part across multiple variables (e.g., \code{1:10}).
+#' @param vars \strong{[option 2]}
+#' Character vector specifying the variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).
+#' @param varrange \strong{[option 3]}
+#' Character with \code{":"} specifying the start and end positions of the variable list (e.g., \code{"A1:E5"}).
 #' @param value [only for \code{COUNT}] The value to be counted.
 #' @param rev [optional] Reverse-scoring variables. It can be
 #' (1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
@@ -106,15 +110,16 @@ scaler=function(v, min=0, max=1) {
 #' ## I deliberately set this order to show you
 #' ## the difference between "vars" and "varrange".
 #'
-#' d[,":="(na=COUNT(d, "x", 1:5, value=NA),
-#'         n.2=COUNT(d, "x", 1:5, value=2),
-#'         sum=SUM(d, "x", 1:5),
-#'         m1=MEAN(d, "x", 1:5),
-#'         m2=MEAN(d, vars=c("x1", "x4")),
-#'         m3=MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
-#'         cons1=CONSEC(d, "x", 1:5),
-#'         cons2=CONSEC(d, varrange="x1:x5")
-#'         )]
+#' d[,`:=`(
+#'   na=COUNT(d, "x", 1:5, value=NA),
+#'   n.2=COUNT(d, "x", 1:5, value=2),
+#'   sum=SUM(d, "x", 1:5),
+#'   m1=MEAN(d, "x", 1:5),
+#'   m2=MEAN(d, vars=c("x1", "x4")),
+#'   m3=MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
+#'   cons1=CONSEC(d, "x", 1:5),
+#'   cons2=CONSEC(d, varrange="x1:x5")
+#' )]
 #' d
 #'
 #' data=as.data.table(bfi)
@@ -136,7 +141,7 @@ convert2vars=function(data,
                       rev=NULL) {
   if(!is.null(varrange)) {
     dn=names(data)
-    varrange=strsplit(varrange, ":")[[1]]
+    varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
     vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
   if(is.null(vars)) vars=paste0(var, items)
@@ -264,30 +269,56 @@ CONSEC=function(data, var=NULL, items=NULL,
 #### Reliability, EFA, and CFA ####
 
 
-#' Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation).
+#' Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).
 #'
+#' @description
 #' An extension of \code{jmv::\link[jmv]{reliability}}.
+#' It reports (1) scale reliability statistics
+#' (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
+#' (2) item reliability statistics
+#' (item-rest correlation [i.e., corrected item-total correlation]
+#' and what Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}
+#' would be if the item was dropped).
+#'
+#' Three ways to specify the variable list:
+#' \enumerate{
+#'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
+#'   \item \strong{\code{vars}}: directly define the variable list.
+#'   \item \strong{\code{varrange}}: use the start and end positions of the variable list.
+#' }
 #'
 #' @inheritParams %%COMPUTE%%
 #'
-#' @return No return value.
+#' @return A result object obtained from \code{jmv::\link[jmv]{reliability}}.
 #'
 #' @examples
-#' ?psych::bfi
-#' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
+#' # see ?psych::bfi
+#' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored
 #' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 #' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
+#' Alpha(bfi, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
+#' Alpha(bfi, varrange="E1:E5", rev=c("E1", "E2"))
+#'
+#' # using dplyr::select()
+#' bfi %>% select(E1, E2, E3, E4, E5) %>%
+#'   Alpha(vars=names(.), rev=c("E1", "E2"))
 #'
 #' @seealso
-#' \code{jmv::\link[jmv]{reliability}}
+#' \code{\link{MEAN}}, \code{jmv::\link[jmv]{reliability}}
 #'
 #' @export
-Alpha=function(data, var, items, vars=NULL, rev=NULL) {
+Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
+  if(!is.null(varrange)) {
+    dn=names(data)
+    varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
+    vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
+  }
   if(is.null(vars)) vars=paste0(var, items)
   if(is.numeric(rev)) rev=paste0(var, rev)
   jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
                    meanScale=TRUE, sdScale=TRUE,
-                   itemRestCor=TRUE, alphaItems=TRUE)
+                   alphaScale=TRUE, omegaScale=TRUE,
+                   itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
 }
 
 

@@ -2,36 +2,61 @@
 % Please edit documentation in R/bruceR_stats_02_scale.R
 \name{Alpha}
 \alias{Alpha}
-\title{Reliability analysis (Cronbach's \eqn{\alpha} and corrected item-total correlation).}
+\title{Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).}
 \usage{
-Alpha(data, var, items, vars = NULL, rev = NULL)
+Alpha(data, var, items, vars = NULL, varrange = NULL, rev = NULL)
 }
 \arguments{
 \item{data}{Data frame.}
 
-\item{var}{\strong{[option 1]} Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
+\item{var}{\strong{[option 1]}
+Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
 
-\item{items}{\strong{[option 1]} Unique part across multiple variables (e.g., \code{1:10}).}
+\item{items}{\strong{[option 1]}
+Unique part across multiple variables (e.g., \code{1:10}).}
 
-\item{vars}{\strong{[option 2]} Character vector specifying the variable list (e.g., \code{c("x1", "x2", "x3")}).}
+\item{vars}{\strong{[option 2]}
+Character vector specifying the variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
+
+\item{varrange}{\strong{[option 3]}
+Character with \code{":"} specifying the start and end positions of the variable list (e.g., \code{"A1:E5"}).}
 
 \item{rev}{[optional] Reverse-scoring variables. It can be
 (1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
 (2) a character vector directly specifying the variable list (recommended).}
 }
 \value{
-No return value.
+A result object obtained from \code{jmv::\link[jmv]{reliability}}.
 }
 \description{
 An extension of \code{jmv::\link[jmv]{reliability}}.
+It reports (1) scale reliability statistics
+(Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
+(2) item reliability statistics
+(item-rest correlation [i.e., corrected item-total correlation]
+and what Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}
+would be if the item was dropped).
+
+Three ways to specify the variable list:
+\enumerate{
+  \item \strong{\code{var + items}}: use the common and unique parts of variable names.
+  \item \strong{\code{vars}}: directly define the variable list.
+  \item \strong{\code{varrange}}: use the start and end positions of the variable list.
+}
 }
 \examples{
-?psych::bfi
-Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored; see ?bfi
+# see ?psych::bfi
+Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored
 Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
+Alpha(bfi, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
+Alpha(bfi, varrange="E1:E5", rev=c("E1", "E2"))
+
+# using dplyr::select()
+bfi \%>\% select(E1, E2, E3, E4, E5) \%>\%
+  Alpha(vars=names(.), rev=c("E1", "E2"))
 
 }
 \seealso{
-\code{jmv::\link[jmv]{reliability}}
+\code{\link{MEAN}}, \code{jmv::\link[jmv]{reliability}}
 }
