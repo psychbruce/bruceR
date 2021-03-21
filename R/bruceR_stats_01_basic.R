@@ -57,19 +57,19 @@ p.r=function(r, n) p.t(r/sqrt((1-r^2)/(n-2)), n-2)
 p.chi2=function(chi2, df) pchisq(chi2, df, lower.tail=FALSE)
 
 
-#' Transform \emph{p} value.
-#'
-#' @param p \emph{p} value.
-#' @param nsmall.p Number of decimal places of \emph{p} value. Default is \code{3}.
-#'
-#' @return A character string of transformed \emph{p} value.
-#'
-#' @examples
-#' p.trans(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
-#'
-#' @seealso \code{\link{p.trans2}}
-#'
-#' @export
+## Transform \emph{p} value.
+##
+## @param p \emph{p} value.
+## @param nsmall.p Number of decimal places of \emph{p} value. Default is \code{3}.
+##
+## @return A character string of transformed \emph{p} value.
+##
+## @examples
+## p.trans(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
+##
+## @seealso \code{\link{p.trans2}}
+##
+## @export
 p.trans=function(p, nsmall.p=3) {
   mapply(function(p, nsmall.p) {
     ifelse(is.na(p) | p > 1 | p < 0, "",
@@ -79,19 +79,19 @@ p.trans=function(p, nsmall.p=3) {
 }
 
 
-#' Transform \emph{p} value.
-#'
-#' @inheritParams p.trans
-#' @param p.min Minimum of \emph{p}. Default is \code{1e-99}.
-#'
-#' @return A character string of transformed \emph{p} value.
-#'
-#' @examples
-#' p.trans2(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
-#'
-#' @seealso \code{\link{p.trans}}
-#'
-#' @export
+## Transform \emph{p} value.
+##
+## @inheritParams p.trans
+## @param p.min Minimum of \emph{p}. Default is \code{1e-99}.
+##
+## @return A character string of transformed \emph{p} value.
+##
+## @examples
+## p.trans2(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
+##
+## @seealso \code{\link{p.trans}}
+##
+## @export
 p.trans2=function(p, nsmall.p=3, p.min=1e-99) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < p.min, paste("<", p.min),
@@ -100,16 +100,16 @@ p.trans2=function(p, nsmall.p=3, p.min=1e-99) {
 }
 
 
-#' Transform \emph{p} value to significance code.
-#'
-#' @inheritParams p.trans
-#'
-#' @return A character string of significance code.
-#'
-#' @examples
-#' sig.trans(c(1, 0.09, 0.049, 0.009, 0.001, 0.0001, 1e-50)) %>% data.table(sig=.)
-#'
-#' @export
+## Transform \emph{p} value to significance code.
+##
+## @inheritParams p.trans
+##
+## @return A character string of significance code.
+##
+## @examples
+## sig.trans(c(1, 0.09, 0.049, 0.009, 0.001, 0.0001, 1e-50)) %>% data.table(sig=.)
+##
+## @export
 sig.trans=function(p) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < .001, "***",
@@ -235,8 +235,10 @@ Describe=function(data, nsmall=2,
     if(is.null(save.file)) {
       print(p)
     } else {
-      ggsave(plot=p, filename=save.file, width=width, height=height, dpi=dpi)
-      path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
+      cowplot::ggsave2(plot=p, filename=save.file,
+                       width=width, height=height, dpi=dpi)
+      file=stringr::str_split(save.file, "/", simplify=TRUE)
+      path=paste0(getwd(), '/', file[length(file)])
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }
   }
@@ -381,7 +383,8 @@ Corr=function(data, method="pearson", nsmall=2,
              main="Correlation Matrix")
     if(!is.null(save.file)) {
       grDevices::dev.off()
-      path=ifelse(grepl(":", save.file), save.file, paste0(getwd(), '/', save.file))
+      file=stringr::str_split(save.file, "/", simplify=TRUE)
+      path=paste0(getwd(), '/', file[length(file)])
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
     }
   }
