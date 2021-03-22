@@ -121,7 +121,7 @@
 #'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
 #'   }
 #'
-#'   \item{\strong{(5) Advanced Toolbox and Tidy Report of Statistical Models}}{
+#'   \item{\strong{(5) Tidy Report of Models and Advanced Statistical Toolbox}}{
 #'       \code{\link{model_summary}}  (tidy report of regression models)
 #'
 #'       \code{\link{med_summary}}  (tidy report of mediation analyses based on the \code{mediation} package)
@@ -143,7 +143,7 @@
 #'       \code{\link{granger_test}}  (Granger causality test based on the \code{lmtest::\link[lmtest]{grangertest}} function)
 #'   }
 #'
-#'   \item{\strong{(6) Plot Toolbox}}{
+#'   \item{\strong{(6) Graphical Toolbox}}{
 #'       \code{\link{theme_bruce}}  (a nice \code{ggplot2} theme for scientific publication)
 #'
 #'       \code{\link{show_colors}}  (show colors in a plot)

@@ -2,7 +2,7 @@
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-The package includes easy-to-use functions for (1) basic use and analysis; (2) multivariate computation; (3) reliability and validity analysis; (4) multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; and (5) advanced toolbox and tidy report of statistical models.
+The package includes easy-to-use functions for (1) basic use and analysis; (2) multivariate computation; (3) reliability and validity analysis; (4) multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; (5) tidy report of models and advanced statistical toolbox; and (6) graphical toolbox.
 
 [![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://www.rdocumentation.org/packages/bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -101,7 +101,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `MANOVA()`
     -   `EMMEANS()`
 
-5.  **Advanced Toolbox and Tidy Report of Statistical Models**
+5.  **Advanced Statistical Toolbox and Tidy Report of Models**
 
     -   `model_summary()`
     -   `med_summary()`
@@ -114,7 +114,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `ccf_plot()`
     -   `granger_test()`
 
-6.  **Plot Toolbox**
+6.  **Graphical Toolbox**
 
     -   `theme_bruce()`
     -   `show_colors()`
@@ -131,9 +131,11 @@ help(bruceR)
 
 ## See help pages of functions
 ## (use `?function` or `help(function)`)
+?set.wd
 ?Describe
+?Freq
 ?Corr
-?SUM
+?Alpha
 ?MEAN
 ?MANOVA
 ?EMMEANS

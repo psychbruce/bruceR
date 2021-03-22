@@ -17,7 +17,8 @@ Description: Broadly useful convenient and efficient R functions
              (3) reliability and validity analysis;
              (4) multi-factor analysis of variance (ANOVA),
              simple-effect analysis, and post-hoc multiple comparison;
-             and (5) advanced toolbox and tidy report of statistical models.
+             (5) tidy report of models and advanced statistical toolbox;
+             and (6) graphical toolbox.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
