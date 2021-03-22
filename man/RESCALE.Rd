@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_02_scale.R
 \name{RESCALE}
 \alias{RESCALE}
-\title{Rescale likert scales (e.g., from 5-point to 7-point).}
+\title{Rescale a variable (e.g., from 5-point to 7-point).}
 \usage{
 RESCALE(var, from = range(var, na.rm = T), to)
 }
@@ -18,7 +18,7 @@ If not defined, it will compute the range of \code{var}.}
 A vector of rescaled variable.
 }
 \description{
-Rescale likert scales (e.g., from 5-point to 7-point).
+Rescale a variable (e.g., from 5-point to 7-point).
 }
 \examples{
 d=data.table(var=rep(1:5, 2))

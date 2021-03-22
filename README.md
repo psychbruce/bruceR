@@ -83,7 +83,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `Print()`, `Glue()`
     -   `Describe()`, `Freq()`, `Corr()`, `cor_diff()`
     -   `LOOKUP()`, `RANDBETWEEN()`
-    -   `%notin%`, `%partin%`, `%allin%`, `%nonein%`, `%anyin%`
+    -   `%notin%`, `%allin%`, `%anyin%`, `%nonein%`, `%partin%`
 
 2.  **Multivariate Computation**
 
@@ -103,12 +103,12 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 5.  **Advanced Toolbox and Tidy Report of Statistical Models**
 
-    -   `regress()`
     -   `model_summary()`
     -   `med_summary()`
     -   `GLM_summary()`
     -   `HLM_summary()`
     -   `HLM_ICC_rWG()`
+    -   `regress()`
     -   `grand_mean_center()`
     -   `group_mean_center()`
     -   `ccf_plot()`

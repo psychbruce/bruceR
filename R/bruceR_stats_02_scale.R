@@ -23,7 +23,7 @@ RECODE=function(var, recodes) {
 }
 
 
-#' Rescale likert scales (e.g., from 5-point to 7-point).
+#' Rescale a variable (e.g., from 5-point to 7-point).
 #'
 #' @param var Variable (numeric).
 #' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).

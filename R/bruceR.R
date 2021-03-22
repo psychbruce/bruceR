@@ -66,59 +66,49 @@
 #'
 #' \describe{
 #'   \item{\strong{(1) Basic Use and Analysis}}{
-#'       \code{\link{Print}}  (print texts to console with rich formats and colors)
+#'       \code{\link{set.wd}}  (set working directory to where the current file is)
 #'
-#'       \code{\link{Describe}}  (descriptive statistics)
+#'       \code{\link{dtime}}  (compute time difference)
 #'
-#'       \code{\link{Freq}}  (frequency statistics with histogram plot)
-#'
-#'       \code{\link{Corr}}  (correlation analysis with correlation-matrix plot)
-#'
-#'       \code{\link{p}}  (compute \emph{p}-values from statistics: \emph{z, t, F, r, chi2})
-#'
-#'       \code{\link{set.wd}}  (a simple extension of \code{\link{setwd}})
+#'       \code{\link{p}}  (compute \emph{p} values from statistics: \emph{z, t, F, r, chi2})
 #'
 #'       \code{\link{pkg_depend}}  (check package dependencies)
 #'
 #'       \code{\link{pkg_install_suggested}}  (install suggested packages)
 #'
-#'       \code{\link{dtime}}  (compute time difference)
+#'       \code{\link{Print}}  (print texts with rich formats and colors)
 #'
-#'       \code{\link{\%notin\%}}  (the reverse of \code{\%in\%}, return a logical vector specifying values not in a table)
+#'       \code{\link{Describe}}  (descriptive statistics)
 #'
-#'       \code{\link{\%allin\%}}  (return whether all Xs are in a vector)
+#'       \code{\link{Freq}}  (frequency statistics)
 #'
-#'       \code{\link{\%anyin\%}}  (return whether any of Xs is in a vector)
+#'       \code{\link{Corr}}  (correlation analysis)
 #'
-#'       \code{\link{\%nonein\%}}  (return whether none of Xs is in a vector)
-#'
-#'       \code{\link{\%partin\%}}  (use regular expression to judge whether a pattern exists in a vector)
+#'       \code{\link{LOOKUP}}  (search, match, and look up values, like Excel's functions \code{INDEX + MATCH})
 #'
 #'       \code{\link{RANDBETWEEN}}  (random sampling, like Excel's function \code{RANDBETWEEN})
 #'
-#'       \code{\link{LOOKUP}}  (search, match, and look up values, like Excel's functions \code{INDEX + MATCH})
+#'       \code{\link{\%notin\%}},
+#'       \code{\link{\%allin\%}},
+#'       \code{\link{\%anyin\%}},
+#'       \code{\link{\%nonein\%}},
+#'       \code{\link{\%partin\%}}
 #'   }
 #'
 #'   \item{\strong{(2) Multivariate Computation}}{
-#'       \code{\link{RECODE}}  (recode a variable)
+#'       \code{\link{RECODE}},
+#'       \code{\link{RESCALE}}
 #'
-#'       \code{\link{RESCALE}}  (rescale a variable; e.g., from 5-point to 7-point scale)
-#'
-#'       \code{\link{SUM}}  (compute multivariate sum)
-#'
-#'       \code{\link{MEAN}}  (compute multivariate mean)
-#'
-#'       \code{\link{STD}}  (compute multivariate standard deviation)
-#'
-#'       \code{\link{MODE}}  (compute multivariate mode)
-#'
-#'       \code{\link{COUNT}}  (count values across variables)
-#'
-#'       \code{\link{CONSEC}}  (count "consecutive identical digits" across variables)
+#'       \code{\link{SUM}},
+#'       \code{\link{MEAN}},
+#'       \code{\link{STD}},
+#'       \code{\link{MODE}},
+#'       \code{\link{COUNT}},
+#'       \code{\link{CONSEC}}
 #'   }
 #'
 #'   \item{\strong{(3) Reliability and Validity Analysis}}{
-#'       \code{\link{Alpha}}  (reliability analysis, Cronbach's \eqn{\alpha})
+#'       \code{\link{Alpha}}  (reliability analysis, Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega})
 #'
 #'       \code{\link{EFA}}  (exploratory factor analysis)
 #'
@@ -132,27 +122,31 @@
 #'   }
 #'
 #'   \item{\strong{(5) Advanced Toolbox and Tidy Report of Statistical Models}}{
-#'       \code{\link{grand_mean_center}}  (center variable(s) on \strong{grand} mean(s))
-#'
-#'       \code{\link{group_mean_center}}  (center variable(s) on \strong{group} mean(s))
-#'
-#'       \code{\link{regress}}  (fast perform OLS, logistic, poisson, and multilevel regression analyses)
-#'
-#'       \code{\link{GLM_summary}}  (advanced report of general/generalized linear models)
-#'
-#'       \code{\link{HLM_summary}}  (advanced report of multilevel/hierarchical linear models)
-#'
 #'       \code{\link{model_summary}}  (tidy report of regression models)
 #'
 #'       \code{\link{med_summary}}  (tidy report of mediation analyses based on the \code{mediation} package)
+#'
+#'       \code{\link{GLM_summary}}  (tidy report of general/generalized linear models)
+#'
+#'       \code{\link{HLM_summary}}  (tidy report of general/generalized hierarchical [multilevel] linear models)
+#'
+#'       \code{\link{HLM_ICC_rWG}}  (tidy report of HLM indices: ICC(1), ICC(2), and rWG/rWG(J))
+#'
+#'       \code{\link{regress}}  (fast performing GLM and HLM)
+#'
+#'       \code{\link{grand_mean_center}}  (centering variable(s) on \strong{grand} mean(s))
+#'
+#'       \code{\link{group_mean_center}}  (centering variable(s) on \strong{group} mean(s))
 #'
 #'       \code{\link{ccf_plot}}  (cross-correlation analysis with a \code{ggplot2} plot)
 #'
 #'       \code{\link{granger_test}}  (Granger causality test based on the \code{lmtest::\link[lmtest]{grangertest}} function)
 #'   }
 #'
-#'   \item{\strong{(6) Theme for \code{ggplot2}}}{
-#'       \code{\link{theme_bruce}}  (a set of nice themes for scientific publication)
+#'   \item{\strong{(6) Plot Toolbox}}{
+#'       \code{\link{theme_bruce}}  (a nice \code{ggplot2} theme for scientific publication)
+#'
+#'       \code{\link{show_colors}}  (show colors in a plot)
 #'   }
 #' }
 #'

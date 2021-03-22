@@ -1273,6 +1273,7 @@ HLM_summary=function(model=NULL,
 #'             rwg.vars=c("Sweetness", "Bitter", "Crisp"),
 #'             rwg.levels=7)
 #'
+#' @importFrom stats na.omit
 #' @export
 HLM_ICC_rWG=function(data, group, icc.var,
                      rwg.vars=icc.var,
