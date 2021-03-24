@@ -1,21 +1,6 @@
-## Resubmission
+## News
 
-In this resubmission, I have fixed the 3 problems pointed out by Gregor Seyer.
-
-1. Used `\donttest{}` to deal with all lengthy examples. In the example of `set.wd()`, I used `\dontrun{}` because RStudio is required for running this function.
-
-2. Ensured that now none of the examples are wrapped in `if(FALSE){}`.
-
-3. Checked all scripts and fixed two places to ensure that the functions do not change the user's options, par, or working directory.
-
-  * `bruceR_stats_01_basic.R`: in lines 405-406, I used `on.exit()`.
-    ```
-    oldpar <- graphics::par(no.readonly = TRUE)
-    on.exit(graphics::par(oldpar))
-    ```
-  * `bruceR_basic.R`: in lines 127-139, for the function `set.wd()` (which is designed for setting working directory to where the currently opened file is), I modified the function so that it no longer executes `setwd()` directly within the function, but instead will send code containing `setwd("...")` to the R console via `rstudioapi::sendToConsole()`. Users can set whether to execute the code using the `execute` parameter. Hence, now this function does not change the user's working directory within itself, but it explicitly casts a line of code containing `setwd("...")` to the R console to let users be aware of that.
-
-Thank you very much for inspecting the package and hope this version of resubmission can work.
+In this version (0.6.1), I have added four new functions (`HLM_ICC_rWG()`, `Run()`, `show_colors()`, and `%^%`) and improved or fixed bugs in two functions (`Alpha()` and `set.wd()`). Modified citation information is also provided.
 
 
 ## Test environments
