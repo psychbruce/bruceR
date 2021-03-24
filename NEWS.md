@@ -1,11 +1,13 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.6.1 (in development)
+# bruceR 0.6.1 (Mar 2021)
 
 ### New Features
 
 -   New function `HLM_ICC_rWG()`: Tidy report of HLM indices "ICC(1)" (non-independence of data), "ICC(2)" (reliability of group means), and "rWG"/"rWG(J)" (within-group agreement for single-item/multi-item measures).
--   New function `show_colors`: Show multiple colors (or a palette) in a plot.
+-   New function `Run()`: Run code parsed from text.
+-   New function `show_colors()`: Show multiple colors (or a palette) in a plot.
+-   New function `%^%`: Paste strings together (a wrapper of `paste0()`).
 
 ### Major Changes
 

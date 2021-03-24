@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{\%notin\%}
 \alias{\%notin\%}
-\title{A simple extension of \code{\%in\%}.}
+\title{The opposite of \code{\%in\%}.}
 \usage{
 x \%notin\% vector
 }
@@ -15,7 +15,7 @@ x \%notin\% vector
 A vector of \code{TRUE} or \code{FALSE}.
 }
 \description{
-A simple extension of \code{\%in\%}.
+The opposite of \code{\%in\%}.
 }
 \examples{
 data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))

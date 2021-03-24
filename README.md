@@ -80,10 +80,12 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `set.wd()`
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
-    -   `Print()`, `Glue()`
+    -   `Print()`, `Glue()`, `Run()`
     -   `Describe()`, `Freq()`, `Corr()`, `cor_diff()`
     -   `LOOKUP()`, `RANDBETWEEN()`
-    -   `%notin%`, `%allin%`, `%anyin%`, `%nonein%`, `%partin%`
+    -   `%^%`
+    -   `%notin%`
+    -   `%allin%`, `%anyin%`, `%nonein%`, `%partin%`
 
 2.  **Multivariate Computation**
 

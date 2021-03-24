@@ -1219,14 +1219,15 @@ HLM_summary=function(model=NULL,
 #'   \item{\strong{ICC(2) (reliability of group means)}}{
 #'     ICC(2) = mean(var.u0 / (var.u0 + var.e / n.k)) = \eqn{\Sigma[\sigma_u0^2 / (\sigma_u0^2 + \sigma_e^2 / n_k)] / K}
 #'
-#'     ICC(2) is a measure of \strong{"the representativeness of group-level aggregated means for within-group individual values"}.
+#'     ICC(2) is a measure of \strong{"the representativeness of group-level aggregated means for within-group individual values"}
+#'     or \strong{"the degree to which an individual score can be considered a reliable assessment of a group-level construct"}.
 #'   }
 #'   \item{\strong{rWG/rWG(J) (within-group agreement for single-item/multi-item measures)}}{
 #'     rWG = \eqn{1 - \sigma^2 / \sigma_EU^2}
 #'
 #'     rWG(J) = \eqn{1 - (\sigma_MJ^2 / \sigma_EU^2) / [J * (1 - \sigma_MJ^2 / \sigma_EU^2) + \sigma_MJ^2 / \sigma_EU^2]}
 #'
-#'     rWG/rWG(J) is a measure of within-group agreement.
+#'     rWG/rWG(J) is a measure of within-group agreement or consensus. Each group has an rWG/rWG(J).
 #'   }
 #' }
 #'

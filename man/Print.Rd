@@ -3,16 +3,16 @@
 \name{Print}
 \alias{Print}
 \alias{Glue}
-\title{Print texts with rich formats and colors.}
+\title{Print strings with rich formats and colors.}
 \usage{
 Print(...)
 
 Glue(...)
 }
 \arguments{
-\item{...}{Character strings enclosed by \code{"{ }"} will be evaluated as R codes.
+\item{...}{Character strings enclosed by \code{"{ }"} will be evaluated as R code.
 
-Character strings enclosed by \code{"<< >>"} will be printed as formatted and colored texts.
+Character strings enclosed by \code{"<< >>"} will be printed as formatted and colored text.
 
 Long strings are broken by line and concatenated together.
 

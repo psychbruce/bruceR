@@ -1,0 +1,14 @@
+citHeader("To cite the `bruceR` package in publications, please use:")
+
+citEntry(entry = "Misc",
+         title = "bruceR: Broadly useful convenient and efficient R functions",
+        author = personList(as.person("Han-Wu-Shuang Bao")),
+          year = strsplit(as.character(packageDate("bruceR")), "-")[[1]][1],
+           url = "https://CRAN.R-project.org/package=bruceR",
+   textVersion =
+   paste0("Bao, H.-W.-S. ",
+          "(", strsplit(as.character(packageDate("bruceR")), "-")[[1]][1], "). ",
+          "bruceR: Broadly useful convenient and efficient R functions. ",
+          "R package version ", as.character(packageVersion("bruceR")), ". ",
+          "https://CRAN.R-project.org/package=bruceR")
+)

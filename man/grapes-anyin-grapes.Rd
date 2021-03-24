@@ -23,5 +23,8 @@ A simple extension of \code{\%in\%}.
 
 }
 \seealso{
-\code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}
+\code{\link[base]{match}} (\code{\%in\%}),
+\code{\link{\%allin\%}},
+\code{\link{\%nonein\%}},
+\code{\link{\%partin\%}}
 }

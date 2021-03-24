@@ -1,7 +1,28 @@
 #### Basic Functions ####
 
 
-#' A simple extension of \code{\%in\%}.
+#' Paste strings together.
+#'
+#' Paste strings together. A wrapper of \code{paste0()}.
+#' Why \code{\%^\%}? Because typing \code{\%} and \code{^} is pretty easy by
+#' pressing \strong{Shift + 5 + 6 + 5} and \code{\%^\%} is also clear to see.
+#'
+#' @param x,y Any objects, usually a numeric or character string or vector.
+#'
+#' @return A character string/vector of the pasted values.
+#'
+#' @examples
+#' "He" %^% "llo"
+#' "X" %^% 1:10
+#' "Q" %^% 1:5 %^% letters[1:5]
+#'
+#' @export
+`%^%`=function(x, y) {
+  paste0(x, y)
+}
+
+
+#' The opposite of \code{\%in\%}.
 #'
 #' @param x Numeric or character vector.
 #' @param vector Numeric or character vector.
@@ -31,7 +52,10 @@
 #' 1:2 %allin% 1:3  # TRUE
 #' 3:4 %allin% 1:3  # FALSE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' \code{\link{\%anyin\%}},
+#' \code{\link{\%nonein\%}},
+#' \code{\link{\%partin\%}}
 #'
 #' @export
 `%allin%`=function(x, vector) {
@@ -49,7 +73,10 @@
 #' 3:4 %anyin% 1:3  # TRUE
 #' 4:5 %anyin% 1:3  # FALSE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%nonein\%}}, \code{\link{\%partin\%}}
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' \code{\link{\%allin\%}},
+#' \code{\link{\%nonein\%}},
+#' \code{\link{\%partin\%}}
 #'
 #' @export
 `%anyin%`=function(x, vector) {
@@ -67,7 +94,10 @@
 #' 3:4 %nonein% 1:3  # FALSE
 #' 4:5 %nonein% 1:3  # TRUE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%anyin\%}}, \code{\link{\%partin\%}}
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' \code{\link{\%allin\%}},
+#' \code{\link{\%anyin\%}},
+#' \code{\link{\%partin\%}}
 #'
 #' @export
 `%nonein%`=function(x, vector) {
@@ -87,7 +117,10 @@
 #' "bei" %partin% c("Beijing", "Shanghai")  # FALSE
 #' "[aeiou]ng" %partin% c("Beijing", "Shanghai")  # TRUE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}), \code{\link{\%allin\%}}, \code{\link{\%anyin\%}}, \code{\link{\%nonein\%}}
+#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' \code{\link{\%allin\%}},
+#' \code{\link{\%anyin\%}},
+#' \code{\link{\%nonein\%}}
 #'
 #' @export
 `%partin%`=function(pattern, vector) {
@@ -105,8 +138,10 @@
 #' @param path \code{NULL} (default) or a specific path.
 #' Default is to extract the path of the currently opened file
 #' (can be any type, usually an R or Rmd file).
-#' @param execute \code{TRUE} (default) or \code{FALSE}.
-#' Default is to send code \code{setwd("...")} to the R console AND execute it.
+#' @param directly \code{TRUE} (default) or \code{FALSE}.
+#' Default is to directly execute \code{setwd("...")} within the function (recommended).
+#' Otherwise, it will send code \code{setwd("...")} to the R console
+#' and then execute it (not recommended due to a delay of execution).
 #' @param ask \code{TRUE} or \code{FALSE} (default).
 #' If \code{TRUE}, you can select a folder with the prompt of a dialog.
 #'
@@ -124,7 +159,7 @@
 #' @seealso \code{\link{setwd}}
 #'
 #' @export
-set.wd=function(path=NULL, execute=TRUE, ask=FALSE) {
+set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
   if(rstudioapi::isAvailable()==FALSE)
     stop("RStudio is required for running this function!\n\n",
          "Please download and install the latest version of RStudio:\n",
@@ -168,8 +203,14 @@ set.wd=function(path=NULL, execute=TRUE, ask=FALSE) {
              "you can only use `set.wd()` in .R/.Rmd files with `ask=FALSE`.")
     }
   }
-  if(length(path)>0)
-    rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=execute)
+  if(length(path)>0) {
+    if(directly) {
+      eval(parse(text=(paste0("setwd(\"", path, "\")"))))
+      Print("<<green \u2714>> Set working directory to <<blue \"{getwd()}\">>")
+    } else {
+      rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
+    }
+  }
   invisible(path)
 }
 
@@ -250,7 +291,7 @@ pkg_install_suggested=function(by="bruceR") {
 }
 
 
-#' Print texts with rich formats and colors.
+#' Print strings with rich formats and colors.
 #'
 #' @describeIn Print Paste and print strings.
 #'
@@ -261,9 +302,9 @@ pkg_install_suggested=function(by="bruceR") {
 #' @details
 #' See more details in \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
 #'
-#' @param ... Character strings enclosed by \code{"{ }"} will be evaluated as R codes.
+#' @param ... Character strings enclosed by \code{"{ }"} will be evaluated as R code.
 #'
-#' Character strings enclosed by \code{"<< >>"} will be printed as formatted and colored texts.
+#' Character strings enclosed by \code{"<< >>"} will be printed as formatted and colored text.
 #'
 #' Long strings are broken by line and concatenated together.
 #'
@@ -316,6 +357,26 @@ sprintf_transformer=function(text, envir) {
   } else {
     eval(parse(text=text, keep.source=FALSE), envir)
   }
+}
+
+
+#' Run code parsed from text.
+#'
+#' @param text Character strings for running.
+#' You can use \code{"{ }"} to insert any R object in the environment.
+#'
+#' @return No return value.
+#'
+#' @examples
+#' Run("a=1")
+#' a
+#'
+#' Run("a={a+1}")
+#' a
+#'
+#' @export
+Run=function(text) {
+  eval(parse(text=Glue(text)), envir=parent.frame())
 }
 
 

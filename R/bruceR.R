@@ -88,7 +88,10 @@
 #'
 #'       \code{\link{RANDBETWEEN}}  (random sampling, like Excel's function \code{RANDBETWEEN})
 #'
-#'       \code{\link{\%notin\%}},
+#'       \code{\link{\%^\%}} (paste strings together)
+#'
+#'       \code{\link{\%notin\%}} (the opposite of \%in\%)
+#'
 #'       \code{\link{\%allin\%}},
 #'       \code{\link{\%anyin\%}},
 #'       \code{\link{\%nonein\%}},
