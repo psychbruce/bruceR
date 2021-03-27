@@ -21,13 +21,14 @@ Corr(
 )
 }
 \arguments{
-\item{data}{Data frame or numeric vector.}
+\item{data}{Data frame.}
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 
-\item{p.adjust}{Adjustment of \emph{p} values for multiple tests: \code{"none", "fdr", "holm", "bonferroni", ...}
+\item{p.adjust}{Adjustment of \emph{p} values for multiple tests:
+\code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
 For details, see \code{stats::\link[stats]{p.adjust}}.}
 
 \item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
