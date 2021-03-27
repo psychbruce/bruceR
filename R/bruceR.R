@@ -65,32 +65,22 @@
 #' @section Main Functions in \code{bruceR}:
 #'
 #' \describe{
-#'   \item{\strong{(1) Basic Use and Analysis}}{
-#'       \code{\link{set.wd}}  (set working directory to where the current file is)
+#'   \item{\strong{(1) Basic R Programming}}{
+#'       \code{\link{set.wd}}
 #'
-#'       \code{\link{dtime}}  (compute time difference)
+#'       \code{\link{pkg_depend}},
+#'       \code{\link{pkg_install_suggested}}
 #'
-#'       \code{\link{p}}  (compute \emph{p} values from statistics: \emph{z, t, F, r, chi2})
+#'       \code{\link{formatF}},
+#'       \code{\link{formatN}}
 #'
-#'       \code{\link{pkg_depend}}  (check package dependencies)
+#'       \code{\link{Print}},
+#'       \code{\link{Glue}},
+#'       \code{\link{Run}}
 #'
-#'       \code{\link{pkg_install_suggested}}  (install suggested packages)
+#'       \code{\link{\%^\%}}
 #'
-#'       \code{\link{Print}}  (print texts with rich formats and colors)
-#'
-#'       \code{\link{Describe}}  (descriptive statistics)
-#'
-#'       \code{\link{Freq}}  (frequency statistics)
-#'
-#'       \code{\link{Corr}}  (correlation analysis)
-#'
-#'       \code{\link{LOOKUP}}  (search, match, and look up values, like Excel's functions \code{INDEX + MATCH})
-#'
-#'       \code{\link{RANDBETWEEN}}  (random sampling, like Excel's function \code{RANDBETWEEN})
-#'
-#'       \code{\link{\%^\%}} (paste strings together)
-#'
-#'       \code{\link{\%notin\%}} (the opposite of \%in\%)
+#'       \code{\link{\%notin\%}}
 #'
 #'       \code{\link{\%allin\%}},
 #'       \code{\link{\%anyin\%}},
@@ -99,57 +89,74 @@
 #'   }
 #'
 #'   \item{\strong{(2) Multivariate Computation}}{
-#'       \code{\link{RECODE}},
-#'       \code{\link{RESCALE}}
-#'
 #'       \code{\link{SUM}},
 #'       \code{\link{MEAN}},
 #'       \code{\link{STD}},
 #'       \code{\link{MODE}},
 #'       \code{\link{COUNT}},
 #'       \code{\link{CONSEC}}
+#'
+#'       \code{\link{RECODE}},
+#'       \code{\link{RESCALE}},
+#'       \code{\link{RANDBETWEEN}}
+#'
+#'       \code{\link{LOOKUP}}
 #'   }
 #'
-#'   \item{\strong{(3) Reliability and Validity Analysis}}{
-#'       \code{\link{Alpha}}  (reliability analysis, Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega})
+#'   \item{\strong{(3) Reliability and Factor Analyses}}{
+#'       \code{\link{Alpha}}
 #'
-#'       \code{\link{EFA}}  (exploratory factor analysis)
+#'       \code{\link{EFA}}
 #'
-#'       \code{\link{CFA}}  (confirmatory factor analysis)
+#'       \code{\link{CFA}}
 #'   }
 #'
-#'   \item{\strong{(4) Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
-#'       \code{\link{MANOVA}}  (multi-factor between-subjects, within-subjects, and mixed design ANOVA)
+#'   \item{\strong{(4) Descriptive Statistics and Correlation Analyses}}{
+#'       \code{\link{Describe}}
 #'
-#'       \code{\link{EMMEANS}}  (simple-effect analysis and post-hoc multiple comparison)
+#'       \code{\link{Freq}}
+#'
+#'       \code{\link{Corr}}
+#'
+#'       \code{\link{cor_diff}}
 #'   }
 #'
-#'   \item{\strong{(5) Tidy Report of Models and Advanced Statistical Toolbox}}{
-#'       \code{\link{model_summary}}  (tidy report of regression models)
+#'   \item{\strong{(5) Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
+#'       \code{\link{MANOVA}}
 #'
-#'       \code{\link{med_summary}}  (tidy report of mediation analyses based on the \code{mediation} package)
-#'
-#'       \code{\link{GLM_summary}}  (tidy report of general/generalized linear models)
-#'
-#'       \code{\link{HLM_summary}}  (tidy report of general/generalized hierarchical [multilevel] linear models)
-#'
-#'       \code{\link{HLM_ICC_rWG}}  (tidy report of HLM indices: ICC(1), ICC(2), and rWG/rWG(J))
-#'
-#'       \code{\link{regress}}  (fast performing GLM and HLM)
-#'
-#'       \code{\link{grand_mean_center}}  (centering variable(s) on \strong{grand} mean(s))
-#'
-#'       \code{\link{group_mean_center}}  (centering variable(s) on \strong{group} mean(s))
-#'
-#'       \code{\link{ccf_plot}}  (cross-correlation analysis with a \code{ggplot2} plot)
-#'
-#'       \code{\link{granger_test}}  (Granger causality test based on the \code{lmtest::\link[lmtest]{grangertest}} function)
+#'       \code{\link{EMMEANS}}
 #'   }
 #'
-#'   \item{\strong{(6) Graphical Toolbox}}{
-#'       \code{\link{theme_bruce}}  (a nice \code{ggplot2} theme for scientific publication)
+#'   \item{\strong{(6) Tidy Report of Regression Models}}{
+#'       \code{\link{model_summary}}
 #'
-#'       \code{\link{show_colors}}  (show colors in a plot)
+#'       \code{\link{GLM_summary}}
+#'
+#'       \code{\link{HLM_summary}}
+#'
+#'       \code{\link{HLM_ICC_rWG}}
+#'
+#'       \code{\link{regress}}
+#'   }
+#'
+#'   \item{\strong{(7) Mediation and Moderation Analyses}}{
+#'       \code{\link{med_summary}}
+#'
+#'       \code{PROCESS} (\emph{coming soon...})
+#'   }
+#'
+#'   \item{\strong{(8) Additional Toolbox for Statistics and Graphics}}{
+#'       \code{\link{grand_mean_center}}
+#'
+#'       \code{\link{group_mean_center}}
+#'
+#'       \code{\link{ccf_plot}}
+#'
+#'       \code{\link{granger_test}}
+#'
+#'       \code{\link{theme_bruce}}
+#'
+#'       \code{\link{show_colors}}
 #'   }
 #' }
 #'

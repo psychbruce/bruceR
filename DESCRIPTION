@@ -11,14 +11,19 @@ Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
 Description: Broadly useful convenient and efficient R functions
              that bring users concise and elegant R data analyses.
-             The package includes easy-to-use functions for
-             (1) basic use and analysis;
-             (2) multivariate computation;
-             (3) reliability and validity analysis;
-             (4) multi-factor analysis of variance (ANOVA),
+             This package includes easy-to-use functions for
+             (1) basic R programming
+             (e.g., set working directory to where the current file is,
+             print strings with rich formats and colors);
+             (2) multivariate computation
+             (e.g., compute scale sums/means/... with reverse scoring);
+             (3) reliability and factor analyses;
+             (4) descriptive statistics and correlation analyses;
+             (5) multi-factor analysis of variance (ANOVA),
              simple-effect analysis, and post-hoc multiple comparison;
-             (5) tidy report of models and advanced statistical toolbox;
-             and (6) graphical toolbox.
+             (6) tidy report of regression models (to Console and to Word);
+             (7) mediation and moderation analyses;
+             and (8) additional toolbox for statistics and graphics.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
