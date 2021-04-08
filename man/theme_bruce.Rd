@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_06_plot.R
 \name{theme_bruce}
 \alias{theme_bruce}
-\title{A nice \code{ggplot2} theme for scientific publication.}
+\title{A nice \code{ggplot2} theme that enables Markdown/HTML rich text.}
 \usage{
 theme_bruce(
   base.size = 12,
@@ -74,6 +74,19 @@ A theme object that should be used for \code{ggplot2}.
 }
 \description{
 A nice \code{ggplot2} theme for scientific publication.
+It uses \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
+to render Markdown/HTML formatted rich text.
+You can use a combination of Markdown and/or HTML syntax
+(e.g., \code{"*y* = *x*<sup>2</sup>"}) in plot text or title,
+and this function draws text elements with rich text format.
+
+For more usage, see:
+\itemize{
+  \item \code{\link[ggtext:geom_richtext]{ggtext::geom_richtext()}}
+  \item \code{\link[ggtext:geom_textbox]{ggtext::geom_textbox()}}
+  \item \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
+  \item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
+}
 }
 \examples{
 ## Example 1 (bivariate correlation)
@@ -83,7 +96,8 @@ d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
 ggplot(data=d, aes(x=E, y=O)) +
   geom_point(alpha=0.1) +
   geom_smooth(method="loess") +
-  labs(x="Extraversion", y="Openness") +
+  labs(x="Extraversion<sub>Big 5</sub>",
+       y="Openness<sub>Big 5</sub>") +
   theme_bruce()
 
 ## Example 2 (2x2 ANOVA)
@@ -98,7 +112,9 @@ ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
   scale_y_continuous(expand=expansion(add=0),
                      limits=c(0,8), breaks=0:8) +
   scale_fill_brewer(palette="Set1") +
-  labs(x="Independent Variable", y="Dependent Variable", title="Demo") +
+  labs(x="Independent Variable (*X*)",  # italic X
+       y="Dependent Variable (*Y*)",  # italic Y
+       title="Demo Plot<sup>bruceR</sup>") +
   theme_bruce(border="")
 
 }

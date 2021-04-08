@@ -24,5 +24,5 @@ data[ID \%notin\% c(1, 3, 5, 7, 9)]
 
 }
 \seealso{
-\code{\link[base]{match}} (\code{\%in\%})
+\code{\link[base:match]{\%in\%}}
 }

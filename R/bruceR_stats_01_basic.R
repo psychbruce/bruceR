@@ -127,7 +127,7 @@ sig.trans=function(p) {
 #' @param data Data frame or numeric vector.
 #' @param nsmall Number of decimal places of output. Default is \code{2}.
 #' @param plot \code{TRUE} or \code{FALSE} (default).
-#' Visualize the descriptive statistics using \code{GGally::\link[GGally]{ggpairs}}.
+#' Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
 #' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
 #' Transform all variables into numeric (continuous).
 #' @param upper.triangle \code{TRUE} or \code{FALSE} (default).
@@ -167,7 +167,7 @@ sig.trans=function(p) {
 #' Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 #' Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #' }
-#' @seealso \link{Corr}
+#' @seealso \code{\link{Corr}}
 #'
 #' @import ggplot2
 #' @export
@@ -295,14 +295,16 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
 #' @param p.adjust Adjustment of \emph{p} values for multiple tests:
 #' \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
-#' For details, see \code{stats::\link[stats]{p.adjust}}.
+#' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.
 #' @param plot \code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.
 #' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
 #' @param plot.palette Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
 #' You may also set it to, e.g., \code{c("red", "white", "blue")}.
 #' @param plot.color.levels Default is \code{201}.
 #'
-#' @return Invisibly return the correlation results obtained from \code{psych::corr.test}.
+#' @return
+#' Invisibly return the correlation results obtained from
+#' \code{\link[psych:corr.test]{psych::corr.test()}}.
 #'
 #' @examples
 #' Corr(airquality)
@@ -320,7 +322,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' )]
 #' Corr(d[,.(age, gender, education, E, A, C, N, O)])
 #'
-#' @seealso \link{Describe}
+#' @seealso \code{\link{Describe}}
 #'
 #' @importFrom stats p.adjust
 #' @export

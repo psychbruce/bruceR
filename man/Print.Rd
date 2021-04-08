@@ -26,7 +26,7 @@ Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
 Run examples to see what it can do.
 }
 \details{
-See more details in \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
+See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue]{glue::glue_col()}}.
 }
 \section{Functions}{
 \itemize{

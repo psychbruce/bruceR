@@ -216,10 +216,10 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' Tidy report of regression models (into R console, Word, or HTML).
 #'
 #' This function is an extension (and combination) of
-#' \code{texreg::\link[texreg]{screenreg}},
-#' \code{texreg::\link[texreg]{htmlreg}},
-#' \code{MuMIn::\link[MuMIn]{std.coef}}, and
-#' \code{MuMIn::\link[MuMIn]{r.squaredGLMM}}.
+#' \code{\link[texreg:screenreg]{texreg::screenreg()}},
+#' \code{\link[texreg:htmlreg]{texreg::htmlreg()}},
+#' \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}, and
+#' \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}.
 #'
 #' @param model_list A single model or a list of models. The models should be of the same type.
 #' @param std_coef Standardized coefficients? Default is \code{FALSE}.
@@ -231,14 +231,14 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @param modify_se Set custom values for standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
 #' New SEs should be provided as a list of numeric vectors.
-#' See usage in \code{texreg::\link[texreg]{screenreg}}.
+#' See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.
 #' @param bold The p-value threshold below which the coefficient shall be formatted in a bold font.
 #' For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.
 #' @param file File name of the Word or HTML document.
 #' The extension should be \code{.doc} or \code{.html}.
 #' @param ... Other parameters passed to the
-#' \code{\link[texreg]{screenreg}} or
-#' \code{\link[texreg]{htmlreg}} function.
+#' \code{\link[texreg:screenreg]{texreg::screenreg()}} or
+#' \code{\link[texreg:htmlreg]{texreg::htmlreg()}} function.
 #'
 #' @return Invisibly return the plain text of output.
 #'
@@ -895,7 +895,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 ## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
 ## because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.
-#' The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).
+## The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).
 #' @param nsmall Number of decimal places of output. Default is 3.
 #' But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.
 #' @param ... Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.

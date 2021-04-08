@@ -91,13 +91,12 @@ The generalized \eqn{\eta^2} requires correct specification of the observed (vs.
 \item{nsmall}{Number of decimal places of output. Default is 2.}
 }
 \value{
-A result object returned by \code{afex::aov_ez}.
+A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
 }
 \description{
 Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
-}
-\details{
-This function is based on and extends the \code{afex::aov_ez} function in the R package \code{afex}.
+
+This function is based on and extends the \code{\link[afex:aov_car]{afex::aov_ez()}} function.
 You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
 Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).

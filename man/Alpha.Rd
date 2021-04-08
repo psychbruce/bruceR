@@ -26,10 +26,10 @@ Character with \code{":"} specifying the start and end positions of the variable
 (2) a character vector directly specifying the variable list (recommended).}
 }
 \value{
-A result object obtained from \code{jmv::\link[jmv]{reliability}}.
+A result object obtained from \code{\link[jmv:reliability]{jmv::reliability()}}.
 }
 \description{
-An extension of \code{jmv::\link[jmv]{reliability}}.
+An extension of \code{\link[jmv:reliability]{jmv::reliability()}}.
 It reports (1) scale reliability statistics
 (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
 (2) item reliability statistics
@@ -58,5 +58,5 @@ bfi \%>\% select(E1, E2, E3, E4, E5) \%>\%
 
 }
 \seealso{
-\code{\link{MEAN}}, \code{jmv::\link[jmv]{reliability}}
+\code{\link{MEAN}}
 }

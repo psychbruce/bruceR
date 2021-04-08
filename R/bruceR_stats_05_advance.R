@@ -7,11 +7,11 @@
 #' Tidy report of mediation analysis,
 #' which is performed using the \code{\link[mediation]{mediation}} package.
 #'
-#' @param model Mediation model built using \code{mediation::\link[mediation]{mediate}}.
+#' @param model Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.
 #' @param digits Number of decimal places of output. Default is \code{3}.
 #' @param nsmall The same as \code{digits}.
 #' @param print.avg Just set as \code{TRUE} for a concise output.
-#' For details, see the "Value" section in \code{\link[mediation]{mediate}}.
+#' For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.
 #'
 #' @return Invisibly return a data frame containing the results.
 #'
@@ -174,29 +174,28 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
 #' @export
 ccf_plot=function(formula, data,
                   lag.max=30, sig.level=0.05,
-                  xbreaks=seq(-30, 30, 10),
+                  xbreaks=seq(-100, 100, 10),
                   ybreaks=seq(-1, 1, 0.2),
                   ylim=NULL, alpha.ns=1,
                   pos.color="black", neg.color="black", ci.color="blue",
                   title=NULL, subtitle=NULL,
                   xlab="Lag", ylab="Cross-Correlation") {
+  lag=acf=direc=sig=NULL
+
   x=as.character(formula)[3]
   y=as.character(formula)[2]
   data=as.data.frame(data)
   if(is.null(title)) title=Glue("{x} \u2192 {y}")
 
-  cc=stats::ccf(x=data[[x]], y=data[[y]], lag.max=lag.max, plot=FALSE)
+  cc=stats::ccf(x=data[[x]], y=data[[y]], lag.max=lag.max, plot=FALSE, na.action=na.omit)
   ccdata=with(cc, data.frame(lag, acf))
   n=cc$n.used
   rsig=psych::t2r(stats::qt(sig.level/2, n, lower.tail=F), n-2)
   ccdata$sig=as.factor(ifelse(abs(ccdata$acf)<rsig, 0, 1))
   ccdata$direc=as.factor(ifelse(ccdata$acf<0, 0, 1))
 
-  eval(parse(text="
-             p=ggplot(ccdata, aes(x=lag, y=acf, color=direc, alpha=sig)) +
-                 geom_segment(aes(xend=lag, yend=0), show.legend=FALSE)
-             "))
-  p=p +
+  p=ggplot(ccdata, aes(x=lag, y=acf, color=direc, alpha=sig)) +
+    geom_segment(aes(xend=lag, yend=0), show.legend=FALSE) +
     geom_hline(aes(yintercept=0), linetype=1, color="black") +
     geom_hline(aes(yintercept=rsig), linetype=2, color=ci.color) +
     geom_hline(aes(yintercept=-rsig), linetype=2, color=ci.color) +
@@ -216,7 +215,7 @@ ccf_plot=function(formula, data,
 #'
 #' @description
 #' Granger test of predictive causality (between two time-series variables)
-#' using the \code{lmtest::\link[lmtest]{grangertest}} function.
+#' using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 #'
 #' @details
 #' The Granger causality test can examine whether
@@ -241,24 +240,27 @@ ccf_plot=function(formula, data,
 #' @export
 granger_test=function(formula, data, lags=1:5,
                       test.reverse=FALSE) {
+  if(test.reverse) {
+    formula.rev=stats::as.formula(paste(formula[3], formula[1], formula[2]))
+    formulas=list(formula, formula.rev)
+  } else {
+    formulas=list(formula)
+  }
+
   Print("<<bold <<underline Granger Test of Predictive Causality>>>>")
 
   Print("\n\n\n<<bold Hypothesized direction:>>")
   Print("<<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>")
-  for(lag in lags) {
-    gt=lmtest::grangertest(formula=formula, data=data, order=lag, na.action=stats::na.omit)
-    result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])
-    Print("Lags = {lag}: {result}")
-  }
 
-  if(test.reverse) {
-    Print("\n\n\n<<bold Reverse direction:>>")
-    Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
-    formula.rev=stats::as.formula(paste(formula[3], formula[1], formula[2]))
+  for(f in formulas) {
+    if(test.reverse & f!=formulas[[1]]) {
+      Print("\n\n\n<<bold Reverse direction:>>")
+      Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
+    }
     for(lag in lags) {
-      gt=lmtest::grangertest(formula=formula.rev, data=data, order=lag, na.action=stats::na.omit)
-      result=bruceR::p(f=gt[2,'F'], df1=-gt[2,'Df'], df2=gt[1,'Res.Df'])
-      Print("Lags = {lag}: {result}")
+      gt=lmtest::grangertest(formula=f, data=data, order=lag, na.action=stats::na.omit)
+      result=bruceR::p(f=gt[2,"F"], df1=-gt[2,"Df"], df2=gt[1,"Res.Df"])
+      Print("Lags = {lag}:\t{result}")
     }
   }
 }

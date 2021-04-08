@@ -32,7 +32,7 @@ Not applicable to generalized linear (mixed) models.}
 \item{modify_se}{Set custom values for standard errors.
 Useful if you need to replace raw SEs with robust SEs.
 New SEs should be provided as a list of numeric vectors.
-See usage in \code{texreg::\link[texreg]{screenreg}}.}
+See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
 \item{bold}{The p-value threshold below which the coefficient shall be formatted in a bold font.
 For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.}
@@ -41,18 +41,18 @@ For example, \code{bold = 0.05} will cause all coefficients that are significant
 The extension should be \code{.doc} or \code{.html}.}
 
 \item{...}{Other parameters passed to the
-\code{\link[texreg]{screenreg}} or
-\code{\link[texreg]{htmlreg}} function.}
+\code{\link[texreg:screenreg]{texreg::screenreg()}} or
+\code{\link[texreg:htmlreg]{texreg::htmlreg()}} function.}
 }
 \value{
 Invisibly return the plain text of output.
 }
 \description{
 This function is an extension (and combination) of
-\code{texreg::\link[texreg]{screenreg}},
-\code{texreg::\link[texreg]{htmlreg}},
-\code{MuMIn::\link[MuMIn]{std.coef}}, and
-\code{MuMIn::\link[MuMIn]{r.squaredGLMM}}.
+\code{\link[texreg:screenreg]{texreg::screenreg()}},
+\code{\link[texreg:htmlreg]{texreg::htmlreg()}},
+\code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}, and
+\code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}.
 }
 \examples{
 \donttest{## Example 1: Linear Model

@@ -20,7 +20,7 @@ No return value.
 }
 \description{
 Granger test of predictive causality (between two time-series variables)
-using the \code{lmtest::\link[lmtest]{grangertest}} function.
+using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 }
 \details{
 The Granger causality test can examine whether

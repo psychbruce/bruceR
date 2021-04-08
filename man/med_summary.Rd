@@ -7,14 +7,14 @@
 med_summary(model, digits = nsmall, nsmall = 3, print.avg = TRUE)
 }
 \arguments{
-\item{model}{Mediation model built using \code{mediation::\link[mediation]{mediate}}.}
+\item{model}{Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.}
 
 \item{digits}{Number of decimal places of output. Default is \code{3}.}
 
 \item{nsmall}{The same as \code{digits}.}
 
 \item{print.avg}{Just set as \code{TRUE} for a concise output.
-For details, see the "Value" section in \code{\link[mediation]{mediate}}.}
+For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.}
 }
 \value{
 Invisibly return a data frame containing the results.

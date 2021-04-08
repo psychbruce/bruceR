@@ -1,6 +1,17 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.6.1 (in development)
+# bruceR 0.6.2 (in development)
+
+### Major Changes
+
+-   Improved `set.wd()`: Now it uses `rstudioapi::getSourceEditorContext()` to extract file path (even effective when running in R console), which only requires RStudio version \>= 0.99.1111 and no longer has encoding problems.
+-   Improved `theme_bruce()`: Now it uses `ggtext::element_markdown()` to render Markdown/HTML rich text format used in plot text or title.
+
+### Minor Changes
+
+-   Improved function links in R documentation: `\code{\link[package:function]{package::function()}}`.
+
+# bruceR 0.6.1 (Mar 2021)
 
 ### New Features
 

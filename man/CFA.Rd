@@ -34,10 +34,11 @@ If the model has high-order factors, only "lavaan" style will be output.}
 \item{MI}{\code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.}
 }
 \value{
-A list of results returned by \code{jmv::cfa} and \code{lavaan::cfa}.
+A list of results returned by \code{\link[jmv:cfa]{jmv::cfa()}}
+and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 }
 \description{
-An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
+An extension of \code{\link[jmv:cfa]{jmv::cfa()}} and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 }
 \examples{
 \donttest{data.cfa=lavaan::HolzingerSwineford1939
@@ -53,7 +54,7 @@ CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 }
 }
 \seealso{
-\code{jmv::\link[jmv]{cfa}}
+\code{\link[jmv:cfa]{jmv::cfa()}}
 
-\code{lavaan::\link[lavaan]{cfa}}
+\code{\link[lavaan:cfa]{lavaan::cfa()}}
 }

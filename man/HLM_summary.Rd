@@ -30,8 +30,7 @@ and there is no house-level predictor.
 \item{vartypes}{\strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
 
 \item{test.rand}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
-Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
-The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).}
+Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.
 But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.}

@@ -19,5 +19,5 @@ A character vector of package names.
 Check dependencies of R packages.
 }
 \seealso{
-\link{pkg_install_suggested}
+\code{\link{pkg_install_suggested}}
 }

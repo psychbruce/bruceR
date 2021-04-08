@@ -46,8 +46,9 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
 \strong{[Plot]:}
 \itemize{
   \item \strong{\code{ggplot2}}: Data visualization.
+  \item \strong{\code{ggtext}}: Markdown/HTML rich text format for \code{ggplot2} (geoms and themes).
   \item \strong{\code{cowplot}}: Advanced toolbox for \code{ggplot2} (arrange multiple plots and add labels).
-  \item \strong{\code{see}}: Advanced toolbox for \code{ggplot2} (extra geoms, scales, themes, and color palettes).
+  \item \strong{\code{see}}: Advanced toolbox for \code{ggplot2} (geoms, scales, themes, and color palettes).
 }
 }
 \note{

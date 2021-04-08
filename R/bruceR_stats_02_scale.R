@@ -3,7 +3,7 @@
 
 #' Recode a variable.
 #'
-#' Based on \code{car::\link[car]{recode}}.
+#' Based on \code{\link[car:recode]{car::recode()}}.
 #'
 #' @param var Variable (numeric, character, or factor).
 #' @param recodes Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
@@ -47,7 +47,7 @@ RESCALE=function(var, from=range(var, na.rm=T), to) {
 
 #' Min-max scaling (min-max normalization).
 #'
-#' This function resembles \code{\link[bruceR]{RESCALE}},
+#' This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}},
 #' and it is just equivalent to using \code{RESCALE(var, to=0:1)}.
 #'
 #' @param v Variable (numeric vector).
@@ -272,7 +272,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).
 #'
 #' @description
-#' An extension of \code{jmv::\link[jmv]{reliability}}.
+#' An extension of \code{\link[jmv:reliability]{jmv::reliability()}}.
 #' It reports (1) scale reliability statistics
 #' (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
 #' (2) item reliability statistics
@@ -289,7 +289,8 @@ CONSEC=function(data, var=NULL, items=NULL,
 #'
 #' @inheritParams %%COMPUTE%%
 #'
-#' @return A result object obtained from \code{jmv::\link[jmv]{reliability}}.
+#' @return
+#' A result object obtained from \code{\link[jmv:reliability]{jmv::reliability()}}.
 #'
 #' @examples
 #' # see ?psych::bfi
@@ -304,7 +305,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 #'   Alpha(vars=names(.), rev=c("E1", "E2"))
 #'
 #' @seealso
-#' \code{\link{MEAN}}, \code{jmv::\link[jmv]{reliability}}
+#' \code{\link{MEAN}}
 #'
 #' @export
 Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
@@ -324,7 +325,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
 
 #' Exploratory factor analysis (EFA).
 #'
-#' An extension of \code{jmv::\link[jmv]{efa}}.
+#' An extension of \code{\link[jmv:efa]{jmv::efa()}}.
 #'
 #' @inheritParams %%COMPUTE%%
 #'
@@ -342,7 +343,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
 #' @note It does not have the extraction method "Principal Components". You may still use SPSS.
 #'
 #' @seealso
-#' \code{jmv::\link[jmv]{efa}}
+#' \code{\link[jmv:efa]{jmv::efa()}}
 #'
 #' @examples
 #' \donttest{EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
@@ -419,7 +420,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 
 #' Confirmatory factor analysis (CFA).
 #'
-#' An extension of \code{jmv::\link[jmv]{cfa}} and \code{lavaan::\link[lavaan]{cfa}}.
+#' An extension of \code{\link[jmv:cfa]{jmv::cfa()}} and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 #'
 #' @inheritParams %%COMPUTE%%
 #' @param model Model formula. See examples.
@@ -431,12 +432,14 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 #' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
 #'
-#' @return A list of results returned by \code{jmv::cfa} and \code{lavaan::cfa}.
+#' @return
+#' A list of results returned by \code{\link[jmv:cfa]{jmv::cfa()}}
+#' and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 #'
 #' @seealso
-#' \code{jmv::\link[jmv]{cfa}}
+#' \code{\link[jmv:cfa]{jmv::cfa()}}
 #'
-#' \code{lavaan::\link[lavaan]{cfa}}
+#' \code{\link[lavaan:cfa]{lavaan::cfa()}}
 #'
 #' @examples
 #' \donttest{data.cfa=lavaan::HolzingerSwineford1939

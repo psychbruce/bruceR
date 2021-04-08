@@ -15,7 +15,7 @@ RECODE(var, recodes)
 A vector of recoded variable.
 }
 \description{
-Based on \code{car::\link[car]{recode}}.
+Based on \code{\link[car:recode]{car::recode()}}.
 }
 \examples{
 d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))

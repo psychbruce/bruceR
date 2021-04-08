@@ -17,5 +17,5 @@ It checks and installs R packages suggested by \code{bruceR} (default)
 or any other package.
 }
 \seealso{
-\link{pkg_depend}
+\code{\link{pkg_depend}}
 }

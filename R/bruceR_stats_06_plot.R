@@ -1,7 +1,23 @@
 #### Plot Toolbox ####
 
 
+#' A nice \code{ggplot2} theme that enables Markdown/HTML rich text.
+#'
+#' @description
 #' A nice \code{ggplot2} theme for scientific publication.
+#' It uses \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
+#' to render Markdown/HTML formatted rich text.
+#' You can use a combination of Markdown and/or HTML syntax
+#' (e.g., \code{"*y* = *x*<sup>2</sup>"}) in plot text or title,
+#' and this function draws text elements with rich text format.
+#'
+#' For more usage, see:
+#' \itemize{
+#'   \item \code{\link[ggtext:geom_richtext]{ggtext::geom_richtext()}}
+#'   \item \code{\link[ggtext:geom_textbox]{ggtext::geom_textbox()}}
+#'   \item \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
+#'   \item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
+#' }
 #'
 #' @param base.size Basic font size. Default is 12.
 #' @param line.size Line width. Default is 0.5.
@@ -39,7 +55,8 @@
 #' ggplot(data=d, aes(x=E, y=O)) +
 #'   geom_point(alpha=0.1) +
 #'   geom_smooth(method="loess") +
-#'   labs(x="Extraversion", y="Openness") +
+#'   labs(x="Extraversion<sub>Big 5</sub>",
+#'        y="Openness<sub>Big 5</sub>") +
 #'   theme_bruce()
 #'
 #' ## Example 2 (2x2 ANOVA)
@@ -54,10 +71,13 @@
 #'   scale_y_continuous(expand=expansion(add=0),
 #'                      limits=c(0,8), breaks=0:8) +
 #'   scale_fill_brewer(palette="Set1") +
-#'   labs(x="Independent Variable", y="Dependent Variable", title="Demo") +
+#'   labs(x="Independent Variable (*X*)",  # italic X
+#'        y="Dependent Variable (*Y*)",  # italic Y
+#'        title="Demo Plot<sup>bruceR</sup>") +
 #'   theme_bruce(border="")
 #'
 #' @import ggplot2
+#' @importFrom ggtext element_markdown
 #' @export
 theme_bruce=function(base.size=12, line.size=0.5,
                      border="black",
@@ -81,6 +101,10 @@ theme_bruce=function(base.size=12, line.size=0.5,
   if(!is.null(font)) grDevices::windowsFonts(FONT=grDevices::windowsFont(font))
   theme = theme_bw() +
     theme(
+      # text=element_markdown(),
+      # title=element_markdown(),
+      # legend.text=element_markdown(size=base.size-2),
+      # legend.title=element_markdown(size=base.size),
       panel.grid.minor=element_blank(),
       panel.grid.major.x=if(grid.x=="" | grid.x==FALSE) element_blank() else
         element_line(size=line.size, color=grid.x),
@@ -90,27 +114,27 @@ theme_bruce=function(base.size=12, line.size=0.5,
         element_rect(size=line.size+0.4, color=border, fill=NA),
       panel.background=element_rect(fill=panel.bg),
       axis.line=element_line(size=line.size, color="black"),  # lineend="square"
-      axis.title=element_text(face=axis.title, color="black", size=base.size+2),
-      axis.title.x=element_text(margin=margin(0.5, 0, 0.4, 0, "lines")),
-      axis.title.y=element_text(margin=margin(0, 0.5, 0, 0.4, "lines")),
+      axis.title=element_markdown(face=axis.title, color="black", size=base.size+2),
+      axis.title.x=element_markdown(margin=margin(0.5, 0, 0.4, 0, "lines")),
+      axis.title.y=element_markdown(margin=margin(0, 0.5, 0, 0.4, "lines")),
       axis.ticks=element_line(size=line.size, color="black", lineend="square"),
       axis.ticks.length=unit(0.3, "lines"),
-      axis.text=element_text(color="black", size=base.size),
-      axis.text.x=element_text(margin=margin(ifelse(tick.x, 0.5, 0.3), 0, 0, 0, "lines")),
-      axis.text.y=element_text(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
-      plot.title=element_text(face=plot.title, size=base.size+2, hjust=title.pos,
-                              margin=margin(0.2, 0, 0.6, 0, "lines")),
-      plot.subtitle=element_text(face=plot.title, size=base.size, hjust=subtitle.pos,
-                                 margin=margin(0, 0, 0.6, 0, "lines")),
-      plot.caption=element_text(size=base.size-2, hjust=caption.pos,
-                                margin=margin(0, 0, 0.1, 0, "lines")),
-      plot.tag=element_text(face=tag, size=base.size+2),
+      axis.text=element_markdown(color="black", size=base.size),
+      axis.text.x=element_markdown(margin=margin(ifelse(tick.x, 0.5, 0.3), 0, 0, 0, "lines")),
+      axis.text.y=element_markdown(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
+      plot.title=element_markdown(face=plot.title, size=base.size+2, hjust=title.pos,
+                                  margin=margin(0.2, 0, 0.6, 0, "lines")),
+      plot.subtitle=element_markdown(face=plot.title, size=base.size, hjust=subtitle.pos,
+                                     margin=margin(0, 0, 0.6, 0, "lines")),
+      plot.caption=element_markdown(size=base.size-2, hjust=caption.pos,
+                                    margin=margin(0, 0, 0.1, 0, "lines")),
+      plot.tag=element_markdown(face=tag, size=base.size+2),
       plot.tag.position=c(0.005, 0.985),
       plot.background=element_rect(color=bg, fill=bg),
       plot.margin=margin(0.02, 0.02, 0.02, 0.02, "npc")
     )
   if(!is.null(font))
-    theme = theme + theme(text=element_text(family="FONT"))
+    theme = theme + theme(text=element_markdown(family="FONT"))
   if((border!="" & border!=FALSE) | line.x==FALSE)
     theme = theme + theme(axis.line.x=element_blank())
   if((border!="" & border!=FALSE) | line.y==FALSE)

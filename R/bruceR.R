@@ -58,8 +58,9 @@
 #' \strong{[Plot]:}
 #' \itemize{
 #'   \item \strong{\code{ggplot2}}: Data visualization.
+#'   \item \strong{\code{ggtext}}: Markdown/HTML rich text format for \code{ggplot2} (geoms and themes).
 #'   \item \strong{\code{cowplot}}: Advanced toolbox for \code{ggplot2} (arrange multiple plots and add labels).
-#'   \item \strong{\code{see}}: Advanced toolbox for \code{ggplot2} (extra geoms, scales, themes, and color palettes).
+#'   \item \strong{\code{see}}: Advanced toolbox for \code{ggplot2} (geoms, scales, themes, and color palettes).
 #' }
 #'
 #' @section Main Functions in \code{bruceR}:
@@ -187,7 +188,7 @@ NULL
       ## STAT ##
       "psych", "emmeans", "effectsize", "performance",
       ## PLOT ##
-      "ggplot2", "cowplot", "see")
+      "ggplot2", "ggtext", "cowplot", "see")
   })
 
   # {rep_char('=', 56)}
@@ -208,7 +209,7 @@ NULL
   <<bold <<blue Loaded R packages:>>>>
   <<green <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table>>
   <<green <<yellow [Stat]:>> psych / emmeans / effectsize / performance>>
-  <<green <<yellow [Plot]:>> ggplot2 / cowplot / see>>
+  <<green <<yellow [Plot]:>> ggplot2 / ggtext / cowplot / see>>
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
   <<cyan set.wd() / Describe() / Freq() / Corr() / Alpha() / MEAN()>>

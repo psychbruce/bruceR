@@ -26,7 +26,7 @@ Describe(
 Transform all variables into numeric (continuous).}
 
 \item{plot}{\code{TRUE} or \code{FALSE} (default).
-Visualize the descriptive statistics using \code{GGally::\link[GGally]{ggpairs}}.}
+Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.}
 
 \item{upper.triangle}{\code{TRUE} or \code{FALSE} (default).
 Add (scatter) plots to upper triangle (time consuming when sample size is large).}
@@ -75,5 +75,5 @@ Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 }
 }
 \seealso{
-\link{Corr}
+\code{\link{Corr}}
 }

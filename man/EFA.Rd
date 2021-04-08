@@ -35,7 +35,7 @@ Only relevant when \code{method="fixed"}.}
 No return value.
 }
 \description{
-An extension of \code{jmv::\link[jmv]{efa}}.
+An extension of \code{\link[jmv:efa]{jmv::efa()}}.
 }
 \note{
 It does not have the extraction method "Principal Components". You may still use SPSS.
@@ -45,5 +45,5 @@ It does not have the extraction method "Principal Components". You may still use
 }
 }
 \seealso{
-\code{jmv::\link[jmv]{efa}}
+\code{\link[jmv:efa]{jmv::efa()}}
 }

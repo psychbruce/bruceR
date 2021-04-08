@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.6.1
-Date: 2021-03-24
+Version: 0.6.2
+Date: 2021-04-08
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
@@ -9,21 +9,22 @@ Authors@R:
              email = "baohws@foxmail.com"))
 Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
-Description: Broadly useful convenient and efficient R functions
-             that bring users concise and elegant R data analyses.
-             This package includes easy-to-use functions for
-             (1) basic R programming
-             (e.g., set working directory to where the current file is,
-             print strings with rich formats and colors);
-             (2) multivariate computation
-             (e.g., compute scale sums/means/... with reverse scoring);
-             (3) reliability and factor analyses;
-             (4) descriptive statistics and correlation analyses;
-             (5) multi-factor analysis of variance (ANOVA),
-             simple-effect analysis, and post-hoc multiple comparison;
-             (6) tidy report of regression models (to Console and to Word);
-             (7) mediation and moderation analyses;
-             and (8) additional toolbox for statistics and graphics.
+Description:
+  Broadly useful convenient and efficient R functions
+  that bring users concise and elegant R data analyses.
+  This package includes easy-to-use functions for
+  (1) basic R programming
+  (e.g., set working directory to where the current file is,
+  print strings with rich formats and colors);
+  (2) multivariate computation
+  (e.g., compute scale sums/means/... with reverse scoring);
+  (3) reliability and factor analyses;
+  (4) descriptive statistics and correlation analyses;
+  (5) multi-factor analysis of variance (ANOVA),
+  simple-effect analysis, and post-hoc multiple comparison;
+  (6) tidy report of regression models (to Console and to Word);
+  (7) mediation and moderation analyses;
+  and (8) additional toolbox for statistics and graphics.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -32,7 +33,7 @@ BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 3.6.0)
 Imports: pacman, jmv, mediation, interactions,
          MuMIn, performance, texreg, cowplot, see,
-         glue, crayon, ggplot2
+         glue, crayon, ggplot2, ggtext
 Suggests: rstudioapi,
           rio, dplyr, tidyr, stringr, forcats, data.table,
           car, psych, afex, emmeans, effectsize, jtools,

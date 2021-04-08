@@ -34,7 +34,7 @@
 #' data
 #' data[ID %notin% c(1, 3, 5, 7, 9)]
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%})
+#' @seealso \code{\link[base:match]{\%in\%}}
 #'
 #' @export
 `%notin%`=function(x, vector) {
@@ -52,7 +52,7 @@
 #' 1:2 %allin% 1:3  # TRUE
 #' 3:4 %allin% 1:3  # FALSE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' @seealso \code{\link[base:match]{\%in\%}},
 #' \code{\link{\%anyin\%}},
 #' \code{\link{\%nonein\%}},
 #' \code{\link{\%partin\%}}
@@ -73,7 +73,7 @@
 #' 3:4 %anyin% 1:3  # TRUE
 #' 4:5 %anyin% 1:3  # FALSE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' @seealso \code{\link[base:match]{\%in\%}},
 #' \code{\link{\%allin\%}},
 #' \code{\link{\%nonein\%}},
 #' \code{\link{\%partin\%}}
@@ -94,7 +94,7 @@
 #' 3:4 %nonein% 1:3  # FALSE
 #' 4:5 %nonein% 1:3  # TRUE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' @seealso \code{\link[base:match]{\%in\%}},
 #' \code{\link{\%allin\%}},
 #' \code{\link{\%anyin\%}},
 #' \code{\link{\%partin\%}}
@@ -117,7 +117,7 @@
 #' "bei" %partin% c("Beijing", "Shanghai")  # FALSE
 #' "[aeiou]ng" %partin% c("Beijing", "Shanghai")  # TRUE
 #'
-#' @seealso \code{\link[base]{match}} (\code{\%in\%}),
+#' @seealso \code{\link[base:match]{\%in\%}},
 #' \code{\link{\%allin\%}},
 #' \code{\link{\%anyin\%}},
 #' \code{\link{\%nonein\%}}
@@ -133,11 +133,11 @@
 #' Set working directory to the path of the currently opened file.
 #' You can use this function in both \strong{.R/.Rmd files and the R console}.
 #' \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
-#' (version >= 1.4.843) is required for running this function.
+#' (version >= 1.2) is required for running this function.
 #'
 #' @param path \code{NULL} (default) or a specific path.
 #' Default is to extract the path of the currently opened file
-#' (can be any type, usually an R or Rmd file).
+#' (usually .R or .Rmd) using the \code{rstudioapi::getSourceEditorContext} function.
 #' @param directly \code{TRUE} (default) or \code{FALSE}.
 #' Default is to directly execute \code{setwd("...")} within the function (recommended).
 #' Otherwise, it will send code \code{setwd("...")} to the R console
@@ -149,14 +149,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' # RStudio (version >= 1.4.843) is required for running this function.
+#' # RStudio (version >= 1.2) is required for running this function.
 #' set.wd()  # set working directory to the path of the currently opened file
 #' set.wd("~/")  # set working directory to the home directory
 #' set.wd("../")  # set working directory to the parent directory
 #' set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
 #' }
 #'
-#' @seealso \code{\link{setwd}}
+#' @seealso \code{\link[base:getwd]{setwd}}
 #'
 #' @export
 set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
@@ -174,14 +174,14 @@ set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
         else
           path=rstudioapi::selectDirectory()
       } else {
-        # RStudio version >= 1.4.843
-        if(is.windows)
-          file.path=iconv(rstudioapi::documentPath(), from="UTF-8", to="GBK")
-        else
-          file.path=rstudioapi::documentPath()
-        # path.parts=stringr::str_split(file.path, "/", simplify=TRUE)
-        # path=paste(path.parts[1:(length(path.parts)-1)], collapse="/")
-        path=dirname(file.path)
+        # # RStudio version >= 1.4.843
+        # if(is.windows)
+        #   file.path=iconv(rstudioapi::documentPath(), from="UTF-8", to="GBK")
+        # else
+        #   file.path=rstudioapi::documentPath()
+
+        # RStudio version >= 0.99.1111
+        path=dirname(rstudioapi::getSourceEditorContext()$path)
       }
     }, error=function(e) {
       # Error: Function documentPath not found in RStudio
@@ -190,22 +190,9 @@ set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
               "https://rstudio.com/products/rstudio/download/preview/\n")
     })
   }
-  if(is.null(path)) {
-    # RStudio version >= 0.99.796
-    path=dirname(rstudioapi::getActiveDocumentContext()$path)
-    # this method cannot work in R console
-    if(path=="") {
-      if(ask==FALSE)
-        stop("If the version of RStudio is not >= 1.4.843, ",
-             "you can only use `set.wd()` in .R/.Rmd files but not in the R console.")
-      else
-        stop("If the version of RStudio is not >= 1.1.287, ",
-             "you can only use `set.wd()` in .R/.Rmd files with `ask=FALSE`.")
-    }
-  }
   if(length(path)>0) {
     if(directly) {
-      eval(parse(text=(paste0("setwd(\"", path, "\")"))))
+      eval(parse(text=paste0("setwd(\"", path, "\")")))
       Print("<<green \u2714>> Set working directory to <<blue \"{getwd()}\">>")
     } else {
       rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
@@ -228,7 +215,7 @@ set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
 ## pkg_depend("dplyr", excludes="jmv")  # no unique dependencies
 ## pkg_depend(pacman::p_depends("bruceR", local=TRUE)$Imports)
 ##
-#' @seealso \link{pkg_install_suggested}
+#' @seealso \code{\link{pkg_install_suggested}}
 #'
 #' @export
 pkg_depend=function(pkgs, excludes=NULL) {
@@ -263,7 +250,7 @@ pkg_depend=function(pkgs, excludes=NULL) {
 ## @examples
 ## pkg_install_suggested()
 ##
-#' @seealso \link{pkg_depend}
+#' @seealso \code{\link{pkg_depend}}
 #'
 #' @export
 pkg_install_suggested=function(by="bruceR") {
@@ -300,7 +287,7 @@ pkg_install_suggested=function(by="bruceR") {
 #' Run examples to see what it can do.
 #'
 #' @details
-#' See more details in \code{glue::\link[glue]{glue}} and \code{glue::\link[glue]{glue_col}}.
+#' See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue]{glue::glue_col()}}.
 #'
 #' @param ... Character strings enclosed by \code{"{ }"} will be evaluated as R code.
 #'

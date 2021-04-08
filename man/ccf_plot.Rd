@@ -9,7 +9,7 @@ ccf_plot(
   data,
   lag.max = 30,
   sig.level = 0.05,
-  xbreaks = seq(-30, 30, 10),
+  xbreaks = seq(-100, 100, 10),
   ybreaks = seq(-1, 1, 0.2),
   ylim = NULL,
   alpha.ns = 1,

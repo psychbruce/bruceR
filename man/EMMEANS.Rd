@@ -17,7 +17,7 @@ EMMEANS(
 )
 }
 \arguments{
-\item{model}{A model fitted by \code{\link{MANOVA}} or \code{afex::aov_ez}.}
+\item{model}{A model fitted by \code{\link{MANOVA}} or \code{\link[afex:aov_car]{afex::aov_ez()}}.}
 
 \item{effect}{The effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it will output the results of omnibus tests or simple main effects.
 If set to a character vector (e.g., \code{c("A", "B")}), it will also output the results of simple interaction effects.}
@@ -27,21 +27,21 @@ If set to a character vector (e.g., \code{c("A", "B")}), it will also output the
 \item{contrast}{Contrast method for multiple comparisons. Default is \code{"pairwise"}.
 
 Alternatives can be \code{"pairwise" ("revpairwise"), "seq" ("consec"), "poly", "eff"}.
-For details, see \code{emmeans::contrast-methods}.}
+For details, see \code{?emmeans::`contrast-methods`}.}
 
 \item{p.adjust}{Adjustment method (of \emph{p} values) for multiple comparisons. Default is \code{"bonferroni"}.
 For polynomial contrasts, default is \code{"none"}.
 
 Alternatives can be \code{"none"; "fdr", "hochberg", "hommel", "holm"; "tukey", "mvt", "dunnettx", "sidak", "scheffe", "bonferroni"}.
 The latter six methods are recommended!
-For details, see \code{stats::p.adjust} and \code{emmeans::confint.emmGrid}.}
+For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and \code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.}
 
 \item{cohen.d}{Method to compute Cohen's \emph{d} in multiple comparisons.
 Default is \code{"accurate"}, which will give the most reasonable estimates of Cohen's \emph{d} and its 95\% CI.
 This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term
 (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
 
-One alternative can be \code{"eff_size"}, which uses the \code{\link[emmeans]{eff_size}} function in the \code{emmeans} package.
+One alternative can be \code{"eff_size"}, which uses the \code{\link[emmeans:eff_size]{emmeans::eff_size()}}.
 Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
 However, its CI estimates seem a little bit confusing.
 For details about this method, see \href{https://CRAN.R-project.org/package=emmeans}{Comparisons and contrasts}.}
@@ -54,24 +54,25 @@ Yet, users can manually set the SD_pooled (e.g., the SD of a reference group).}
 \item{reverse}{The order of levels to be contrasted. Default is \code{TRUE} ("higher level vs. lower level").}
 }
 \value{
-A result object returned by \code{afex::aov_ez} (the same as \link{MANOVA} for recursive use).
+A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}
+(the same as \code{\link{MANOVA}} for recursive use).
 }
 \description{
 Easily perform (1) simple-effect and simple-simple-effect analyses, including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p}-value adjustment for factors with >= 3 levels
 (using methods such as Bonferroni, Tukey's HSD, and FDR).
-}
-\details{
+
 This function is based on and extends the
-(1) \code{\link[emmeans]{joint_tests}},
-(2) \code{\link[emmeans]{emmeans}}, and
-(3) \code{\link[emmeans]{contrast}} functions in the R package \code{emmeans}.
+(1) \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}},
+(2) \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, and
+(3) \code{\link[emmeans:contrast]{emmeans:contrast()}} functions in the R package \code{emmeans}.
 You only need to specify the model object, to-be-tested effect(s), and moderator(s).
 Then, almost all the outputs you need will be displayed in an elegant manner,
 including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
+}
+\section{Statistical Details}{
 
-\strong{Statistical Details:}
 
 Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
 Such a confusion is not uncommon. Here, I explain what these terms actually refer to.
@@ -135,6 +136,7 @@ Such a confusion is not uncommon. Here, I explain what these terms actually refe
   }
 }
 }
+
 \examples{
 \donttest{#### Between-Subjects Design ####
 
