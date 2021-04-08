@@ -21,22 +21,22 @@ MANOVA(
 \arguments{
 \item{data}{Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
 \itemize{
-  \item If you input \strong{long-format} data, please also set \strong{subID}.
-  \item If you input \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
+  \item If using \strong{long-format} data, please also set \strong{subID}.
+  \item If using \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
   the function can \strong{\emph{automatically}} transform the data into \strong{long-format}.
 }}
 
 \item{subID}{Subject ID.
 \itemize{
-  \item If you input \strong{long-format} data, you should set the subject ID.
-  \item If you input \strong{wide-format} data, no need to set this parameter.
+  \item If using \strong{long-format} data, you should set the subject ID.
+  \item If using \strong{wide-format} data, no need to set this parameter.
 }}
 
 \item{dv}{Variable name of dependent variable.
 \itemize{
-  \item If you input \strong{long-format} data, then \code{dv} is the outcome variable.
-  \item If you input \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
-  For designs with any repeated measures, please use \code{dvs} and \code{dvs.pattern}.
+  \item If using \strong{long-format} data, then \code{dv} is the outcome variable.
+  \item If using \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
+  For designs with repeated measures, please use \code{dvs} and \code{dvs.pattern}.
 }}
 
 \item{dvs}{\strong{[only for "wide-format" data and designs with repeated measures]}
@@ -75,7 +75,7 @@ If you set \code{dvs}, you must also set the pattern of variable names by using 
 
 \item{within}{Within-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
 
-\item{covariate}{Covariates (if necessary). Character string or vector. Default is \code{NULL}.}
+\item{covariate}{Covariates (if necessary). Character string (e.g., \code{"age"}) or vector (e.g., \code{c("gender", "age", "edu")}). Default is \code{NULL}.}
 
 \item{sph.correction}{\strong{[only effective for repeated measures with >= 3 levels]}
 
@@ -94,11 +94,12 @@ The generalized \eqn{\eta^2} requires correct specification of the observed (vs.
 A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
 }
 \description{
-Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed design).
+Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
+with or without covariates (ANCOVA).
 
 This function is based on and extends the \code{\link[afex:aov_car]{afex::aov_ez()}} function.
 You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
-Then, almost all the outputs you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
+Almost all results you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
 }
 \examples{
