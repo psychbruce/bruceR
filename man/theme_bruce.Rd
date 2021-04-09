@@ -5,6 +5,7 @@
 \title{A nice \code{ggplot2} theme that enables Markdown/HTML rich text.}
 \usage{
 theme_bruce(
+  markdown = FALSE,
   base.size = 12,
   line.size = 0.5,
   border = "black",
@@ -26,6 +27,9 @@ theme_bruce(
 )
 }
 \arguments{
+\item{markdown}{Use \code{element_markdown()} instead of \code{element_text()}. Default is \code{FALSE}.
+If set to \code{TRUE}, then you should also use \code{element_markdown()} in \code{theme()} (if any).}
+
 \item{base.size}{Basic font size. Default is 12.}
 
 \item{line.size}{Line width. Default is 0.5.}
@@ -61,13 +65,13 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 
 \item{grid.y}{\code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).}
 
-\item{line.x}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.}
+\item{line.x}{Draw the x-axis line. Default is \code{TRUE}.}
 
-\item{line.y}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis line.}
+\item{line.y}{Draw the y-axis line. Default is \code{TRUE}.}
 
-\item{tick.x}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.}
+\item{tick.x}{Draw the x-axis ticks. Default is \code{TRUE}.}
 
-\item{tick.y}{\code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.}
+\item{tick.y}{Draw the y-axis ticks. Default is \code{TRUE}.}
 }
 \value{
 A theme object that should be used for \code{ggplot2}.
@@ -98,7 +102,7 @@ ggplot(data=d, aes(x=E, y=O)) +
   geom_smooth(method="loess") +
   labs(x="Extraversion<sub>Big 5</sub>",
        y="Openness<sub>Big 5</sub>") +
-  theme_bruce()
+  theme_bruce(markdown=TRUE)
 
 ## Example 2 (2x2 ANOVA)
 d=data.frame(X1=factor(rep(1:3, each=2)),
@@ -115,6 +119,6 @@ ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
   labs(x="Independent Variable (*X*)",  # italic X
        y="Dependent Variable (*Y*)",  # italic Y
        title="Demo Plot<sup>bruceR</sup>") +
-  theme_bruce(border="")
+  theme_bruce(markdown=TRUE, border="")
 
 }

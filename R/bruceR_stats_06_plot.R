@@ -19,6 +19,8 @@
 #'   \item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
 #' }
 #'
+#' @param markdown Use \code{element_markdown()} instead of \code{element_text()}. Default is \code{FALSE}.
+#' If set to \code{TRUE}, then you should also use \code{element_markdown()} in \code{theme()} (if any).
 #' @param base.size Basic font size. Default is 12.
 #' @param line.size Line width. Default is 0.5.
 #' @param border \code{TRUE}, \code{FALSE}, or \code{"black"} (default).
@@ -40,10 +42,10 @@
 #' @param font Text font. Only applicable to Windows system.
 #' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
 #' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
-#' @param line.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis line.
-#' @param line.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis line.
-#' @param tick.x \code{TRUE} (default) or \code{FALSE}. Whether to draw the x-axis ticks.
-#' @param tick.y \code{TRUE} (default) or \code{FALSE}. Whether to draw the y-axis ticks.
+#' @param line.x Draw the x-axis line. Default is \code{TRUE}.
+#' @param line.y Draw the y-axis line. Default is \code{TRUE}.
+#' @param tick.x Draw the x-axis ticks. Default is \code{TRUE}.
+#' @param tick.y Draw the y-axis ticks. Default is \code{TRUE}.
 #'
 #' @return A theme object that should be used for \code{ggplot2}.
 #'
@@ -57,7 +59,7 @@
 #'   geom_smooth(method="loess") +
 #'   labs(x="Extraversion<sub>Big 5</sub>",
 #'        y="Openness<sub>Big 5</sub>") +
-#'   theme_bruce()
+#'   theme_bruce(markdown=TRUE)
 #'
 #' ## Example 2 (2x2 ANOVA)
 #' d=data.frame(X1=factor(rep(1:3, each=2)),
@@ -74,12 +76,13 @@
 #'   labs(x="Independent Variable (*X*)",  # italic X
 #'        y="Dependent Variable (*Y*)",  # italic Y
 #'        title="Demo Plot<sup>bruceR</sup>") +
-#'   theme_bruce(border="")
+#'   theme_bruce(markdown=TRUE, border="")
 #'
 #' @import ggplot2
 #' @importFrom ggtext element_markdown
 #' @export
-theme_bruce=function(base.size=12, line.size=0.5,
+theme_bruce=function(markdown=FALSE,
+                     base.size=12, line.size=0.5,
                      border="black",
                      bg="white", panel.bg="white",
                      tag="bold", plot.title="bold", axis.title="plain",
@@ -88,6 +91,7 @@ theme_bruce=function(base.size=12, line.size=0.5,
                      grid.x="", grid.y="",
                      line.x=TRUE, line.y=TRUE,
                      tick.x=TRUE, tick.y=TRUE) {
+  if(markdown) element_text=element_markdown
   # font face:
   #     "plain", "italic", "bold", "bold.italic"
   # margin:
@@ -114,27 +118,27 @@ theme_bruce=function(base.size=12, line.size=0.5,
         element_rect(size=line.size+0.4, color=border, fill=NA),
       panel.background=element_rect(fill=panel.bg),
       axis.line=element_line(size=line.size, color="black"),  # lineend="square"
-      axis.title=element_markdown(face=axis.title, color="black", size=base.size+2),
-      axis.title.x=element_markdown(margin=margin(0.5, 0, 0.4, 0, "lines")),
-      axis.title.y=element_markdown(margin=margin(0, 0.5, 0, 0.4, "lines")),
+      axis.title=element_text(face=axis.title, color="black", size=base.size+2),
+      axis.title.x=element_text(margin=margin(0.5, 0, 0.4, 0, "lines")),
+      axis.title.y=element_text(margin=margin(0, 0.5, 0, 0.4, "lines")),
       axis.ticks=element_line(size=line.size, color="black", lineend="square"),
       axis.ticks.length=unit(0.3, "lines"),
-      axis.text=element_markdown(color="black", size=base.size),
-      axis.text.x=element_markdown(margin=margin(ifelse(tick.x, 0.5, 0.3), 0, 0, 0, "lines")),
-      axis.text.y=element_markdown(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
-      plot.title=element_markdown(face=plot.title, size=base.size+2, hjust=title.pos,
-                                  margin=margin(0.2, 0, 0.6, 0, "lines")),
-      plot.subtitle=element_markdown(face=plot.title, size=base.size, hjust=subtitle.pos,
-                                     margin=margin(0, 0, 0.6, 0, "lines")),
-      plot.caption=element_markdown(size=base.size-2, hjust=caption.pos,
-                                    margin=margin(0, 0, 0.1, 0, "lines")),
-      plot.tag=element_markdown(face=tag, size=base.size+2),
+      axis.text=element_text(color="black", size=base.size),
+      axis.text.x=element_text(margin=margin(ifelse(tick.x, 0.5, 0.3), 0, 0, 0, "lines")),
+      axis.text.y=element_text(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
+      plot.title=element_text(face=plot.title, size=base.size+2, hjust=title.pos,
+                              margin=margin(0.2, 0, 0.6, 0, "lines")),
+      plot.subtitle=element_text(face=plot.title, size=base.size, hjust=subtitle.pos,
+                                 margin=margin(0, 0, 0.6, 0, "lines")),
+      plot.caption=element_text(size=base.size-2, hjust=caption.pos,
+                                margin=margin(0, 0, 0.1, 0, "lines")),
+      plot.tag=element_text(face=tag, size=base.size+2),
       plot.tag.position=c(0.005, 0.985),
       plot.background=element_rect(color=bg, fill=bg),
       plot.margin=margin(0.02, 0.02, 0.02, 0.02, "npc")
     )
   if(!is.null(font))
-    theme = theme + theme(text=element_markdown(family="FONT"))
+    theme = theme + theme(text=element_text(family="FONT"))
   if((border!="" & border!=FALSE) | line.x==FALSE)
     theme = theme + theme(axis.line.x=element_blank())
   if((border!="" & border!=FALSE) | line.y==FALSE)
