@@ -8,6 +8,6 @@ citEntry(entry = "Misc",
    textVersion =
    paste("Bao, H.-W.-S. (2021).",
          "bruceR: Broadly useful convenient and efficient R functions.",
-         "R package version 0.6.1.",
+         "R package version 0.6.x.",
          "https://CRAN.R-project.org/package=bruceR")
 )

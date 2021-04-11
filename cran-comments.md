@@ -12,7 +12,7 @@ In this version (0.6.2), I have added four new functions (`HLM_ICC_rWG()`, `Run(
 
 ## R CMD check results
 
-0 errors √ | 0 warnings √ | 0 notes √
+0 errors | 0 warnings | 0 notes
 
 
 ## Reverse dependencies
