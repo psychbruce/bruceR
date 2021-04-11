@@ -11,8 +11,8 @@ EMMEANS(
   contrast = "pairwise",
   reverse = TRUE,
   p.adjust = "bonferroni",
-  cohen.d = "accurate",
   sd.pooled = NULL,
+  spss = TRUE,
   nsmall = 2
 )
 }
@@ -47,17 +47,12 @@ Alternatives can be \code{"none"}, \code{"fdr"}, \code{"hochberg"},
 For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and
 \code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.}
 
-\item{cohen.d}{Method to compute Cohen's \emph{d} in pairwise comparisons.
-Default is \code{"accurate"}, which has the most reasonable estimate of Cohen's \emph{d} and its 95\% CI.
-This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term
-(\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
-
-One alternative can be \code{"eff_size"}, which uses \code{\link[emmeans:eff_size]{emmeans::eff_size()}}.
-Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
-However, its CI estimates seem a little bit confusing (and not much precise).}
-
 \item{sd.pooled}{By default, it uses \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
-Users may also manually set it (e.g., the \emph{SD} of a reference group).}
+Users may also manually set it (e.g., the \emph{SD} of a reference group, or using \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}}).}
+
+\item{spss}{Return results identical to SPSS.
+Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
+for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 }
@@ -78,6 +73,15 @@ You only need to specify the model object, to-be-tested effect(s), and moderator
 Almost all results you need will be displayed in an elegant manner,
 including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
+
+To compute Cohen's \emph{d} and its 95\% CI in pairwise comparisons,
+this function uses the pooled \emph{SD}:
+\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is of the effect term extracted from ANOVA table.
+
+\strong{\emph{Disclaimer}:}
+There is substantial disagreement on what is the appropriate pooled \emph{SD} to use in computing effect sizes.
+For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
+Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
 }
 \section{Statistical Details}{
 

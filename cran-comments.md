@@ -1,6 +1,6 @@
 ## News
 
-In this version (0.6.1), I have added four new functions (`HLM_ICC_rWG()`, `Run()`, `show_colors()`, and `%^%`) and improved or fixed bugs in two functions (`Alpha()` and `set.wd()`). Modified citation information is also provided.
+In this version (0.6.2), I have added four new functions (`HLM_ICC_rWG()`, `Run()`, `show_colors()`, and `%^%`), improved four functions (`Alpha()`, `set.wd()`, `EMMEANS()`, and `theme_bruce()`), and added details about the package's contents in the Description field. Modified citation information is also provided.
 
 
 ## Test environments
@@ -12,9 +12,10 @@ In this version (0.6.1), I have added four new functions (`HLM_ICC_rWG()`, `Run(
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs, or NOTEs.
+0 errors √ | 0 warnings √ | 0 notes √
 
 
-## Downstream dependencies
+## Reverse dependencies
 
-No reverse dependency currently.
+Checks on the one downstream dependency (`ChineseNames`) found no problems.
+

@@ -47,8 +47,8 @@ RESCALE=function(var, from=range(var, na.rm=T), to) {
 
 #' Min-max scaling (min-max normalization).
 #'
-#' This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}},
-#' and it is just equivalent to using \code{RESCALE(var, to=0:1)}.
+#' This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}}
+#' and it is just equivalent to \code{RESCALE(var, to=0:1)}.
 #'
 #' @param v Variable (numeric vector).
 #' @param min Minimum value (default is 0).
@@ -69,15 +69,15 @@ scaler=function(v, min=0, max=1) {
 #' Multivariate computation.
 #'
 #' @description
-#' Easily compute the sum, mean, or other indexes of a scale.
-#' Reverse scoring can also be easily implemented, without generating extra variables
-#' (\code{\link{Alpha}} uses a similar method to deal with reverse scoring)!
+#' Easily compute multivariate sum, mean, and other scores.
+#' Reverse scoring can also be easily implemented without saving extra variables.
+#' \code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
 #'
-#' Three ways to specify the variable list:
+#' Three options to specify the variable list:
 #' \enumerate{
 #'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define the variable list.
-#'   \item \strong{\code{varrange}}: use the start and end positions of the variable list.
+#'   \item \strong{\code{vars}}: directly define a variable list.
+#'   \item \strong{\code{varrange}}: use the start and end positions of a variable list.
 #' }
 #'
 #' @param data Data frame.
@@ -86,9 +86,9 @@ scaler=function(v, min=0, max=1) {
 #' @param items \strong{[option 1]}
 #' Unique part across multiple variables (e.g., \code{1:10}).
 #' @param vars \strong{[option 2]}
-#' Character vector specifying the variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).
+#' Character vector specifying a variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).
 #' @param varrange \strong{[option 3]}
-#' Character with \code{":"} specifying the start and end positions of the variable list (e.g., \code{"A1:E5"}).
+#' Character with \code{":"} specifying the start and end positions of a variable list (e.g., \code{"A1:E5"}).
 #' @param value [only for \code{COUNT}] The value to be counted.
 #' @param rev [optional] Reverse-scoring variables. It can be
 #' (1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
@@ -98,7 +98,7 @@ scaler=function(v, min=0, max=1) {
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
 #' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
 #'
-#' @return A vector of computed variable.
+#' @return A vector of computed values.
 #'
 #' @examples
 #' d=data.table(x1=1:5,
@@ -169,7 +169,7 @@ COUNT=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mode} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mode} across multiple variables.
 #' @export
 MODE=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
   getmode=function(v) {
@@ -182,7 +182,7 @@ MODE=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{sum} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{sum} across multiple variables.
 #' @export
 SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -203,7 +203,7 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{mean} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mean} across multiple variables.
 #' @export
 MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
               rev=NULL, likert=NULL,
@@ -224,7 +224,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{standard deviation} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{standard deviation} across multiple variables.
 #' @importFrom stats sd
 #' @export
 STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
@@ -246,7 +246,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
 #' @export
 CONSEC=function(data, var=NULL, items=NULL,
                 vars=NULL,
@@ -280,11 +280,11 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' and what Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}
 #' would be if the item was dropped).
 #'
-#' Three ways to specify the variable list:
+#' Three options to specify the variable list:
 #' \enumerate{
 #'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define the variable list.
-#'   \item \strong{\code{varrange}}: use the start and end positions of the variable list.
+#'   \item \strong{\code{vars}}: directly define a variable list.
+#'   \item \strong{\code{varrange}}: use the start and end positions of a variable list.
 #' }
 #'
 #' @inheritParams %%COMPUTE%%
@@ -316,10 +316,12 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
   }
   if(is.null(vars)) vars=paste0(var, items)
   if(is.numeric(rev)) rev=paste0(var, rev)
-  jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
-                   meanScale=TRUE, sdScale=TRUE,
-                   alphaScale=TRUE, omegaScale=TRUE,
-                   itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
+  rel=jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
+                       meanScale=TRUE, sdScale=TRUE,
+                       alphaScale=TRUE, omegaScale=TRUE,
+                       itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
+  rel$items$setTitle("Item Reliability Statistics (if item is dropped)")
+  return(rel)
 }
 
 
@@ -427,7 +429,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' @param highorder High-order factor. Default is \code{""}.
 #' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero, and only "lavaan" style will be output.
 #' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).
-#' @param style \code{"jmv"}, \code{"lavaan"}, or both (default).
+#' @param style \code{"jmv"}, \code{"lavaan"} (default), or both \code{c("jmv", "lavaan")}.
 #' If the model has high-order factors, only "lavaan" style will be output.
 #' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 #' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
@@ -456,7 +458,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",
-             style=c("jmv", "lavaan"), CI=FALSE, MI=FALSE) {
+             style="lavaan", CI=FALSE, MI=FALSE) {
   model.jmv=modelCFA.trans("jmv", model)
   model.lav=modelCFA.trans("lavaan", model, highorder)
   if(orthogonal==TRUE | highorder!="") style="lavaan"
@@ -477,8 +479,7 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
                      # pathDiagram=plot,
                      fitMeasures=c("cfi", "tli", "rmsea", "srmr", "aic", "bic"),
                      miss=missing) # fiml (default), listwise
-    # cat(r$modelSyntax)
-    cat("#### jamovi style output ####\n")
+    cat("\n#### jamovi style output ####\n")
     print(fit.jmv)
     results=c(results, fit.jmv=fit.jmv)
   }
@@ -491,8 +492,8 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
                         # FALSE: fixing the factor loading of the first indicator to 1
                         orthogonal=orthogonal,
                         missing=missing) # fiml, listwise (default)
-    cat("#### lavaan style output ####\n\n")
-    summary(fit.lav, fit.measures=TRUE, standard=TRUE)
+    cat("\n#### lavaan style output ####\n\n")
+    lavaan::summary(fit.lav, fit.measures=TRUE, standard=TRUE)
     if(MI) print(lavaan::modificationIndices(fit.lav))
     # if(plot) semPlot::semPaths(fit.lav, "std", curveAdjacent=TRUE,
     #                            style="lisrel", nDigits=2, edge.label.cex=1)

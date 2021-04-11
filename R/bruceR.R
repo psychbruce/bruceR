@@ -33,7 +33,11 @@
 #' \strong{R}
 #' data analyses.
 #'
-#' Check updates on \url{https://github.com/psychbruce/bruceR}
+#' Install the latest \href{https://github.com/psychbruce/bruceR}{development version} by \code{devtools::install_github("psychbruce/bruceR")}
+#'
+#' Check updates in \href{https://github.com/psychbruce/bruceR/blob/master/NEWS.md}{Release Notes}.
+#'
+#' Report bugs in \href{https://github.com/psychbruce/bruceR/issues}{GitHub Issues}.
 #'
 #' Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages for you:
 #'
@@ -162,7 +166,7 @@
 #' }
 #'
 #' @note
-#' Please always use \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
 #' as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R software.
 #'
 #' @author

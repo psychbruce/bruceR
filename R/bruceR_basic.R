@@ -5,7 +5,7 @@
 #'
 #' Paste strings together. A wrapper of \code{paste0()}.
 #' Why \code{\%^\%}? Because typing \code{\%} and \code{^} is pretty easy by
-#' pressing \strong{Shift + 5 + 6 + 5} and \code{\%^\%} is also clear to see.
+#' pressing \strong{Shift + 5 + 6 + 5}.
 #'
 #' @param x,y Any objects, usually a numeric or character string or vector.
 #'
@@ -132,7 +132,7 @@
 #'
 #' Set working directory to the path of the currently opened file.
 #' You can use this function in both \strong{.R/.Rmd files and the R console}.
-#' \href{https://rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
 #' (version >= 1.2) is required for running this function.
 #'
 #' @param path \code{NULL} (default) or a specific path.

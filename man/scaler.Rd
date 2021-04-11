@@ -17,8 +17,8 @@ scaler(v, min = 0, max = 1)
 A vector of rescaled variable.
 }
 \description{
-This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}},
-and it is just equivalent to using \code{RESCALE(var, to=0:1)}.
+This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}}
+and it is just equivalent to \code{RESCALE(var, to=0:1)}.
 }
 \examples{
 scaler(1:5)

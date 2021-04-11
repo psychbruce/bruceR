@@ -10,7 +10,7 @@ CFA(
   highorder = "",
   orthogonal = FALSE,
   missing = "listwise",
-  style = c("jmv", "lavaan"),
+  style = "lavaan",
   CI = FALSE,
   MI = FALSE
 )
@@ -26,7 +26,7 @@ CFA(
 
 \item{missing}{Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).}
 
-\item{style}{\code{"jmv"}, \code{"lavaan"}, or both (default).
+\item{style}{\code{"jmv"}, \code{"lavaan"} (default), or both \code{c("jmv", "lavaan")}.
 If the model has high-order factors, only "lavaan" style will be output.}
 
 \item{CI}{\code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.}

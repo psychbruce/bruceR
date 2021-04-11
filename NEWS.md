@@ -12,6 +12,10 @@
 
 -   Improved function links in R documentation: `\code{\link[package:function]{package::function()}}`.
 
+### Bug Fixes
+
+-   Fixed a bug in `CFA()` (for lavaan-style output).
+
 # bruceR 0.6.1 (Mar 2021)
 
 ### New Features

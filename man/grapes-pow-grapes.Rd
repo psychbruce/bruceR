@@ -15,7 +15,7 @@ A character string/vector of the pasted values.
 \description{
 Paste strings together. A wrapper of \code{paste0()}.
 Why \code{\%^\%}? Because typing \code{\%} and \code{^} is pretty easy by
-pressing \strong{Shift + 5 + 6 + 5} and \code{\%^\%} is also clear to see.
+pressing \strong{Shift + 5 + 6 + 5}.
 }
 \examples{
 "He" \%^\% "llo"

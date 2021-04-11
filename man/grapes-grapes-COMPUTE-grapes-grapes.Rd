@@ -66,10 +66,10 @@ Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
 Unique part across multiple variables (e.g., \code{1:10}).}
 
 \item{vars}{\strong{[option 2]}
-Character vector specifying the variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
+Character vector specifying a variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
 
 \item{varrange}{\strong{[option 3]}
-Character with \code{":"} specifying the start and end positions of the variable list (e.g., \code{"A1:E5"}).}
+Character with \code{":"} specifying the start and end positions of a variable list (e.g., \code{"A1:E5"}).}
 
 \item{value}{[only for \code{COUNT}] The value to be counted.}
 
@@ -85,33 +85,33 @@ If not provided, it will be automatically estimated from the given data (BUT you
 \item{values}{[only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).}
 }
 \value{
-A vector of computed variable.
+A vector of computed values.
 }
 \description{
-Easily compute the sum, mean, or other indexes of a scale.
-Reverse scoring can also be easily implemented, without generating extra variables
-(\code{\link{Alpha}} uses a similar method to deal with reverse scoring)!
+Easily compute multivariate sum, mean, and other scores.
+Reverse scoring can also be easily implemented without saving extra variables.
+\code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
 
-Three ways to specify the variable list:
+Three options to specify the variable list:
 \enumerate{
   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define the variable list.
-  \item \strong{\code{varrange}}: use the start and end positions of the variable list.
+  \item \strong{\code{vars}}: directly define a variable list.
+  \item \strong{\code{varrange}}: use the start and end positions of a variable list.
 }
 }
 \section{Functions}{
 \itemize{
 \item \code{COUNT}: \strong{Count} a certain value across multiple variables.
 
-\item \code{MODE}: Compute the \strong{mode} across multiple variables.
+\item \code{MODE}: Compute \strong{mode} across multiple variables.
 
-\item \code{SUM}: Compute the \strong{sum} across multiple variables.
+\item \code{SUM}: Compute \strong{sum} across multiple variables.
 
-\item \code{MEAN}: Compute the \strong{mean} across multiple variables.
+\item \code{MEAN}: Compute \strong{mean} across multiple variables.
 
-\item \code{STD}: Compute the \strong{standard deviation} across multiple variables.
+\item \code{STD}: Compute \strong{standard deviation} across multiple variables.
 
-\item \code{CONSEC}: Compute the \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
+\item \code{CONSEC}: Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
 }}
 
 \examples{

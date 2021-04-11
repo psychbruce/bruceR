@@ -284,7 +284,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                         anova_table=list(correction=sph.correction,
                                          es="ges"),
                         fun_aggregate=mean,
-                        include_aov=TRUE,  # see EMMEANS, default will be FALSE
+                        include_aov=FALSE,
                         factorize=FALSE,
                         print.formula=FALSE)
   })
@@ -370,6 +370,15 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
 #'
+#' To compute Cohen's \emph{d} and its 95\% CI in pairwise comparisons,
+#' this function uses the pooled \emph{SD}:
+#' \strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is of the effect term extracted from ANOVA table.
+#'
+#' \strong{\emph{Disclaimer}:}
+#' There is substantial disagreement on what is the appropriate pooled \emph{SD} to use in computing effect sizes.
+#' For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
+#' Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
+#'
 #' @section Statistical Details:
 #'
 #' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
@@ -440,14 +449,6 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' If set to a character vector (e.g., \code{c("A", "B")}),
 #' it also reports the results of simple interaction effect.
 #' @param by Moderator variable(s). Default is \code{NULL}.
-## @param spss Return results identical to SPSS.
-## Default is \code{TRUE}, which deletes the \code{aov} object in \code{model}.
-##
-## \emph{Note}: For ANOVAs with repeated measures, the results will not be identical to SPSS if
-## using the raw \code{model} object, because it contains both \code{aov} and \code{lm} objects.
-## Dropping the \code{aov} object in \code{model} makes the results identical to SPSS.
-## But in a few cases, this might also cause an error due to a singular within-cells error matrix
-## (some variables are linearly dependent). If that happens, then set \code{spss=FALSE}.
 #' @param contrast Contrast method for multiple comparisons.
 #' Default is \code{"pairwise"}.
 #'
@@ -465,16 +466,11 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' \code{"dunnettx"}, \code{"sidak"}, \code{"scheffe"}, \code{"bonferroni"}.
 #' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and
 #' \code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.
-#' @param cohen.d Method to compute Cohen's \emph{d} in pairwise comparisons.
-#' Default is \code{"accurate"}, which has the most reasonable estimate of Cohen's \emph{d} and its 95\% CI.
-#' This method divides the raw means and CIs by the pooled \emph{SD} corresponding to the effect term
-#' (\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is extracted from the ANOVA table).
-#'
-#' One alternative can be \code{"eff_size"}, which uses \code{\link[emmeans:eff_size]{emmeans::eff_size()}}.
-#' Its point estimates of Cohen's \emph{d} replicate those by the \code{"accurate"} method.
-#' However, its CI estimates seem a little bit confusing (and not much precise).
 #' @param sd.pooled By default, it uses \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
-#' Users may also manually set it (e.g., the \emph{SD} of a reference group).
+#' Users may also manually set it (e.g., the \emph{SD} of a reference group, or using \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}}).
+#' @param spss Return results identical to SPSS.
+#' Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
+#' for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
 #' @param nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
@@ -570,8 +566,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  contrast="pairwise",
                  reverse=TRUE,
                  p.adjust="bonferroni",
-                 cohen.d="accurate",
                  sd.pooled=NULL,
+                 spss=TRUE,
                  nsmall=2) {
   # model.raw=model
   # if(spss) model$aov=NULL
@@ -586,8 +582,6 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   #    !is.null(by) & !is.null(model$between) & by %anyin% model$between) {
   #   model=model.raw
   # }
-
-  spss=TRUE
 
   ## Simple Effect (omnibus)
   # see 'weights' in ?emmeans
@@ -675,33 +669,26 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   con=summary(con)  # to a data.frame (class 'summary_emm')
   con$sig=sig.trans(con$p.value)
 
-  # Cohen's d: 2 methods
+  # Cohen's d
   rn=row.names(model$anova_table)
   term=c()
   for(i in rn) if(i %in% effect) term=c(term, i)
   term=paste(term, collapse=":")
-  if(is.null(sd.pooled)) {
-    if(cohen.d=="eff_size")
-      sd.pooled=stats::sigma(model$lm)
-    else
-      sd.pooled=sqrt(model$anova_table[term, "MSE"])
-  }
+  if(is.null(sd.pooled))
+    sd.pooled=sqrt(model$anova_table[term, "MSE"])
   if(contrast!="poly")
     attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
                         attr(con, "mesg"))
-  if(cohen.d=="eff_size") {
-    es=emmeans::eff_size(emm0, method=contrast,
-                         sigma=sd.pooled,
-                         edf=stats::df.residual(model$lm))
-    es=summary(es)
-    con$d=paste0(formatF(es$effect.size, nsmall), " [",
-                 formatF(es$lower.CL, nsmall), ", ",
-                 formatF(es$upper.CL, nsmall), "]")
-  } else {
-    con$d=paste0(formatF(con$estimate/sd.pooled, nsmall), " [",
-                 formatF(conCI$lower.CL/sd.pooled, nsmall), ", ",
-                 formatF(conCI$upper.CL/sd.pooled, nsmall), "]")
-  }
+  # es=emmeans::eff_size(emm0, method=contrast,
+  #                      sigma=stats::sigma(model$lm),
+  #                      edf=stats::df.residual(model$lm))
+  # es=summary(es)
+  # con$d=paste0(formatF(es$effect.size, nsmall), " [",
+  #              formatF(es$lower.CL, nsmall), ", ",
+  #              formatF(es$upper.CL, nsmall), "]")
+  con$d=paste0(formatF(con$estimate/sd.pooled, nsmall), " [",
+               formatF(conCI$lower.CL/sd.pooled, nsmall), ", ",
+               formatF(conCI$upper.CL/sd.pooled, nsmall), "]")
   con$estimate=formatF(con$estimate, nsmall)
   con$SE=paste0("(", formatF(con$SE, nsmall), ")")
   con$t.ratio=formatF(con$t.ratio, nsmall)

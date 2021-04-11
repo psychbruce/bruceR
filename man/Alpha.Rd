@@ -16,10 +16,10 @@ Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
 Unique part across multiple variables (e.g., \code{1:10}).}
 
 \item{vars}{\strong{[option 2]}
-Character vector specifying the variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
+Character vector specifying a variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
 
 \item{varrange}{\strong{[option 3]}
-Character with \code{":"} specifying the start and end positions of the variable list (e.g., \code{"A1:E5"}).}
+Character with \code{":"} specifying the start and end positions of a variable list (e.g., \code{"A1:E5"}).}
 
 \item{rev}{[optional] Reverse-scoring variables. It can be
 (1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
@@ -37,11 +37,11 @@ It reports (1) scale reliability statistics
 and what Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}
 would be if the item was dropped).
 
-Three ways to specify the variable list:
+Three options to specify the variable list:
 \enumerate{
   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define the variable list.
-  \item \strong{\code{varrange}}: use the start and end positions of the variable list.
+  \item \strong{\code{vars}}: directly define a variable list.
+  \item \strong{\code{varrange}}: use the start and end positions of a variable list.
 }
 }
 \examples{
