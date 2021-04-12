@@ -866,7 +866,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' Hierarchical Linear Model (HLM), aka. Multilevel Linear Model (MLM) or Linear Mixed Model (LMM), is more complex than General Linear Model (GLM; i.e., OLS regression).
 #' Predictor variables at different levels may have five types:
 #' \describe{
-#'   \item{1. Intercept}{The overall intercept (\eqn{\gamma_00})}
+#'   \item{1. Intercept}{The overall intercept (\eqn{\gamma_{00}})}
 #'   \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
 #'   \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
 #'   \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
@@ -1198,18 +1198,18 @@ HLM_summary=function(model=NULL,
 #' \describe{
 #'   \item{* Note for the following formulas}{
 #'   \itemize{
-#'     \item \eqn{\sigma_u0^2}: between-group variance (i.e., tau00)
-#'     \item \eqn{\sigma_e^2}: within-group variance (i.e., residual variance)
+#'     \item \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
+#'     \item \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
 #'     \item \eqn{n_k}: group size of the k-th group
 #'     \item \eqn{K}: number of groups
 #'     \item \eqn{\sigma^2}: actual group variance of the k-th group
-#'     \item \eqn{\sigma_MJ^2}: mean value of actual group variance of the k-th group across all J items
-#'     \item \eqn{\sigma_EU^2}: expected random variance (i.e., the variance of uniform distribution)
+#'     \item \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
+#'     \item \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
 #'     \item \eqn{J}: number of items
 #'   }
 #'   }
 #'   \item{\strong{ICC(1) (intra-class correlation, or non-independence of data)}}{
-#'     ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_u0^2 / (\sigma_u0^2 + \sigma_e^2)})
+#'     ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2)})
 #'
 #'     ICC(1) is the ICC we often compute and report in multilevel analysis
 #'     (usually in the Null Model, where only the random intercept of group is included).
@@ -1217,15 +1217,15 @@ HLM_summary=function(model=NULL,
 #'     or \strong{"the expectation of correlation coefficient between any two observations within any group"} (i.e., \emph{homogeneity} within groups).
 #'   }
 #'   \item{\strong{ICC(2) (reliability of group means)}}{
-#'     ICC(2) = mean(var.u0 / (var.u0 + var.e / n.k)) = \eqn{\Sigma[\sigma_u0^2 / (\sigma_u0^2 + \sigma_e^2 / n_k)] / K}
+#'     ICC(2) = mean(var.u0 / (var.u0 + var.e / n.k)) = \eqn{\Sigma[\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2 / n_k)] / K}
 #'
 #'     ICC(2) is a measure of \strong{"the representativeness of group-level aggregated means for within-group individual values"}
 #'     or \strong{"the degree to which an individual score can be considered a reliable assessment of a group-level construct"}.
 #'   }
 #'   \item{\strong{rWG/rWG(J) (within-group agreement for single-item/multi-item measures)}}{
-#'     rWG = \eqn{1 - \sigma^2 / \sigma_EU^2}
+#'     rWG = \eqn{1 - \sigma^2 / \sigma_{EU}^2}
 #'
-#'     rWG(J) = \eqn{1 - (\sigma_MJ^2 / \sigma_EU^2) / [J * (1 - \sigma_MJ^2 / \sigma_EU^2) + \sigma_MJ^2 / \sigma_EU^2]}
+#'     rWG(J) = \eqn{1 - (\sigma_{MJ}^2 / \sigma_{EU}^2) / [J * (1 - \sigma_{MJ}^2 / \sigma_{EU}^2) + \sigma_{MJ}^2 / \sigma_{EU}^2]}
 #'
 #'     rWG/rWG(J) is a measure of within-group agreement or consensus. Each group has an rWG/rWG(J).
 #'   }

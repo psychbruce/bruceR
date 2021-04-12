@@ -48,7 +48,7 @@ HLM, MLM, or LMM (the same) refers to a model with nested data (e.g., Level-1: p
 Hierarchical Linear Model (HLM), aka. Multilevel Linear Model (MLM) or Linear Mixed Model (LMM), is more complex than General Linear Model (GLM; i.e., OLS regression).
 Predictor variables at different levels may have five types:
 \describe{
-  \item{1. Intercept}{The overall intercept (\eqn{\gamma_00})}
+  \item{1. Intercept}{The overall intercept (\eqn{\gamma_{00}})}
   \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
   \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
   \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.

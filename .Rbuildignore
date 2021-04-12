@@ -1,5 +1,6 @@
 data-raw
 ignore
+logo
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
