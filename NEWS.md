@@ -2,6 +2,10 @@
 
 # bruceR 0.6.3 (in development)
 
+### Notes
+
+-   Added logo (designed by [\@Meijia Li](https://github.com/Stellapros))
+
 # bruceR 0.6.2 (Apr 2021)
 
 ### Major Changes
