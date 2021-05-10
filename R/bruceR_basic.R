@@ -614,14 +614,16 @@ table th, table td {padding-left: 5px; padding-right: 5px; height: 19px;}
 </html>")
 
   if(!is.null(file)) {
-    # sink(file)
-    # cat(HTML)
-    # sink()
-    f=file(file, "w", encoding="UTF-8")
-    cat(HTML, file=f)
-    close(f)
-    Print("<<green \u2714>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
-    cat("\n")
+    if(file!="NOPRINT") {
+      # sink(file)
+      # cat(HTML)
+      # sink()
+      f=file(file, "w", encoding="UTF-8")
+      cat(HTML, file=f)
+      close(f)
+      Print("<<green \u2714>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
+      cat("\n")
+    }
   }
 
   invisible(list(HTML=HTML, TABLE=TABLE))

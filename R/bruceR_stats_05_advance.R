@@ -281,11 +281,11 @@ vargranger=function(varmodel, var.y, var.x) {
     dropped.var=var.x=paste(var.x, collapse="|")
   }
   vm.raw=vms[[var.y]]
-  vm=lm(vm.raw[["terms"]], data=vm.raw[["model"]])
+  vm=stats::lm(vm.raw[["terms"]], data=vm.raw[["model"]])
   lags=names(vm[["coefficients"]])
   dropped.vars=lags[which(grepl(dropped.var, lags))]
   dropped=paste(dropped.vars, collapse=" - ")
-  aov=anova(update(vm, as.formula(paste("~ . -", dropped))), vm)
+  aov=stats::anova(stats::update(vm, as.formula(paste("~ . -", dropped))), vm)
   df1=aov[2, "Df"]
   df2=aov[2, "Res.Df"]
   chi2=aov[2, "F"]*df1

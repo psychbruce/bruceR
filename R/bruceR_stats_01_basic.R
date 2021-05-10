@@ -192,14 +192,14 @@ Describe=function(data, nsmall=2,
   missing=nrow(data)-desc$N
   if(max(missing)==0) {
     desc$Missing=NULL
-    print_table(desc, nsmalls=c(0, rep(nsmall, 8)))
+    nsmalls=c(0, rep(nsmall, 8))
   } else {
     desc$Missing=ifelse(missing==0, NA, missing)
     names(desc)[2]="(NA)"
-    if(file!="bruceR-inner")
-      print_table(desc, nsmalls=c(0, 0, rep(nsmall, 8)),
-                  title="Descriptive statistics:", file=file)
+    nsmalls=c(0, 0, rep(nsmall, 8))
   }
+  print_table(desc, nsmalls=nsmalls, file=file,
+              title="Descriptive statistics:")
 
   data.new=as.data.frame(data)
   vars.not.numeric=c()
@@ -291,8 +291,8 @@ Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
     if(N.na>0) note=note %^% "</p>\n<p>" %^%
         "Valid <i>N</i> = " %^% formatN(N-N.na)
   }
-  print_table(output, nsmalls=c(0, nsmall),
-              title="Frequency statistics:", note=note, file=file)
+  print_table(output, nsmalls=c(0, nsmall), file=file,
+              title="Frequency statistics:", note=note)
 
   invisible(output)
 }
@@ -440,7 +440,7 @@ Corr=function(data, method="pearson", nsmall=2,
     for(i in 1:nrow(cor.mat))
       cor.mat[i,i]="&ensp;&nbsp;\u2014"
     des.cor=cbind(Variable=1:nrow(cor.mat) %^% ". " %^% row.names(cor.mat),
-                  Describe(data, file="bruceR-inner")$desc[c("Mean", "SD")],
+                  Describe(data, file="NOPRINT")$desc[c("Mean", "SD")],
                   cor.mat)
     names(des.cor)=c("Variable", "<i>M</i>", "<i>SD</i>", 1:ncol(cor.mat))
     if(p.adjust=="none") des.cor[ncol(des.cor)]=NULL

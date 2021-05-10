@@ -12,20 +12,13 @@
 
 ### Bug Fixes
 
--   Fixed bugs in `model_summary()`: Model names with `NULL`; Multicollinearity check results with `NULL`.
+-   Fixed bugs in `model_summary()`: (1) Model names with `NULL`; (2) Multicollinearity check results with `NULL` or other problems; (3) UTF-8 encoding problem in WPS software (no such problem in Microsoft Word).
 
 # bruceR 0.6.3 (Apr 2021)
 
 ### New Features
 
 -   New function `granger_causality()`: Granger causality test (multivariate) based on vector autoregression (VAR) model. This function is an advanced and more general version of the function `granger_test()` (bivariate).
-
-### Minor Changes
-
--   Improved `model_summary()`: Fixed the UTF-8 encoding problem that may appear in WPS software (no such problem in Microsoft Word).
-
-### Notes
-
 -   Added logo (designed by [\@Meijia Li](https://github.com/Stellapros))
 
 # bruceR 0.6.2 (Apr 2021)
