@@ -129,29 +129,30 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `group_mean_center()`
     -   `ccf_plot()`
     -   `granger_test()`
+    -   `granger_causality()`
     -   `theme_bruce()`
     -   `show_colors()`
 
 ### Function Output
 
-| bruceR Function       | R Console |   Microsoft Word    |
-|:----------------------|:---------:|:-------------------:|
-| `print_table()`       |     √     |          √          |
-| `Describe()`          |     √     |          √          |
-| `Freq()`              |     √     |          √          |
-| `Corr()`              |     √     | **√ (recommended)** |
-| `Alpha()`             |     √     |                     |
-| `EFA()`               |     √     |                     |
-| `CFA()`               |     √     |                     |
-| `MANOVA()`            |     √     |                     |
-| `EMMEANS()`           |     √     |                     |
-| `model_summary()`     |     √     | **√ (recommended)** |
-| `GLM_summary()`       |     √     |                     |
-| `HLM_summary()`       |     √     |                     |
-| `HLM_ICC_rWG()`       |     √     |                     |
-| `med_summary()`       |     √     |                     |
-| `granger_test()`      |     √     |                     |
-| `granger_causality()` |     √     |                     |
+| bruceR Function       | Output: R Console | Output: Microsoft Word |
+|:----------------------|:-----------------:|:----------------------:|
+| `print_table()`       |         √         |           √            |
+| `Describe()`          |         √         |           √            |
+| `Freq()`              |         √         |           √            |
+| `Corr()`              |         √         |  **√ (recommended)**   |
+| `Alpha()`             |         √         |                        |
+| `EFA()`               |         √         |                        |
+| `CFA()`               |         √         |                        |
+| `MANOVA()`            |         √         |                        |
+| `EMMEANS()`           |         √         |                        |
+| `model_summary()`     |         √         |  **√ (recommended)**   |
+| `GLM_summary()`       |         √         |                        |
+| `HLM_summary()`       |         √         |                        |
+| `HLM_ICC_rWG()`       |         √         |                        |
+| `med_summary()`       |         √         |                        |
+| `granger_test()`      |         √         |                        |
+| `granger_causality()` |         √         |                        |
 
 ### Learn More From Help Pages
 
