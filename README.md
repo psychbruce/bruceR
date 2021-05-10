@@ -135,24 +135,39 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 ### Function Output
 
-| bruceR Function       | Output: R Console | Output: Microsoft Word |
-|:----------------------|:-----------------:|:----------------------:|
-| `print_table()`       |         √         |           √            |
-| `Describe()`          |         √         |           √            |
-| `Freq()`              |         √         |           √            |
-| `Corr()`              |         √         |  **√ (recommended)**   |
-| `Alpha()`             |         √         |                        |
-| `EFA()`               |         √         |                        |
-| `CFA()`               |         √         |                        |
-| `MANOVA()`            |         √         |                        |
-| `EMMEANS()`           |         √         |                        |
-| `model_summary()`     |         √         |  **√ (recommended)**   |
-| `GLM_summary()`       |         √         |                        |
-| `HLM_summary()`       |         √         |                        |
-| `HLM_ICC_rWG()`       |         √         |                        |
-| `med_summary()`       |         √         |                        |
-| `granger_test()`      |         √         |                        |
-| `granger_causality()` |         √         |                        |
+Some functions in `bruceR` allow table output to Microsoft Word.
+
+| bruceR Function       | Output: R Console |   Output: MS Word   |
+|:----------------------|:-----------------:|:-------------------:|
+| `print_table()`       |         √         |          √          |
+| `Describe()`          |         √         |          √          |
+| `Freq()`              |         √         |          √          |
+| `Corr()`              |         √         | **√ (recommended)** |
+| `Alpha()`             |         √         |                     |
+| `EFA()`               |         √         |                     |
+| `CFA()`               |         √         |                     |
+| `MANOVA()`            |         √         |                     |
+| `EMMEANS()`           |         √         |                     |
+| `model_summary()`     |         √         | **√ (recommended)** |
+| `med_summary()`       |         √         |                     |
+| `GLM_summary()`       |         √         |                     |
+| `HLM_summary()`       |         √         |                     |
+| `HLM_ICC_rWG()`       |         √         |                     |
+| `granger_test()`      |         √         |                     |
+| `granger_causality()` |         √         |                     |
+
+Examples:
+
+``` r
+## Correlation analysis (and descriptive statistics)
+Corr(airquality, file="cor.doc")
+
+## Regression analysis
+lm1=lm(Temp ~ Month + Day, data=airquality)
+lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+model_summary(list(lm1, lm2), file="reg.doc")
+model_summary(list(lm1, lm2), std=TRUE, file="reg_std.doc")
+```
 
 ### Learn More From Help Pages
 
