@@ -715,6 +715,12 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 
   Print("<<underline {contr.method} of \"{effect.text}\":>>")
   print(con)
+  Print("<<yellow Disclaimer (about Cohen\u2019s d):>>
+  <<cyan
+  There is considerable disagreement on how to compute Cohen\u2019s d.
+  You should <<italic not>> take the above output as the only right results.
+  You are completely responsible for setting the \"sd.pooled\".
+  >>")
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
   if(any(grepl("averaged|SD_pooled", attr(con, "mesg"))) & any(p.mesg.index)==FALSE)

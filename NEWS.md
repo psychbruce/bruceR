@@ -6,6 +6,10 @@
 
 -   Added Word output (.doc) in `print_table()` and other functions using `print_table()` inside: `Describe()`, `Freq()`, `Corr()`.
 
+### Minor Changes
+
+-   Added a disclaimer about Cohen's *d* in the output and documentation of `EMMEANS()`: There is considerable disagreement on how to compute Cohen's *d*. Users should not take the default output as the only right results and are completely responsible for setting the "sd.pooled".
+
 # bruceR 0.6.3 (Apr 2021)
 
 ### New Features
