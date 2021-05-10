@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_04_regress.R
 \name{model_summary}
 \alias{model_summary}
-\title{Tidy report of regression models (into R console, Word, or HTML).}
+\title{Tidy report of regression models (to R console, Word, or HTML).}
 \usage{
 model_summary(
   model_list,
@@ -11,6 +11,7 @@ model_summary(
   nsmall = 3,
   zero = ifelse(std_coef, FALSE, TRUE),
   modify_se = NULL,
+  modify_head = NULL,
   bold = 0,
   file = NULL,
   ...
@@ -29,15 +30,17 @@ Not applicable to generalized linear (mixed) models.}
 
 \item{zero}{Display "0" before "."? Default is \code{TRUE}.}
 
-\item{modify_se}{Set custom values for standard errors.
+\item{modify_se}{Replace standard errors.
 Useful if you need to replace raw SEs with robust SEs.
 New SEs should be provided as a list of numeric vectors.
 See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
+\item{modify_head}{Replace model names.}
+
 \item{bold}{The p-value threshold below which the coefficient shall be formatted in a bold font.
 For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.}
 
-\item{file}{File name of the Word or HTML document.
+\item{file}{File name of Word or HTML document.
 The extension should be \code{.doc} or \code{.html}.}
 
 \item{...}{Other parameters passed to the

@@ -213,7 +213,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #### Model Summary ####
 
 
-#' Tidy report of regression models (into R console, Word, or HTML).
+#' Tidy report of regression models (to R console, Word, or HTML).
 #'
 #' This function is an extension (and combination) of
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}},
@@ -228,13 +228,14 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @param digits Number of decimal places of output. Default is \code{3}.
 #' @param nsmall The same as \code{digits}.
 #' @param zero Display "0" before "."? Default is \code{TRUE}.
-#' @param modify_se Set custom values for standard errors.
+#' @param modify_se Replace standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
 #' New SEs should be provided as a list of numeric vectors.
 #' See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.
+#' @param modify_head Replace model names.
 #' @param bold The p-value threshold below which the coefficient shall be formatted in a bold font.
 #' For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.
-#' @param file File name of the Word or HTML document.
+#' @param file File name of Word or HTML document.
 #' The extension should be \code{.doc} or \code{.html}.
 #' @param ... Other parameters passed to the
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}} or
@@ -302,10 +303,16 @@ model_summary=function(model_list,
                        nsmall=3,
                        zero=ifelse(std_coef, FALSE, TRUE),
                        modify_se=NULL,
+                       modify_head=NULL,
                        bold=0,
                        file=NULL,
                        ...) {
-  if(class(model_list)[1]!="list") model_list=list(model_list)
+  if(class(model_list)=="varest") {
+    model_list=model_list$varresult
+    modify_head=names(model_list)
+  }
+  if(class(model_list)[1]!="list")
+    model_list=list(model_list)
   if(is.null(file)) {
     sumreg=texreg::screenreg
   } else {
@@ -327,18 +334,21 @@ model_summary=function(model_list,
   model_R2mcfadden=function(model) { round(as.numeric( performance::r2_mcfadden(model)[1] ), digits) }
   model_R2nagelkerke=function(model) { round(as.numeric( performance::r2_nagelkerke(model) ), digits) }
 
-  new.model.names=NULL
-  try({
-    new.model.names=as.character(lapply(model_list, model_y))
-    if(length(model_list)>1)
-      new.model.names=paste(paste0("(", 1:length(model_list), ")"), new.model.names)
-    if(any(unlist(lapply(model_list, class)) %in% "nnet")) {
-      multinom.y=as.character(lapply(model_list, model_y))[1]
-      multinom.ref=model_list[[1]][["lab"]][1]
-      new.model.names=NULL
-    }
-  },
-  silent=T)
+  if(is.null(modify_head)) {
+    new.model.names=NULL
+    try({
+      new.model.names=as.character(lapply(model_list, model_y))
+      if(length(model_list)>1)
+        new.model.names=paste(paste0("(", 1:length(model_list), ")"), new.model.names)
+      if(any(unlist(lapply(model_list, class)) %in% "nnet")) {
+        multinom.y=as.character(lapply(model_list, model_y))[1]
+        multinom.ref=model_list[[1]][["lab"]][1]
+        new.model.names=NULL
+      }
+    }, silent=T)
+  } else {
+    new.model.names=modify_head
+  }
 
   if(std_coef) {
     new.coef=lapply(model_list, model_std_coef)
@@ -407,31 +417,34 @@ model_summary=function(model_list,
     if(is.null(file)) {
       print(output)
     } else {
-      output=stringr::str_replace_all(stringr::str_replace(
-        output, "utf-8", "gbk"), "<td>-", "<td>\u2013")
-      if(grepl(".doc$", file)) {
+      file=stringr::str_replace(file, "\\.docx$", ".doc")
+      output=stringr::str_replace_all(output, "<td>-", "<td>\u2013")
+      if(grepl("\\.doc$", file)) {
         output=stringr::str_replace(
           output, "<style>",
-          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman}")
+          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman;}\np {margin: 0px;}")
         output=stringr::str_replace(
           output, "<body>",
-          paste0("<body>\n<b>Table X. Regression Models",
+          paste0("<body>\n<p><b>Table X. Regression Models",
                  ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
                         paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
                         ""),
-                 ".</b>"))
+                 ".</b></p>"))
         output=stringr::str_replace(
           output, "</body>",
-          paste0("<i>Note</i>. ",
+          paste0("<p><i>Note</i>. ",
                  ifelse(std_coef, "Standardized ", "Unstandardized "),
-                 "regression coefficients are displayed, with standard errors in parentheses.<br/>",
+                 "regression coefficients are displayed, with standard errors in parentheses.</p><p>",
                  "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
                  "</body>"))
       }
-      sink(file)
-      cat(output)
-      sink()
-      Print("<<green \u2714>> The table was written to <<blue '{paste0(getwd(), '/', file)}'>>")
+      # sink(file)
+      # cat(output)
+      # sink()
+      f=file(file, "w", encoding="UTF-8")
+      cat(output, file=f)
+      close(f)
+      Print("<<green \u2714>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
       cat("\n")
     }
   })

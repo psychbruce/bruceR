@@ -37,5 +37,5 @@ Imports: pacman, jmv, mediation, interactions,
 Suggests: rstudioapi,
           rio, dplyr, tidyr, stringr, forcats, data.table,
           car, psych, afex, emmeans, effectsize, jtools,
-          lavaan, lmtest, lme4, lmerTest, nnet, MASS, GGally
+          lavaan, lme4, lmerTest, lmtest, vars, nnet, MASS, GGally
 RoxygenNote: 7.1.1

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_05_advance.R
 \name{granger_test}
 \alias{granger_test}
-\title{Granger causality test.}
+\title{Granger causality test (bivariate).}
 \usage{
 granger_test(formula, data, lags = 1:5, test.reverse = FALSE)
 }
@@ -19,11 +19,11 @@ granger_test(formula, data, lags = 1:5, test.reverse = FALSE)
 No return value.
 }
 \description{
-Granger test of predictive causality (between two time-series variables)
+Granger test of predictive causality (between two time series)
 using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 }
 \details{
-The Granger causality test can examine whether
+The Granger causality test examines whether
 the lagged values of a predictor
 have any incremental role in predicting an outcome
 if controlling for
@@ -36,5 +36,6 @@ granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 
 }
 \seealso{
-\code{\link{ccf_plot}}
+\code{\link{ccf_plot}},
+\code{\link{granger_causality}}
 }

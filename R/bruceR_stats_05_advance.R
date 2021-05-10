@@ -211,14 +211,14 @@ ccf_plot=function(formula, data,
 }
 
 
-#' Granger causality test.
+#' Granger causality test (bivariate).
 #'
 #' @description
-#' Granger test of predictive causality (between two time-series variables)
+#' Granger test of predictive causality (between two time series)
 #' using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 #'
 #' @details
-#' The Granger causality test can examine whether
+#' The Granger causality test examines whether
 #' the lagged values of a predictor
 #' have any incremental role in predicting an outcome
 #' if controlling for
@@ -235,7 +235,9 @@ ccf_plot=function(formula, data,
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
 #'
-#' @seealso \code{\link{ccf_plot}}
+#' @seealso
+#' \code{\link{ccf_plot}},
+#' \code{\link{granger_causality}}
 #'
 #' @export
 granger_test=function(formula, data, lags=1:5,
@@ -247,14 +249,15 @@ granger_test=function(formula, data, lags=1:5,
     formulas=list(formula)
   }
 
-  Print("<<bold <<underline Granger Test of Predictive Causality>>>>")
+  cat("\n")
+  Print("<<yellow ====== Granger Causality Test (Bivariate) ======>>")
 
-  Print("\n\n\n<<bold Hypothesized direction:>>")
+  Print("\n\n\nHypothesized direction:")
   Print("<<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>")
 
   for(f in formulas) {
     if(test.reverse & f!=formulas[[1]]) {
-      Print("\n\n\n<<bold Reverse direction:>>")
+      Print("\n\n\nReverse direction:")
       Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
     }
     for(lag in lags) {
@@ -263,5 +266,140 @@ granger_test=function(formula, data, lags=1:5,
       Print("Lags = {lag}:\t{result}")
     }
   }
+}
+
+
+vargranger=function(varmodel, var.y, var.x) {
+  vms=varmodel[["varresult"]]
+  vars=names(vms)
+  if(length(var.x)==1) {
+    if(var.x=="ALL")
+      dropped.var=paste(paste0("^", vars[which(vars!=var.y)]), collapse="|")
+    else
+      dropped.var=var.x
+  } else {
+    dropped.var=var.x=paste(var.x, collapse="|")
+  }
+  vm.raw=vms[[var.y]]
+  vm=lm(vm.raw[["terms"]], data=vm.raw[["model"]])
+  lags=names(vm[["coefficients"]])
+  dropped.vars=lags[which(grepl(dropped.var, lags))]
+  dropped=paste(dropped.vars, collapse=" - ")
+  aov=anova(update(vm, as.formula(paste("~ . -", dropped))), vm)
+  df1=aov[2, "Df"]
+  df2=aov[2, "Res.Df"]
+  chi2=aov[2, "F"]*df1
+  p.chisq=p.chi2(chi2, df1)
+  data.frame(Equation=var.y,
+             Excluded=var.x,
+             `F`=aov[2, "F"],
+             df1=df1,
+             df2=df2,
+             p.F=aov[2, "Pr(>F)"],
+             sig.F=formatF(sig.trans(aov[2, "Pr(>F)"]), 0),
+             Chisq=chi2,  # F = Chisq/k where k is the difference in degrees of freedom
+             df=df1,
+             p.Chisq=p.chisq,
+             sig.Chisq=formatF(sig.trans(p.chisq), 0),
+             Dropped=paste(dropped.vars, collapse=", "))
+}
+
+
+#' Granger causality test (multivariate).
+#'
+#' @description
+#' Granger test of predictive causality (between multivariate time series)
+#' based on vector autoregression (\code{\link[vars:VAR]{VAR}}) model.
+#' Its output resembles the output of the \code{vargranger}
+#' command in Stata (but here using an \emph{F} test).
+#'
+#' @details
+#' The Granger causality test (based on VAR model) examines whether
+#' the lagged values of a predictor (or predictors)
+#' have any incremental role in predicting an outcome
+#' if controlling for the lagged values of the outcome itself.
+#' It compares the two models by using an \emph{F} test.
+#'
+#' @param varmodel VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.
+#' @param var.y,var.x [optional] Default is \code{NULL} (all variables).
+#' If specified, then perform tests for specific variables.
+#' Values can be a single variable (e.g., \code{"X"}),
+#' a vector of variables (e.g., \code{c("X1", "X2")}),
+#' or a string containing regular expression (e.g., \code{"X1|X2"}).
+#' @param check.dropped Check dropped variables. Default is \code{FALSE}.
+#'
+#' @return A data frame of results.
+#'
+#' @seealso
+#' \code{\link{ccf_plot}},
+#' \code{\link{granger_test}}
+#'
+#' @export
+granger_causality=function(varmodel, var.y=NULL, var.x=NULL, check.dropped=FALSE) {
+  vars=names(varmodel[["varresult"]])
+  if(is.null(var.y)) var.y=vars
+  if(is.null(var.x)) {
+    res=data.frame(Equation=rep(var.y, each=length(vars)+1),
+                   Excluded=c(vars, "ALL"))
+    res=res[which(res$Equation!=res$Excluded),]
+  } else {
+    if(length(var.x)==1)
+      res=expand.grid(Equation=var.y,
+                      Excluded=var.x)
+    else
+      res=expand.grid(
+        Equation=var.y,
+        Excluded=unique(c(
+          var.x,
+          paste(
+            stringr::str_subset(var.x, "\\|", negate=TRUE),
+            collapse="|")
+        )))
+    res$Equation=as.character(res$Equation)
+    res$Excluded=as.character(res$Excluded)
+    res=res[which(res$Excluded!=""),]
+  }
+
+  res=do.call("rbind", lapply(1:nrow(res), function(i) {
+    vargranger(varmodel, res[i, "Equation"], res[i, "Excluded"])
+  }))
+
+  res$Causality=res$Equation %^% " <= " %^% res$Excluded
+  res.check=rbind(data.frame(Dropped="Dropped variables (lags)"),
+                  res["Dropped"])
+  res.check$Dropped=paste(" ", format(res.check$Dropped))
+  names(res.check)=" "
+  row.names(res.check)=c(" ", res$Causality)
+  if(check.dropped) print(res.check)
+  res$Dropped=NULL
+
+  cat("\n")
+  Print("
+  <<yellow ====== Granger Causality Test (Multivariate) ======>>
+
+  <<italic F>> test and Wald \u03c7\u00b2 test based on VAR({varmodel$p}) model:")
+  result=data.frame()
+  for(var in var.y)
+    result=rbind(result,
+                 data.frame(Equation=NA, Excluded=NA,
+                            `F`=NA, df1=NA, df2=NA, p.F=NA, sig.F="",
+                            `Chisq`=NA, df=NA, p.Chisq=NA, sig.Chisq="",
+                            Causality=rep_char("-", nchar(var))),
+                 res[which(res$Equation==var),])
+  result$p.F=p.trans(result$p.F)
+  result$p.Chisq=p.trans(result$p.Chisq)
+  result$` `="  "
+  names(result)[6]="p"
+  names(result)[7]="  "
+  names(result)[10]=" p"
+  names(result)[11]="   "
+  names(result)[12]="    "
+  print_table(result[c(12:13, 3:11)],
+              nsmalls=c(0, 0,
+                        2, 0, 0, 0, 0,
+                        2, 0, 0, 0),
+              row.names=FALSE)
+
+  invisible(list(result=res, check.dropped=res.check))
 }
 
