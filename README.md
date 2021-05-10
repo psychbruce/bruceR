@@ -132,6 +132,27 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `theme_bruce()`
     -   `show_colors()`
 
+### Function Output
+
+| bruceR Function       | R Console |   Microsoft Word    |
+|:----------------------|:---------:|:-------------------:|
+| `print_table()`       |     √     |          √          |
+| `Describe()`          |     √     |          √          |
+| `Freq()`              |     √     |          √          |
+| `Corr()`              |     √     | **√ (recommended)** |
+| `Alpha()`             |     √     |                     |
+| `EFA()`               |     √     |                     |
+| `CFA()`               |     √     |                     |
+| `MANOVA()`            |     √     |                     |
+| `EMMEANS()`           |     √     |                     |
+| `model_summary()`     |     √     | **√ (recommended)** |
+| `GLM_summary()`       |     √     |                     |
+| `HLM_summary()`       |     √     |                     |
+| `HLM_ICC_rWG()`       |     √     |                     |
+| `med_summary()`       |     √     |                     |
+| `granger_test()`      |     √     |                     |
+| `granger_causality()` |     √     |                     |
+
 ### Learn More From Help Pages
 
 ``` r

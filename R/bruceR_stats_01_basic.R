@@ -122,22 +122,23 @@ sig.trans=function(p) {
 
 #### Basic Statistics ####
 
-#' Descriptive statistics.
+#' Descriptive statistics (to R Console or MS Word).
 #'
 #' @param data Data frame or numeric vector.
 #' @param nsmall Number of decimal places of output. Default is \code{2}.
+#' Transform all variables into numeric (continuous).
+#' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
+#' @param file File name of MS Word (\code{.doc}).
 #' @param plot \code{TRUE} or \code{FALSE} (default).
 #' Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
-#' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
-#' Transform all variables into numeric (continuous).
 #' @param upper.triangle \code{TRUE} or \code{FALSE} (default).
 #' Add (scatter) plots to upper triangle (time consuming when sample size is large).
 #' @param upper.smooth \code{"none"} (default), \code{"lm"}, or \code{"loess"}.
 #' Add fitting lines to scatter plots (if any).
-#' @param save.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
-#' @param width Width (in "inch") of the saved plot. Default is \code{8}.
-#' @param height Height (in "inch") of the saved plot. Default is \code{6}.
-#' @param dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
+#' @param plot.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
+#' @param plot.width Width (in "inch") of the saved plot. Default is \code{8}.
+#' @param plot.height Height (in "inch") of the saved plot. Default is \code{6}.
+#' @param plot.dpi DPI (dots per inch) of the saved plot. Default is \code{500}.
 #'
 #' @return
 #' Invisibly return a list consisting of
@@ -173,11 +174,10 @@ sig.trans=function(p) {
 #' @export
 Describe=function(data, nsmall=2,
                   all.as.numeric=TRUE,
+                  file=NULL,
                   plot=FALSE,
                   upper.triangle=FALSE, upper.smooth="none",
-                  save.file=NULL, width=8, height=6, dpi=500) {
-  Print("Descriptive statistics:")
-
+                  plot.file=NULL, plot.width=8, plot.height=6, plot.dpi=500) {
   if(is.numeric(data)) data=data.frame(X=data)
   desc=as.data.frame(psych::describe(data, fast=FALSE))
   desc$vars = desc$trimmed = desc$mad = desc$range = desc$se = NULL
@@ -196,7 +196,9 @@ Describe=function(data, nsmall=2,
   } else {
     desc$Missing=ifelse(missing==0, NA, missing)
     names(desc)[2]="(NA)"
-    print_table(desc, nsmalls=c(0, 0, rep(nsmall, 8)))
+    if(file!="bruceR-inner")
+      print_table(desc, nsmalls=c(0, 0, rep(nsmall, 8)),
+                  title="Descriptive statistics:", file=file)
   }
 
   data.new=as.data.frame(data)
@@ -232,14 +234,14 @@ Describe=function(data, nsmall=2,
         use="pairwise.complete.obs",
         size=4, color="black"))
     ) + theme_bruce() + theme(strip.text=element_text(size=12, color="black"))
-    if(is.null(save.file)) {
+    if(is.null(plot.file)) {
       print(p)
     } else {
-      cowplot::ggsave2(plot=p, filename=save.file,
-                       width=width, height=height, dpi=dpi)
-      file=stringr::str_split(save.file, "/", simplify=TRUE)
-      path=paste0(getwd(), '/', file[length(file)])
-      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
+      cowplot::ggsave2(plot=p, filename=plot.file,
+                       width=plot.width, height=plot.height, dpi=plot.dpi)
+      plot.file=stringr::str_split(plot.file, "/", simplify=TRUE)
+      plot.path=paste0(getwd(), '/', plot.file[length(plot.file)])
+      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
     }
   }
 
@@ -247,12 +249,13 @@ Describe=function(data, nsmall=2,
 }
 
 
-#' Frequency statistics.
+#' Frequency statistics (to R Console or MS Word).
 #'
 #' @param var Vector or variable.
 #' @param label [optional] A vector re-defining the labels of values.
-#' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).
+#' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).
 #' @param nsmall Number of decimal places of output. Default is \code{1}.
+#' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return A data frame of frequency statistics.
 #'
@@ -262,8 +265,7 @@ Describe=function(data, nsmall=2,
 #' Freq(bfi$age)
 #'
 #' @export
-Freq=function(var, label=NULL, sort="", nsmall=1) {
-  Print("Frequency table:")
+Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
   tableVar=table(var)
   N.na=sum(is.na(var))
   N=sum(tableVar)+N.na
@@ -274,21 +276,29 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
                       dimnames=list(label, "%")))
   if(N.na) output=rbind(output,
                         matrix(c(N.na, round(N.na/N*100, nsmall)),
-                               ncol=2, dimnames=list("NA")))
-  if(sort=="")
-    print_table(output, nsmalls=c(0, nsmall))
-  else if(sort=="-")
-    print_table(output[order(output[,"N"], decreasing=TRUE),], nsmalls=c(0, nsmall))
+                               ncol=2, dimnames=list("(NA)")))
+  if(sort=="-")
+    output=output[order(output[,"N"], decreasing=TRUE),]
   else if(sort=="+")
-    print_table(output[order(output[,"N"], decreasing=FALSE),], nsmalls=c(0, nsmall))
-  Print("Total <<italic N>> = {formatN(N)}")
-  if(N.na>0) Print("Valid <<italic N>> = {formatN(N-N.na)}")
+    output=output[order(output[,"N"], decreasing=FALSE),]
+
+  if(is.null(file)) {
+    note=Glue("Total <<italic N>> = {formatN(N)}")
+    if(N.na>0) note=note %^% "\n" %^%
+        Glue("Valid <<italic N>> = {formatN(N-N.na)}")
+  } else {
+    note="Total <i>N</i> = " %^% formatN(N)
+    if(N.na>0) note=note %^% "</p>\n<p>" %^%
+        "Valid <i>N</i> = " %^% formatN(N-N.na)
+  }
+  print_table(output, nsmalls=c(0, nsmall),
+              title="Frequency statistics:", note=note, file=file)
 
   invisible(output)
 }
 
 
-#' Correlation analysis.
+#' Correlation analysis (to R Console or MS Word).
 #'
 #' @inheritParams Describe
 #' @param data Data frame.
@@ -296,6 +306,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' @param p.adjust Adjustment of \emph{p} values for multiple tests:
 #' \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
 #' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.
+#' @param file File name of MS Word (\code{.doc}).
 #' @param plot \code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.
 #' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
 #' @param plot.palette Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
@@ -328,9 +339,10 @@ Freq=function(var, label=NULL, sort="", nsmall=1) {
 #' @export
 Corr=function(data, method="pearson", nsmall=2,
               p.adjust="none", all.as.numeric=TRUE,
+              file=NULL,
               plot=TRUE, plot.range=c(-1, 1),
               plot.palette=NULL, plot.color.levels=201,
-              save.file=NULL, width=8, height=6, dpi=500) {
+              plot.file=NULL, plot.width=8, plot.height=6, plot.dpi=500) {
   data.new=as.data.frame(data)
   vars.not.numeric=c()
   if(all.as.numeric) {
@@ -342,42 +354,9 @@ Corr=function(data, method="pearson", nsmall=2,
     }
   }
 
-  cor=cor0=psych::corr.test(data.new, method=method,
-                            adjust=p.adjust,
-                            minlength=20)
-
-  # Print("Correlation matrix ({capitalize(method)}'s <<italic r>>):")
-  # for(i in 1:nrow(cor$r)) cor$r[i,i]=NA
-  # print_table(cor$r, nsmalls=nsmall)
-  #
-  # Print("\n\n\n<<italic p>> values (2-tailed):")
-  # cor$p=gsub("=", " ", gsub(" ", "", p.trans2(cor$p)))
-  # for(i in 1:nrow(cor$p)) cor$p[i,i]=""
-  # print_table(cor$p)
-  # if(p.adjust!="none")
-  #   Print("<<blue <<italic p>> values above the diagonal are adjusted for multiple tests ({capitalize(p.adjust)} method).>>")
-  #
-  # if("matrix" %in% class(cor$n)) {
-  #   Print("\n\n\nSample size:")
-  #   print_table(cor$n, nsmalls=0)
-  # } else {
-  #   Print("\n\n\nSample size: <<italic N>> = {cor$n}")
-  # }
-
-  if(plot) {
-    Print("\n\n\nCorrelation matrix is displayed in plot.")
-    if(p.adjust!="none")
-      Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
-  } else {
-    message("To see the correlation matrix, please set `plot=TRUE`!")
-  }
-
-  if("matrix" %in% class(cor$n))
-    Ns=cor$n[lower.tri(cor$n)]
-  else
-    Ns=cor$n
-
-  Print("\n\n\n{capitalize(method)}'s <<italic r>> and 95% confidence intervals:")
+  cor=psych::corr.test(data.new, method=method,
+                       adjust=p.adjust,
+                       minlength=20)
   COR=cor$ci["r"]
   if(p.adjust=="none") {
     COR$`[95% CI]`=paste0(
@@ -385,24 +364,32 @@ Corr=function(data, method="pearson", nsmall=2,
       formatF(cor$ci$upper, nsmall), "]")
     COR$pval=cor$ci$p
   } else {
-    Print("<<blue <<italic p>> values and 95% CIs are adjusted using the \"{p.adjust}\" method.>>")
     COR$`[95% CI]`=paste0(
       "[", formatF(cor$ci.adj$lower, nsmall), ", ",
       formatF(cor$ci.adj$upper, nsmall), "]")
     COR$pval=p.adjust(cor$ci$p, method=p.adjust)
   }
+  if("matrix" %in% class(cor$n))
+    Ns=cor$n[lower.tri(cor$n)]
+  else
+    Ns=cor$n
+  COR$r=formatF(COR$r, nsmall)
   COR$N=Ns
-  print_table(COR, nsmalls=c(nsmall, 0, 0, 0))
 
-  if(length(vars.not.numeric)>0)
-      Print("<<yellow NOTE: `{paste(vars.not.numeric, collapse='`, `')}` transformed to numeric.>>")
+  if(length(vars.not.numeric)>0) {
+    Print("<<yellow NOTE: `{paste(vars.not.numeric, collapse='`, `')}` transformed to numeric.>>")
+    cat("\n")
+  }
 
-  cor=cor0
   if(plot) {
+    Print("Correlation matrix is displayed in plot.")
+    if(p.adjust!="none")
+      Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
+    cat("\n")
     if(is.null(plot.palette))
       plot.palette=c("#B52127", "white", "#2171B5")
-    if(!is.null(save.file)) {
-      grDevices::png(filename=save.file, width=width, height=height, units="in", res=dpi)
+    if(!is.null(plot.file)) {
+      grDevices::png(filename=plot.file, width=plot.width, height=plot.height, units="in", res=plot.dpi)
     }
     cor_plot(r=cor$r, adjust="none", nsmall=nsmall,
              numbers=TRUE, zlim=plot.range,
@@ -410,12 +397,89 @@ Corr=function(data, method="pearson", nsmall=2,
              pval=cor$p, stars=TRUE,
              alpha=1, gr=grDevices::colorRampPalette(plot.palette),
              main="Correlation Matrix")
-    if(!is.null(save.file)) {
+    if(!is.null(plot.file)) {
       grDevices::dev.off()
-      file=stringr::str_split(save.file, "/", simplify=TRUE)
-      path=paste0(getwd(), '/', file[length(file)])
-      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{path}'>>")
+      plot.file=stringr::str_split(plot.file, "/", simplify=TRUE)
+      plot.path=paste0(getwd(), '/', plot.file[length(plot.file)])
+      Print("<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
+      cat("\n")
     }
+  }
+
+  Print("{capitalize(method)}'s <<italic r>> and 95% confidence intervals:")
+  if(p.adjust!="none")
+    Print("<<blue <<italic p>> values and 95% CIs are adjusted using the \"{p.adjust}\" method.>>")
+  print_table(COR, nsmalls=0)
+  cat("\n")
+
+  if(!is.null(file)) {
+    Print("Descriptive statistics and correlation matrix:")
+    cor.mat=formatF(cor$r, nsmall)
+    cor.sig=sig.trans(cor$p)
+    if(p.adjust=="none") {
+      for(i in 1:nrow(cor.mat))
+        for(j in i:ncol(cor.mat))
+          cor.mat[i,j]=NA
+    } else {
+      for(i in 1:nrow(cor.mat))
+        cor.mat[i,i]=NA
+    }
+    for(i in 1:nrow(cor.mat)) {
+      for(j in 1:ncol(cor.mat)) {
+        cor.mat[i,j]=stringr::str_replace_all(cor.mat[i,j], "0\\.", ".")
+        if(!is.na(cor.mat[i,j])) {
+          if(as.numeric(cor.mat[i,j])>0)
+            cor.mat[i,j]=paste0("&ensp;", stringr::str_trim(cor.mat[i,j]))
+          if(grepl("\\*", cor.sig[i,j]))
+            cor.mat[i,j]=paste0(cor.mat[i,j], "<sup>", stringr::str_replace_all(cor.sig[i,j], "\\s", "&ensp;"), "</sup>")
+          else
+            cor.mat[i,j]=paste0(cor.mat[i,j], "<sup>&ensp;&ensp;&ensp;</sup>")
+        }
+      }
+    }
+    for(i in 1:nrow(cor.mat))
+      cor.mat[i,i]="&ensp;&nbsp;\u2014"
+    des.cor=cbind(Variable=1:nrow(cor.mat) %^% ". " %^% row.names(cor.mat),
+                  Describe(data, file="bruceR-inner")$desc[c("Mean", "SD")],
+                  cor.mat)
+    names(des.cor)=c("Variable", "<i>M</i>", "<i>SD</i>", 1:ncol(cor.mat))
+    if(p.adjust=="none") des.cor[ncol(des.cor)]=NULL
+    COR.new=COR
+    COR.new$Pairs=row.names(COR)
+    COR.new$`r [95% CI]`=paste(COR$r, COR$`[95% CI]`) %>%
+      stringr::str_replace_all("-", "\u2013") %>%
+      stringr::str_replace_all("\\[ ", "[") %>%
+      stringr::str_replace_all("0\\.", ".") %>%
+      stringr::str_replace_all("^ \\.", "&ensp;.")
+    COR.new$p=stringr::str_replace_all(p.trans(COR$pval), "<", "< ")
+    COR.new=COR.new[c("Pairs", "r [95% CI]", "p", "N")]
+    names(COR.new)=c("Pairs", "<i>r</i> [95% CI]", "<i>p</i>", "<i>N</i>")
+    cor.ci=paste0(
+      "<p><br/><br/></p>",
+      "<p><b>Table 2. Correlations and 95% Confidence Intervals.</b></p>",
+      df_to_html(
+        COR.new,
+        align.head=c("left", "center", "center", "center"),
+        align.text=c("left", "left", "right", "right"))$TABLE,
+      "<p><i>Note</i>.",
+      ifelse(p.adjust=="none", "</p>",
+             " <i>p</i> values and 95% CIs are adjusted using the \"" %^% p.adjust %^% "\" method.</p>")
+    )
+    print_table(
+      des.cor, nsmalls=nsmall, row.names=FALSE,
+      title="<b>Table 1. Descriptive Statistics and Correlation Matrix.</b>",
+      note=paste0(
+        "<i>Note</i>. ",
+        ifelse(p.adjust=="none", "",
+               "<i>p</i> values above the diagonal are adjusted using the \"" %^% p.adjust %^% "\" method.</p>\n<p>"),
+        "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001."),
+      append=cor.ci,
+      file=file,
+      file.align.head=c("left", "center", "center",
+                        rep("center' style='width:49px", times=ncol(des.cor)-3)),
+      file.align.text=c("left", "right", "right",
+                        rep("left", times=ncol(des.cor)-3))
+    )
   }
 
   invisible(cor)

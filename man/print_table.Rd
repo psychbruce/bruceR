@@ -2,9 +2,19 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{print_table}
 \alias{print_table}
-\title{Print a three-line table.}
+\title{Print a three-line table (to R Console or MS Word).}
 \usage{
-print_table(x, row.names = TRUE, nsmalls = 3)
+print_table(
+  x,
+  row.names = TRUE,
+  nsmalls = 3,
+  title = "",
+  note = "",
+  append = "",
+  file = NULL,
+  file.align.head = "auto",
+  file.align.text = "auto"
+)
 }
 \arguments{
 \item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
@@ -12,15 +22,42 @@ print_table(x, row.names = TRUE, nsmalls = 3)
 \item{row.names}{Whether to print row names. Default is \code{TRUE}.}
 
 \item{nsmalls}{A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.}
+
+\item{title}{Title text, which will be inserted in <p></p> (HTML code).}
+
+\item{note}{Note text, which will be inserted in <p></p> (HTML code).}
+
+\item{append}{Other contents appended in the end (HTML code).}
+
+\item{file}{File name of MS Word (\code{.doc}).}
+
+\item{file.align.head, file.align.text}{Alignment of table head or table text:
+\code{"left"}, \code{"right"}, \code{"center"}.
+Either one value of them OR a character vector of mixed values
+with the same length as the table columns.
+Default alignment (if set as \code{"auto"}):
+left, right, right, ..., right.}
 }
 \value{
-No return value.
+Invisibly return a list of data frame and HTML code.
 }
 \description{
-Print a three-line table.
+This basic function prints any data frame as a three-line table
+to either R Console or Microsoft Word (.doc).
+It has been used in many other functions in \code{bruceR}.
+The implementation of Word output is using HTML code.
+You can check the raw HTML code by opening the Word file with any text editor.
 }
 \examples{
+print_table(airquality, file="airquality.doc")
+unlink("airquality.doc")  # delete file for test
+
 model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 print_table(model)
+print_table(model, file="model.doc")
+unlink("model.doc")  # delete file for test
 
+}
+\seealso{
+\code{\link{Describe}}, \code{\link{Freq}}, \code{\link{Corr}}
 }

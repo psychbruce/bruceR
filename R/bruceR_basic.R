@@ -1,6 +1,9 @@
 #### Basic Functions ####
 
 
+`%>%`=dplyr::`%>%`
+
+
 #' Paste strings together.
 #'
 #' Paste strings together. A wrapper of \code{paste0()}.
@@ -131,7 +134,7 @@
 #' Set working directory to where the current file is.
 #'
 #' Set working directory to the path of the currently opened file.
-#' You can use this function in both \strong{.R/.Rmd files and the R console}.
+#' You can use this function in both \strong{.R/.Rmd files and R Console}.
 #' \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
 #' (version >= 1.2) is required for running this function.
 #'
@@ -140,7 +143,7 @@
 #' (usually .R or .Rmd) using the \code{rstudioapi::getSourceEditorContext} function.
 #' @param directly \code{TRUE} (default) or \code{FALSE}.
 #' Default is to directly execute \code{setwd("...")} within the function (recommended).
-#' Otherwise, it will send code \code{setwd("...")} to the R console
+#' Otherwise, it will send code \code{setwd("...")} to the R Console
 #' and then execute it (not recommended due to a delay of execution).
 #' @param ask \code{TRUE} or \code{FALSE} (default).
 #' If \code{TRUE}, you can select a folder with the prompt of a dialog.
@@ -391,21 +394,48 @@ capitalize=function(string) {
 }
 
 
-#' Print a three-line table.
+#' Print a three-line table (to R Console or MS Word).
+#'
+#' This basic function prints any data frame as a three-line table
+#' to either R Console or Microsoft Word (.doc).
+#' It has been used in many other functions in \code{bruceR}.
+#' The implementation of Word output is using HTML code.
+#' You can check the raw HTML code by opening the Word file with any text editor.
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
 #' @param row.names Whether to print row names. Default is \code{TRUE}.
 #' @param nsmalls A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.
+#' @param title Title text, which will be inserted in <p></p> (HTML code).
+#' @param note Note text, which will be inserted in <p></p> (HTML code).
+#' @param append Other contents appended in the end (HTML code).
+#' @param file File name of MS Word (\code{.doc}).
+#' @param file.align.head,file.align.text Alignment of table head or table text:
+#' \code{"left"}, \code{"right"}, \code{"center"}.
+#' Either one value of them OR a character vector of mixed values
+#' with the same length as the table columns.
+#' Default alignment (if set as \code{"auto"}):
+#' left, right, right, ..., right.
 #'
-#' @return No return value.
+#' @return Invisibly return a list of data frame and HTML code.
+#'
+#' @seealso \code{\link{Describe}}, \code{\link{Freq}}, \code{\link{Corr}}
 #'
 #' @examples
+#' print_table(airquality, file="airquality.doc")
+#' unlink("airquality.doc")  # delete file for test
+#'
 #' model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' print_table(model)
+#' print_table(model, file="model.doc")
+#' unlink("model.doc")  # delete file for test
 #'
 #' @importFrom stats coef
 #' @export
-print_table=function(x, row.names=TRUE, nsmalls=3) {
+print_table=function(x, row.names=TRUE, nsmalls=3,
+                     title="", note="", append="",
+                     file=NULL,
+                     file.align.head="auto",
+                     file.align.text="auto") {
   ## Preprocess data.frame ##
 
   # Good-looking tabs !!!
@@ -465,26 +495,136 @@ print_table=function(x, row.names=TRUE, nsmalls=3) {
   row.names(line.row)[1]=rep_char(linechar2, n.lines.rn)
 
   ## Row-bind and deal with 'row.names' (T or F) ##
-  x=rbind(line.row, x)
+  xr=rbind(line.row, x)
   if(row.names==FALSE)
     n.lines.table=n.lines.table-n.lines.rn
   table.line=rep_char(linechar1, n.lines.table)
 
   ## Output ##
-  Print(table.line)
-  if(row.names==TRUE)
-    cat(rep_char(" ", n.lines.rn))
-  for(j in 1:length(x))
-    cat(sprintf(glue("% {n.lines[j]}s"), names(x)[j]))
-  cat("\n")
-  for(i in 1:nrow(x)) {
+  if(is.null(file)) {
+    if(title!="") Print(title)
+    Print(table.line)
     if(row.names==TRUE)
-      cat(sprintf(glue("%-{n.lines.rn}s"), row.names(x[i,])))
-    for(j in 1:length(x))
-      cat(sprintf(glue("% {n.lines[j]}s"), ifelse(is.na(x[i,j]) | grepl("NA$", x[i,j]), "", x[i,j])))
+      cat(rep_char(" ", n.lines.rn))
+    for(j in 1:length(xr))
+      cat(sprintf(glue("% {n.lines[j]}s"), names(xr)[j]))
+    cat("\n")
+    for(i in 1:nrow(xr)) {
+      if(row.names==TRUE)
+        cat(sprintf(glue("%-{n.lines.rn}s"), row.names(xr[i,])))
+      for(j in 1:length(xr))
+        cat(sprintf(glue("% {n.lines[j]}s"), ifelse(is.na(xr[i,j]) | grepl("NA$", xr[i,j]), "", xr[i,j])))
+      cat("\n")
+    }
+    Print(table.line)
+    if(note!="") Print(note)
+  }
+  if(row.names==TRUE) {
+    x=cbind(rn=row.names(x), x)
+    names(x)[1]=""
+  }
+  html=df_to_html(x, title=title, note=note, append=append,
+                  file=file,
+                  align.head=file.align.head,
+                  align.text=file.align.text)
+
+  invisible(list(df=x, html=html))
+}
+
+
+df_to_html=function(df, title="", note="", append="",
+                    replace.minus=TRUE,
+                    file=NULL,
+                    align.head="auto",
+                    align.text="auto") {
+  if(!is.null(file))
+    file=stringr::str_replace(file, "\\.docx$", ".doc")
+
+  TITLE=title
+  TNOTE=note
+  APPEND=append
+
+  if(length(align.head)==1) {
+    if(align.head=="auto")
+      align.head=c("left", rep("right", times=ncol(df)-1))
+    else
+      align.head=rep(align.head, times=ncol(df))
+  }
+  if(length(align.text)==1) {
+    if(align.text=="auto")
+      align.text=c("left", rep("right", times=ncol(df)-1))
+    else
+      align.text=rep(align.text, times=ncol(df))
+  }
+
+  df=as.data.frame(df)
+  for(j in 1:ncol(df)) {
+    df[[j]]="<td align='" %^% align.text[j] %^% "'>" %^%
+      stringr::str_trim(stringr::str_replace_all(df[[j]], "^\\s*-", "\u2013")) %^% "</td>"
+  }
+
+  THEAD="<tr> " %^%
+    paste("<th align='" %^%
+            align.head %^%
+            "'>" %^% names(df) %^% "</th>",
+          collapse=" ") %^% " </tr>"
+
+  TBODY="<tr> " %^%
+    paste(apply(df, 1, function(...) paste(..., collapse=" ")),
+          collapse=" </tr>\n<tr> ") %^% " </tr>"
+  if(replace.minus)
+  TBODY=stringr::str_replace_all(TBODY, ">\\s*NA\\s*<", "><")
+  TBODY=stringr::str_replace_all(TBODY, "\\s+</td>", "")
+
+  TABLE=paste0("
+<table>
+<thead>
+", THEAD, "
+</thead>
+<tbody>
+", TBODY, "
+</tbody>
+</table>
+")
+
+  HTML=paste0("<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset='utf-8'>
+<title></title>
+<style>
+", ifelse(
+  grepl("\\.doc$", file),
+  "body {font-size: 10.5pt; font-family: Times New Roman;}",
+  ""
+), "
+p {margin: 0px;}
+table {border-collapse: collapse; border-spacing: 0px; color: #000000;
+       border-top: 2px solid #000000; border-bottom: 2px solid #000000;}
+table thead th {border-bottom: 1px solid #000000;}
+table th, table td {padding-left: 5px; padding-right: 5px; height: 19px;}
+</style>
+</head>
+
+<body>
+<p>", TITLE, "</p>", TABLE, "<p>", TNOTE, "</p>", APPEND, "
+</body>
+
+</html>")
+
+  if(!is.null(file)) {
+    # sink(file)
+    # cat(HTML)
+    # sink()
+    f=file(file, "w", encoding="UTF-8")
+    cat(HTML, file=f)
+    close(f)
+    Print("<<green \u2714>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
     cat("\n")
   }
-  Print(table.line)
+
+  invisible(list(HTML=HTML, TABLE=TABLE))
 }
 
 

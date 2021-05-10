@@ -13,7 +13,7 @@ Default is to extract the path of the currently opened file
 
 \item{directly}{\code{TRUE} (default) or \code{FALSE}.
 Default is to directly execute \code{setwd("...")} within the function (recommended).
-Otherwise, it will send code \code{setwd("...")} to the R console
+Otherwise, it will send code \code{setwd("...")} to the R Console
 and then execute it (not recommended due to a delay of execution).}
 
 \item{ask}{\code{TRUE} or \code{FALSE} (default).
@@ -24,7 +24,7 @@ Invisibly return the path.
 }
 \description{
 Set working directory to the path of the currently opened file.
-You can use this function in both \strong{.R/.Rmd files and the R console}.
+You can use this function in both \strong{.R/.Rmd files and R Console}.
 \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
 (version >= 1.2) is required for running this function.
 }

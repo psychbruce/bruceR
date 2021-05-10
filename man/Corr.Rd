@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Corr}
 \alias{Corr}
-\title{Correlation analysis.}
+\title{Correlation analysis (to R Console or MS Word).}
 \usage{
 Corr(
   data,
@@ -10,14 +10,15 @@ Corr(
   nsmall = 2,
   p.adjust = "none",
   all.as.numeric = TRUE,
+  file = NULL,
   plot = TRUE,
   plot.range = c(-1, 1),
   plot.palette = NULL,
   plot.color.levels = 201,
-  save.file = NULL,
-  width = 8,
-  height = 6,
-  dpi = 500
+  plot.file = NULL,
+  plot.width = 8,
+  plot.height = 6,
+  plot.dpi = 500
 )
 }
 \arguments{
@@ -25,14 +26,16 @@ Corr(
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.
+Transform all variables into numeric (continuous).}
 
 \item{p.adjust}{Adjustment of \emph{p} values for multiple tests:
 \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
 For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.}
 
-\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
-Transform all variables into numeric (continuous).}
+\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 
 \item{plot}{\code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.}
 
@@ -43,20 +46,20 @@ You may also set it to, e.g., \code{c("red", "white", "blue")}.}
 
 \item{plot.color.levels}{Default is \code{201}.}
 
-\item{save.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
+\item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
-\item{width}{Width (in "inch") of the saved plot. Default is \code{8}.}
+\item{plot.width}{Width (in "inch") of the saved plot. Default is \code{8}.}
 
-\item{height}{Height (in "inch") of the saved plot. Default is \code{6}.}
+\item{plot.height}{Height (in "inch") of the saved plot. Default is \code{6}.}
 
-\item{dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
+\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
 \value{
 Invisibly return the correlation results obtained from
 \code{\link[psych:corr.test]{psych::corr.test()}}.
 }
 \description{
-Correlation analysis.
+Correlation analysis (to R Console or MS Word).
 }
 \examples{
 Corr(airquality)

@@ -2,28 +2,31 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Describe}
 \alias{Describe}
-\title{Descriptive statistics.}
+\title{Descriptive statistics (to R Console or MS Word).}
 \usage{
 Describe(
   data,
   nsmall = 2,
   all.as.numeric = TRUE,
+  file = NULL,
   plot = FALSE,
   upper.triangle = FALSE,
   upper.smooth = "none",
-  save.file = NULL,
-  width = 8,
-  height = 6,
-  dpi = 500
+  plot.file = NULL,
+  plot.width = 8,
+  plot.height = 6,
+  plot.dpi = 500
 )
 }
 \arguments{
 \item{data}{Data frame or numeric vector.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
-
-\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.
 Transform all variables into numeric (continuous).}
+
+\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 
 \item{plot}{\code{TRUE} or \code{FALSE} (default).
 Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.}
@@ -34,13 +37,13 @@ Add (scatter) plots to upper triangle (time consuming when sample size is large)
 \item{upper.smooth}{\code{"none"} (default), \code{"lm"}, or \code{"loess"}.
 Add fitting lines to scatter plots (if any).}
 
-\item{save.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
+\item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
-\item{width}{Width (in "inch") of the saved plot. Default is \code{8}.}
+\item{plot.width}{Width (in "inch") of the saved plot. Default is \code{8}.}
 
-\item{height}{Height (in "inch") of the saved plot. Default is \code{6}.}
+\item{plot.height}{Height (in "inch") of the saved plot. Default is \code{6}.}
 
-\item{dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
+\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
 }
 \value{
 Invisibly return a list consisting of
@@ -48,7 +51,7 @@ Invisibly return a list consisting of
 (2) a \code{ggplot2} object if users set \code{plot=TRUE}.
 }
 \description{
-Descriptive statistics.
+Descriptive statistics (to R Console or MS Word).
 }
 \examples{
 \donttest{set.seed(1)

@@ -2,24 +2,26 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Freq}
 \alias{Freq}
-\title{Frequency statistics.}
+\title{Frequency statistics (to R Console or MS Word).}
 \usage{
-Freq(var, label = NULL, sort = "", nsmall = 1)
+Freq(var, label = NULL, sort = "", nsmall = 1, file = NULL)
 }
 \arguments{
 \item{var}{Vector or variable.}
 
 \item{label}{[optional] A vector re-defining the labels of values.}
 
-\item{sort}{\code{""} (default, sorted by raw order), \code{"-"} (decreasing order), or \code{"+"} (increasing order).}
+\item{sort}{\code{""} (default, sorted by raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{1}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
 A data frame of frequency statistics.
 }
 \description{
-Frequency statistics.
+Frequency statistics (to R Console or MS Word).
 }
 \examples{
 Freq(bfi$education)

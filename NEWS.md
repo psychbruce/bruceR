@@ -1,6 +1,20 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.6.3 (in development)
+# bruceR 0.6.4 (in development)
+
+### New Features
+
+-   Added Word output (.doc) in `print_table()` and other functions using `print_table()` inside: `Describe()`, `Freq()`, `Corr()`.
+
+# bruceR 0.6.3 (Apr 2021)
+
+### New Features
+
+-   New function `granger_causality()`: Granger causality test (multivariate) based on vector autoregression (VAR) model. This function is an advanced and more general version of the function `granger_test()` (bivariate).
+
+### Minor Changes
+
+-   Improved `model_summary()`: Fixed the UTF-8 encoding problem that may appear in WPS software (no such problem in Microsoft Word).
 
 ### Notes
 

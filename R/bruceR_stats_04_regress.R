@@ -213,7 +213,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #### Model Summary ####
 
 
-#' Tidy report of regression models (to R console, Word, or HTML).
+#' Tidy report of regression models (to R Console or MS Word).
 #'
 #' This function is an extension (and combination) of
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}},
@@ -227,6 +227,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' Not applicable to generalized linear (mixed) models.
 #' @param digits Number of decimal places of output. Default is \code{3}.
 #' @param nsmall The same as \code{digits}.
+#' @param file File name of MS Word (\code{.doc}).
 #' @param zero Display "0" before "."? Default is \code{TRUE}.
 #' @param modify_se Replace standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
@@ -235,8 +236,6 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @param modify_head Replace model names.
 #' @param bold The p-value threshold below which the coefficient shall be formatted in a bold font.
 #' For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.
-#' @param file File name of Word or HTML document.
-#' The extension should be \code{.doc} or \code{.html}.
 #' @param ... Other parameters passed to the
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}} or
 #' \code{\link[texreg:htmlreg]{texreg::htmlreg()}} function.
@@ -252,9 +251,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(list(lm1, lm2))
 #' model_summary(list(lm1, lm2), std=TRUE, digits=2)
 #' model_summary(list(lm1, lm2), file="OLS Models.doc")
-#' model_summary(list(lm1, lm2), file="OLS Models.html")
 #' unlink("OLS Models.doc")  # delete file for test
-#' unlink("OLS Models.html")  # delete file for test
 #'
 #' ## Example 2: Generalized Linear Model
 #' glm1=glm(case ~ age + parity,
@@ -301,11 +298,11 @@ model_summary=function(model_list,
                        std_coef=FALSE,
                        digits=nsmall,
                        nsmall=3,
+                       file=NULL,
                        zero=ifelse(std_coef, FALSE, TRUE),
                        modify_se=NULL,
                        modify_head=NULL,
                        bold=0,
-                       file=NULL,
                        ...) {
   if(class(model_list)=="varest") {
     model_list=model_list$varresult
@@ -418,26 +415,30 @@ model_summary=function(model_list,
       print(output)
     } else {
       file=stringr::str_replace(file, "\\.docx$", ".doc")
-      output=stringr::str_replace_all(output, "<td>-", "<td>\u2013")
-      if(grepl("\\.doc$", file)) {
-        output=stringr::str_replace(
-          output, "<style>",
-          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman;}\np {margin: 0px;}")
-        output=stringr::str_replace(
-          output, "<body>",
-          paste0("<body>\n<p><b>Table X. Regression Models",
-                 ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
-                        paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
-                        ""),
-                 ".</b></p>"))
-        output=stringr::str_replace(
-          output, "</body>",
-          paste0("<p><i>Note</i>. ",
-                 ifelse(std_coef, "Standardized ", "Unstandardized "),
-                 "regression coefficients are displayed, with standard errors in parentheses.</p><p>",
-                 "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
-                 "</body>"))
-      }
+      output=output %>%
+        stringr::str_replace_all("&nbsp;", "") %>%
+        stringr::str_replace_all("<td>-", "<td>\u2013") %>%
+        stringr::str_replace_all("<td>(?=\\.|\\d\\.)", "<td>&ensp;") %>%
+        stringr::str_replace_all("R<sup>2</sup>", "<i>R</i><sup>2</sup>") %>%
+        stringr::str_replace(
+          "<style>",
+          "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman;}\np {margin: 0px;}\nth, td {height: 19px;}") %>%
+        stringr::str_replace(
+          "<body>",
+          paste0(
+            "<body>\n<p><b>Table X. Regression Models",
+            ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
+                   paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
+                   ""),
+            ".</b></p>")) %>%
+        stringr::str_replace(
+          "</body>",
+          paste0(
+            "<p><i>Note</i>. ",
+            ifelse(std_coef, "Standardized ", "Unstandardized "),
+            "regression coefficients are displayed, with standard errors in parentheses.</p><p>",
+            "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
+            "</body>"))
       # sink(file)
       # cat(output)
       # sink()
