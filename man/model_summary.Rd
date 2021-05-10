@@ -18,7 +18,8 @@ model_summary(
 )
 }
 \arguments{
-\item{model_list}{A single model or a list of models. The models should be of the same type.}
+\item{model_list}{A single model or a list of models (of the same type).
+Most types of regression models are supported!}
 
 \item{std_coef}{Standardized coefficients? Default is \code{FALSE}.
 Only applicable to linear models and linear mixed models.
@@ -39,22 +40,25 @@ See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
 \item{modify_head}{Replace model names.}
 
-\item{bold}{The p-value threshold below which the coefficient shall be formatted in a bold font.
-For example, \code{bold = 0.05} will cause all coefficients that are significant at the 95\% level to be formatted in bold.}
+\item{bold}{The \emph{p}-value threshold below which the coefficients will be formatted in bold.}
 
-\item{...}{Other parameters passed to the
+\item{...}{Other parameters passed to
 \code{\link[texreg:screenreg]{texreg::screenreg()}} or
-\code{\link[texreg:htmlreg]{texreg::htmlreg()}} function.}
+\code{\link[texreg:htmlreg]{texreg::htmlreg()}}.}
 }
 \value{
-Invisibly return the plain text of output.
+Invisibly return the output (character string).
 }
 \description{
+Tidy report of regression models (to R Console or MS Word).
+Most types of regression models are supported!
 This function is an extension (and combination) of
 \code{\link[texreg:screenreg]{texreg::screenreg()}},
 \code{\link[texreg:htmlreg]{texreg::htmlreg()}},
-\code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}, and
-\code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}.
+\code{\link[MuMIn:std.coef]{MuMIn::std.coef()}},
+\code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}},
+\code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}},
+\code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}.
 }
 \examples{
 \donttest{## Example 1: Linear Model

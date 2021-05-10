@@ -10,6 +10,10 @@
 
 -   Added a disclaimer about Cohen's *d* in the output and documentation of `EMMEANS()`: There is considerable disagreement on how to compute Cohen's *d*. Users should not take the default output as the only right results and are completely responsible for setting the "sd.pooled".
 
+### Bug Fixes
+
+-   Fixed bugs in `model_summary()`: Model names with `NULL`; Multicollinearity check results with `NULL`.
+
 # bruceR 0.6.3 (Apr 2021)
 
 ### New Features
