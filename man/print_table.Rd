@@ -6,8 +6,9 @@
 \usage{
 print_table(
   x,
-  row.names = TRUE,
   nsmalls = 3,
+  row.names = TRUE,
+  col.names = TRUE,
   title = "",
   note = "",
   append = "",
@@ -19,15 +20,16 @@ print_table(
 \arguments{
 \item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
 
-\item{row.names}{Whether to print row names. Default is \code{TRUE}.}
+\item{nsmalls}{Numeric vector specifying the number of decimal places of output. Default is \code{3}.}
 
-\item{nsmalls}{A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.}
+\item{row.names, col.names}{Print row/column names. Default is \code{TRUE} (column names are always printed).
+To modify the names, you can use a character vector with the same length as the raw names.}
 
 \item{title}{Title text, which will be inserted in <p></p> (HTML code).}
 
 \item{note}{Note text, which will be inserted in <p></p> (HTML code).}
 
-\item{append}{Other contents appended in the end (HTML code).}
+\item{append}{Other contents, which will be appended in the end (HTML code).}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

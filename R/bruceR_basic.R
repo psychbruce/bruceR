@@ -403,11 +403,12 @@ capitalize=function(string) {
 #' You can check the raw HTML code by opening the Word file with any text editor.
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
-#' @param row.names Whether to print row names. Default is \code{TRUE}.
-#' @param nsmalls A number or numeric vector specifying the number of decimal places of output. Default is \code{3}.
+#' @param nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
+#' @param row.names,col.names Print row/column names. Default is \code{TRUE} (column names are always printed).
+#' To modify the names, you can use a character vector with the same length as the raw names.
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
 #' @param note Note text, which will be inserted in <p></p> (HTML code).
-#' @param append Other contents appended in the end (HTML code).
+#' @param append Other contents, which will be appended in the end (HTML code).
 #' @param file File name of MS Word (\code{.doc}).
 #' @param file.align.head,file.align.text Alignment of table head or table text:
 #' \code{"left"}, \code{"right"}, \code{"center"}.
@@ -431,7 +432,9 @@ capitalize=function(string) {
 #'
 #' @importFrom stats coef
 #' @export
-print_table=function(x, row.names=TRUE, nsmalls=3,
+print_table=function(x, nsmalls=3,
+                     row.names=TRUE,
+                     col.names=TRUE,
                      title="", note="", append="",
                      file=NULL,
                      file.align.head="auto",
@@ -477,6 +480,15 @@ print_table=function(x, row.names=TRUE, nsmalls=3,
     else
       x=cbind(x, ` `=sig)
     x$` `=as.character(x$` `)
+  }
+
+  if(class(row.names)=="character") {
+    row.names(x)=row.names
+    row.names=TRUE
+  }
+  if(class(col.names)=="character") {
+    names(x)=col.names
+    col.names=TRUE
   }
 
   ## Compute length to generate line-chars ##
@@ -533,7 +545,6 @@ print_table=function(x, row.names=TRUE, nsmalls=3,
 
 
 df_to_html=function(df, title="", note="", append="",
-                    replace.minus=TRUE,
                     file=NULL,
                     align.head="auto",
                     align.text="auto") {
@@ -572,9 +583,12 @@ df_to_html=function(df, title="", note="", append="",
   TBODY="<tr> " %^%
     paste(apply(df, 1, function(...) paste(..., collapse=" ")),
           collapse=" </tr>\n<tr> ") %^% " </tr>"
-  if(replace.minus)
-  TBODY=stringr::str_replace_all(TBODY, ">\\s*NA\\s*<", "><")
-  TBODY=stringr::str_replace_all(TBODY, "\\s+</td>", "")
+  TBODY=TBODY %>%
+    stringr::str_replace_all(">\\s*NA\\s*<", "><") %>%
+    stringr::str_replace_all("\\s+</td>", "</td>") %>%
+    stringr::str_replace_all("\\[\\s+", "[") %>%
+    stringr::str_replace_all("\\,\\s+", ", ") %>%
+    stringr::str_replace_all("<\\.001", "< .001")
 
   TABLE=paste0("
 <table>
@@ -596,7 +610,7 @@ df_to_html=function(df, title="", note="", append="",
 <style>
 ", ifelse(
   grepl("\\.doc$", file),
-  "body {font-size: 10.5pt; font-family: Times New Roman;}",
+  "body, pre {font-size: 10.5pt; font-family: Times New Roman;}",
   ""
 ), "
 p {margin: 0px;}

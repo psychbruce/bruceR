@@ -126,8 +126,8 @@ sig.trans=function(p) {
 #'
 #' @param data Data frame or numeric vector.
 #' @param nsmall Number of decimal places of output. Default is \code{2}.
-#' Transform all variables into numeric (continuous).
 #' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
+#' Transform all variables into numeric (continuous).
 #' @param file File name of MS Word (\code{.doc}).
 #' @param plot \code{TRUE} or \code{FALSE} (default).
 #' Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
@@ -172,7 +172,8 @@ sig.trans=function(p) {
 #'
 #' @import ggplot2
 #' @export
-Describe=function(data, nsmall=2,
+Describe=function(data,
+                  nsmall=2,
                   all.as.numeric=TRUE,
                   file=NULL,
                   plot=FALSE,
@@ -199,7 +200,7 @@ Describe=function(data, nsmall=2,
     nsmalls=c(0, 0, rep(nsmall, 8))
   }
   print_table(desc, nsmalls=nsmalls, file=file,
-              title="Descriptive statistics:")
+              title="Descriptive Statistics:")
 
   data.new=as.data.frame(data)
   vars.not.numeric=c()
@@ -292,7 +293,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
         "Valid <i>N</i> = " %^% formatN(N-N.na)
   }
   print_table(output, nsmalls=c(0, nsmall), file=file,
-              title="Frequency statistics:", note=note)
+              title="Frequency Statistics:", note=note)
 
   invisible(output)
 }
@@ -337,8 +338,11 @@ Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
 #'
 #' @importFrom stats p.adjust
 #' @export
-Corr=function(data, method="pearson", nsmall=2,
-              p.adjust="none", all.as.numeric=TRUE,
+Corr=function(data,
+              method="pearson",
+              p.adjust="none",
+              nsmall=2,
+              all.as.numeric=TRUE,
               file=NULL,
               plot=TRUE, plot.range=c(-1, 1),
               plot.palette=NULL, plot.color.levels=201,
@@ -413,7 +417,7 @@ Corr=function(data, method="pearson", nsmall=2,
   cat("\n")
 
   if(!is.null(file)) {
-    Print("Descriptive statistics and correlation matrix:")
+    Print("Descriptive Statistics and Correlation Matrix:")
     cor.mat=formatF(cor$r, nsmall)
     cor.sig=sig.trans(cor$p)
     if(p.adjust=="none") {
@@ -448,10 +452,9 @@ Corr=function(data, method="pearson", nsmall=2,
     COR.new$Pairs=row.names(COR)
     COR.new$`r [95% CI]`=paste(COR$r, COR$`[95% CI]`) %>%
       stringr::str_replace_all("-", "\u2013") %>%
-      stringr::str_replace_all("\\[ ", "[") %>%
       stringr::str_replace_all("0\\.", ".") %>%
       stringr::str_replace_all("^ \\.", "&ensp;.")
-    COR.new$p=stringr::str_replace_all(p.trans(COR$pval), "<", "< ")
+    COR.new$p=p.trans(COR$pval)
     COR.new=COR.new[c("Pairs", "r [95% CI]", "p", "N")]
     names(COR.new)=c("Pairs", "<i>r</i> [95% CI]", "<i>p</i>", "<i>N</i>")
     cor.ci=paste0(

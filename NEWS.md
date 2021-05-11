@@ -4,7 +4,7 @@
 
 ### New Features
 
--   Added Word output (.doc) in `print_table()` and other functions using `print_table()` inside: `Describe()`, `Freq()`, `Corr()`.
+-   Added Word output (.doc) in `print_table()` and other functions using `print_table()` inside: `Describe()`, `Freq()`, `Corr()`, `MANOVA()`, `med_summary()`.
 
 ### Minor Changes
 

@@ -14,7 +14,7 @@ MANOVA(
   within = NULL,
   covariate = NULL,
   sph.correction = "none",
-  which.observed = NULL,
+  file = NULL,
   nsmall = 2
 )
 }
@@ -82,20 +82,16 @@ If you set \code{dvs}, you must also set the pattern of variable names by using 
 Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
-\item{which.observed}{\strong{[only effective for computing generalized \eqn{\eta^2}]}
+\item{file}{File name of MS Word (\code{.doc}).}
 
-Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
-The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
-(If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)}
-
-\item{nsmall}{Number of decimal places of output. Default is 2.}
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 }
 \value{
 A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
 }
 \description{
 Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
-with or without covariates (ANCOVA).
+with or without covariates (ANCOVA). Print results to R Console (and MS Word).
 
 This function is based on and extends the \code{\link[afex:aov_car]{afex::aov_ez()}} function.
 You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).

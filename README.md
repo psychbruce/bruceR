@@ -135,21 +135,21 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 ### Function Output
 
-Some functions in `bruceR` allow table output to Microsoft Word.
+Some functions in `bruceR` allow table output to Microsoft Word (by setting `file="xxx.doc"` in the function).
 
 | bruceR Function       | Output: R Console |   Output: MS Word   |
 |:----------------------|:-----------------:|:-------------------:|
-| `print_table()`       |         √         |          √          |
+| `print_table()`       |         √         |    **√ (basic)**    |
 | `Describe()`          |         √         |          √          |
 | `Freq()`              |         √         |          √          |
 | `Corr()`              |         √         | **√ (recommended)** |
 | `Alpha()`             |         √         |                     |
 | `EFA()`               |         √         |                     |
 | `CFA()`               |         √         |                     |
-| `MANOVA()`            |         √         |                     |
+| `MANOVA()`            |         √         |          √          |
 | `EMMEANS()`           |         √         |                     |
 | `model_summary()`     |         √         | **√ (recommended)** |
-| `med_summary()`       |         √         |                     |
+| `med_summary()`       |         √         |          √          |
 | `GLM_summary()`       |         √         |                     |
 | `HLM_summary()`       |         √         |                     |
 | `HLM_ICC_rWG()`       |         √         |                     |

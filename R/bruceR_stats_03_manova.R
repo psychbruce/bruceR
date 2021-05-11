@@ -73,7 +73,7 @@ NULL
 #'
 #' @description
 #' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
-#' with or without covariates (ANCOVA).
+#' with or without covariates (ANCOVA). Print results to R Console (and MS Word).
 #'
 #' This function is based on and extends the \code{\link[afex:aov_car]{afex::aov_ez()}} function.
 #' You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
@@ -134,12 +134,13 @@ NULL
 #'
 #' Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 #' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
-#' @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
-#'
-#' Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
-#' The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
-#' (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
-#' @param nsmall Number of decimal places of output. Default is 2.
+#' @param file File name of MS Word (\code{.doc}).
+## @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
+##
+## Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
+## The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
+## (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
+#' @param nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
 #' A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
@@ -218,7 +219,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                 dvs=NULL, dvs.pattern="",
                 between=NULL, within=NULL, covariate=NULL,
                 sph.correction="none",
-                which.observed=NULL,
+                file=NULL,
+                # which.observed=NULL,
                 nsmall=2) {
   data0=data=as.data.frame(data)
   design=ifelse(is.null(within), "Between-Subjects Design",
@@ -266,27 +268,43 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     plyr::ddply(data,
     plyr::.({paste(c(between, within), collapse=', ')}),
     dplyr::summarise,
-    Mean=mean({dv}, na.rm=TRUE),
-    S.D.=sd({dv}, na.rm=TRUE),
-    N=length({dv}))")))
+    M=mean({dv}, na.rm=TRUE),
+    SD=sd({dv}, na.rm=TRUE),
+    n=length({dv}))")))
+  N.info=Glue("{nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
   print_table(nmsd, row.names=FALSE, nsmalls=nsmall)
-  Print("Total sample size: <<italic N>> = {nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
+  Print("Total sample size: <<italic N>> = {N.info}")
   cat("\n")
+
+  nmsd$M=formatF(nmsd$M, nsmall)
+  nmsd$SD=formatF(nmsd$SD, nsmall)
+  names(nmsd)[(ncol(nmsd)-2):ncol(nmsd)]=c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
+  nmsd.html=paste0(
+    "<p><br/><br/></p>",
+    "<p><b>Descriptive Statistics:</b></p>",
+    df_to_html(
+      nmsd,
+      align.head=c(rep("left", times=ncol(nmsd)-3),
+                   rep("right"), times=3),
+      align.text=c(rep("left", times=ncol(nmsd)-3),
+                   rep("right"), times=3))$TABLE,
+    "<p>Total sample size: <i>N</i> = ", N.info, "</p>"
+  )
 
   ## Main MANOVA Functions
   suppressMessages({
-    aov.ez=afex::aov_ez(data=data, id=subID, dv=dv,
-                        between=between,
-                        within=within,
-                        covariate=covariate,
-                        type="III",
-                        observed=which.observed,
-                        anova_table=list(correction=sph.correction,
-                                         es="ges"),
-                        fun_aggregate=mean,
-                        include_aov=FALSE,
-                        factorize=FALSE,
-                        print.formula=FALSE)
+    aov.ez=afex::aov_ez(
+      data=data, id=subID, dv=dv,
+      between=between,
+      within=within,
+      covariate=covariate,
+      type="III",
+      # observed=which.observed,
+      anova_table=list(correction=sph.correction, es="ges"),
+      fun_aggregate=mean,
+      include_aov=FALSE,
+      factorize=FALSE,
+      print.formula=FALSE)
   })
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
@@ -294,25 +312,34 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   eta2=effectsize::F_to_eta2(at$`F`, at$df1, at$df2)
   at$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
                    formatF(eta2$CI_low, nsmall+1), ", ",
-                   formatF(eta2$CI_high, nsmall+1), "]")
+                   formatF(eta2$CI_high, nsmall+1), "]") %>%
+    stringr::str_replace_all("0\\.", ".")
   at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2")]
   names(at)[7]=c("\u03b7\u00b2p [90% CI]")
   row.names(at)=row.names(aov.ez$anova_table)
   df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
+  at.nsmalls=c(nsmall, nsmall, df.nsmall, df.nsmall, nsmall, 0, 0)
+  DEP=ifelse(is.null(within), dv, paste(dv.vars, collapse=", "))
+  BET=ifelse(is.null(between), "\u2013", paste(between, collapse=", "))
+  WIT=ifelse(is.null(within), "\u2013", paste(within, collapse=", "))
+  COV=ifelse(is.null(covariate), "\u2013", paste(covariate, collapse=", "))
   Print("
   <<underline ANOVA Table:>>
-  Dependent variable(s):      {ifelse(is.null(within), dv, paste(dv.vars, collapse=', '))}
-  Between-subjects factor(s): {ifelse(is.null(between), '-', paste(between, collapse=', '))}
-  Within-subjects factor(s):  {ifelse(is.null(within), '-', paste(within, collapse=', '))}
-  Covariate(s):               {ifelse(is.null(covariate), '-', paste(covariate, collapse=', '))}
+  Dependent variable(s):      {DEP}
+  Between-subjects factor(s): {BET}
+  Within-subjects factor(s):  {WIT}
+  Covariate(s):               {COV}
   ")
-  print_table(at, nsmalls=c(nsmall, nsmall, df.nsmall, df.nsmall,
-                            nsmall, 0, 0))
+  print_table(at, nsmalls=at.nsmalls)
   Print("<<blue MSE = Mean Square Error (an estimate of population variance \u03c3\u00b2).>>")
-  if(sph.correction=="GG")
-    Print("<<green Sphericity correction method: GG (Greenhouse-Geisser)>>")
-  if(sph.correction=="HF")
-    Print("<<green Sphericity correction method: HF (Huynh-Feldt)>>")
+
+  if(sph.correction %in% c("GG", "HF")) {
+    if(sph.correction=="GG")
+      sph.text="GG (Greenhouse-Geisser)"
+    if(sph.correction=="HF")
+      sph.text="HF (Huynh-Feldt)"
+    Print("<<green Sphericity correction method: {sph.text}>>")
+  }
 
   ## All Other Effect-Size Measures (deprecated; please use `effectsize` package)
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
@@ -345,6 +372,37 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     }
   }
   cat("\n")
+
+  if(!is.null(file)) {
+    print_table(
+      at,
+      nsmalls=at.nsmalls,
+      col.names=c("<i>MS</i>", "<i>MSE</i>",
+                  "<i>df</i><sub>1</sub>", "<i>df</i><sub>2</sub>",
+                  "<i>F</i>", "<i>p</i>", " ",
+                  "\u03b7<sup>2</sup><sub><i>p</i></sub> [90% CI]"),
+      file=file,
+      file.align.text=c("left",
+                        "right", "right",
+                        "right", "right",
+                        "right", "right",
+                        "left", "right"),
+      title=paste0(
+        "<b>ANOVA Table:</b></p>\n<p>",
+        "<pre>Dependent variable(s):&#9;", DEP, "</pre></p>\n<p>",
+        "<pre>Between-subjects factor(s):&#9;", BET, "</pre></p>\n<p>",
+        "<pre>Within-subjects factor(s):&#9;", WIT, "</pre></p>\n<p>",
+        "<pre>Covariate(s):&#9;&#9;", COV, "</pre>"
+      ),
+      note=paste0(
+        "<i>Note</i>. MSE = Mean Square Error.",
+        ifelse(
+          sph.correction %in% c("GG", "HF"),
+          " Sphericity correction method: " %^% sph.text %^% ".",
+          "")
+      ),
+      append=nmsd.html)
+  }
 
   ## Return
   aov.ez$between=between

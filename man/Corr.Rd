@@ -7,8 +7,8 @@
 Corr(
   data,
   method = "pearson",
-  nsmall = 2,
   p.adjust = "none",
+  nsmall = 2,
   all.as.numeric = TRUE,
   file = NULL,
   plot = TRUE,
@@ -26,14 +26,14 @@ Corr(
 
 \item{method}{\code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.
-Transform all variables into numeric (continuous).}
-
 \item{p.adjust}{Adjustment of \emph{p} values for multiple tests:
 \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
 For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.}
 
-\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.}
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
+
+\item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
+Transform all variables into numeric (continuous).}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

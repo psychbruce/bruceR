@@ -1,7 +1,7 @@
 #### Indirect Effect: Model-Based (using the "mediation" package) ####
 
 
-#' Tidy report of mediation analysis.
+#' Tidy report of mediation analysis (to R Console or MS Word).
 #'
 #' @description
 #' Tidy report of mediation analysis,
@@ -10,6 +10,7 @@
 #' @param model Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.
 #' @param digits Number of decimal places of output. Default is \code{3}.
 #' @param nsmall The same as \code{digits}.
+#' @param file File name of MS Word (\code{.doc}).
 #' @param print.avg Just set as \code{TRUE} for a concise output.
 #' For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.
 #'
@@ -48,16 +49,17 @@
 #' med_summary(med.lmm)
 #' }
 #' @export
-med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
+med_summary=function(model, digits=nsmall, nsmall=3,
+                     file=NULL, print.avg=TRUE) {
   # for raw function, see:
   # edit(mediation:::print.summary.mediate)
-  x <- model
-  clp <- 100 * x$conf.level
+  x=model
+  clp=100*x$conf.level
   cat("\n")
   cat(sprintf("Mediation Analysis %s\n\n",
               ifelse(inherits(x, "mediate.tsls"),
                      "using Two-Stage Least Squares", "")))
-  if (x$boot) {
+  if(x$boot) {
     cat(sprintf("Nonparametric Bootstrap Confidence Intervals with the %s Method\n\n",
                 ifelse(x$boot.ci.type=="perc", "Percentile", "BCa")))
   } else {
@@ -65,7 +67,7 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
                 ifelse(inherits(x, "mediate.tsls"), "Two-Stage Least Squares", "Quasi-Bayesian")))
   }
 
-  if (!is.null(x$covariates)) {
+  if(!is.null(x$covariates)) {
     Print("Conditional on ...")
     conditional=data.frame(Value=unlist(x$covariates))
     conditional$Value=paste("=", conditional$Value)
@@ -78,17 +80,17 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   Y=names(stats::model.frame(x[["model.y"]]))[1]
   Print("{X} ==> {M} ==> {Y}")
 
-  if (print.avg) {
-    smat <- rbind(
+  if(print.avg) {
+    smat=rbind(
       c(x$d.avg, x$d.avg.ci, x$d.avg.p),
       c(x$z.avg, x$z.avg.ci, x$z.avg.p),
       c(x$tau.coef, x$tau.ci, x$tau.p))
-    rownames(smat) <- c(
+    rownames(smat)=c(
       "Indirect Effect",
       "Direct Effect",
       "Total Effect")
   } else {
-    smat <- rbind(
+    smat=rbind(
       c(x$d0, x$d0.ci, x$d0.p),
       c(x$d1, x$d1.ci, x$d1.p),
       c(x$z0, x$z0.ci, x$z0.p),
@@ -96,7 +98,7 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
       c(x$d.avg, x$d.avg.ci, x$d.avg.p),
       c(x$z.avg, x$z.avg.ci, x$z.avg.p),
       c(x$tau.coef, x$tau.ci, x$tau.p))
-    rownames(smat) <- c(
+    rownames(smat)=c(
       "Indirect Effect (control)", "Indirect Effect (treated)",
       "Direct Effect (control)", "Direct Effect (treated)",
       "Indirect Effect (average)", "Direct Effect (average)",
@@ -117,6 +119,32 @@ med_summary=function(model, digits=nsmall, nsmall=3, print.avg=TRUE) {
   Print("Sample Size: {x$nobs}")
   Print("Simulations: {x$sims} ({ifelse(x$boot, 'Bootstrap', 'Monte Carlo')})")
   cat("\n")
+
+  if(!is.null(file)) {
+    smat.new=smat
+    smat.new.names=names(smat.new)
+    smat.new.names[4]="<i>p</i>"
+    smat.new[[5]]=stringr::str_replace_all(smat.new[[5]], "-", "\u2013")
+    print_table(smat.new[c(5,4)], nsmalls=0,
+                col.names=c(smat.new.names[c(5,4)], " "),
+                file=file,
+                file.align.head=c("left", "left", "right", "left"),
+                file.align.text=c("left", "left", "right", "left"),
+                title=paste0(
+                  "<b>",
+                  ifelse(is.null(x$covariates),
+                         "Mediation Analysis",
+                         "Mediation Analysis (Conditional)"),
+                  "</b></p>\n<p>",
+                  "Model Hypothesis:</p>\n<p>",
+                  X, " \u2192 ", M, " \u2192 ", Y
+                ),
+                note=paste0(
+                  "Sample Size: ", x$nobs, "</p>\n<p>",
+                  "Simulations: ", x$sims, ifelse(x$boot, " (Bootstrap)", " (Monte Carlo)")
+                ))
+  }
+
   invisible(smat)
 }
 

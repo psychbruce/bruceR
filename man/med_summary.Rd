@@ -2,9 +2,9 @@
 % Please edit documentation in R/bruceR_stats_05_advance.R
 \name{med_summary}
 \alias{med_summary}
-\title{Tidy report of mediation analysis.}
+\title{Tidy report of mediation analysis (to R Console or MS Word).}
 \usage{
-med_summary(model, digits = nsmall, nsmall = 3, print.avg = TRUE)
+med_summary(model, digits = nsmall, nsmall = 3, file = NULL, print.avg = TRUE)
 }
 \arguments{
 \item{model}{Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.}
@@ -12,6 +12,8 @@ med_summary(model, digits = nsmall, nsmall = 3, print.avg = TRUE)
 \item{digits}{Number of decimal places of output. Default is \code{3}.}
 
 \item{nsmall}{The same as \code{digits}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 
 \item{print.avg}{Just set as \code{TRUE} for a concise output.
 For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.}
