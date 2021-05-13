@@ -49,6 +49,8 @@ to either R Console or Microsoft Word (.doc).
 It has been used in many other functions in \code{bruceR}.
 The implementation of Word output is using HTML code.
 You can check the raw HTML code by opening the Word file with any text editor.
+See \href{https://github.com/psychbruce/bruceR#function-output}{here}
+for a list of other functions in \code{bruceR} that support Word output.
 }
 \examples{
 print_table(airquality, file="airquality.doc")

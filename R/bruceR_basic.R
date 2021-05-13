@@ -401,6 +401,8 @@ capitalize=function(string) {
 #' It has been used in many other functions in \code{bruceR}.
 #' The implementation of Word output is using HTML code.
 #' You can check the raw HTML code by opening the Word file with any text editor.
+#' See \href{https://github.com/psychbruce/bruceR#function-output}{here}
+#' for a list of other functions in \code{bruceR} that support Word output.
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
 #' @param nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
@@ -548,8 +550,11 @@ df_to_html=function(df, title="", note="", append="",
                     file=NULL,
                     align.head="auto",
                     align.text="auto") {
-  if(!is.null(file))
+  if(!is.null(file)) {
     file=stringr::str_replace(file, "\\.docx$", ".doc")
+    if(stringr::str_detect(file, "\\.doc$")==FALSE)
+      file=paste0(file, ".doc")
+  }
 
   TITLE=title
   TNOTE=note

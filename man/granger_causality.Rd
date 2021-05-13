@@ -4,7 +4,14 @@
 \alias{granger_causality}
 \title{Granger causality test (multivariate).}
 \usage{
-granger_causality(varmodel, var.y = NULL, var.x = NULL, check.dropped = FALSE)
+granger_causality(
+  varmodel,
+  var.y = NULL,
+  var.x = NULL,
+  test = c("F", "Chisq"),
+  file = NULL,
+  check.dropped = FALSE
+)
 }
 \arguments{
 \item{varmodel}{VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.}
@@ -14,6 +21,10 @@ If specified, then perform tests for specific variables.
 Values can be a single variable (e.g., \code{"X"}),
 a vector of variables (e.g., \code{c("X1", "X2")}),
 or a string containing regular expression (e.g., \code{"X1|X2"}).}
+
+\item{test}{\emph{F} test and/or Wald \eqn{\chi}^2 test. Default is both: \code{c("F", "Chisq")}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 
 \item{check.dropped}{Check dropped variables. Default is \code{FALSE}.}
 }
@@ -31,7 +42,18 @@ The Granger causality test (based on VAR model) examines whether
 the lagged values of a predictor (or predictors)
 have any incremental role in predicting an outcome
 if controlling for the lagged values of the outcome itself.
-It compares the two models by using an \emph{F} test.
+}
+\examples{
+\dontrun{
+# "vars" package should be installed and loaded.
+library(vars)
+data(Canada)
+VARselect(Canada)
+vm=VAR(Canada, p=3)
+model_summary(vm)
+granger_causality(vm)
+}
+
 }
 \seealso{
 \code{\link{ccf_plot}},

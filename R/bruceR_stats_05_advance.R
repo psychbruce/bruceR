@@ -1,3 +1,23 @@
+#### PROCESS Macro ####
+
+
+# sim_slopes=interactions::sim_slopes
+# mediate=mediation::mediate
+
+
+PROCESS=function(data, x, y, cov,
+                 mediators=NULL,
+                 moderators=NULL,
+                 multilevel=NULL,
+                 bootstrap=TRUE,
+                 simulation=1000,
+                 seed=1) {
+  Print("Coming soon...")
+}
+
+
+
+
 #### Indirect Effect: Model-Based (using the "mediation" package) ####
 
 
@@ -249,9 +269,7 @@ ccf_plot=function(formula, data,
 #' The Granger causality test examines whether
 #' the lagged values of a predictor
 #' have any incremental role in predicting an outcome
-#' if controlling for
-#' the lagged values of the outcome itself.
-#' It compares the two models by using an \emph{F} test.
+#' if controlling for the lagged values of the outcome itself.
 #'
 #' @inheritParams ccf_plot
 #' @param lags Time lags. Default is \code{1:5}.
@@ -346,7 +364,6 @@ vargranger=function(varmodel, var.y, var.x) {
 #' the lagged values of a predictor (or predictors)
 #' have any incremental role in predicting an outcome
 #' if controlling for the lagged values of the outcome itself.
-#' It compares the two models by using an \emph{F} test.
 #'
 #' @param varmodel VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.
 #' @param var.y,var.x [optional] Default is \code{NULL} (all variables).
@@ -354,6 +371,8 @@ vargranger=function(varmodel, var.y, var.x) {
 #' Values can be a single variable (e.g., \code{"X"}),
 #' a vector of variables (e.g., \code{c("X1", "X2")}),
 #' or a string containing regular expression (e.g., \code{"X1|X2"}).
+#' @param test \emph{F} test and/or Wald \eqn{\chi}^2 test. Default is both: \code{c("F", "Chisq")}.
+#' @param file File name of MS Word (\code{.doc}).
 #' @param check.dropped Check dropped variables. Default is \code{FALSE}.
 #'
 #' @return A data frame of results.
@@ -362,8 +381,22 @@ vargranger=function(varmodel, var.y, var.x) {
 #' \code{\link{ccf_plot}},
 #' \code{\link{granger_test}}
 #'
+#' @examples
+#' \dontrun{
+#' # "vars" package should be installed and loaded.
+#' library(vars)
+#' data(Canada)
+#' VARselect(Canada)
+#' vm=VAR(Canada, p=3)
+#' model_summary(vm)
+#' granger_causality(vm)
+#' }
+#'
 #' @export
-granger_causality=function(varmodel, var.y=NULL, var.x=NULL, check.dropped=FALSE) {
+granger_causality=function(varmodel, var.y=NULL, var.x=NULL,
+                           test=c("F", "Chisq"),
+                           file=NULL,
+                           check.dropped=FALSE) {
   vars=names(varmodel[["varresult"]])
   if(is.null(var.y)) var.y=vars
   if(is.null(var.x)) {
@@ -393,6 +426,7 @@ granger_causality=function(varmodel, var.y=NULL, var.x=NULL, check.dropped=FALSE
   }))
 
   res$Causality=res$Equation %^% " <= " %^% res$Excluded
+  nchars=max(nchar(res$Causality))
   res.check=rbind(data.frame(Dropped="Dropped variables (lags)"),
                   res["Dropped"])
   res.check$Dropped=paste(" ", format(res.check$Dropped))
@@ -401,19 +435,16 @@ granger_causality=function(varmodel, var.y=NULL, var.x=NULL, check.dropped=FALSE
   if(check.dropped) print(res.check)
   res$Dropped=NULL
 
-  cat("\n")
-  Print("
-  <<yellow ====== Granger Causality Test (Multivariate) ======>>
-
-  <<italic F>> test and Wald \u03c7\u00b2 test based on VAR({varmodel$p}) model:")
   result=data.frame()
   for(var in var.y)
     result=rbind(result,
                  data.frame(Equation=NA, Excluded=NA,
                             `F`=NA, df1=NA, df2=NA, p.F=NA, sig.F="",
                             `Chisq`=NA, df=NA, p.Chisq=NA, sig.Chisq="",
-                            Causality=rep_char("-", nchar(var))),
+                            Causality=rep_char("-", nchars)),
                  res[which(res$Equation==var),])
+  result$`F`=formatF(result$`F`, 2)
+  result$`Chisq`=formatF(result$`Chisq`, 2)
   result$p.F=p.trans(result$p.F)
   result$p.Chisq=p.trans(result$p.Chisq)
   result$` `="  "
@@ -422,11 +453,48 @@ granger_causality=function(varmodel, var.y=NULL, var.x=NULL, check.dropped=FALSE
   names(result)[10]=" p"
   names(result)[11]="   "
   names(result)[12]="    "
-  print_table(result[c(12:13, 3:11)],
-              nsmalls=c(0, 0,
-                        2, 0, 0, 0, 0,
-                        2, 0, 0, 0),
+
+  test.which=c()
+  test.text=c()
+  align.which=c("left")
+  col.which=c("")
+  if("F" %in% test) {
+    test.which=c(test.which, 3:7)
+    test.text=c(test.text, "<<italic F>> test")
+    align.which=c(align.which, c("right", "right", "right", "right", "left"))
+    col.which=c(col.which, c("<i>F</i>", "<i>df</i><sub>1</sub>", "<i>df</i><sub>2</sub>", "<i>p</i>", " "))
+  }
+  if("Chisq" %in% test) {
+    test.which=c(test.which, 8:11)
+    test.text=c(test.text, "Wald \u03c7\u00b2 test")
+    align.which=c(align.which, c("right", "right", "right", "left"))
+    col.which=c(col.which, c("\u03c7<sup>2</sup>", "<i>df</i>", " <i>p</i>", "  "))
+  }
+
+  cat("\n")
+  Print("
+  <<yellow ====== Granger Causality Test (Multivariate) ======>>
+
+  {paste(test.text, collapse=' and ')} based on VAR({varmodel$p}) model:")
+  print_table(result[c(12:13, test.which)],
+              nsmalls=0,
               row.names=FALSE)
+  cat("\n")
+
+  if(!is.null(file)) {
+    result[[12]]=result[[12]] %>%
+      stringr::str_replace_all("<=", "\u2190") %>%
+      stringr::str_replace_all("^-+$", "")
+    print_table(
+      result[c(12, test.which)],
+      nsmalls=0,
+      row.names=FALSE,
+      col.names=col.which,
+      title=paste0("<b>Table. Granger Causality Test (Multivariate) Based on VAR(", varmodel$p, ") Model.</b>"),
+      note="<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.",
+      file=file,
+      file.align.text=align.which)
+  }
 
   invisible(list(result=res, check.dropped=res.check))
 }

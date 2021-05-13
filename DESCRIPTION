@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
 Version: 0.6.4
-Date: 2021-05-10
+Date: 2021-05-12
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
@@ -22,7 +22,8 @@ Description:
   (4) descriptive statistics and correlation analyses;
   (5) multi-factor analysis of variance (ANOVA),
   simple-effect analysis, and post-hoc multiple comparison;
-  (6) tidy report of regression models (to Console and to Word);
+  (6) tidy report of regression models and other results
+  (to R Console and MS Word);
   (7) mediation and moderation analyses;
   and (8) additional toolbox for statistics and graphics.
 License: GPL-3

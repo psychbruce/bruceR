@@ -1,6 +1,6 @@
 ## News
 
-In this version (0.6.4), I have added a new function `granger_causality()`, added new features in `print_table()`, `Describe()`, `Freq()`, and `Corr()`, and fixed bugs in `model_summary()`.
+In this version (0.6.4), I have added a new function `granger_causality()`, added new features in `print_table()`, `Describe()`, `Freq()`, `Corr()`, `MANOVA()`, and `med_summary()`, and fixed bugs in `model_summary()`.
 
 
 ## Test environments

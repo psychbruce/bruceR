@@ -26,9 +26,7 @@ using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 The Granger causality test examines whether
 the lagged values of a predictor
 have any incremental role in predicting an outcome
-if controlling for
-the lagged values of the outcome itself.
-It compares the two models by using an \emph{F} test.
+if controlling for the lagged values of the outcome itself.
 }
 \examples{
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)

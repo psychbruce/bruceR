@@ -159,6 +159,8 @@
 #'
 #'       \code{\link{granger_test}}
 #'
+#'       \code{\link{granger_causality}}
+#'
 #'       \code{\link{theme_bruce}}
 #'
 #'       \code{\link{show_colors}}

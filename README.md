@@ -2,7 +2,7 @@
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to where the current file is, print strings with rich formats and colors); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability and factor analyses; **(4)** descriptive statistics and correlation analyses; **(5)** multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of regression models (to Console and to Word); **(7)** mediation and moderation analyses; and **(8)** additional toolbox for statistics and graphics.
+This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to where the current file is, print strings with rich formats and colors); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability and factor analyses; **(4)** descriptive statistics and correlation analyses; **(5)** multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of regression models and other results (to R Console and MS Word); **(7)** mediation and moderation analyses; and **(8)** additional toolbox for statistics and graphics.
 
 [![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://cranlogs.r-pkg.org/downloads/daily/last-month/bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://travis-ci.com/psychbruce/bruceR) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -154,7 +154,7 @@ Some functions in `bruceR` allow table output to Microsoft Word (by setting `fil
 | `HLM_summary()`       |         √         |                     |
 | `HLM_ICC_rWG()`       |         √         |                     |
 | `granger_test()`      |         √         |                     |
-| `granger_causality()` |         √         |                     |
+| `granger_causality()` |         √         |          √          |
 
 Examples:
 

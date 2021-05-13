@@ -1,6 +1,9 @@
 #### Plot Toolbox ####
 
 
+# plots=see::plots
+
+
 #' A nice \code{ggplot2} theme that enables Markdown/HTML rich text.
 #'
 #' @description
