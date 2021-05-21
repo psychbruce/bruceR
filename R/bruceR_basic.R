@@ -752,26 +752,6 @@ dtime=function(t0, unit="secs", nsmall=0) {
 #### Excel-Style Functions ####
 
 
-#' Random sampling (like Excel's function \code{RANDBETWEEN}).
-#'
-#' @param range Numeric or character vector.
-#' @param n Sample size for sampling. Default is \code{1}.
-#' @param seed Random seed.
-#'
-#' @return Numeric or character vector (the same class as \code{range}).
-#'
-#' @examples
-#' RANDBETWEEN(1:10, n=1000) %>% Freq()
-#' RANDBETWEEN(LETTERS, n=1000) %>% Freq()
-#'
-#' @export
-RANDBETWEEN=function(range, n=1, seed=NULL) {
-  if(!is.null(seed)) set.seed(seed)
-  # floor(runif(n=n, min=bottom, max=up+1))
-  sample(range, n, replace=TRUE)
-}
-
-
 #' Search, match, and look up values (like Excel's functions \code{INDEX + MATCH}).
 #'
 #' In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019),

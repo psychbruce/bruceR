@@ -26,6 +26,26 @@
 # }
 
 
+## Random sampling (like Excel's function \code{RANDBETWEEN}).
+##
+## @param range Numeric or character vector.
+## @param n Sample size for sampling. Default is \code{1}.
+## @param seed Random seed.
+##
+## @return Numeric or character vector (the same class as \code{range}).
+##
+## @examples
+## RANDBETWEEN(1:10, n=1000) %>% Freq()
+## RANDBETWEEN(LETTERS, n=1000) %>% Freq()
+##
+## @export
+# RANDBETWEEN=function(range, n=1, seed=NULL) {
+#   if(!is.null(seed)) set.seed(seed)
+#   # floor(runif(n=n, min=bottom, max=up+1))
+#   sample(range, n, replace=TRUE)
+# }
+
+
 ## Check update of \code{bruceR} package
 ##
 ## @importFrom xml2 read_html

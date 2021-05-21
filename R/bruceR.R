@@ -102,8 +102,7 @@
 #'       \code{\link{CONSEC}}
 #'
 #'       \code{\link{RECODE}},
-#'       \code{\link{RESCALE}},
-#'       \code{\link{RANDBETWEEN}}
+#'       \code{\link{RESCALE}}
 #'
 #'       \code{\link{LOOKUP}}
 #'   }
@@ -145,9 +144,11 @@
 #'   }
 #'
 #'   \item{\strong{(7) Mediation and Moderation Analyses}}{
-#'       \code{\link{med_summary}}
+#'       \code{\link{PROCESS}}
 #'
-#'       \code{PROCESS} (\emph{coming soon...})
+#'       \code{\link{lavaan_summary}}
+#'
+#'       \code{\link{med_summary}}
 #'   }
 #'
 #'   \item{\strong{(8) Additional Toolbox for Statistics and Graphics}}{
@@ -219,7 +220,7 @@ NULL
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
   <<cyan set.wd() / Describe() / Freq() / Corr() / Alpha() / MEAN()>>
-  <<cyan MANOVA() / EMMEANS() / model_summary() / theme_bruce()>>
+  <<cyan MANOVA() / EMMEANS() / PROCESS() / model_summary()>>
   \n
   ")
 }

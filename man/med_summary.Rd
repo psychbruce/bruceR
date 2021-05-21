@@ -4,19 +4,14 @@
 \alias{med_summary}
 \title{Tidy report of mediation analysis (to R Console or MS Word).}
 \usage{
-med_summary(model, digits = nsmall, nsmall = 3, file = NULL, print.avg = TRUE)
+med_summary(model, nsmall = 3, file = NULL)
 }
 \arguments{
 \item{model}{Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.}
 
-\item{digits}{Number of decimal places of output. Default is \code{3}.}
-
-\item{nsmall}{The same as \code{digits}.}
+\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
-
-\item{print.avg}{Just set as \code{TRUE} for a concise output.
-For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.}
 }
 \value{
 Invisibly return a data frame containing the results.
@@ -57,4 +52,7 @@ med.lmm=mediate(lmm.m, lmm.y,
                 sims=1000)
 med_summary(med.lmm)
 }
+}
+\seealso{
+\code{\link{PROCESS}}
 }

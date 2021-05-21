@@ -95,8 +95,7 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
       \code{\link{CONSEC}}
 
       \code{\link{RECODE}},
-      \code{\link{RESCALE}},
-      \code{\link{RANDBETWEEN}}
+      \code{\link{RESCALE}}
 
       \code{\link{LOOKUP}}
   }
@@ -138,9 +137,11 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
   }
 
   \item{\strong{(7) Mediation and Moderation Analyses}}{
-      \code{\link{med_summary}}
+      \code{\link{PROCESS}}
 
-      \code{PROCESS} (\emph{coming soon...})
+      \code{\link{lavaan_summary}}
+
+      \code{\link{med_summary}}
   }
 
   \item{\strong{(8) Additional Toolbox for Statistics and Graphics}}{
