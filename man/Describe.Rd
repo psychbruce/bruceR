@@ -6,8 +6,8 @@
 \usage{
 Describe(
   data,
-  nsmall = 2,
   all.as.numeric = TRUE,
+  nsmall = 2,
   file = NULL,
   plot = FALSE,
   upper.triangle = FALSE,
@@ -21,10 +21,10 @@ Describe(
 \arguments{
 \item{data}{Data frame or numeric vector.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
-
 \item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
 Transform all variables into numeric (continuous).}
+
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

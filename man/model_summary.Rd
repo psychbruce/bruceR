@@ -6,11 +6,11 @@
 \usage{
 model_summary(
   model_list,
-  std_coef = FALSE,
-  digits = nsmall,
+  std = FALSE,
   nsmall = 3,
   file = NULL,
-  zero = ifelse(std_coef, FALSE, TRUE),
+  zero = ifelse(std, FALSE, TRUE),
+  line = "─",
   modify_se = NULL,
   modify_head = NULL,
   bold = 0,
@@ -18,20 +18,20 @@ model_summary(
 )
 }
 \arguments{
-\item{model_list}{A single model or a list of models (of the same type).
+\item{model_list}{A single model or a list of (various types of) models.
 Most types of regression models are supported!}
 
-\item{std_coef}{Standardized coefficients? Default is \code{FALSE}.
+\item{std}{Standardized coefficients? Default is \code{FALSE}.
 Only applicable to linear models and linear mixed models.
 Not applicable to generalized linear (mixed) models.}
 
-\item{digits}{Number of decimal places of output. Default is \code{3}.}
-
-\item{nsmall}{The same as \code{digits}.}
+\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
 \item{zero}{Display "0" before "."? Default is \code{TRUE}.}
+
+\item{line}{Line character. Only relevant to R Console output.}
 
 \item{modify_se}{Replace standard errors.
 Useful if you need to replace raw SEs with robust SEs.
@@ -61,26 +61,26 @@ This function is an extension (and combination) of
 \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}.
 }
 \examples{
-\donttest{## Example 1: Linear Model
+\donttest{#### Example 1: Linear Model ####
 lm1=lm(Temp ~ Month + Day, data=airquality)
 lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 model_summary(lm1)
 model_summary(lm2)
 model_summary(list(lm1, lm2))
-model_summary(list(lm1, lm2), std=TRUE, digits=2)
+model_summary(list(lm1, lm2), std=TRUE, nsmall=2)
 model_summary(list(lm1, lm2), file="OLS Models.doc")
 unlink("OLS Models.doc")  # delete file for test
 
-## Example 2: Generalized Linear Model
+#### Example 2: Generalized Linear Model ####
 glm1=glm(case ~ age + parity,
          data=infert, family=binomial)
 glm2=glm(case ~ age + parity + education + spontaneous + induced,
          data=infert, family=binomial)
-model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
+model_summary(list(glm1, glm2))  # "std" is not applicable to glm
 model_summary(list(glm1, glm2), file="GLM Models.doc")
 unlink("GLM Models.doc")  # delete file for test
 
-## Example 3: Linear Mixed Model
+#### Example 3: Linear Mixed Model ####
 library(lmerTest)
 hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
 hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
@@ -90,16 +90,16 @@ model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
 model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 unlink("HLM Models.doc")  # delete file for test
 
-## Example 4: Generalized Linear Mixed Model
+#### Example 4: Generalized Linear Mixed Model ####
 library(lmerTest)
 data.glmm=MASS::bacteria
 glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
 glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
-model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+model_summary(list(glmm1, glmm2))  # "std" is not applicable to glmm
 model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
 unlink("GLMM Models.doc")  # delete file for test
 
-## Example 5: Multinomial Logistic Model
+#### Example 5: Multinomial Logistic Model ####
 library(nnet)
 d=airquality
 d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
@@ -110,5 +110,10 @@ model_summary(mn2)
 model_summary(mn2, file="Multinomial Logistic Model.doc")
 unlink("Multinomial Logistic Model.doc")  # delete file for test
 }
-
+}
+\seealso{
+\code{\link{PROCESS}},
+\code{\link{GLM_summary}},
+\code{\link{HLM_summary}},
+\code{\link{print_table}}
 }

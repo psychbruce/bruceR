@@ -26,6 +26,14 @@ Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
 Run examples to see what it can do.
 }
 \details{
+Possible formats/colors that can be used in \code{"<< >>"} include:
+
+(1) bold, italic, underline, reset, blurred, inverse, hidden, strikethrough;
+
+(2) black, white, silver, red, green, blue, yellow, cyan, magenta;
+
+(3) bgBlack, bgWhite, bgRed, bgGreen, bgBlue, bgYellow, bgCyan, bgMagenta.
+
 See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue]{glue::glue_col()}}.
 }
 \section{Functions}{

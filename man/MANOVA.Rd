@@ -14,8 +14,8 @@ MANOVA(
   within = NULL,
   covariate = NULL,
   sph.correction = "none",
-  file = NULL,
-  nsmall = 2
+  nsmall = 2,
+  file = NULL
 )
 }
 \arguments{
@@ -82,9 +82,9 @@ If you set \code{dvs}, you must also set the pattern of variable names by using 
 Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
-\item{file}{File name of MS Word (\code{.doc}).}
-
 \item{nsmall}{Number of decimal places of output. Default is \code{2}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
 A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.

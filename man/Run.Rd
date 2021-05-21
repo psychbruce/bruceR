@@ -4,23 +4,22 @@
 \alias{Run}
 \title{Run code parsed from text.}
 \usage{
-Run(text)
+Run(..., silent = FALSE)
 }
 \arguments{
-\item{text}{Character strings for running.
+\item{...}{Character string(s) to run.
 You can use \code{"{ }"} to insert any R object in the environment.}
+
+\item{silent}{Suppress error/warning messages. Default is \code{FALSE}.}
 }
 \value{
-No return value.
+Invisibly return the running expression(s).
 }
 \description{
 Run code parsed from text.
 }
 \examples{
-Run("a=1")
-a
-
-Run("a={a+1}")
-a
+Run("a=1", "b=2")
+Run("print({a+b})")
 
 }

@@ -173,8 +173,8 @@ sig.trans=function(p) {
 #' @import ggplot2
 #' @export
 Describe=function(data,
-                  nsmall=2,
                   all.as.numeric=TRUE,
+                  nsmall=2,
                   file=NULL,
                   plot=FALSE,
                   upper.triangle=FALSE, upper.smooth="none",
@@ -341,8 +341,8 @@ Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
 Corr=function(data,
               method="pearson",
               p.adjust="none",
-              nsmall=2,
               all.as.numeric=TRUE,
+              nsmall=2,
               file=NULL,
               plot=TRUE, plot.range=c(-1, 1),
               plot.palette=NULL, plot.color.levels=201,

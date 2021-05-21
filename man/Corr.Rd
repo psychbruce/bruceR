@@ -8,8 +8,8 @@ Corr(
   data,
   method = "pearson",
   p.adjust = "none",
-  nsmall = 2,
   all.as.numeric = TRUE,
+  nsmall = 2,
   file = NULL,
   plot = TRUE,
   plot.range = c(-1, 1),
@@ -30,10 +30,10 @@ Corr(
 \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
 For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
-
 \item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
 Transform all variables into numeric (continuous).}
+
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

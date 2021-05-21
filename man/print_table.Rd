@@ -9,6 +9,7 @@ print_table(
   nsmalls = 3,
   row.names = TRUE,
   col.names = TRUE,
+  line.char = "─",
   title = "",
   note = "",
   append = "",
@@ -24,6 +25,8 @@ print_table(
 
 \item{row.names, col.names}{Print row/column names. Default is \code{TRUE} (column names are always printed).
 To modify the names, you can use a character vector with the same length as the raw names.}
+
+\item{line.char}{Line character.}
 
 \item{title}{Title text, which will be inserted in <p></p> (HTML code).}
 

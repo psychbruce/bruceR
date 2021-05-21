@@ -19,18 +19,20 @@ formula_paste=function(formula) {
 
 #' Expand all interaction terms in a formula.
 #'
-#' @inheritParams formula_paste
+#' @param formula R formula or a character string indicating the formula.
+#' @param as.char Return character? Default is \code{FALSE}.
 #'
-#' @return A formula object including all expanded terms.
+#' @return A formula/character object including all expanded terms.
 #'
 #' @examples
 #' formula_expand(y ~ a*b*c)
+#' formula_expand("y ~ a*b*c")
 #'
 #' @importFrom stats terms.formula as.formula
 #' @export
-formula_expand=function(formula) {
+formula_expand=function(formula, as.char=FALSE) {
   inter_expand=function(inter) paste(attr(terms.formula(as.formula(paste("~", inter))), "term.labels"), collapse=" + ")
-  f=as.character(formula)
+  f=as.character(as.formula(formula))
   fx=f[3]
   fx.R=stringr::str_extract_all(fx, "\\([^\\)]+\\)", simplify=T)
   if(length(fx.R)>0) for(i in 1:length(fx.R)) if(grepl("\\*", fx.R[i])) fx.R[i]=paste0("(", inter_expand(stringr::str_remove_all(fx.R[i], "\\(|\\|.*")), " ", stringr::str_extract(fx.R[i], "\\|.*"))
@@ -38,6 +40,7 @@ formula_expand=function(formula) {
   fx.F=ifelse(fx.F=="", "", inter_expand(fx.F))
   fx=paste(fx.F, paste(fx.R, collapse=" + "), sep=ifelse(length(fx.R)==0 | fx.F=="", "", " + "))
   f=as.formula(paste(f[2], f[1], fx))
+  if(as.char) f=formula_paste(f)
   return(f)
 }
 
@@ -82,10 +85,12 @@ find=function(vars, list) {
 #' @seealso \code{\link{group_mean_center}}
 #'
 #' @export
-grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
+grand_mean_center=function(data, vars=names(data),
+                           std=FALSE, add_suffix="") {
   data_c=as.data.frame(data)
   for(var in vars)
-    data_c[paste0(var, add_suffix)]=scale(data_c[var], center=TRUE, scale=std)
+    if(inherits(data_c[[var]], c("numeric", "integer", "double", "logical")))
+      data_c[paste0(var, add_suffix)]=as.numeric(scale(data_c[var], center=TRUE, scale=std))
   if(data.table::is.data.table(data))
     data_c=data.table::as.data.table(data_c)
   return(data_c)
@@ -115,7 +120,7 @@ grand_mean_center=function(data, vars, std=FALSE, add_suffix="") {
 #' @seealso \code{\link{grand_mean_center}}
 #'
 #' @export
-group_mean_center=function(data, vars, by,
+group_mean_center=function(data, vars=setdiff(names(data), by), by,
                            std=FALSE,
                            add_suffix="",
                            add_group_mean="_mean") {
@@ -123,8 +128,11 @@ group_mean_center=function(data, vars, by,
   grouplist=sort(unique(data_c[[by]]))
   for(var in vars) {
     for(group in grouplist) {
-      data_c[which(data_c[by]==group), paste0(var, add_group_mean)]=mean(data_c[which(data_c[by]==group),][[var]], na.rm=TRUE)
-      data_c[which(data_c[by]==group), paste0(var, add_suffix)]=scale(data_c[which(data_c[by]==group), var], center=TRUE, scale=std)
+      if(inherits(data_c[[var]], c("numeric", "integer", "double", "logical"))) {
+        dvar=data_c[which(data_c[by]==group), var]
+        data_c[which(data_c[by]==group), paste0(var, add_group_mean)]=mean(dvar, na.rm=TRUE)
+        data_c[which(data_c[by]==group), paste0(var, add_suffix)]=as.numeric(scale(dvar, center=TRUE, scale=std))
+      }
     }
   }
   if(data.table::is.data.table(data))
@@ -225,15 +233,15 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}},
 #' \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}.
 #'
-#' @param model_list A single model or a list of models (of the same type).
+#' @param model_list A single model or a list of (various types of) models.
 #' Most types of regression models are supported!
-#' @param std_coef Standardized coefficients? Default is \code{FALSE}.
+#' @param std Standardized coefficients? Default is \code{FALSE}.
 #' Only applicable to linear models and linear mixed models.
 #' Not applicable to generalized linear (mixed) models.
-#' @param digits Number of decimal places of output. Default is \code{3}.
-#' @param nsmall The same as \code{digits}.
+#' @param nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param zero Display "0" before "."? Default is \code{TRUE}.
+#' @param line Line character. Only relevant to R Console output.
 #' @param modify_se Replace standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
 #' New SEs should be provided as a list of numeric vectors.
@@ -246,27 +254,33 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #'
 #' @return Invisibly return the output (character string).
 #'
+#' @seealso
+#' \code{\link{PROCESS}},
+#' \code{\link{GLM_summary}},
+#' \code{\link{HLM_summary}},
+#' \code{\link{print_table}}
+#'
 #' @examples
-#' \donttest{## Example 1: Linear Model
+#' \donttest{#### Example 1: Linear Model ####
 #' lm1=lm(Temp ~ Month + Day, data=airquality)
 #' lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' model_summary(lm1)
 #' model_summary(lm2)
 #' model_summary(list(lm1, lm2))
-#' model_summary(list(lm1, lm2), std=TRUE, digits=2)
+#' model_summary(list(lm1, lm2), std=TRUE, nsmall=2)
 #' model_summary(list(lm1, lm2), file="OLS Models.doc")
 #' unlink("OLS Models.doc")  # delete file for test
 #'
-#' ## Example 2: Generalized Linear Model
+#' #### Example 2: Generalized Linear Model ####
 #' glm1=glm(case ~ age + parity,
 #'          data=infert, family=binomial)
 #' glm2=glm(case ~ age + parity + education + spontaneous + induced,
 #'          data=infert, family=binomial)
-#' model_summary(list(glm1, glm2))  # "std_coef" is not applicable to glm
+#' model_summary(list(glm1, glm2))  # "std" is not applicable to glm
 #' model_summary(list(glm1, glm2), file="GLM Models.doc")
 #' unlink("GLM Models.doc")  # delete file for test
 #'
-#' ## Example 3: Linear Mixed Model
+#' #### Example 3: Linear Mixed Model ####
 #' library(lmerTest)
 #' hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
 #' hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
@@ -276,16 +290,16 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
 #' unlink("HLM Models.doc")  # delete file for test
 #'
-#' ## Example 4: Generalized Linear Mixed Model
+#' #### Example 4: Generalized Linear Mixed Model ####
 #' library(lmerTest)
 #' data.glmm=MASS::bacteria
 #' glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
 #' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
-#' model_summary(list(glmm1, glmm2))  # "std_coef" is not applicable to glmm
+#' model_summary(list(glmm1, glmm2))  # "std" is not applicable to glmm
 #' model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
 #' unlink("GLMM Models.doc")  # delete file for test
 #'
-#' ## Example 5: Multinomial Logistic Model
+#' #### Example 5: Multinomial Logistic Model ####
 #' library(nnet)
 #' d=airquality
 #' d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
@@ -296,23 +310,22 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(mn2, file="Multinomial Logistic Model.doc")
 #' unlink("Multinomial Logistic Model.doc")  # delete file for test
 #' }
-#'
 #' @export
 model_summary=function(model_list,
-                       std_coef=FALSE,
-                       digits=nsmall,
+                       std=FALSE,
                        nsmall=3,
                        file=NULL,
-                       zero=ifelse(std_coef, FALSE, TRUE),
+                       zero=ifelse(std, FALSE, TRUE),
+                       line="\u2500",
                        modify_se=NULL,
                        modify_head=NULL,
                        bold=0,
                        ...) {
-  if(class(model_list)[1]=="varest") {
+  if(inherits(model_list, "varest")) {
     model_list=model_list$varresult
     modify_head=names(model_list)
   }
-  if(class(model_list)[1]!="list")
+  if(inherits(model_list, "list")==FALSE)
     model_list=list(model_list)
   if(is.null(file)) {
     sumreg=texreg::screenreg
@@ -330,17 +343,41 @@ model_summary=function(model_list,
     if(is.null(y)) y=""
     return(y)
   }
-  model_std_coef=function(model) { MuMIn::std.coef(model, partial.sd=FALSE)[,1] }
-  model_std_s.e.=function(model) { MuMIn::std.coef(model, partial.sd=FALSE)[,2] }
-  model_R2m=function(model) { round(as.numeric( MuMIn::r.squaredGLMM(model)[1, "R2m"] ), digits) }
-  model_R2c=function(model) { round(as.numeric( MuMIn::r.squaredGLMM(model)[1, "R2c"] ), digits) }
-  model_R2mcfadden=function(model) { round(as.numeric( performance::r2_mcfadden(model)[1] ), digits) }
-  model_R2nagelkerke=function(model) { round(as.numeric( performance::r2_nagelkerke(model) ), digits) }
+  model_std_coef=function(model) {
+    MuMIn::std.coef(model, partial.sd=FALSE)[,1]
+  }
+  model_std_s.e.=function(model) {
+    MuMIn::std.coef(model, partial.sd=FALSE)[,2]
+  }
+  model_R2mcfadden=function(model) {
+    ifelse(
+      inherits(model, "glm"),
+      1-model$deviance/model$null.deviance,
+      NA)
+  }
+  model_R2nagelkerke=function(model) {
+    ifelse(
+      inherits(model, "glm"),
+      as.numeric(performance::r2_nagelkerke(model)),
+      NA)
+  }
+  model_R2m=function(model) {
+    ifelse(
+      inherits(model, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")),
+      as.numeric(MuMIn::r.squaredGLMM(model)[1, "R2m"]),
+      NA)
+  }
+  model_R2c=function(model) {
+    ifelse(
+      inherits(model, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")),
+      as.numeric(MuMIn::r.squaredGLMM(model)[1, "R2c"]),
+      NA)
+  }
 
   if(is.null(modify_head)) {
     new.model.names=NULL
     try({
-      if(any(unlist(lapply(model_list, class)) %in% "nnet")) {
+      if(any(unlist(lapply(model_list, inherits, "nnet")))) {
         multinom.y=as.character(lapply(model_list, model_y))[1]
         multinom.ref=model_list[[1]][["lab"]][1]
       } else {
@@ -353,7 +390,7 @@ model_summary=function(model_list,
     new.model.names=modify_head
   }
 
-  if(std_coef) {
+  if(std) {
     new.coef=lapply(model_list, model_std_coef)
     new.s.e.=lapply(model_list, model_std_s.e.)
     omit="Intercept"
@@ -365,45 +402,35 @@ model_summary=function(model_list,
 
   if(!is.null(modify_se)) new.s.e.=modify_se
 
-  if(any(unlist(lapply(model_list, class)) %in% "glm")) {
-    if(is.null(file))
-      names.R2=c("McFadden's R^2",
-                 "Nagelkerke's R^2")
-    else
-      names.R2=c("McFadden\u2019s R<sup>2</sup>",
-                 "Nagelkerke\u2019s R<sup>2</sup>")
-    new.R2=list(
-      R2mcfadden=as.numeric(lapply(model_list, model_R2mcfadden)),
-      R2nagelkerke=as.numeric(lapply(model_list, model_R2nagelkerke))
-    )
-    names(new.R2)=names.R2
-  } else if(any(unlist(lapply(model_list, class)) %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))) {
-    if(is.null(file))
-      names.R2=c("Marginal R^2",
-                 "Conditional R^2")
-    else
-      names.R2=c("Marginal R<sup>2</sup>",
-                 "Conditional R<sup>2</sup>")
-    suppressWarnings({
+  suppressWarnings({
+    new.R2.all=list()
+    if(any(unlist(lapply(model_list, inherits, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))))) {
       new.R2=list(
         R2m=as.numeric(lapply(model_list, model_R2m)),
         R2c=as.numeric(lapply(model_list, model_R2c))
       )
-    })
-    names(new.R2)=names.R2
-  } else {
-    new.R2=NULL
-  }
+      names(new.R2)=c("Marginal R^2", "Conditional R^2")
+      new.R2.all=c(new.R2.all, new.R2)
+    }
+    if(any(unlist(lapply(model_list, inherits, "glm")))) {
+      new.R2=list(
+        R2mcfadden=as.numeric(lapply(model_list, model_R2mcfadden)),
+        R2nagelkerke=as.numeric(lapply(model_list, model_R2nagelkerke))
+      )
+      names(new.R2)=c("McFadden's R^2", "Nagelkerke's R^2")
+      new.R2.all=c(new.R2.all, new.R2)
+    }
+    if(length(new.R2.all)==0)
+      new.R2.all=NULL
 
-  suppressWarnings({
     output=sumreg(
       model_list, file=NULL,
-      leading.zero=zero, digits=digits, bold=bold,
+      leading.zero=zero, digits=nsmall, bold=bold,
       custom.model.names=new.model.names,
       override.coef=new.coef,
       override.se=new.s.e.,
       omit.coef=omit,
-      custom.gof.rows=new.R2,
+      custom.gof.rows=new.R2.all,
       margin=1,
       inline.css=FALSE,
       doctype=TRUE,
@@ -420,7 +447,13 @@ model_summary=function(model_list,
   })
 
   if(is.null(file)) {
-    print(output)
+    if(line=="\u2500") {
+      output=output %>%
+        stringr::str_replace_all(
+          "[-=]{3,}",
+          rep_char("\u2500", stringr::str_count(output, "=")/2))
+    }
+    cat(output)
     Print("<<italic Note>>. * <<italic p>> < .05, ** <<italic p>> < .01, *** <<italic p>> < .001.")
     cat("\n")
     if(length(model_list)==1) {
@@ -438,9 +471,10 @@ model_summary=function(model_list,
     file=stringr::str_replace(file, "\\.docx$", ".doc")
     output=output %>%
       stringr::str_replace_all("&nbsp;", "") %>%
+      stringr::str_replace_all("'", "\u2019") %>%
       stringr::str_replace_all("<td>-", "<td>\u2013") %>%
       stringr::str_replace_all("<td>(?=\\.|\\d\\.)", "<td>&ensp;") %>%
-      stringr::str_replace_all("R<sup>2</sup>", "<i>R</i><sup>2</sup>") %>%
+      stringr::str_replace_all("R\\^2|R<sup>2</sup>", "<i>R</i><sup>2</sup>") %>%
       stringr::str_replace(
         "<style>",
         "<style>\nbody {font-size: 10.5pt; font-family: Times New Roman;}\np {margin: 0px;}\nth, td {height: 19px;}") %>%
@@ -456,7 +490,7 @@ model_summary=function(model_list,
         "</body>",
         paste0(
           "<p><i>Note</i>. ",
-          ifelse(std_coef, "Standardized ", "Unstandardized "),
+          ifelse(std, "Standardized ", "Unstandardized "),
           "regression coefficients are displayed, with standard errors in parentheses.</p><p>",
           "* <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>",
           "</body>"))

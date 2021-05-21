@@ -4,18 +4,21 @@
 \alias{formula_expand}
 \title{Expand all interaction terms in a formula.}
 \usage{
-formula_expand(formula)
+formula_expand(formula, as.char = FALSE)
 }
 \arguments{
-\item{formula}{R formula.}
+\item{formula}{R formula or a character string indicating the formula.}
+
+\item{as.char}{Return character? Default is \code{FALSE}.}
 }
 \value{
-A formula object including all expanded terms.
+A formula/character object including all expanded terms.
 }
 \description{
 Expand all interaction terms in a formula.
 }
 \examples{
 formula_expand(y ~ a*b*c)
+formula_expand("y ~ a*b*c")
 
 }

@@ -4,7 +4,7 @@
 \alias{grand_mean_center}
 \title{Grand-mean centering.}
 \usage{
-grand_mean_center(data, vars, std = FALSE, add_suffix = "")
+grand_mean_center(data, vars = names(data), std = FALSE, add_suffix = "")
 }
 \arguments{
 \item{data}{Data object.}

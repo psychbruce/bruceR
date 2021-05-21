@@ -290,6 +290,14 @@ pkg_install_suggested=function(by="bruceR") {
 #' Run examples to see what it can do.
 #'
 #' @details
+#' Possible formats/colors that can be used in \code{"<< >>"} include:
+#'
+#' (1) bold, italic, underline, reset, blurred, inverse, hidden, strikethrough;
+#'
+#' (2) black, white, silver, red, green, blue, yellow, cyan, magenta;
+#'
+#' (3) bgBlack, bgWhite, bgRed, bgGreen, bgBlue, bgYellow, bgCyan, bgMagenta.
+#'
 #' See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue]{glue::glue_col()}}.
 #'
 #' @param ... Character strings enclosed by \code{"{ }"} will be evaluated as R code.
@@ -312,8 +320,8 @@ pkg_install_suggested=function(by="bruceR") {
 #' @export
 Print=function(...) {
   tryCatch({
-    output=glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
-    output_color=glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
+    output=glue::glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
+    output_color=glue::glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
     print(output_color)
   }, error=function(e) {
     warning(e)
@@ -330,8 +338,8 @@ Print=function(...) {
 #' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 #' @export
 Glue=function(...) {
-  output=glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
-  output_color=glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
+  output=glue::glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
+  output_color=glue::glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
   return(output_color)
 }
 
@@ -352,21 +360,27 @@ sprintf_transformer=function(text, envir) {
 
 #' Run code parsed from text.
 #'
-#' @param text Character strings for running.
+#' @param ... Character string(s) to run.
 #' You can use \code{"{ }"} to insert any R object in the environment.
+#' @param silent Suppress error/warning messages. Default is \code{FALSE}.
 #'
-#' @return No return value.
+#' @return Invisibly return the running expression(s).
 #'
 #' @examples
-#' Run("a=1")
-#' a
-#'
-#' Run("a={a+1}")
-#' a
+#' Run("a=1", "b=2")
+#' Run("print({a+b})")
 #'
 #' @export
-Run=function(text) {
-  eval(parse(text=Glue(text)), envir=parent.frame())
+Run=function(..., silent=FALSE) {
+  text=glue::glue(..., .sep="\n", .envir=parent.frame())
+  if(silent) {
+    suppressWarnings({
+      eval(parse(text=text), envir=parent.frame())
+    })
+  } else {
+    eval(parse(text=text), envir=parent.frame())
+  }
+  invisible(text)
 }
 
 
@@ -408,6 +422,7 @@ capitalize=function(string) {
 #' @param nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
 #' @param row.names,col.names Print row/column names. Default is \code{TRUE} (column names are always printed).
 #' To modify the names, you can use a character vector with the same length as the raw names.
+#' @param line.char Line character.
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
 #' @param note Note text, which will be inserted in <p></p> (HTML code).
 #' @param append Other contents, which will be appended in the end (HTML code).
@@ -437,6 +452,7 @@ capitalize=function(string) {
 print_table=function(x, nsmalls=3,
                      row.names=TRUE,
                      col.names=TRUE,
+                     line.char="\u2500",
                      title="", note="", append="",
                      file=NULL,
                      file.align.head="auto",
@@ -445,9 +461,14 @@ print_table=function(x, nsmalls=3,
 
   # Good-looking tabs !!!
   # Print("\u2500\u2501\u2502\u2503\u2504\u2505\u2506\u2507\u2508\u2509")
-  linechar1="\u2501"  # top-and-down '=' [bug in some computers!]
-  linechar2="\u2500"  # in-table '-'
-  linechar1=linechar2
+  # linechar1="\u2501"  # top-and-down '=' [bug in some computers!]
+  # linechar2="\u2500"  # in-table '-'
+  if(line.char=="\u2500" | line.char==TRUE) {
+    linechar1=linechar2="\u2500"
+  } else {
+    linechar1="="
+    linechar2="-"
+  }
 
   if(class(x) %nonein% c("matrix", "data.frame", "data.table")) {
     coef.table=coef(summary(x))
@@ -464,7 +485,7 @@ print_table=function(x, nsmalls=3,
     } else {
       x[,j]=formatF(x[,j], nsmalls[j])
     }
-    if(grepl("S\\.E\\.|Std\\. Error|^se$", names(x)[j])) {
+    if(grepl("S\\.E\\.|Std\\. Error|^se$|^SE$|^BootSE$", names(x)[j])) {
       x[,j]=paste0("(", x[,j], ")")  # add ( ) to S.E.
       x[grepl("\\.", x[,j])==FALSE, j]=""  # remove ( ) from blank S.E.
       if(grepl("S\\.E\\.", names(x)[j])==FALSE) names(x)[j]="S.E."
@@ -551,9 +572,13 @@ df_to_html=function(df, title="", note="", append="",
                     align.head="auto",
                     align.text="auto") {
   if(!is.null(file)) {
-    file=stringr::str_replace(file, "\\.docx$", ".doc")
-    if(stringr::str_detect(file, "\\.doc$")==FALSE)
-      file=paste0(file, ".doc")
+    if(file=="NOPRINT") {
+      file=NULL
+    } else {
+      file=stringr::str_replace(file, "\\.docx$", ".doc")
+      if(stringr::str_detect(file, "\\.doc$")==FALSE)
+        file=paste0(file, ".doc")
+    }
   }
 
   TITLE=title
@@ -576,7 +601,7 @@ df_to_html=function(df, title="", note="", append="",
   df=as.data.frame(df)
   for(j in 1:ncol(df)) {
     df[[j]]="<td align='" %^% align.text[j] %^% "'>" %^%
-      stringr::str_trim(stringr::str_replace_all(df[[j]], "^\\s*-", "\u2013")) %^% "</td>"
+      stringr::str_trim(stringr::str_replace_all(df[[j]], "^\\s*-{1}", "\u2013")) %^% "</td>"
   }
 
   THEAD="<tr> " %^%

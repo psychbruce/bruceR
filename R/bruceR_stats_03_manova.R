@@ -219,9 +219,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                 dvs=NULL, dvs.pattern="",
                 between=NULL, within=NULL, covariate=NULL,
                 sph.correction="none",
-                file=NULL,
                 # which.observed=NULL,
-                nsmall=2) {
+                nsmall=2,
+                file=NULL) {
   data0=data=as.data.frame(data)
   design=ifelse(is.null(within), "Between-Subjects Design",
                 ifelse(is.null(between), "Within-Subjects Design",

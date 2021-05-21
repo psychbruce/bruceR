@@ -6,7 +6,7 @@
 \usage{
 group_mean_center(
   data,
-  vars,
+  vars = setdiff(names(data), by),
   by,
   std = FALSE,
   add_suffix = "",
