@@ -241,12 +241,12 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @param nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param zero Display "0" before "."? Default is \code{TRUE}.
-#' @param line Line character. Only relevant to R Console output.
 #' @param modify_se Replace standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
 #' New SEs should be provided as a list of numeric vectors.
 #' See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.
 #' @param modify_head Replace model names.
+#' @param line Line character. Only relevant to R Console output.
 #' @param bold The \emph{p}-value threshold below which the coefficients will be formatted in bold.
 #' @param ... Other parameters passed to
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}} or
@@ -316,9 +316,9 @@ model_summary=function(model_list,
                        nsmall=3,
                        file=NULL,
                        zero=ifelse(std, FALSE, TRUE),
-                       line="\u2500",
                        modify_se=NULL,
                        modify_head=NULL,
+                       line="\u2500",
                        bold=0,
                        ...) {
   if(inherits(model_list, "varest")) {
@@ -405,12 +405,14 @@ model_summary=function(model_list,
   suppressWarnings({
     new.R2.all=list()
     if(any(unlist(lapply(model_list, inherits, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))))) {
-      new.R2=list(
-        R2m=as.numeric(lapply(model_list, model_R2m)),
-        R2c=as.numeric(lapply(model_list, model_R2c))
-      )
-      names(new.R2)=c("Marginal R^2", "Conditional R^2")
-      new.R2.all=c(new.R2.all, new.R2)
+      try({
+        new.R2=list(
+          R2m=as.numeric(lapply(model_list, model_R2m)),
+          R2c=as.numeric(lapply(model_list, model_R2c))
+        )
+        names(new.R2)=c("Marginal R^2", "Conditional R^2")
+        new.R2.all=c(new.R2.all, new.R2)
+      }, silent=TRUE)
     }
     if(any(unlist(lapply(model_list, inherits, "glm")))) {
       new.R2=list(
@@ -938,7 +940,7 @@ HLM_ICC=function(model, nsmall=3) {
 #'   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
 #' }
 #' The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.
-#' However, different softwares use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
+#' However, different software use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
 #' Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
 #' the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 #'

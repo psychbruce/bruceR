@@ -18,7 +18,8 @@ p(
   n = NULL,
   df = NULL,
   df1 = NULL,
-  df2 = NULL
+  df2 = NULL,
+  nsmall = 2
 )
 
 p.z(z)
@@ -35,6 +36,8 @@ p.chi2(chi2, df)
 \item{z, t, f, r, chi2}{\emph{z}, \emph{t}, \emph{F}, \emph{r}, \eqn{\chi}^2 value.}
 
 \item{n, df, df1, df2}{Sample size or degree of freedom.}
+
+\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
 }
 \value{
 \emph{p} value statistics.

@@ -422,10 +422,10 @@ capitalize=function(string) {
 #' @param nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
 #' @param row.names,col.names Print row/column names. Default is \code{TRUE} (column names are always printed).
 #' To modify the names, you can use a character vector with the same length as the raw names.
-#' @param line.char Line character.
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
 #' @param note Note text, which will be inserted in <p></p> (HTML code).
 #' @param append Other contents, which will be appended in the end (HTML code).
+#' @param line.char Line character.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param file.align.head,file.align.text Alignment of table head or table text:
 #' \code{"left"}, \code{"right"}, \code{"center"}.
@@ -452,8 +452,8 @@ capitalize=function(string) {
 print_table=function(x, nsmalls=3,
                      row.names=TRUE,
                      col.names=TRUE,
-                     line.char="\u2500",
                      title="", note="", append="",
+                     line.char="\u2500",
                      file=NULL,
                      file.align.head="auto",
                      file.align.text="auto") {

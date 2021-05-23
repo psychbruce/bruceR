@@ -10,9 +10,9 @@ model_summary(
   nsmall = 3,
   file = NULL,
   zero = ifelse(std, FALSE, TRUE),
-  line = "─",
   modify_se = NULL,
   modify_head = NULL,
+  line = "─",
   bold = 0,
   ...
 )
@@ -31,14 +31,14 @@ Not applicable to generalized linear (mixed) models.}
 
 \item{zero}{Display "0" before "."? Default is \code{TRUE}.}
 
-\item{line}{Line character. Only relevant to R Console output.}
-
 \item{modify_se}{Replace standard errors.
 Useful if you need to replace raw SEs with robust SEs.
 New SEs should be provided as a list of numeric vectors.
 See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
 \item{modify_head}{Replace model names.}
+
+\item{line}{Line character. Only relevant to R Console output.}
 
 \item{bold}{The \emph{p}-value threshold below which the coefficients will be formatted in bold.}
 

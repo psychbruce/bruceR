@@ -219,8 +219,9 @@ NULL
   <<green <<yellow [Plot]:>> ggplot2 / ggtext / cowplot / see>>
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
-  <<cyan set.wd() / Describe() / Freq() / Corr() / Alpha() / MEAN()>>
-  <<cyan MANOVA() / EMMEANS() / PROCESS() / model_summary()>>
+  <<cyan set.wd() / print_table() / model_summary()>>
+  <<cyan RECODE() / MEAN() / Describe() / Freq() / Corr() / Alpha()>>
+  <<cyan MANOVA() / EMMEANS() / PROCESS()>>
   \n
   ")
 }

@@ -9,10 +9,10 @@ print_table(
   nsmalls = 3,
   row.names = TRUE,
   col.names = TRUE,
-  line.char = "─",
   title = "",
   note = "",
   append = "",
+  line.char = "─",
   file = NULL,
   file.align.head = "auto",
   file.align.text = "auto"
@@ -26,13 +26,13 @@ print_table(
 \item{row.names, col.names}{Print row/column names. Default is \code{TRUE} (column names are always printed).
 To modify the names, you can use a character vector with the same length as the raw names.}
 
-\item{line.char}{Line character.}
-
 \item{title}{Title text, which will be inserted in <p></p> (HTML code).}
 
 \item{note}{Note text, which will be inserted in <p></p> (HTML code).}
 
 \item{append}{Other contents, which will be appended in the end (HTML code).}
+
+\item{line.char}{Line character.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

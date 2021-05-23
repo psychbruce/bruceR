@@ -12,8 +12,9 @@ PROCESS(
   mods = c(),
   covs = c(),
   clusters = c(),
-  hlm.rand = "",
-  hlm.type = c("2-2-1", "2-1-1", "1-1-1"),
+  hlm.re.m = "",
+  hlm.re.y = "",
+  hlm.type = c("1-1-1", "2-1-1", "2-2-1"),
   med.type = c("parallel", "serial"),
   mod.type = c("2-way", "3-way"),
   mod.path = c("x-y", "x-m", "m-y", "all"),
@@ -22,7 +23,7 @@ PROCESS(
   mod2.val = NULL,
   ci = c("boot", "bc.boot", "bca.boot", "mcmc"),
   nsim = 100,
-  seed = 1,
+  seed = NULL,
   std = FALSE,
   nsmall = 3,
   file = NULL
@@ -62,12 +63,19 @@ Order matters when \code{mod.type="3-way"}
 Use \code{c()} to combine multiple covariates.
 It supports all types of (and an infinite number of) variables.}
 
-\item{clusters}{(coming soon...) HLM (multilevel) cluster(s).}
+\item{clusters}{HLM (multilevel) level-2 cluster(s):
+e.g., \code{"School_ID"}, \code{c("Sub", "Item")}.}
 
-\item{hlm.rand}{(coming soon...) HLM (multilevel) random effect term.}
+\item{hlm.re.m, hlm.re.y}{HLM (multilevel) random effect term of M model and Y model.
+By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
+e.g., \code{"(1 | School_ID)"}, \code{"(1 | Sub) + (1 | Item)"}.
+You can set this parameter to include more complex terms (e.g., random slopes).}
 
-\item{hlm.type}{(coming soon...) HLM (multilevel) mediation type:
-\code{"2-2-1"}, \code{"2-1-1"}, or \code{"1-1-1"}.}
+\item{hlm.type}{HLM (multilevel) mediation type (levels of "X-M-Y"):
+\code{"1-1-1"} (default),
+\code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
+or \code{"2-2-1"} (currently \emph{not} fully supported, as limited by the \code{\link[mediation:mediate]{mediation}} package).
+In most cases, no need to set this parameter.}
 
 \item{med.type}{Type of mediator:
 \code{"parallel"} (default) or \code{"serial"}
@@ -102,15 +110,19 @@ Default is \code{"boot"} for (generalized) linear models or
   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
   \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
   \item{\code{"mcmc"}}{Markov Chain Monte Carlo (Quasi-Bayesian)}
-}}
+}
+* Note that these methods \emph{never} apply to the estimates of simple slopes.
+You \emph{should not} report the 95\% CIs of simple slopes as Bootstrap or Monte Carlo CIs,
+because they are just standard CIs without any resampling method.}
 
 \item{nsim}{Number of simulation samples (bootstrap resampling or Monte Carlo simulation)
 for estimating SE and 95\% CI. Default is \code{100} for running examples faster.
 In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!}
 
 \item{seed}{Random seed for obtaining reproducible results.
-Default is \code{1} (just an uncountable number).
-You may set to any number you prefer (e.g., \code{seed=5201314}).
+Default is \code{NULL}.
+You may set to any number you prefer
+(e.g., \code{seed=5201314}, just an uncountable number).
 
 Note that all mediation models include random processes
 (i.e., bootstrap resampling or Monte Carlo simulation).
@@ -118,19 +130,83 @@ To get exactly the same results, you have to set a random seed.
 However, even you set the same seed number, it is unlikely to
 get the same results across different R packages
 (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
-or softwares (e.g., SPSS, Mplus, R, jamovi).}
+or software (e.g., SPSS, Mplus, R, jamovi).}
 
 \item{std}{Standardized coefficients? Default is \code{FALSE}.
 If \code{TRUE}, then it will standardize all numeric (continuous) variables
-before building regression models.}
+before building regression models.
+It is \emph{not} suggested to set \code{std=TRUE} for generalized linear (mixed) models.}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).
-Only regression models will be saved (using \code{\link{model_summary}}).}
+Currently, only regression model summary can be saved.}
+}
+\value{
+Invisibly return a list of results:
+\describe{
+  \item{process.id}{PROCESS model number.}
+  \item{process.type}{PROCESS model type.}
+  \item{model.m}{"Mediator" (M) models (a list of multiple models).}
+  \item{model.y}{"Outcome" (Y) model.}
+  \item{results}{Effect estimates and other results (unnamed list object).}
+}
 }
 \description{
-PROCESS for mediation and/or moderation analyses.
+To perform mediation, moderation, and conditional process (moderated mediation) analyses,
+people may use software like
+\href{http://www.statmodel.com/index.shtml}{Mplus},
+\href{https://www.processmacro.org/index.html}{SPSS "PROCESS" macro},
+and \href{https://njrockwood.com/mlmed/}{SPSS "MLmed" macro}.
+Some R packages can also perform such analyses separately and in a complex way, including
+\link[mediation:mediate]{R package "mediation"},
+\link[interactions:sim_slopes]{R package "interactions"},
+and \link[lavaan:lavaan-class]{R package "lavaan"}.
+Some other R packages or scripts/modules have been further developed to improve the convenience, including
+\href{https://jamovi-amm.github.io/}{jamovi module "jAMM"} (by \emph{Marcello Gallucci}, based on the \code{lavaan} package),
+\href{https://CRAN.R-project.org/package=processR}{R package "processR"} (by \emph{Keon-Woong Moon}, not official, also based on the \code{lavaan} package),
+and \href{https://www.processmacro.org/download.html}{R script file "process.R"}
+(the official PROCESS R code by \emph{Andrew F. Hayes}, but currently not an R package and with some bugs).
+
+Here, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function provides
+an alternative to performing mediation/moderation analyses in R.
+This function supports a total of \strong{24} kinds of SPSS PROCESS models (Hayes, 2018)
+and also supports multilevel mediation/moderation analyses.
+Overall, it supports the most frequently used types of mediation, moderation,
+moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses
+for \strong{(generalized) linear or linear mixed models}.
+
+Specifically, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function
+first builds regression models according to the data, variable names, and a few other parameters
+that users input (\strong{with no need} to specify any PROCESS model number) and then utilizes:
+\enumerate{
+  \item the \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} function to
+  estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
+  (PROCESS Models 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+  \item the \code{\link[mediation:mediate]{mediation::mediate()}} function to
+  estimate (conditional) indirect effects in (moderated) mediation models
+  (PROCESS Models 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+  \item the \code{\link[lavaan:sem]{lavaan::sem()}} function to perform serial multiple mediation analysis (PROCESS Model 6).
+}
+
+Two parts of results are printed:
+(1) \emph{regression model summary} (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
+and (2) \emph{mediation/moderation effect estimates} (using one or a combination of the above packages and functions to estimate the effects).
+To organize the Part 2 output, the results of \strong{Simple Slopes} are titled in \strong{green},
+whereas the results of \strong{Indirect Path} are titled in \strong{blue}.
+
+\strong{\emph{Disclaimer}:}
+Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its development and
+its development is independent from the official SPSS PROCESS macro and the official "process.R" script.
+Any error or limitation should be attributed to the three R packages/functions that \code{bruceR::PROCESS()} uses internally.
+Moreover, as mediation analyses include random processes (i.e., bootstrap resampling or Monte Carlo simulation),
+the results of mediation analyses are \emph{unlikely} to be exactly the same across different software (even if you set the same random seed).
+If you use this function in your research and report its results in your paper, please cite both \code{bruceR} and
+the specific R packages it uses (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
+}
+\details{
+For more details and illustrations, see
+\href{https://github.com/psychbruce/bruceR/tree/master/note}{PROCESS-bruceR-SPSS} (PDF and Markdown files).
 }
 \examples{
 \donttest{#### NOTE ####
@@ -140,7 +216,6 @@ PROCESS for mediation and/or moderation analyses.
 #### Demo Data ####
 # ?mediation::student
 data=mediation::student \%>\%
-  # dplyr::slice_sample(n=567) \%>\%
   dplyr::select(SCH_ID, free, smorale, pared, income,
                 gender, work, attachment, fight, late, score)
 names(data)[2:3]=c("SCH_free", "SCH_morale")
@@ -163,6 +238,12 @@ Corr(data[,4:11])  # file="xxx.doc"
 PROCESS(data, y="score", x="late", mods="gender")  # continuous Y
 PROCESS(data, y="pass", x="late", mods="gender")   # dichotomous Y
 
+# (multilevel moderation)
+PROCESS(data, y="score", x="late", mods="gender",  # continuous Y (LMM)
+        clusters="SCH_ID")
+PROCESS(data, y="pass", x="late", mods="gender",   # dichotomous Y (GLMM)
+        clusters="SCH_ID")
+
 # (Johnson-Neyman (J-N) interval and plot)
 PROCESS(data, y="score", x="gender", mods="late")->P
 P$results[[1]]$jn[[1]]       # Johnson-Neyman interval
@@ -171,13 +252,13 @@ GLM_summary(P$model.y)       # detailed results of regression
 
 # (allows multicategorical moderator)
 d=airquality
-d$Month=as.factor(d$Month)  # moderator
+d$Month=as.factor(d$Month)  # moderator: factor with levels "5"~"9"
 PROCESS(d, y="Temp", x="Solar.R", mods="Month")
 
 ## Model 2 ##
 PROCESS(data, y="score", x="late",
         mods=c("gender", "family_inc"),
-        mod.type="2-way")  # or omit this, default is "2-way"
+        mod.type="2-way")  # or omit "mod.type", default is "2-way"
 
 ## Model 3 ##
 PROCESS(data, y="score", x="late",
@@ -185,75 +266,48 @@ PROCESS(data, y="score", x="late",
         mod.type="3-way")
 PROCESS(data, y="pass", x="gender",
         mods=c("late", "family_inc"),
+        mod1.val=c(1, 3, 5),     # moderator 1: late
+        mod2.val=seq(1, 15, 2),  # moderator 2: family_inc
         mod.type="3-way")
 
 ## Model 4 ##
 PROCESS(data, y="score", x="parent_edu",
         meds="family_inc", covs="gender",
         ci="boot", nsim=100, seed=1)
-PROCESS(data, y="score", x="parent_edu",
-        meds="family_inc", covs="gender",
-        ci="bca.boot", nsim=100, seed=1)
-PROCESS(data, y="score", x="parent_edu",
-        meds="family_inc", covs="gender",
-        ci="mcmc", nsim=100, seed=1)
 
 # (allows an infinite number of multiple mediators in parallel)
 PROCESS(data, y="score", x="parent_edu",
         meds=c("family_inc", "late"),
         covs=c("gender", "partjob"),
-        nsim=100, seed=1)
+        ci="boot", nsim=100, seed=1)
 
-## Model 5 / 5.2 / 5.3 ##
-PROCESS(data, y="score", x="fight",
-        meds="late",
-        mods="gender",
-        covs="parent_edu",
-        mod.path="x-y",
-        nsim=100, seed=1)
-PROCESS(data, y="score", x="fight",
-        meds=c("late", "attachment"),
-        mods=c("gender", "partjob"),
-        covs=c("parent_edu", "family_inc"),
-        mod.path="x-y",
-        mod.type="3-way",
-        nsim=100, seed=1)
+# (multilevel mediation)
+PROCESS(data, y="score", x="SCH_free",
+        meds="late", clusters="SCH_ID",
+        ci="mcmc", nsim=100, seed=1)
 
 ## Model 6 ##
 PROCESS(data, y="score", x="parent_edu",
         meds=c("family_inc", "late"),
         covs=c("gender", "partjob"),
         med.type="serial",
-        nsim=100, seed=1)
+        ci="boot", nsim=100, seed=1)
 
 ## Model 8 ##
 PROCESS(data, y="score", x="fight",
         meds="late",
         mods="gender",
         mod.path=c("x-m", "x-y"),
-        nsim=100, seed=1)
+        ci="boot", nsim=100, seed=1)
 
-## Model 10 ##
-PROCESS(data, y="score", x="fight",
-        meds="late",
-        mods=c("gender", "family_inc"),
-        mod.path=c("x-m", "x-y"),
-        mod.type="2-way",
-        nsim=100, seed=1)
-
-## Model 12 ##
-PROCESS(data, y="score", x="fight",
-        meds="late",
-        mods=c("gender", "family_inc"),
-        mod.path=c("x-m", "x-y"),
-        mod.type="3-way",
-        nsim=100, seed=1)
-
-## For more examples (other PROCESS models), see:
-## https://
+## For more examples, see:
+## https://github.com/psychbruce/bruceR/tree/master/note
 }
+
 }
 \references{
+Hayes, A. F. (2018). \emph{Introduction to mediation, moderation, and conditional process analysis (second edition): A regression-based approach}. Guilford Press.
+
 Yzerbyt, V., Muller, D., Batailler, C., & Judd, C. M. (2018).
 New recommendations for testing indirect effects in mediational models:
 The need to report and test component paths.
@@ -261,7 +315,9 @@ The need to report and test component paths.
 \doi{10.1037/pspa0000132}
 }
 \seealso{
-\code{\link{model_summary}},
-\code{\link{med_summary}},
 \code{\link{lavaan_summary}}
+
+\code{\link{model_summary}}
+
+\code{\link{med_summary}}
 }

@@ -57,7 +57,7 @@ Predictor variables at different levels may have five types:
   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
 }
 The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.
-However, different softwares use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
+However, different software use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
 Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
 the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 }

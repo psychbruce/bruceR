@@ -8,9 +8,100 @@ lavaan_summary(
   lavaan,
   ci = c("raw", "boot", "bc.boot", "bca.boot"),
   nsim = 100,
-  seed = 1
+  seed = NULL,
+  nsmall = 3,
+  print = TRUE
 )
+}
+\arguments{
+\item{lavaan}{Model object fitted by \code{\link[lavaan:lavaan-class]{lavaan}}.}
+
+\item{ci}{Method for estimating the standard error (SE) and
+95\% confidence interval (CI) of user-defined parameter(s).
+Default is \code{"raw"} (the standard approach of \code{lavaan}).
+Other options include:
+\describe{
+  \item{\code{"boot"}}{Percentile Bootstrap}
+  \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
+  \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
+}}
+
+\item{nsim}{Number of simulation samples (bootstrap resampling)
+for estimating SE and 95\% CI of user-defined parameter(s).
+Default is \code{100} for running examples faster.
+In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!}
+
+\item{seed}{Random seed for obtaining reproducible results. Default is \code{NULL}.}
+
+\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
+}
+\value{
+Invisibly return a list of results:
+\describe{
+  \item{path}{Regression table.}
+  \item{effect}{Used-defined effect estimates.}
+  \item{fit}{Fit measures.}
+}
 }
 \description{
 Tidy report of lavaan model.
+}
+\examples{
+## Simple Mediation:
+## Solar.R (X) => Ozone (M) => Temp (Y)
+
+model="
+Ozone ~ a*Solar.R
+Temp ~ c.*Solar.R + b*Ozone
+Indirect := a*b
+Direct := c.
+Total := c. + a*b
+"
+lv=lavaan::sem(model=model, data=airquality)
+lavaan::summary(lv, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
+lavaan_summary(lv)
+# lavaan_summary(lv, ci="boot", nsim=1000, seed=1)
+
+
+## Serial Multiple Mediation:
+## Solar.R (X) => Ozone (M1) => Wind(M2) => Temp (Y)
+
+# PROCESS(airquality, y="Temp", x="Solar.R",
+#         meds=c("Ozone", "Wind"),
+#         med.type="serial", ci="boot", nsim=1000, seed=1)
+
+model0="
+Ozone ~ a1*Solar.R
+Wind ~ a2*Solar.R + d12*Ozone
+Temp ~ c.*Solar.R + b1*Ozone + b2*Wind
+Indirect_All := a1*b1 + a2*b2 + a1*d12*b2
+Ind_X_M1_Y := a1*b1
+Ind_X_M2_Y := a2*b2
+Ind_X_M1_M2_Y := a1*d12*b2
+Direct := c.
+Total := c. + a1*b1 + a2*b2 + a1*d12*b2
+"
+lv0=lavaan::sem(model=model0, data=airquality)
+lavaan::summary(lv0, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
+lavaan_summary(lv0)
+# lavaan_summary(lv0, ci="boot", nsim=1000, seed=1)
+
+model1="
+Ozone ~ a1*Solar.R
+Wind ~ d12*Ozone
+Temp ~ c.*Solar.R + b1*Ozone + b2*Wind
+Indirect_All := a1*b1 + a1*d12*b2
+Ind_X_M1_Y := a1*b1
+Ind_X_M1_M2_Y := a1*d12*b2
+Direct := c.
+Total := c. + a1*b1 + a1*d12*b2
+"
+lv1=lavaan::sem(model=model1, data=airquality)
+lavaan::summary(lv1, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
+lavaan_summary(lv1)
+# lavaan_summary(lv1, ci="boot", nsim=1000, seed=1)
+
+}
+\seealso{
+\code{\link{PROCESS}}
 }

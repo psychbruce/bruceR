@@ -5,6 +5,7 @@
 #'
 #' @param z,t,f,r,chi2 \emph{z}, \emph{t}, \emph{F}, \emph{r}, \eqn{\chi}^2 value.
 #' @param n,df,df1,df2 Sample size or degree of freedom.
+#' @param nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return \emph{p} value statistics.
 #'
@@ -23,12 +24,12 @@
 #'
 #' @export
 p=function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
-           n=NULL, df=NULL, df1=NULL, df2=NULL) {
-  if(!is.null(z)) {p=p.z(z); pstat=Glue("<<italic z>> = {z:.2}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
-  if(!is.null(t)) {p=p.t(t, df); pstat=Glue("<<italic t>>({df}) = {t:.2}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
-  if(!is.null(f)) {p=p.f(f, df1, df2); pstat=Glue("<<italic F>>({df1}, {df2}) = {f:.2}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
-  if(!is.null(r)) {p=p.r(r, n); pstat=Glue("<<italic r>>({n-2}) = {r:.2}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
-  if(!is.null(chi2)) {p=p.chi2(chi2, df); pstat=Glue("\u03c7\u00b2({df}) = {chi2:.2}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
+           n=NULL, df=NULL, df1=NULL, df2=NULL, nsmall=2) {
+  if(!is.null(z)) {p=p.z(z); pstat=Glue("<<italic z>> = {z:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(t)) {p=p.t(t, df); pstat=Glue("<<italic t>>({df}) = {t:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(f)) {p=p.f(f, df1, df2); pstat=Glue("<<italic F>>({df1}, {df2}) = {f:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(r)) {p=p.r(r, n); pstat=Glue("<<italic r>>({n-2}) = {r:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(chi2)) {p=p.chi2(chi2, df); pstat=Glue("\u03c7\u00b2({df}{ifelse(is.null(n), '', ', <<italic N>> = ' %^% n)}) = {chi2:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
   return(pstat)
 }
 

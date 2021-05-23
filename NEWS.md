@@ -1,6 +1,16 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.6.4 (in development)
+# bruceR 0.7.0 (in development)
+
+### New Features
+
+-   New function `PROCESS()`: PROCESS for mediation, moderation, and conditional process (moderated mediation) analyses! This function supports a total of 24 kinds of SPSS PROCESS models (Hayes, 2018) and also supports multilevel mediation/moderation analyses. Overall, it supports the most frequently used types of mediation, moderation, moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses for (generalized) linear or linear mixed models. Regression model summary and effect estimates (simple slopes and/or indirect effects) are printed in an elegant way.
+
+### Minor Changes
+
+-   Improved many functions.
+
+# bruceR 0.6.4 (May 2021)
 
 ### New Features
 
@@ -104,7 +114,6 @@
 
 # bruceR 0.5.0 (Aug 2020)
 
--   Automatically checking updates when `library(bruceR)`.
 -   Requiring R version 4.0+.
 -   Improved many functions.
 -   Fixed many bugs.
@@ -116,7 +125,7 @@
 
 # bruceR 0.3.0 (Oct 2019)
 
--   New functions `MANOVA` and `EMMEANS`: ANOVA, simple-effect analyses, and multiple comparisons (based on the `afex` and `emmeans` packages).
+-   New functions `MANOVA()` and `EMMEANS()`: ANOVA, simple-effect analyses, and multiple comparisons (based on the `afex` and `emmeans` packages).
 -   General bug-fixes and improvements.
 
 # bruceR 0.2.0 (Aug 2019)

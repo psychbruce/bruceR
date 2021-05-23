@@ -8,17 +8,27 @@ interaction_F_test=function(model, data=NULL, data.name="data") {
   interms=interms[grepl(":", interms)]
   interms.form=as.formula(paste("~", paste(interms, collapse=" + ")))
   interms.drop=as.formula(paste(". ~ . -", paste(interms, collapse=" - ")))
-  dp1=stats::drop1(model, scope=interms.form, test="F")
-  dp1=dp1[!is.na(dp1$Df), c("Df", "F value", "Pr(>F)")]
-  aov=stats::anova(stats::update(model, interms.drop), model)
-  if(df2!=aov[2, "Res.Df"]) warning("Error!")
-  aov.table=data.frame(
-    `F`=c(dp1[[2]], aov[2, "F"]),
-    df1=c(dp1[[1]], aov[2, "Df"]),
-    df2=df2,
-    pval=c(dp1[[3]], aov[2, "Pr(>F)"]))
-  row.names(aov.table)=c(gsub(":", " x ", row.names(dp1)),
-                         "(All Interactions)")
+  if(inherits(model, "lm")) {
+    dp1=stats::drop1(model, scope=interms.form, test="F")
+    dp1=dp1[!is.na(dp1$Df), c("Df", "F value", "Pr(>F)")]
+    aov=stats::anova(stats::update(model, interms.drop), model)
+    if(df2!=aov[2, "Res.Df"]) warning("Error!")
+    aov.table=data.frame(
+      `F`=c(dp1[[2]], aov[2, "F"]),
+      df1=c(dp1[[1]], aov[2, "Df"]),
+      df2=df2,
+      pval=c(dp1[[3]], aov[2, "Pr(>F)"]))
+    row.names(aov.table)=c(gsub(":", " x ", row.names(dp1)),
+                           "(All Interactions)")
+  } else {
+    dp1=stats::drop1(model, scope=interms, test="F")
+    aov.table=data.frame(
+      `F`=dp1[1, "F value"],
+      df1=dp1[1, "NumDF"],
+      df2=dp1[1, "DenDF"],
+      pval=dp1[1, "Pr(>F)"])
+    row.names(aov.table)=gsub(":", " x ", row.names(dp1))
+  }
   return(aov.table)
 }
 
@@ -29,21 +39,31 @@ interaction_Chi2_test=function(model, data=NULL, data.name="data") {
   interms=interms[grepl(":", interms)]
   interms.form=as.formula(paste("~", paste(interms, collapse=" + ")))
   interms.drop=as.formula(paste(". ~ . -", paste(interms, collapse=" - ")))
-  dp1=stats::drop1(model, scope=interms.form, test="Chisq")
-  dp1=dp1[!is.na(dp1$Df), c("Df", "LRT", "Pr(>Chi)")]
-  chi=stats::anova(stats::update(model, interms.drop), model, test="Chisq")
-  chi.table=data.frame(
-    `Chisq`=c(dp1[[2]], chi[2, "Deviance"]),
-    df=c(dp1[[1]], chi[2, "Df"]),
-    pval=c(dp1[[3]], chi[2, "Pr(>Chi)"]))
-  row.names(chi.table)=c(gsub(":", " x ", row.names(dp1)),
-                         "(All Interactions)")
+  if(inherits(model, "glm")) {
+    dp1=stats::drop1(model, scope=interms.form, test="Chisq")
+    dp1=dp1[!is.na(dp1$Df), c("Df", "LRT", "Pr(>Chi)")]
+    chi=stats::anova(stats::update(model, interms.drop), model, test="Chisq")
+    chi.table=data.frame(
+      `Chisq`=c(dp1[[2]], chi[2, "Deviance"]),
+      df=c(dp1[[1]], chi[2, "Df"]),
+      pval=c(dp1[[3]], chi[2, "Pr(>Chi)"]))
+    row.names(chi.table)=c(gsub(":", " x ", row.names(dp1)),
+                           "(All Interactions)")
+  } else {
+    dp1=stats::drop1(model, scope=interms.form, test="Chisq")
+    dp1=dp1[!is.na(dp1$npar), c("npar", "LRT", "Pr(Chi)")]
+    chi.table=data.frame(
+      `Chisq`=dp1[1, "LRT"],
+      df=dp1[1, "npar"],
+      pval=dp1[1, "Pr(Chi)"])
+    row.names(chi.table)=gsub(":", " x ", row.names(dp1))
+  }
   return(chi.table)
 }
 
 
 interaction_test=function(model, data=NULL, data.name="data") {
-  if(inherits(model, "glm")) {
+  if(inherits(model, c("glm", "glmerMod"))) {
     table=interaction_Chi2_test(model, data=data, data.name=data.name)
   } else {
     table=interaction_F_test(model, data=data, data.name=data.name)
@@ -220,6 +240,58 @@ boot_ci=function(boot,
 
 #' PROCESS for mediation and/or moderation analyses.
 #'
+#' @description
+#' To perform mediation, moderation, and conditional process (moderated mediation) analyses,
+#' people may use software like
+#' \href{http://www.statmodel.com/index.shtml}{Mplus},
+#' \href{https://www.processmacro.org/index.html}{SPSS "PROCESS" macro},
+#' and \href{https://njrockwood.com/mlmed/}{SPSS "MLmed" macro}.
+#' Some R packages can also perform such analyses separately and in a complex way, including
+#' \link[mediation:mediate]{R package "mediation"},
+#' \link[interactions:sim_slopes]{R package "interactions"},
+#' and \link[lavaan:lavaan-class]{R package "lavaan"}.
+#' Some other R packages or scripts/modules have been further developed to improve the convenience, including
+#' \href{https://jamovi-amm.github.io/}{jamovi module "jAMM"} (by \emph{Marcello Gallucci}, based on the \code{lavaan} package),
+#' \href{https://CRAN.R-project.org/package=processR}{R package "processR"} (by \emph{Keon-Woong Moon}, not official, also based on the \code{lavaan} package),
+#' and \href{https://www.processmacro.org/download.html}{R script file "process.R"}
+#' (the official PROCESS R code by \emph{Andrew F. Hayes}, but currently not an R package and with some bugs).
+#'
+#' Here, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function provides
+#' an alternative to performing mediation/moderation analyses in R.
+#' This function supports a total of \strong{24} kinds of SPSS PROCESS models (Hayes, 2018)
+#' and also supports multilevel mediation/moderation analyses.
+#' Overall, it supports the most frequently used types of mediation, moderation,
+#' moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses
+#' for \strong{(generalized) linear or linear mixed models}.
+#'
+#' Specifically, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function
+#' first builds regression models according to the data, variable names, and a few other parameters
+#' that users input (\strong{with no need} to specify any PROCESS model number) and then utilizes:
+#' \enumerate{
+#'   \item the \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} function to
+#'   estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
+#'   (PROCESS Models 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+#'   \item the \code{\link[mediation:mediate]{mediation::mediate()}} function to
+#'   estimate (conditional) indirect effects in (moderated) mediation models
+#'   (PROCESS Models 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+#'   \item the \code{\link[lavaan:sem]{lavaan::sem()}} function to perform serial multiple mediation analysis (PROCESS Model 6).
+#' }
+#'
+#' Two parts of results are printed:
+#' (1) \emph{regression model summary} (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
+#' and (2) \emph{mediation/moderation effect estimates} (using one or a combination of the above packages and functions to estimate the effects).
+#' To organize the Part 2 output, the results of \strong{Simple Slopes} are titled in \strong{green},
+#' whereas the results of \strong{Indirect Path} are titled in \strong{blue}.
+#'
+#' \strong{\emph{Disclaimer}:}
+#' Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its development and
+#' its development is independent from the official SPSS PROCESS macro and the official "process.R" script.
+#' Any error or limitation should be attributed to the three R packages/functions that \code{bruceR::PROCESS()} uses internally.
+#' Moreover, as mediation analyses include random processes (i.e., bootstrap resampling or Monte Carlo simulation),
+#' the results of mediation analyses are \emph{unlikely} to be exactly the same across different software (even if you set the same random seed).
+#' If you use this function in your research and report its results in your paper, please cite both \code{bruceR} and
+#' the specific R packages it uses (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
+#'
 #' @param data Data frame.
 #' @param y,x Variable name of outcome (Y) and predictor (X).
 #'
@@ -248,10 +320,17 @@ boot_ci=function(boot,
 #' @param covs Variable name(s) of covariate(s) (i.e., control variables).
 #' Use \code{c()} to combine multiple covariates.
 #' It supports all types of (and an infinite number of) variables.
-#' @param clusters (coming soon...) HLM (multilevel) cluster(s).
-#' @param hlm.rand (coming soon...) HLM (multilevel) random effect term.
-#' @param hlm.type (coming soon...) HLM (multilevel) mediation type:
-#' \code{"2-2-1"}, \code{"2-1-1"}, or \code{"1-1-1"}.
+#' @param clusters HLM (multilevel) level-2 cluster(s):
+#' e.g., \code{"School_ID"}, \code{c("Sub", "Item")}.
+#' @param hlm.re.m,hlm.re.y HLM (multilevel) random effect term of M model and Y model.
+#' By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
+#' e.g., \code{"(1 | School_ID)"}, \code{"(1 | Sub) + (1 | Item)"}.
+#' You can set this parameter to include more complex terms (e.g., random slopes).
+#' @param hlm.type HLM (multilevel) mediation type (levels of "X-M-Y"):
+#' \code{"1-1-1"} (default),
+#' \code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
+#' or \code{"2-2-1"} (currently \emph{not} fully supported, as limited by the \code{\link[mediation:mediate]{mediation}} package).
+#' In most cases, no need to set this parameter.
 #' @param med.type Type of mediator:
 #' \code{"parallel"} (default) or \code{"serial"}
 #' (PROCESS Model 6).
@@ -281,12 +360,16 @@ boot_ci=function(boot,
 #'   \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
 #'   \item{\code{"mcmc"}}{Markov Chain Monte Carlo (Quasi-Bayesian)}
 #' }
+#' * Note that these methods \emph{never} apply to the estimates of simple slopes.
+#' You \emph{should not} report the 95\% CIs of simple slopes as Bootstrap or Monte Carlo CIs,
+#' because they are just standard CIs without any resampling method.
 #' @param nsim Number of simulation samples (bootstrap resampling or Monte Carlo simulation)
 #' for estimating SE and 95\% CI. Default is \code{100} for running examples faster.
 #' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
 #' @param seed Random seed for obtaining reproducible results.
-#' Default is \code{1} (just an uncountable number).
-#' You may set to any number you prefer (e.g., \code{seed=5201314}).
+#' Default is \code{NULL}.
+#' You may set to any number you prefer
+#' (e.g., \code{seed=5201314}, just an uncountable number).
 #'
 #' Note that all mediation models include random processes
 #' (i.e., bootstrap resampling or Monte Carlo simulation).
@@ -294,20 +377,39 @@ boot_ci=function(boot,
 #' However, even you set the same seed number, it is unlikely to
 #' get the same results across different R packages
 #' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
-#' or softwares (e.g., SPSS, Mplus, R, jamovi).
+#' or software (e.g., SPSS, Mplus, R, jamovi).
 #' @param std Standardized coefficients? Default is \code{FALSE}.
 #' If \code{TRUE}, then it will standardize all numeric (continuous) variables
 #' before building regression models.
+#' It is \emph{not} suggested to set \code{std=TRUE} for generalized linear (mixed) models.
 #' @param nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
-#' Only regression models will be saved (using \code{\link{model_summary}}).
+#' Currently, only regression model summary can be saved.
+#'
+#' @return
+#' Invisibly return a list of results:
+#' \describe{
+#'   \item{process.id}{PROCESS model number.}
+#'   \item{process.type}{PROCESS model type.}
+#'   \item{model.m}{"Mediator" (M) models (a list of multiple models).}
+#'   \item{model.y}{"Outcome" (Y) model.}
+#'   \item{results}{Effect estimates and other results (unnamed list object).}
+#' }
+#'
+#' @details
+#' For more details and illustrations, see
+#' \href{https://github.com/psychbruce/bruceR/tree/master/note}{PROCESS-bruceR-SPSS} (PDF and Markdown files).
 #'
 #' @seealso
-#' \code{\link{model_summary}},
-#' \code{\link{med_summary}},
 #' \code{\link{lavaan_summary}}
 #'
+#' \code{\link{model_summary}}
+#'
+#' \code{\link{med_summary}}
+#'
 #' @references
+#' Hayes, A. F. (2018). \emph{Introduction to mediation, moderation, and conditional process analysis (second edition): A regression-based approach}. Guilford Press.
+#'
 #' Yzerbyt, V., Muller, D., Batailler, C., & Judd, C. M. (2018).
 #' New recommendations for testing indirect effects in mediational models:
 #' The need to report and test component paths.
@@ -322,7 +424,6 @@ boot_ci=function(boot,
 #' #### Demo Data ####
 #' # ?mediation::student
 #' data=mediation::student %>%
-#'   # dplyr::slice_sample(n=567) %>%
 #'   dplyr::select(SCH_ID, free, smorale, pared, income,
 #'                 gender, work, attachment, fight, late, score)
 #' names(data)[2:3]=c("SCH_free", "SCH_morale")
@@ -345,6 +446,12 @@ boot_ci=function(boot,
 #' PROCESS(data, y="score", x="late", mods="gender")  # continuous Y
 #' PROCESS(data, y="pass", x="late", mods="gender")   # dichotomous Y
 #'
+#' # (multilevel moderation)
+#' PROCESS(data, y="score", x="late", mods="gender",  # continuous Y (LMM)
+#'         clusters="SCH_ID")
+#' PROCESS(data, y="pass", x="late", mods="gender",   # dichotomous Y (GLMM)
+#'         clusters="SCH_ID")
+#'
 #' # (Johnson-Neyman (J-N) interval and plot)
 #' PROCESS(data, y="score", x="gender", mods="late")->P
 #' P$results[[1]]$jn[[1]]       # Johnson-Neyman interval
@@ -353,13 +460,13 @@ boot_ci=function(boot,
 #'
 #' # (allows multicategorical moderator)
 #' d=airquality
-#' d$Month=as.factor(d$Month)  # moderator
+#' d$Month=as.factor(d$Month)  # moderator: factor with levels "5"~"9"
 #' PROCESS(d, y="Temp", x="Solar.R", mods="Month")
 #'
 #' ## Model 2 ##
 #' PROCESS(data, y="score", x="late",
 #'         mods=c("gender", "family_inc"),
-#'         mod.type="2-way")  # or omit this, default is "2-way"
+#'         mod.type="2-way")  # or omit "mod.type", default is "2-way"
 #'
 #' ## Model 3 ##
 #' PROCESS(data, y="score", x="late",
@@ -367,73 +474,44 @@ boot_ci=function(boot,
 #'         mod.type="3-way")
 #' PROCESS(data, y="pass", x="gender",
 #'         mods=c("late", "family_inc"),
+#'         mod1.val=c(1, 3, 5),     # moderator 1: late
+#'         mod2.val=seq(1, 15, 2),  # moderator 2: family_inc
 #'         mod.type="3-way")
 #'
 #' ## Model 4 ##
 #' PROCESS(data, y="score", x="parent_edu",
 #'         meds="family_inc", covs="gender",
 #'         ci="boot", nsim=100, seed=1)
-#' PROCESS(data, y="score", x="parent_edu",
-#'         meds="family_inc", covs="gender",
-#'         ci="bca.boot", nsim=100, seed=1)
-#' PROCESS(data, y="score", x="parent_edu",
-#'         meds="family_inc", covs="gender",
-#'         ci="mcmc", nsim=100, seed=1)
 #'
 #' # (allows an infinite number of multiple mediators in parallel)
 #' PROCESS(data, y="score", x="parent_edu",
 #'         meds=c("family_inc", "late"),
 #'         covs=c("gender", "partjob"),
-#'         nsim=100, seed=1)
+#'         ci="boot", nsim=100, seed=1)
 #'
-#' ## Model 5 / 5.2 / 5.3 ##
-#' PROCESS(data, y="score", x="fight",
-#'         meds="late",
-#'         mods="gender",
-#'         covs="parent_edu",
-#'         mod.path="x-y",
-#'         nsim=100, seed=1)
-#' PROCESS(data, y="score", x="fight",
-#'         meds=c("late", "attachment"),
-#'         mods=c("gender", "partjob"),
-#'         covs=c("parent_edu", "family_inc"),
-#'         mod.path="x-y",
-#'         mod.type="3-way",
-#'         nsim=100, seed=1)
+#' # (multilevel mediation)
+#' PROCESS(data, y="score", x="SCH_free",
+#'         meds="late", clusters="SCH_ID",
+#'         ci="mcmc", nsim=100, seed=1)
 #'
 #' ## Model 6 ##
 #' PROCESS(data, y="score", x="parent_edu",
 #'         meds=c("family_inc", "late"),
 #'         covs=c("gender", "partjob"),
 #'         med.type="serial",
-#'         nsim=100, seed=1)
+#'         ci="boot", nsim=100, seed=1)
 #'
 #' ## Model 8 ##
 #' PROCESS(data, y="score", x="fight",
 #'         meds="late",
 #'         mods="gender",
 #'         mod.path=c("x-m", "x-y"),
-#'         nsim=100, seed=1)
+#'         ci="boot", nsim=100, seed=1)
 #'
-#' ## Model 10 ##
-#' PROCESS(data, y="score", x="fight",
-#'         meds="late",
-#'         mods=c("gender", "family_inc"),
-#'         mod.path=c("x-m", "x-y"),
-#'         mod.type="2-way",
-#'         nsim=100, seed=1)
-#'
-#' ## Model 12 ##
-#' PROCESS(data, y="score", x="fight",
-#'         meds="late",
-#'         mods=c("gender", "family_inc"),
-#'         mod.path=c("x-m", "x-y"),
-#'         mod.type="3-way",
-#'         nsim=100, seed=1)
-#'
-#' ## For more examples (other PROCESS models), see:
-#' ## https://
+#' ## For more examples, see:
+#' ## https://github.com/psychbruce/bruceR/tree/master/note
 #' }
+#'
 #' @export
 PROCESS=function(data,
                  y="",
@@ -442,8 +520,9 @@ PROCESS=function(data,
                  mods=c(),
                  covs=c(),
                  clusters=c(),
-                 hlm.rand="",
-                 hlm.type=c("2-2-1", "2-1-1", "1-1-1"),
+                 hlm.re.m="",
+                 hlm.re.y="",
+                 hlm.type=c("1-1-1", "2-1-1", "2-2-1"),
                  med.type=c("parallel", "serial"),  # "p"*, "s"
                  mod.type=c("2-way", "3-way"),  # "2"*, "3"
                  mod.path=c("x-y", "x-m", "m-y", "all"),
@@ -452,7 +531,7 @@ PROCESS=function(data,
                  mod2.val=NULL,
                  ci=c("boot", "bc.boot", "bca.boot", "mcmc"),
                  nsim=100,
-                 seed=1,
+                 seed=NULL,
                  std=FALSE,
                  nsmall=3,
                  file=NULL) {
@@ -460,7 +539,7 @@ PROCESS=function(data,
   warning.y.class="\n\"y\" should be a numeric variable or a factor variable with only 2 levels."
   warning.x.class="\n\"x\" should be a numeric variable or a factor variable with only 2 levels."
   warning.m.class="\n\"meds\" should be numeric variable(s) or factor variable(s) with only 2 levels."
-  warning.mod.path="\nPlease also set \"mod.path\":\n    \"all\" or any combination of c(\"x-y\", \"x-m\", \"m-y\")"
+  warning.mod.path="\nPlease also specify \"mod.path\":\n    \"all\" or any combination of c(\"x-y\", \"x-m\", \"m-y\")"
   if(x=="" | y=="") stop("\n\nPlease specify both \"x\" and \"y\".")
   if(length(meds)>0 & length(mods)>0 & length(mod.path)>3)
     stop(warning.mod.path)
@@ -501,8 +580,23 @@ PROCESS=function(data,
   if(grepl("bca", ci)) ci="bca.boot"
   if(grepl("m", ci)) ci="mcmc"
   if(ci %notin% c("boot", "bc.boot", "bca.boot", "mcmc"))
-    stop("\nPlease choose either \"boot\", \"bc.boot\", \"bca.boot\", or \"mcmc\" for ci.")
+    stop("\nPlease choose \"boot\", \"bc.boot\", \"bca.boot\", or \"mcmc\" for ci.")
   nsim.type=ifelse(grepl("boot", ci), "Bootstrap", "Monte Carlo")
+  if(length(clusters)>0) HLM=TRUE else HLM=FALSE
+  if(length(hlm.type)>1) hlm.type="1-1-1"  # default; same as "2-1-1"
+  if(hlm.type %notin% c("1-1-1", "2-1-1", "2-2-1"))
+    stop("\n\"hlm.type\" should be \"1-1-1\", \"2-1-1\", or \"2-2-1\".")
+  if(HLM) {
+    if(hlm.re.m=="")  # default: random intercept
+      hlm.re.m=paste("(1 | " %^% clusters %^% ")", collapse=" + ")
+    hlm.re.m=" + " %^% hlm.re.m
+    if(hlm.re.y=="")  # default: random intercept
+      hlm.re.y=paste("(1 | " %^% clusters %^% ")", collapse=" + ")
+    hlm.re.y=" + " %^% hlm.re.y
+    if(length(meds)>0 & ci!="mcmc")
+      message("\nNOTE: \nci has been reset to \"mcmc\" because bootstrap method is not applicable to multilevel models.")
+    ci="mcmc"
+  }
 
   ## Data Centering and Recoding
   data=as.data.frame(data)
@@ -540,6 +634,15 @@ PROCESS=function(data,
     }
   } else {
     x.trans.info=""
+  }
+  if(HLM & length(meds)>0 & hlm.type=="2-2-1") {
+    if(length(clusters)>1) stop("\nThe number of clusters should be 1.")
+    dt=data.v[c(x, meds, mods, covs, clusters)]
+    Run("dt1=dplyr::summarise(dplyr::group_by(dt, {clusters}), dplyr::across(where(is.numeric), mean))",
+        "dt2=dplyr::summarise(dplyr::group_by(dt, {clusters}), dplyr::across(where(is.factor), mean))",
+        "dt=dplyr::left_join(dt1, dt2, by=\"{clusters}\")")
+    data.meds.L2=as.data.frame(dt)[c(clusters, x, meds, mods, covs)]
+    rm(dt)
   }
   if(std) {
     # caution !!!
@@ -704,6 +807,12 @@ PROCESS=function(data,
     fy=stringr::str_replace(fy, "~", "~" %^% covs.all)
     ft=stringr::str_replace(ft, "~", "~" %^% covs.all)  # y ~ [covs] + x
   }
+  if(HLM) {
+    if(hlm.type!="2-2-1")
+      fm=fm %^% hlm.re.m
+    fy=fy %^% hlm.re.y
+    ft=ft %^% hlm.re.y
+  }
 
   ## Regression Model Summary
   varlist=function(vars=c()) {
@@ -727,7 +836,7 @@ PROCESS=function(data,
   -    Mediators (M) : {meds.text}
   -   Moderators (W) : {mods.text}
   -   Covariates (C) : {covs.text}
-  -     HLM Clusters : {clusters.text}
+  - Level-2 Clusters : {clusters.text}
   >>
   <<yellow All numeric predictors have been {ifelse(std, 'standardized', 'mean-centered')}.>>
   \n
@@ -744,10 +853,10 @@ PROCESS=function(data,
 
   ## Regression Model Building
   if(Y01==FALSE) {
-    FUN.y="lm"
+    FUN.y=ifelse(HLM, "lmerTest::lmer", "lm")
     FML.y=""
   } else {
-    FUN.y="glm"
+    FUN.y=ifelse(HLM, "lme4::glmer", "glm")
     FML.y=", family=binomial"
   }
   Run("model.y0 = {FUN.y}({fy}, data=data.v{FML.y})")
@@ -756,23 +865,29 @@ PROCESS=function(data,
   model.m=list()
   model.m0=list()
   if(pid>=4) {
+    data.v.temp=data.v
     data.c.temp=data.c
     data.c=data.c.NOmed
+    if(HLM & hlm.type=="2-2-1") {
+      data.v=data.meds.L2
+      data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(x, mods, covs))
+    }
     for(i in 1:length(fm)) {
       if(M01[i]==FALSE) {
-        FUN.m="lm"
+        FUN.m=ifelse(HLM & hlm.type!="2-2-1", "lmerTest::lmer", "lm")
         FML.m=""
       } else {
-        FUN.m="glm"
+        FUN.m=ifelse(HLM & hlm.type!="2-2-1", "lme4::glmer", "glm")
         FML.m=", family=binomial"
       }
       Run("model.m0.{i} = {FUN.m}({fm[i]}, data=data.v{FML.m})")
-      Run("model.m0 = c(model.m0, list(model.m0.{i}=model.m0.{i}))")
       Run("model.m.{i} = {FUN.m}({fm[i]}, data=data.c{FML.m})")
+      Run("model.m0 = c(model.m0, list(model.m0.{i}=model.m0.{i}))")
       Run("model.m = c(model.m, list(model.m.{i}=model.m.{i}))")
     }
+    data.v=data.v.temp
     data.c=data.c.temp
-    rm(data.c.temp)
+    rm(data.v.temp, data.c.temp)
   }
   model_summary(c(list(model.t), model.m, list(model.y)),
                 nsmall=nsmall, std=std, file=file)
@@ -802,6 +917,8 @@ PROCESS=function(data,
   cat("\n")
 
   ## PROCESS Model Building
+  if(HLM & hlm.type=="2-2-1")
+    stop("\nAs limited by the \"mediation\" package, the estimate of \"2-2-1\" multilevel mediation is not supported currently.")
   RES=list()
   run.process.mod.xy=function(eff.tag="") {
     text=Glue("
@@ -872,7 +989,7 @@ PROCESS=function(data,
     for(i in 1:length(meds)) Run(run.process.med())
   } else if(pid==6) {
     # serial mediation
-    res=process_lav(data.v, y, x, meds, covs,
+    res=process_lav(data.v, y, x, meds, covs, clusters,
                     med.type, cov.path,
                     ci, nsim, seed,
                     nsmall=nsmall,
@@ -921,16 +1038,113 @@ PROCESS=function(data,
 
 
 #' Tidy report of lavaan model.
+#'
+#' @param lavaan Model object fitted by \code{\link[lavaan:lavaan-class]{lavaan}}.
+#' @param ci Method for estimating the standard error (SE) and
+#' 95\% confidence interval (CI) of user-defined parameter(s).
+#' Default is \code{"raw"} (the standard approach of \code{lavaan}).
+#' Other options include:
+#' \describe{
+#'   \item{\code{"boot"}}{Percentile Bootstrap}
+#'   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
+#'   \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
+#' }
+#' @param nsim Number of simulation samples (bootstrap resampling)
+#' for estimating SE and 95\% CI of user-defined parameter(s).
+#' Default is \code{100} for running examples faster.
+#' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
+#' @param seed Random seed for obtaining reproducible results. Default is \code{NULL}.
+#' @param nsmall Number of decimal places of output. Default is \code{3}.
+#'
+#' @return
+#' Invisibly return a list of results:
+#' \describe{
+#'   \item{path}{Regression table.}
+#'   \item{effect}{Used-defined effect estimates.}
+#'   \item{fit}{Fit measures.}
+#' }
+#'
+#' @seealso
+#' \code{\link{PROCESS}}
+#'
+#' @examples
+#' ## Simple Mediation:
+#' ## Solar.R (X) => Ozone (M) => Temp (Y)
+#'
+#' model="
+#' Ozone ~ a*Solar.R
+#' Temp ~ c.*Solar.R + b*Ozone
+#' Indirect := a*b
+#' Direct := c.
+#' Total := c. + a*b
+#' "
+#' lv=lavaan::sem(model=model, data=airquality)
+#' lavaan::summary(lv, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
+#' lavaan_summary(lv)
+#' # lavaan_summary(lv, ci="boot", nsim=1000, seed=1)
+#'
+#'
+#' ## Serial Multiple Mediation:
+#' ## Solar.R (X) => Ozone (M1) => Wind(M2) => Temp (Y)
+#'
+#' # PROCESS(airquality, y="Temp", x="Solar.R",
+#' #         meds=c("Ozone", "Wind"),
+#' #         med.type="serial", ci="boot", nsim=1000, seed=1)
+#'
+#' model0="
+#' Ozone ~ a1*Solar.R
+#' Wind ~ a2*Solar.R + d12*Ozone
+#' Temp ~ c.*Solar.R + b1*Ozone + b2*Wind
+#' Indirect_All := a1*b1 + a2*b2 + a1*d12*b2
+#' Ind_X_M1_Y := a1*b1
+#' Ind_X_M2_Y := a2*b2
+#' Ind_X_M1_M2_Y := a1*d12*b2
+#' Direct := c.
+#' Total := c. + a1*b1 + a2*b2 + a1*d12*b2
+#' "
+#' lv0=lavaan::sem(model=model0, data=airquality)
+#' lavaan::summary(lv0, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
+#' lavaan_summary(lv0)
+#' # lavaan_summary(lv0, ci="boot", nsim=1000, seed=1)
+#'
+#' model1="
+#' Ozone ~ a1*Solar.R
+#' Wind ~ d12*Ozone
+#' Temp ~ c.*Solar.R + b1*Ozone + b2*Wind
+#' Indirect_All := a1*b1 + a1*d12*b2
+#' Ind_X_M1_Y := a1*b1
+#' Ind_X_M1_M2_Y := a1*d12*b2
+#' Direct := c.
+#' Total := c. + a1*b1 + a1*d12*b2
+#' "
+#' lv1=lavaan::sem(model=model1, data=airquality)
+#' lavaan::summary(lv1, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
+#' lavaan_summary(lv1)
+#' # lavaan_summary(lv1, ci="boot", nsim=1000, seed=1)
+#'
 #' @export
 lavaan_summary=function(lavaan,
                         ci=c("raw", "boot", "bc.boot", "bca.boot"),
                         nsim=100,
-                        seed=1) {
+                        seed=NULL,
+                        nsmall=3,
+                        print=TRUE) {
   if(length(ci)>1) ci="raw"
+  FIT=lavaan::fitMeasures(lavaan)
   pe=lavaan::parameterEstimates(lavaan, standardized=TRUE)
-  pe.reg=pe[pe$op=="~", c("rhs", "lhs", "label", "est", "std.all")]
+  pe.reg=pe[pe$op=="~", c("rhs", "lhs", "label", "est", "se", "std.all")]
   pe.eff=pe[pe$op==":=", c("label", "est", "std.all")]
-  if(ci!="raw") {
+  REG=data.frame(Path=pe.reg$rhs %^% " => " %^% pe.reg$lhs,
+                 Tag=stringr::str_replace_all(
+                   "(" %^% pe.reg$label %^% ")", "\\(\\)", ""),
+                 Coef=pe.reg$est,
+                 S.E.=pe.reg$se)
+  REG$z=REG$Coef/REG$S.E.
+  REG$pval=p.z(REG$z)
+  REG$Beta=pe.reg$std.all
+  row.names(REG)=REG[[1]]
+  REG[[1]]=NULL
+  if(ci!="raw" & nrow(pe.eff)>0) {
     set.seed(seed)
     lv.boot=lavaan::bootstrapLavaan(
       lavaan, type="nonparametric",
@@ -944,27 +1158,71 @@ lavaan_summary=function(lavaan,
     EFF$pval=p.z(EFF$z)
     EFF=cbind(EFF, t(apply(lv.boot, 2, boot_ci, type=ci)), pe.eff[3])
     names(EFF)[c(1, 6, 7, 8)]=c(" ", "BootLLCI", "BootULCI", "Beta")
-  } else {
+  } else if(nrow(pe.eff)>0) {
     EFF=pe[pe$op==":=",
            c("label", "est", "se", "z", "pvalue",
              "ci.lower", "ci.upper", "std.all")]
     EFF$pvalue=p.z(EFF$z)
     EFF=as.data.frame(EFF)
     names(EFF)=c(" ", "Effect", "S.E.", "z", "pval", "LLCI", "ULCI", "Beta")
+  } else {
+    EFF=data.frame()
   }
-  row.names(EFF)=EFF[[1]]
-  EFF[[1]]=NULL
-  invisible(EFF)
+  if(nrow(EFF)>0) {
+    row.names(EFF)=EFF[[1]]
+    EFF[[1]]=NULL
+  }
+
+  if(print) {
+    cat("\n")
+    print_table(REG, row.names=TRUE, nsmalls=nsmall,
+                title="<<blue Model Paths (lavaan):>>")
+    cat("\n")
+    if(nrow(EFF)>0) {
+      print_table(EFF, row.names=TRUE, nsmalls=nsmall,
+                  title="<<blue Model Terms (lavaan):>>")
+      cat("\n")
+    }
+    Print("
+    <<cyan Fit Measures:>>
+    <<yellow (1) \u03c7\u00b2 test>>
+    {p(chi2=FIT['chisq'], df=FIT['df'], n=FIT['ntotal'], nsmall=nsmall)}
+    \u03c7\u00b2/<<italic df>> = {FIT['chisq']/FIT['df']:.{nsmall}}
+    <<yellow (2) Information Criterion>>
+    AIC = {FIT['aic']:.{nsmall}} <<white (Akaike Information Criterion)>>
+    BIC = {FIT['bic']:.{nsmall}} <<white (Bayesian Information Criterion)>>
+    <<yellow (3) Absolute Index>>
+    GFI = {FIT['gfi']:.{nsmall}} <<white (Goodness-of-Fit Index)>>
+    RMSEA = {FIT['rmsea']:.{nsmall}}, 90% CI [{FIT['rmsea.ci.lower']:.{nsmall}}, {FIT['rmsea.ci.upper']:.{nsmall}}] <<white (Root Mean Square Error of Approximation)>>
+    SRMR = {FIT['srmr']:.{nsmall}} <<white (Standardized Root Mean Square Residual)>>
+    <<yellow (4) Relative Index>>
+    CFI = {FIT['cfi']:.{nsmall}} <<white (Comparative Fit Index)>>
+    TLI = {FIT['tli']:.{nsmall}} <<white (Tucker-Lewis Index; Non-Normed Fit Index)>>
+    NFI = {FIT['nfi']:.{nsmall}} <<white (Normed Fit Index)>>
+    IFI = {FIT['ifi']:.{nsmall}} <<white (Incremental Fit Index)>>
+    ")
+    cat("\n")
+  }
+
+  invisible(list(path=REG, effect=EFF, fit=FIT))
 }
 
 
 ## Model 4 and 6
-process_lav=function(data, y, x, meds, covs,
+process_lav=function(data, y, x, meds, covs, clusters,
                      med.type, cov.path,
                      ci, nsim, seed,
                      nsmall=3,
                      file=NULL,
                      print=TRUE) {
+  if(length(clusters)>=1)
+    stop("\nMultilevel serial mediation is not supported currently.")
+
+  if(length(clusters)==0)
+    clusters=NULL
+  if(length(clusters)>1)
+    stop("\nAs limited by the \"lavaan\" package, only one cluster is allowed.")
+
   CI=switch(
     ci,
     "mcmc"="<<red Reset to:>> Percentile Bootstrap",
@@ -977,7 +1235,7 @@ process_lav=function(data, y, x, meds, covs,
   model=lav_med_modeler(y, x, meds, covs, med.type, cov.path)
   # cat(model)
 
-  lv=lavaan::sem(model=model, data=data)
+  lv=lavaan::sem(model=model, data=data, cluster=clusters)
   # lavaan::summary(lv, header=FALSE,
   #                 fit.measure=TRUE,
   #                 ci=TRUE,
@@ -988,7 +1246,7 @@ process_lav=function(data, y, x, meds, covs,
 
   cat(crayon::white("Running", nsim, "simulations (lavaan model)...\n"))
 
-  MED=lavaan_summary(lv, ci=ci, nsim=nsim, seed=seed)
+  MED=lavaan_summary(lv, ci=ci, nsim=nsim, seed=seed, print=FALSE)$effect
 
   # cat("\015")
   # cat(rep_char(" ", 30))
@@ -1068,6 +1326,8 @@ process_med=function(model.m,
                      nsmall=3,
                      file=NULL,
                      print=TRUE) {
+  if(inherits(model.m, "lmerModLmerTest")) class(model.m)="lmerMod"
+  if(inherits(model.y, "lmerModLmerTest")) class(model.y)="lmerMod"
   boot=ifelse(grepl("boot", ci), TRUE, FALSE)
   CI=switch(
     ci,
@@ -1192,7 +1452,9 @@ process_mod=function(model0,
   # MOD=as.data.frame(MOD)[which(grepl(":", row.names(MOD))),]
   # row.names(MOD)=stringr::str_replace_all(row.names(MOD), ":", " x ")
   MOD=interaction_test(model, data=data.c, data.name="data.c")
-  if(nrow(MOD)==2) MOD=MOD[1,]
+  if(nrow(MOD)==2)
+    if(row.names(MOD)[2]=="(All Interactions)")
+      MOD=MOD[1,]
 
   RES=data.frame()
   RES0=data.frame()
@@ -1441,10 +1703,9 @@ med_summary=function(model, nsmall=3, file=NULL) {
                 ifelse(x$boot, "Boot LLCI", "LLCI"),
                 ifelse(x$boot, "Boot ULCI", "ULCI"),
                 "pval",
-                ifelse(x$boot, "[Bootstrap CI]", "[Monte Carlo CI]"))
+                ifelse(x$boot, "[Boot 95% CI]", "[MCMC 95% CI]"))
   print_table(smat[c(1, 2, 6, 5)], nsmalls=nsmall)
   Print(ci.type)
-  Print("Conf. Level: {clp}%")
   Print("Sample Size: {x$nobs}")
   Print("Simulations: {x$sims} ({ifelse(x$boot, 'Bootstrap', 'Monte Carlo')})")
   cat("\n")
