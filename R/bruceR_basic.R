@@ -33,7 +33,7 @@
 #' @return A vector of \code{TRUE} or \code{FALSE}.
 #'
 #' @examples
-#' data=data.table(ID=1:10, X=RANDBETWEEN(1:10, 10))
+#' data=data.table(ID=1:10, X=sample(1:10, 10))
 #' data
 #' data[ID %notin% c(1, 3, 5, 7, 9)]
 #'
@@ -772,15 +772,15 @@ dtime=function(t0, unit="secs", nsmall=0) {
 #' @return New data object, new variable, or new value (see the parameter \code{return}).
 #'
 #' @seealso
-#' \code{dplyr::left_join}
+#' \code{\link[dplyr:mutate-joins]{dplyr::left_join()}}
 #'
 #' \href{https://www.excel-university.com/xlookup/}{XLOOKUP: Excel University}
 #'
 #' @examples
 #' ref=data.table(City=rep(c("A", "B", "C"), each=5),
 #'                Year=rep(2013:2017, times=3),
-#'                GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
-#'                PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
+#'                GDP=sample(1000:2000, 15),
+#'                PM2.5=sample(10:300, 15))
 #' ref
 #'
 #' data=data.table(sub=1:5,

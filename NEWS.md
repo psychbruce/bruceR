@@ -5,10 +5,12 @@
 ### New Features
 
 -   New function `PROCESS()`: PROCESS for mediation, moderation, and conditional process (moderated mediation) analyses! This function supports a total of 24 kinds of SPSS PROCESS models (Hayes, 2018) and also supports multilevel mediation/moderation analyses. Overall, it supports the most frequently used types of mediation, moderation, moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses for (generalized) linear or linear mixed models. Regression model summary and effect estimates (simple slopes and/or indirect effects) are printed in an elegant way.
+-   New function `lavaan_summary()`: Tidy report of lavaan model.
 
 ### Minor Changes
 
 -   Improved many functions.
+-   Deprecated the `RANDBETWEEN()` function.
 
 # bruceR 0.6.4 (May 2021)
 

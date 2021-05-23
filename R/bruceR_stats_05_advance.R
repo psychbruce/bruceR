@@ -1,17 +1,18 @@
 #### PROCESS Macro (GLM and HLM) ####
 
 
+#' @importFrom stats terms drop1 anova update df.residual
 interaction_F_test=function(model, data=NULL, data.name="data") {
   Run("{data.name}=data")
-  df2=stats::df.residual(model)
-  interms=attr(stats::terms(model), "term.labels")
+  df2=df.residual(model)
+  interms=attr(terms(model), "term.labels")
   interms=interms[grepl(":", interms)]
   interms.form=as.formula(paste("~", paste(interms, collapse=" + ")))
   interms.drop=as.formula(paste(". ~ . -", paste(interms, collapse=" - ")))
   if(inherits(model, "lm")) {
-    dp1=stats::drop1(model, scope=interms.form, test="F")
+    dp1=drop1(model, scope=interms.form, test="F")
     dp1=dp1[!is.na(dp1$Df), c("Df", "F value", "Pr(>F)")]
-    aov=stats::anova(stats::update(model, interms.drop), model)
+    aov=anova(update(model, interms.drop), model)
     if(df2!=aov[2, "Res.Df"]) warning("Error!")
     aov.table=data.frame(
       `F`=c(dp1[[2]], aov[2, "F"]),
@@ -21,7 +22,7 @@ interaction_F_test=function(model, data=NULL, data.name="data") {
     row.names(aov.table)=c(gsub(":", " x ", row.names(dp1)),
                            "(All Interactions)")
   } else {
-    dp1=stats::drop1(model, scope=interms, test="F")
+    dp1=drop1(model, scope=interms, test="F")
     aov.table=data.frame(
       `F`=dp1[1, "F value"],
       df1=dp1[1, "NumDF"],
@@ -33,16 +34,17 @@ interaction_F_test=function(model, data=NULL, data.name="data") {
 }
 
 
+#' @importFrom stats terms drop1 anova update
 interaction_Chi2_test=function(model, data=NULL, data.name="data") {
   Run("{data.name}=data")
-  interms=attr(stats::terms(model), "term.labels")
+  interms=attr(terms(model), "term.labels")
   interms=interms[grepl(":", interms)]
   interms.form=as.formula(paste("~", paste(interms, collapse=" + ")))
   interms.drop=as.formula(paste(". ~ . -", paste(interms, collapse=" - ")))
   if(inherits(model, "glm")) {
-    dp1=stats::drop1(model, scope=interms.form, test="Chisq")
+    dp1=drop1(model, scope=interms.form, test="Chisq")
     dp1=dp1[!is.na(dp1$Df), c("Df", "LRT", "Pr(>Chi)")]
-    chi=stats::anova(stats::update(model, interms.drop), model, test="Chisq")
+    chi=anova(update(model, interms.drop), model, test="Chisq")
     chi.table=data.frame(
       `Chisq`=c(dp1[[2]], chi[2, "Deviance"]),
       df=c(dp1[[1]], chi[2, "Df"]),
@@ -50,7 +52,7 @@ interaction_Chi2_test=function(model, data=NULL, data.name="data") {
     row.names(chi.table)=c(gsub(":", " x ", row.names(dp1)),
                            "(All Interactions)")
   } else {
-    dp1=stats::drop1(model, scope=interms.form, test="Chisq")
+    dp1=drop1(model, scope=interms.form, test="Chisq")
     dp1=dp1[!is.na(dp1$npar), c("npar", "LRT", "Pr(Chi)")]
     chi.table=data.frame(
       `Chisq`=dp1[1, "LRT"],
@@ -209,6 +211,7 @@ lav_med_modeler=function(y, x,
 # edit(boot::boot.ci)
 # edit(boot:::perc.ci)
 # edit(boot:::bca.ci)
+#' @importFrom stats qnorm quantile
 boot_ci=function(boot,
                  type=c("boot", "bc.boot", "bca.boot", "mcmc"),
                  true=NULL,
@@ -254,7 +257,7 @@ boot_ci=function(boot,
 #' \href{https://jamovi-amm.github.io/}{jamovi module "jAMM"} (by \emph{Marcello Gallucci}, based on the \code{lavaan} package),
 #' \href{https://CRAN.R-project.org/package=processR}{R package "processR"} (by \emph{Keon-Woong Moon}, not official, also based on the \code{lavaan} package),
 #' and \href{https://www.processmacro.org/download.html}{R script file "process.R"}
-#' (the official PROCESS R code by \emph{Andrew F. Hayes}, but currently not an R package and with some bugs).
+#' (the official PROCESS R code by \emph{Andrew F. Hayes}, but it is not yet an R package and has some bugs and limitations).
 #'
 #' Here, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function provides
 #' an alternative to performing mediation/moderation analyses in R.
@@ -266,7 +269,10 @@ boot_ci=function(boot,
 #'
 #' Specifically, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function
 #' first builds regression models according to the data, variable names, and a few other parameters
-#' that users input (\strong{with no need} to specify any PROCESS model number) and then utilizes:
+#' that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
+#' The function can automatically judge the model number/type and also automatically conduct mean-centering before model building.
+#'
+#' Then, it uses:
 #' \enumerate{
 #'   \item the \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} function to
 #'   estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
@@ -276,6 +282,8 @@ boot_ci=function(boot,
 #'   (PROCESS Models 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
 #'   \item the \code{\link[lavaan:sem]{lavaan::sem()}} function to perform serial multiple mediation analysis (PROCESS Model 6).
 #' }
+#' If you use this function in your research and report its results in your paper, please cite not only \code{bruceR} but also
+#' the other R packages it uses internally (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
 #'
 #' Two parts of results are printed:
 #' (1) \emph{regression model summary} (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
@@ -284,27 +292,26 @@ boot_ci=function(boot,
 #' whereas the results of \strong{Indirect Path} are titled in \strong{blue}.
 #'
 #' \strong{\emph{Disclaimer}:}
-#' Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its development and
-#' its development is independent from the official SPSS PROCESS macro and the official "process.R" script.
+#' Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its design, and
+#' its development is independent from the official SPSS PROCESS macro and "process.R" script.
 #' Any error or limitation should be attributed to the three R packages/functions that \code{bruceR::PROCESS()} uses internally.
-#' Moreover, as mediation analyses include random processes (i.e., bootstrap resampling or Monte Carlo simulation),
-#' the results of mediation analyses are \emph{unlikely} to be exactly the same across different software (even if you set the same random seed).
-#' If you use this function in your research and report its results in your paper, please cite both \code{bruceR} and
-#' the specific R packages it uses (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
+#' Moreover, as mediation analyses include \emph{random processes} (i.e., bootstrap resampling or Monte Carlo simulation),
+#' the results of mediation analyses are \emph{unlikely} to be exactly the same across different software
+#' (even if you set the same random seed in different software).
 #'
 #' @param data Data frame.
 #' @param y,x Variable name of outcome (Y) and predictor (X).
 #'
-#' It supports continuous (numeric) and dichotomous (factor) variables.
+#' It supports both continuous (numeric) and dichotomous (factor) variables.
 #' @param meds Variable name(s) of mediator(s) (M).
 #' Use \code{c()} to combine multiple mediators.
 #'
-#' It supports continuous (numeric) and dichotomous (factor) variables.
+#' It supports both continuous (numeric) and dichotomous (factor) variables.
 #'
 #' It allows an infinite number of mediators in parallel
 #' or 2~4 mediators in serial.
 #'
-#' Order matters when \code{med.type="serial"}
+#' * Order matters when \code{med.type="serial"}
 #' (PROCESS Model 6: serial mediation).
 #' @param mods Variable name(s) of 0~2 moderator(s) (W).
 #' Use \code{c()} to combine multiple moderators.
@@ -312,48 +319,51 @@ boot_ci=function(boot,
 #' It supports all types of variables:
 #' continuous (numeric), dichotomous (factor), and multicategorical (factor).
 #'
-#' Order matters when \code{mod.type="3-way"}
+#' * Order matters when \code{mod.type="3-way"}
 #' (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
 #'
-#' * Do not set this parameter when \code{med.type="serial"}
+#' ** Do not set this parameter when \code{med.type="serial"}
 #' (PROCESS Model 6).
 #' @param covs Variable name(s) of covariate(s) (i.e., control variables).
 #' Use \code{c()} to combine multiple covariates.
 #' It supports all types of (and an infinite number of) variables.
 #' @param clusters HLM (multilevel) level-2 cluster(s):
-#' e.g., \code{"School_ID"}, \code{c("Sub", "Item")}.
+#' e.g., \code{"School_ID"} or \code{c("Sub", "Item")}.
 #' @param hlm.re.m,hlm.re.y HLM (multilevel) random effect term of M model and Y model.
 #' By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
-#' e.g., \code{"(1 | School_ID)"}, \code{"(1 | Sub) + (1 | Item)"}.
-#' You can set this parameter to include more complex terms (e.g., random slopes).
+#' e.g., \code{"(1 | School_ID)"} or \code{"(1 | Sub) + (1 | Item)"}.
+#' You can set these parameters to include more complex terms (e.g., random slopes).
+#' In most cases, no need to set these parameters.
 #' @param hlm.type HLM (multilevel) mediation type (levels of "X-M-Y"):
 #' \code{"1-1-1"} (default),
 #' \code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
-#' or \code{"2-2-1"} (currently \emph{not} fully supported, as limited by the \code{\link[mediation:mediate]{mediation}} package).
+#' or \code{"2-2-1"} (currently \emph{not fully supported}, as limited by the \code{\link[mediation:mediate]{mediation}} package).
 #' In most cases, no need to set this parameter.
 #' @param med.type Type of mediator:
 #' \code{"parallel"} (default) or \code{"serial"}
-#' (PROCESS Model 6).
+#' (only relevant to PROCESS Model 6).
 #' Partial matches of \code{"p"} or \code{"s"} also work.
+#' In most cases, no need to set this parameter.
 #' @param mod.type Type of moderator:
 #' \code{"2-way"} (default) or \code{"3-way"}
-#' (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
+#' (relevant to PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
 #' Partial matches of \code{"2"} or \code{"3"} also work.
 #' @param mod.path Which path(s) do the moderator(s) influence?
 #' \code{"x-y"}, \code{"x-m"}, \code{"m-y"}, or any combination of them
 #' (use \code{c()} to combine), or \code{"all"} (i.e., all of them).
+#' No default value.
 #' @param cov.path Which path(s) do the control variable(s) influence?
 #' \code{"y"}, \code{"m"}, or \code{"both"} (default).
 #' @param mod1.val,mod2.val By default (\code{NULL}), it uses
 #' \strong{Mean +/- SD} of a continuous moderator (numeric) or
 #' \strong{all levels} of a dichotomous/multicategorical moderator (factor) to
 #' perform simple slope analyses and/or conditional mediation analyses.
-#' You can also manually specify the values: e.g.,
+#' You may manually specify a vector of certain values: e.g.,
 #' \code{mod1.val=c(1, 3, 5)} or \code{mod1.val=c("A", "B", "C")}.
 #' @param ci Method for estimating the standard error (SE) and
 #' 95\% confidence interval (CI) of indirect effect(s).
 #' Default is \code{"boot"} for (generalized) linear models or
-#' \code{"mcmc"} for (generalized) linear mixed models (multilevel models).
+#' \code{"mcmc"} for (generalized) linear mixed models (i.e., multilevel models).
 #' \describe{
 #'   \item{\code{"boot"}}{Percentile Bootstrap}
 #'   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
@@ -373,15 +383,15 @@ boot_ci=function(boot,
 #'
 #' Note that all mediation models include random processes
 #' (i.e., bootstrap resampling or Monte Carlo simulation).
-#' To get exactly the same results, you have to set a random seed.
+#' To get exactly the same results between runs, you have to set a random seed.
 #' However, even you set the same seed number, it is unlikely to
 #' get the same results across different R packages
 #' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
-#' or software (e.g., SPSS, Mplus, R, jamovi).
+#' and software (e.g., SPSS, Mplus, R, jamovi).
 #' @param std Standardized coefficients? Default is \code{FALSE}.
-#' If \code{TRUE}, then it will standardize all numeric (continuous) variables
+#' If \code{TRUE}, it will standardize all numeric (continuous) variables
 #' before building regression models.
-#' It is \emph{not} suggested to set \code{std=TRUE} for generalized linear (mixed) models.
+#' However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.
 #' @param nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' Currently, only regression model summary can be saved.
@@ -389,11 +399,11 @@ boot_ci=function(boot,
 #' @return
 #' Invisibly return a list of results:
 #' \describe{
-#'   \item{process.id}{PROCESS model number.}
-#'   \item{process.type}{PROCESS model type.}
-#'   \item{model.m}{"Mediator" (M) models (a list of multiple models).}
-#'   \item{model.y}{"Outcome" (Y) model.}
-#'   \item{results}{Effect estimates and other results (unnamed list object).}
+#'   \item{\code{process.id}}{PROCESS model number.}
+#'   \item{\code{process.type}}{PROCESS model type.}
+#'   \item{\code{model.m}}{"Mediator" (M) models (a list of multiple models).}
+#'   \item{\code{model.y}}{"Outcome" (Y) model.}
+#'   \item{\code{results}}{Effect estimates and other results (unnamed list object).}
 #' }
 #'
 #' @details
@@ -512,6 +522,7 @@ boot_ci=function(boot,
 #' ## https://github.com/psychbruce/bruceR/tree/master/note
 #' }
 #'
+#' @importFrom stats confint
 #' @export
 PROCESS=function(data,
                  y="",
@@ -859,6 +870,7 @@ PROCESS=function(data,
     FUN.y=ifelse(HLM, "lme4::glmer", "glm")
     FML.y=", family=binomial"
   }
+  model.t=model.y=NULL
   Run("model.y0 = {FUN.y}({fy}, data=data.v{FML.y})")
   Run("model.y = {FUN.y}({fy}, data=data.c{FML.y})")
   Run("model.t = {FUN.y}({ft}, data=data.c{FML.y})")
@@ -1002,7 +1014,7 @@ PROCESS=function(data,
     } else {
       Print("<<cyan <<underline Direct Effect:>> \"{x}\" (X) ==> \"{y}\" (Y)>>")
       de=as.data.frame(coef(summary(model.y)))[2,]
-      de$CI=paste0("[", paste(formatF(stats::confint(model.y)[2,], nsmall), collapse=", "), "]")
+      de$CI=paste0("[", paste(formatF(confint(model.y)[2,], nsmall), collapse=", "), "]")
       names(de)[1]="Effect"
       names(de)[5]="[95% CI]"
       row.names(de)[1]="Direct (c')"
@@ -1055,13 +1067,14 @@ PROCESS=function(data,
 #' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
 #' @param seed Random seed for obtaining reproducible results. Default is \code{NULL}.
 #' @param nsmall Number of decimal places of output. Default is \code{3}.
+#' @param print Print results. Default is \code{TRUE}.
 #'
 #' @return
 #' Invisibly return a list of results:
 #' \describe{
-#'   \item{path}{Regression table.}
-#'   \item{effect}{Used-defined effect estimates.}
-#'   \item{fit}{Fit measures.}
+#'   \item{\code{path}}{Regression table.}
+#'   \item{\code{effect}}{Used-defined effect estimates.}
+#'   \item{\code{fit}}{Fit measures.}
 #' }
 #'
 #' @seealso
@@ -1429,6 +1442,7 @@ process_mod=function(model0,
                      file=NULL,
                      print=TRUE) {
   data.c=data.c
+  simple.slopes=NULL
   Run("
   simple.slopes=interactions::sim_slopes(
     model=model0,
@@ -1653,6 +1667,7 @@ process_mod=function(model0,
 #'                 sims=1000)
 #' med_summary(med.lmm)
 #' }
+#' @importFrom stats model.frame
 #' @export
 med_summary=function(model, nsmall=3, file=NULL) {
   # for raw function, see:
@@ -1677,7 +1692,7 @@ med_summary=function(model, nsmall=3, file=NULL) {
   Print("Mediation Analysis:")
   X=x[["treat"]]
   M=x[["mediator"]]
-  Y=names(stats::model.frame(x[["model.y"]]))[1]
+  Y=names(model.frame(x[["model.y"]]))[1]
   Print("{X} ==> {M} ==> {Y}")
 
   if(!is.null(x$covariates)) {
@@ -1792,6 +1807,7 @@ med_summary=function(model, nsmall=3, file=NULL) {
 #' @seealso \code{\link{granger_test}}
 #'
 #' @import ggplot2
+#' @importFrom stats qt
 #' @export
 ccf_plot=function(formula, data,
                   lag.max=30, sig.level=0.05,
@@ -1811,7 +1827,7 @@ ccf_plot=function(formula, data,
   cc=stats::ccf(x=data[[x]], y=data[[y]], lag.max=lag.max, plot=FALSE, na.action=na.omit)
   ccdata=with(cc, data.frame(lag, acf))
   n=cc$n.used
-  rsig=psych::t2r(stats::qt(sig.level/2, n, lower.tail=F), n-2)
+  rsig=psych::t2r(qt(sig.level/2, n, lower.tail=F), n-2)
   ccdata$sig=as.factor(ifelse(abs(ccdata$acf)<rsig, 0, 1))
   ccdata$direc=as.factor(ifelse(ccdata$acf<0, 0, 1))
 
@@ -1858,11 +1874,12 @@ ccf_plot=function(formula, data,
 #' \code{\link{ccf_plot}},
 #' \code{\link{granger_causality}}
 #'
+#' @importFrom stats as.formula na.omit
 #' @export
 granger_test=function(formula, data, lags=1:5,
                       test.reverse=FALSE) {
   if(test.reverse) {
-    formula.rev=stats::as.formula(paste(formula[3], formula[1], formula[2]))
+    formula.rev=as.formula(paste(formula[3], formula[1], formula[2]))
     formulas=list(formula, formula.rev)
   } else {
     formulas=list(formula)
@@ -1880,7 +1897,7 @@ granger_test=function(formula, data, lags=1:5,
       Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
     }
     for(lag in lags) {
-      gt=lmtest::grangertest(formula=f, data=data, order=lag, na.action=stats::na.omit)
+      gt=lmtest::grangertest(formula=f, data=data, order=lag, na.action=na.omit)
       result=bruceR::p(f=gt[2,"F"], df1=-gt[2,"Df"], df2=gt[1,"Res.Df"])
       Print("Lags = {lag}:\t{result}")
     }
@@ -1888,6 +1905,7 @@ granger_test=function(formula, data, lags=1:5,
 }
 
 
+#' @importFrom stats lm anova update as.formula
 vargranger=function(varmodel, var.y, var.x) {
   vms=varmodel[["varresult"]]
   vars=names(vms)
@@ -1900,11 +1918,11 @@ vargranger=function(varmodel, var.y, var.x) {
     dropped.var=var.x=paste(var.x, collapse="|")
   }
   vm.raw=vms[[var.y]]
-  vm=stats::lm(vm.raw[["terms"]], data=vm.raw[["model"]])
+  vm=lm(vm.raw[["terms"]], data=vm.raw[["model"]])
   lags=names(vm[["coefficients"]])
   dropped.vars=lags[which(grepl(dropped.var, lags))]
   dropped=paste(dropped.vars, collapse=" - ")
-  aov=stats::anova(stats::update(vm, as.formula(paste("~ . -", dropped))), vm)
+  aov=anova(update(vm, as.formula(paste("~ . -", dropped))), vm)
   df1=aov[2, "Df"]
   df2=aov[2, "Res.Df"]
   chi2=aov[2, "F"]*df1

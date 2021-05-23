@@ -214,13 +214,16 @@ NULL
   >>>>
 
   <<bold <<blue Loaded R packages:>>>>
-  <<green <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table>>
-  <<green <<yellow [Stat]:>> psych / emmeans / effectsize / performance>>
-  <<green <<yellow [Plot]:>> ggplot2 / ggtext / cowplot / see>>
+  <<green
+  <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table
+  <<yellow [Stat]:>> psych / emmeans / effectsize / performance
+  <<yellow [Plot]:>> ggplot2 / ggtext / cowplot / see
+  >>
 
   <<bold <<blue Frequently used functions in `bruceR`:>>>>
   <<cyan set.wd() / print_table() / model_summary()>>
-  <<cyan RECODE() / MEAN() / Describe() / Freq() / Corr() / Alpha()>>
+  <<cyan Describe() / Freq() / Corr() / Alpha()>>
+  <<cyan RECODE() / MEAN() / SUM() / LOOKUP()>>
   <<cyan MANOVA() / EMMEANS() / PROCESS()>>
   \n
   ")

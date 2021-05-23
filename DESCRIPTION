@@ -24,7 +24,7 @@ Description:
   simple-effect analysis, and post-hoc multiple comparison;
   (6) tidy report of regression models and other results
   (to R Console and MS Word);
-  (7) mediation and moderation analyses;
+  (7) mediation and moderation analyses (PROCESS);
   and (8) additional toolbox for statistics and graphics.
 License: GPL-3
 Encoding: UTF-8

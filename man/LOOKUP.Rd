@@ -42,8 +42,8 @@ If multiple values were simultaneously matched, a warning message would be print
 \examples{
 ref=data.table(City=rep(c("A", "B", "C"), each=5),
                Year=rep(2013:2017, times=3),
-               GDP=RANDBETWEEN(1000:2000, n=15, seed=1),
-               PM2.5=RANDBETWEEN(10:300, n=15, seed=1))
+               GDP=sample(1000:2000, 15),
+               PM2.5=sample(10:300, 15))
 ref
 
 data=data.table(sub=1:5,
@@ -56,7 +56,7 @@ LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 
 }
 \seealso{
-\code{dplyr::left_join}
+\code{\link[dplyr:mutate-joins]{dplyr::left_join()}}
 
 \href{https://www.excel-university.com/xlookup/}{XLOOKUP: Excel University}
 }

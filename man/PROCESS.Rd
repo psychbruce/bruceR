@@ -34,17 +34,17 @@ PROCESS(
 
 \item{y, x}{Variable name of outcome (Y) and predictor (X).
 
-It supports continuous (numeric) and dichotomous (factor) variables.}
+It supports both continuous (numeric) and dichotomous (factor) variables.}
 
 \item{meds}{Variable name(s) of mediator(s) (M).
 Use \code{c()} to combine multiple mediators.
 
-It supports continuous (numeric) and dichotomous (factor) variables.
+It supports both continuous (numeric) and dichotomous (factor) variables.
 
 It allows an infinite number of mediators in parallel
 or 2~4 mediators in serial.
 
-Order matters when \code{med.type="serial"}
+* Order matters when \code{med.type="serial"}
 (PROCESS Model 6: serial mediation).}
 
 \item{mods}{Variable name(s) of 0~2 moderator(s) (W).
@@ -53,10 +53,10 @@ Use \code{c()} to combine multiple moderators.
 It supports all types of variables:
 continuous (numeric), dichotomous (factor), and multicategorical (factor).
 
-Order matters when \code{mod.type="3-way"}
+* Order matters when \code{mod.type="3-way"}
 (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
 
-* Do not set this parameter when \code{med.type="serial"}
+** Do not set this parameter when \code{med.type="serial"}
 (PROCESS Model 6).}
 
 \item{covs}{Variable name(s) of covariate(s) (i.e., control variables).
@@ -64,32 +64,35 @@ Use \code{c()} to combine multiple covariates.
 It supports all types of (and an infinite number of) variables.}
 
 \item{clusters}{HLM (multilevel) level-2 cluster(s):
-e.g., \code{"School_ID"}, \code{c("Sub", "Item")}.}
+e.g., \code{"School_ID"} or \code{c("Sub", "Item")}.}
 
 \item{hlm.re.m, hlm.re.y}{HLM (multilevel) random effect term of M model and Y model.
 By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
-e.g., \code{"(1 | School_ID)"}, \code{"(1 | Sub) + (1 | Item)"}.
-You can set this parameter to include more complex terms (e.g., random slopes).}
+e.g., \code{"(1 | School_ID)"} or \code{"(1 | Sub) + (1 | Item)"}.
+You can set these parameters to include more complex terms (e.g., random slopes).
+In most cases, no need to set these parameters.}
 
 \item{hlm.type}{HLM (multilevel) mediation type (levels of "X-M-Y"):
 \code{"1-1-1"} (default),
 \code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
-or \code{"2-2-1"} (currently \emph{not} fully supported, as limited by the \code{\link[mediation:mediate]{mediation}} package).
+or \code{"2-2-1"} (currently \emph{not fully supported}, as limited by the \code{\link[mediation:mediate]{mediation}} package).
 In most cases, no need to set this parameter.}
 
 \item{med.type}{Type of mediator:
 \code{"parallel"} (default) or \code{"serial"}
-(PROCESS Model 6).
-Partial matches of \code{"p"} or \code{"s"} also work.}
+(only relevant to PROCESS Model 6).
+Partial matches of \code{"p"} or \code{"s"} also work.
+In most cases, no need to set this parameter.}
 
 \item{mod.type}{Type of moderator:
 \code{"2-way"} (default) or \code{"3-way"}
-(PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
+(relevant to PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
 Partial matches of \code{"2"} or \code{"3"} also work.}
 
 \item{mod.path}{Which path(s) do the moderator(s) influence?
 \code{"x-y"}, \code{"x-m"}, \code{"m-y"}, or any combination of them
-(use \code{c()} to combine), or \code{"all"} (i.e., all of them).}
+(use \code{c()} to combine), or \code{"all"} (i.e., all of them).
+No default value.}
 
 \item{cov.path}{Which path(s) do the control variable(s) influence?
 \code{"y"}, \code{"m"}, or \code{"both"} (default).}
@@ -98,13 +101,13 @@ Partial matches of \code{"2"} or \code{"3"} also work.}
 \strong{Mean +/- SD} of a continuous moderator (numeric) or
 \strong{all levels} of a dichotomous/multicategorical moderator (factor) to
 perform simple slope analyses and/or conditional mediation analyses.
-You can also manually specify the values: e.g.,
+You may manually specify a vector of certain values: e.g.,
 \code{mod1.val=c(1, 3, 5)} or \code{mod1.val=c("A", "B", "C")}.}
 
 \item{ci}{Method for estimating the standard error (SE) and
 95\% confidence interval (CI) of indirect effect(s).
 Default is \code{"boot"} for (generalized) linear models or
-\code{"mcmc"} for (generalized) linear mixed models (multilevel models).
+\code{"mcmc"} for (generalized) linear mixed models (i.e., multilevel models).
 \describe{
   \item{\code{"boot"}}{Percentile Bootstrap}
   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
@@ -126,16 +129,16 @@ You may set to any number you prefer
 
 Note that all mediation models include random processes
 (i.e., bootstrap resampling or Monte Carlo simulation).
-To get exactly the same results, you have to set a random seed.
+To get exactly the same results between runs, you have to set a random seed.
 However, even you set the same seed number, it is unlikely to
 get the same results across different R packages
 (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
-or software (e.g., SPSS, Mplus, R, jamovi).}
+and software (e.g., SPSS, Mplus, R, jamovi).}
 
 \item{std}{Standardized coefficients? Default is \code{FALSE}.
-If \code{TRUE}, then it will standardize all numeric (continuous) variables
+If \code{TRUE}, it will standardize all numeric (continuous) variables
 before building regression models.
-It is \emph{not} suggested to set \code{std=TRUE} for generalized linear (mixed) models.}
+However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{3}.}
 
@@ -145,11 +148,11 @@ Currently, only regression model summary can be saved.}
 \value{
 Invisibly return a list of results:
 \describe{
-  \item{process.id}{PROCESS model number.}
-  \item{process.type}{PROCESS model type.}
-  \item{model.m}{"Mediator" (M) models (a list of multiple models).}
-  \item{model.y}{"Outcome" (Y) model.}
-  \item{results}{Effect estimates and other results (unnamed list object).}
+  \item{\code{process.id}}{PROCESS model number.}
+  \item{\code{process.type}}{PROCESS model type.}
+  \item{\code{model.m}}{"Mediator" (M) models (a list of multiple models).}
+  \item{\code{model.y}}{"Outcome" (Y) model.}
+  \item{\code{results}}{Effect estimates and other results (unnamed list object).}
 }
 }
 \description{
@@ -166,7 +169,7 @@ Some other R packages or scripts/modules have been further developed to improve 
 \href{https://jamovi-amm.github.io/}{jamovi module "jAMM"} (by \emph{Marcello Gallucci}, based on the \code{lavaan} package),
 \href{https://CRAN.R-project.org/package=processR}{R package "processR"} (by \emph{Keon-Woong Moon}, not official, also based on the \code{lavaan} package),
 and \href{https://www.processmacro.org/download.html}{R script file "process.R"}
-(the official PROCESS R code by \emph{Andrew F. Hayes}, but currently not an R package and with some bugs).
+(the official PROCESS R code by \emph{Andrew F. Hayes}, but it is not yet an R package and has some bugs and limitations).
 
 Here, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function provides
 an alternative to performing mediation/moderation analyses in R.
@@ -178,7 +181,10 @@ for \strong{(generalized) linear or linear mixed models}.
 
 Specifically, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function
 first builds regression models according to the data, variable names, and a few other parameters
-that users input (\strong{with no need} to specify any PROCESS model number) and then utilizes:
+that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
+The function can automatically judge the model number/type and also automatically conduct mean-centering before model building.
+
+Then, it uses:
 \enumerate{
   \item the \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} function to
   estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
@@ -188,6 +194,8 @@ that users input (\strong{with no need} to specify any PROCESS model number) and
   (PROCESS Models 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
   \item the \code{\link[lavaan:sem]{lavaan::sem()}} function to perform serial multiple mediation analysis (PROCESS Model 6).
 }
+If you use this function in your research and report its results in your paper, please cite not only \code{bruceR} but also
+the other R packages it uses internally (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
 
 Two parts of results are printed:
 (1) \emph{regression model summary} (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
@@ -196,13 +204,12 @@ To organize the Part 2 output, the results of \strong{Simple Slopes} are titled 
 whereas the results of \strong{Indirect Path} are titled in \strong{blue}.
 
 \strong{\emph{Disclaimer}:}
-Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its development and
-its development is independent from the official SPSS PROCESS macro and the official "process.R" script.
+Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its design, and
+its development is independent from the official SPSS PROCESS macro and "process.R" script.
 Any error or limitation should be attributed to the three R packages/functions that \code{bruceR::PROCESS()} uses internally.
-Moreover, as mediation analyses include random processes (i.e., bootstrap resampling or Monte Carlo simulation),
-the results of mediation analyses are \emph{unlikely} to be exactly the same across different software (even if you set the same random seed).
-If you use this function in your research and report its results in your paper, please cite both \code{bruceR} and
-the specific R packages it uses (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
+Moreover, as mediation analyses include \emph{random processes} (i.e., bootstrap resampling or Monte Carlo simulation),
+the results of mediation analyses are \emph{unlikely} to be exactly the same across different software
+(even if you set the same random seed in different software).
 }
 \details{
 For more details and illustrations, see

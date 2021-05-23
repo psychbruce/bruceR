@@ -255,9 +255,16 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @return Invisibly return the output (character string).
 #'
 #' @seealso
-#' \code{\link{PROCESS}},
-#' \code{\link{GLM_summary}},
-#' \code{\link{HLM_summary}},
+#' \code{\link{PROCESS}}
+#'
+#' \code{\link{GLM_summary}}
+#'
+#' \code{\link{HLM_summary}}
+#'
+#' \code{\link{med_summary}}
+#'
+#' \code{\link{lavaan_summary}}
+#'
 #' \code{\link{print_table}}
 #'
 #' @examples

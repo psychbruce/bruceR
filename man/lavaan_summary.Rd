@@ -34,13 +34,15 @@ In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly s
 \item{seed}{Random seed for obtaining reproducible results. Default is \code{NULL}.}
 
 \item{nsmall}{Number of decimal places of output. Default is \code{3}.}
+
+\item{print}{Print results. Default is \code{TRUE}.}
 }
 \value{
 Invisibly return a list of results:
 \describe{
-  \item{path}{Regression table.}
-  \item{effect}{Used-defined effect estimates.}
-  \item{fit}{Fit measures.}
+  \item{\code{path}}{Regression table.}
+  \item{\code{effect}}{Used-defined effect estimates.}
+  \item{\code{fit}}{Fit measures.}
 }
 }
 \description{
