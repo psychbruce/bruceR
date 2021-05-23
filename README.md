@@ -190,10 +190,12 @@ help(bruceR)
 ?Corr
 ?Alpha
 ?MEAN
+?RECODE
 ?MANOVA
 ?EMMEANS
+?PROCESS
 ?model_summary
-?med_summary
+?lavaan_summary
 ?GLM_summary
 ?HLM_summary
 ...
