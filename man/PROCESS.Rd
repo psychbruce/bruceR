@@ -307,8 +307,8 @@ PROCESS(data, y="score", x="fight",
         mod.path=c("x-m", "x-y"),
         ci="boot", nsim=100, seed=1)
 
-## For more examples, see:
-## https://github.com/psychbruce/bruceR/tree/master/note
+## For more examples and details, see the "note" subfolder at:
+## https://github.com/psychbruce/bruceR
 }
 
 }

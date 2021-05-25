@@ -213,7 +213,7 @@ NULL
   {logo} bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
   >>>>
 
-  <<bold <<blue Loaded R packages:>>>>
+  <<bold <<blue Loaded other R packages:>>>>
   <<green
   <<yellow [Data]:>> rio / dplyr / tidyr / stringr / forcats / data.table
   <<yellow [Stat]:>> psych / emmeans / effectsize / performance

@@ -40,9 +40,9 @@ In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly s
 \value{
 Invisibly return a list of results:
 \describe{
-  \item{\code{path}}{Regression table.}
-  \item{\code{effect}}{Used-defined effect estimates.}
   \item{\code{fit}}{Fit measures.}
+  \item{\code{path}}{Path coefficients.}
+  \item{\code{effect}}{Used-defined effect estimates.}
 }
 }
 \description{
@@ -51,6 +51,9 @@ Tidy report of lavaan model.
 \examples{
 ## Simple Mediation:
 ## Solar.R (X) => Ozone (M) => Temp (Y)
+
+# PROCESS(airquality, y="Temp", x="Solar.R",
+#         meds="Ozone", ci="boot", nsim=1000, seed=1)
 
 model="
 Ozone ~ a*Solar.R

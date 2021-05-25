@@ -12,6 +12,10 @@
 -   Improved many functions.
 -   Deprecated the `RANDBETWEEN()` function.
 
+### Bug Fixes
+
+-   Fixed a bug in the CRAN version 0.6.4 (a problem newly emerging on 2021-05-25).
+
 # bruceR 0.6.4 (May 2021)
 
 ### New Features

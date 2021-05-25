@@ -518,8 +518,8 @@ boot_ci=function(boot,
 #'         mod.path=c("x-m", "x-y"),
 #'         ci="boot", nsim=100, seed=1)
 #'
-#' ## For more examples, see:
-#' ## https://github.com/psychbruce/bruceR/tree/master/note
+#' ## For more examples and details, see the "note" subfolder at:
+#' ## https://github.com/psychbruce/bruceR
 #' }
 #'
 #' @importFrom stats confint
@@ -1072,9 +1072,9 @@ PROCESS=function(data,
 #' @return
 #' Invisibly return a list of results:
 #' \describe{
-#'   \item{\code{path}}{Regression table.}
-#'   \item{\code{effect}}{Used-defined effect estimates.}
 #'   \item{\code{fit}}{Fit measures.}
+#'   \item{\code{path}}{Path coefficients.}
+#'   \item{\code{effect}}{Used-defined effect estimates.}
 #' }
 #'
 #' @seealso
@@ -1083,6 +1083,9 @@ PROCESS=function(data,
 #' @examples
 #' ## Simple Mediation:
 #' ## Solar.R (X) => Ozone (M) => Temp (Y)
+#'
+#' # PROCESS(airquality, y="Temp", x="Solar.R",
+#' #         meds="Ozone", ci="boot", nsim=1000, seed=1)
 #'
 #' model="
 #' Ozone ~ a*Solar.R
@@ -1188,6 +1191,22 @@ lavaan_summary=function(lavaan,
 
   if(print) {
     cat("\n")
+    Print("
+    <<cyan Fit Measures:>>
+    {p(chi2=FIT['chisq'], df=FIT['df'], n=FIT['ntotal'], nsmall=nsmall)}
+    \u03c7\u00b2/<<italic df>> = {FIT['chisq']/FIT['df']:.{nsmall}}{ifelse(FIT['df']==0, ' <<red (saturated model)>>', '')}
+    AIC = {FIT['aic']:.{nsmall}} <<white (Akaike Information Criterion)>>
+    BIC = {FIT['bic']:.{nsmall}} <<white (Bayesian Information Criterion)>>
+    CFI = {FIT['cfi']:.{nsmall}} <<white (Comparative Fit Index)>>
+    TLI = {FIT['tli']:.{nsmall}} <<white (Tucker-Lewis Index; Non-Normed Fit Index, NNFI)>>
+    NFI = {FIT['nfi']:.{nsmall}} <<white (Normed Fit Index)>>
+    IFI = {FIT['ifi']:.{nsmall}} <<white (Incremental Fit Index)>>
+    GFI = {FIT['gfi']:.{nsmall}} <<white (Goodness-of-Fit Index)>>
+    AGFI = {FIT['agfi']:.{nsmall}} <<white (Adjusted Goodness-of-Fit Index)>>
+    RMSEA = {FIT['rmsea']:.{nsmall}}, 90% CI [{FIT['rmsea.ci.lower']:.{nsmall}}, {FIT['rmsea.ci.upper']:.{nsmall}}] <<white (Root Mean Square Error of Approximation)>>
+    SRMR = {FIT['srmr']:.{nsmall}} <<white (Standardized Root Mean Square Residual)>>
+    ")
+    cat("\n")
     print_table(REG, row.names=TRUE, nsmalls=nsmall,
                 title="<<blue Model Paths (lavaan):>>")
     cat("\n")
@@ -1196,28 +1215,9 @@ lavaan_summary=function(lavaan,
                   title="<<blue Model Terms (lavaan):>>")
       cat("\n")
     }
-    Print("
-    <<cyan Fit Measures:>>
-    <<yellow (1) \u03c7\u00b2 test>>
-    {p(chi2=FIT['chisq'], df=FIT['df'], n=FIT['ntotal'], nsmall=nsmall)}
-    \u03c7\u00b2/<<italic df>> = {FIT['chisq']/FIT['df']:.{nsmall}}
-    <<yellow (2) Information Criterion>>
-    AIC = {FIT['aic']:.{nsmall}} <<white (Akaike Information Criterion)>>
-    BIC = {FIT['bic']:.{nsmall}} <<white (Bayesian Information Criterion)>>
-    <<yellow (3) Absolute Index>>
-    GFI = {FIT['gfi']:.{nsmall}} <<white (Goodness-of-Fit Index)>>
-    RMSEA = {FIT['rmsea']:.{nsmall}}, 90% CI [{FIT['rmsea.ci.lower']:.{nsmall}}, {FIT['rmsea.ci.upper']:.{nsmall}}] <<white (Root Mean Square Error of Approximation)>>
-    SRMR = {FIT['srmr']:.{nsmall}} <<white (Standardized Root Mean Square Residual)>>
-    <<yellow (4) Relative Index>>
-    CFI = {FIT['cfi']:.{nsmall}} <<white (Comparative Fit Index)>>
-    TLI = {FIT['tli']:.{nsmall}} <<white (Tucker-Lewis Index; Non-Normed Fit Index)>>
-    NFI = {FIT['nfi']:.{nsmall}} <<white (Normed Fit Index)>>
-    IFI = {FIT['ifi']:.{nsmall}} <<white (Incremental Fit Index)>>
-    ")
-    cat("\n")
   }
 
-  invisible(list(path=REG, effect=EFF, fit=FIT))
+  invisible(list(fit=FIT, path=REG, effect=EFF))
 }
 
 
@@ -1442,14 +1442,16 @@ process_mod=function(model0,
                      file=NULL,
                      print=TRUE) {
   data.c=data.c
-  simple.slopes=interactions::sim_slopes(
-    model=model0,
-    pred=!!x,
-    modx=!!mod1,
-    mod2=!!mod2,
-    modx.values=mod1.val,
-    mod2.values=mod2.val,
-    johnson_neyman=TRUE)
+  suppressWarnings({
+    simple.slopes=interactions::sim_slopes(
+      model=model0,
+      pred=!!x,
+      modx=!!mod1,
+      mod2=!!mod2,
+      modx.values=mod1.val,
+      mod2.values=mod2.val,
+      johnson_neyman=TRUE)
+  })
   mod1=attributes(simple.slopes)[["modx"]]
   mod2=attributes(simple.slopes)[["mod2"]]
   mod1.vals=attributes(simple.slopes)[["modx.values"]]

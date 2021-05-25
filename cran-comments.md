@@ -1,6 +1,6 @@
 ## News
 
-In this version (0.6.4), I have added a new function `granger_causality()`, added new features in `print_table()`, `Describe()`, `Freq()`, `Corr()`, `MANOVA()`, and `med_summary()`, and fixed bugs in `model_summary()`.
+In this version (0.7.0), I have added two new functions `PROCESS()` and `lavaan_summary()`, improved many functions, and fixed a bug in the last update ("ERROR" for "r-devel-linux-*", a problem newly emerging on 2021-05-25, as notified by Kurt Hornik).
 
 
 ## Test environments

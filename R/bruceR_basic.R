@@ -558,10 +558,14 @@ print_table=function(x, nsmalls=3,
     x=cbind(rn=row.names(x), x)
     names(x)[1]=""
   }
-  html=df_to_html(x, title=title, note=note, append=append,
-                  file=file,
-                  align.head=file.align.head,
-                  align.text=file.align.text)
+  if(!is.null(file)) {
+    html=df_to_html(x, title=title, note=note, append=append,
+                    file=file,
+                    align.head=file.align.head,
+                    align.text=file.align.text)
+  } else {
+    html=NULL
+  }
 
   invisible(list(df=x, html=html))
 }
@@ -707,9 +711,12 @@ formatN=function(x, mark=",") {
 #' @export
 formatF=function(x, nsmall=3) {
   # format(x, digits=0, nsmall=nsmall, scientific=FALSE)
-  if(inherits(x, "character")==FALSE)
+  if(inherits(x, "character")) {
+    xf=sprintf(paste0("%-", max(nchar(x)), "s"), x)  # left adjustment
+  } else {
     x=sprintf(paste0("%.", nsmall, "f"), x)
-  xf=sprintf(paste0("%", max(nchar(x)), "s"), x)
+    xf=sprintf(paste0("%", max(nchar(x)), "s"), x)
+  }
   return(xf)
 }
 
