@@ -425,7 +425,7 @@ capitalize=function(string) {
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
 #' @param note Note text, which will be inserted in <p></p> (HTML code).
 #' @param append Other contents, which will be appended in the end (HTML code).
-#' @param line.char Line character looks like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
+#' @param line Lines looks like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
 #' @param file File name of MS Word (\code{.doc}).
 #' @param file.align.head,file.align.text Alignment of table head or table text:
 #' \code{"left"}, \code{"right"}, \code{"center"}.
@@ -453,7 +453,7 @@ print_table=function(x, nsmalls=3,
                      row.names=TRUE,
                      col.names=TRUE,
                      title="", note="", append="",
-                     line.char=TRUE,
+                     line=TRUE,
                      file=NULL,
                      file.align.head="auto",
                      file.align.text="auto") {
@@ -463,7 +463,7 @@ print_table=function(x, nsmalls=3,
   # Print("\u2500\u2501\u2502\u2503\u2504\u2505\u2506\u2507\u2508\u2509")
   # linechar1="\u2501"  # top-and-down '=' [bug in some computers!]
   # linechar2="\u2500"  # in-table '-'
-  if(line.char) {
+  if(line) {
     linechar1=linechar2="\u2500"
   } else {
     linechar1="="

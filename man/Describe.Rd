@@ -60,7 +60,7 @@ Describe(rnorm(1000000), plot=TRUE)
 Describe(airquality)
 Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
 
-?psych::bfi
+# ?psych::bfi
 Describe(bfi[c("age", "gender", "education")])
 
 d=as.data.table(psych::bfi)

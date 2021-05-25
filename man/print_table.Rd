@@ -12,7 +12,7 @@ print_table(
   title = "",
   note = "",
   append = "",
-  line.char = TRUE,
+  line = TRUE,
   file = NULL,
   file.align.head = "auto",
   file.align.text = "auto"
@@ -32,7 +32,7 @@ To modify the names, you can use a character vector with the same length as the 
 
 \item{append}{Other contents, which will be appended in the end (HTML code).}
 
-\item{line.char}{Line character looks like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).}
+\item{line}{Lines looks like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

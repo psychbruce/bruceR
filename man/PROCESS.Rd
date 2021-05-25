@@ -127,11 +127,11 @@ Default is \code{NULL}.
 You may set to any number you prefer
 (e.g., \code{seed=5201314}, just an uncountable number).
 
-Note that all mediation models include random processes
+* Note that all mediation models include random processes
 (i.e., bootstrap resampling or Monte Carlo simulation).
 To get exactly the same results between runs, you have to set a random seed.
-However, even you set the same seed number, it is unlikely to
-get the same results across different R packages
+However, even if you set the same seed number, it is unlikely to
+get exactly the same results across different R packages
 (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
 and software (e.g., SPSS, Mplus, R, jamovi).}
 

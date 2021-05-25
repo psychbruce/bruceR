@@ -22,7 +22,7 @@ which is performed using the \code{\link[mediation]{mediation}} package.
 }
 \examples{
 \donttest{library(mediation)
-?mediation::mediate
+# ?mediation::mediate
 
 ## Example 1: OLS Regression
 ## Bias-corrected and accelerated (BCa) bootstrap confidence intervals

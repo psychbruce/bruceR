@@ -246,7 +246,8 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' New SEs should be provided as a list of numeric vectors.
 #' See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.
 #' @param modify_head Replace model names.
-#' @param line Line character. Only relevant to R Console output.
+#' @param line Lines look like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
+#' Only relevant to R Console output.
 #' @param bold The \emph{p}-value threshold below which the coefficients will be formatted in bold.
 #' @param ... Other parameters passed to
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}} or
@@ -325,7 +326,7 @@ model_summary=function(model_list,
                        zero=ifelse(std, FALSE, TRUE),
                        modify_se=NULL,
                        modify_head=NULL,
-                       line="\u2500",
+                       line=TRUE,
                        bold=0,
                        ...) {
   if(inherits(model_list, "varest")) {
@@ -456,7 +457,7 @@ model_summary=function(model_list,
   })
 
   if(is.null(file)) {
-    if(line=="\u2500") {
+    if(line) {
       output=output %>%
         stringr::str_replace_all(
           "[-=]{3,}",

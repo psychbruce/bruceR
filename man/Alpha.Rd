@@ -45,7 +45,7 @@ Three options to specify the variable list:
 }
 }
 \examples{
-# see ?psych::bfi
+# ?psych::bfi
 Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored
 Alpha(bfi, "E", 1:5, rev=1:2)  # correct
 Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct

@@ -12,7 +12,7 @@ model_summary(
   zero = ifelse(std, FALSE, TRUE),
   modify_se = NULL,
   modify_head = NULL,
-  line = "─",
+  line = TRUE,
   bold = 0,
   ...
 )
@@ -38,7 +38,8 @@ See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
 \item{modify_head}{Replace model names.}
 
-\item{line}{Line character. Only relevant to R Console output.}
+\item{line}{Lines look like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
+Only relevant to R Console output.}
 
 \item{bold}{The \emph{p}-value threshold below which the coefficients will be formatted in bold.}
 

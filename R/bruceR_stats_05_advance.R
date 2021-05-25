@@ -381,11 +381,11 @@ boot_ci=function(boot,
 #' You may set to any number you prefer
 #' (e.g., \code{seed=5201314}, just an uncountable number).
 #'
-#' Note that all mediation models include random processes
+#' * Note that all mediation models include random processes
 #' (i.e., bootstrap resampling or Monte Carlo simulation).
 #' To get exactly the same results between runs, you have to set a random seed.
-#' However, even you set the same seed number, it is unlikely to
-#' get the same results across different R packages
+#' However, even if you set the same seed number, it is unlikely to
+#' get exactly the same results across different R packages
 #' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
 #' and software (e.g., SPSS, Mplus, R, jamovi).
 #' @param std Standardized coefficients? Default is \code{FALSE}.
@@ -1277,7 +1277,7 @@ process_lav=function(data, y, x, meds, covs, clusters,
       dplyr::select(MED.print, !c("BootLLCI", "BootULCI")),
       row.names=TRUE,
       nsmalls=nsmall,
-      line.char=is.null(file),
+      line=is.null(file),
       file=file,
       title=Glue("
       <<blue <<underline LAVAAN Syntax:>>>>\n<<italic {model}>>"),
@@ -1413,7 +1413,7 @@ process_med=function(model.m,
       dplyr::select(MED, !c("LLCI", "ULCI", "p")),
       row.names=is.null(conditional),
       nsmalls=nsmall,
-      line.char=is.null(file),
+      line=is.null(file),
       title=Glue("
       <<blue <<underline Indirect Path:>> \"{x}\" (X) ==> \"{medi}\" (M) ==> \"{y}\" (Y)>>{eff.tag}"),
       note=Glue("
@@ -1544,20 +1544,20 @@ process_mod=function(model0,
     if(eff.tag!="") eff.tag="\n" %^% eff.tag
     print_table(
       MOD, row.names=TRUE, nsmalls=c(2, 0, 0, 0),
-      line.char=is.null(file),
+      line=is.null(file),
       title=Glue("Interaction Effect{ifelse(is.null(mod2), '', 's')} on \"{y}\" ({y.label})"))
     cat("\n")
     if(!is.null(mod2) & mod.type=="3-way") {
       print_table(
         MOD.MOD, row.names=FALSE, nsmalls=c(0, 0, 2, 0, 0, 0),
-        line.char=is.null(file),
+        line=is.null(file),
         title=Glue("Conditional Interaction Effects on \"{y}\" ({y.label})"))
       cat("\n")
     }
     print_table(
       dplyr::select(RES, !c("LLCI", "ULCI")),
       row.names=FALSE, nsmalls=nsmall,
-      line.char=is.null(file),
+      line=is.null(file),
       title=Glue("<<green <<underline Simple Slopes:>> \"{x}\" ({x.label}) ==> \"{y}\" ({y.label})>>{eff.tag}"))
     cat("\n")
   }
@@ -1634,7 +1634,7 @@ process_mod=function(model0,
 #'
 #' @examples
 #' \donttest{library(mediation)
-#' ?mediation::mediate
+#' # ?mediation::mediate
 #'
 #' ## Example 1: OLS Regression
 #' ## Bias-corrected and accelerated (BCa) bootstrap confidence intervals
