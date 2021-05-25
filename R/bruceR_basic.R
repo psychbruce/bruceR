@@ -425,7 +425,7 @@ capitalize=function(string) {
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
 #' @param note Note text, which will be inserted in <p></p> (HTML code).
 #' @param append Other contents, which will be appended in the end (HTML code).
-#' @param line.char Line character.
+#' @param line.char Line character looks like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
 #' @param file File name of MS Word (\code{.doc}).
 #' @param file.align.head,file.align.text Alignment of table head or table text:
 #' \code{"left"}, \code{"right"}, \code{"center"}.
@@ -453,7 +453,7 @@ print_table=function(x, nsmalls=3,
                      row.names=TRUE,
                      col.names=TRUE,
                      title="", note="", append="",
-                     line.char="\u2500",
+                     line.char=TRUE,
                      file=NULL,
                      file.align.head="auto",
                      file.align.text="auto") {
@@ -463,7 +463,7 @@ print_table=function(x, nsmalls=3,
   # Print("\u2500\u2501\u2502\u2503\u2504\u2505\u2506\u2507\u2508\u2509")
   # linechar1="\u2501"  # top-and-down '=' [bug in some computers!]
   # linechar2="\u2500"  # in-table '-'
-  if(line.char=="\u2500" | line.char==TRUE) {
+  if(line.char) {
     linechar1=linechar2="\u2500"
   } else {
     linechar1="="
@@ -684,7 +684,7 @@ table th, table td {padding-left: 5px; padding-right: 5px; height: 19px;}
 #' @examples
 #' formatN(1234)
 #'
-#' @seealso \code{\link{formatF}}
+#' @seealso \code{\link[base:format]{format}}, \code{\link{formatF}}
 #'
 #' @export
 formatN=function(x, mark=",") {
@@ -702,11 +702,15 @@ formatN=function(x, mark=",") {
 #' @examples
 #' formatF(pi, 20)
 #'
-#' @seealso \code{\link{formatN}}
+#' @seealso \code{\link[base:format]{format}}, \code{\link{formatN}}
 #'
 #' @export
 formatF=function(x, nsmall=3) {
-  format(x, digits=0, nsmall=nsmall, scientific=F)
+  # format(x, digits=0, nsmall=nsmall, scientific=FALSE)
+  if(inherits(x, "character")==FALSE)
+    x=sprintf(paste0("%.", nsmall, "f"), x)
+  xf=sprintf(paste0("%", max(nchar(x)), "s"), x)
+  return(xf)
 }
 
 

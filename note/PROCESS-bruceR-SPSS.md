@@ -1,6 +1,6 @@
 ## Examples for `bruceR::PROCESS()` Function
 
-``` r
+``` {.r}
 library(bruceR)
 
 #### NOTE ####

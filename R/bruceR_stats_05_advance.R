@@ -1277,7 +1277,7 @@ process_lav=function(data, y, x, meds, covs, clusters,
       dplyr::select(MED.print, !c("BootLLCI", "BootULCI")),
       row.names=TRUE,
       nsmalls=nsmall,
-      line.char=ifelse(is.null(file), TRUE, FALSE),
+      line.char=is.null(file),
       file=file,
       title=Glue("
       <<blue <<underline LAVAAN Syntax:>>>>\n<<italic {model}>>"),
@@ -1411,9 +1411,9 @@ process_med=function(model.m,
     if(eff.tag!="") eff.tag="\n" %^% eff.tag
     print_table(
       dplyr::select(MED, !c("LLCI", "ULCI", "p")),
-      row.names=ifelse(is.null(conditional), TRUE, FALSE),
+      row.names=is.null(conditional),
       nsmalls=nsmall,
-      line.char=ifelse(is.null(file), TRUE, FALSE),
+      line.char=is.null(file),
       title=Glue("
       <<blue <<underline Indirect Path:>> \"{x}\" (X) ==> \"{medi}\" (M) ==> \"{y}\" (Y)>>{eff.tag}"),
       note=Glue("
@@ -1442,17 +1442,14 @@ process_mod=function(model0,
                      file=NULL,
                      print=TRUE) {
   data.c=data.c
-  simple.slopes=NULL
-  Run("
   simple.slopes=interactions::sim_slopes(
     model=model0,
-    pred={x},
-    modx={mod1},
-    mod2={ifelse(is.null(mod2), 'NULL', mod2)},
+    pred=!!x,
+    modx=!!mod1,
+    mod2=!!mod2,
     modx.values=mod1.val,
     mod2.values=mod2.val,
     johnson_neyman=TRUE)
-  ", silent=TRUE)
   mod1=attributes(simple.slopes)[["modx"]]
   mod2=attributes(simple.slopes)[["mod2"]]
   mod1.vals=attributes(simple.slopes)[["modx.values"]]
@@ -1547,20 +1544,20 @@ process_mod=function(model0,
     if(eff.tag!="") eff.tag="\n" %^% eff.tag
     print_table(
       MOD, row.names=TRUE, nsmalls=c(2, 0, 0, 0),
-      line.char=ifelse(is.null(file), TRUE, FALSE),
+      line.char=is.null(file),
       title=Glue("Interaction Effect{ifelse(is.null(mod2), '', 's')} on \"{y}\" ({y.label})"))
     cat("\n")
     if(!is.null(mod2) & mod.type=="3-way") {
       print_table(
         MOD.MOD, row.names=FALSE, nsmalls=c(0, 0, 2, 0, 0, 0),
-        line.char=ifelse(is.null(file), TRUE, FALSE),
+        line.char=is.null(file),
         title=Glue("Conditional Interaction Effects on \"{y}\" ({y.label})"))
       cat("\n")
     }
     print_table(
       dplyr::select(RES, !c("LLCI", "ULCI")),
       row.names=FALSE, nsmalls=nsmall,
-      line.char=ifelse(is.null(file), TRUE, FALSE),
+      line.char=is.null(file),
       title=Glue("<<green <<underline Simple Slopes:>> \"{x}\" ({x.label}) ==> \"{y}\" ({y.label})>>{eff.tag}"))
     cat("\n")
   }
@@ -1814,10 +1811,14 @@ ccf_plot=function(formula, data,
                   xbreaks=seq(-100, 100, 10),
                   ybreaks=seq(-1, 1, 0.2),
                   ylim=NULL, alpha.ns=1,
-                  pos.color="black", neg.color="black", ci.color="blue",
+                  pos.color="black",
+                  neg.color="black",
+                  ci.color="blue",
                   title=NULL, subtitle=NULL,
                   xlab="Lag", ylab="Cross-Correlation") {
   lag=acf=direc=sig=NULL
+  pos.color1=see::social_colors("red")
+  neg.color1=see::social_colors("blue grey")
 
   x=as.character(formula)[3]
   y=as.character(formula)[2]

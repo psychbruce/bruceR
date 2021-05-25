@@ -22,5 +22,5 @@ formatF(pi, 20)
 
 }
 \seealso{
-\code{\link{formatN}}
+\code{\link[base:format]{format}}, \code{\link{formatN}}
 }
