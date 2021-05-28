@@ -919,7 +919,7 @@ PROCESS=function(data,
 
   <<magenta
   Package Use : {pkg}
-  Effect Type : {ptype} (= Model {pid})
+  Effect Type : {ptype} (Model {pid})
   Sample Size : {nrow(data.v)}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}
   Random Seed : {ifelse(length(meds)>0, 'set.seed('%^%seed%^%')', '-')}
   Simulations : {ifelse(length(meds)>0, nsim %^% ' (' %^% nsim.type %^% ')', '-')}
