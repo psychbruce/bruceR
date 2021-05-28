@@ -1,6 +1,6 @@
 ## News
 
-In this version (0.7.0), I have added two new functions `PROCESS()` and `lavaan_summary()`, improved many functions, and fixed a bug in the last update ("ERROR" for "r-devel-linux-*", a problem newly emerging on 2021-05-25, as notified by Kurt Hornik).
+In this version (0.7.0), I have added two new functions `PROCESS()` and `lavaan_summary()`, improved many functions, and fixed a bug in the last update ("ERROR" for "r-devel-linux-*" in v0.6.4, a problem newly emerging on 2021-05-25, as notified by Kurt Hornik) and a bug in the last submit (incoming_pretest: invalid value 0 for 'digits' argument).
 
 
 ## Test environments

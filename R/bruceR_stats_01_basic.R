@@ -96,8 +96,8 @@ p.trans=function(p, nsmall.p=3) {
 p.trans2=function(p, nsmall.p=3, p.min=1e-99) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < p.min, paste("<", p.min),
-                ifelse(p < 10^-nsmall.p, paste("=", format(p, digits=1, scientific=T)),
-                       paste("=", format(p, digits=0, nsmall=nsmall.p, scientific=F)))))
+                ifelse(p < 10^-nsmall.p, paste("=", format(p, digits=1, scientific=TRUE)),
+                       paste("=", formatF(p, nsmall=nsmall.p)))))
 }
 
 

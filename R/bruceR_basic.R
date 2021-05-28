@@ -754,7 +754,7 @@ RGB=function(r, g, b, alpha) {
 #' @export
 dtime=function(t0, unit="secs", nsmall=0) {
   dt=difftime(Sys.time(), t0, units=unit)
-  format(dt, digits=nsmall)
+  format(dt, digits=1, nsmall=nsmall)
 }
 
 
