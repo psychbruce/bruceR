@@ -4,12 +4,12 @@
 \alias{formatF}
 \title{Format numeric values.}
 \usage{
-formatF(x, nsmall = 3)
+formatF(x, digits = 3, nsmall = digits)
 }
 \arguments{
 \item{x}{A number or numeric vector.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 }
 \value{
 Formatted character string.

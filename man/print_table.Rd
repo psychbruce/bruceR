@@ -6,7 +6,8 @@
 \usage{
 print_table(
   x,
-  nsmalls = 3,
+  digits = 3,
+  nsmalls = digits,
   row.names = TRUE,
   col.names = TRUE,
   title = "",
@@ -21,7 +22,7 @@ print_table(
 \arguments{
 \item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
 
-\item{nsmalls}{Numeric vector specifying the number of decimal places of output. Default is \code{3}.}
+\item{digits, nsmalls}{Numeric vector specifying the number of decimal places of output. Default is \code{3}.}
 
 \item{row.names, col.names}{Print row/column names. Default is \code{TRUE} (column names are always printed).
 To modify the names, you can use a character vector with the same length as the raw names.}

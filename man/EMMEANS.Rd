@@ -13,7 +13,8 @@ EMMEANS(
   p.adjust = "bonferroni",
   sd.pooled = NULL,
   spss = TRUE,
-  nsmall = 2
+  digits = 2,
+  nsmall = digits
 )
 }
 \arguments{
@@ -54,7 +55,7 @@ Users may also manually set it (e.g., the \emph{SD} of a reference group, or usi
 Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
 for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
 }
 \value{
 The same object as returned by \code{\link{MANOVA}} (for recursive use).

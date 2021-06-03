@@ -172,7 +172,8 @@ group_mean_center=function(data, vars=setdiff(names(data), by), by,
 #' regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' }
 #' @export
-regress=function(formula, data, family=NULL, nsmall=3,
+regress=function(formula, data, family=NULL,
+                 digits=3, nsmall=digits,
                  robust=FALSE, cluster=NULL,
                  level2.predictors="", vartypes=NULL,
                  test.rand=FALSE) {
@@ -238,7 +239,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @param std Standardized coefficients? Default is \code{FALSE}.
 #' Only applicable to linear models and linear mixed models.
 #' Not applicable to generalized linear (mixed) models.
-#' @param nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param zero Display "0" before "."? Default is \code{TRUE}.
 #' @param modify_se Replace standard errors.
@@ -275,7 +276,7 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' model_summary(lm1)
 #' model_summary(lm2)
 #' model_summary(list(lm1, lm2))
-#' model_summary(list(lm1, lm2), std=TRUE, nsmall=2)
+#' model_summary(list(lm1, lm2), std=TRUE, digits=2)
 #' model_summary(list(lm1, lm2), file="OLS Models.doc")
 #' unlink("OLS Models.doc")  # delete file for test
 #'
@@ -321,7 +322,8 @@ regress=function(formula, data, family=NULL, nsmall=3,
 #' @export
 model_summary=function(model_list,
                        std=FALSE,
-                       nsmall=3,
+                       digits=3,
+                       nsmall=digits,
                        file=NULL,
                        zero=ifelse(std, FALSE, TRUE),
                        modify_se=NULL,
@@ -536,7 +538,7 @@ model_summary=function(model_list,
 #' @param cluster \strong{[only for \code{lm} and \code{glm}]}
 #' Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 #' If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.
-#' @param nsmall Number of decimal places of output. Default is 3.
+#' @param digits,nsmall Number of decimal places of output. Default is 3.
 #' @param ... Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
 #' @return No return value.
@@ -560,7 +562,7 @@ model_summary=function(model_list,
 #' @importFrom stats qt anova
 #' @export
 GLM_summary=function(model, robust=FALSE, cluster=NULL,
-                     nsmall=3, ...) {
+                     digits=3, nsmall=digits, ...) {
   dots=list(...)
   if(c("formula", "data") %allin% names(dots)) {
     # re-modeling
@@ -969,7 +971,7 @@ HLM_ICC=function(model, nsmall=3) {
 ## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
 ## because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.
 ## The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).
-#' @param nsmall Number of decimal places of output. Default is 3.
+#' @param digits,nsmall Number of decimal places of output. Default is 3.
 #' But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.
 #' @param ... Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
@@ -1022,7 +1024,7 @@ HLM_summary=function(model=NULL,
                      level2.predictors=NULL,
                      vartypes=NULL,
                      test.rand=FALSE,  # time-consuming in big datasets
-                     nsmall=3,
+                     digits=3, nsmall=digits,
                      ...) {
   dots=list(...)
   if(c("formula", "data") %allin% names(dots)) {
@@ -1322,7 +1324,7 @@ HLM_summary=function(model=NULL,
 #'   Then \code{rwg.levels} should be provided (= A in the above formula).
 #'   For example, if the measure is a 5-point Likert scale, you should set \code{rwg.levels=5}.
 #' }
-#' @param nsmall Number of decimal places of output. Default is 3.
+#' @param digits,nsmall Number of decimal places of output. Default is 3.
 #'
 #' @return Invisibly return a list of results.
 #'
@@ -1352,7 +1354,7 @@ HLM_summary=function(model=NULL,
 HLM_ICC_rWG=function(data, group, icc.var,
                      rwg.vars=icc.var,
                      rwg.levels=0,
-                     nsmall=3) {
+                     digits=3, nsmall=digits) {
   data=as.data.frame(data)
 
   ## ICC(1) and ICC(2)

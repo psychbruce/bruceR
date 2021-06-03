@@ -392,7 +392,7 @@ boot_ci=function(boot,
 #' If \code{TRUE}, it will standardize all numeric (continuous) variables
 #' before building regression models.
 #' However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.
-#' @param nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' Currently, only regression model summary can be saved.
 #'
@@ -544,7 +544,8 @@ PROCESS=function(data,
                  nsim=100,
                  seed=NULL,
                  std=FALSE,
-                 nsmall=3,
+                 digits=3,
+                 nsmall=digits,
                  file=NULL) {
   ## Default Setting
   warning.y.class="\n\"y\" should be a numeric variable or a factor variable with only 2 levels."
@@ -1066,7 +1067,7 @@ PROCESS=function(data,
 #' Default is \code{100} for running examples faster.
 #' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
 #' @param seed Random seed for obtaining reproducible results. Default is \code{NULL}.
-#' @param nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param print Print results. Default is \code{TRUE}.
 #'
 #' @return
@@ -1143,7 +1144,7 @@ lavaan_summary=function(lavaan,
                         ci=c("raw", "boot", "bc.boot", "bca.boot"),
                         nsim=100,
                         seed=NULL,
-                        nsmall=3,
+                        digits=3, nsmall=digits,
                         print=TRUE) {
   if(length(ci)>1) ci="raw"
   FIT=lavaan::fitMeasures(lavaan)
@@ -1506,12 +1507,6 @@ process_mod=function(model0,
     RES=rbind(RES, res)
     RES0=rbind(RES0, res0)
   }
-  if(is.null(mod2))
-    orders=order(RES0[[1]])
-  else
-    orders=order(RES0[[1]], RES0[[2]])
-  RES0=RES0[orders,]
-  RES=RES[orders,]
   RES$`[95% CI]`=paste0("[",
                         formatF(RES[["LLCI"]], nsmall), ", ",
                         formatF(RES[["ULCI"]], nsmall), "]")
@@ -1537,10 +1532,18 @@ process_mod=function(model0,
         return(coef)
       }))
     MOD.MOD=cbind(RES[1], MOD.MOD)
-    MOD.MOD=MOD.MOD[!duplicated(MOD.MOD[[1]]),]
   } else {
     MOD.MOD=NULL
   }
+
+  if(is.null(mod2))
+    orders=order(RES0[[1]])
+  else
+    orders=order(RES0[[1]], RES0[[2]])
+  RES0=RES0[orders,]
+  RES=RES[orders,]
+  if(!is.null(mod2))
+    MOD.MOD=MOD.MOD[orders,][!duplicated(MOD.MOD[[1]]),]
 
   if(print) {
     if(eff.tag!="") eff.tag="\n" %^% eff.tag
@@ -1624,7 +1627,7 @@ process_mod=function(model0,
 #' which is performed using the \code{\link[mediation]{mediation}} package.
 #'
 #' @param model Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.
-#' @param nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 ## @param print.avg Just set as \code{TRUE} for a concise output.
 ## For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.
@@ -1668,7 +1671,7 @@ process_mod=function(model0,
 #' }
 #' @importFrom stats model.frame
 #' @export
-med_summary=function(model, nsmall=3, file=NULL) {
+med_summary=function(model, digits=3, nsmall=digits, file=NULL) {
   # for raw function, see:
   # edit(mediation::mediate)
   # edit(mediation:::print.summary.mediate)

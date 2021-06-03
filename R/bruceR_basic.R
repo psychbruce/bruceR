@@ -419,7 +419,7 @@ capitalize=function(string) {
 #' for a list of other functions in \code{bruceR} that support Word output.
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
-#' @param nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
+#' @param digits,nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
 #' @param row.names,col.names Print row/column names. Default is \code{TRUE} (column names are always printed).
 #' To modify the names, you can use a character vector with the same length as the raw names.
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
@@ -449,7 +449,7 @@ capitalize=function(string) {
 #'
 #' @importFrom stats coef
 #' @export
-print_table=function(x, nsmalls=3,
+print_table=function(x, digits=3, nsmalls=digits,
                      row.names=TRUE,
                      col.names=TRUE,
                      title="", note="", append="",
@@ -699,7 +699,7 @@ formatN=function(x, mark=",") {
 #' Format numeric values.
 #'
 #' @param x A number or numeric vector.
-#' @param nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #'
 #' @return Formatted character string.
 #'
@@ -709,7 +709,7 @@ formatN=function(x, mark=",") {
 #' @seealso \code{\link[base:format]{format}}, \code{\link{formatN}}
 #'
 #' @export
-formatF=function(x, nsmall=3) {
+formatF=function(x, digits=3, nsmall=digits) {
   # format(x, digits=0, nsmall=nsmall, scientific=FALSE)
   if(inherits(x, "character")) {
     xf=sprintf(paste0("%-", max(nchar(x)), "s"), x)  # left adjustment
@@ -743,7 +743,7 @@ RGB=function(r, g, b, alpha) {
 #'
 #' @param t0 Time at the beginning.
 #' @param unit Options: \code{"auto", "secs", "mins", "hours", "days", "weeks"}. Default is \code{"secs"}.
-#' @param nsmall Number of decimal places of output. Default is \code{0}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{0}.
 #'
 #' @return A character string of time difference.
 #'
@@ -752,7 +752,7 @@ RGB=function(r, g, b, alpha) {
 #' dtime(t0)
 #'
 #' @export
-dtime=function(t0, unit="secs", nsmall=0) {
+dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
   dt=difftime(Sys.time(), t0, units=unit)
   format(dt, digits=1, nsmall=nsmall)
 }

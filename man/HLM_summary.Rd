@@ -9,7 +9,8 @@ HLM_summary(
   level2.predictors = NULL,
   vartypes = NULL,
   test.rand = FALSE,
-  nsmall = 3,
+  digits = 3,
+  nsmall = digits,
   ...
 )
 }
@@ -32,7 +33,7 @@ and there is no house-level predictor.
 \item{test.rand}{\strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.}
 
-\item{nsmall}{Number of decimal places of output. Default is 3.
+\item{digits, nsmall}{Number of decimal places of output. Default is 3.
 But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.}
 
 \item{...}{Other optional parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}

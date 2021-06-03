@@ -7,7 +7,8 @@
 model_summary(
   model_list,
   std = FALSE,
-  nsmall = 3,
+  digits = 3,
+  nsmall = digits,
   file = NULL,
   zero = ifelse(std, FALSE, TRUE),
   modify_se = NULL,
@@ -25,7 +26,7 @@ Most types of regression models are supported!}
 Only applicable to linear models and linear mixed models.
 Not applicable to generalized linear (mixed) models.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
@@ -68,7 +69,7 @@ lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 model_summary(lm1)
 model_summary(lm2)
 model_summary(list(lm1, lm2))
-model_summary(list(lm1, lm2), std=TRUE, nsmall=2)
+model_summary(list(lm1, lm2), std=TRUE, digits=2)
 model_summary(list(lm1, lm2), file="OLS Models.doc")
 unlink("OLS Models.doc")  # delete file for test
 

@@ -5,7 +5,7 @@
 #'
 #' @param z,t,f,r,chi2 \emph{z}, \emph{t}, \emph{F}, \emph{r}, \eqn{\chi}^2 value.
 #' @param n,df,df1,df2 Sample size or degree of freedom.
-#' @param nsmall Number of decimal places of output. Default is \code{2}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return \emph{p} value statistics.
 #'
@@ -24,7 +24,7 @@
 #'
 #' @export
 p=function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
-           n=NULL, df=NULL, df1=NULL, df2=NULL, nsmall=2) {
+           n=NULL, df=NULL, df1=NULL, df2=NULL, digits=2, nsmall=digits) {
   if(!is.null(z)) {p=p.z(z); pstat=Glue("<<italic z>> = {z:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
   if(!is.null(t)) {p=p.t(t, df); pstat=Glue("<<italic t>>({df}) = {t:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
   if(!is.null(f)) {p=p.f(f, df1, df2); pstat=Glue("<<italic F>>({df1}, {df2}) = {f:.{nsmall}}, <<italic p>> {p.trans2(p)} {sig.trans(p)}")}
@@ -126,7 +126,7 @@ sig.trans=function(p) {
 #' Descriptive statistics (to R Console or MS Word).
 #'
 #' @param data Data frame or numeric vector.
-#' @param nsmall Number of decimal places of output. Default is \code{2}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
 #' Transform all variables into numeric (continuous).
 #' @param file File name of MS Word (\code{.doc}).
@@ -175,7 +175,7 @@ sig.trans=function(p) {
 #' @export
 Describe=function(data,
                   all.as.numeric=TRUE,
-                  nsmall=2,
+                  digits=2, nsmall=digits,
                   file=NULL,
                   plot=FALSE,
                   upper.triangle=FALSE, upper.smooth="none",
@@ -256,7 +256,7 @@ Describe=function(data,
 #' @param var Vector or variable.
 #' @param label [optional] A vector re-defining the labels of values.
 #' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).
-#' @param nsmall Number of decimal places of output. Default is \code{1}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{1}.
 #' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return A data frame of frequency statistics.
@@ -267,7 +267,7 @@ Describe=function(data,
 #' Freq(bfi$age)
 #'
 #' @export
-Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
+Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
   tableVar=table(var)
   N.na=sum(is.na(var))
   N=sum(tableVar)+N.na
@@ -308,6 +308,7 @@ Freq=function(var, label=NULL, sort="", nsmall=1, file=NULL) {
 #' @param p.adjust Adjustment of \emph{p} values for multiple tests:
 #' \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
 #' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param plot \code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.
 #' @param plot.range Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.
@@ -343,7 +344,7 @@ Corr=function(data,
               method="pearson",
               p.adjust="none",
               all.as.numeric=TRUE,
-              nsmall=2,
+              digits=2, nsmall=digits,
               file=NULL,
               plot=TRUE, plot.range=c(-1, 1),
               plot.palette=NULL, plot.color.levels=201,

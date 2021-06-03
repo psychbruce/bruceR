@@ -140,7 +140,7 @@ NULL
 ## Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
 ## The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 ## (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
-#' @param nsmall Number of decimal places of output. Default is \code{2}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
 #' A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
@@ -220,7 +220,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                 between=NULL, within=NULL, covariate=NULL,
                 sph.correction="none",
                 # which.observed=NULL,
-                nsmall=2,
+                digits=2, nsmall=digits,
                 file=NULL) {
   data0=data=as.data.frame(data)
   design=ifelse(is.null(within), "Between-Subjects Design",
@@ -529,7 +529,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @param spss Return results identical to SPSS.
 #' Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
 #' for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
-#' @param nsmall Number of decimal places of output. Default is \code{2}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
 #' The same object as returned by \code{\link{MANOVA}} (for recursive use).
@@ -626,7 +626,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  p.adjust="bonferroni",
                  sd.pooled=NULL,
                  spss=TRUE,
-                 nsmall=2) {
+                 digits=2, nsmall=digits) {
   # model.raw=model
   # if(spss) model$aov=NULL
 

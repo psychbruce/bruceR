@@ -25,7 +25,8 @@ PROCESS(
   nsim = 100,
   seed = NULL,
   std = FALSE,
-  nsmall = 3,
+  digits = 3,
+  nsmall = digits,
   file = NULL
 )
 }
@@ -140,7 +141,7 @@ If \code{TRUE}, it will standardize all numeric (continuous) variables
 before building regression models.
 However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).
 Currently, only regression model summary can be saved.}

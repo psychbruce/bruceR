@@ -4,7 +4,7 @@
 \alias{Freq}
 \title{Frequency statistics (to R Console or MS Word).}
 \usage{
-Freq(var, label = NULL, sort = "", nsmall = 1, file = NULL)
+Freq(var, label = NULL, sort = "", digits = 1, nsmall = digits, file = NULL)
 }
 \arguments{
 \item{var}{Vector or variable.}
@@ -13,7 +13,7 @@ Freq(var, label = NULL, sort = "", nsmall = 1, file = NULL)
 
 \item{sort}{\code{""} (default, sorted by raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{1}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{1}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

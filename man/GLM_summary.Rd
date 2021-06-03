@@ -4,7 +4,14 @@
 \alias{GLM_summary}
 \title{Tidy report of GLM (\code{lm} and \code{glm} models).}
 \usage{
-GLM_summary(model, robust = FALSE, cluster = NULL, nsmall = 3, ...)
+GLM_summary(
+  model,
+  robust = FALSE,
+  cluster = NULL,
+  digits = 3,
+  nsmall = digits,
+  ...
+)
 }
 \arguments{
 \item{model}{A model fitted by \code{lm} or \code{glm} function.}
@@ -21,7 +28,7 @@ For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.}
 
-\item{nsmall}{Number of decimal places of output. Default is 3.}
+\item{digits, nsmall}{Number of decimal places of output. Default is 3.}
 
 \item{...}{Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }

@@ -10,7 +10,8 @@ HLM_ICC_rWG(
   icc.var,
   rwg.vars = icc.var,
   rwg.levels = 0,
-  nsmall = 3
+  digits = 3,
+  nsmall = digits
 )
 }
 \arguments{
@@ -37,7 +38,7 @@ it is required to specify which type of uniform distribution is.
   For example, if the measure is a 5-point Likert scale, you should set \code{rwg.levels=5}.
 }}
 
-\item{nsmall}{Number of decimal places of output. Default is 3.}
+\item{digits, nsmall}{Number of decimal places of output. Default is 3.}
 }
 \value{
 Invisibly return a list of results.

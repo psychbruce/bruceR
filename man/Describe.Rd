@@ -7,7 +7,8 @@
 Describe(
   data,
   all.as.numeric = TRUE,
-  nsmall = 2,
+  digits = 2,
+  nsmall = digits,
   file = NULL,
   plot = FALSE,
   upper.triangle = FALSE,
@@ -24,7 +25,7 @@ Describe(
 \item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
 Transform all variables into numeric (continuous).}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

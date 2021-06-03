@@ -8,7 +8,8 @@ regress(
   formula,
   data,
   family = NULL,
-  nsmall = 3,
+  digits = 3,
+  nsmall = digits,
   robust = FALSE,
   cluster = NULL,
   level2.predictors = "",
@@ -22,6 +23,8 @@ regress(
 \item{data}{Data frame.}
 
 \item{family}{[optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).}
+
+\item{digits}{Number of decimal places of output. Default is 3.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
 

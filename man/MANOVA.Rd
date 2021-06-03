@@ -14,7 +14,8 @@ MANOVA(
   within = NULL,
   covariate = NULL,
   sph.correction = "none",
-  nsmall = 2,
+  digits = 2,
+  nsmall = digits,
   file = NULL
 )
 }
@@ -82,7 +83,7 @@ If you set \code{dvs}, you must also set the pattern of variable names by using 
 Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

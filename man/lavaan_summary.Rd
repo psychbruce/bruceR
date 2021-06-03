@@ -9,7 +9,8 @@ lavaan_summary(
   ci = c("raw", "boot", "bc.boot", "bca.boot"),
   nsim = 100,
   seed = NULL,
-  nsmall = 3,
+  digits = 3,
+  nsmall = digits,
   print = TRUE
 )
 }
@@ -33,7 +34,7 @@ In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly s
 
 \item{seed}{Random seed for obtaining reproducible results. Default is \code{NULL}.}
 
-\item{nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{print}{Print results. Default is \code{TRUE}.}
 }

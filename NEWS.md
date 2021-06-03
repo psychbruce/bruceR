@@ -1,5 +1,15 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.7.1 (in development)
+
+### Minor Changes
+
+-   Added the `digits` parameter as the equivalent to the `nsmall` parameter for all relevant functions.
+
+### Bug Fixes
+
+-   Fixed a bug of value ordering for 3-way interaction (moderated moderation) in `PROCESS()`.
+
 # bruceR 0.7.0 (May 2021)
 
 ### New Features
