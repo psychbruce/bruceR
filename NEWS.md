@@ -9,6 +9,7 @@
 ### Bug Fixes
 
 -   Fixed a bug of value ordering for 3-way interaction (moderated moderation) in `PROCESS()`.
+-   Fixed a bug for Word output in `Corr()`.
 
 # bruceR 0.7.0 (May 2021)
 

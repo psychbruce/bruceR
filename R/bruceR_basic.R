@@ -712,10 +712,10 @@ formatN=function(x, mark=",") {
 formatF=function(x, digits=3, nsmall=digits) {
   # format(x, digits=0, nsmall=nsmall, scientific=FALSE)
   if(inherits(x, "character")) {
-    xf=sprintf(paste0("%-", max(nchar(x)), "s"), x)  # left adjustment
+    xf=sprintf(paste0("%-", max(nchar(x), na.rm=TRUE), "s"), x)  # left adjustment
   } else {
     x=sprintf(paste0("%.", nsmall, "f"), x)
-    xf=sprintf(paste0("%", max(nchar(x)), "s"), x)
+    xf=sprintf(paste0("%", max(nchar(x), na.rm=TRUE), "s"), x)
   }
   return(xf)
 }

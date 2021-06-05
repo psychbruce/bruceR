@@ -420,7 +420,10 @@ Corr=function(data,
 
   if(!is.null(file)) {
     Print("Descriptive Statistics and Correlation Matrix:")
-    cor.mat=formatF(cor$r, nsmall)
+    cor.mat=matrix(formatF(cor$r, nsmall),
+                   nrow=nrow(cor$r),
+                   dimnames=list(rownames(cor$r),
+                                 colnames(cor$r)))
     cor.sig=sig.trans(cor$p)
     if(p.adjust=="none") {
       for(i in 1:nrow(cor.mat))
