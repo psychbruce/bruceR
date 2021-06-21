@@ -1,10 +1,11 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.7.1 (in development)
+# bruceR 0.7.2 (June 2021)
 
 ### Minor Changes
 
 -   Added the `digits` parameter as the equivalent to the `nsmall` parameter for all relevant functions.
+-   Packages `mediation` and `interactions` are now SUGGESTS rather than IMPORTS.
 
 ### Bug Fixes
 

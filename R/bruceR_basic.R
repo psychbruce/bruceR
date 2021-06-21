@@ -261,6 +261,7 @@ pkg_install_suggested=function(by="bruceR") {
     pkgs.suggests=c(
       "devtools", "tidyverse", "ggstatsplot",
       "sampling", "irr", "correlation", "forecast",
+      "mediation", "interactions",
       "JSmediation", "processR", "lavaan", "metafor",
       "AER", "TOSTER", "BEST", "BayesFactor",
       "pwr", "simr", "r2mlm", "multilevel",

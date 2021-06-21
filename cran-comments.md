@@ -1,11 +1,11 @@
 ## News
 
-In this version (0.7.0), I have added two new functions `PROCESS()` and `lavaan_summary()`, improved many functions, and fixed a bug in the last update ("ERROR" for "r-devel-linux-*" in v0.6.4, a problem newly emerging on 2021-05-25, as notified by Kurt Hornik) and a bug in the last submit (incoming_pretest: invalid value 0 for 'digits' argument).
+In this version (0.7.2), I have fixed two bugs in `PROCESS()` and `Corr()`.
 
 
 ## Test environments
 
-* Windows 10 (local installation), R 4.0.5
+* Windows 10 (local installation), R 4.1.0
 * Mac OS 11.2 (user installation), R 4.0.4
 * Ubuntu 16.04 (on travis-ci.com), R 4.0.2
 
