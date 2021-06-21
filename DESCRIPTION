@@ -32,12 +32,11 @@ LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 3.6.0)
-Imports: pacman, jmv,
-         MuMIn, performance, texreg, cowplot, see,
-         glue, crayon, ggplot2, ggtext
+Imports: pacman, jmv, performance,
+         glue, crayon, ggplot2, ggtext, cowplot, see
 Suggests: rstudioapi,
           rio, dplyr, tidyr, stringr, forcats, data.table,
-          car, psych, afex, emmeans, effectsize, jtools,
-          mediation, interactions, lavaan,
-          lme4, lmerTest, lmtest, vars, nnet, MASS, GGally
+          car, psych, afex, emmeans, effectsize,
+          mediation, interactions, lavaan, jtools, texreg,
+          lme4, lmerTest, lmtest, vars, nnet, MuMIn, MASS, GGally
 RoxygenNote: 7.1.1

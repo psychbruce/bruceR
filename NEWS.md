@@ -5,7 +5,7 @@
 ### Minor Changes
 
 -   Added the `digits` parameter as the equivalent to the `nsmall` parameter for all relevant functions.
--   Packages `mediation` and `interactions` are now SUGGESTS rather than IMPORTS.
+-   Packages `mediation`, `interactions`, `MuMIn`, and `texreg` are now SUGGESTS rather than IMPORTS.
 
 ### Bug Fixes
 

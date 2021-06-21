@@ -264,9 +264,9 @@ pkg_install_suggested=function(by="bruceR") {
       "mediation", "interactions",
       "JSmediation", "processR", "lavaan", "metafor",
       "AER", "TOSTER", "BEST", "BayesFactor",
-      "pwr", "simr", "r2mlm", "multilevel",
+      "pwr", "simr", "r2mlm", "multilevel", "MuMIn",
       "caret", "party", "randomForest", "jiebaR",
-      "sjstats", "reghelper", "summarytools", "apaTables",
+      "sjstats", "reghelper", "summarytools", "texreg", "apaTables",
       "ggrepel", "ggsignif", "ggridges", "ggthemes", "ggExtra",
       "corrplot", "showtext"
     )
