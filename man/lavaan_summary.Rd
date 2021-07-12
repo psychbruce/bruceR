@@ -11,7 +11,8 @@ lavaan_summary(
   seed = NULL,
   digits = 3,
   nsmall = digits,
-  print = TRUE
+  print = TRUE,
+  file = NULL
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly s
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{print}{Print results. Default is \code{TRUE}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
 Invisibly return a list of results:

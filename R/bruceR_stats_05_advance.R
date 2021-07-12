@@ -1069,6 +1069,7 @@ PROCESS=function(data,
 #' @param seed Random seed for obtaining reproducible results. Default is \code{NULL}.
 #' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param print Print results. Default is \code{TRUE}.
+#' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return
 #' Invisibly return a list of results:
@@ -1145,13 +1146,14 @@ lavaan_summary=function(lavaan,
                         nsim=100,
                         seed=NULL,
                         digits=3, nsmall=digits,
-                        print=TRUE) {
+                        print=TRUE,
+                        file=NULL) {
   if(length(ci)>1) ci="raw"
   FIT=lavaan::fitMeasures(lavaan)
   pe=lavaan::parameterEstimates(lavaan, standardized=TRUE)
-  pe.reg=pe[pe$op=="~", c("rhs", "lhs", "label", "est", "se", "std.all")]
+  pe.reg=pe[pe$op=="~", c("lhs", "rhs", "label", "est", "se", "std.all")]
   pe.eff=pe[pe$op==":=", c("label", "est", "std.all")]
-  REG=data.frame(Path=pe.reg$rhs %^% " => " %^% pe.reg$lhs,
+  REG=data.frame(Path=pe.reg$lhs %^% " <= " %^% pe.reg$rhs,
                  Tag=stringr::str_replace_all(
                    "(" %^% pe.reg$label %^% ")", "\\(\\)", ""),
                  Coef=pe.reg$est,
@@ -1216,6 +1218,31 @@ lavaan_summary=function(lavaan,
                   title="<<blue Model Terms (lavaan):>>")
       cat("\n")
     }
+  }
+
+  if(!is.null(file)) {
+    if(nrow(EFF)>0) {
+      EFF.html=paste0(
+        "<p><br/><br/></p>",
+        "<p><b>Table 2. Model Terms.</b></p>",
+        print_table(EFF, nsmalls=nsmall,
+                    file.align.text=c(
+                      "left", "right", "right", "right", "right", "left", "right", "right", "right"
+                    ),
+                    file="NOPRINT")$html$TABLE,
+        "<p><i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>")
+    } else {
+      EFF.html=""
+    }
+    print_table(
+      REG, nsmalls=nsmall, row.names=TRUE,
+      title="<b>Table 1. Model Paths.</b>",
+      note="<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.",
+      append=EFF.html,
+      file=file,
+      file.align.text=c(
+        "left", "left", "right", "right", "right", "right", "left", "right"
+      ))
   }
 
   invisible(list(fit=FIT, path=REG, effect=EFF))

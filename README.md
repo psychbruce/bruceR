@@ -152,7 +152,7 @@ Some functions in `bruceR` allow table output to Microsoft Word (by setting `fil
 | `PROCESS()`           |         √         |   √ (only a part)   |
 | `model_summary()`     |         √         | **√ (recommended)** |
 | `med_summary()`       |         √         |          √          |
-| `lavaan_summary()`    |         √         |                     |
+| `lavaan_summary()`    |         √         |          √          |
 | `GLM_summary()`       |         √         |                     |
 | `HLM_summary()`       |         √         |                     |
 | `HLM_ICC_rWG()`       |         √         |                     |

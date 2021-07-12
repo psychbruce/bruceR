@@ -55,7 +55,7 @@ p.r=function(r, n) p.t(r/sqrt((1-r^2)/(n-2)), n-2)
 #' @describeIn p One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
 #' @importFrom stats pchisq
 #' @export
-p.chi2=function(chi2, df) pchisq(chi2, df, lower.tail=FALSE)
+p.chi2=function(chi2, df) ifelse(df==0, 1, pchisq(chi2, df, lower.tail=FALSE))
 
 
 ## Transform \emph{p} value.
