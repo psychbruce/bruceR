@@ -4,7 +4,7 @@
 \alias{granger_test}
 \title{Granger causality test (bivariate).}
 \usage{
-granger_test(formula, data, lags = 1:5, test.reverse = FALSE)
+granger_test(formula, data, lags = 1:5, test.reverse = TRUE, file = NULL)
 }
 \arguments{
 \item{formula}{Model formula like \code{y ~ x}.}
@@ -13,10 +13,12 @@ granger_test(formula, data, lags = 1:5, test.reverse = FALSE)
 
 \item{lags}{Time lags. Default is \code{1:5}.}
 
-\item{test.reverse}{Whether to test reverse causality. Default is \code{FALSE}.}
+\item{test.reverse}{Whether to test reverse causality. Default is \code{TRUE}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
-No return value.
+A data frame of results.
 }
 \description{
 Granger test of predictive causality (between two time series)
@@ -30,7 +32,8 @@ if controlling for the lagged values of the outcome itself.
 }
 \examples{
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)
-granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
+granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, file="Granger.doc")
+unlink("Granger.doc")  # delete file for test
 
 }
 \seealso{

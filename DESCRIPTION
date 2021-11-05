@@ -39,4 +39,4 @@ Suggests: rstudioapi,
           car, psych, afex, emmeans, effectsize,
           mediation, interactions, lavaan, jtools, texreg,
           lme4, lmerTest, lmtest, vars, nnet, MuMIn, MASS, GGally
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

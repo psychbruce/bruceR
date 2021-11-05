@@ -1902,7 +1902,8 @@ ccf_plot=function(formula, data,
 #'
 #' @examples
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
-#' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, test.reverse=TRUE)
+#' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, file="Granger.doc")
+#' unlink("Granger.doc")  # delete file for test
 #'
 #' @seealso
 #' \code{\link{ccf_plot}},

@@ -1,10 +1,10 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.7.3 (in development)
+# bruceR 0.7.3 (Nov 2021)
 
 ### Minor Changes
 
--   Added Word output for `lavaan_summary()`.
+-   Added Word output for `lavaan_summary()` and `granger_test()`.
 
 # bruceR 0.7.2 (June 2021)
 
