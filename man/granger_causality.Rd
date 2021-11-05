@@ -38,10 +38,12 @@ Its output resembles the output of the \code{vargranger}
 command in Stata (but here using an \emph{F} test).
 }
 \details{
-The Granger causality test (based on VAR model) examines whether
+Granger causality test (based on VAR model) examines whether
 the lagged values of a predictor (or predictors)
-have any incremental role in predicting an outcome
-if controlling for the lagged values of the outcome itself.
+help to predict an outcome when controlling for
+the lagged values of the outcome itself.
+
+Granger causality does not necessarily constitute a true causal effect.
 }
 \examples{
 \dontrun{

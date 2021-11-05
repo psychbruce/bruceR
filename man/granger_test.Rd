@@ -25,10 +25,12 @@ Granger test of predictive causality (between two time series)
 using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 }
 \details{
-The Granger causality test examines whether
+Granger causality test examines whether
 the lagged values of a predictor
-have any incremental role in predicting an outcome
-if controlling for the lagged values of the outcome itself.
+have an incremental role in predicting (i.e., help to predict)
+an outcome when controlling for the lagged values of the outcome.
+
+Granger causality does not necessarily constitute a true causal effect.
 }
 \examples{
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)

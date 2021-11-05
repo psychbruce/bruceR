@@ -1887,10 +1887,12 @@ ccf_plot=function(formula, data,
 #' using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
 #'
 #' @details
-#' The Granger causality test examines whether
+#' Granger causality test examines whether
 #' the lagged values of a predictor
-#' have any incremental role in predicting an outcome
-#' if controlling for the lagged values of the outcome itself.
+#' have an incremental role in predicting (i.e., help to predict)
+#' an outcome when controlling for the lagged values of the outcome.
+#'
+#' Granger causality does not necessarily constitute a true causal effect.
 #'
 #' @inheritParams ccf_plot
 #' @param lags Time lags. Default is \code{1:5}.
@@ -2021,10 +2023,12 @@ vargranger=function(varmodel, var.y, var.x) {
 #' command in Stata (but here using an \emph{F} test).
 #'
 #' @details
-#' The Granger causality test (based on VAR model) examines whether
+#' Granger causality test (based on VAR model) examines whether
 #' the lagged values of a predictor (or predictors)
-#' have any incremental role in predicting an outcome
-#' if controlling for the lagged values of the outcome itself.
+#' help to predict an outcome when controlling for
+#' the lagged values of the outcome itself.
+#'
+#' Granger causality does not necessarily constitute a true causal effect.
 #'
 #' @param varmodel VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.
 #' @param var.y,var.x [optional] Default is \code{NULL} (all variables).
