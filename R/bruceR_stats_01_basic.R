@@ -33,6 +33,16 @@ p=function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
   return(pstat)
 }
 
+p.plain=function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
+                 n=NULL, df=NULL, df1=NULL, df2=NULL, digits=2, nsmall=digits) {
+  if(!is.null(z)) {p=p.z(z); pstat=Glue("z = {z:.{nsmall}}, p {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(t)) {p=p.t(t, df); pstat=Glue("t({df}) = {t:.{nsmall}}, p {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(f)) {p=p.f(f, df1, df2); pstat=Glue("F({df1}, {df2}) = {f:.{nsmall}}, p {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(r)) {p=p.r(r, n); pstat=Glue("r({n-2}) = {r:.{nsmall}}, p {p.trans2(p)} {sig.trans(p)}")}
+  if(!is.null(chi2)) {p=p.chi2(chi2, df); pstat=Glue("\u03c7\u00b2({df}{ifelse(is.null(n), '', ', N = ' %^% n)}) = {chi2:.{nsmall}}, p {p.trans2(p)} {sig.trans(p)}")}
+  return(pstat)
+}
+
 #' @describeIn p Two-tailed \emph{p} value of \emph{z}.
 #' @importFrom stats pnorm
 #' @export
@@ -388,21 +398,35 @@ Corr=function(data,
   }
 
   if(plot) {
-    Print("Correlation matrix is displayed in plot.")
-    if(p.adjust!="none")
-      Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
-    cat("\n")
     if(is.null(plot.palette))
       plot.palette=c("#B52127", "white", "#2171B5")
     if(!is.null(plot.file)) {
       grDevices::png(filename=plot.file, width=plot.width, height=plot.height, units="in", res=plot.dpi)
     }
-    cor_plot(r=cor$r, adjust="none", nsmall=nsmall,
-             numbers=TRUE, zlim=plot.range,
-             diag=FALSE, xlas=2, n=plot.color.levels,
-             pval=cor$p, stars=TRUE,
-             alpha=1, gr=grDevices::colorRampPalette(plot.palette),
-             main="Correlation Matrix")
+    plot.error=TRUE
+    try({
+      cor_plot(r=cor$r, adjust="none", nsmall=nsmall,
+               numbers=TRUE, zlim=plot.range,
+               diag=FALSE, xlas=2, n=plot.color.levels,
+               pval=cor$p, stars=TRUE,
+               alpha=1, gr=grDevices::colorRampPalette(plot.palette),
+               main="Correlation Matrix")
+      plot.error=FALSE
+    }, silent=TRUE)
+    if(plot.error) {
+      warning=Glue("
+        Plot is NOT successfully displayed in the RStudio `Plots` Pane.
+        Please check if the `Plots` Pane of YOUR RStudio is too small.
+        You should enlarge the `Plots` Pane (and/or clear all plots).")
+      Print("<<yellow {warning}>>")
+      warning(warning)
+      cat("\n")
+    } else {
+      Print("Correlation matrix is displayed in the RStudio `Plots` Pane.")
+      if(p.adjust!="none")
+        Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
+      cat("\n")
+    }
     if(!is.null(plot.file)) {
       grDevices::dev.off()
       plot.file=stringr::str_split(plot.file, "/", simplify=TRUE)
@@ -412,13 +436,13 @@ Corr=function(data,
     }
   }
 
-  Print("{capitalize(method)}'s <<italic r>> and 95% confidence intervals:")
-  if(p.adjust!="none")
-    Print("<<blue <<italic p>> values and 95% CIs are adjusted using the \"{p.adjust}\" method.>>")
-  print_table(COR, nsmalls=0)
-  cat("\n")
-
-  if(!is.null(file)) {
+  if(is.null(file)) {
+    Print("{capitalize(method)}'s <<italic r>> and 95% confidence intervals:")
+    if(p.adjust!="none")
+      Print("<<blue <<italic p>> values and 95% CIs are adjusted using the \"{p.adjust}\" method.>>")
+    print_table(COR, nsmalls=0)
+    cat("\n")
+  } else {
     Print("Descriptive Statistics and Correlation Matrix:")
     cor.mat=matrix(formatF(cor$r, nsmall),
                    nrow=nrow(cor$r),

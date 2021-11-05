@@ -156,7 +156,7 @@ Some functions in `bruceR` allow table output to Microsoft Word (by setting `fil
 | `GLM_summary()`       |         √         |                     |
 | `HLM_summary()`       |         √         |                     |
 | `HLM_ICC_rWG()`       |         √         |                     |
-| `granger_test()`      |         √         |                     |
+| `granger_test()`      |         √         |          √          |
 | `granger_causality()` |         √         |          √          |
 
 Examples:

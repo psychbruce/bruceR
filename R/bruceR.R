@@ -188,15 +188,22 @@ NULL
 .onAttach=function(libname, pkgname) {
   # packageStartupMessage("Welcome to my package")
 
-  suppressMessages({
-    pacman::p_load(
-      ## DATA ##
-      "rio", "dplyr", "tidyr", "stringr", "forcats", "data.table",
-      ## STAT ##
-      "psych", "emmeans", "effectsize", "performance",
-      ## PLOT ##
-      "ggplot2", "ggtext", "cowplot", "see")
+  pkgs=c(
+    ## DATA ##
+    "rio", "dplyr", "tidyr", "stringr", "forcats", "data.table",
+    ## STAT ##
+    "psych", "emmeans", "effectsize", "performance",
+    ## PLOT ##
+    "ggplot2", "ggtext", "cowplot", "see"
+  )
+  suppressWarnings({
+    loaded=pacman::p_load(char=pkgs, character.only=TRUE, install=FALSE)
   })
+  if(!all(loaded)) {
+    packageStartupMessage(
+      "These R packages have not been installed: ",
+      paste(pkgs[loaded==FALSE], collapse=", "))
+  }
 
   # {rep_char('=', 56)}
   # \u2714 yes

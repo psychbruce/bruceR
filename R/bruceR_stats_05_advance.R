@@ -1895,9 +1895,10 @@ ccf_plot=function(formula, data,
 #'
 #' @inheritParams ccf_plot
 #' @param lags Time lags. Default is \code{1:5}.
-#' @param test.reverse Whether to test reverse causality. Default is \code{FALSE}.
+#' @param test.reverse Whether to test reverse causality. Default is \code{TRUE}.
+#' @param file File name of MS Word (\code{.doc}).
 #'
-#' @return No return value.
+#' @return A data frame of results.
 #'
 #' @examples
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
@@ -1910,7 +1911,13 @@ ccf_plot=function(formula, data,
 #' @importFrom stats as.formula na.omit
 #' @export
 granger_test=function(formula, data, lags=1:5,
-                      test.reverse=FALSE) {
+                      test.reverse=TRUE,
+                      file=NULL) {
+  res=data.frame(Lag=lags, D1="", D2="", D12="")
+  names(res)[2:4]=c("Hypothesized Direction",
+                    "Reverse Direction",
+                    "Hypothesized (vs. Reverse)")
+
   if(test.reverse) {
     formula.rev=as.formula(paste(formula[3], formula[1], formula[2]))
     formulas=list(formula, formula.rev)
@@ -1925,16 +1932,46 @@ granger_test=function(formula, data, lags=1:5,
   Print("<<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>")
 
   for(f in formulas) {
+    rev=FALSE
     if(test.reverse & f!=formulas[[1]]) {
+      rev=TRUE
       Print("\n\n\nReverse direction:")
       Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
     }
     for(lag in lags) {
       gt=lmtest::grangertest(formula=f, data=data, order=lag, na.action=na.omit)
-      result=bruceR::p(f=gt[2,"F"], df1=-gt[2,"Df"], df2=gt[1,"Res.Df"])
+      Fval=gt[2,"F"]
+      df1=-gt[2,"Df"]
+      df2=gt[1,"Res.Df"]
+      sig=stringr::str_trim(sig.trans(p.f(Fval, df1, df2)))
+      result=bruceR::p(f=Fval, df1=df1, df2=df2)
+      result.simple=formatF(Fval, 2) %^% ifelse(sig=="", "", "<sup>" %^% sig %^% "</sup>")
       Print("Lags = {lag}:\t{result}")
+      res[which(res$Lag==lag), ifelse(rev, 3, 2)]=p.plain(f=Fval, df1=df1, df2=df2)
+      res[which(res$Lag==lag), 4]=ifelse(
+        rev,
+        res[[which(res$Lag==lag), 4]] %^% " (vs. " %^% result.simple %^% ")",
+        result.simple)
     }
   }
+
+  if(!is.null(file)) {
+    cat("\n")
+    RES=res
+    RES[[2]]=stringr::str_replace(stringr::str_replace(
+      RES[[2]], "p", "<i>p</i>"), "F", "<i>F</i>")
+    RES[[3]]=stringr::str_replace(stringr::str_replace(
+      RES[[3]], "p", "<i>p</i>"), "F", "<i>F</i>")
+    if(test.reverse==FALSE) RES=RES[1:2]
+    print_table(RES, row.names=FALSE, digits=0,
+                file.align.head="left",
+                file.align.text="left",
+                title="<b>Table. Granger Causality Test (Bivariate).</b>",
+                note="<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.",
+                file=file)
+  }
+
+  invisible(res[1:3])
 }
 
 
