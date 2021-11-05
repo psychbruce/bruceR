@@ -1,6 +1,6 @@
 ## Examples for `bruceR::PROCESS()` Function
 
-``` {.r}
+``` r
 library(bruceR)
 
 #### NOTE ####
@@ -137,4 +137,25 @@ PROCESS(data, y="score", x="fight",
         mod.path=c("x-m", "x-y"),
         mod.type="3-way",
         ci="boot", nsim=100, seed=1)
+
+## Index of Moderated Mediation (based on Model 8) ##
+pro=PROCESS(data, y="score", x="fight",
+            meds="late",
+            mods="gender",
+            mod.path=c("x-m", "x-y"),
+            ci="boot", nsim=1000, seed=1)
+mediation::test.modmed(
+  mediation::mediate(
+    model.m=pro$model.m[[1]],
+    model.y=pro$model.y,
+    treat="fight",
+    mediator="late",
+    boot=TRUE,
+    sims=1000),
+  covariates.1=list(gender="Female"),
+  covariates.2=list(gender="Male"))
+# For usage, see ?mediation::test.modmed
+# The results can be found under the title:
+# Test of ACME(covariates.1) - ACME(covariates.2) = 0
+# ...
 ```
