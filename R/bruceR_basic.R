@@ -173,29 +173,57 @@ pkg_depend=function(pkgs, excludes=NULL) {
 
 #' Install suggested R packages.
 #'
-#' It checks and installs R packages suggested by \code{bruceR} (default)
-#' or any other package.
-#'
-#' @param by Suggested by which package? Default is \code{"bruceR"}.
+#' @param by Suggested by which package?
 #'
 #' @return No return value.
 #'
-## @examples
-## pkg_install_suggested(by="bruceR")
-##
+#' @examples
+#' \dontrun{
+#' pkg_install_suggested()  # install all packages suggested by me
+#' }
+#'
 #' @seealso \code{\link{pkg_depend}}
 #'
 #' @export
 pkg_install_suggested=function(by) {
   if(missing(by)) {
-    pkgs.suggests=c(
-      ## DATA ##
-      "dplyr", "tidyr", "stringr", "forcats", "data.table",
-      ## STAT ##
-      "psych", "emmeans", "effectsize", "performance",
-      ## PLOT ##
-      "ggplot2", "ggtext", "cowplot", "see"
-    )
+    pkgs.suggests="
+    rstudioapi, devtools, pacman,
+    tidyverse, ggstatsplot, jmv,
+    dplyr, tidyr, stringr, forcats, data.table,
+    rio, haven, foreign, readxl, openxlsx, clipr,
+    tibble, plyr, glue, crayon,
+    psych, emmeans, effectsize, performance,
+    pwr, simr, MASS, sampling, careless,
+    irr, correlation, corpcor, corrplot,
+    afex, car, lmtest, nnet,
+    lme4, lmerTest, multilevel, r2mlm, MuMIn,
+    metafor, meta, metaSEM, metapower,
+    mediation, interactions, JSmediation,
+    lavaan, lavaanPlot, semPlot, processR,
+    jtools, reghelper, summarytools, texreg,
+    sjstats, sjPlot, apaTables,
+    forecast, vars, pls, plm, AER,
+    TOSTER, BEST, BayesFactor, brms,
+    mlr, caret, party, randomForest, e1071, varImp,
+    downloader, rvest, RCurl, RSelenium, mailR, jiebaR,
+    ggplot2, ggtext, cowplot, see,
+    ggrepel, ggeffects, ggsignif, ggridges, ggthemes,
+    ggbreak, ggplotify, ggExtra, GGally, wordcloud2,
+    patchwork, showtext"
+    cat("\n")
+    Print(pkgs.suggests)
+    cat("\n")
+    yesno=utils::menu(title="All these packages would be installed. Do you want to install them?",
+                      choices=c("Yes", "No"))
+    if(yesno==1) {
+      pkgs.suggests=pkgs.suggests %>%
+        str_remove_all("\\s") %>%
+        str_split(",", simplify=TRUE) %>%
+        as.character()
+    } else {
+      return(invisible())
+    }
   } else {
     pkgs.suggests=pacman::p_depends(by, character.only=TRUE, local=TRUE)$Suggests
   }
@@ -818,7 +846,7 @@ file_ext=function(filename) {
 }
 
 
-#' Import data from a file.
+#' Import data from a file (TXT, CSV, Excel, SPSS, Stata, ...) or clipboard.
 #'
 #' @description
 #' Import data from a file, with file format automatically judged by file extension.
@@ -973,7 +1001,7 @@ import=function(file, encoding=NULL, header=TRUE,
 }
 
 
-#' Export data to a file.
+#' Export data to a file (TXT, CSV, Excel, SPSS, Stata, ...) or clipboard.
 #'
 #' @description
 #' Export data to a file, with file format automatically judged by file extension.

@@ -63,23 +63,26 @@ No return value.
 Regression analysis.
 }
 \examples{
-\donttest{## lm
-regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
+\dontrun{
 
-## glm
-regress(case ~ age + parity + education + spontaneous + induced,
-        data=infert, family=binomial, robust="HC1", cluster="stratum")
+  ## lm
+  regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 
-## lmer
-library(lmerTest)
-regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
-regress(Preference ~ Sweetness + Gender + Age + Frequency +
-          (1 | Consumer), data=carrots)
+  ## glm
+  regress(case ~ age + parity + education + spontaneous + induced,
+          data=infert, family=binomial, robust="HC1", cluster="stratum")
 
-## glmer
-library(lmerTest)
-data.glmm=MASS::bacteria
-regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+  ## lmer
+  library(lmerTest)
+  regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+  regress(Preference ~ Sweetness + Gender + Age + Frequency +
+            (1 | Consumer), data=carrots)
+
+  ## glmer
+  library(lmerTest)
+  data.glmm=MASS::bacteria
+  regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+  regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 }
+
 }

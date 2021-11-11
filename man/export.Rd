@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{export}
 \alias{export}
-\title{Export data to a file.}
+\title{Export data to a file (TXT, CSV, Excel, SPSS, Stata, ...) or clipboard.}
 \usage{
 export(x, file, encoding = NULL, header = TRUE, sheet = NULL, overwrite = TRUE)
 }

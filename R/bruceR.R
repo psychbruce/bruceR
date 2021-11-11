@@ -221,18 +221,18 @@ NULL
     logo=sample(LOGO, 1)
     Print("
     \n
-    <<bold <<magenta
+    <<bold
     {logo} bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
-    >>>>
-
-    <<bold <<blue These packages also have been loaded:>>>>
-    <<green
-    <<yellow [Data]:>> dplyr / tidyr / stringr / forcats / data.table
-    <<yellow [Stat]:>> emmeans / effectsize / performance
-    <<yellow [Plot]:>> ggplot2 / ggtext / cowplot / see
     >>
 
-    <<bold <<blue Key functions of `bruceR`:>>>>
+    <<bold Packages also been loaded:>>
+    <<yellow
+    [Data]: dplyr / tidyr / stringr / forcats / data.table
+    [Stat]: emmeans / effectsize / performance
+    [Plot]: ggplot2 / ggtext / cowplot / see
+    >>
+
+    <<bold Key functions in `bruceR`:>>
     <<cyan set_wd() / import() / export()>>
     <<cyan print_table() / model_summary()>>
     <<cyan Describe() / Freq() / Corr() / MEAN()>>
@@ -242,13 +242,8 @@ NULL
   } else {
     packageStartupMessage(Glue("
     \n
-    Hello! It seems your first time to install `bruceR`.
-
     These R packages have not been installed:
     {paste(pkgs[loaded==FALSE], collapse=', ')}
-
-    To install them, run this in R console:
-    pkg_install_suggested()
     \n
     "))
   }

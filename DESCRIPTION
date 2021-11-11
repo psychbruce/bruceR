@@ -24,7 +24,7 @@ Description:
   (5) t-test, multi-factor analysis of variance (ANOVA),
   simple-effect analysis, and post-hoc multiple comparison;
   (6) tidy report of regression models and other results
-  (to R Console and MS Word);
+  (to R Console and Microsoft Word);
   (7) mediation and moderation analyses (PROCESS);
   and (8) additional toolbox for statistics and graphics.
 License: GPL-3
@@ -37,23 +37,9 @@ Imports: dplyr, tidyr, stringr, forcats, data.table,
          psych, emmeans, effectsize, performance,
          ggplot2, ggtext, cowplot, see
 Suggests: rstudioapi, devtools, pacman,
-          tidyverse, ggstatsplot, jmv, rio,
-          haven, foreign, readxl, openxlsx, clipr,
+          rio, haven, foreign, readxl, openxlsx, clipr,
           tibble, plyr, glue, crayon,
-          pwr, simr, MASS, sampling, careless,
-          irr, correlation, corpcor, corrplot,
-          afex, car, lmtest, nnet,
-          lme4, lmerTest, multilevel, r2mlm, MuMIn,
-          metafor, meta, metaSEM, metapower,
-          mediation, interactions, JSmediation,
-          lavaan, lavaanPlot, semPlot, processR,
-          jtools, reghelper, summarytools, texreg,
-          sjstats, sjPlot, apaTables,
-          forecast, vars, pls, plm, AER,
-          TOSTER, BEST, BayesFactor, brms,
-          mlr, caret, party, randomForest, e1071, varImp,
-          downloader, rvest, RCurl, RSelenium, mailR, jiebaR,
-          ggrepel, ggeffects, ggsignif, ggridges, ggthemes,
-          ggbreak, ggplotify, ggExtra, GGally, wordcloud2,
-          patchwork, showtext
+          afex, car, lmtest, lme4, lmerTest, vars,
+          mediation, interactions, lavaan,
+          jmv, jtools, texreg, MuMIn, BayesFactor
 RoxygenNote: 7.1.2

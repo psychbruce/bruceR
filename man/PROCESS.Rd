@@ -217,7 +217,9 @@ For more details and illustrations, see
 \href{https://github.com/psychbruce/bruceR/tree/master/note}{PROCESS-bruceR-SPSS} (PDF and Markdown files).
 }
 \examples{
-\donttest{#### NOTE ####
+\dontrun{
+
+#### NOTE ####
 ## In the following examples, I set nsim=100 to save time.
 ## In formal analyses, nsim=1000 (or larger) is suggested!
 
@@ -310,6 +312,7 @@ PROCESS(data, y="score", x="fight",
 
 ## For more examples and details, see the "note" subfolder at:
 ## https://github.com/psychbruce/bruceR
+
 }
 
 }

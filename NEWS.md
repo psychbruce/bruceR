@@ -4,12 +4,12 @@
 
 ### New Features
 
--   New function `TTEST()`: One-sample, independent-samples, and paired-samples *t*-test. Multiple dependent/independent variables can be tested simultaneously. It also tests the assumption of homogeneity of variance and allows users to determine whether variances are equal or not. Cohen's *d* and 95% CI are reported by default (see Details and Examples in its help page for an issue about the *inconsistency* in the results of 95% CI of Cohen's *d* between R packages). Bayes factor BF~10~ is also supported. Key results can be saved in APA format to MS Word.
+-   New function `TTEST()`: One-sample, independent-samples, and paired-samples *t*-test. Multiple dependent/independent variables can be tested simultaneously. It also tests the assumption of homogeneity of variance and allows users to determine whether variances are equal or not. Cohen's *d* and 95% CI are reported by default (see Details and Examples in its help page for an issue about the *inconsistency* in the results of 95% CI of Cohen's *d* between R packages). Bayes factor BF<sub>10</sub> is also supported. Key results can be saved in APA format to MS Word.
 -   New functions `import()` / `export()`: Import/export data from/to a file with the two tidy functions, relieving users of the burden of remembering lots of `read_xxx()` / `write_xxx()` functions. Many file formats are supported (especially .txt, .csv, .tsv, .psv, .xls, .xlsx, .sav, .dta, .rda, .rdata, and cilpboard). Note that the two functions are inspired by `rio::import()` / `rio::export()` and have several modifications for more convenient use. Since this version, the package `rio` is no longer a strong dependency of `bruceR` and would not be loaded when loading `bruceR`.
 
 ### Major Changes
 
--   Package dependency: Much fewer strong dependencies, for a faster and more robust installation. Much more suggested packages, for a more complete list of useful R packages.
+-   Package dependency: Much less strong dependencies, for faster and more robust installation.
 -   Removed `rio` from strongly depended R packages. No longer load `rio` and `psych` when `library(bruceR)`.
 
 ### Minor Changes

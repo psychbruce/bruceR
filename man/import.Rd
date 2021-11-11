@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{import}
 \alias{import}
-\title{Import data from a file.}
+\title{Import data from a file (TXT, CSV, Excel, SPSS, Stata, ...) or clipboard.}
 \usage{
 import(
   file,

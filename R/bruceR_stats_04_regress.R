@@ -151,25 +151,28 @@ group_mean_center=function(data, vars=setdiff(names(data), by), by,
 #' @return No return value.
 #'
 #' @examples
-#' \donttest{## lm
-#' regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
+#' \dontrun{
 #'
-#' ## glm
-#' regress(case ~ age + parity + education + spontaneous + induced,
-#'         data=infert, family=binomial, robust="HC1", cluster="stratum")
+#'   ## lm
+#'   regress(Temp ~ Month + Day + Wind + Solar.R, data=airquality, robust=TRUE)
 #'
-#' ## lmer
-#' library(lmerTest)
-#' regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
-#' regress(Preference ~ Sweetness + Gender + Age + Frequency +
-#'           (1 | Consumer), data=carrots)
+#'   ## glm
+#'   regress(case ~ age + parity + education + spontaneous + induced,
+#'           data=infert, family=binomial, robust="HC1", cluster="stratum")
 #'
-#' ## glmer
-#' library(lmerTest)
-#' data.glmm=MASS::bacteria
-#' regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-#' regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+#'   ## lmer
+#'   library(lmerTest)
+#'   regress(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#'   regress(Preference ~ Sweetness + Gender + Age + Frequency +
+#'             (1 | Consumer), data=carrots)
+#'
+#'   ## glmer
+#'   library(lmerTest)
+#'   data.glmm=MASS::bacteria
+#'   regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#'   regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' }
+#'
 #' @export
 regress=function(formula, data, family=NULL,
                  digits=3, nsmall=digits,
@@ -269,55 +272,58 @@ regress=function(formula, data, family=NULL,
 #' \code{\link{print_table}}
 #'
 #' @examples
-#' \donttest{#### Example 1: Linear Model ####
-#' lm1=lm(Temp ~ Month + Day, data=airquality)
-#' lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
-#' model_summary(lm1)
-#' model_summary(lm2)
-#' model_summary(list(lm1, lm2))
-#' model_summary(list(lm1, lm2), std=TRUE, digits=2)
-#' model_summary(list(lm1, lm2), file="OLS Models.doc")
-#' unlink("OLS Models.doc")  # delete file for code check
+#' \dontrun{
 #'
-#' #### Example 2: Generalized Linear Model ####
-#' glm1=glm(case ~ age + parity,
-#'          data=infert, family=binomial)
-#' glm2=glm(case ~ age + parity + education + spontaneous + induced,
-#'          data=infert, family=binomial)
-#' model_summary(list(glm1, glm2))  # "std" is not applicable to glm
-#' model_summary(list(glm1, glm2), file="GLM Models.doc")
-#' unlink("GLM Models.doc")  # delete file for code check
+#'   #### Example 1: Linear Model ####
+#'   lm1=lm(Temp ~ Month + Day, data=airquality)
+#'   lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+#'   model_summary(lm1)
+#'   model_summary(lm2)
+#'   model_summary(list(lm1, lm2))
+#'   model_summary(list(lm1, lm2), std=TRUE, digits=2)
+#'   model_summary(list(lm1, lm2), file="OLS Models.doc")
+#'   unlink("OLS Models.doc")  # delete file for code check
 #'
-#' #### Example 3: Linear Mixed Model ####
-#' library(lmerTest)
-#' hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
-#' hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
-#' hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
-#' model_summary(list(hlm1, hlm2, hlm3))
-#' model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
-#' model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
-#' unlink("HLM Models.doc")  # delete file for code check
+#'   #### Example 2: Generalized Linear Model ####
+#'   glm1=glm(case ~ age + parity,
+#'            data=infert, family=binomial)
+#'   glm2=glm(case ~ age + parity + education + spontaneous + induced,
+#'            data=infert, family=binomial)
+#'   model_summary(list(glm1, glm2))  # "std" is not applicable to glm
+#'   model_summary(list(glm1, glm2), file="GLM Models.doc")
+#'   unlink("GLM Models.doc")  # delete file for code check
 #'
-#' #### Example 4: Generalized Linear Mixed Model ####
-#' library(lmerTest)
-#' data.glmm=MASS::bacteria
-#' glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-#' glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
-#' model_summary(list(glmm1, glmm2))  # "std" is not applicable to glmm
-#' model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
-#' unlink("GLMM Models.doc")  # delete file for code check
+#'   #### Example 3: Linear Mixed Model ####
+#'   library(lmerTest)
+#'   hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
+#'   hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
+#'   hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#'   model_summary(list(hlm1, hlm2, hlm3))
+#'   model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
+#'   model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
+#'   unlink("HLM Models.doc")  # delete file for code check
 #'
-#' #### Example 5: Multinomial Logistic Model ####
-#' library(nnet)
-#' d=airquality
-#' d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
-#' mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
-#' mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
-#' model_summary(mn1)
-#' model_summary(mn2)
-#' model_summary(mn2, file="Multinomial Logistic Model.doc")
-#' unlink("Multinomial Logistic Model.doc")  # delete file for code check
+#'   #### Example 4: Generalized Linear Mixed Model ####
+#'   library(lmerTest)
+#'   data.glmm=MASS::bacteria
+#'   glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#'   glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+#'   model_summary(list(glmm1, glmm2))  # "std" is not applicable to glmm
+#'   model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
+#'   unlink("GLMM Models.doc")  # delete file for code check
+#'
+#'   #### Example 5: Multinomial Logistic Model ####
+#'   library(nnet)
+#'   d=airquality
+#'   d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
+#'   mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
+#'   mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
+#'   model_summary(mn1)
+#'   model_summary(mn2)
+#'   model_summary(mn2, file="Multinomial Logistic Model.doc")
+#'   unlink("Multinomial Logistic Model.doc")  # delete file for code check
 #' }
+#'
 #' @export
 model_summary=function(model_list,
                        std=FALSE,

@@ -423,7 +423,9 @@ boot_ci=function(boot,
 #' \emph{Journal of Personality and Social Psychology, 115}(6), 929-943.
 #'
 #' @examples
-#' \donttest{#### NOTE ####
+#' \dontrun{
+#'
+#' #### NOTE ####
 #' ## In the following examples, I set nsim=100 to save time.
 #' ## In formal analyses, nsim=1000 (or larger) is suggested!
 #'
@@ -516,6 +518,7 @@ boot_ci=function(boot,
 #'
 #' ## For more examples and details, see the "note" subfolder at:
 #' ## https://github.com/psychbruce/bruceR
+#'
 #' }
 #'
 #' @export
