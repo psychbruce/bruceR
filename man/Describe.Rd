@@ -55,7 +55,9 @@ Invisibly return a list consisting of
 Descriptive statistics (to R Console and MS Word).
 }
 \examples{
-\donttest{set.seed(1)
+\dontrun{
+
+set.seed(1)
 Describe(rnorm(1000000), plot=TRUE)
 
 Describe(airquality)
@@ -77,6 +79,7 @@ d[,`:=`(
 Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 }
+
 }
 \seealso{
 \code{\link{Corr}}

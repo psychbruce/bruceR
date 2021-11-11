@@ -518,7 +518,6 @@ boot_ci=function(boot,
 #'
 #' ## For more examples and details, see the "note" subfolder at:
 #' ## https://github.com/psychbruce/bruceR
-#'
 #' }
 #'
 #' @export
@@ -1663,7 +1662,9 @@ process_mod=function(model0,
 #' \code{\link{PROCESS}}
 #'
 #' @examples
-#' \donttest{library(mediation)
+#' \dontrun{
+#'
+#' library(mediation)
 #' # ?mediation::mediate
 #'
 #' ## Example 1: OLS Regression
@@ -1694,6 +1695,7 @@ process_mod=function(model0,
 #'                 sims=1000)
 #' med_summary(med.lmm)
 #' }
+#'
 #' @export
 med_summary=function(model, digits=3, nsmall=digits, file=NULL) {
   # for raw function, see:

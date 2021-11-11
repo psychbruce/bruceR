@@ -9,7 +9,7 @@
 
 ### Major Changes
 
--   Package dependency: Much less strong dependencies, for faster and more robust installation.
+-   Package dependency: Much fewer strong dependencies, for faster and more robust installation.
 -   Removed `rio` from strongly depended R packages. No longer load `rio` and `psych` when `library(bruceR)`.
 
 ### Minor Changes

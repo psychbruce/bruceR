@@ -36,7 +36,7 @@ Depends: R (>= 3.6.0)
 Imports: dplyr, tidyr, stringr, forcats, data.table,
          psych, emmeans, effectsize, performance,
          ggplot2, ggtext, cowplot, see
-Suggests: rstudioapi, devtools, pacman,
+Suggests: rstudioapi, pacman,
           rio, haven, foreign, readxl, openxlsx, clipr,
           tibble, plyr, glue, crayon,
           afex, car, lmtest, lme4, lmerTest, vars,

@@ -17,6 +17,7 @@ Install suggested R packages.
 }
 \examples{
 \dontrun{
+
 pkg_install_suggested()  # install all packages suggested by me
 }
 

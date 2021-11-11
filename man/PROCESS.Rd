@@ -312,7 +312,6 @@ PROCESS(data, y="score", x="fight",
 
 ## For more examples and details, see the "note" subfolder at:
 ## https://github.com/psychbruce/bruceR
-
 }
 
 }

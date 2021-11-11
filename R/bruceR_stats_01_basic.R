@@ -153,7 +153,9 @@ sig.trans=function(p) {
 #' (2) a \code{ggplot2} object if users set \code{plot=TRUE}.
 #'
 #' @examples
-#' \donttest{set.seed(1)
+#' \dontrun{
+#'
+#' set.seed(1)
 #' Describe(rnorm(1000000), plot=TRUE)
 #'
 #' Describe(airquality)
@@ -175,6 +177,7 @@ sig.trans=function(p) {
 #' Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 #' Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #' }
+#'
 #' @seealso \code{\link{Corr}}
 #'
 #' @export

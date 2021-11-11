@@ -179,6 +179,7 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #'
 #' @examples
 #' \dontrun{
+#'
 #' pkg_install_suggested()  # install all packages suggested by me
 #' }
 #'
