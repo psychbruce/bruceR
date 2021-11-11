@@ -1,12 +1,30 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.8.0 (in development)
+
+### New Features
+
+-   New function `TTEST()`: One-sample, independent-samples, and paired-samples *t*-test. Multiple dependent/independent variables can be tested simultaneously. It also tests the assumption of homogeneity of variance and allows users to determine whether variances are equal or not. Cohen's *d* and 95% CI are reported by default (see Details and Examples in its help page for an issue about the *inconsistency* in the results of 95% CI of Cohen's *d* between R packages). Bayes factor BF~10~ is also supported. Key results can be saved in APA format to MS Word.
+-   New functions `import()` / `export()`: Import/export data from/to a file with the two tidy functions, relieving users of the burden of remembering lots of `read_xxx()` / `write_xxx()` functions. Many file formats are supported (especially .txt, .csv, .tsv, .psv, .xls, .xlsx, .sav, .dta, .rda, .rdata, and cilpboard). Note that the two functions are inspired by `rio::import()` / `rio::export()` and have several modifications for more convenient use. Since this version, the package `rio` is no longer a strong dependency of `bruceR` and would not be loaded when loading `bruceR`.
+
+### Major Changes
+
+-   Package dependency: Much fewer strong dependencies, for a faster and more robust installation. Much more suggested packages, for a more complete list of useful R packages.
+-   Removed `rio` from strongly depended R packages. No longer load `rio` and `psych` when `library(bruceR)`.
+
+### Minor Changes
+
+-   Improved `MANOVA()` and `EMMEANS()`: Added the argument `ss.type` in `MANOVA()` for specifying either Type-II or Type-III SS. Added warning messages for wrong usage of the functions. Modified help pages.
+-   Added an alias `set_wd()` for `set.wd()`.
+-   General bug-fixes and improvements.
+
 # bruceR 0.7.3 (Nov 2021)
 
 ### Minor Changes
 
 -   Added Word output for `lavaan_summary()` and `granger_test()`.
 
-# bruceR 0.7.2 (June 2021)
+# bruceR 0.7.2 (Jun 2021)
 
 ### Minor Changes
 
@@ -59,7 +77,7 @@
 
 ### Major Changes
 
--   Improved `set.wd()`: Now it uses `rstudioapi::getSourceEditorContext()` to extract file path (even effective when running in R console), which only requires RStudio version \>= 0.99.1111 and no longer has encoding problems (see release note in 0.6.1).
+-   Improved `set.wd()`: Now it uses `rstudioapi::getSourceEditorContext()` to extract file path (even effective when running in R console), which only requires RStudio version >= 0.99.1111 and no longer has encoding problems (see release note in 0.6.1).
 -   Improved `theme_bruce()`: Now it uses `ggtext::element_markdown()` to render Markdown/HTML rich text format, which can be used in plot text (e.g., titles).
 -   Improved `EMMEANS()`: Now its results are always identical to those in SPSS (by setting `model="multivariate"` in `emmeans::joint_tests()` and `emmeans::emmeans()`, which use the `lm` or `mlm` objects rather than the `aov` object to perform tests). For a few cases with singular error matrix (i.e., some variables are linearly dependent), the results of simple-effect *F* tests will not be reported, but estimated marginal means and pairwise comparisons are not affected and so are still reported. Note that the `EMMEANS` results in old versions of `bruceR` (version \< 0.6.0) were identical to SPSS, but version 0.6.0 deprecated the parameter `repair` and no longer set `model$aov=NULL`, which made the results not identical to SPSS (particularly for ANOVAs with repeated measures). In response to a user's feedback, now 0.6.2 has improved this function and makes its results accurate again.
 
@@ -82,7 +100,7 @@
 
 ### Major Changes
 
--   Improved `set.wd()`: Now it converts the extracted path string from "UTF-8" to "GBK" on Windows system to support paths including Chinese characters (otherwise, the path would become messy code and cause an error). Note that this problem does not exist on Mac OS. In addition, warning messages will be printed into the console if the user's RStudio version is lower than required (RStudio version \>= 1.4.843 is required for a complete implementation of this function).
+-   Improved `set.wd()`: Now it converts the extracted path string from "UTF-8" to "GBK" on Windows system to support paths including Chinese characters (otherwise, the path would become messy code and cause an error). Note that this problem does not exist on Mac OS. In addition, warning messages will be printed into the console if the user's RStudio version is lower than required (RStudio version >= 1.4.843 is required for a complete implementation of this function).
 -   Improved `Alpha()`: Now it adds a parameter `varrange` (to keep the same as `SUM()`, `MEAN()`, ...) and reports both Cronbach's α and McDonald's ω, with more detailed documentation.
 
 > Three ways to specify the variable list (implemented in the functions such as `SUM()`, `MEAN()`, `Alpha()`):

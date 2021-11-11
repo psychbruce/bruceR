@@ -4,7 +4,7 @@
 \alias{pkg_install_suggested}
 \title{Install suggested R packages.}
 \usage{
-pkg_install_suggested(by = "bruceR")
+pkg_install_suggested(by)
 }
 \arguments{
 \item{by}{Suggested by which package? Default is \code{"bruceR"}.}

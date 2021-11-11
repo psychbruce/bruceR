@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_04_regress.R
 \name{model_summary}
 \alias{model_summary}
-\title{Tidy report of regression models (to R Console or MS Word).}
+\title{Tidy report of regression models (to R Console and MS Word).}
 \usage{
 model_summary(
   model_list,
@@ -44,7 +44,7 @@ Only relevant to R Console output.}
 
 \item{bold}{The \emph{p}-value threshold below which the coefficients will be formatted in bold.}
 
-\item{...}{Other parameters passed to
+\item{...}{Other arguments passed to
 \code{\link[texreg:screenreg]{texreg::screenreg()}} or
 \code{\link[texreg:htmlreg]{texreg::htmlreg()}}.}
 }
@@ -52,7 +52,7 @@ Only relevant to R Console output.}
 Invisibly return the output (character string).
 }
 \description{
-Tidy report of regression models (to R Console or MS Word).
+Tidy report of regression models (to R Console and MS Word).
 Most types of regression models are supported!
 This function is an extension (and combination) of
 \code{\link[texreg:screenreg]{texreg::screenreg()}},
@@ -71,7 +71,7 @@ model_summary(lm2)
 model_summary(list(lm1, lm2))
 model_summary(list(lm1, lm2), std=TRUE, digits=2)
 model_summary(list(lm1, lm2), file="OLS Models.doc")
-unlink("OLS Models.doc")  # delete file for test
+unlink("OLS Models.doc")  # delete file for code check
 
 #### Example 2: Generalized Linear Model ####
 glm1=glm(case ~ age + parity,
@@ -80,7 +80,7 @@ glm2=glm(case ~ age + parity + education + spontaneous + induced,
          data=infert, family=binomial)
 model_summary(list(glm1, glm2))  # "std" is not applicable to glm
 model_summary(list(glm1, glm2), file="GLM Models.doc")
-unlink("GLM Models.doc")  # delete file for test
+unlink("GLM Models.doc")  # delete file for code check
 
 #### Example 3: Linear Mixed Model ####
 library(lmerTest)
@@ -90,7 +90,7 @@ hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 model_summary(list(hlm1, hlm2, hlm3))
 model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
 model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
-unlink("HLM Models.doc")  # delete file for test
+unlink("HLM Models.doc")  # delete file for code check
 
 #### Example 4: Generalized Linear Mixed Model ####
 library(lmerTest)
@@ -99,7 +99,7 @@ glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
 glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 model_summary(list(glmm1, glmm2))  # "std" is not applicable to glmm
 model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
-unlink("GLMM Models.doc")  # delete file for test
+unlink("GLMM Models.doc")  # delete file for code check
 
 #### Example 5: Multinomial Logistic Model ####
 library(nnet)
@@ -110,7 +110,7 @@ mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
 model_summary(mn1)
 model_summary(mn2)
 model_summary(mn2, file="Multinomial Logistic Model.doc")
-unlink("Multinomial Logistic Model.doc")  # delete file for test
+unlink("Multinomial Logistic Model.doc")  # delete file for code check
 }
 }
 \seealso{

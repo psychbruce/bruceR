@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.7.3
-Date: 2021-11-05
+Version: 0.8.0.9000
+Date: 2021-11-11
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
@@ -14,13 +14,14 @@ Description:
   that bring users concise and elegant R data analyses.
   This package includes easy-to-use functions for
   (1) basic R programming
-  (e.g., set working directory to where the current file is,
+  (e.g., set working directory to the path of currently opened file,
+  import/export data from/to files with any format,
   print strings with rich formats and colors);
   (2) multivariate computation
   (e.g., compute scale sums/means/... with reverse scoring);
   (3) reliability and factor analyses;
   (4) descriptive statistics and correlation analyses;
-  (5) multi-factor analysis of variance (ANOVA),
+  (5) t-test, multi-factor analysis of variance (ANOVA),
   simple-effect analysis, and post-hoc multiple comparison;
   (6) tidy report of regression models and other results
   (to R Console and MS Word);
@@ -32,11 +33,27 @@ LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 3.6.0)
-Imports: pacman, jmv, performance,
-         glue, crayon, ggplot2, ggtext, cowplot, see
-Suggests: rstudioapi,
-          rio, dplyr, tidyr, stringr, forcats, data.table,
-          car, psych, afex, emmeans, effectsize,
-          mediation, interactions, lavaan, jtools, texreg,
-          lme4, lmerTest, lmtest, vars, nnet, MuMIn, MASS, GGally
+Imports: dplyr, tidyr, stringr, forcats, data.table,
+         psych, emmeans, effectsize, performance,
+         ggplot2, ggtext, cowplot, see
+Suggests: rstudioapi, devtools, pacman,
+          tidyverse, ggstatsplot, jmv, rio,
+          haven, foreign, readxl, openxlsx, clipr,
+          tibble, plyr, glue, crayon,
+          pwr, simr, MASS, sampling, careless,
+          irr, correlation, corpcor, corrplot,
+          afex, car, lmtest, nnet,
+          lme4, lmerTest, multilevel, r2mlm, MuMIn,
+          metafor, meta, metaSEM, metapower,
+          mediation, interactions, JSmediation,
+          lavaan, lavaanPlot, semPlot, processR,
+          jtools, reghelper, summarytools, texreg,
+          sjstats, sjPlot, apaTables,
+          forecast, vars, pls, plm, AER,
+          TOSTER, BEST, BayesFactor, brms,
+          mlr, caret, party, randomForest, e1071, varImp,
+          downloader, rvest, RCurl, RSelenium, mailR, jiebaR,
+          ggrepel, ggeffects, ggsignif, ggridges, ggthemes,
+          ggbreak, ggplotify, ggExtra, GGally, wordcloud2,
+          patchwork, showtext
 RoxygenNote: 7.1.2

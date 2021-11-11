@@ -35,7 +35,7 @@ Granger causality does not necessarily constitute a true causal effect.
 \examples{
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, file="Granger.doc")
-unlink("Granger.doc")  # delete file for test
+unlink("Granger.doc")  # delete file for code check
 
 }
 \seealso{

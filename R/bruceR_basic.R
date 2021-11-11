@@ -1,7 +1,7 @@
-#### Basic Functions ####
+#### Pipeline Functions ####
 
 
-`%>%`=dplyr::`%>%`
+# `%>%`=dplyr::`%>%`
 
 
 #' Paste strings together.
@@ -131,78 +131,8 @@
 }
 
 
-#' Set working directory to where the current file is.
-#'
-#' Set working directory to the path of the currently opened file.
-#' You can use this function in both \strong{.R/.Rmd files and R Console}.
-#' \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
-#' (version >= 1.2) is required for running this function.
-#'
-#' @param path \code{NULL} (default) or a specific path.
-#' Default is to extract the path of the currently opened file
-#' (usually .R or .Rmd) using the \code{rstudioapi::getSourceEditorContext} function.
-#' @param directly \code{TRUE} (default) or \code{FALSE}.
-#' Default is to directly execute \code{setwd("...")} within the function (recommended).
-#' Otherwise, it will send code \code{setwd("...")} to the R Console
-#' and then execute it (not recommended due to a delay of execution).
-#' @param ask \code{TRUE} or \code{FALSE} (default).
-#' If \code{TRUE}, you can select a folder with the prompt of a dialog.
-#'
-#' @return Invisibly return the path.
-#'
-#' @examples
-#' \dontrun{
-#' # RStudio (version >= 1.2) is required for running this function.
-#' set.wd()  # set working directory to the path of the currently opened file
-#' set.wd("~/")  # set working directory to the home directory
-#' set.wd("../")  # set working directory to the parent directory
-#' set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
-#' }
-#'
-#' @seealso \code{\link[base:getwd]{setwd}}
-#'
-#' @export
-set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
-  if(rstudioapi::isAvailable()==FALSE)
-    stop("RStudio is required for running this function!\n\n",
-         "Please download and install the latest version of RStudio:\n",
-         "https://rstudio.com/products/rstudio/download/preview/")
-  is.windows=ifelse(Sys.info()[["sysname"]]=="Windows", TRUE, FALSE)
-  if(is.null(path)) {
-    tryCatch({
-      if(ask) {
-        # RStudio version >= 1.1.287
-        if(is.windows)
-          path=iconv(rstudioapi::selectDirectory(), from="UTF-8", to="GBK")
-        else
-          path=rstudioapi::selectDirectory()
-      } else {
-        # # RStudio version >= 1.4.843
-        # if(is.windows)
-        #   file.path=iconv(rstudioapi::documentPath(), from="UTF-8", to="GBK")
-        # else
-        #   file.path=rstudioapi::documentPath()
 
-        # RStudio version >= 0.99.1111
-        path=dirname(rstudioapi::getSourceEditorContext()$path)
-      }
-    }, error=function(e) {
-      # Error: Function documentPath not found in RStudio
-      message("Your RStudio version is: ", rstudioapi::getVersion(), "\n")
-      message("Please update RStudio to the latest version:\n",
-              "https://rstudio.com/products/rstudio/download/preview/\n")
-    })
-  }
-  if(length(path)>0) {
-    if(directly) {
-      eval(parse(text=paste0("setwd(\"", path, "\")")))
-      Print("<<green \u2714>> Set working directory to <<blue \"{getwd()}\">>")
-    } else {
-      rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
-    }
-  }
-  invisible(path)
-}
+#### Basic Functions ####
 
 
 #' Check dependencies of R packages.
@@ -251,34 +181,34 @@ pkg_depend=function(pkgs, excludes=NULL) {
 #' @return No return value.
 #'
 ## @examples
-## pkg_install_suggested()
+## pkg_install_suggested(by="bruceR")
 ##
 #' @seealso \code{\link{pkg_depend}}
 #'
 #' @export
-pkg_install_suggested=function(by="bruceR") {
-  if(by=="bruceR") {
+pkg_install_suggested=function(by) {
+  if(missing(by)) {
     pkgs.suggests=c(
-      "devtools", "tidyverse", "ggstatsplot",
-      "sampling", "irr", "correlation", "forecast",
-      "mediation", "interactions",
-      "JSmediation", "processR", "lavaan", "metafor",
-      "AER", "TOSTER", "BEST", "BayesFactor",
-      "pwr", "simr", "r2mlm", "multilevel", "MuMIn",
-      "caret", "party", "randomForest", "jiebaR",
-      "sjstats", "reghelper", "summarytools", "texreg", "apaTables",
-      "ggrepel", "ggsignif", "ggridges", "ggthemes", "ggExtra",
-      "corrplot", "showtext"
+      ## DATA ##
+      "dplyr", "tidyr", "stringr", "forcats", "data.table",
+      ## STAT ##
+      "psych", "emmeans", "effectsize", "performance",
+      ## PLOT ##
+      "ggplot2", "ggtext", "cowplot", "see"
     )
   } else {
     pkgs.suggests=pacman::p_depends(by, character.only=TRUE, local=TRUE)$Suggests
   }
   pkgs.installed=pacman::p_library()
   pkgs.need.install=setdiff(pkgs.suggests, pkgs.installed)
-  if(length(pkgs.need.install)>0)
+  if(length(pkgs.need.install)>0) {
     utils::install.packages(pkgs.need.install)
-  else
-    Print("<<green All packages suggested by `{by}` have been installed!>>")
+  } else {
+    if(missing(by))
+      Print("<<green Done!>>")
+    else
+      Print("<<green All packages suggested by `{by}` have been installed!>>")
+  }
 }
 
 
@@ -333,10 +263,10 @@ Print=function(...) {
 
 #' @describeIn Print Paste strings.
 #'
-#' @importFrom glue glue glue_col
-#' @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
-#' @importFrom crayon black white silver red green blue yellow cyan magenta
-#' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
+## @importFrom glue glue glue_col
+## @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
+## @importFrom crayon black white silver red green blue yellow cyan magenta
+## @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 #' @export
 Glue=function(...) {
   output=glue::glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
@@ -345,8 +275,41 @@ Glue=function(...) {
 }
 
 
+glue=glue::glue
+glue_col=glue::glue_col
+
+
+bold=crayon::bold
+italic=crayon::italic
+underline=crayon::underline
+reset=crayon::reset
+blurred=crayon::blurred
+inverse=crayon::inverse
+hidden=crayon::hidden
+strikethrough=crayon::strikethrough
+
+black=crayon::black
+white=crayon::white
+silver=crayon::silver
+red=crayon::red
+green=crayon::green
+blue=crayon::blue
+yellow=crayon::yellow
+cyan=crayon::cyan
+magenta=crayon::magenta
+
+bgBlack=crayon::bgBlack
+bgWhite=crayon::bgWhite
+bgRed=crayon::bgRed
+bgGreen=crayon::bgGreen
+bgBlue=crayon::bgBlue
+bgYellow=crayon::bgYellow
+bgCyan=crayon::bgCyan
+bgMagenta=crayon::bgMagenta
+
+
 sprintf_transformer=function(text, envir) {
-  text=glue(text, .envir=envir)
+  text=glue::glue(text, .envir=envir)
   m=regexpr(":.+$", text)
   if(m!=-1) {
     format=substring(regmatches(text, m), 2)
@@ -409,7 +372,7 @@ capitalize=function(string) {
 }
 
 
-#' Print a three-line table (to R Console or MS Word).
+#' Print a three-line table (to R Console and MS Word).
 #'
 #' This basic function prints any data frame as a three-line table
 #' to either R Console or Microsoft Word (.doc).
@@ -448,7 +411,6 @@ capitalize=function(string) {
 #' print_table(model, file="model.doc")
 #' unlink("model.doc")  # delete file for test
 #'
-#' @importFrom stats coef
 #' @export
 print_table=function(x, digits=3, nsmalls=digits,
                      row.names=TRUE,
@@ -479,9 +441,12 @@ print_table=function(x, digits=3, nsmalls=digits,
   sig=NULL
   if(length(nsmalls)==1) nsmalls=rep(nsmalls, length(x))
   for(j in 1:length(x)) {
-    if(grepl("Pr\\(|pval", names(x)[j])) {
+    if(inherits(x[,j], "factor"))
+      x[,j]=as.character(x[,j])
+    if(grepl("Pr\\(|pval|<i>p</i>", names(x)[j])) {
       sig=formatF(sig.trans(x[,j]), 0)  # formatF will make * left-aligned
-      names(x)[j]="p"
+      if(grepl("<i>p</i>", names(x)[j])==FALSE)
+        names(x)[j]="p"
       x[,j]=p.trans(x[,j])
     } else {
       x[,j]=formatF(x[,j], nsmalls[j])
@@ -497,7 +462,7 @@ print_table=function(x, digits=3, nsmalls=digits,
     names(x)[j]=gsub(" value|val$", "", names(x)[j])
   }
   if(is.null(sig)==FALSE & "sig" %notin% names(x)) {
-    p.pos=which(names(x)=="p")
+    p.pos=which(names(x) %in% c("p", "<i>p</i>"))
     nvars=length(names(x))
     if(p.pos<nvars)
       x=cbind(x[1:p.pos], ` `=sig, x[(p.pos+1):nvars])
@@ -580,8 +545,8 @@ df_to_html=function(df, title="", note="", append="",
     if(file=="NOPRINT") {
       file=NULL
     } else {
-      file=stringr::str_replace(file, "\\.docx$", ".doc")
-      if(stringr::str_detect(file, "\\.doc$")==FALSE)
+      file=str_replace(file, "\\.docx$", ".doc")
+      if(str_detect(file, "\\.doc$")==FALSE)
         file=paste0(file, ".doc")
     }
   }
@@ -606,7 +571,7 @@ df_to_html=function(df, title="", note="", append="",
   df=as.data.frame(df)
   for(j in 1:ncol(df)) {
     df[[j]]="<td align='" %^% align.text[j] %^% "'>" %^%
-      stringr::str_trim(stringr::str_replace_all(df[[j]], "^\\s*-{1}", "\u2013")) %^% "</td>"
+      str_trim(str_replace_all(df[[j]], "^\\s*-{1}", "\u2013")) %^% "</td>"
   }
 
   THEAD="<tr> " %^%
@@ -619,11 +584,11 @@ df_to_html=function(df, title="", note="", append="",
     paste(apply(df, 1, function(...) paste(..., collapse=" ")),
           collapse=" </tr>\n<tr> ") %^% " </tr>"
   TBODY=TBODY %>%
-    stringr::str_replace_all(">\\s*NA\\s*<", "><") %>%
-    stringr::str_replace_all("\\s+</td>", "</td>") %>%
-    stringr::str_replace_all("\\[\\s+", "[") %>%
-    stringr::str_replace_all("\\,\\s+", ", ") %>%
-    stringr::str_replace_all("<\\.001", "< .001")
+    str_replace_all(">\\s*NA\\s*<", "><") %>%
+    str_replace_all("\\s+</td>", "</td>") %>%
+    str_replace_all("\\[\\s+", "[") %>%
+    str_replace_all("\\,\\s+", ", ") %>%
+    str_replace_all("<\\.001", "< .001")
 
   TABLE=paste0("
 <table>
@@ -670,7 +635,7 @@ table th, table td {padding-left: 5px; padding-right: 5px; height: 19px;}
       f=file(file, "w", encoding="UTF-8")
       cat(HTML, file=f)
       close(f)
-      Print("<<green \u2714>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
+      Print("<<green \u2714>> Table saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
       cat("\n")
     }
   }
@@ -761,6 +726,466 @@ dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
 
 
 
+#### File I/O ####
+
+
+#' Set working directory to the path of currently opened file.
+#'
+#' Set working directory to the path of currently opened file.
+#' You can use this function in both \strong{.R/.Rmd files and R Console}.
+#' \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' (version >= 1.2) is required for running this function.
+#'
+#' @param path \code{NULL} (default) or a specific path.
+#' Default is to extract the path of the currently opened file
+#' (usually .R or .Rmd) using the \code{rstudioapi::getSourceEditorContext} function.
+#' @param directly \code{TRUE} (default) or \code{FALSE}.
+#' Default is to directly execute \code{setwd("...")} within the function (recommended).
+#' Otherwise, it will send code \code{setwd("...")} to the R Console
+#' and then execute it (not recommended due to a delay of execution).
+#' @param ask \code{TRUE} or \code{FALSE} (default).
+#' If \code{TRUE}, you can select a folder with the prompt of a dialog.
+#'
+#' @return Invisibly return the path.
+#'
+#' @examples
+#' \dontrun{
+#'
+#'   # RStudio (version >= 1.2) is required for running this function.
+#'   set.wd()  # set working directory to the path of the currently opened file
+#'   set.wd("~/")  # set working directory to the home path
+#'   set.wd("../")  # set working directory to the parent path
+#'   set.wd(ask=TRUE)  # select a folder with the prompt of a dialog
+#' }
+#'
+#' @seealso \code{\link[base:getwd]{setwd}}
+#'
+#' @describeIn set.wd Main function
+#' @aliases set_wd
+#' @export
+set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
+  if(rstudioapi::isAvailable()==FALSE)
+    stop("[RStudio] is required for running this function!\n",
+         "Please download and install the latest version of RStudio:\n",
+         "https://rstudio.com/products/rstudio/download/preview/", call.=TRUE)
+  is.windows=ifelse(Sys.info()[["sysname"]]=="Windows", TRUE, FALSE)
+  if(is.null(path)) {
+    tryCatch({
+      if(ask) {
+        # RStudio version >= 1.1.287
+        if(is.windows)
+          path=iconv(rstudioapi::selectDirectory(), from="UTF-8", to="GBK")
+        else
+          path=rstudioapi::selectDirectory()
+      } else {
+        # # RStudio version >= 1.4.843
+        # if(is.windows)
+        #   file.path=iconv(rstudioapi::documentPath(), from="UTF-8", to="GBK")
+        # else
+        #   file.path=rstudioapi::documentPath()
+
+        # RStudio version >= 0.99.1111
+        path=dirname(rstudioapi::getSourceEditorContext()$path)
+      }
+    }, error=function(e) {
+      # Error: Function documentPath not found in RStudio
+      message("Your RStudio version is: ", rstudioapi::getVersion(), "\n")
+      message("Please update RStudio to the latest version:\n",
+              "https://rstudio.com/products/rstudio/download/preview/\n")
+    })
+  }
+  if(length(path)>0) {
+    if(directly) {
+      eval(parse(text=paste0("setwd(\"", path, "\")")))
+      Print("<<green \u2714>> Set working directory to <<bold \"{getwd()}\">>")
+    } else {
+      rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
+    }
+  }
+  invisible(path)
+}
+
+
+#' @describeIn set.wd The alias of \code{set.wd} (the same)
+#' @export
+set_wd=set.wd
+
+
+file_ext=function(filename) {
+  filename=str_trim(filename)
+  pos=regexpr("\\.([[:alnum:]]+)$", filename)
+  ifelse(pos>-1L, tolower(substring(filename, pos+1L)), "")
+}
+
+
+#' Import data from a file.
+#'
+#' @description
+#' Import data from a file, with file format automatically judged by file extension.
+#' This function is inspired by \code{\link[rio:import]{rio::import()}}
+#' and has several modifications.
+#' Its purpose is to avoid using lots of \code{read_xxx()} functions in your code
+#' and to provide one tidy function for data import.
+#'
+#' It supports many file formats and uses corresponding R functions:
+#'
+#' \itemize{
+#'   \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fread]{data.table::fread()}}
+#'   \item Excel (.xls, .xlsx), using \code{\link[readxl:read_excel]{readxl::read_excel()}}
+#'   \item SPSS (.sav), using \code{\link[foreign:read.spss]{foreign::read.spss()}};
+#'   if failed, using \code{\link[haven:read_spss]{haven::read_sav()}} instead
+#'   \item Stata (.dta), using \code{\link[foreign:read.dta]{foreign::read.dta()}};
+#'   if failed, using \code{\link[haven:read_dta]{haven::read_dta()}} instead
+#'   \item R objects (.rda, .rdata, .Rdata), using \code{\link[base:load]{base::load()}}
+#'   \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::readRDS()}}
+#'   \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:read_clip_tbl]{clipr::read_clip_tbl()}}
+#'   \item Other formats, using \code{\link[rio:import]{rio::import()}}
+#' }
+#'
+#' @param file File name (with extension).
+#' If unspecified, then data will be imported from clipboard.
+#' @param encoding File encoding. Default is \code{NULL}.
+#' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+#'
+#' If you find messy code for Chinese text in the imported data,
+#' it is usually effective to set \code{encoding="UTF-8"}.
+#' @param header Does the first row contain column names? Default is \code{TRUE}.
+#' @param sheet [Only for Excel] Excel sheet name.
+#' Default is the first sheet.
+#' Ignored if the sheet is specified via \code{range}.
+#' @param range [Only for Excel] Excel cell range. Default are all cells in a sheet.
+#' You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.
+#' @param setclass,as Class of the imported data. Default is \code{"data.frame"}.
+#' Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).
+#'
+#' Alternatives can be:
+#' \itemize{
+#'   \item data.frame: \code{"data.frame"}, \code{"df"}, \code{"DF"}
+#'   \item data.table: \code{"data.table"}, \code{"dt"}, \code{"DT"}
+#'   \item tbl_df: \code{"tibble"}, \code{"tbl_df"}, \code{"tbl"}
+#' }
+#'
+#' @return A data object (default class is \code{data.frame}).
+#'
+#' @examples
+#' \dontrun{
+#'
+#'   # Import data from system clipboard
+#'   data=import()  # read from clipboard (on Windows and Mac OS)
+#'
+#'   # If you have an Excel file named "mydata.xlsx"
+#'   export(airquality, file="mydata.xlsx")
+#'
+#'   # Import data from a file
+#'   data=import("mydata.xlsx")  # default: data.frame
+#'   data=import("mydata.xlsx", as="data.table")
+#' }
+#'
+#' @seealso \code{\link{export}}
+#'
+#' @export
+import=function(file, encoding=NULL, header=TRUE,
+                sheet=NULL, range=NULL,
+                setclass=as, as="data.frame") {
+  ## initialize
+  if(missing(file)) {
+    file="clipboard"
+    fmt="clipboard"
+  } else {
+    if(file.exists(file)==FALSE)
+      stop("No such file. Did you forget adding the path or file extension?", call.=FALSE)
+    fmt=file_ext(file)  # file format extracted from file extension
+  }
+
+  ## import data
+  if(fmt=="") {
+    stop("File has no extension.", call.=FALSE)
+  } else if(fmt=="clipboard") {
+    x=clipr::read_clip()
+    if(is.null(x) | (is.character(x) & length(x)==1 & x[1]==""))
+      stop("The system clipboard is empty. You may first copy something.", call.=FALSE)
+    else
+      data=clipr::read_clip_tbl(x=x, header=header)
+  } else if(fmt %in% c("rds")) {
+    data=readRDS(file=file)
+  } else if(fmt %in% c("rda", "rdata")) {
+    envir=new.env()
+    load(file=file, envir=envir)
+    if(length(ls(envir))>1)
+      warning("Rdata file contains multiple objects. Returning the first object.", call.=TRUE)
+    data=get(ls(envir)[1], envir)
+  } else if(fmt %in% c("txt", "csv", "csv2", "tsv", "psv")) {
+    if(is.null(encoding)) encoding="unknown"
+    data=data.table::fread(input=file,
+                           encoding=encoding,
+                           header=header)
+  } else if(fmt %in% c("xls", "xlsx")) {
+    data=readxl::read_excel(path=file,
+                            sheet=sheet,
+                            range=range,
+                            col_names=header)
+  } else if(fmt %in% c("sav")) {
+    try({
+      error=TRUE
+      data=foreign::read.spss(
+        file=file,
+        reencode=ifelse(is.null(encoding), NA, encoding),
+        to.data.frame=TRUE,
+        use.value.labels=FALSE)
+      error=FALSE
+    }, silent=TRUE)
+    if(error) {
+      message("[Retry] Using `haven::read_sav()` to import the data...")
+      data=haven::read_sav(file=file, encoding=encoding)
+    }
+  } else if(fmt %in% c("dta")) {
+    try({
+      error=TRUE
+      data=foreign::read.dta(file=file, convert.factors=FALSE)
+      error=FALSE
+    }, silent=TRUE)
+    if(error) {
+      message("[Retry] Using `haven::read_dta()` to import the data...")
+      data=haven::read_dta(file=file, encoding=encoding)
+    }
+  } else {
+    data=rio::import(file=file)
+  }
+
+  ## report data
+  if(is.data.frame(data))
+    Print("<<green \u2714>> Successfully imported: {nrow(data)} obs. of {ncol(data)} variables")
+  else
+    Print("<<green \u2714>> Successfully imported: {length(data)} values of class `{class(data)[1]}`")
+
+  ## return data
+  if(is.null(setclass) | fmt %in% c("rds", "rda", "rdata")) {
+    return(data)
+  } else if(setclass %in% c("data.frame", "df", "DF")) {
+    return(base::as.data.frame(data))
+  } else if(setclass %in% c("data.table", "dt", "DT")) {
+    return(data.table::as.data.table(data))
+  } else if(setclass %in% c("tibble", "tbl_df", "tbl")) {
+    return(tibble::as_tibble(data))
+  } else {
+    return(data)
+  }
+}
+
+
+#' Export data to a file.
+#'
+#' @description
+#' Export data to a file, with file format automatically judged by file extension.
+#' This function is inspired by \code{\link[rio:export]{rio::export()}}
+#' and has several modifications.
+#' Its purpose is to avoid using lots of \code{write_xxx()} functions in your code
+#' and to provide one tidy function for data export.
+#'
+#' It supports many file formats and uses corresponding R functions:
+#'
+#' \itemize{
+#'   \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fwrite]{data.table::fwrite()}};
+#'   if the \code{encoding} argument is specified, using \code{\link[utils:write.table]{utils::write.table()}} instead
+#'   \item Excel (.xls, .xlsx), using \code{\link[openxlsx:write.xlsx]{openxlsx::write.xlsx()}}
+#'   \item SPSS (.sav), using \code{\link[haven:read_spss]{haven::write_sav()}}
+#'   \item Stata (.dta), using \code{\link[haven:read_dta]{haven::write_dta()}}
+#'   \item R objects (.rda, .rdata, .Rdata), using \code{\link[base:save]{base::save()}}
+#'   \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::saveRDS()}}
+#'   \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:write_clip]{clipr::write_clip()}}
+#'   \item Other formats, using \code{\link[rio:export]{rio::export()}}
+#' }
+#'
+#' @param x Any R object, usually a data frame (\code{data.frame}, \code{data.table}, \code{tbl_df}).
+#' Multiple R objects should be included in a \emph{named} \code{list} (see examples).
+#'
+#' If you want to save R objects other than a data frame (e.g., model results),
+#' you'd better specify \code{file} with extensions .rda, .rdata, or .Rdata.
+#' @param file File name (with extension).
+#' If unspecified, then data will be exported to clipboard.
+#' @param encoding File encoding. Default is \code{NULL}.
+#' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+#'
+#' If you find messy code for Chinese text in the exported data (often in CSV when opened with Excel),
+#' it is usually effective to set \code{encoding="GBK"} or \code{encoding="CP936"}.
+#' @param header Does the first row contain column names? Default is \code{TRUE}.
+#' @param sheet [Only for Excel] Excel sheet name(s).
+#' Default is Sheet1, Sheet2, ...
+#' You may specify multiple sheet names in a character vector
+#' \code{c()} with the \emph{same length} as \code{x} (see examples).
+#' @param overwrite Overwrite the existing file (if any)? Default is \code{TRUE}.
+#'
+#' @return No return value.
+#'
+#' @examples
+#' \dontrun{
+#'
+#'   export(airquality)  # paste to clipboard
+#'   export(airquality, file="mydata.csv")
+#'   export(airquality, file="mydata.sav")
+#'
+#'   export(list(airquality, npk), file="mydata.xlsx")  # Sheet1, Sheet2
+#'   export(list(air=airquality, npk=npk), file="mydata.xlsx")  # a named list
+#'   export(list(airquality, npk), sheet=c("air", "npk"), file="mydata.xlsx")
+#'
+#'   export(list(a=1, b=npk, c="character"), file="abc.Rdata")  # .rda, .rdata
+#'   d=import("abc.Rdata")  # load only the first object and rename it to `d`
+#'   load("abc.Rdata")  # load all objects with original names to environment
+#'
+#'   export(lm(yield ~ N*P*K, data=npk), file="lm_npk.Rdata")
+#'   model=import("lm_npk.Rdata")
+#'   load("lm_npk.Rdata")  # because x is unnamed, the object has a name "List1"
+#'
+#'   export(list(m1=lm(yield ~ N*P*K, data=npk)), file="lm_npk.Rdata")
+#'   model=import("lm_npk.Rdata")
+#'   load("lm_npk.Rdata")  # because x is named, the object has a name "m1"
+#' }
+#'
+#' @seealso \code{\link{import}}, \code{\link{print_table}}
+#'
+#' @export
+export=function(x, file, encoding=NULL, header=TRUE,
+                sheet=NULL,
+                overwrite=TRUE) {
+  ## initialize
+  if(missing(file)) {
+    file="clipboard"
+    fmt="clipboard"
+  } else {
+    if(file.exists(file)==TRUE) {
+      if(overwrite)
+        message("Overwrite file \"", file, "\" ...")
+      else
+        stop("File \"", file, "\" existed!", call.=FALSE)
+    }
+    fmt=file_ext(file)  # file format extracted from file extension
+  }
+
+  ## export data
+  if(fmt=="") {
+    stop("File has no extension.", call.=FALSE)
+  } else if(fmt=="clipboard") {
+    suppressWarnings({
+      clipr::write_clip(content=x, sep="\t",
+                        row.names=FALSE,
+                        col.names=header)
+    })
+  } else if(fmt %in% c("rds")) {
+    saveRDS(object=x, file=file)
+  } else if(fmt %in% c("rda", "rdata")) {
+    if(is.data.frame(x)) {
+      save(x, file=file)
+    } else if(is.list(x)) {
+      if(inherits(x, "list")==FALSE) x=list(x)
+      if(is.null(names(x)))
+        names(x)=paste0("List", 1:length(x))
+      envir=as.environment(x)
+      save(list=names(x), file=file, envir=envir)
+    } else if(is.environment(x)) {
+      save(list=ls(x), file=file, envir=x)
+    } else if(is.character(x)) {
+      save(list=x, file=file)
+    } else {
+      stop("`x` must be a data.frame, list, or environment.", call.=FALSE)
+    }
+  } else if(fmt %in% c("txt", "csv", "csv2", "tsv", "psv")) {
+    sep=switch(fmt,
+               txt="\t",
+               csv=",",
+               csv2=";",
+               tsv="\t",
+               psv="|")
+    dec=ifelse(fmt=="csv2", ",", ".")
+    if(is.null(encoding)) {
+      data.table::fwrite(x=x, file=file,
+                         sep=sep, dec=dec,
+                         row.names=FALSE,
+                         col.names=header)
+    } else {
+      utils::write.table(x=x, file=file,
+                         sep=sep, dec=dec,
+                         row.names=FALSE,
+                         col.names=header,
+                         quote=FALSE, na="",
+                         fileEncoding=encoding)
+    }
+  } else if(fmt %in% c("xls", "xlsx")) {
+    if(inherits(x, "list")==FALSE) x=list(x)  # one element
+    if(is.null(sheet)) {
+      if(is.null(names(x)))
+        names(x)=paste0("Sheet", 1:length(x))
+      openxlsx::write.xlsx(x=x, file=file,
+                           overwrite=overwrite,
+                           rowNames=FALSE,
+                           colNames=header)
+    } else {
+      sheet=as.character(sheet)
+      if(length(x)==length(sheet)) {
+        n=length(x)
+        if(file.exists(file)) {
+          wb=openxlsx::loadWorkbook(file=file)
+          sheets=openxlsx::getSheetNames(file=file)
+          for(i in 1:n) {
+            if(sheet[i] %in% sheets)
+              openxlsx::removeWorksheet(wb, sheet=sheet[i])
+            openxlsx::addWorksheet(wb, sheetName=sheet[i])
+            openxlsx::writeData(wb, sheet=sheet[i], x=x[[i]],
+                                rowNames=FALSE,
+                                colNames=header)
+          }
+          openxlsx::saveWorkbook(wb, file=file, overwrite=TRUE)
+        } else {
+          names(x)=sheet
+          openxlsx::write.xlsx(x=x, file=file,
+                               overwrite=overwrite,
+                               rowNames=FALSE,
+                               colNames=header)
+        }
+      } else {
+        stop("Length of sheet should be equal to length of x!", call.=FALSE)
+      }
+    }
+  } else if(fmt %in% c("sav")) {
+    x=restore_labelled(x)
+    haven::write_sav(data=x, path=file)
+  } else if(fmt %in% c("dta")) {
+    x=restore_labelled(x)
+    haven::write_dta(data=x, path=file)
+  } else {
+    rio::export(x=x, file=file)
+  }
+
+  ## report status
+  if(fmt=="clipboard")
+    Print("<<green \u2714>> Successfully paste to clipboard")
+  else
+    Print("<<green \u2714>> Successfully saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
+}
+
+
+restore_labelled=function(x) {
+  # restore labelled variable classes
+  x[]=lapply(x, function(v) {
+    if(is.factor(v)) {
+      haven::labelled(
+        x=as.numeric(v),
+        labels=stats::setNames(seq_along(levels(v)), levels(v)),
+        label=attr(v, "label", exact=TRUE))
+    } else if(!is.null(attr(v, "labels", exact=TRUE)) | !is.null(attr(v, "label", exact=TRUE))) {
+      haven::labelled(
+        x=v,
+        labels=attr(v, "labels", exact=TRUE),
+        label=attr(v, "label", exact=TRUE))
+    } else {
+      v
+    }
+  })
+  x
+}
+
+
+
+
 #### Excel-Style Functions ####
 
 
@@ -781,7 +1206,7 @@ dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
 #' @param return What to return. Default (\code{"new.data"}) is to return a data frame with the lookup values added.
 #' You may also set it to \code{"new.var"} or \code{"new.value"}.
 #'
-#' @return New data object, new variable, or new value (see the parameter \code{return}).
+#' @return New data object, new variable, or new value (see the argument \code{return}).
 #'
 #' @seealso
 #' \code{\link[dplyr:mutate-joins]{dplyr::left_join()}}
@@ -811,11 +1236,11 @@ LOOKUP=function(data, vars,
   by=vars.ref
   names(by)=vars
   data.ref=as.data.frame(data.ref)
-  data.new=dplyr::left_join(data,
-                            data.ref[c(vars.ref, vars.lookup)],
-                            by=by)
+  data.new=left_join(data,
+                     data.ref[c(vars.ref, vars.lookup)],
+                     by=by)
   if(nrow(data.new)>nrow(data))
-    warning("More than one values are matched!")
+    warning("More than one values are matched!", call.=TRUE)
   if(length(return)==3) return="new.data"
   if(return=="new.value" & length(vars.lookup)>=2) return="new.var"
   if(return=="new.data") {

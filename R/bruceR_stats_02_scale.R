@@ -3,7 +3,7 @@
 
 #' Recode a variable.
 #'
-#' Based on \code{\link[car:recode]{car::recode()}}.
+#' A wrapper of \code{\link[car:recode]{car::recode()}}.
 #'
 #' @param var Variable (numeric, character, or factor).
 #' @param recodes Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
@@ -38,7 +38,6 @@ RECODE=function(var, recodes) {
 #'         var2=RESCALE(var, from=1:5, to=1:7))]
 #' d  # var1 is equal to var2
 #'
-#' @importFrom stats median
 #' @export
 RESCALE=function(var, from=range(var, na.rm=T), to) {
   (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
@@ -122,7 +121,7 @@ scaler=function(v, min=0, max=1) {
 #' )]
 #' d
 #'
-#' data=as.data.table(bfi)
+#' data=as.data.table(psych::bfi)
 #' data[,`:=`(
 #'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
@@ -194,7 +193,7 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   if(!is.null(rev) & is.null(likert)) {
     ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
-    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the 'likert' parameter. See ?SUM")
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?SUM", call.=TRUE)
   }
   pre=rep("", length(vars))
   pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
@@ -215,7 +214,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   if(!is.null(rev) & is.null(likert)) {
     ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
-    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the 'likert' parameter. See ?MEAN")
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?MEAN", call.=TRUE)
   }
   pre=rep("", length(vars))
   pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
@@ -225,7 +224,6 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{standard deviation} across multiple variables.
-#' @importFrom stats sd
 #' @export
 STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
              rev=NULL, likert=NULL,
@@ -237,7 +235,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   if(!is.null(rev) & is.null(likert)) {
     ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
-    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the 'likert' parameter. See ?STD")
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?STD", call.=TRUE)
   }
   pre=rep("", length(vars))
   pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
@@ -255,7 +253,7 @@ CONSEC=function(data, var=NULL, items=NULL,
   Conseq=function(string, number=values) {
     # Consecutive Identical Digits
     pattern=paste(paste0(number, "{2,}"), collapse="|")
-    ifelse(grepl(pattern, string), max(nchar(stringr::str_extract_all(string=string, pattern=pattern, simplify=TRUE))), 0)
+    ifelse(grepl(pattern, string), max(nchar(str_extract_all(string=string, pattern=pattern, simplify=TRUE))), 0)
   }
   v.r=convert2vars(data, var, items, vars, varrange)
   vars=v.r$vars
@@ -294,14 +292,15 @@ CONSEC=function(data, var=NULL, items=NULL,
 #'
 #' @examples
 #' # ?psych::bfi
-#' Alpha(bfi, "E", 1:5)  # "E1" & "E2" should be reverse scored
-#' Alpha(bfi, "E", 1:5, rev=1:2)  # correct
-#' Alpha(bfi, "E", 1:5, rev=c("E1", "E2"))  # also correct
-#' Alpha(bfi, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
-#' Alpha(bfi, varrange="E1:E5", rev=c("E1", "E2"))
+#' data=psych::bfi
+#' Alpha(data, "E", 1:5)  # "E1" & "E2" should be reverse scored
+#' Alpha(data, "E", 1:5, rev=1:2)  # correct
+#' Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct
+#' Alpha(data, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
+#' Alpha(data, varrange="E1:E5", rev=c("E1", "E2"))
 #'
 #' # using dplyr::select()
-#' bfi %>% select(E1, E2, E3, E4, E5) %>%
+#' data %>% select(E1, E2, E3, E4, E5) %>%
 #'   Alpha(vars=names(.), rev=c("E1", "E2"))
 #'
 #' @seealso
@@ -348,7 +347,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
 #' \code{\link[jmv:efa]{jmv::efa()}}
 #'
 #' @examples
-#' \donttest{EFA(bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
+#' \donttest{EFA(psych::bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
 #' }
 #' @export
 EFA=function(data, vartext,

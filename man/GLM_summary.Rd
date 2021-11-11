@@ -30,7 +30,7 @@ If you specify \code{cluster}, you may also specify the type of \code{robust}. I
 
 \item{digits, nsmall}{Number of decimal places of output. Default is 3.}
 
-\item{...}{Other parameters. You may re-define \code{formula}, \code{data}, or \code{family}.}
+\item{...}{Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
 \value{
 No return value.

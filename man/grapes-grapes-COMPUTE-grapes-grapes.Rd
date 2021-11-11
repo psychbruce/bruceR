@@ -136,7 +136,7 @@ d[,`:=`(
 )]
 d
 
-data=as.data.table(bfi)
+data=as.data.table(psych::bfi)
 data[,`:=`(
   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)

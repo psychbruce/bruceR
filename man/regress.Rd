@@ -49,7 +49,7 @@ where \code{School} and \code{House} are two grouping variables,
 \code{W1 & W2} are school-level predictors,
 and there is no house-level predictor.
 
-*** If there is no level-2 predictor in the formula of \code{lmer}, just leave this parameter blank.}
+*** If there is no level-2 predictor in the formula of \code{lmer}, just leave this argument blank.}
 
 \item{vartypes}{\strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
 

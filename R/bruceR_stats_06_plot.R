@@ -1,9 +1,6 @@
 #### Plot Toolbox ####
 
 
-# plots=see::plots
-
-
 #' A nice \code{ggplot2} theme that enables Markdown/HTML rich text.
 #'
 #' @description
@@ -54,7 +51,7 @@
 #'
 #' @examples
 #' ## Example 1 (bivariate correlation)
-#' d=as.data.table(bfi)
+#' d=as.data.table(psych::bfi)
 #' d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
 #'         O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
 #' ggplot(data=d, aes(x=E, y=O)) +
@@ -81,8 +78,6 @@
 #'        title="Demo Plot<sup>bruceR</sup>") +
 #'   theme_bruce(markdown=TRUE, border="")
 #'
-#' @import ggplot2
-#' @importFrom ggtext element_markdown
 #' @export
 theme_bruce=function(markdown=FALSE,
                      base.size=12, line.size=0.5,
@@ -94,7 +89,7 @@ theme_bruce=function(markdown=FALSE,
                      grid.x="", grid.y="",
                      line.x=TRUE, line.y=TRUE,
                      tick.x=TRUE, tick.y=TRUE) {
-  if(markdown) element_text=element_markdown
+  if(markdown) element_text=ggtext::element_markdown
   # font face:
   #     "plain", "italic", "bold", "bold.italic"
   # margin:

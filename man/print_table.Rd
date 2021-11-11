@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{print_table}
 \alias{print_table}
-\title{Print a three-line table (to R Console or MS Word).}
+\title{Print a three-line table (to R Console and MS Word).}
 \usage{
 print_table(
   x,

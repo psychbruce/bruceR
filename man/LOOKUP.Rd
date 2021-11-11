@@ -29,7 +29,7 @@ specifying the reference variable(s) to be matched in \code{data.ref}.}
 You may also set it to \code{"new.var"} or \code{"new.value"}.}
 }
 \value{
-New data object, new variable, or new value (see the parameter \code{return}).
+New data object, new variable, or new value (see the argument \code{return}).
 }
 \description{
 In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019),

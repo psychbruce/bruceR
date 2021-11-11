@@ -72,67 +72,73 @@ NULL
 #' Multi-factor ANOVA.
 #'
 #' @description
-#' Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
-#' with or without covariates (ANCOVA). Print results to R Console (and MS Word).
+#' Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
+#' with and without covariates (ANCOVA).
 #'
-#' This function is based on and extends the \code{\link[afex:aov_car]{afex::aov_ez()}} function.
-#' You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
-#' Almost all results you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
-#' 90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
+#' This function is based on and extends \code{\link[afex:aov_car]{afex::aov_ez()}}.
+#' You only need to specify the data, dependent variable(s), and factors
+#' (between-subjects and/or within-subjects).
+#' Almost all results you need will be displayed together,
+#' including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
+#' 90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004).
 #'
-#' @param data Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
+#' @param data Data frame. Both \strong{wide-format} and \strong{long-format} are supported.
 #' \itemize{
-#'   \item If using \strong{long-format} data, please also set \strong{subID}.
-#'   \item If using \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
-#'   the function can \strong{\emph{automatically}} transform the data into \strong{long-format}.
+#'   \item For \strong{wide-format} data (one person in one row, and repeated measures in multiple columns),
+#'   it automatically transforms the data into \strong{long-format}.
+#'   \item For \strong{long-format} data (one person in multiple rows, and repeated measures in one column),
+#'   please also specify the \code{subID} argument (see below).
 #' }
 #' @param subID Subject ID.
 #' \itemize{
-#'   \item If using \strong{long-format} data, you should set the subject ID.
-#'   \item If using \strong{wide-format} data, no need to set this parameter.
+#'   \item For \strong{wide-format} data, no need to specify this argument.
+#'   \item For \strong{long-format} data, you should specify the ID column.
 #' }
-#' @param dv Variable name of dependent variable.
-#' \itemize{
-#'   \item If using \strong{long-format} data, then \code{dv} is the outcome variable.
-#'   \item If using \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
-#'   For designs with repeated measures, please use \code{dvs} and \code{dvs.pattern}.
-#' }
-#' @param dvs \strong{[only for "wide-format" data and designs with repeated measures]}
+#' @param dv [Only for between-subjects designs or "long-format" data of within-subjects or mixed designs]
 #'
-#' Variable names of repeated measures.
+#' Dependent variable.
 #' \itemize{
-#'   \item You can use \code{":"} to specify a range of variables: e.g., \code{"A1B1:A2B3"}
-#'   (similar to the SPSS syntax "TO"; the variables should be put in order)
-#'   \item You can also use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
+#'   \item For \strong{wide-format} data, then \code{dv} only can be used for between-subjects designs.
+#'   For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
+#'   \item For \strong{long-format} data, then \code{dv} is the outcome variable.
 #' }
-#' @param dvs.pattern \strong{[only for "wide-format" data and designs with repeated measures]}
+#' @param dvs [Only for "wide-format" data of within-subjects or mixed designs]
 #'
-#' If you set \code{dvs}, you must also set the pattern of variable names by using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
+#' Repeated measures. Two ways to specify this argument:
+#' \itemize{
+#'   \item Use \code{":"} to specify the range of variables: e.g., \code{"A1B1:A2B3"}
+#'   (similar to the SPSS syntax "TO" and the order of variables matters)
+#'   \item Use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
+#' }
+#' @param dvs.pattern [Only for "wide-format" data of within-subjects or mixed designs]
+#'
+#' Along with \code{dvs}, you should also specify the pattern of variable names
+#' using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
 #'
 #' \strong{Examples:}
 #' \itemize{
-#'   \item \code{"Cond(.)"} can extract levels from \code{"Cond1", "Cond2", "Cond3", ...}
-#'
-#'   \strong{You can rename the factor name} by using \code{within}: e.g., \code{within="Condition"}
-#'   \item \code{"X(..)Y(..)"} can extract levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
-#'   \item \code{"X(.+)Y(.+)"} can extract levels from \code{"X1Y1", "XaYb", "XaY002", ...}
+#'   \item \code{"Cond(.)"} extracts levels from \code{"Cond1", "Cond2", "Cond3", ...}
+#'   You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
+#'   \item \code{"X(..)Y(..)"} extracts levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
+#'   \item \code{"X(.+)Y(.+)"} extracts levels from \code{"X1Y1", "XaYb", "XaY002", ...}
 #' }
 #'
 #' \strong{Tips on regular expression:}
 #' \itemize{
-#'   \item \code{"(.)"} extracts any single character (can be number, letter, or other symbols)
+#'   \item \code{"(.)"} extracts any single character (number, letter, and other symbols)
 #'   \item \code{"(.+)"} extracts >= 1 character(s)
 #'   \item \code{"(.*)"} extracts >= 0 character(s)
 #'   \item \code{"([0-9])"} extracts any single number
 #'   \item \code{"([a-z])"} extracts any single letter
-#'   \item each pair of \code{"()"} extracts levels for each factor
 #' }
-#' @param between Between-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.
-#' @param within Within-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.
-#' @param covariate Covariates (if necessary). Character string (e.g., \code{"age"}) or vector (e.g., \code{c("gender", "age", "edu")}). Default is \code{NULL}.
-#' @param sph.correction \strong{[only effective for repeated measures with >= 3 levels]}
+#' @param between Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
+#' @param within Within-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
+#' @param covariate Covariates. Multiple variables should be included in a character vector \code{c()}.
+#' @param ss.type Type of sums of squares (SS) for ANOVA. Default is \code{"III"}.
+#' Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.
+#' @param sph.correction [Only for repeated measures with >= 3 levels]
 #'
-#' Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+#' Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 #' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
 #' @param file File name of MS Word (\code{.doc}).
 ## @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
@@ -149,59 +155,62 @@ NULL
 #' \donttest{#### Between-Subjects Design ####
 #'
 #' between.1
-#' MANOVA(data=between.1, dv="SCORE", between="A")
+#' MANOVA(between.1, dv="SCORE", between="A")
 #'
 #' between.2
-#' MANOVA(data=between.2, dv="SCORE", between=c("A", "B"))
+#' MANOVA(between.2, dv="SCORE", between=c("A", "B"))
 #'
 #' between.3
-#' MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C"))
+#' MANOVA(between.3, dv="SCORE", between=c("A", "B", "C"))
 #'
 #'
 #' #### Within-Subjects Design ####
 #'
 #' within.1
-#' MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
+#' MANOVA(within.1, dvs="A1:A4", dvs.pattern="A(.)",
 #'        within="A")
 #' ## the same:
-#' MANOVA(data=within.1, dvs=c("A1", "A2", "A3", "A4"), dvs.pattern="A(.)",
+#' MANOVA(within.1, dvs=c("A1", "A2", "A3", "A4"), dvs.pattern="A(.)",
 #'        within="MyFactor")  # renamed the within-subjects factor
 #'
 #' within.2
-#' MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
+#' MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 #'        within=c("A", "B"))
 #'
 #' within.3
-#' MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
+#' MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 #'        within=c("A", "B", "C"))
 #'
 #'
 #' #### Mixed Design ####
 #'
 #' mixed.2_1b1w
-#' MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
+#' MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B")
-#' MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
+#' MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B", sph.correction="GG")
 #'
 #' mixed.3_1b2w
-#' MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
+#' MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 #'        between="A", within=c("B", "C"))
 #'
 #' mixed.3_2b1w
-#' MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
+#' MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 #'        between=c("A", "C"), within="B")
 #'
 #'
 #' #### Other Examples ####
 #' data.new=mixed.3_1b2w
 #' names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
-#' MANOVA(data=data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
-#'        between="Group", within="Condition")  # renamed the within-subjects factor
+#' MANOVA(data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
+#'        between="Group", within="Condition")  # rename the factor
 #'
 #' ?afex::obk.long
-#' MANOVA(data=afex::obk.long, subID="id", dv="value",
-#'        between=c("treatment", "gender"), within=c("phase", "hour"), cov="age",
+#' MANOVA(afex::obk.long,
+#'        subID="id", dv="value",
+#'        between=c("treatment", "gender"),
+#'        within=c("phase", "hour"),
+#'        cov="age",
 #'        sph.correction="GG")
 #' }
 #' @references
@@ -211,23 +220,43 @@ NULL
 #' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
 #' \emph{Psychological Methods, 9}(2), 164-182.
 #'
-#' @seealso \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
+#' @seealso \code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 #'
-#' @importFrom stats complete.cases
 #' @export
 MANOVA=function(data, subID=NULL, dv=NULL,
-                dvs=NULL, dvs.pattern="",
+                dvs=NULL, dvs.pattern=NULL,
                 between=NULL, within=NULL, covariate=NULL,
+                ss.type="III",
                 sph.correction="none",
                 # which.observed=NULL,
                 digits=2, nsmall=digits,
                 file=NULL) {
+  ## Initialize
   data0=data=as.data.frame(data)
-  design=ifelse(is.null(within), "Between-Subjects Design",
-                ifelse(is.null(between), "Within-Subjects Design",
-                       "Mixed Design"))
-  Print("<<yellow ====== MANOVA Output ({design}) ======>>")
-  cat("\n")
+  if(is.null(within)) {
+    if(is.null(between)) {
+      stop("Either `between` or `within` or both should be specified.\nSee: help(MANOVA)", call.=FALSE)
+    } else {
+      design="Between-Subjects Design"
+      if(is.null(dv))
+        stop("`dv` should be specified.\nSee: help(MANOVA)", call.=FALSE)
+      if(!is.null(dvs) | !is.null(dvs.pattern))
+        stop("`dvs` should not be used for between-subjects designs. Please use `dv` instead.\nSee: help(MANOVA)", call.=FALSE)
+    }
+  } else {
+    if(is.null(between)) {
+      design="Within-Subjects Design"
+    } else {
+      design="Mixed Design"
+    }
+    if((!is.null(dv) & is.null(subID)) | (!is.null(dvs) & is.null(dvs.pattern))) {
+      stop(Glue("
+      Wrong usage of MANOVA() function.
+      - For wide-format data, please specify both `dvs` and `dvs.pattern`.
+      - For long-format data, please specify both `dv` and `subID`.
+      See: help(MANOVA)"), call.=FALSE)
+    }
+  }
 
   ## Add Participant ID (if necessary)
   if(is.null(subID)) {
@@ -238,20 +267,16 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 
   ## Wide to Long (if necessary)
   if(is.null(dv)) {
-    if(is.null(within)) {
-      stop("Please specify the dependent variable.")
-    } else {
-      if(length(dvs)==1 & any(grepl(":", dvs)))
-        dv.vars=convert2vars(data, varrange=dvs)$vars.raw
-      else
-        dv.vars=dvs
-      dv="bruceY"  # "Y" will generate an error when dvs are like "X1Y1"
-      data=tidyr::pivot_longer(data, cols=dv.vars,
-                               names_to=within,
-                               names_pattern=dvs.pattern,
-                               values_to=dv)
-      data=as.data.frame(data)
-    }
+    if(length(dvs)==1 & any(grepl(":", dvs)))
+      dv.vars=convert2vars(data, varrange=dvs)$vars.raw
+    else
+      dv.vars=dvs
+    dv="bruceR.Y"  # "Y" will generate an error when dvs are like "X1Y1"
+    data=tidyr::pivot_longer(data, cols=dv.vars,
+                             names_to=within,
+                             names_pattern=dvs.pattern,
+                             values_to=dv)
+    data=as.data.frame(data)
   } else {
     dv.vars=dv
   }
@@ -263,14 +288,17 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     data[[iv]]=as.factor(data[[iv]])
 
   ## Descriptive Statistics
-  Print("<<underline Descriptive Statistics:>>")
-  nmsd=eval(parse(text=Glue("
-    plyr::ddply(data,
-    plyr::.({paste(c(between, within), collapse=', ')}),
-    dplyr::summarise,
-    M=mean({dv}, na.rm=TRUE),
-    SD=sd({dv}, na.rm=TRUE),
-    n=length({dv}))")))
+  Print("<<yellow ====== ANOVA ({design}) ======>>")
+  cat("\n")
+  Print("<<underline Descriptives:>>")
+  bruceR.dv=NULL
+  data$bruceR.dv=data[[dv]]
+  nmsd=plyr::ddply(
+    data, plyr::as.quoted(c(between, within)),
+    summarise,
+    M=mean(bruceR.dv, na.rm=TRUE),
+    SD=sd(bruceR.dv, na.rm=TRUE),
+    n=length(bruceR.dv))
   N.info=Glue("{nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
   print_table(nmsd, row.names=FALSE, nsmalls=nsmall)
   Print("Total sample size: <<italic N>> = {N.info}")
@@ -294,11 +322,13 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   ## Main MANOVA Functions
   suppressMessages({
     aov.ez=afex::aov_ez(
-      data=data, id=subID, dv=dv,
+      data=data,
+      id=subID,  # "bruceR.ID"
+      dv=dv,  # "bruceR.Y"
       between=between,
       within=within,
       covariate=covariate,
-      type="III",
+      type=ss.type,
       # observed=which.observed,
       anova_table=list(correction=sph.correction, es="ges"),
       fun_aggregate=mean,
@@ -309,11 +339,11 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   at=aov.ez$anova_table
   names(at)[1:2]=c("df1", "df2")
   at$MS=at$`F`*at$`MSE`
-  eta2=effectsize::F_to_eta2(at$`F`, at$df1, at$df2)
+  eta2=effectsize::F_to_eta2(at$`F`, at$df1, at$df2, alternative="two.sided")
   at$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
                    formatF(eta2$CI_low, nsmall+1), ", ",
                    formatF(eta2$CI_high, nsmall+1), "]") %>%
-    stringr::str_replace_all("0\\.", ".")
+    str_replace_all("0\\.", ".")
   at0=at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2")]
   names(at)[7]=c("\u03b7\u00b2p [90% CI]")
   row.names(at)=row.names(aov.ez$anova_table)
@@ -344,11 +374,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   ## All Other Effect-Size Measures (deprecated; please use `effectsize` package)
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
   Print("\n\n\n<<magenta
-  \u03c9\u00b2 = omega-squared = (SS - df1 * MSE) / (SST + MSE)
-  \u03b7\u00b2 = eta-squared = SS / SST
-  \u03b7\u00b2G = generalized eta-squared (see Olejnik & Algina, 2003)
+  For other indices of effect size, you may use the `effectsize` package.
   \u03b7\u00b2p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)
-  Cohen\u2019s <<italic f>> = sqrt( \u03b7\u00b2p / (1 - \u03b7\u00b2p) )
+  \u03c9\u00b2p = partial omega-squared = (F - 1) * df1 / (F * df1 + df2 + 1)
+  Cohen\u2019s <<italic f>>\u00b2 = \u03b7\u00b2p / (1 - \u03b7\u00b2p)
   >>")
 
   ## Levene's Test for Homogeneity of Variance
@@ -362,12 +391,12 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     })
     colnames(sph)=c("Mauchly's W", "p")
     if(length(sph)==0) {
-      message("No factors have more than 2 levels, so no need to do the sphericity test.")
+      Print("No factors have more than 2 levels. No need to do the sphericity test.")
     } else {
       print(sph)
       if(min(sph[,2])<.05 & sph.correction=="none") {
         Print("<<red The sphericity assumption is violated.
-              You may set 'sph.correction' to 'GG' or 'HF'.>>")
+              You may specify: sph.correction=\"GG\" (or =\"HF\")>>")
       }
     }
   }
@@ -414,23 +443,24 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' Simple-effect analysis and post-hoc multiple comparison.
 #'
 #' @description
-#' Easily perform (1) simple-effect (and simple-simple-effect) analyses,
+#' Perform (1) simple-effect (and simple-simple-effect) analyses,
 #' including both simple main effects and simple interaction effects,
 #' and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 #' with \emph{p} values adjusted for factors with >= 3 levels.
 #'
-#' This function is based on and extends the
+#' This function is based on and extends
 #' (1) \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}},
 #' (2) \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, and
-#' (3) \code{\link[emmeans:contrast]{emmeans::contrast()}} functions.
+#' (3) \code{\link[emmeans:contrast]{emmeans::contrast()}}.
 #' You only need to specify the model object, to-be-tested effect(s), and moderator(s).
-#' Almost all results you need will be displayed in an elegant manner,
+#' Almost all results you need will be displayed together,
 #' including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
 #'
 #' To compute Cohen's \emph{d} and its 95\% CI in pairwise comparisons,
 #' this function uses the pooled \emph{SD}:
-#' \strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is of the effect term extracted from ANOVA table.
+#' \strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is
+#' the mean square error (for the tested effect) extracted from ANOVA table.
 #'
 #' \strong{\emph{Disclaimer}:}
 #' There is substantial disagreement on what is the appropriate pooled \emph{SD} to use in computing effect sizes.
@@ -440,7 +470,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @section Statistical Details:
 #'
 #' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
-#' Such a confusion is not uncommon. Here, I explain what these terms actually refer to.
+#' Such a confusion is not uncommon. Here I explain what these terms actually refer to.
 #' \describe{
 #'   \item{\strong{1. Simple Effect}}{
 #'     When we speak of "simple effect", we are referring to ...
@@ -538,46 +568,46 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' \donttest{#### Between-Subjects Design ####
 #'
 #' between.1
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A")
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", p.adjust="tukey")
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="seq")
-#' MANOVA(data=between.1, dv="SCORE", between="A") %>%
+#' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="poly")
 #'
 #' between.2
-#' MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) %>%
+#' MANOVA(between.2, dv="SCORE", between=c("A", "B")) %>%
 #'   EMMEANS("A") %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B") %>%
 #'   EMMEANS("B", by="A")
 #'
 #' between.3
-#' MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) %>%
+#' MANOVA(between.3, dv="SCORE", between=c("A", "B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("A", by=c("B", "C"))
-#' ## just to name a few
-#' ## you can test many other combinations of effects
+#' ## just to name a few here
+#' ## you may test other combinations
 #'
 #'
 #' #### Within-Subjects Design ####
 #'
 #' within.1
-#' MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
+#' MANOVA(within.1, dvs="A1:A4", dvs.pattern="A(.)",
 #'        within="A") %>%
 #'   EMMEANS("A")
 #'
 #' within.2
-#' MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
+#' MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 #'        within=c("A", "B")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")  # singular error matrix
 #'
 #' within.3
-#' MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
+#' MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 #'        within=c("A", "B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
@@ -587,20 +617,20 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' #### Mixed Design ####
 #'
 #' mixed.2_1b1w
-#' MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
+#' MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B", sph.correction="GG") %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")
 #'
 #' mixed.3_1b2w
-#' MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
+#' MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 #'        between="A", within=c("B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("A", by=c("B", "C"))
 #'
 #' mixed.3_2b1w
-#' MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
+#' MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 #'        between=c("A", "C"), within="B") %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("A", by="C") %>%
@@ -612,12 +642,12 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' air=airquality
 #' air$Day.1or2=ifelse(air$Day %% 2 == 1, 1, 2) %>%
 #'   factor(levels=1:2, labels=c("odd", "even"))
-#' MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
+#' MANOVA(air, dv="Temp", between=c("Month", "Day.1or2"),
 #'        covariate=c("Solar.R", "Wind")) %>%
 #'   EMMEANS("Month", contrast="seq") %>%
 #'   EMMEANS("Month", by="Day.1or2", contrast="poly")
 #' }
-#' @seealso \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
+#' @seealso \code{\link{TTEST}}, \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 #'
 #' @export
 EMMEANS=function(model, effect=NULL, by=NULL,
@@ -671,14 +701,14 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   }, silent=TRUE)
 
   effect.text=paste(effect, collapse='\" & \"')
-  Print("<<yellow ------ EMMEANS Output (effect = \"{effect.text}\") ------>>")
+  Print("<<yellow ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
   Print("<<underline {ifelse(is.null(by), 'Omnibus Test', 'Simple Effects')} of \"{effect.text}\":>>")
   if(is.null(sim) | "note" %in% names(sim))
     message("Warning:
     WITHIN CELLS error matrix is SINGULAR.
     Some variables are LINEARLY DEPENDENT.
-    The simple effect could be misleading.")
+    The simple effect might be misleading.")
   else
     print_table(sim, nsmalls=2, row.names=FALSE)
   cat("\n")
@@ -723,7 +753,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   if(contrast=="poly") p.adjust="none"
   con0=con=emmeans::contrast(emm0, method=contrast, adjust=p.adjust, reverse=reverse)
   # pairs(emm, simple="each", reverse=TRUE, combine=TRUE)
-  conCI=stats::confint(con)
+  conCI=confint(con)
   con=summary(con)  # to a data.frame (class 'summary_emm')
   con$sig=sig.trans(con$p.value)
 
@@ -758,7 +788,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
       " ", "Cohen's d [95% CI]")
   if(any(p.mesg.index)) {
     p.mesg=attr(con, "mesg")[which(p.mesg.index)]
-    method.mesg=stringr::str_extract(p.mesg, "(?<=: ).+(?= method)")
+    method.mesg=str_extract(p.mesg, "(?<=: ).+(?= method)")
     if(method.mesg %in% c("fdr", "mvt"))
       method.mesg.new=toupper(method.mesg)
     else
@@ -773,11 +803,13 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 
   Print("<<underline {contr.method} of \"{effect.text}\":>>")
   print(con)
-  Print("<<yellow Disclaimer (about Cohen\u2019s d):>>
+  Print("<<yellow Disclaimer on Cohen\u2019s d:>>
   <<cyan
-  There is considerable disagreement on how to compute Cohen\u2019s d.
-  You should <<italic not>> take the above output as the only right results.
-  You are completely responsible for setting the \"sd.pooled\".
+  Cohen\u2019s d in <<italic within-subjects>> designs are <<italic not>> precise.
+  There is much disagreement on how to compute Cohen\u2019s d.
+  You should <<italic not>> take the output as the only right results.
+  You are completely responsible for setting the `sd.pooled`.
+  You may also use `<<green effectsize::t_to_d()>>` to compute Cohen\u2019s d.
   >>")
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
@@ -793,7 +825,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 levene_test=function(dvs, ivs.between, data) {
   Print("\n\n\n<<underline Levene\u2019s Test for Homogeneity of Variance:>>")
   if(is.null(ivs.between)) {
-    message("No between-subjects factors, so no need to do the Levene's test.")
+    Print("No between-subjects factors. No need to do the Levene\u2019s test.")
   } else {
     for(iv in ivs.between)
       data[[iv]]=as.factor(data[[iv]])

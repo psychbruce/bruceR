@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Corr}
 \alias{Corr}
-\title{Correlation analysis (to R Console or MS Word).}
+\title{Correlation analysis (to R Console and MS Word).}
 \usage{
 Corr(
   data,
@@ -60,7 +60,7 @@ Invisibly return the correlation results obtained from
 \code{\link[psych:corr.test]{psych::corr.test()}}.
 }
 \description{
-Correlation analysis (to R Console or MS Word).
+Correlation analysis (to R Console and MS Word).
 }
 \examples{
 Corr(airquality)

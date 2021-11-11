@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_05_advance.R
 \name{med_summary}
 \alias{med_summary}
-\title{Tidy report of mediation analysis (to R Console or MS Word).}
+\title{Tidy report of mediation analysis (to R Console and MS Word).}
 \usage{
 med_summary(model, digits = 3, nsmall = digits, file = NULL)
 }

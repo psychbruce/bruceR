@@ -57,7 +57,7 @@ continuous (numeric), dichotomous (factor), and multicategorical (factor).
 * Order matters when \code{mod.type="3-way"}
 (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
 
-** Do not set this parameter when \code{med.type="serial"}
+** Do not set this argument when \code{med.type="serial"}
 (PROCESS Model 6).}
 
 \item{covs}{Variable name(s) of covariate(s) (i.e., control variables).
@@ -70,20 +70,20 @@ e.g., \code{"School_ID"} or \code{c("Sub", "Item")}.}
 \item{hlm.re.m, hlm.re.y}{HLM (multilevel) random effect term of M model and Y model.
 By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
 e.g., \code{"(1 | School_ID)"} or \code{"(1 | Sub) + (1 | Item)"}.
-You can set these parameters to include more complex terms (e.g., random slopes).
-In most cases, no need to set these parameters.}
+You can set these arguments to include more complex terms (e.g., random slopes).
+In most cases, no need to set these arguments.}
 
 \item{hlm.type}{HLM (multilevel) mediation type (levels of "X-M-Y"):
 \code{"1-1-1"} (default),
 \code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
 or \code{"2-2-1"} (currently \emph{not fully supported}, as limited by the \code{\link[mediation:mediate]{mediation}} package).
-In most cases, no need to set this parameter.}
+In most cases, no need to set this argument.}
 
 \item{med.type}{Type of mediator:
 \code{"parallel"} (default) or \code{"serial"}
 (only relevant to PROCESS Model 6).
 Partial matches of \code{"p"} or \code{"s"} also work.
-In most cases, no need to set this parameter.}
+In most cases, no need to set this argument.}
 
 \item{mod.type}{Type of moderator:
 \code{"2-way"} (default) or \code{"3-way"}
@@ -181,7 +181,7 @@ moderated moderation (3-way interaction), and moderated mediation (conditional i
 for \strong{(generalized) linear or linear mixed models}.
 
 Specifically, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function
-first builds regression models according to the data, variable names, and a few other parameters
+first builds regression models according to the data, variable names, and a few other arguments
 that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
 The function can automatically judge the model number/type and also automatically conduct mean-centering before model building.
 

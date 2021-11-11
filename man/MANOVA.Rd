@@ -9,10 +9,11 @@ MANOVA(
   subID = NULL,
   dv = NULL,
   dvs = NULL,
-  dvs.pattern = "",
+  dvs.pattern = NULL,
   between = NULL,
   within = NULL,
   covariate = NULL,
+  ss.type = "III",
   sph.correction = "none",
   digits = 2,
   nsmall = digits,
@@ -20,67 +21,72 @@ MANOVA(
 )
 }
 \arguments{
-\item{data}{Data frame. Both \strong{long-format} and \strong{wide-format} can be used.
+\item{data}{Data frame. Both \strong{wide-format} and \strong{long-format} are supported.
 \itemize{
-  \item If using \strong{long-format} data, please also set \strong{subID}.
-  \item If using \strong{wide-format} data (i.e., one subject occupies one row, and repeated measures occupy multiple columns),
-  the function can \strong{\emph{automatically}} transform the data into \strong{long-format}.
+  \item For \strong{wide-format} data (one person in one row, and repeated measures in multiple columns),
+  it automatically transforms the data into \strong{long-format}.
+  \item For \strong{long-format} data (one person in multiple rows, and repeated measures in one column),
+  please also specify the \code{subID} argument (see below).
 }}
 
 \item{subID}{Subject ID.
 \itemize{
-  \item If using \strong{long-format} data, you should set the subject ID.
-  \item If using \strong{wide-format} data, no need to set this parameter.
+  \item For \strong{wide-format} data, no need to specify this argument.
+  \item For \strong{long-format} data, you should specify the ID column.
 }}
 
-\item{dv}{Variable name of dependent variable.
+\item{dv}{[Only for between-subjects designs or "long-format" data of within-subjects or mixed designs]
+
+Dependent variable.
 \itemize{
-  \item If using \strong{long-format} data, then \code{dv} is the outcome variable.
-  \item If using \strong{wide-format} data, then \code{dv} can only be used for complete between-subjects design.
-  For designs with repeated measures, please use \code{dvs} and \code{dvs.pattern}.
+  \item For \strong{wide-format} data, then \code{dv} only can be used for between-subjects designs.
+  For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
+  \item For \strong{long-format} data, then \code{dv} is the outcome variable.
 }}
 
-\item{dvs}{\strong{[only for "wide-format" data and designs with repeated measures]}
+\item{dvs}{[Only for "wide-format" data of within-subjects or mixed designs]
 
-Variable names of repeated measures.
+Repeated measures. Two ways to specify this argument:
 \itemize{
-  \item You can use \code{":"} to specify a range of variables: e.g., \code{"A1B1:A2B3"}
-  (similar to the SPSS syntax "TO"; the variables should be put in order)
-  \item You can also use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
+  \item Use \code{":"} to specify the range of variables: e.g., \code{"A1B1:A2B3"}
+  (similar to the SPSS syntax "TO" and the order of variables matters)
+  \item Use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
 }}
 
-\item{dvs.pattern}{\strong{[only for "wide-format" data and designs with repeated measures]}
+\item{dvs.pattern}{[Only for "wide-format" data of within-subjects or mixed designs]
 
-If you set \code{dvs}, you must also set the pattern of variable names by using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
+Along with \code{dvs}, you should also specify the pattern of variable names
+using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
 
 \strong{Examples:}
 \itemize{
-  \item \code{"Cond(.)"} can extract levels from \code{"Cond1", "Cond2", "Cond3", ...}
-
-  \strong{You can rename the factor name} by using \code{within}: e.g., \code{within="Condition"}
-  \item \code{"X(..)Y(..)"} can extract levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
-  \item \code{"X(.+)Y(.+)"} can extract levels from \code{"X1Y1", "XaYb", "XaY002", ...}
+  \item \code{"Cond(.)"} extracts levels from \code{"Cond1", "Cond2", "Cond3", ...}
+  You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
+  \item \code{"X(..)Y(..)"} extracts levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
+  \item \code{"X(.+)Y(.+)"} extracts levels from \code{"X1Y1", "XaYb", "XaY002", ...}
 }
 
 \strong{Tips on regular expression:}
 \itemize{
-  \item \code{"(.)"} extracts any single character (can be number, letter, or other symbols)
+  \item \code{"(.)"} extracts any single character (number, letter, and other symbols)
   \item \code{"(.+)"} extracts >= 1 character(s)
   \item \code{"(.*)"} extracts >= 0 character(s)
   \item \code{"([0-9])"} extracts any single number
   \item \code{"([a-z])"} extracts any single letter
-  \item each pair of \code{"()"} extracts levels for each factor
 }}
 
-\item{between}{Between-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+\item{between}{Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.}
 
-\item{within}{Within-subjects factors. Character string (e.g., \code{"A"}) or vector (e.g., \code{c("A", "B")}). Default is \code{NULL}.}
+\item{within}{Within-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.}
 
-\item{covariate}{Covariates (if necessary). Character string (e.g., \code{"age"}) or vector (e.g., \code{c("gender", "age", "edu")}). Default is \code{NULL}.}
+\item{covariate}{Covariates. Multiple variables should be included in a character vector \code{c()}.}
 
-\item{sph.correction}{\strong{[only effective for repeated measures with >= 3 levels]}
+\item{ss.type}{Type of sums of squares (SS) for ANOVA. Default is \code{"III"}.
+Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.}
 
-Sphericity correction method to adjust the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+\item{sph.correction}{[Only for repeated measures with >= 3 levels]
+
+Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
@@ -91,71 +97,76 @@ If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (G
 A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
 }
 \description{
-Easily perform multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
-with or without covariates (ANCOVA). Print results to R Console (and MS Word).
+Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
+with and without covariates (ANCOVA).
 
-This function is based on and extends the \code{\link[afex:aov_car]{afex::aov_ez()}} function.
-You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects).
-Almost all results you need will be displayed in an elegant manner, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
-90\% CIs for partial \eqn{\eta^2} are reported, following the suggestion by Steiger (2004).
+This function is based on and extends \code{\link[afex:aov_car]{afex::aov_ez()}}.
+You only need to specify the data, dependent variable(s), and factors
+(between-subjects and/or within-subjects).
+Almost all results you need will be displayed together,
+including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
+90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004).
 }
 \examples{
 \donttest{#### Between-Subjects Design ####
 
 between.1
-MANOVA(data=between.1, dv="SCORE", between="A")
+MANOVA(between.1, dv="SCORE", between="A")
 
 between.2
-MANOVA(data=between.2, dv="SCORE", between=c("A", "B"))
+MANOVA(between.2, dv="SCORE", between=c("A", "B"))
 
 between.3
-MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C"))
+MANOVA(between.3, dv="SCORE", between=c("A", "B", "C"))
 
 
 #### Within-Subjects Design ####
 
 within.1
-MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
+MANOVA(within.1, dvs="A1:A4", dvs.pattern="A(.)",
        within="A")
 ## the same:
-MANOVA(data=within.1, dvs=c("A1", "A2", "A3", "A4"), dvs.pattern="A(.)",
+MANOVA(within.1, dvs=c("A1", "A2", "A3", "A4"), dvs.pattern="A(.)",
        within="MyFactor")  # renamed the within-subjects factor
 
 within.2
-MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
+MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B"))
 
 within.3
-MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
+MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C"))
 
 
 #### Mixed Design ####
 
 mixed.2_1b1w
-MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
+MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B")
-MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
+MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B", sph.correction="GG")
 
 mixed.3_1b2w
-MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
+MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C"))
 
 mixed.3_2b1w
-MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
+MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
        between=c("A", "C"), within="B")
 
 
 #### Other Examples ####
 data.new=mixed.3_1b2w
 names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
-MANOVA(data=data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
-       between="Group", within="Condition")  # renamed the within-subjects factor
+MANOVA(data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
+       between="Group", within="Condition")  # rename the factor
 
 ?afex::obk.long
-MANOVA(data=afex::obk.long, subID="id", dv="value",
-       between=c("treatment", "gender"), within=c("phase", "hour"), cov="age",
+MANOVA(afex::obk.long,
+       subID="id", dv="value",
+       between=c("treatment", "gender"),
+       within=c("phase", "hour"),
+       cov="age",
        sph.correction="GG")
 }
 }
@@ -167,5 +178,5 @@ Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and t
 \emph{Psychological Methods, 9}(2), 164-182.
 }
 \seealso{
-\code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
+\code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 }

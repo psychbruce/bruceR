@@ -61,23 +61,24 @@ for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[em
 The same object as returned by \code{\link{MANOVA}} (for recursive use).
 }
 \description{
-Easily perform (1) simple-effect (and simple-simple-effect) analyses,
+Perform (1) simple-effect (and simple-simple-effect) analyses,
 including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 with \emph{p} values adjusted for factors with >= 3 levels.
 
-This function is based on and extends the
+This function is based on and extends
 (1) \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}},
 (2) \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, and
-(3) \code{\link[emmeans:contrast]{emmeans::contrast()}} functions.
+(3) \code{\link[emmeans:contrast]{emmeans::contrast()}}.
 You only need to specify the model object, to-be-tested effect(s), and moderator(s).
-Almost all results you need will be displayed in an elegant manner,
+Almost all results you need will be displayed together,
 including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
 
 To compute Cohen's \emph{d} and its 95\% CI in pairwise comparisons,
 this function uses the pooled \emph{SD}:
-\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is of the effect term extracted from ANOVA table.
+\strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is
+the mean square error (for the tested effect) extracted from ANOVA table.
 
 \strong{\emph{Disclaimer}:}
 There is substantial disagreement on what is the appropriate pooled \emph{SD} to use in computing effect sizes.
@@ -88,7 +89,7 @@ Users should \emph{not} take the default output as the only right results and ar
 
 
 Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
-Such a confusion is not uncommon. Here, I explain what these terms actually refer to.
+Such a confusion is not uncommon. Here I explain what these terms actually refer to.
 \describe{
   \item{\strong{1. Simple Effect}}{
     When we speak of "simple effect", we are referring to ...
@@ -153,46 +154,46 @@ Such a confusion is not uncommon. Here, I explain what these terms actually refe
 \donttest{#### Between-Subjects Design ####
 
 between.1
-MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
-MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", p.adjust="tukey")
-MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="seq")
-MANOVA(data=between.1, dv="SCORE", between="A") \%>\%
+MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="poly")
 
 between.2
-MANOVA(data=between.2, dv="SCORE", between=c("A", "B")) \%>\%
+MANOVA(between.2, dv="SCORE", between=c("A", "B")) \%>\%
   EMMEANS("A") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B") \%>\%
   EMMEANS("B", by="A")
 
 between.3
-MANOVA(data=between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
+MANOVA(between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
-## just to name a few
-## you can test many other combinations of effects
+## just to name a few here
+## you may test other combinations
 
 
 #### Within-Subjects Design ####
 
 within.1
-MANOVA(data=within.1, dvs="A1:A4", dvs.pattern="A(.)",
+MANOVA(within.1, dvs="A1:A4", dvs.pattern="A(.)",
        within="A") \%>\%
   EMMEANS("A")
 
 within.2
-MANOVA(data=within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
+MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")  # singular error matrix
 
 within.3
-MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
+MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
@@ -202,20 +203,20 @@ MANOVA(data=within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
 #### Mixed Design ####
 
 mixed.2_1b1w
-MANOVA(data=mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
+MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B", sph.correction="GG") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 
 mixed.3_1b2w
-MANOVA(data=mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
+MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
 
 mixed.3_2b1w
-MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
+MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
        between=c("A", "C"), within="B") \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("A", by="C") \%>\%
@@ -227,12 +228,12 @@ MANOVA(data=mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 air=airquality
 air$Day.1or2=ifelse(air$Day \%\% 2 == 1, 1, 2) \%>\%
   factor(levels=1:2, labels=c("odd", "even"))
-MANOVA(data=air, dv="Temp", between=c("Month", "Day.1or2"),
+MANOVA(air, dv="Temp", between=c("Month", "Day.1or2"),
        covariate=c("Solar.R", "Wind")) \%>\%
   EMMEANS("Month", contrast="seq") \%>\%
   EMMEANS("Month", by="Day.1or2", contrast="poly")
 }
 }
 \seealso{
-\code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
+\code{\link{TTEST}}, \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 }

@@ -1,8 +1,8 @@
-# bruceR <a href="https://github.com/psychbruce/bruceR/tree/master/logo"><img src="https://raw.githubusercontent.com/psychbruce/bruceR/master/logo/bruceR-logo-gifs.gif" align="right" height="360px"/></a>
+# bruceR <a href="https://github.com/psychbruce/bruceR/tree/master/logo"><img src="https://raw.githubusercontent.com/psychbruce/bruceR/master/logo/bruceR-logo-gifs.gif" align="right" height="180px"/></a>
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to where the current file is, print strings with rich formats and colors); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability and factor analyses; **(4)** descriptive statistics and correlation analyses; **(5)** multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of regression models and other results (to R Console and MS Word); **(7)** mediation and moderation analyses (PROCESS); and **(8)** additional toolbox for statistics and graphics.
+This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to the path of currently opened file, import/export data from/to files with any format, print strings with rich formats and colors); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability and factor analyses; **(4)** descriptive statistics and correlation analyses; **(5)** *t*-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of regression models and other results (to R Console and MS Word); **(7)** mediation and moderation analyses (PROCESS); and **(8)** additional toolbox for statistics and graphics.
 
 [![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://cranlogs.r-pkg.org/downloads/daily/last-month/bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![Travis-Build-Status](https://api.travis-ci.com/psychbruce/bruceR.svg?branch=master)](https://app.travis-ci.com/github/psychbruce/bruceR) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
@@ -53,7 +53,6 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 -   **[Data]:**
 
-    -   [`rio`](https://cran.r-project.org/package=rio): Data import and export (for all file formats).
     -   [`dplyr`](https://cran.r-project.org/package=dplyr): Data manipulation and processing.
     -   [`tidyr`](https://cran.r-project.org/package=tidyr): Data cleaning and reshaping.
     -   [`stringr`](https://cran.r-project.org/package=stringr): Toolbox for string operation (with regular expressions).
@@ -62,10 +61,9 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 -   **[Stat]:**
 
-    -   [`psych`](https://cran.r-project.org/package=psych): Toolbox for psychological and psychometric research.
-    -   [`emmeans`](https://cran.r-project.org/package=emmeans): Toolbox for estimated marginal means and contrasts.
-    -   [`effectsize`](https://cran.r-project.org/package=effectsize): Indices of effect size and standardized parameters.
-    -   [`performance`](https://cran.r-project.org/package=performance): Assessment of regression models performance.
+    -   [`emmeans`](https://cran.r-project.org/package=emmeans): Estimates of marginal means and multiple contrasts.
+    -   [`effectsize`](https://cran.r-project.org/package=effectsize): Estimates of effect sizes and standardized parameters.
+    -   [`performance`](https://cran.r-project.org/package=performance): Estimates of regression models performance.
 
 -   **[Plot]:**
 
@@ -78,7 +76,8 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 1.  **Basic R Programming**
 
-    -   `set.wd()`
+    -   `set.wd()` (alias: `set_wd()`)
+    -   `import()`, `export()`
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
     -   `Print()`, `Glue()`, `Run()`
@@ -105,8 +104,9 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `Corr()`
     -   `cor_diff()`
 
-5.  **Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison**
+5.  **T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison**
 
+    -   `TTEST()`
     -   `MANOVA()`
     -   `EMMEANS()`
 
@@ -147,6 +147,7 @@ Some functions in `bruceR` allow table output to Microsoft Word (by setting `fil
 | `Alpha()`             |         √         |                     |
 | `EFA()`               |         √         |                     |
 | `CFA()`               |         √         |                     |
+| `TTEST()`             |         √         |          √          |
 | `MANOVA()`            |         √         |          √          |
 | `EMMEANS()`           |         √         |                     |
 | `PROCESS()`           |         √         |   √ (only a part)   |
@@ -185,12 +186,15 @@ help(bruceR)
 ## See help pages of functions
 ## (use `?function` or `help(function)`)
 ?set.wd
+?import
+?export
 ?Describe
 ?Freq
 ?Corr
 ?Alpha
 ?MEAN
 ?RECODE
+?TTEST
 ?MANOVA
 ?EMMEANS
 ?PROCESS

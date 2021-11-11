@@ -44,17 +44,14 @@ p.plain=function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
 }
 
 #' @describeIn p Two-tailed \emph{p} value of \emph{z}.
-#' @importFrom stats pnorm
 #' @export
 p.z=function(z) pnorm(abs(z), lower.tail=FALSE)*2
 
 #' @describeIn p Two-tailed \emph{p} value of \emph{t}.
-#' @importFrom stats pt
 #' @export
 p.t=function(t, df) pt(abs(t), df, lower.tail=FALSE)*2
 
 #' @describeIn p One-tailed \emph{p} value of \emph{F}. (Note: \emph{F} test is one-tailed only.)
-#' @importFrom stats pf
 #' @export
 p.f=function(f, df1, df2) pf(f, df1, df2, lower.tail=FALSE)
 
@@ -63,7 +60,6 @@ p.f=function(f, df1, df2) pf(f, df1, df2, lower.tail=FALSE)
 p.r=function(r, n) p.t(r/sqrt((1-r^2)/(n-2)), n-2)
 
 #' @describeIn p One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
-#' @importFrom stats pchisq
 #' @export
 p.chi2=function(chi2, df) ifelse(df==0, 1, pchisq(chi2, df, lower.tail=FALSE))
 
@@ -133,7 +129,7 @@ sig.trans=function(p) {
 
 #### Basic Statistics ####
 
-#' Descriptive statistics (to R Console or MS Word).
+#' Descriptive statistics (to R Console and MS Word).
 #'
 #' @param data Data frame or numeric vector.
 #' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
@@ -164,7 +160,7 @@ sig.trans=function(p) {
 #' Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
 #'
 #' # ?psych::bfi
-#' Describe(bfi[c("age", "gender", "education")])
+#' Describe(psych::bfi[c("age", "gender", "education")])
 #'
 #' d=as.data.table(psych::bfi)
 #' d[,`:=`(
@@ -181,7 +177,6 @@ sig.trans=function(p) {
 #' }
 #' @seealso \code{\link{Corr}}
 #'
-#' @import ggplot2
 #' @export
 Describe=function(data,
                   all.as.numeric=TRUE,
@@ -228,30 +223,36 @@ Describe=function(data,
 
   p=NULL
   if(plot) {
+    if(!pacman::p_isinstalled("GGally"))
+      stop("Package `GGally` needs to be installed for plotting.\nRun this code: install.packages(\"GGally\")", call.=FALSE)
     if(upper.triangle) {
       smooth=switch(upper.smooth,
                     "none"="points",
                     "lm"="smooth",
                     "loess"="smooth_loess")
+      Run("
       upper=list(continuous=GGally::wrap(
         smooth, size=1, shape=16, alpha=0.3))
+      ")
     } else {
       upper="blank"
     }
+    Run("
     p=GGally::ggpairs(
-      data.new, switch="both", axisLabels="none",
+      data.new, switch=\"both\", axisLabels=\"none\",
       upper=upper,
       lower=list(continuous=GGally::wrap(
-        "cor", digits=nsmall,
-        use="pairwise.complete.obs",
-        size=4, color="black"))
-    ) + theme_bruce() + theme(strip.text=element_text(size=12, color="black"))
+        \"cor\", digits=nsmall,
+        use=\"pairwise.complete.obs\",
+        size=4, color=\"black\"))
+    ) + theme_bruce() + theme(strip.text=element_text(size=12, color=\"black\"))
+    ")
     if(is.null(plot.file)) {
       print(p)
     } else {
       cowplot::ggsave2(plot=p, filename=plot.file,
                        width=plot.width, height=plot.height, dpi=plot.dpi)
-      plot.file=stringr::str_split(plot.file, "/", simplify=TRUE)
+      plot.file=str_split(plot.file, "/", simplify=TRUE)
       plot.path=paste0(getwd(), '/', plot.file[length(plot.file)])
       Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
     }
@@ -261,7 +262,7 @@ Describe=function(data,
 }
 
 
-#' Frequency statistics (to R Console or MS Word).
+#' Frequency statistics (to R Console and MS Word).
 #'
 #' @param var Vector or variable.
 #' @param label [optional] A vector re-defining the labels of values.
@@ -272,9 +273,10 @@ Describe=function(data,
 #' @return A data frame of frequency statistics.
 #'
 #' @examples
-#' Freq(bfi$education)
-#' Freq(bfi$gender, label=c("Male", "Female"))
-#' Freq(bfi$age)
+#' data=psych::bfi
+#' Freq(data$education)
+#' Freq(data$gender, label=c("Male", "Female"))
+#' Freq(data$age)
 #'
 #' @export
 Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
@@ -310,7 +312,7 @@ Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
 }
 
 
-#' Correlation analysis (to R Console or MS Word).
+#' Correlation analysis (to R Console and MS Word).
 #'
 #' @inheritParams Describe
 #' @param data Data frame.
@@ -348,7 +350,6 @@ Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
 #'
 #' @seealso \code{\link{Describe}}
 #'
-#' @importFrom stats p.adjust
 #' @export
 Corr=function(data,
               method="pearson",
@@ -419,7 +420,7 @@ Corr=function(data,
         Please check if the `Plots` Pane of YOUR RStudio is too small.
         You should enlarge the `Plots` Pane (and/or clear all plots).")
       Print("<<yellow {warning}>>")
-      warning(warning)
+      warning(warning, call.=TRUE)
       cat("\n")
     } else {
       Print("Correlation matrix is displayed in the RStudio `Plots` Pane.")
@@ -429,7 +430,7 @@ Corr=function(data,
     }
     if(!is.null(plot.file)) {
       grDevices::dev.off()
-      plot.file=stringr::str_split(plot.file, "/", simplify=TRUE)
+      plot.file=str_split(plot.file, "/", simplify=TRUE)
       plot.path=paste0(getwd(), '/', plot.file[length(plot.file)])
       Print("<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
       cat("\n")
@@ -459,12 +460,12 @@ Corr=function(data,
     }
     for(i in 1:nrow(cor.mat)) {
       for(j in 1:ncol(cor.mat)) {
-        cor.mat[i,j]=stringr::str_replace_all(cor.mat[i,j], "0\\.", ".")
+        cor.mat[i,j]=str_replace_all(cor.mat[i,j], "0\\.", ".")
         if(!is.na(cor.mat[i,j])) {
           if(as.numeric(cor.mat[i,j])>0)
-            cor.mat[i,j]=paste0("&ensp;", stringr::str_trim(cor.mat[i,j]))
+            cor.mat[i,j]=paste0("&ensp;", str_trim(cor.mat[i,j]))
           if(grepl("\\*", cor.sig[i,j]))
-            cor.mat[i,j]=paste0(cor.mat[i,j], "<sup>", stringr::str_replace_all(cor.sig[i,j], "\\s", "&ensp;"), "</sup>")
+            cor.mat[i,j]=paste0(cor.mat[i,j], "<sup>", str_replace_all(cor.sig[i,j], "\\s", "&ensp;"), "</sup>")
           else
             cor.mat[i,j]=paste0(cor.mat[i,j], "<sup>&ensp;&ensp;&ensp;</sup>")
         }
@@ -480,9 +481,9 @@ Corr=function(data,
     COR.new=COR
     COR.new$Pairs=row.names(COR)
     COR.new$`r [95% CI]`=paste(COR$r, COR$`[95% CI]`) %>%
-      stringr::str_replace_all("-", "\u2013") %>%
-      stringr::str_replace_all("0\\.", ".") %>%
-      stringr::str_replace_all("^ \\.", "&ensp;.")
+      str_replace_all("-", "\u2013") %>%
+      str_replace_all("0\\.", ".") %>%
+      str_replace_all("^ \\.", "&ensp;.")
     COR.new$p=p.trans(COR$pval)
     COR.new=COR.new[c("Pairs", "r [95% CI]", "p", "N")]
     names(COR.new)=c("Pairs", "<i>r</i> [95% CI]", "<i>p</i>", "<i>N</i>")
@@ -579,7 +580,7 @@ cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
   if (!is.null(select))
     r <- r[select, select]
   if (min(dim(r)) < 2) {
-    stop("You need at least two dimensions to make a meaningful plot")
+    stop("You need at least two dimensions to make a meaningful plot.", call.=TRUE)
   }
   if (is.null(n)) {
     n <- dim(r)[2]
@@ -779,5 +780,404 @@ cor_diff=function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
     ")
   }
   invisible(p)
+}
+
+
+#### T-Tests ####
+
+#' One-sample, independent-samples, and paired-samples t-test.
+#'
+#' @description
+#' One-sample, independent-samples, and paired-samples \emph{t}-test,
+#' with both Frequentist and Bayesian approaches.
+#' The output includes descriptives, \emph{t} statistics,
+#' mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI, and Bayes factor (BF10).
+#' It also tests the assumption of homogeneity of variance
+#' and allows users to determine whether variances are equal or not.
+#'
+#' Users can simultaneously test multiple dependent and/or independent variables.
+#' The results of one pair of Y-X would be summarized in one row in the output.
+#' Key results can be saved in APA format to MS Word.
+#'
+#' @details
+#' Note that the point estimate of Cohen's \emph{d} is computed using
+#' the common method "Cohen's \emph{d} = mean difference / (pooled) standard deviation", which is
+#' consistent with results from other R packages (e.g., \code{effectsize}) and software (e.g., \code{jamovi}).
+#' The 95\% CI of Cohen's \emph{d} is estimated based on the 95\% CI of mean difference
+#' (i.e., also divided by the pooled standard deviation).
+#'
+#' However, different packages and software diverge greatly on the estimate of the 95\% CI of Cohen's \emph{d}.
+#' R packages such as \code{psych} and \code{effectsize}, R software \code{jamovi},
+#' and several online statistical tools for estimating effect sizes
+#' indeed produce surprisingly inconsistent results on the 95\% CI of Cohen's \emph{d}.
+#'
+#' See an illustration of this issue in the section "Examples".
+#'
+#' @param data Data frame (wide-format only, i.e., one case in one row).
+#' @param y Dependent variable(s).
+#' Multiple variables should be included in a character vector \code{c()}.
+#'
+#' For paired-samples \emph{t}-test, the number of variables should be 2, 4, 6, etc.
+#' @param x Independent variable(s).
+#' Multiple variables should be included in a character vector \code{c()}.
+#'
+#' Only necessary for independent-samples \emph{t}-test.
+#' @param paired For paired-samples \emph{t}-test, set it to \code{TRUE}. Default is \code{FALSE}.
+#' @param var.equal If Levene's test indicates a violation of the homogeneity of variance,
+#' then you should better set this argument to \code{FALSE}. Default is \code{TRUE}.
+#' @param mean.diff Whether to display results of mean difference and its 95\% CI. Default is \code{TRUE}.
+#' @param test.value The true value of the mean (or difference in means for a two-samples test). Default is \code{0}.
+#' @param test.sided Any of \code{"="} (two-sided, the default), \code{"<"} (one-sided), or \code{">"} (one-sided).
+#' @param factor.rev Whether to reverse the levels of factor (X)
+#' such that the test compares higher vs. lower level. Default is \code{TRUE}.
+#' @param bayes.prior Prior scale in Bayesian \emph{t}-test. Default is 0.707.
+#' See details in \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
+#' @param file File name of MS Word (\code{.doc}).
+#'
+#' @examples
+#' ## Demo data ##
+#' d1=between.3
+#' d1$Y1=d1$SCORE  # shorter name for convenience
+#' d1$Y2=rnorm(32)  # random variable
+#' d1$B=factor(d1$B, levels=1:2, labels=c("Low", "High"))
+#' d1$C=factor(d1$C, levels=1:2, labels=c("Male", "Female"))
+#' d2=within.1
+#'
+#' ## One-sample t-test ##
+#' TTEST(d1, "SCORE")
+#' TTEST(d1, "SCORE", test.value=5)
+#'
+#' ## Independent-samples t-test ##
+#' TTEST(d1, "SCORE", x="A")
+#' TTEST(d1, "SCORE", x="A", var.equal=FALSE)
+#' TTEST(d1, y="Y1", x=c("A", "B", "C"))
+#' TTEST(d1, y=c("Y1", "Y2"), x=c("A", "B", "C"),
+#'       mean.diff=FALSE,  # remove to save space
+#'       file="t-result.doc")
+#' unlink("t-result.doc")  # delete file for code check
+#'
+#' ## Paired-samples t-test ##
+#' TTEST(d2, y=c("A1", "A2"), paired=TRUE)
+#' TTEST(d2, y=c("A1", "A2", "A3", "A4"), paired=TRUE)
+#'
+#'
+#' \dontrun{
+#'
+#'   ## Illustration for the issue stated in "Details"
+#'
+#'   # Inconsistency in the 95% CI of Cohen's d between R packages:
+#'   # In this example, the true point estimate of Cohen's d = 3.00
+#'   # and its 95% CI should be equal to 95% CI of mean difference.
+#'
+#'   data=data.frame(X=rep(1:2, each=3), Y=1:6)
+#'   data  # simple demo data
+#'
+#'   TTEST(data, y="Y", x="X")
+#'   # d = 3.00 [0.73, 5.27] (estimated based on 95% CI of mean difference)
+#'
+#'   MANOVA(data, dv="Y", between="X") %>%
+#'     EMMEANS("X")
+#'   # d = 3.00 [0.73, 5.27] (the same as TTEST)
+#'
+#'   psych::cohen.d(x=data, group="X")
+#'   # d = 3.67 [0.04, 7.35] (strange)
+#'
+#'   psych::d.ci(d=3.00, n1=3, n2=3)
+#'   # d = 3.00 [-0.15, 6.12] (significance inconsistent with t-test)
+#'
+#'   # jamovi uses psych::d.ci() to compute 95% CI
+#'   # so its results are also: 3.00 [-0.15, 6.12]
+#'
+#'   effectsize::cohens_d(Y ~ rev(X), data=data)
+#'   # d = 3.00 [0.38, 5.50] (using the noncentrality parameter method)
+#'
+#'   effectsize::t_to_d(t=t.test(Y ~ rev(X), data=data, var.equal=TRUE)$statistic,
+#'                      df_error=4)
+#'   # d = 3.67 [0.47, 6.74] (merely an approximate estimate, often overestimated)
+#'   # see ?effectsize::t_to_d
+#'
+#'   # https://www.psychometrica.de/effect_size.html
+#'   # d = 3.00 [0.67, 5.33] (slightly different from TTEST)
+#'
+#'   # https://www.campbellcollaboration.org/escalc/
+#'   # d = 3.00 [0.67, 5.33] (slightly different from TTEST)
+#'
+#'   # Conclusion:
+#'   # TTEST() provides a reasonable estimate of Cohen's d and its 95% CI,
+#'   # and effectsize::cohens_d() offers another method to compute the CI.
+#' }
+#'
+#' @seealso \code{\link{MANOVA}}, \code{\link{EMMEANS}}
+#'
+#' @export
+TTEST=function(data, y, x=NULL,
+               paired=FALSE,
+               var.equal=TRUE,
+               mean.diff=TRUE,
+               test.value=0,
+               test.sided=c("=", "<", ">"),
+               factor.rev=TRUE,
+               bayes.prior="medium",
+               digits=2, nsmall=digits,
+               file=NULL) {
+  data=as.data.frame(data)
+
+  if(paired) {
+    if(!is.null(x))
+      stop("For paired-samples t-test, x should not be used.", call.=TRUE)
+    if(length(y)%%2==1)
+      stop("For paired-samples t-test, y should be a vector of 2, 4, 6, ... variables.", call.=TRUE)
+    type="Paired-samples t-test"
+    mu=ifelse(factor.rev, "\u03bc2 - \u03bc1", "\u03bc1 - \u03bc2")
+    y=split(y, rep(1:(length(y)/2), each=2))
+  } else {
+    if(is.null(x)) {
+      type="One-sample t-test"
+      mu="\u03bc"
+    } else {
+      type="Independent-samples t-test"
+      mu=ifelse(factor.rev, "\u03bc2 - \u03bc1", "\u03bc1 - \u03bc2")
+      if(test.value!=0)
+        message("Test value (mu) for Bayes test is reset to 0.")
+    }
+  }
+
+  if(length(test.sided)>1) test.sided="="
+  if(test.sided %notin% c("=", "<", ">"))
+    stop("test.sided should be one of \"=\", \"<\", or \">\"", call.=TRUE)
+  hypo=switch(test.sided,
+              `=`=Glue("two-sided ({mu} \u2260 {test.value})"),
+              `<`=Glue("one-sided ({mu} < {test.value})"),
+              `>`=Glue("one-sided ({mu} > {test.value})"))
+
+  ## Info
+  Print("
+  {type}
+  Hypothesis: {hypo}
+  \n
+  ")
+
+  ## Test
+  nmsd=data.frame()
+  lev=data.frame()
+  res=data.frame()
+  for(yi in y) {
+    if(is.null(x)) {
+      res.list=ttest(data, yi, NULL, paired, var.equal,
+                     test.value, test.sided, factor.rev, bayes.prior)
+      res=rbind(res, res.list$res)
+      nmsd=rbind(nmsd, res.list$nmsd)
+      if(!is.null(res.list$levene))
+        lev=rbind(lev, res.list$levene)
+    } else {
+      for(xi in x) {
+        res.list=ttest(data, yi, xi, paired, var.equal,
+                       test.value, test.sided, factor.rev, bayes.prior)
+        res=rbind(res, res.list$res)
+        nmsd=rbind(nmsd, res.list$nmsd)
+        if(!is.null(res.list$levene))
+          lev=rbind(lev, res.list$levene)
+      }
+    }
+  }
+
+  ## Print (nmsd)
+  nmsd$MeanSD=paste0(formatF(nmsd$Mean, nsmall), " (",
+                     formatF(nmsd$SD, nsmall), ")")
+  names(nmsd)[length(nmsd)]="Mean (SD)"
+  nmsd$Mean=nmsd$SD=NULL
+  Print("Descriptives:")
+  print_table(nmsd, row.names=FALSE, nsmalls=0)
+  cat("\n")
+
+  ## Print (check)
+  if(nrow(lev)>0) {
+    Print("Levene's test for homogeneity of variance:")
+    print_table(lev, nsmalls=c(2, 0, 0, 0))
+    Print("<<italic Note>>: H0 = equal variance (homoscedasticity).
+          If significant (violation of the assumption),
+          then you should better set `var.equal=FALSE`.")
+    cat("\n")
+  }
+
+  ## Print (t-test)
+  RES=res[,1:3]  # t, df, pval
+  RES$Diff=paste0(formatF(res$diff, nsmall), " [",
+                  formatF(res$llci, nsmall), ", ",
+                  formatF(res$ulci, nsmall), "]")
+  RES$Cohen=paste0(formatF(res$Cohen_d, nsmall), " [",
+                   formatF(res$LLCI, nsmall), ", ",
+                   formatF(res$ULCI, nsmall), "]")
+  RES$BF10=sprintf(Glue("%.{nsmall}e"), res$BF10)
+  if(!is.null(file)) {
+    RES$Diff=str_replace_all(RES$Diff, "-", "\u2013")
+    RES$Cohen=str_replace_all(RES$Cohen, "-", "\u2013")
+    RES$BF10=str_replace_all(RES$BF10, "-", "\u2013")
+    names(RES)=c("<i>t</i>",
+                 "<i>df</i>",
+                 "<i>p</i>",
+                 "Difference [95% CI]",
+                 "Cohen\u2019s <i>d</i> [95% CI]",
+                 "BF<sub>10</sub>")
+  } else {
+    names(RES)[4:5]=c("Difference [95% CI]",
+                      "Cohen's d [95% CI]")
+  }
+  if(mean.diff==FALSE)
+    RES[,4]=NULL
+  print_table(
+    RES,
+    nsmalls=c(nsmall, ifelse(var.equal, 0, nsmall), 0, 0, 0, 0, 0),
+    title=ifelse(is.null(file),
+                 Glue("Results of t-test{ifelse(var.equal, '', ' (adjusted df)')}:"),
+                 type),
+    file=file,
+    file.align.text=c("left",
+                      "right", "right", "right", "left",
+                      "right", "right", "right"))
+
+  invisible(res)
+}
+
+
+## one y and one x
+ttest=function(data, y, x=NULL,
+               paired=FALSE,
+               var.equal=TRUE,
+               test.value=0,
+               test.sided="=",
+               factor.rev=TRUE,
+               bayes.prior="medium") {
+  ## Data
+  data=na.omit(data[c(y, x)])
+  alternative=switch(test.sided,
+                     `=`="two.sided",
+                     `<`="less",
+                     `>`="greater")
+  if(alternative=="less")
+    nullInterval=c(-Inf, 0)
+  else if(alternative=="greater")
+    nullInterval=c(0, Inf)
+  else
+    nullInterval=NULL
+
+  ## Prepare
+  if(paired) {
+    nmsd=data.frame(Variable=c(y[1], y[2]),
+                    N=nrow(data),
+                    Mean=c(mean(data[[y[1]]]), mean(data[[y[2]]])),
+                    SD=c(sd(data[[y[1]]]), sd(data[[y[2]]])))
+    if(factor.rev) {
+      formula=as.formula(Glue("Pair({y[2]}, {y[1]}) ~ 1"))
+      label=paste(y[2], "-", y[1])
+    } else {
+      formula=as.formula(Glue("Pair({y[1]}, {y[2]}) ~ 1"))
+      label=paste(y[1], "-", y[2])
+    }
+    Y="Paired"
+    X=""
+    y1=data[[y[1]]]
+    y2=data[[y[2]]]
+    sd.pooled=sd(y1-y2)
+    mu.BF=test.value
+  } else {
+    if(is.null(x)) {
+      formula=as.formula(Glue("{y} ~ 1"))
+      nmsd=data.frame(Variable=y,
+                      N=nrow(data),
+                      Mean=mean(data[[y]]),
+                      SD=sd(data[[y]]))
+      label=paste(y, "-", test.value)
+      Y=y
+      X=""
+      y1=data[[y]]
+      y2=NULL
+      sd.pooled=sd(y1)
+      mu.BF=test.value
+    } else {
+      formula=as.formula(Glue("{y} ~ {x}"))
+      data[[x]]=as.factor(data[[x]])
+      if(nlevels(data[[x]])!=2)
+        stop(Glue("Levels of the factor \"{x}\" should be 2."), call.=TRUE)
+      nmsd=data %>%
+        group_by(!!sym(x)) %>%
+        summarise(
+          N=length(!!sym(y)),
+          Mean=mean(!!sym(y)),
+          SD=sd(!!sym(y)))
+      names(nmsd)[1]="Level"
+      nmsd=cbind(data.frame(Variable=y,
+                            Factor=x),
+                 as.data.frame(nmsd))
+      if(factor.rev) data[[x]]=forcats::fct_rev(data[[x]])
+      label=paste(levels(data[[x]]), collapse=" - ")
+      Y=y
+      X=x%^%" "
+      xlevels=levels(data[[x]])
+      y1=data[which(data[[x]]==xlevels[1]), y]
+      y2=data[which(data[[x]]==xlevels[2]), y]
+      df1=length(y1)-1
+      df2=length(y2)-1
+      # https://github.com/jamovi/jmv/blob/master/R/ttestis.b.R
+      if(var.equal)
+        sd.pooled=sqrt((var(y1)*df1+var(y2)*df2)/(df1+df2))
+      else
+        sd.pooled=sqrt((var(y1)+var(y2))/2)
+      mu.BF=0
+    }
+  }
+
+  ## Test
+  res=stats::t.test(formula=formula,
+                    data=data,
+                    var.equal=var.equal,
+                    mu=test.value,
+                    alternative=alternative)
+  t=res[["statistic"]]
+  df=res[["parameter"]]
+  pval=res[["p.value"]]
+  est=res[["estimate"]]
+  diff=ifelse(length(est)==1, est, est[1]-est[2])-test.value
+  llci=res[["conf.int"]][1]-test.value
+  ulci=res[["conf.int"]][2]-test.value
+  Cohen_d=diff/sd.pooled
+  LLCI=llci/sd.pooled
+  ULCI=ulci/sd.pooled
+  BF=BayesFactor::ttestBF(x=y1, y=y2,
+                          paired=paired,
+                          mu=mu.BF,
+                          nullInterval=nullInterval,
+                          rscale=bayes.prior)
+  BF=BayesFactor::extractBF(BF)
+  RES=data.frame(Y=Y,
+                 Comparison=X%^%"("%^%label%^%")",
+                 t=t,
+                 df=df,
+                 pval=pval,
+                 diff=diff,
+                 llci=llci,
+                 ulci=ulci,
+                 Cohen_d=Cohen_d,
+                 LLCI=LLCI,
+                 ULCI=ULCI,
+                 BF10=BF$bf[1],
+                 Error=BF$error[1])
+  row.names(RES)=RES$Y %^% ": " %^% RES$Comparison
+
+  ## Check
+  if(is.null(x)) {
+    levene=NULL
+  } else {
+    lev=car::leveneTest(formula, data, center=mean)
+    levene=cbind(lev[1, "F value"],
+                 lev[1, "Df"],
+                 lev[2, "Df"],
+                 lev[1, "Pr(>F)"]) %>% as.data.frame()
+    names(levene)=c("Levene's F", "df1", "df2", "pval")
+    row.names(levene)=row.names(RES)
+  }
+
+  return(list(nmsd=nmsd, levene=levene, res=RES[,-1:-2]))
 }
 

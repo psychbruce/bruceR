@@ -94,7 +94,7 @@ For more usage, see:
 }
 \examples{
 ## Example 1 (bivariate correlation)
-d=as.data.table(bfi)
+d=as.data.table(psych::bfi)
 d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
         O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
 ggplot(data=d, aes(x=E, y=O)) +

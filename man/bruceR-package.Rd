@@ -31,7 +31,6 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
 
 \strong{[Data]:}
 \itemize{
-  \item \strong{\code{rio}}: Data import and export (for all file formats). (\code{\link[rio]{import}} / \code{\link[rio]{export}})
   \item \strong{\code{dplyr}}: Data manipulation and processing.
   \item \strong{\code{tidyr}}: Data cleaning and reshaping.
   \item \strong{\code{stringr}}: Toolbox for string operation (with regular expressions).
@@ -41,10 +40,9 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
 
 \strong{[Stat]:}
 \itemize{
-  \item \strong{\code{psych}}: Toolbox for psychological and psychometric research.
-  \item \strong{\code{emmeans}}: Toolbox for estimated marginal means and contrasts.
-  \item \strong{\code{effectsize}}: Indices of effect size and standardized parameters.
-  \item \strong{\code{performance}}: Assessment of regression models performance.
+  \item \strong{\code{emmeans}}: Estimates of marginal means and multiple contrasts.
+  \item \strong{\code{effectsize}}: Estimates of effect sizes and standardized parameters.
+  \item \strong{\code{performance}}: Estimates of regression models performance.
 }
 
 \strong{[Plot]:}
@@ -64,7 +62,10 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
 
 \describe{
   \item{\strong{(1) Basic R Programming}}{
-      \code{\link{set.wd}}
+      \code{\link{set.wd}} (alias: \code{set_wd})
+
+      \code{\link{import}},
+      \code{\link{export}}
 
       \code{\link{pkg_depend}},
       \code{\link{pkg_install_suggested}}
@@ -118,7 +119,9 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
       \code{\link{cor_diff}}
   }
 
-  \item{\strong{(5) Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
+  \item{\strong{(5) T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
+      \code{\link{TTEST}}
+
       \code{\link{MANOVA}}
 
       \code{\link{EMMEANS}}

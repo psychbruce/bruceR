@@ -47,13 +47,14 @@ Granger causality does not necessarily constitute a true causal effect.
 }
 \examples{
 \dontrun{
-# "vars" package should be installed and loaded.
-library(vars)
-data(Canada)
-VARselect(Canada)
-vm=VAR(Canada, p=3)
-model_summary(vm)
-granger_causality(vm)
+
+  # R package "vars" should be installed
+  library(vars)
+  data(Canada)
+  VARselect(Canada)
+  vm=VAR(Canada, p=3)
+  model_summary(vm)
+  granger_causality(vm)
 }
 
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Freq}
 \alias{Freq}
-\title{Frequency statistics (to R Console or MS Word).}
+\title{Frequency statistics (to R Console and MS Word).}
 \usage{
 Freq(var, label = NULL, sort = "", digits = 1, nsmall = digits, file = NULL)
 }
@@ -21,11 +21,12 @@ Freq(var, label = NULL, sort = "", digits = 1, nsmall = digits, file = NULL)
 A data frame of frequency statistics.
 }
 \description{
-Frequency statistics (to R Console or MS Word).
+Frequency statistics (to R Console and MS Word).
 }
 \examples{
-Freq(bfi$education)
-Freq(bfi$gender, label=c("Male", "Female"))
-Freq(bfi$age)
+data=psych::bfi
+Freq(data$education)
+Freq(data$gender, label=c("Male", "Female"))
+Freq(data$age)
 
 }
