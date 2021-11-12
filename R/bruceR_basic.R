@@ -229,7 +229,7 @@ pkg_install_suggested=function(by) {
     pkgs.suggests=pacman::p_depends(by, character.only=TRUE, local=TRUE)$Suggests
   }
   pkgs.installed=pacman::p_library()
-  pkgs.need.install=setdiff(pkgs.suggests, pkgs.installed)
+  pkgs.need.install=base::setdiff(pkgs.suggests, pkgs.installed)
   if(length(pkgs.need.install)>0) {
     utils::install.packages(pkgs.need.install)
   } else {
@@ -536,8 +536,11 @@ print_table=function(x, digits=3, nsmalls=digits,
     Print(table.line)
     if(row.names==TRUE)
       cat(rep_char(" ", n.lines.rn))
-    for(j in 1:length(xr))
-      cat(sprintf(glue("% {n.lines[j]}s"), names(xr)[j]))
+    for(j in 1:length(xr)) {
+      # cat(sprintf(glue("% {n.lines[j]}s"), names(xr)[j]))
+      name.j=names(xr)[j]
+      cat(rep_char(" ", n.lines[j]-nchar(name.j)) %^% name.j)
+    }
     cat("\n")
     for(i in 1:nrow(xr)) {
       if(row.names==TRUE)

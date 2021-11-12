@@ -11,10 +11,10 @@
 
 -   Package dependency: Much fewer strong dependencies, for faster and more robust installation.
 -   Removed `rio` from strongly depended R packages. No longer load `rio` and `psych` when `library(bruceR)`.
+-   Improved `MANOVA()` and `EMMEANS()`: Fixed several bugs in these functions. Improved output tables (now all results are printed using `print_table()`). Added the argument `ss.type` for `MANOVA()` to specify either Type-II or Type-III Sum of Square. Added warning messages for wrong usage of the functions. Modified help pages.
 
 ### Minor Changes
 
--   Improved `MANOVA()` and `EMMEANS()`: Added the argument `ss.type` in `MANOVA()` for specifying either Type-II or Type-III SS. Added warning messages for wrong usage of the functions. Modified help pages.
 -   Added an alias `set_wd()` for `set.wd()`.
 -   General bug-fixes and improvements.
 
