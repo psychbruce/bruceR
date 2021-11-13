@@ -18,9 +18,9 @@ EMMEANS(
 )
 }
 \arguments{
-\item{model}{A model object returned by \code{\link{MANOVA}}.}
+\item{model}{The model object returned by \code{\link{MANOVA}}.}
 
-\item{effect}{The effect(s) you want to test.
+\item{effect}{Effect(s) you want to test.
 If set to a character string (e.g., \code{"A"}),
 it reports the results of omnibus test or simple main effect.
 If set to a character vector (e.g., \code{c("A", "B")}),
@@ -48,10 +48,12 @@ Alternatives can be \code{"none"}, \code{"fdr"}, \code{"hochberg"},
 For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and
 \code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.}
 
-\item{sd.pooled}{By default, it uses \strong{\code{sqrt(MSE)}} to compute Cohen's \emph{d}.
-Users may also manually set it (e.g., the \emph{SD} of a reference group, or using \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}}).}
+\item{sd.pooled}{By default, it uses \strong{\code{sqrt(MSE)}} as the pooled \emph{SD} to compute Cohen's \emph{d}.
+Users may specify this argument as the \emph{SD} of a reference group,
+or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}.
+For an issue about the computation method of Cohen's \emph{d}, see \emph{Disclaimer} above.}
 
-\item{spss}{Return results identical to SPSS.
+\item{spss}{Return results that are identical to SPSS.
 Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
 for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.}
 
@@ -128,7 +130,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
   }
   \item{\strong{2. Post-Hoc Test}}{
     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
-    However, these two terms should be distinguished. In many situations and softwares,
+    However, these two terms should be distinguished. In many situations,
     "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
     For example, we can perform the post-hoc comparisons of mean values (1) across multiple levels of one factor in a pairwise way or (2) particularly between the two conditions "A1B1" and "A2B2".
