@@ -26,7 +26,7 @@ it is usually effective to set \code{encoding="UTF-8"}.}
 
 \item{header}{Does the first row contain column names? Default is \code{TRUE}.}
 
-\item{sheet}{[Only for Excel] Excel sheet name.
+\item{sheet}{[Only for Excel] Excel sheet name (or sheet number).
 Default is the first sheet.
 Ignored if the sheet is specified via \code{range}.}
 

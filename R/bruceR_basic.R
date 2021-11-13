@@ -882,7 +882,7 @@ file_ext=function(filename) {
 #' If you find messy code for Chinese text in the imported data,
 #' it is usually effective to set \code{encoding="UTF-8"}.
 #' @param header Does the first row contain column names? Default is \code{TRUE}.
-#' @param sheet [Only for Excel] Excel sheet name.
+#' @param sheet [Only for Excel] Excel sheet name (or sheet number).
 #' Default is the first sheet.
 #' Ignored if the sheet is specified via \code{range}.
 #' @param range [Only for Excel] Excel cell range. Default are all cells in a sheet.

@@ -21,44 +21,30 @@ MANOVA(
 )
 }
 \arguments{
-\item{data}{Data frame. Both \strong{wide-format} and \strong{long-format} are supported.
-\itemize{
-  \item For \strong{wide-format} data (one person in one row, and repeated measures in multiple columns),
-  it automatically transforms the data into \strong{long-format}.
-  \item For \strong{long-format} data (one person in multiple rows, and repeated measures in one column),
-  please also specify the \code{subID} argument (see below).
-}}
+\item{data}{Data frame. Both \strong{wide-format} and \strong{long-format} are supported.}
 
-\item{subID}{Subject ID.
-\itemize{
-  \item For \strong{wide-format} data, no need to specify this argument.
-  \item For \strong{long-format} data, you should specify the ID column.
-}}
+\item{subID}{Subject ID (the column name). Only necessary for \strong{long-format} data.}
 
-\item{dv}{[Only for between-subjects designs or "long-format" data of within-subjects or mixed designs]
-
-Dependent variable.
+\item{dv}{Dependent variable.
 \itemize{
-  \item For \strong{wide-format} data, then \code{dv} only can be used for between-subjects designs.
+  \item For \strong{wide-format} data, \code{dv} only can be used for between-subjects designs.
   For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
-  \item For \strong{long-format} data, then \code{dv} is the outcome variable.
+  \item For \strong{long-format} data, \code{dv} is the outcome variable.
 }}
 
-\item{dvs}{[Only for "wide-format" data of within-subjects or mixed designs]
+\item{dvs}{Repeated measures. Only for \strong{wide-format} data (within-subjects or mixed designs).
 
-Repeated measures. Two ways to specify this argument:
+Two ways to specify this argument:
 \itemize{
   \item Use \code{":"} to specify the range of variables: e.g., \code{"A1B1:A2B3"}
   (similar to the SPSS syntax "TO" and the order of variables matters)
   \item Use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
 }}
 
-\item{dvs.pattern}{[Only for "wide-format" data of within-subjects or mixed designs]
+\item{dvs.pattern}{If you use \code{dvs}, you should also specify the pattern of variable names
+using \emph{regular expression}.
 
-Along with \code{dvs}, you should also specify the pattern of variable names
-using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
-
-\strong{Examples:}
+Examples:
 \itemize{
   \item \code{"Cond(.)"} extracts levels from \code{"Cond1", "Cond2", "Cond3", ...}
   You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
@@ -66,13 +52,15 @@ using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressi
   \item \code{"X(.+)Y(.+)"} extracts levels from \code{"X1Y1", "XaYb", "XaY002", ...}
 }
 
-\strong{Tips on regular expression:}
+Tips on regular expression:
 \itemize{
   \item \code{"(.)"} extracts any single character (number, letter, and other symbols)
   \item \code{"(.+)"} extracts >= 1 character(s)
   \item \code{"(.*)"} extracts >= 0 character(s)
   \item \code{"([0-9])"} extracts any single number
   \item \code{"([a-z])"} extracts any single letter
+  \item More information: \href{https://regexr.com/}{Link 1 (in English)} and
+        \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{Link 2 (in Chinese)}
 }}
 
 \item{between}{Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.}
@@ -94,7 +82,11 @@ If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (G
 \item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
-A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
+A result object (list) returned by
+\code{\link[afex:aov_car]{afex::aov_ez()}},
+along with several other elements:
+\code{between}, \code{within},
+\code{data.wide}, \code{data.long}.
 }
 \description{
 Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
@@ -106,6 +98,29 @@ You only need to specify the data, dependent variable(s), and factors
 Almost all results you need will be displayed together,
 including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004).
+In addition to partial \eqn{\eta^2}, it also reports generalized \eqn{\eta^2}, following Olejnik & Algina (2003).
+
+How to prepare your data and specify the arguments of \code{MANOVA}?
+\itemize{
+  \item \strong{Wide-format data} (one person in one row, and repeated measures in multiple columns):
+  \describe{
+    \item{Betweem-subjects design}{\code{MANOVA(data=, dv=, between=, ...)}}
+    \item{Within-subjects design}{\code{MANOVA(data=, dvs=, dvs.pattern=, within=, ...)}}
+    \item{Mixed design}{\code{MANOVA(data=, dvs=, dvs.pattern=, between=, within=, ...)}}
+  }
+  \item \strong{Long-format data} (one person in multiple rows, and repeated measures in one column):
+  \describe{
+    \item{Betweem-subjects design}{(not applicable)}
+    \item{Within-subjects design}{\code{MANOVA(data=, subID=, dv=, within=, ...)}}
+    \item{Mixed design}{\code{MANOVA(data=, subID=, dv=, between=, within=, ...)}}
+  }
+}
+}
+\details{
+If observations are not uniquely identified in user-defined long-format data,
+the function takes averages across those multiple observations for each case.
+In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex:aov_car]{afex::aov_ez()}}
+and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
 }
 \examples{
 \donttest{#### Between-Subjects Design ####

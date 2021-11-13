@@ -58,7 +58,13 @@ for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[em
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
 }
 \value{
-The same object as returned by \code{\link{MANOVA}} (for recursive use).
+The same model object as returned by
+\code{\link{MANOVA}} (for recursive use),
+along with a list of \code{EMMEANS} tables:
+\code{sim} (simple effects),
+\code{emm} (estimated marginal means),
+\code{con} (contrasts).
+Each \code{EMMEANS} appends one list to the returned object.
 }
 \description{
 Perform (1) simple-effect (and simple-simple-effect) analyses,

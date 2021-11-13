@@ -97,6 +97,25 @@ levene_test=function(data, id, dvs, ivs.between) {
 }
 
 
+fix_long_data=function(data.long, ivs) {
+  # Ensure Factorized Variables
+  for(iv in ivs) {
+    data.long[[iv]]=as.factor(data.long[[iv]])
+    suppressWarnings({
+      levels=levels(data.long[[iv]])
+      levels.num=as.numeric(as.character(levels))
+    })
+    if(all(is.na(levels.num))==FALSE) {
+      # numeric levels ==> character levels ("varnum")
+      data.long[[iv]]=factor(data.long[[iv]],
+                             levels=levels,
+                             labels=paste0(iv, levels))
+    }
+  }
+  return(data.long)
+}
+
+
 #' Multi-factor ANOVA.
 #'
 #' @description
@@ -109,41 +128,50 @@ levene_test=function(data, id, dvs, ivs.between) {
 #' Almost all results you need will be displayed together,
 #' including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004).
+#' In addition to partial \eqn{\eta^2}, it also reports generalized \eqn{\eta^2}, following Olejnik & Algina (2003).
+#'
+#' How to prepare your data and specify the arguments of \code{MANOVA}?
+#' \itemize{
+#'   \item \strong{Wide-format data} (one person in one row, and repeated measures in multiple columns):
+#'   \describe{
+#'     \item{Betweem-subjects design}{\code{MANOVA(data=, dv=, between=, ...)}}
+#'     \item{Within-subjects design}{\code{MANOVA(data=, dvs=, dvs.pattern=, within=, ...)}}
+#'     \item{Mixed design}{\code{MANOVA(data=, dvs=, dvs.pattern=, between=, within=, ...)}}
+#'   }
+#'   \item \strong{Long-format data} (one person in multiple rows, and repeated measures in one column):
+#'   \describe{
+#'     \item{Betweem-subjects design}{(not applicable)}
+#'     \item{Within-subjects design}{\code{MANOVA(data=, subID=, dv=, within=, ...)}}
+#'     \item{Mixed design}{\code{MANOVA(data=, subID=, dv=, between=, within=, ...)}}
+#'   }
+#' }
+#'
+#' @details
+#' If observations are not uniquely identified in user-defined long-format data,
+#' the function takes averages across those multiple observations for each case.
+#' In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex:aov_car]{afex::aov_ez()}}
+#' and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
 #'
 #' @param data Data frame. Both \strong{wide-format} and \strong{long-format} are supported.
+#' @param subID Subject ID (the column name). Only necessary for \strong{long-format} data.
+#' @param dv Dependent variable.
 #' \itemize{
-#'   \item For \strong{wide-format} data (one person in one row, and repeated measures in multiple columns),
-#'   it automatically transforms the data into \strong{long-format}.
-#'   \item For \strong{long-format} data (one person in multiple rows, and repeated measures in one column),
-#'   please also specify the \code{subID} argument (see below).
-#' }
-#' @param subID Subject ID.
-#' \itemize{
-#'   \item For \strong{wide-format} data, no need to specify this argument.
-#'   \item For \strong{long-format} data, you should specify the ID column.
-#' }
-#' @param dv [Only for between-subjects designs or "long-format" data of within-subjects or mixed designs]
-#'
-#' Dependent variable.
-#' \itemize{
-#'   \item For \strong{wide-format} data, then \code{dv} only can be used for between-subjects designs.
+#'   \item For \strong{wide-format} data, \code{dv} only can be used for between-subjects designs.
 #'   For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
-#'   \item For \strong{long-format} data, then \code{dv} is the outcome variable.
+#'   \item For \strong{long-format} data, \code{dv} is the outcome variable.
 #' }
-#' @param dvs [Only for "wide-format" data of within-subjects or mixed designs]
+#' @param dvs Repeated measures. Only for \strong{wide-format} data (within-subjects or mixed designs).
 #'
-#' Repeated measures. Two ways to specify this argument:
+#' Two ways to specify this argument:
 #' \itemize{
 #'   \item Use \code{":"} to specify the range of variables: e.g., \code{"A1B1:A2B3"}
 #'   (similar to the SPSS syntax "TO" and the order of variables matters)
 #'   \item Use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
 #' }
-#' @param dvs.pattern [Only for "wide-format" data of within-subjects or mixed designs]
+#' @param dvs.pattern If you use \code{dvs}, you should also specify the pattern of variable names
+#' using \emph{regular expression}.
 #'
-#' Along with \code{dvs}, you should also specify the pattern of variable names
-#' using \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{regular expressions}.
-#'
-#' \strong{Examples:}
+#' Examples:
 #' \itemize{
 #'   \item \code{"Cond(.)"} extracts levels from \code{"Cond1", "Cond2", "Cond3", ...}
 #'   You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
@@ -151,14 +179,17 @@ levene_test=function(data, id, dvs, ivs.between) {
 #'   \item \code{"X(.+)Y(.+)"} extracts levels from \code{"X1Y1", "XaYb", "XaY002", ...}
 #' }
 #'
-#' \strong{Tips on regular expression:}
+#' Tips on regular expression:
 #' \itemize{
 #'   \item \code{"(.)"} extracts any single character (number, letter, and other symbols)
 #'   \item \code{"(.+)"} extracts >= 1 character(s)
 #'   \item \code{"(.*)"} extracts >= 0 character(s)
 #'   \item \code{"([0-9])"} extracts any single number
 #'   \item \code{"([a-z])"} extracts any single letter
+#'   \item More information: \href{https://regexr.com/}{Link 1 (in English)} and
+#'         \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{Link 2 (in Chinese)}
 #' }
+#'
 #' @param between Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
 #' @param within Within-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
 #' @param covariate Covariates. Multiple variables should be included in a character vector \code{c()}.
@@ -177,7 +208,11 @@ levene_test=function(data, id, dvs, ivs.between) {
 #' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
-#' A result object returned by \code{\link[afex:aov_car]{afex::aov_ez()}}.
+#' A result object (list) returned by
+#' \code{\link[afex:aov_car]{afex::aov_ez()}},
+#' along with several other elements:
+#' \code{between}, \code{within},
+#' \code{data.wide}, \code{data.long}.
 #'
 #' @examples
 #' \donttest{#### Between-Subjects Design ####
@@ -308,9 +343,11 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       names_to=within,
       names_pattern=dvs.pattern,
       values_to=dv) %>% as.data.frame()
+    data.long=fix_long_data(data.long, c(between, within))
   } else {
     dv.vars=dv
     data.long=data
+    data.long=fix_long_data(data.long, c(between, within))
     if(is.null(within)) {
       data.wide=data.long
       DVS=dv
@@ -318,51 +355,13 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       data.wide=tidyr::pivot_wider(
         data.long[c(subID, dv, between, within, covariate)],
         names_from=within,
-        values_from=dv) %>% as.data.frame()
+        values_from=dv,
+        values_fn=mean) %>% as.data.frame()
       DVS=base::setdiff(names(data.wide), c(subID, between, covariate))
     }
   }
-  nsub=nrow(data.wide)
-  ncom=complete.cases(data.long[c(between, within, covariate)])
-  nmis=length(ncom)-sum(ncom)
 
-  ## Ensure Factorized Variables
-  for(iv in c(between, within))
-    data.long[[iv]]=as.factor(data.long[[iv]])
-
-  ## Descriptive Statistics
-  Print("<<yellow ====== ANOVA ({design}) ======>>")
-  cat("\n")
-  Print("Descriptives:")
-  bruceR.dv=NULL
-  data.long$bruceR.dv=data.long[[dv]]
-  nmsd=plyr::ddply(
-    data.long, plyr::as.quoted(c(between, within)),
-    summarise,
-    M=mean(bruceR.dv, na.rm=TRUE),
-    SD=sd(bruceR.dv, na.rm=TRUE),
-    n=length(bruceR.dv))
-  N.info=Glue("{nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
-  print_table(nmsd, row.names=FALSE, nsmalls=c(rep(nsmall, length(nmsd)-1), 0))
-  Print("Total sample size: <<italic N>> = {N.info}")
-  cat("\n")
-
-  nmsd$M=formatF(nmsd$M, nsmall)
-  nmsd$SD=formatF(nmsd$SD, nsmall)
-  names(nmsd)[(ncol(nmsd)-2):ncol(nmsd)]=c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
-  nmsd.html=paste0(
-    "<p><br/><br/></p>",
-    "<p><b>Descriptive Statistics:</b></p>",
-    df_to_html(
-      nmsd,
-      align.head=c(rep("left", times=ncol(nmsd)-3),
-                   rep("right"), times=3),
-      align.text=c(rep("left", times=ncol(nmsd)-3),
-                   rep("right"), times=3))$TABLE,
-    "<p>Total sample size: <i>N</i> = ", N.info, "</p>"
-  )
-
-  ## Main MANOVA Functions
+  ## Main ANOVA Function
   suppressMessages({
     aov.ez=afex::aov_ez(
       data=data.long,
@@ -397,11 +396,47 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
   at.nsmalls=c(nsmall, nsmall, df.nsmall, df.nsmall, nsmall, 0, 0, 0)
 
+  ## Descriptive Statistics
+  nsub=nrow(data.wide)
+  ncom=complete.cases(data.long[c(between, within, covariate)])
+  nmis=length(ncom)-sum(ncom)
+  N.info=Glue("{nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
+  data.long$bruceR.dv=data.long[[dv]]
+  nmsd=plyr::ddply(
+    .data=aov.ez$data$long,
+    .variables=plyr::as.quoted(c(between, within)),
+    .fun=summarise,
+    M=mean(!!sym(dv), na.rm=TRUE),
+    SD=sd(!!sym(dv), na.rm=TRUE),
+    n=length(!!sym(dv)))
+
+  Print("<<yellow ====== ANOVA ({design}) ======>>")
+  cat("\n")
+  Print("Descriptives:")
+  print_table(nmsd, row.names=FALSE,
+              nsmalls=c(rep(nsmall, length(nmsd)-1), 0))
+  Print("Total sample size: <<italic N>> = {N.info}")
+  cat("\n")
+
+  nmsd$M=formatF(nmsd$M, nsmall)
+  nmsd$SD=formatF(nmsd$SD, nsmall)
+  names(nmsd)[(ncol(nmsd)-2):ncol(nmsd)]=c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
+  nmsd.html=paste0(
+    "<p><br/><br/></p>",
+    "<p><b>Descriptive Statistics:</b></p>",
+    df_to_html(
+      nmsd,
+      align.head=c(rep("left", times=ncol(nmsd)-3),
+                   rep("right"), times=3),
+      align.text=c(rep("left", times=ncol(nmsd)-3),
+                   rep("right"), times=3))$TABLE,
+    "<p>Total sample size: <i>N</i> = ", N.info, "</p>"
+  )
+
   DEP=ifelse(is.null(within), dv, paste(dv.vars, collapse=", "))
   BET=ifelse(is.null(between), "\u2013", paste(between, collapse=", "))
   WIT=ifelse(is.null(within), "\u2013", paste(within, collapse=", "))
   COV=ifelse(is.null(covariate), "\u2013", paste(covariate, collapse=", "))
-
   Print("
   ANOVA Table:
   Dependent variable(s):      {DEP}
@@ -410,14 +445,13 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   Covariate(s):               {COV}
   ")
   print_table(at, nsmalls=at.nsmalls)
-  Print("<<blue MSE = Mean Square Error (an estimate of population variance \u03c3\u00b2)>>")
-
   if(sph.correction %in% c("GG", "HF")) {
     sph.text=switch(sph.correction,
                     "GG"="GG (Greenhouse-Geisser)",
                     "HF"="HF (Huynh-Feldt)")
     Print("<<green Sphericity correction method: {sph.text}>>")
   }
+  Print("<<blue MSE = Mean Square Error (an estimate of population variance \u03c3\u00b2)>>")
 
   ## All Other Effect-Size Measures (deprecated; please use `effectsize` package)
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
@@ -438,7 +472,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       sph=summary(aov.ez$Anova)$sphericity.tests
     })
     if(length(sph)==0) {
-      Print("No factors have more than 2 levels. No need to do the sphericity test.")
+      Print("The repeated measures have only two levels. The assumption of sphericity is always met.")
     } else {
       class(sph)="matrix"
       sph=as.data.frame(sph)
@@ -620,7 +654,13 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
-#' The same object as returned by \code{\link{MANOVA}} (for recursive use).
+#' The same model object as returned by
+#' \code{\link{MANOVA}} (for recursive use),
+#' along with a list of \code{EMMEANS} tables:
+#' \code{sim} (simple effects),
+#' \code{emm} (estimated marginal means),
+#' \code{con} (contrasts).
+#' Each \code{EMMEANS} appends one list to the returned object.
 #'
 #' @examples
 #' \donttest{#### Between-Subjects Design ####
@@ -792,7 +832,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                       consec=,
                       seq="Consecutive (Sequential) Comparisons",
                       poly="Polynomial Contrasts",
-                      eff="Effect Contrasts (vs. grand mean)",
+                      eff="Effect Contrasts (vs. Grand Mean)",
                       "Multiple Comparisons")
   if(contrast=="pairwise" & reverse==TRUE) contrast="revpairwise"
   if(contrast=="seq") contrast="consec"
@@ -860,6 +900,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     cat("\n")
 
   ## Return (return the raw model for recycling across '%>%' pipelines)
+  model$EMMEANS=c(model$EMMEANS, list(list(sim=sim, emm=emm, con=con)))
   invisible(model)
 }
 
