@@ -199,13 +199,17 @@ fix_long_data=function(data.long, ivs) {
 #'
 #' Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 #' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
+#' @param aov.include Include the \code{aov} object in the returned object?
+#' Default is \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
+#' (please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
+#' If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #' @param file File name of MS Word (\code{.doc}).
 ## @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
 ##
 ## Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
 ## The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 ## (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
-#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
 #' A result object (list) returned by
@@ -292,6 +296,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                 ss.type="III",
                 sph.correction="none",
                 # which.observed=NULL,
+                aov.include=FALSE,
                 digits=2, nsmall=digits,
                 file=NULL) {
   ## Initialize
@@ -374,7 +379,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       # observed=which.observed,
       anova_table=list(correction=sph.correction, es="ges"),
       fun_aggregate=mean,
-      include_aov=FALSE,
+      include_aov=aov.include,
       factorize=FALSE,
       print.formula=FALSE)
   })
@@ -650,9 +655,12 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' Users may specify this argument as the \emph{SD} of a reference group,
 #' or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}.
 #' For an issue about the computation method of Cohen's \emph{d}, see \emph{Disclaimer} above.
-#' @param spss Return results that are identical to SPSS.
-#' Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
+#' @param model.type \code{"multivariate"} returns the results of pairwise comparisons identical to SPSS,
+#' which uses the \code{lm} (rather than \code{aov}) object of the \code{model}
 #' for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
+#'
+#' \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
+#' (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).
 #' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #'
 #' @return
@@ -755,7 +763,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  reverse=TRUE,
                  p.adjust="bonferroni",
                  sd.pooled=NULL,
-                 spss=TRUE,
+                 model.type="multivariate",
                  digits=2, nsmall=digits) {
   # model.raw=model
   # if(spss) model$aov=NULL
@@ -779,7 +787,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
       sim=emmeans::joint_tests(
         object=model, by=by,
         weights="equal",
-        model=ifelse(spss, "multivariate", "univariate"))
+        model=model.type)
     })
     names(sim)[1]="Effect"
     sim$Effect=str_replace_all(sim$Effect, ":", " x ")
@@ -806,6 +814,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     print_table(sim, nsmalls=c(rep(0, length(by)+3),
                                nsmall, 0, 0),
                 row.names=FALSE)
+  Print("<<yellow Disclaimer on simple effects:>>
+  <<cyan
+  Simple effects in <<italic within-subjects>> designs might <<italic not>> be identical to those from SPSS.
+  For details see MANOVA() argument `aov.include` and EMMEANS() argument `model.type`.
+  >>")
   cat("\n")
 
   ## Estimated Marginal Means (emmeans)
@@ -813,7 +826,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     emm0=emm=emmeans::emmeans(
       object=model, specs=effect, by=by,
       weights="equal",
-      model=ifelse(spss, "multivariate", "univariate"))
+      model=model.type)
   })
   emm=summary(emm)  # to a data.frame (class 'summary_emm')
   emm$MeanCI=paste0(formatF(emm$emmean, nsmall), " [",

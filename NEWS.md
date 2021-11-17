@@ -10,8 +10,20 @@
 ### Major Changes
 
 -   Package dependency: Much fewer strong dependencies, for faster and more robust installation.
+
 -   Removed `rio` from strongly depended R packages. No longer load `rio` and `psych` when `library(bruceR)`.
--   Improved `MANOVA()` and `EMMEANS()`: Fixed several bugs in these functions. Improved output tables (now all results are printed using `print_table()`). Added the argument `ss.type` for `MANOVA()` to specify either Type-II or Type-III Sum of Square. Added warning messages for wrong usage of the functions. If observations are not uniquely identified in user-defined long-format data, the function takes averages across those multiple observations for each case (thanks to Xiangying Zou for reporting an unfrequent bug related to this issue). Modified help pages.
+
+-   Improved `MANOVA()` and `EMMEANS()`:
+
+    -   Fixed several bugs.
+
+    -   Improved output tables. Now all results are printed using `print_table()`.
+
+    -   Added arguments (1) `ss.type` for `MANOVA()` to specify either Type-II or Type-III Sum of Square; (2) `aov.include` for `MANOVA()` and `model.type` for `EMMEANS()`, for details, see the help pages.
+
+    -   Added warning messages for wrong usage of these functions. If observations are not uniquely identified in user-defined long-format data, the function takes averages across those multiple observations for each case (thanks to Xiangying Zou for reporting an infrequent bug related to this issue).
+
+    -   Modified the help pages.
 
 ### Minor Changes
 

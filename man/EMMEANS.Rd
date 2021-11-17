@@ -12,7 +12,7 @@ EMMEANS(
   reverse = TRUE,
   p.adjust = "bonferroni",
   sd.pooled = NULL,
-  spss = TRUE,
+  model.type = "multivariate",
   digits = 2,
   nsmall = digits
 )
@@ -53,9 +53,12 @@ Users may specify this argument as the \emph{SD} of a reference group,
 or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}.
 For an issue about the computation method of Cohen's \emph{d}, see \emph{Disclaimer} above.}
 
-\item{spss}{Return results that are identical to SPSS.
-Default is \code{TRUE}, which uses the \code{lm} (rather than \code{aov}) object in \code{model}
-for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.}
+\item{model.type}{\code{"multivariate"} returns the results of pairwise comparisons identical to SPSS,
+which uses the \code{lm} (rather than \code{aov}) object of the \code{model}
+for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
+
+\code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
+(not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).}
 
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
 }

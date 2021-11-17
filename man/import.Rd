@@ -47,7 +47,7 @@ Alternatives can be:
 A data object (default class is \code{data.frame}).
 }
 \description{
-Import data from a file, with file format automatically judged by file extension.
+Import data from a file, with format automatically judged from file extension.
 This function is inspired by \code{\link[rio:import]{rio::import()}}
 and has several modifications.
 Its purpose is to avoid using lots of \code{read_xxx()} functions in your code

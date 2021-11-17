@@ -35,7 +35,7 @@ You may specify multiple sheet names in a character vector
 No return value.
 }
 \description{
-Export data to a file, with file format automatically judged by file extension.
+Export data to a file, with format automatically judged from file extension.
 This function is inspired by \code{\link[rio:export]{rio::export()}}
 and has several modifications.
 Its purpose is to avoid using lots of \code{write_xxx()} functions in your code

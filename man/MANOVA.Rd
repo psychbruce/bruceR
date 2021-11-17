@@ -15,6 +15,7 @@ MANOVA(
   covariate = NULL,
   ss.type = "III",
   sph.correction = "none",
+  aov.include = FALSE,
   digits = 2,
   nsmall = digits,
   file = NULL
@@ -76,6 +77,11 @@ Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.}
 
 Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
+
+\item{aov.include}{Include the \code{aov} object in the returned object?
+Default is \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
+(please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
+If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.}
 
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
 

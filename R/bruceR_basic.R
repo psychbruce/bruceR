@@ -853,7 +853,7 @@ file_ext=function(filename) {
 #' Import data from a file (TXT, CSV, Excel, SPSS, Stata, ...) or clipboard.
 #'
 #' @description
-#' Import data from a file, with file format automatically judged by file extension.
+#' Import data from a file, with format automatically judged from file extension.
 #' This function is inspired by \code{\link[rio:import]{rio::import()}}
 #' and has several modifications.
 #' Its purpose is to avoid using lots of \code{read_xxx()} functions in your code
@@ -1008,7 +1008,7 @@ import=function(file, encoding=NULL, header=TRUE,
 #' Export data to a file (TXT, CSV, Excel, SPSS, Stata, ...) or clipboard.
 #'
 #' @description
-#' Export data to a file, with file format automatically judged by file extension.
+#' Export data to a file, with format automatically judged from file extension.
 #' This function is inspired by \code{\link[rio:export]{rio::export()}}
 #' and has several modifications.
 #' Its purpose is to avoid using lots of \code{write_xxx()} functions in your code
