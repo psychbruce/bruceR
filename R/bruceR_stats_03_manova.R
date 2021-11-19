@@ -456,7 +456,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                     "HF"="HF (Huynh-Feldt)")
     Print("<<green Sphericity correction method: {sph.text}>>")
   }
-  Print("<<blue MSE = Mean Square Error (an estimate of population variance \u03c3\u00b2)>>")
+  Print("<<blue MSE = mean square error (the residual variance of the linear model)>>")
 
   ## All Other Effect-Size Measures (deprecated; please use `effectsize` package)
   # https://github.com/strengejacke/sjstats/blob/master/R/anova_stats.R#L116
@@ -554,13 +554,18 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
 #' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
 #'
-#' To compute Cohen's \emph{d} and its 95\% CI in pairwise comparisons,
-#' this function uses the pooled \emph{SD}:
-#' \strong{\code{SD_pooled = sqrt(MSE)}}, where \code{MSE} is
-#' the mean square error (for the tested effect) extracted from ANOVA table.
+#' By default, the \emph{root mean square error} (RMSE) is used to compute the pooled \emph{SD} for Cohen's \emph{d}.
+#' Specifically, it uses:
+#' \enumerate{
+#'   \item the square root of \emph{mean square error} (MSE) for between-subjects designs;
+#'   \item the square root of \emph{mean variance of all paired differences of the residuals of repeated measures} for within-subjects and mixed designs.
+#' }
+#' In both situations, it extracts the \code{lm} object from the returned value of \code{MANOVA()}.
+#' Then, it mainly uses \code{sigma()} and \code{residuals()}, respectively, to do these estimates.
+#' For source code, please see the file \code{bruceR_stats_03_manova.R} on the \href{https://github.com/psychbruce/bruceR}{GitHub Repository}.
 #'
 #' \strong{\emph{Disclaimer}:}
-#' There is substantial disagreement on what is the appropriate pooled \emph{SD} to use in computing effect sizes.
+#' There is substantial disagreement on the appropriate pooled \emph{SD} to use in computing the effect size.
 #' For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
 #' Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
 #'
@@ -578,46 +583,32 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'     }
 #'     When the interaction effect in ANOVA is significant,
 #'     we should then perform a "simple-effect analysis".
-#'     In ANOVA, we call it "simple-effect analysis";
-#'     in regression, we also call it "simple-slope analysis".
+#'     In regression, we call this "simple-slope analysis".
 #'     They are identical in statistical principles.
-#'     Nonetheless, the situations in ANOVA can be a bit more complex because we sometimes have a three-factors design.
 #'
-#'     In a regular two-factors design, we only test \strong{"simple main effects"}.
-#'     That is, on the different levels of a factor "B", the main effects of "A" would be different.
-#'     However, in a three-factors (or more) design, we may also test \strong{"simple interaction effects"} and \strong{"simple simple effects"}.
-#'     That is, on the different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
+#'     In a two-factors design, we only test \strong{"simple main effect"}.
+#'     That is, at different levels of a factor "B", the main effects of "A" would be different.
+#'     However, in a three-factors (or more) design, we may also test \strong{"simple interaction effect"} and \strong{"simple simple effect"}.
+#'     That is, at different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
 #'
-#'     In SPSS, we usually use the \code{MANOVA} and/or the \code{GLM + /EMMEANS} syntax to perform such analyses.
-#'     Tutorials (in Chinese) for the SPSS syntax can be found in:
-#'     \href{https://zhuanlan.zhihu.com/p/30037168}{Tutorial #1},
-#'     \href{https://zhuanlan.zhihu.com/p/31863288}{Tutorial #2}, and
-#'     \href{https://zhuanlan.zhihu.com/p/35011046}{Tutorial #3}.
-#'
-#'     Here, the R function \code{EMMEANS} can do the same thing as in SPSS and can do much better and easier (just see the section "Examples").
-#'
-#'     To note, simple effects \emph{per se} do NOT need any form of \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
+#'     To note, simple effects \emph{per se} never require \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
 #'   }
 #'   \item{\strong{2. Post-Hoc Test}}{
 #'     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
 #'     However, these two terms should be distinguished. In many situations,
 #'     "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
 #'     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
-#'     For example, we can perform the post-hoc comparisons of mean values (1) across multiple levels of one factor in a pairwise way or (2) particularly between the two conditions "A1B1" and "A2B2".
 #'
 #'     Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
 #'     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
 #'   }
 #'   \item{\strong{3. Multiple Comparison}}{
-#'     As mentioned above, multiple comparisons are post-hoc tests by its nature but do NOT have any relationship with simple-effect analyses.
-#'     In other words, "(post-hoc) multiple comparisons" are \strong{independent of} "interaction effects" and "simple effects".
-#'     What's more, when the simple main effect is of a factor with 3 or more levels, we also need to do multiple comparisons (e.g., pairwise comparisons) \emph{within} the simple-effect analysis.
-#'     In this situation (i.e., >= 3 levels), we need \emph{p}-value adjustment methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+#'     As mentioned above, multiple comparisons are indeed post-hoc tests but have no relationship with simple-effect analyses.
+#'     Post-hoc multiple comparisons are \strong{independent of} interaction effects and simple effects.
+#'     Furthermore, if a simple main effect contains 3 or more levels, we also need to do multiple comparisons \emph{within} the simple-effect analysis.
+#'     In this situation, we also need \emph{p}-value adjustment with methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
 #'
-#'     There are many ways to do multiple comparisons. All these methods are included in the current \code{EMMEANS} function.
-#'     If you are familiar with SPSS syntax, you may feel that the current R functions \code{MANOVA} and \code{EMMEANS} are a nice combination of the SPSS syntax \code{MANOVA} and \code{GLM + /EMMEANS}.
-#'     Yes, they are. More importantly, they outperform the SPSS syntax, either for its higher convenience or for its more fruitful results.
-#'
+#'     Options for multiple comparison:
 #'     \itemize{
 #'       \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
 #'       \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons
@@ -651,7 +642,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' \code{"dunnettx"}, \code{"sidak"}, \code{"scheffe"}, \code{"bonferroni"}.
 #' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and
 #' \code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.
-#' @param sd.pooled By default, it uses \strong{\code{sqrt(MSE)}} as the pooled \emph{SD} to compute Cohen's \emph{d}.
+#' @param sd.pooled By default, it uses \strong{\code{sqrt(MSE)}} (root mean square error, RMSE)
+#' as the pooled \emph{SD} to compute Cohen's \emph{d}.
 #' Users may specify this argument as the \emph{SD} of a reference group,
 #' or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}.
 #' For an issue about the computation method of Cohen's \emph{d}, see \emph{Disclaimer} above.
@@ -713,6 +705,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'        within=c("A", "B")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")  # singular error matrix
+#' # :::::::::::::::::::::::::::::::::::::::
+#' # This would produce a WARNING because of
+#' # the linear dependence of A2B2 and A2B3.
+#' # see: Corr(within.2[c("A2B2", "A2B3")])
 #'
 #' within.3
 #' MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
@@ -789,6 +785,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
         weights="equal",
         model=model.type)
     })
+    note="note" %in% names(sim)
+    sim$note=NULL
     names(sim)[1]="Effect"
     sim$Effect=str_replace_all(sim$Effect, ":", " x ")
     eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
@@ -805,17 +803,16 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   Print("<<yellow ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
   Print("{ifelse(is.null(by), 'Omnibus Test', 'Simple Effects')} of \"{effect.text}\":")
-  if(is.null(sim) | "note" %in% names(sim))
+  if(is.null(sim) | note) {
     message("Warning:
-    WITHIN CELLS error matrix is SINGULAR.
+    Within-cells error matrix is SINGULAR.
     Some variables are LINEARLY DEPENDENT.
-    The simple effect might be misleading.")
-  else
-    print_table(sim, nsmalls=c(rep(0, length(by)+3),
-                               nsmall, 0, 0),
-                row.names=FALSE)
-  Print("<<yellow Disclaimer on simple effects:>>
-  <<cyan
+    Please check your data and variables.")
+  }
+  print_table(sim, nsmalls=c(rep(0, length(by)+3),
+                             nsmall, 0, 0),
+              row.names=FALSE)
+  Print("<<green <<bold Disclaimer on simple effects:>>
   Simple effects in <<italic within-subjects>> designs might <<italic not>> be identical to those from SPSS.
   For details see MANOVA() argument `aov.include` and EMMEANS() argument `model.type`.
   >>")
@@ -859,13 +856,32 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   # pairs(emm, simple="each", reverse=TRUE, combine=TRUE)
   conCI=confint(con)
   con=summary(con)  # to a data.frame (class 'summary_emm')
-  # Cohen's d
-  rn=row.names(model$anova_table)
-  term=c()
-  for(i in rn) if(i %in% effect) term=c(term, i)
-  term=paste(term, collapse=":")
-  if(is.null(sd.pooled))
-    sd.pooled=sqrt(model$anova_table[term, "MSE"])
+
+  ## Cohen's d
+  all_paired_diffs=function(v) {
+    combns=utils::combn(v, 2)
+    combns[1,]-combns[2,]
+  }
+  if(is.null(sd.pooled)) {
+    sigma=stats::sigma(model$lm)
+    if(length(sigma)==1) {
+      sd.pooled=sigma  # = sqrt(MSE), i.e., RMSE
+    } else {
+      res=residuals(model$lm)  # matrix
+      D=apply(res, 1, all_paired_diffs)
+      if(is.matrix(D)) {
+        sd.pooled=sqrt(mean(apply(D, 1, var)))  # RMSE
+      } else {
+        sd.pooled=sd(D)
+      }
+    }
+  }
+  # rn=row.names(model$anova_table)
+  # term=c()
+  # for(i in rn) if(i %in% effect) term=c(term, i)
+  # term=paste(term, collapse=":")
+  # if(is.null(sd.pooled))
+  #   sd.pooled=sqrt(model$anova_table[term, "MSE"])
   if(contrast!="poly")
     attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
                         attr(con, "mesg"))
@@ -901,13 +917,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   Print("{contr.method} of \"{effect.text}\":")
   print_table(con, nsmalls=nsmall, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n")); cat("\n")
-  Print("<<yellow Disclaimer on Cohen\u2019s d:>>
-  <<cyan
-  Cohen\u2019s d in <<italic within-subjects>> designs are <<italic not>> precise.
+  Print("<<cyan <<bold Disclaimer on Cohen\u2019s d:>>
+  By default, pooled SD is Root Mean Square Error (RMSE).
   There is much disagreement on how to compute Cohen\u2019s d.
-  You should <<italic not>> take the output as the only right results.
-  You are completely responsible for setting the `sd.pooled`.
-  You may also use `<<green effectsize::t_to_d()>>` to compute Cohen\u2019s d.
+  You are completely responsible for setting `sd.pooled`.
+  You might also use `<<green effectsize::t_to_d()>>` to compute d.
   >>")
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")

@@ -876,17 +876,17 @@ file_ext=function(filename) {
 #'
 #' @param file File name (with extension).
 #' If unspecified, then data will be imported from clipboard.
-#' @param encoding File encoding. Default is \code{NULL}.
-#' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
-#'
-#' If you find messy code for Chinese text in the imported data,
-#' it is usually effective to set \code{encoding="UTF-8"}.
-#' @param header Does the first row contain column names? Default is \code{TRUE}.
 #' @param sheet [Only for Excel] Excel sheet name (or sheet number).
 #' Default is the first sheet.
 #' Ignored if the sheet is specified via \code{range}.
 #' @param range [Only for Excel] Excel cell range. Default are all cells in a sheet.
 #' You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.
+#' @param encoding File encoding. Default is \code{NULL}.
+#' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+#'
+#' If you find messy code for Chinese text in the imported data,
+#' it is usually effective to set \code{encoding="UTF-8"}.
+#' @param header Does the first row contain column names (\code{TRUE} or \code{FALSE})? Default is \code{"auto"}.
 #' @param setclass,as Class of the imported data. Default is \code{"data.frame"}.
 #' Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).
 #'
@@ -916,8 +916,9 @@ file_ext=function(filename) {
 #' @seealso \code{\link{export}}
 #'
 #' @export
-import=function(file, encoding=NULL, header=TRUE,
+import=function(file,
                 sheet=NULL, range=NULL,
+                encoding=NULL, header="auto",
                 setclass=as, as="data.frame") {
   ## initialize
   if(missing(file)) {
@@ -933,6 +934,7 @@ import=function(file, encoding=NULL, header=TRUE,
   if(fmt=="") {
     stop("File has no extension.", call.=FALSE)
   } else if(fmt=="clipboard") {
+    if(header=="auto") header=TRUE
     x=clipr::read_clip()
     if(is.null(x) | (is.character(x) & length(x)==1 & x[1]==""))
       stop("The system clipboard is empty. You may first copy something.", call.=FALSE)
@@ -949,9 +951,11 @@ import=function(file, encoding=NULL, header=TRUE,
   } else if(fmt %in% c("txt", "csv", "csv2", "tsv", "psv")) {
     if(is.null(encoding)) encoding="unknown"
     data=data.table::fread(input=file,
+                           sep="auto",
                            encoding=encoding,
                            header=header)
   } else if(fmt %in% c("xls", "xlsx")) {
+    if(header=="auto") header=TRUE
     data=readxl::read_excel(path=file,
                             sheet=sheet,
                             range=range,
@@ -1035,16 +1039,16 @@ import=function(file, encoding=NULL, header=TRUE,
 #' you'd better specify \code{file} with extensions .rda, .rdata, or .Rdata.
 #' @param file File name (with extension).
 #' If unspecified, then data will be exported to clipboard.
+#' @param sheet [Only for Excel] Excel sheet name(s).
+#' Default is Sheet1, Sheet2, ...
+#' You may specify multiple sheet names in a character vector
+#' \code{c()} with the \emph{same length} as \code{x} (see examples).
 #' @param encoding File encoding. Default is \code{NULL}.
 #' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 #'
 #' If you find messy code for Chinese text in the exported data (often in CSV when opened with Excel),
 #' it is usually effective to set \code{encoding="GBK"} or \code{encoding="CP936"}.
-#' @param header Does the first row contain column names? Default is \code{TRUE}.
-#' @param sheet [Only for Excel] Excel sheet name(s).
-#' Default is Sheet1, Sheet2, ...
-#' You may specify multiple sheet names in a character vector
-#' \code{c()} with the \emph{same length} as \code{x} (see examples).
+#' @param header Does the first row contain column names (\code{TRUE} or \code{FALSE})? Default is \code{"auto"}.
 #' @param overwrite Overwrite the existing file (if any)? Default is \code{TRUE}.
 #'
 #' @return No return value.
@@ -1076,8 +1080,8 @@ import=function(file, encoding=NULL, header=TRUE,
 #' @seealso \code{\link{import}}, \code{\link{print_table}}
 #'
 #' @export
-export=function(x, file, encoding=NULL, header=TRUE,
-                sheet=NULL,
+export=function(x, file, sheet=NULL,
+                encoding=NULL, header="auto",
                 overwrite=TRUE) {
   ## initialize
   if(missing(file)) {
@@ -1097,6 +1101,7 @@ export=function(x, file, encoding=NULL, header=TRUE,
   if(fmt=="") {
     stop("File has no extension.", call.=FALSE)
   } else if(fmt=="clipboard") {
+    if(header=="auto") header=TRUE
     suppressWarnings({
       clipr::write_clip(content=x, sep="\t",
                         row.names=FALSE,
@@ -1128,6 +1133,7 @@ export=function(x, file, encoding=NULL, header=TRUE,
                tsv="\t",
                psv="|")
     dec=ifelse(fmt=="csv2", ",", ".")
+    if(header=="auto") header=TRUE
     if(is.null(encoding)) {
       data.table::fwrite(x=x, file=file,
                          sep=sep, dec=dec,
@@ -1143,6 +1149,7 @@ export=function(x, file, encoding=NULL, header=TRUE,
     }
   } else if(fmt %in% c("xls", "xlsx")) {
     if(inherits(x, "list")==FALSE) x=list(x)  # one element
+    if(header=="auto") header=TRUE
     if(is.null(sheet)) {
       if(is.null(names(x)))
         names(x)=paste0("Sheet", 1:length(x))

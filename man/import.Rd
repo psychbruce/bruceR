@@ -6,10 +6,10 @@
 \usage{
 import(
   file,
-  encoding = NULL,
-  header = TRUE,
   sheet = NULL,
   range = NULL,
+  encoding = NULL,
+  header = "auto",
   setclass = as,
   as = "data.frame"
 )
@@ -18,20 +18,20 @@ import(
 \item{file}{File name (with extension).
 If unspecified, then data will be imported from clipboard.}
 
-\item{encoding}{File encoding. Default is \code{NULL}.
-Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
-
-If you find messy code for Chinese text in the imported data,
-it is usually effective to set \code{encoding="UTF-8"}.}
-
-\item{header}{Does the first row contain column names? Default is \code{TRUE}.}
-
 \item{sheet}{[Only for Excel] Excel sheet name (or sheet number).
 Default is the first sheet.
 Ignored if the sheet is specified via \code{range}.}
 
 \item{range}{[Only for Excel] Excel cell range. Default are all cells in a sheet.
 You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
+
+\item{encoding}{File encoding. Default is \code{NULL}.
+Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+
+If you find messy code for Chinese text in the imported data,
+it is usually effective to set \code{encoding="UTF-8"}.}
+
+\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})? Default is \code{"auto"}.}
 
 \item{setclass, as}{Class of the imported data. Default is \code{"data.frame"}.
 Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).
