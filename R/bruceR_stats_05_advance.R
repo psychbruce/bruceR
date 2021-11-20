@@ -655,10 +655,13 @@ PROCESS=function(data,
   }
   if(std) {
     # caution !!!
-    data.v=data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(y, x, meds, mods, covs), std=std)
+    if(Y01)
+      data.v=data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(x, meds, mods, covs), std=TRUE)
+    else
+      data.v=data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(y, x, meds, mods, covs), std=TRUE)
   } else {
-    data.c.NOmed=grand_mean_center(data.v, vars=c(x, mods, covs), std=std)
-    data.c=grand_mean_center(data.v, vars=c(x, meds, mods, covs), std=std)
+    data.c.NOmed=grand_mean_center(data.v, vars=c(x, mods, covs), std=FALSE)
+    data.c=grand_mean_center(data.v, vars=c(x, meds, mods, covs), std=FALSE)
   }
   nmis=nrow(data)-nrow(data.v)
 
