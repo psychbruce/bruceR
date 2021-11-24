@@ -33,6 +33,8 @@ A character string specifying the positions ("starting:stopping") of variables. 
 \item{rev}{[Optional] Variables that need to be reversed. It can be
 (1) a character vector specifying the reverse-scoring variables (recommended), or
 (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
+
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 }
 \value{
 A list of results obtained from

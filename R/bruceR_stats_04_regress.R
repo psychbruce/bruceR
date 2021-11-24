@@ -533,14 +533,14 @@ model_summary=function(model_list,
 #' Tidy report of GLM (\code{lm} and \code{glm} models).
 #'
 #' @param model A model fitted by \code{lm} or \code{glm} function.
-#' @param robust \strong{[only for \code{lm} and \code{glm}]}
+#' @param robust \strong{[Only for \code{lm} and \code{glm}]}
 #' \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
 #' \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
 #' For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 #'
 #' *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.
-#' @param cluster \strong{[only for \code{lm} and \code{glm}]}
+#' @param cluster \strong{[Only for \code{lm} and \code{glm}]}
 #' Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 #' If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.
 #' @param digits,nsmall Number of decimal places of output. Default is 3.
@@ -959,7 +959,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 #'
 #' @param model A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
-#' @param level2.predictors \strong{[only for \code{lmer}]} [optional] Default is \code{NULL}.
+#' @param level2.predictors \strong{[Only for \code{lmer}]} [optional] Default is \code{NULL}.
 #' If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
 #' you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
 #'
@@ -969,8 +969,8 @@ HLM_ICC=function(model, nsmall=3) {
 #' and there is no house-level predictor.
 #'
 #' *** If there is no level-2 predictor in the formula of \code{lmer}, just leave this argument blank.
-#' @param vartypes \strong{[only for \code{lmer}]} Manually setting variable types. Needless in most situations.
-#' @param test.rand \strong{[only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
+#' @param vartypes \strong{[Only for \code{lmer}]} Manually setting variable types. Needless in most situations.
+#' @param test.rand \strong{[Only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
 ## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
 ## because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.

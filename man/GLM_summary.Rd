@@ -16,7 +16,7 @@ GLM_summary(
 \arguments{
 \item{model}{A model fitted by \code{lm} or \code{glm} function.}
 
-\item{robust}{\strong{[only for \code{lm} and \code{glm}]}
+\item{robust}{\strong{[Only for \code{lm} and \code{glm}]}
 \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
 \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
 It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
@@ -24,7 +24,7 @@ For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 
 *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.}
 
-\item{cluster}{\strong{[only for \code{lm} and \code{glm}]}
+\item{cluster}{\strong{[Only for \code{lm} and \code{glm}]}
 Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
 If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.}
 

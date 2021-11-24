@@ -285,6 +285,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' }
 #'
 #' @inheritParams %%COMPUTE%%
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #'
 #' @return
 #' A list of results obtained from
