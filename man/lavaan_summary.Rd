@@ -12,16 +12,18 @@ lavaan_summary(
   digits = 3,
   nsmall = digits,
   print = TRUE,
+  covariance = FALSE,
   file = NULL
 )
 }
 \arguments{
 \item{lavaan}{Model object fitted by \code{\link[lavaan:lavaan-class]{lavaan}}.}
 
-\item{ci}{Method for estimating the standard error (SE) and
-95\% confidence interval (CI) of user-defined parameter(s).
+\item{ci}{Method for estimating standard error (SE) and
+95\% confidence interval (CI).
+
 Default is \code{"raw"} (the standard approach of \code{lavaan}).
-Other options include:
+Other options:
 \describe{
   \item{\code{"boot"}}{Percentile Bootstrap}
   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
@@ -29,9 +31,8 @@ Other options include:
 }}
 
 \item{nsim}{Number of simulation samples (bootstrap resampling)
-for estimating SE and 95\% CI of user-defined parameter(s).
-Default is \code{100} for running examples faster.
-In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!}
+for estimating SE and 95\% CI.
+In formal analyses, \strong{\code{nsim=1000} (or larger)} is strongly suggested.}
 
 \item{seed}{Random seed for obtaining reproducible results. Default is \code{NULL}.}
 
@@ -39,14 +40,18 @@ In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly s
 
 \item{print}{Print results. Default is \code{TRUE}.}
 
+\item{covariance}{Print (co)variances. Default is \code{FALSE}.}
+
 \item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
 Invisibly return a list of results:
 \describe{
-  \item{\code{fit}}{Fit measures.}
-  \item{\code{path}}{Path coefficients.}
-  \item{\code{effect}}{Used-defined effect estimates.}
+  \item{\code{fit}}{Model fit indices.}
+  \item{\code{measure}}{Latent variable measures.}
+  \item{\code{regression}}{Regression paths.}
+  \item{\code{covariance}}{Variances and/or covariances.}
+  \item{\code{effect}}{Defined effect estimates.}
 }
 }
 \description{
@@ -112,5 +117,5 @@ lavaan_summary(lv1)
 
 }
 \seealso{
-\code{\link{PROCESS}}
+\code{\link{PROCESS}}, \code{\link{CFA}}
 }

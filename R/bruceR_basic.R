@@ -771,10 +771,6 @@ dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
 #' @param path \code{NULL} (default) or a specific path.
 #' Default is to extract the path of the currently opened file
 #' (usually .R or .Rmd) using the \code{rstudioapi::getSourceEditorContext} function.
-#' @param directly \code{TRUE} (default) or \code{FALSE}.
-#' Default is to directly execute \code{setwd("...")} within the function (recommended).
-#' Otherwise, it will send code \code{setwd("...")} to the R Console
-#' and then execute it (not recommended due to a delay of execution).
 #' @param ask \code{TRUE} or \code{FALSE} (default).
 #' If \code{TRUE}, you can select a folder with the prompt of a dialog.
 #'
@@ -795,7 +791,7 @@ dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
 #' @describeIn set.wd Main function
 #' @aliases set_wd
 #' @export
-set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
+set.wd=function(path=NULL, ask=FALSE) {
   if(rstudioapi::isAvailable()==FALSE)
     stop("[RStudio] is required for running this function!\n",
          "Please download and install the latest version of RStudio:\n",
@@ -827,12 +823,9 @@ set.wd=function(path=NULL, directly=TRUE, ask=FALSE) {
     })
   }
   if(length(path)>0) {
-    if(directly) {
-      eval(parse(text=paste0("setwd(\"", path, "\")")))
-      Print("<<green \u2714>> Set working directory to <<bold \"{getwd()}\">>")
-    } else {
-      rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
-    }
+    Run("setwd(\"{path}\")")
+    Print("<<green \u2714>> Set working directory to <<bold \"{getwd()}\">>")
+    # rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
   }
   invisible(path)
 }

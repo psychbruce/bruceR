@@ -219,10 +219,12 @@ NULL
            bolt="\u26a1",
            star="\u2b50")
     logo=sample(LOGO, 1)
+    version=as.character(utils::packageVersion("bruceR"))
     Print("
     \n
     <<bold
-    {logo} bruceR: <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
+    {logo} bruceR (v{version})
+    [<<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions]
     >>
 
     <<bold Packages also been loaded:>>

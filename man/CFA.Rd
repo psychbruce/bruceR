@@ -10,9 +10,9 @@ CFA(
   highorder = "",
   orthogonal = FALSE,
   missing = "listwise",
-  style = "lavaan",
-  CI = FALSE,
-  MI = FALSE
+  digits = 3,
+  nsmall = digits,
+  file = NULL
 )
 }
 \arguments{
@@ -22,23 +22,19 @@ CFA(
 
 \item{highorder}{High-order factor. Default is \code{""}.}
 
-\item{orthogonal}{Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero, and only "lavaan" style will be output.}
+\item{orthogonal}{Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.}
 
-\item{missing}{Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).}
+\item{missing}{Default is \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").}
 
-\item{style}{\code{"jmv"}, \code{"lavaan"} (default), or both \code{c("jmv", "lavaan")}.
-If the model has high-order factors, only "lavaan" style will be output.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
-\item{CI}{\code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.}
-
-\item{MI}{\code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.}
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
-A list of results returned by \code{\link[jmv:cfa]{jmv::cfa()}}
-and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
+A list of results returned by \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 }
 \description{
-An extension of \code{\link[jmv:cfa]{jmv::cfa()}} and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
+An extension of \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 }
 \examples{
 \donttest{data.cfa=lavaan::HolzingerSwineford1939
@@ -54,7 +50,5 @@ CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 }
 }
 \seealso{
-\code{\link[jmv:cfa]{jmv::cfa()}}
-
-\code{\link[lavaan:cfa]{lavaan::cfa()}}
+\code{\link{lavaan_summary}}
 }

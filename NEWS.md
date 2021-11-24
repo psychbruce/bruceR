@@ -18,6 +18,8 @@
     -   Added arguments (1) `ss.type` for `MANOVA()` to specify either Type-II or Type-III Sum of Square; (2) `aov.include` for `MANOVA()` and `model.type` for `EMMEANS()`, for details, see the help pages.
     -   Added warning messages for wrong usage of these functions. If observations are not uniquely identified in user-defined long-format data, the function takes averages across those multiple observations for each case (thanks to Xiangying Zou for reporting an infrequent bug related to this issue).
 
+-   Improved `CFA()` and `lavaan_summary()`: Now `CFA()` only uses the `lavaan` package to build model and then uses `lavaan_summary()` to present results. For `lavaan_summary()`, many bugs have been fixed, and the style of result table has been changed and improved. Both functions now support Word output.
+
 -   Package dependency: Much fewer strong dependencies, for faster and more robust installation.
 
 -   Removed `rio` from strongly depended R packages. No longer load `rio` and `psych` when `library(bruceR)`.

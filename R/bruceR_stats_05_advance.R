@@ -1053,34 +1053,37 @@ PROCESS=function(data,
 #' Tidy report of lavaan model.
 #'
 #' @param lavaan Model object fitted by \code{\link[lavaan:lavaan-class]{lavaan}}.
-#' @param ci Method for estimating the standard error (SE) and
-#' 95\% confidence interval (CI) of user-defined parameter(s).
+#' @param ci Method for estimating standard error (SE) and
+#' 95\% confidence interval (CI).
+#'
 #' Default is \code{"raw"} (the standard approach of \code{lavaan}).
-#' Other options include:
+#' Other options:
 #' \describe{
 #'   \item{\code{"boot"}}{Percentile Bootstrap}
 #'   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
 #'   \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
 #' }
 #' @param nsim Number of simulation samples (bootstrap resampling)
-#' for estimating SE and 95\% CI of user-defined parameter(s).
-#' Default is \code{100} for running examples faster.
-#' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
+#' for estimating SE and 95\% CI.
+#' In formal analyses, \strong{\code{nsim=1000} (or larger)} is strongly suggested.
 #' @param seed Random seed for obtaining reproducible results. Default is \code{NULL}.
 #' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param print Print results. Default is \code{TRUE}.
+#' @param covariance Print (co)variances. Default is \code{FALSE}.
 #' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return
 #' Invisibly return a list of results:
 #' \describe{
-#'   \item{\code{fit}}{Fit measures.}
-#'   \item{\code{path}}{Path coefficients.}
-#'   \item{\code{effect}}{Used-defined effect estimates.}
+#'   \item{\code{fit}}{Model fit indices.}
+#'   \item{\code{measure}}{Latent variable measures.}
+#'   \item{\code{regression}}{Regression paths.}
+#'   \item{\code{covariance}}{Variances and/or covariances.}
+#'   \item{\code{effect}}{Defined effect estimates.}
 #' }
 #'
 #' @seealso
-#' \code{\link{PROCESS}}
+#' \code{\link{PROCESS}}, \code{\link{CFA}}
 #'
 #' @examples
 #' ## Simple Mediation:
@@ -1147,55 +1150,89 @@ lavaan_summary=function(lavaan,
                         seed=NULL,
                         digits=3, nsmall=digits,
                         print=TRUE,
+                        covariance=FALSE,
                         file=NULL) {
-  if(length(ci)>1) ci="raw"
   FIT=lavaan::fitMeasures(lavaan)
+
   pe=lavaan::parameterEstimates(lavaan, standardized=TRUE)
-  pe.reg=pe[pe$op=="~", c("lhs", "rhs", "label", "est", "se", "std.all")]
-  pe.eff=pe[pe$op==":=", c("label", "est", "std.all")]
-  REG=data.frame(Path=pe.reg$lhs %^% " <= " %^% pe.reg$rhs,
-                 Tag=str_replace_all(
-                   "(" %^% pe.reg$label %^% ")", "\\(\\)", ""),
-                 Coef=pe.reg$est,
-                 S.E.=pe.reg$se)
-  REG$z=REG$Coef/REG$S.E.
-  REG$pval=p.z(REG$z)
-  REG$Beta=pe.reg$std.all
-  row.names(REG)=REG[[1]]
-  REG[[1]]=NULL
-  if(ci!="raw" & nrow(pe.eff)>0) {
+  if("label" %notin% names(pe)) pe$label=""
+
+  if(length(ci)>1) ci="raw"
+  CI=switch(
+    ci,
+    "raw"="Raw (Standard)",
+    "boot"="Percentile Bootstrap",
+    "bc.boot"="Bias-Corrected Percentile Bootstrap",
+    "bca.boot"="Bias-Corrected and Accelerated (BCa) Percentile Bootstrap")
+  if(ci!="raw") {
     set.seed(seed)
     lv.boot=lavaan::bootstrapLavaan(
       lavaan, type="nonparametric",
       FUN=function(...) { lavaan::coef(..., type="user") },
       R=nsim)
-    lv.boot=as.data.frame(lv.boot)[pe.eff$label]
-    EFF=as.data.frame(pe.eff[1])
-    EFF$Effect=pe.eff$est
-    EFF$BootSE=apply(lv.boot, 2, sd)
-    EFF$z=EFF$Effect/EFF$BootSE
-    EFF$pval=p.z(EFF$z)
-    EFF=cbind(EFF, t(apply(lv.boot, 2, boot_ci, type=ci)), pe.eff[3])
-    names(EFF)[c(1, 6, 7, 8)]=c(" ", "BootLLCI", "BootULCI", "Beta")
-  } else if(nrow(pe.eff)>0) {
-    EFF=pe[pe$op==":=",
-           c("label", "est", "se", "z", "pvalue",
-             "ci.lower", "ci.upper", "std.all")]
-    EFF$pvalue=p.z(EFF$z)
-    EFF=as.data.frame(EFF)
-    names(EFF)=c(" ", "Effect", "S.E.", "z", "pval", "LLCI", "ULCI", "Beta")
-  } else {
-    EFF=data.frame()
+    lv.boot=as.data.frame(lv.boot)
+    pe$se=apply(lv.boot, 2, sd)
+    bootci=apply(lv.boot, 2, boot_ci, type=ci)
+    pe$ci.lower=bootci[1,]
+    pe$ci.upper=bootci[2,]
+  }
+
+  extract_lavaan_table=function(lav.df, op, ci.raw) {
+    RES=data.frame(Estimate=lav.df$est,
+                   S.E.=lav.df$se)
+    RES$z=RES$Estimate/RES$S.E.
+    RES$pval=p.z(RES$z)
+    if(ci.raw) {
+      RES$LLCI=lav.df$ci.lower
+      RES$ULCI=lav.df$ci.upper
+    } else {
+      RES$BootLLCI=lav.df$ci.lower
+      RES$BootULCI=lav.df$ci.upper
+    }
+    RES$Beta=lav.df$std.all
+    if(nrow(RES)>0) {
+      if(op==":=") {
+        row.names(RES)=paste(" ", lav.df$label)
+      } else {
+        row.names(RES)=paste(
+          " ", lav.df$lhs, op, lav.df$rhs,
+          str_replace_all("(" %^% lav.df$label %^% ")", "\\(\\)", ""))
+      }
+    }
+    return(RES)
+  }
+
+  MES=extract_lavaan_table(pe[pe$op=="=~",], "=~", ci=="raw")
+  REG=extract_lavaan_table(pe[pe$op=="~",], "<-", ci=="raw")
+  COV=extract_lavaan_table(pe[pe$op=="~~",], "~~", ci=="raw")
+  EFF=extract_lavaan_table(pe[pe$op==":=",], ":=", ci=="raw")
+
+  ALL=data.frame()
+  if(ci=="raw")
+    NUL=data.frame(Estimate=NA, S.E.=NA, z=NA, pval=NA, LLCI=NA, ULCI=NA, Beta=NA)
+  else
+    NUL=data.frame(Estimate=NA, S.E.=NA, z=NA, pval=NA, BootLLCI=NA, BootULCI=NA, Beta=NA)
+  if(nrow(MES)>0) {
+    row.names(NUL)="Latent Variables:"
+    ALL=rbind(ALL, NUL, MES)
+  }
+  if(nrow(REG)>0) {
+    row.names(NUL)="Regression Paths:"
+    ALL=rbind(ALL, NUL, REG)
+  }
+  if(nrow(COV)>0 & covariance) {
+    row.names(NUL)="(Co)variances:"
+    ALL=rbind(ALL, NUL, COV)
   }
   if(nrow(EFF)>0) {
-    row.names(EFF)=EFF[[1]]
-    EFF[[1]]=NULL
+    row.names(NUL)="Defined Effects:"
+    ALL=rbind(ALL, NUL, EFF)
   }
 
   if(print) {
     cat("\n")
     Print("
-    <<cyan Fit Measures:>>
+    <<cyan Fit Measures (lavaan):>>
     {p(chi2=FIT['chisq'], df=FIT['df'], n=FIT['ntotal'], nsmall=nsmall)}
     \u03c7\u00b2/<<italic df>> = {FIT['chisq']/FIT['df']:.{nsmall}}{ifelse(FIT['df']==0, ' <<red (saturated model)>>', '')}
     AIC = {FIT['aic']:.{nsmall}} <<white (Akaike Information Criterion)>>
@@ -1210,42 +1247,28 @@ lavaan_summary=function(lavaan,
     SRMR = {FIT['srmr']:.{nsmall}} <<white (Standardized Root Mean Square Residual)>>
     ")
     cat("\n")
-    print_table(REG, row.names=TRUE, nsmalls=nsmall,
-                title="<<blue Model Paths (lavaan):>>")
+    print_table(ALL, row.names=TRUE, nsmalls=nsmall,
+                title="<<cyan Model Estimates (lavaan):>>",
+                note=Glue("<<italic Note>>. {CI} Confidence Interval (CI) and SE."))
     cat("\n")
-    if(nrow(EFF)>0) {
-      print_table(EFF, row.names=TRUE, nsmalls=nsmall,
-                  title="<<blue Model Terms (lavaan):>>")
-      cat("\n")
-    }
   }
 
   if(!is.null(file)) {
-    if(nrow(EFF)>0) {
-      EFF.html=paste0(
-        "<p><br/><br/></p>",
-        "<p><b>Table 2. Model Terms.</b></p>",
-        print_table(EFF, nsmalls=nsmall,
-                    file.align.text=c(
-                      "left", "right", "right", "right", "right", "left", "right", "right", "right"
-                    ),
-                    file="NOPRINT")$html$TABLE,
-        "<p><i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.</p>")
-    } else {
-      EFF.html=""
-    }
     print_table(
-      REG, nsmalls=nsmall, row.names=TRUE,
-      title="<b>Table 1. Model Paths.</b>",
+      ALL, nsmalls=nsmall, row.names=TRUE,
+      title="<b>Table. Model Estimates.</b>",
       note="<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.",
-      append=EFF.html,
       file=file,
       file.align.text=c(
-        "left", "left", "right", "right", "right", "right", "left", "right"
+        "left", "right", "right", "right", "right", "left", "right", "right", "right"
       ))
   }
 
-  invisible(list(fit=FIT, path=REG, effect=EFF))
+  invisible(list(fit=FIT,
+                 measure=MES,
+                 regression=REG,
+                 covariance=COV,
+                 effect=EFF))
 }
 
 
@@ -1311,7 +1334,7 @@ process_lav=function(data, y, x, meds, covs, clusters,
       <<blue <<underline LAVAAN Syntax:>>>>\n<<italic {model}>>"),
       note=Glue("
       {CI} Confidence Interval
-      <<white (SEs and CIs are estimated based on {nsim} Bootstrap samples.)>>"))
+      <<white (SE and CI are estimated based on {nsim} Bootstrap samples.)>>"))
     cat("\n")
   }
 
@@ -1446,7 +1469,7 @@ process_med=function(model.m,
       <<blue <<underline Indirect Path:>> \"{x}\" (X) ==> \"{medi}\" (M) ==> \"{y}\" (Y)>>{eff.tag}"),
       note=Glue("
       {CI} Confidence Interval
-      <<white ({ifelse(boot, 'SEs', 'Effects, SEs,')} and CIs are estimated based on {nsim} {ifelse(boot, 'Bootstrap samples', 'Monte Carlo samples')}.)>>"))
+      <<white ({ifelse(boot, 'SE', 'Effect, SE,')} and CI are estimated based on {nsim} {ifelse(boot, 'Bootstrap samples', 'Monte Carlo samples')}.)>>"))
     cat("\n")
   }
 

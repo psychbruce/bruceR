@@ -421,26 +421,23 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 
 #' Confirmatory factor analysis (CFA).
 #'
-#' An extension of \code{\link[jmv:cfa]{jmv::cfa()}} and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
+#' An extension of \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 #'
 #' @inheritParams %%COMPUTE%%
 #' @param model Model formula. See examples.
 #' @param highorder High-order factor. Default is \code{""}.
-#' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero, and only "lavaan" style will be output.
-#' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} (using "Full Information Maximum Likelihood" method to estimate the model).
-#' @param style \code{"jmv"}, \code{"lavaan"} (default), or both \code{c("jmv", "lavaan")}.
-#' If the model has high-order factors, only "lavaan" style will be output.
-#' @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
-#' @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
+#' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.
+#' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").
+## @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
+## @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return
-#' A list of results returned by \code{\link[jmv:cfa]{jmv::cfa()}}
-#' and \code{\link[lavaan:cfa]{lavaan::cfa()}}.
+#' A list of results returned by \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 #'
 #' @seealso
-#' \code{\link[jmv:cfa]{jmv::cfa()}}
-#'
-#' \code{\link[lavaan:cfa]{lavaan::cfa()}}
+#' \code{\link{lavaan_summary}}
 #'
 #' @examples
 #' \donttest{data.cfa=lavaan::HolzingerSwineford1939
@@ -457,48 +454,53 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
              highorder="", orthogonal=FALSE, missing="listwise",
-             style="lavaan", CI=FALSE, MI=FALSE) {
-  model.jmv=modelCFA.trans("jmv", model)
+             # CI=FALSE, MI=FALSE,
+             digits=3, nsmall=digits,
+             file=NULL) {
+  # model.jmv=modelCFA.trans("jmv", model)
   model.lav=modelCFA.trans("lavaan", model, highorder)
-  if(orthogonal==TRUE | highorder!="") style="lavaan"
+  # if(orthogonal==TRUE | highorder!="") style="lavaan"
 
-  Print("#### Latent variable definitions ####")
-  cat(model.lav, "\n\n")
-  results=list()
+  cat("\n")
+  Print("<<cyan Model Syntax (lavaan):>>")
+  cat(model.lav)
+  cat("\n")
 
-  # jmv style
-  if("jmv" %in% style) {
-    fit.jmv=jmv::cfa(data=data, factors=model.jmv,
-                     resCov=NULL,
-                     constrain="facVar", # or "facInd"
-                     # 'facVar' fixes the factor variances to 1
-                     # 'facInd' fixes each factor to the scale of its first indicator
-                     ci=CI, mi=MI, # modification indices
-                     stdEst=TRUE, resCovEst=TRUE,
-                     # pathDiagram=plot,
-                     fitMeasures=c("cfi", "tli", "rmsea", "srmr", "aic", "bic"),
-                     miss=missing) # fiml (default), listwise
-    cat("\n#### jamovi style output ####\n")
-    print(fit.jmv)
-    results=c(results, fit.jmv=fit.jmv)
-  }
+  # # jmv style
+  # if("jmv" %in% style) {
+  #   fit.jmv=jmv::cfa(data=data, factors=model.jmv,
+  #                    resCov=NULL,
+  #                    constrain="facVar", # or "facInd"
+  #                    # 'facVar' fixes the factor variances to 1
+  #                    # 'facInd' fixes each factor to the scale of its first indicator
+  #                    ci=CI, mi=MI, # modification indices
+  #                    stdEst=TRUE, resCovEst=TRUE,
+  #                    # pathDiagram=plot,
+  #                    fitMeasures=c("cfi", "tli", "rmsea", "srmr", "aic", "bic"),
+  #                    miss=missing) # fiml (default), listwise
+  #   cat("\n#### jamovi style output ####\n")
+  #   print(fit.jmv)
+  # }
 
   # lavaan style
-  if("lavaan" %in% style) {
-    fit.lav=lavaan::cfa(data=data, model=model.lav,
-                        std.lv=TRUE,
-                        # TRUE: fixing the factor residual variances to 1
-                        # FALSE: fixing the factor loading of the first indicator to 1
-                        orthogonal=orthogonal,
-                        missing=missing) # fiml, listwise (default)
-    cat("\n#### lavaan style output ####\n\n")
-    lavaan::summary(fit.lav, fit.measures=TRUE, standard=TRUE)
-    if(MI) print(lavaan::modificationIndices(fit.lav))
-    # if(plot) semPlot::semPaths(fit.lav, "std", curveAdjacent=TRUE,
-    #                            style="lisrel", nDigits=2, edge.label.cex=1)
-    results=c(results, fit.lavaan=fit.lav)
-  }
+  fit.lav=lavaan::cfa(model=model.lav,
+                      data=data,
+                      std.lv=TRUE,
+                      # TRUE: fixing the factor residual variances to 1
+                      # FALSE: fixing the factor loading of the first indicator to 1
+                      orthogonal=orthogonal,
+                      missing=missing) # fiml, listwise (default)
+  # cat("\n#### lavaan output ####\n\n")
+  lavaan_summary(fit.lav, ci="raw", nsmall=nsmall, file=file)
+  # lavaan::summary(fit.lav,
+  #                 fit.measures=TRUE,
+  #                 standardized=TRUE,
+  #                 ci=CI,
+  #                 modindices=MI)
+  # if(MI) print(lavaan::modificationIndices(fit.lav))
+  # if(plot) semPlot::semPaths(fit.lav, "std", curveAdjacent=TRUE,
+  #                            style="lisrel", nDigits=2, edge.label.cex=1)
 
-  invisible(results)
+  invisible(fit.lav)
 }
 
