@@ -41,5 +41,5 @@ Suggests: rstudioapi, pacman,
           tibble, plyr, glue, crayon,
           afex, car, lmtest, lme4, lmerTest, vars,
           mediation, interactions, lavaan,
-          jmv, jtools, texreg, MuMIn, BayesFactor
+          jmv, jtools, texreg, MuMIn, BayesFactor, GGally
 RoxygenNote: 7.1.2

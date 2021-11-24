@@ -226,30 +226,27 @@ Describe=function(data,
 
   p=NULL
   if(plot) {
-    if(!pacman::p_isinstalled("GGally"))
-      stop("Package `GGally` needs to be installed for plotting.\nRun this code: install.packages(\"GGally\")", call.=FALSE)
+    # if(!pacman::p_isinstalled("GGally"))
+    #   stop("Package `GGally` needs to be installed for plotting.\nRun this code: install.packages(\"GGally\")", call.=FALSE)
     if(upper.triangle) {
       smooth=switch(upper.smooth,
                     "none"="points",
                     "lm"="smooth",
                     "loess"="smooth_loess")
-      Run("
       upper=list(continuous=GGally::wrap(
         smooth, size=1, shape=16, alpha=0.3))
-      ")
     } else {
       upper="blank"
     }
-    Run("
     p=GGally::ggpairs(
-      data.new, switch=\"both\", axisLabels=\"none\",
+      data.new, switch="both", axisLabels="none",
       upper=upper,
       lower=list(continuous=GGally::wrap(
-        \"cor\", digits=nsmall,
-        use=\"pairwise.complete.obs\",
-        size=4, color=\"black\"))
-    ) + theme_bruce() + theme(strip.text=element_text(size=12, color=\"black\"))
-    ")
+        "cor", digits=nsmall,
+        use="pairwise.complete.obs",
+        size=4, color="black"))) +
+      theme_bruce() +
+      theme(strip.text=element_text(size=12, color="black"))
     if(is.null(plot.file)) {
       print(p)
     } else {

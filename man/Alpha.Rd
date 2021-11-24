@@ -4,50 +4,59 @@
 \alias{Alpha}
 \title{Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).}
 \usage{
-Alpha(data, var, items, vars = NULL, varrange = NULL, rev = NULL)
+Alpha(
+  data,
+  var,
+  items,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  digits = 3,
+  nsmall = digits
+)
 }
 \arguments{
 \item{data}{Data frame.}
 
-\item{var}{\strong{[option 1]}
-Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
+\item{var}{\strong{[Option 1]}
+The common part across the variables. e.g., \code{"RSES"}}
 
-\item{items}{\strong{[option 1]}
-Unique part across multiple variables (e.g., \code{1:10}).}
+\item{items}{\strong{[Option 1]}
+The unique part across the variables. e.g., \code{1:10}}
 
-\item{vars}{\strong{[option 2]}
-Character vector specifying a variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
+\item{vars}{\strong{[Option 2]}
+A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
-\item{varrange}{\strong{[option 3]}
-Character with \code{":"} specifying the start and end positions of a variable list (e.g., \code{"A1:E5"}).}
+\item{varrange}{\strong{[Option 3]}
+A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}}
 
-\item{rev}{[optional] Reverse-scoring variables. It can be
-(1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
-(2) a character vector directly specifying the variable list (recommended).}
+\item{rev}{[Optional] Variables that need to be reversed. It can be
+(1) a character vector specifying the reverse-scoring variables (recommended), or
+(2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 }
 \value{
-A result object obtained from \code{\link[jmv:reliability]{jmv::reliability()}}.
+A list of results obtained from
+\code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}}.
 }
 \description{
-An extension of \code{\link[jmv:reliability]{jmv::reliability()}}.
-It reports (1) scale reliability statistics
+An extension of \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}},
+reporting (1) scale statistics
 (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
-(2) item reliability statistics
+(2) item statistics
 (item-rest correlation [i.e., corrected item-total correlation]
-and what Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}
-would be if the item was dropped).
+and Cronbach's \eqn{\alpha} if item deleted).
 
-Three options to specify the variable list:
+Three options to specify variables:
 \enumerate{
   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define a variable list.
-  \item \strong{\code{varrange}}: use the start and end positions of a variable list.
+  \item \strong{\code{vars}}: directly define a character vector of variables.
+  \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
 }
 }
 \examples{
 # ?psych::bfi
 data=psych::bfi
-Alpha(data, "E", 1:5)  # "E1" & "E2" should be reverse scored
+Alpha(data, "E", 1:5)  # "E1" & "E2" should be reversed
 Alpha(data, "E", 1:5, rev=1:2)  # correct
 Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct
 Alpha(data, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))

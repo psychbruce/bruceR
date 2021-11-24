@@ -72,30 +72,30 @@ scaler=function(v, min=0, max=1) {
 #' Reverse scoring can also be easily implemented without saving extra variables.
 #' \code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
 #'
-#' Three options to specify the variable list:
+#' Three options to specify variables:
 #' \enumerate{
 #'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define a variable list.
-#'   \item \strong{\code{varrange}}: use the start and end positions of a variable list.
+#'   \item \strong{\code{vars}}: directly define a character vector of variables.
+#'   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
 #' }
 #'
 #' @param data Data frame.
-#' @param var \strong{[option 1]}
-#' Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).
-#' @param items \strong{[option 1]}
-#' Unique part across multiple variables (e.g., \code{1:10}).
-#' @param vars \strong{[option 2]}
-#' Character vector specifying a variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).
-#' @param varrange \strong{[option 3]}
-#' Character with \code{":"} specifying the start and end positions of a variable list (e.g., \code{"A1:E5"}).
-#' @param value [only for \code{COUNT}] The value to be counted.
-#' @param rev [optional] Reverse-scoring variables. It can be
-#' (1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
-#' (2) a character vector directly specifying the variable list (recommended).
-#' @param likert [optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
+#' @param var \strong{[Option 1]}
+#' The common part across the variables. e.g., \code{"RSES"}
+#' @param items \strong{[Option 1]}
+#' The unique part across the variables. e.g., \code{1:10}
+#' @param vars \strong{[Option 2]}
+#' A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}
+#' @param varrange \strong{[Option 3]}
+#' A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}
+#' @param value [Only for \code{COUNT}] The value to be counted.
+#' @param rev [Optional] Variables that need to be reversed. It can be
+#' (1) a character vector specifying the reverse-scoring variables (recommended), or
+#' (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).
+#' @param likert [Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 #' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
-#' @param values [only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
+#' @param values [Only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
 #'
 #' @return A vector of computed values.
 #'
@@ -270,30 +270,30 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).
 #'
 #' @description
-#' An extension of \code{\link[jmv:reliability]{jmv::reliability()}}.
-#' It reports (1) scale reliability statistics
+#' An extension of \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}},
+#' reporting (1) scale statistics
 #' (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
-#' (2) item reliability statistics
+#' (2) item statistics
 #' (item-rest correlation [i.e., corrected item-total correlation]
-#' and what Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}
-#' would be if the item was dropped).
+#' and Cronbach's \eqn{\alpha} if item deleted).
 #'
-#' Three options to specify the variable list:
+#' Three options to specify variables:
 #' \enumerate{
 #'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define a variable list.
-#'   \item \strong{\code{varrange}}: use the start and end positions of a variable list.
+#'   \item \strong{\code{vars}}: directly define a character vector of variables.
+#'   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
 #' }
 #'
 #' @inheritParams %%COMPUTE%%
 #'
 #' @return
-#' A result object obtained from \code{\link[jmv:reliability]{jmv::reliability()}}.
+#' A list of results obtained from
+#' \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}}.
 #'
 #' @examples
 #' # ?psych::bfi
 #' data=psych::bfi
-#' Alpha(data, "E", 1:5)  # "E1" & "E2" should be reverse scored
+#' Alpha(data, "E", 1:5)  # "E1" & "E2" should be reversed
 #' Alpha(data, "E", 1:5, rev=1:2)  # correct
 #' Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct
 #' Alpha(data, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
@@ -307,7 +307,8 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' \code{\link{MEAN}}
 #'
 #' @export
-Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
+Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
+               digits=3, nsmall=digits) {
   if(!is.null(varrange)) {
     dn=names(data)
     varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
@@ -315,12 +316,78 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL) {
   }
   if(is.null(vars)) vars=paste0(var, items)
   if(is.numeric(rev)) rev=paste0(var, rev)
-  rel=jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
-                       meanScale=TRUE, sdScale=TRUE,
-                       alphaScale=TRUE, omegaScale=TRUE,
-                       itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
-  rel$items$setTitle("Item Reliability Statistics (if item is dropped)")
-  return(rel)
+  n.total=nrow(data)
+  data=na.omit(as.data.frame(data)[vars])
+  n.valid=nrow(data)
+  for(v in vars) {
+    data[[v]]=as.numeric(data[[v]])
+    if(v %in% rev) {
+      data[[v]]=min(data[[v]])+max(data[[v]])-data[[v]]
+      vr=paste(v, "(rev)")
+      Run("data=dplyr::rename(data, `{vr}`={v})")
+    }
+  }
+
+  suppressMessages({
+    suppressWarnings({
+      alpha=psych::alpha(data, delete=FALSE, warnings=FALSE)
+      omega=psych::omega(data, nfactors=1, flip=FALSE)
+      loadings=psych::principal(data, nfactors=1, scores=FALSE)$loadings
+
+      items=cbind(
+        alpha$item.stats[c("mean", "sd", "r.drop")],
+        alpha$alpha.drop[c("raw_alpha")])
+      names(items)=c("Mean", "S.D.",
+                     "Item-Rest Cor.",
+                     "Cronbach's \u03b1")
+      items.need.rev=vars[loadings<0]
+    })
+  })
+
+  Print("
+  \n
+  <<cyan Reliability Analysis>>
+
+  Summary:
+  Total Items: {length(vars)}
+  Scale Range: {min(data)} ~ {max(data)}
+  Total Cases: {n.total}
+  Valid Cases: {n.valid} ({100*n.valid/n.total:.1}%)
+
+  Scale Statistics:
+  <<italic Mean>> = {alpha$total$mean:.{nsmall}}
+  <<italic S.D.>> = {alpha$total$sd:.{nsmall}}
+  Cronbach's \u03b1 = {alpha$total$raw_alpha:.{nsmall}}
+  McDonald's \u03c9 = {omega$omega.tot:.{nsmall}}
+  ")
+  # Cronbach's \u03b1: {alpha$total$raw_alpha:.{nsmall}} (based on raw scores)
+  # Cronbach's \u03b1: {alpha$total$std.alpha:.{nsmall}} (based on standardized items)
+
+  if(alpha$total$raw_alpha<0.5 | length(items.need.rev)>0) {
+    cat("\n")
+    if(alpha$total$raw_alpha<0.5)
+      Print("<<yellow Warning: Scale reliability is low. You may check item codings.>>")
+    if(length(items.need.rev)==1)
+      Print("<<yellow Item {items.need.rev} correlates negatively with the scale and may be reversed.>>")
+    if(length(items.need.rev)>1)
+      Print("<<yellow Items {paste(items.need.rev, collapse=', ')} correlate negatively with the scale and may be reversed.>>")
+    if(length(items.need.rev)>0)
+      Print("<<yellow You can specify this argument: rev=c(\"{paste(items.need.rev, collapse='\", \"')}\")>>")
+  }
+
+  cat("\n")
+  print_table(items, nsmalls=nsmall,
+              title="Item Statistics (Cronbach's \u03b1 If Item Deleted):",
+              note="Item-Rest Cor. = Corrected Item-Total Correlation")
+  cat("\n")
+
+  # rel=jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
+  #                      meanScale=TRUE, sdScale=TRUE,
+  #                      alphaScale=TRUE, omegaScale=TRUE,
+  #                      itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
+  # rel$items$setTitle("Item Reliability Statistics (if item is dropped)")
+
+  invisible(list(alpha=alpha, omega=omega))
 }
 
 

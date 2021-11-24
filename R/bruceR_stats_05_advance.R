@@ -376,11 +376,11 @@ boot_ci=function(boot,
 #' @param seed Random seed for obtaining reproducible results.
 #' Default is \code{NULL}.
 #' You may set to any number you prefer
-#' (e.g., \code{seed=5201314}, just an uncountable number).
+#' (e.g., \code{seed=1234}, just an uncountable number).
 #'
 #' * Note that all mediation models include random processes
 #' (i.e., bootstrap resampling or Monte Carlo simulation).
-#' To get exactly the same results between runs, you have to set a random seed.
+#' To get exactly the same results between runs, you need to set a random seed.
 #' However, even if you set the same seed number, it is unlikely to
 #' get exactly the same results across different R packages
 #' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
@@ -1039,6 +1039,16 @@ PROCESS=function(data,
   #   Print("<<green \u2714>> All results (plain text) are saved to <<blue '{paste0(getwd(), '/', file)}'>>")
   #   cat("\n")
   # }
+
+  if(length(meds)>0)
+    Print("
+    <<italic Note>>. The results based on bootstrapping or other random processes
+    are <<italic unlikely>> identical to other statistical software (e.g., SPSS).
+    To make results reproducible, you need to set a <<bold seed>> (any number).
+    Please see the help page for details: <<bold help(PROCESS)>>
+    Ignore this note if you have already set a seed. :)
+    \n
+    ")
 
   invisible(list(
     process.id=pid,

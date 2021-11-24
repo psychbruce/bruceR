@@ -126,11 +126,11 @@ In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly s
 \item{seed}{Random seed for obtaining reproducible results.
 Default is \code{NULL}.
 You may set to any number you prefer
-(e.g., \code{seed=5201314}, just an uncountable number).
+(e.g., \code{seed=1234}, just an uncountable number).
 
 * Note that all mediation models include random processes
 (i.e., bootstrap resampling or Monte Carlo simulation).
-To get exactly the same results between runs, you have to set a random seed.
+To get exactly the same results between runs, you need to set a random seed.
 However, even if you set the same seed number, it is unlikely to
 get exactly the same results across different R packages
 (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})

@@ -482,8 +482,13 @@ print_table=function(x, digits=3, nsmalls=digits,
     }
     if(grepl("S\\.E\\.|Std\\. Error|^se$|^SE$|^BootSE$", names(x)[j])) {
       x[,j]=paste0("(", x[,j], ")")  # add ( ) to S.E.
-      x[grepl("\\.", x[,j])==FALSE, j]=""  # remove ( ) from blank S.E.
+      x[grepl("\\d", x[,j])==FALSE, j]=""  # remove ( ) from blank S.E.
       if(grepl("S\\.E\\.", names(x)[j])==FALSE) names(x)[j]="S.E."
+    }
+    if(grepl("S\\.D\\.|Std\\. Deviation", names(x)[j])) {
+      x[,j]=paste0("(", x[,j], ")")  # add ( ) to S.D.
+      x[grepl("\\d", x[,j])==FALSE, j]=""  # remove ( ) from blank S.E.
+      if(grepl("S\\.D\\.", names(x)[j])==FALSE) names(x)[j]="S.D."
     }
     # if(grepl("\\[", names(x)[j])) x[,j]=paste0("[", x[,j], ",")
     # if(grepl("\\]", names(x)[j])) x[,j]=paste0(x[,j], "]")

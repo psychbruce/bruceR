@@ -59,30 +59,30 @@ CONSEC(
 \arguments{
 \item{data}{Data frame.}
 
-\item{var}{\strong{[option 1]}
-Common part across multiple variables (e.g., \code{"RSES", "SWLS"}).}
+\item{var}{\strong{[Option 1]}
+The common part across the variables. e.g., \code{"RSES"}}
 
-\item{items}{\strong{[option 1]}
-Unique part across multiple variables (e.g., \code{1:10}).}
+\item{items}{\strong{[Option 1]}
+The unique part across the variables. e.g., \code{1:10}}
 
-\item{vars}{\strong{[option 2]}
-Character vector specifying a variable list (e.g., \code{c("E1", "E2", "E3", "E4", "E5")}).}
+\item{vars}{\strong{[Option 2]}
+A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
-\item{varrange}{\strong{[option 3]}
-Character with \code{":"} specifying the start and end positions of a variable list (e.g., \code{"A1:E5"}).}
+\item{varrange}{\strong{[Option 3]}
+A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}}
 
-\item{value}{[only for \code{COUNT}] The value to be counted.}
+\item{value}{[Only for \code{COUNT}] The value to be counted.}
 
-\item{rev}{[optional] Reverse-scoring variables. It can be
-(1) a numeric vector specifying the positions of reverse-scoring variables (not recommended) or
-(2) a character vector directly specifying the variable list (recommended).}
+\item{rev}{[Optional] Variables that need to be reversed. It can be
+(1) a character vector specifying the reverse-scoring variables (recommended), or
+(2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
-\item{likert}{[optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
+\item{likert}{[Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
 
 \item{na.rm}{Ignore missing values. Default is \code{TRUE}.}
 
-\item{values}{[only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).}
+\item{values}{[Only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).}
 }
 \value{
 A vector of computed values.
@@ -92,11 +92,11 @@ Easily compute multivariate sum, mean, and other scores.
 Reverse scoring can also be easily implemented without saving extra variables.
 \code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
 
-Three options to specify the variable list:
+Three options to specify variables:
 \enumerate{
   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define a variable list.
-  \item \strong{\code{varrange}}: use the start and end positions of a variable list.
+  \item \strong{\code{vars}}: directly define a character vector of variables.
+  \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
 }
 }
 \section{Functions}{
