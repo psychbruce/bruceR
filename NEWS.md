@@ -20,7 +20,7 @@
 
 -   Improved `Alpha()`: Now it directly uses `psych::alpha()` and `psych::omega()`, rather than `jmv::reliability()`, to perform reliability analysis. The format of result output has been changed and improved.
 
--   Improved `EFA()` (almost completely rewritten): Now it directly uses `psych::principal()` and `psych::fa()`, rather than `jmv::efa()`, to perform factor analysis (PCA or EFA). The format of result output has been changed and improved. MS Word output has been supported.
+-   Improved `EFA()` (almost completely rewritten): Now it directly uses `psych::principal()` and `psych::fa()`, rather than `jmv::efa()`, to perform factor analysis (PCA or EFA). The format of result output has been changed and improved. MS Word output has been supported. A wrapper function `PCA()` has been added: `EFA(..., method="pca")`.
 
 -   Improved `CFA()` and `lavaan_summary()`: Now `CFA()` only uses the `lavaan::cfa()`, rather than `jmv:cfa()`, to build model, and then uses `lavaan_summary()` to present results. For `lavaan_summary()`, many bugs have been fixed, and the format of result table has been changed and improved. Both functions now support saving table to MS Word.
 

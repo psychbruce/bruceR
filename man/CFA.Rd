@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_02_scale.R
 \name{CFA}
 \alias{CFA}
-\title{Confirmatory factor analysis (CFA).}
+\title{Confirmatory Factor Analysis (CFA).}
 \usage{
 CFA(
   data,

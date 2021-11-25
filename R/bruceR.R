@@ -111,7 +111,7 @@
 #'   \item{\strong{(3) Reliability and Factor Analyses}}{
 #'       \code{\link{Alpha}}
 #'
-#'       \code{\link{EFA}}
+#'       \code{\link{EFA}} / \code{\link{PCA}}
 #'
 #'       \code{\link{CFA}}
 #'   }

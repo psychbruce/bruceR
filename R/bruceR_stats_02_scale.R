@@ -393,11 +393,11 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 }
 
 
-#' Exploratory factor analysis (EFA).
+#' Principal Component Analysis (PCA) and Exploratory Factor analysis (EFA).
 #'
 #' @description
 #' An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}},
-#' performing either Principal Components Analysis (PCA) or Exploratory Factor Analysis (EFA).
+#' performing either Principal Component Analysis (PCA) or Exploratory Factor Analysis (EFA).
 #'
 #' Three options to specify variables:
 #' \enumerate{
@@ -409,7 +409,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #' @inheritParams %%COMPUTE%%
 #' @param method Extraction method.
 #' \itemize{
-#'   \item \code{"pca"} - Principal Components Analysis (default)
+#'   \item \code{"pca"} - Principal Component Analysis (default)
 #'   \item \code{"pa"} - Principal Axis Factor Analysis
 #'   \item \code{"ml"} - Maximum Likelihood Factor Analysis
 #'   \item \code{"minres"} - Minimum Residual Factor Analysis
@@ -428,14 +428,14 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #'   \item \code{"quartimax"} - Quartimax
 #'   \item \code{"equamax"} - Equamax
 #' }
-#' @param nfactors How to determine the number of factors?
+#' @param nfactors How to determine the number of factors/components?
 #' \itemize{
 #'   \item \code{"eigen"} - based on eigenvalue (> minimum eigenvalue) (default)
 #'   \item \code{"parallel"} - based on parallel analysis
 #'   \item (any number >= 1) - user-defined fixed number
 #' }
-#' @param sort.loadings Sort factor loadings by size? Default is \code{TRUE}.
-#' @param hide.loadings A number (0~1) for hiding absolute factor loadings below this value.
+#' @param sort.loadings Sort factor/component loadings by size? Default is \code{TRUE}.
+#' @param hide.loadings A number (0~1) for hiding absolute factor/component loadings below this value.
 #' Default is \code{0} (does not hide any loading).
 #' @param plot.scree Display the scree plot? Default is \code{TRUE}.
 #' @param kaiser Do the Kaiser normalization (as in SPSS)? Default is \code{TRUE}.
@@ -443,6 +443,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #' @param min.eigen Minimum eigenvalue (used if \code{nfactors="eigen"}). Default is \code{1}.
 #' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
+#' @param ... Arguments passed from \code{PCA()} to \code{EFA()}.
 #'
 #' @note
 #' Results based on the \code{varimax} rotation method are identical to SPSS.
@@ -451,14 +452,16 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #' @return
 #' A list of results:
 #' \describe{
-#'   \item{\code{efa}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
-#'   \item{\code{efak}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
+#'   \item{\code{result}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
+#'   \item{\code{result.kaiser}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
 #'   \item{\code{extraction.method}}{Extraction method}
 #'   \item{\code{rotation.method}}{Rotation method}
 #'   \item{\code{eigenvalues}}{A \code{data.frame} of eigenvalues and sum of squared (SS) loadings}
-#'   \item{\code{loadings}}{A \code{data.frame} of factor loadings and communalities}
+#'   \item{\code{loadings}}{A \code{data.frame} of factor/component loadings and communalities}
 #'   \item{\code{scree.plot}}{A \code{ggplot2} object of the scree plot}
 #' }
+#'
+#' @describeIn EFA Exploratory Factor Analysis
 #'
 #' @seealso
 #' \code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
@@ -545,7 +548,7 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     Please see the help page: help(EFA)"), call.=FALSE)
   Method=switch(
     method,
-    "pca"="Principal Components Analysis",
+    "pca"="Principal Component Analysis",
     "pa"="Principal Axis Factor Analysis",
     "ml"="Maximum Likelihood Factor Analysis",
     "minres"="Minimum Residual Factor Analysis",
@@ -575,6 +578,7 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   if(kaiser) Method.Rotation=paste(Method.Rotation, "(with Kaiser Normalization)")
   if(nfactors==1) Method.Rotation="(Only one component was extracted. The solution was not rotated.)"
 
+  # analyze
   suppressMessages({
     suppressWarnings({
       kmo=psych::KMO(data)$MSA
@@ -601,10 +605,14 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     })
   })
 
-  # KMO and Bartlett's Test
+  # print
+  analysis=ifelse(method=="pca",
+                  "Principal Component Analysis",
+                  "Explanatory Factor Analysis")
+  tag=ifelse(method=="pca", "Component", "Factor")
   Print("
   \n
-  <<cyan Explanatory Factor Analysis>>
+  <<cyan {analysis}>>
 
   Summary:
   Total Items: {nitems}
@@ -633,7 +641,7 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     PropVar1=100*(SS.loadings/nitems),
     CumuVar1=cumsum(100*(SS.loadings/nitems))
   )
-  row.names(eigen)=paste("Factor", 1:nitems)
+  row.names(eigen)=paste(tag, 1:nitems)
   names(eigen)=c("Eigenvalue", "Variance %", "Cumulative %",
                  "SS Loading", "Variance %", "Cumulative %")
   cat("\n")
@@ -656,7 +664,7 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   loadings.info=info1%^%info2
   cat("\n")
   print_table(loadings, nsmalls=nsmall,
-              title=Glue("Factor Loadings{loadings.info}:"))
+              title=Glue("{tag} Loadings{loadings.info}:"))
   Print("
   Communality = Sum of Squared (SS) Factor Loadings
   (Uniqueness = 1 - Communality)
@@ -664,7 +672,7 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   ")
   if(!is.null(file))
     print_table(loadings, nsmalls=nsmall, file=file,
-                title=Glue("Factor Loadings{loadings.info}:"),
+                title=Glue("{tag} Loadings{loadings.info}:"),
                 note=Glue("Extraction Method: {Method}.</p><p>Rotation Method: {Method.Rotation}."))
 
   # scree plot
@@ -686,7 +694,7 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     scale_y_continuous(limits=c(0, ceiling(max(eigen.value)))) +
     scale_color_manual(values=c("black", "grey50")) +
     scale_fill_manual(values=c("grey50", "grey90")) +
-    labs(title="Scree Plot") +
+    labs(x=tag, title="Scree Plot") +
     theme_bruce() +
     theme(legend.position=c(0.85, 0.75))
   if(plot.scree) print(p)
@@ -703,12 +711,19 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   #          kmo=TRUE, bartlett=TRUE)
 
   invisible(list(
-    efa=efa, efak=efak,
+    result=efa,
+    result.kaiser=efak,
     extraction.method=Method,
     rotation.method=Method.Rotation,
-    eigenvalues=eigen, loadings=loadings,
+    eigenvalues=eigen,
+    loadings=loadings,
     scree.plot=p))
 }
+
+
+#' @describeIn EFA Principal Component Analysis - a wrapper of \code{EFA(..., method="pca")}
+#' @export
+PCA=function(..., method="pca") { EFA(..., method=method) }
 
 
 parallel_analysis=function(nrow, ncol, niter=20) {
@@ -775,7 +790,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 }
 
 
-#' Confirmatory factor analysis (CFA).
+#' Confirmatory Factor Analysis (CFA).
 #'
 #' An extension of \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 #'

@@ -2,7 +2,8 @@
 % Please edit documentation in R/bruceR_stats_02_scale.R
 \name{EFA}
 \alias{EFA}
-\title{Exploratory factor analysis (EFA).}
+\alias{PCA}
+\title{Principal Component Analysis (PCA) and Exploratory Factor analysis (EFA).}
 \usage{
 EFA(
   data,
@@ -24,6 +25,8 @@ EFA(
   nsmall = digits,
   file = NULL
 )
+
+PCA(..., method = "pca")
 }
 \arguments{
 \item{data}{Data frame.}
@@ -46,7 +49,7 @@ A character string specifying the positions ("starting:stopping") of variables. 
 
 \item{method}{Extraction method.
 \itemize{
-  \item \code{"pca"} - Principal Components Analysis (default)
+  \item \code{"pca"} - Principal Component Analysis (default)
   \item \code{"pa"} - Principal Axis Factor Analysis
   \item \code{"ml"} - Maximum Likelihood Factor Analysis
   \item \code{"minres"} - Minimum Residual Factor Analysis
@@ -67,16 +70,16 @@ A character string specifying the positions ("starting:stopping") of variables. 
   \item \code{"equamax"} - Equamax
 }}
 
-\item{nfactors}{How to determine the number of factors?
+\item{nfactors}{How to determine the number of factors/components?
 \itemize{
   \item \code{"eigen"} - based on eigenvalue (> minimum eigenvalue) (default)
   \item \code{"parallel"} - based on parallel analysis
   \item (any number >= 1) - user-defined fixed number
 }}
 
-\item{sort.loadings}{Sort factor loadings by size? Default is \code{TRUE}.}
+\item{sort.loadings}{Sort factor/component loadings by size? Default is \code{TRUE}.}
 
-\item{hide.loadings}{A number (0~1) for hiding absolute factor loadings below this value.
+\item{hide.loadings}{A number (0~1) for hiding absolute factor/component loadings below this value.
 Default is \code{0} (does not hide any loading).}
 
 \item{plot.scree}{Display the scree plot? Default is \code{TRUE}.}
@@ -90,22 +93,24 @@ Default is \code{0} (does not hide any loading).}
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
+
+\item{...}{Arguments passed from \code{PCA()} to \code{EFA()}.}
 }
 \value{
 A list of results:
 \describe{
-  \item{\code{efa}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
-  \item{\code{efak}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
+  \item{\code{result}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
+  \item{\code{result.kaiser}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
   \item{\code{extraction.method}}{Extraction method}
   \item{\code{rotation.method}}{Rotation method}
   \item{\code{eigenvalues}}{A \code{data.frame} of eigenvalues and sum of squared (SS) loadings}
-  \item{\code{loadings}}{A \code{data.frame} of factor loadings and communalities}
+  \item{\code{loadings}}{A \code{data.frame} of factor/component loadings and communalities}
   \item{\code{scree.plot}}{A \code{ggplot2} object of the scree plot}
 }
 }
 \description{
 An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}},
-performing either Principal Components Analysis (PCA) or Exploratory Factor Analysis (EFA).
+performing either Principal Component Analysis (PCA) or Exploratory Factor Analysis (EFA).
 
 Three options to specify variables:
 \enumerate{
@@ -114,6 +119,13 @@ Three options to specify variables:
   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
 }
 }
+\section{Functions}{
+\itemize{
+\item \code{EFA}: Exploratory Factor Analysis
+
+\item \code{PCA}: Principal Component Analysis - a wrapper of \code{EFA(..., method="pca")}
+}}
+
 \note{
 Results based on the \code{varimax} rotation method are identical to SPSS.
 The other rotation methods may produce results slightly different from SPSS.

@@ -19,11 +19,11 @@ Description:
   print strings with rich formats and colors);
   (2) multivariate computation
   (e.g., compute scale sums/means/... with reverse scoring);
-  (3) reliability and factor analyses;
+  (3) reliability and factor analyses (PCA, EFA, CFA);
   (4) descriptive statistics and correlation analyses;
   (5) t-test, multi-factor analysis of variance (ANOVA),
   simple-effect analysis, and post-hoc multiple comparison;
-  (6) tidy report of regression models and other results
+  (6) tidy report of statistical models
   (to R Console and Microsoft Word);
   (7) mediation and moderation analyses (PROCESS);
   and (8) additional toolbox for statistics and graphics.
