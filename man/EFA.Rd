@@ -6,44 +6,139 @@
 \usage{
 EFA(
   data,
-  vartext,
-  method = "eigen",
-  extraction = "pa",
-  rotation = "varimax",
-  nFactors = 1,
-  hideLoadings = 0.3
+  var,
+  items,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  method = c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha"),
+  rotation = c("none", "varimax", "oblimin", "promax", "quartimax", "equamax"),
+  nfactors = c("eigen", "parallel", "(any number >= 1)"),
+  sort.loadings = TRUE,
+  hide.loadings = 0,
+  plot.scree = TRUE,
+  kaiser = TRUE,
+  max.iter = 25,
+  min.eigen = 1,
+  digits = 3,
+  nsmall = digits,
+  file = NULL
 )
 }
 \arguments{
 \item{data}{Data frame.}
 
-\item{vartext}{Character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).}
+\item{var}{\strong{[Option 1]}
+The common part across the variables. e.g., \code{"RSES"}}
 
-\item{method}{\code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.}
+\item{items}{\strong{[Option 1]}
+The unique part across the variables. e.g., \code{1:10}}
 
-\item{extraction}{\code{"pa"} (default), \code{"ml"}, or \code{"minres"},
-using "principal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.}
+\item{vars}{\strong{[Option 2]}
+A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
-\item{rotation}{\code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.}
+\item{varrange}{\strong{[Option 3]}
+A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}}
 
-\item{nFactors}{An integer (default is 1) fixing the number of factors.
-Only relevant when \code{method="fixed"}.}
+\item{rev}{[Optional] Variables that need to be reversed. It can be
+(1) a character vector specifying the reverse-scoring variables (recommended), or
+(2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
-\item{hideLoadings}{A number (0~1, default is 0.3) for hiding factor loadings below this value.}
+\item{method}{Extraction method.
+\itemize{
+  \item \code{"pca"} - Principal Components Analysis (default)
+  \item \code{"pa"} - Principal Axis Factor Analysis
+  \item \code{"ml"} - Maximum Likelihood Factor Analysis
+  \item \code{"minres"} - Minimum Residual Factor Analysis
+  \item \code{"uls"} - Unweighted Least Squares Factor Analysis
+  \item \code{"ols"} - Ordinary Least Squares Factor Analysis
+  \item \code{"wls"} - Weighted Least Squares Factor Analysis
+  \item \code{"gls"} - Generalized Least Squares Factor Analysis
+  \item \code{"alpha"} - Alpha Factor Analysis (Kaiser & Coffey, 1965)
+}}
+
+\item{rotation}{Rotation method.
+\itemize{
+  \item \code{"none"} - None (not suggested)
+  \item \code{"varimax"} - Varimax (default)
+  \item \code{"oblimin"} - Direct Oblimin
+  \item \code{"promax"} - Promax
+  \item \code{"quartimax"} - Quartimax
+  \item \code{"equamax"} - Equamax
+}}
+
+\item{nfactors}{How to determine the number of factors?
+\itemize{
+  \item \code{"eigen"} - based on eigenvalue (> minimum eigenvalue) (default)
+  \item \code{"parallel"} - based on parallel analysis
+  \item (any number >= 1) - user-defined fixed number
+}}
+
+\item{sort.loadings}{Sort factor loadings by size? Default is \code{TRUE}.}
+
+\item{hide.loadings}{A number (0~1) for hiding absolute factor loadings below this value.
+Default is \code{0} (does not hide any loading).}
+
+\item{plot.scree}{Display the scree plot? Default is \code{TRUE}.}
+
+\item{kaiser}{Do the Kaiser normalization (as in SPSS)? Default is \code{TRUE}.}
+
+\item{max.iter}{Maximum number of iterations for convergence. Default is \code{25} (the same as in SPSS).}
+
+\item{min.eigen}{Minimum eigenvalue (used if \code{nfactors="eigen"}). Default is \code{1}.}
+
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
-No return value.
+A list of results:
+\describe{
+  \item{\code{efa}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
+  \item{\code{efak}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
+  \item{\code{extraction.method}}{Extraction method}
+  \item{\code{rotation.method}}{Rotation method}
+  \item{\code{eigenvalues}}{A \code{data.frame} of eigenvalues and sum of squared (SS) loadings}
+  \item{\code{loadings}}{A \code{data.frame} of factor loadings and communalities}
+  \item{\code{scree.plot}}{A \code{ggplot2} object of the scree plot}
+}
 }
 \description{
-An extension of \code{\link[jmv:efa]{jmv::efa()}}.
+An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}},
+performing either Principal Components Analysis (PCA) or Exploratory Factor Analysis (EFA).
+
+Three options to specify variables:
+\enumerate{
+  \item \strong{\code{var + items}}: use the common and unique parts of variable names.
+  \item \strong{\code{vars}}: directly define a character vector of variables.
+  \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+}
 }
 \note{
-It does not have the extraction method "Principal Components". You may still use SPSS.
+Results based on the \code{varimax} rotation method are identical to SPSS.
+The other rotation methods may produce results slightly different from SPSS.
 }
 \examples{
-\donttest{EFA(psych::bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
-}
+data=psych::bfi
+EFA(data, "E", 1:5)              # var + items
+EFA(data, "E", 1:5, nfactors=2)  # var + items
+
+EFA(data, varrange="A1:O5",
+    nfactors="parallel",
+    hide.loadings=0.45)
+
+# the same as above:
+# using dplyr::select() and dplyr::matches()
+# to select variables whose names end with numbers
+# (regexp: \\d matches all numbers, $ matches the end of a string)
+data \%>\% select(matches("\\\\d$")) \%>\%
+  EFA(vars=names(.),       # all selected variables
+      method="pca",        # default
+      rotation="varimax",  # default
+      nfactors="parallel", # parallel analysis
+      hide.loadings=0.45)  # hide loadings < 0.45
+
 }
 \seealso{
-\code{\link[jmv:efa]{jmv::efa()}}
+\code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
 }

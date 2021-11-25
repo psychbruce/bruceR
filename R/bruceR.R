@@ -191,8 +191,8 @@ NULL
 
 #' @import stringr
 #' @import ggplot2
-#' @importFrom stats sd var median na.omit complete.cases
-#' @importFrom stats p.adjust pnorm pt pf pchisq qnorm qt quantile anova update terms drop1
+#' @importFrom stats sd var cor median na.omit complete.cases
+#' @importFrom stats p.adjust pnorm pt pf pchisq qnorm qt quantile rnorm anova update terms drop1
 #' @importFrom stats lm coef confint residuals df.residual sigma as.formula terms.formula model.response model.frame
 #' @importFrom dplyr %>% select left_join sym group_by summarise mutate across
 .onAttach=function(libname, pkgname) {

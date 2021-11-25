@@ -138,27 +138,27 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 Some functions in `bruceR` allow table output to Microsoft Word (by setting `file="xxx.doc"` in the function).
 
-| bruceR Function       | Output: R Console |   Output: MS Word   |
-|:----------------------|:-----------------:|:-------------------:|
-| `print_table()`       |         √         |   √ (basic usage)   |
-| `Describe()`          |         √         |          √          |
-| `Freq()`              |         √         |          √          |
-| `Corr()`              |         √         | **√ (recommended)** |
-| `Alpha()`             |         √         |                     |
-| `EFA()`               |         √         |                     |
-| `CFA()`               |         √         |          √          |
-| `TTEST()`             |         √         |          √          |
-| `MANOVA()`            |         √         |          √          |
-| `EMMEANS()`           |         √         |                     |
-| `PROCESS()`           |         √         |   √ (only a part)   |
-| `model_summary()`     |         √         | **√ (recommended)** |
-| `med_summary()`       |         √         |          √          |
-| `lavaan_summary()`    |         √         |          √          |
-| `GLM_summary()`       |         √         |                     |
-| `HLM_summary()`       |         √         |                     |
-| `HLM_ICC_rWG()`       |         √         |                     |
-| `granger_test()`      |         √         |          √          |
-| `granger_causality()` |         √         |          √          |
+| bruceR Function       | Output: R Console |  Output: MS Word  |
+|:----------------------|:-----------------:|:-----------------:|
+| `print_table()`       |         √         |  √ (basic usage)  |
+| `Describe()`          |         √         |         √         |
+| `Freq()`              |         √         |         √         |
+| `Corr()`              |         √         | **√ (suggested)** |
+| `Alpha()`             |         √         |                   |
+| `EFA()`               |         √         |         √         |
+| `CFA()`               |         √         |         √         |
+| `TTEST()`             |         √         |         √         |
+| `MANOVA()`            |         √         |         √         |
+| `EMMEANS()`           |         √         |                   |
+| `PROCESS()`           |         √         |  √ (only a part)  |
+| `model_summary()`     |         √         | **√ (suggested)** |
+| `med_summary()`       |         √         |         √         |
+| `lavaan_summary()`    |         √         |         √         |
+| `GLM_summary()`       |         √         |                   |
+| `HLM_summary()`       |         √         |                   |
+| `HLM_ICC_rWG()`       |         √         |                   |
+| `granger_test()`      |         √         |         √         |
+| `granger_causality()` |         √         |         √         |
 
 Examples:
 

@@ -70,5 +70,5 @@ data \%>\% select(E1, E2, E3, E4, E5) \%>\%
 
 }
 \seealso{
-\code{\link{MEAN}}
+\code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
 }

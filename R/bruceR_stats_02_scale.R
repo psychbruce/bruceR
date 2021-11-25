@@ -305,7 +305,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 #'   Alpha(vars=names(.), rev=c("E1", "E2"))
 #'
 #' @seealso
-#' \code{\link{MEAN}}
+#' \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
 #'
 #' @export
 Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
@@ -328,6 +328,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
       Run("data=dplyr::rename(data, `{vr}`={v})")
     }
   }
+  nitems=length(vars)
 
   suppressMessages({
     suppressWarnings({
@@ -350,7 +351,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   <<cyan Reliability Analysis>>
 
   Summary:
-  Total Items: {length(vars)}
+  Total Items: {nitems}
   Scale Range: {min(data)} ~ {max(data)}
   Total Cases: {n.total}
   Valid Cases: {n.valid} ({100*n.valid/n.total:.1}%)
@@ -394,43 +395,330 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 
 #' Exploratory factor analysis (EFA).
 #'
-#' An extension of \code{\link[jmv:efa]{jmv::efa()}}.
+#' @description
+#' An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}},
+#' performing either Principal Components Analysis (PCA) or Exploratory Factor Analysis (EFA).
+#'
+#' Three options to specify variables:
+#' \enumerate{
+#'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
+#'   \item \strong{\code{vars}}: directly define a character vector of variables.
+#'   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+#' }
 #'
 #' @inheritParams %%COMPUTE%%
+#' @param method Extraction method.
+#' \itemize{
+#'   \item \code{"pca"} - Principal Components Analysis (default)
+#'   \item \code{"pa"} - Principal Axis Factor Analysis
+#'   \item \code{"ml"} - Maximum Likelihood Factor Analysis
+#'   \item \code{"minres"} - Minimum Residual Factor Analysis
+#'   \item \code{"uls"} - Unweighted Least Squares Factor Analysis
+#'   \item \code{"ols"} - Ordinary Least Squares Factor Analysis
+#'   \item \code{"wls"} - Weighted Least Squares Factor Analysis
+#'   \item \code{"gls"} - Generalized Least Squares Factor Analysis
+#'   \item \code{"alpha"} - Alpha Factor Analysis (Kaiser & Coffey, 1965)
+#' }
+#' @param rotation Rotation method.
+#' \itemize{
+#'   \item \code{"none"} - None (not suggested)
+#'   \item \code{"varimax"} - Varimax (default)
+#'   \item \code{"oblimin"} - Direct Oblimin
+#'   \item \code{"promax"} - Promax
+#'   \item \code{"quartimax"} - Quartimax
+#'   \item \code{"equamax"} - Equamax
+#' }
+#' @param nfactors How to determine the number of factors?
+#' \itemize{
+#'   \item \code{"eigen"} - based on eigenvalue (> minimum eigenvalue) (default)
+#'   \item \code{"parallel"} - based on parallel analysis
+#'   \item (any number >= 1) - user-defined fixed number
+#' }
+#' @param sort.loadings Sort factor loadings by size? Default is \code{TRUE}.
+#' @param hide.loadings A number (0~1) for hiding absolute factor loadings below this value.
+#' Default is \code{0} (does not hide any loading).
+#' @param plot.scree Display the scree plot? Default is \code{TRUE}.
+#' @param kaiser Do the Kaiser normalization (as in SPSS)? Default is \code{TRUE}.
+#' @param max.iter Maximum number of iterations for convergence. Default is \code{25} (the same as in SPSS).
+#' @param min.eigen Minimum eigenvalue (used if \code{nfactors="eigen"}). Default is \code{1}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param file File name of MS Word (\code{.doc}).
 #'
-#' @param vartext Character string specifying the model (e.g., \code{"X[1:5] + Y[c(1,3)] + Z"}).
-#' @param method \code{"eigen"} (default), \code{"parallel"}, or \code{"fixed"}, the way to determine the number of factors.
-#' @param extraction \code{"pa"} (default), \code{"ml"}, or \code{"minres"},
-#' using "principal axis", "maximum likelihood", or "minimum residual" as the factor extraction method, respectively.
-#' @param rotation \code{"varimax"} (default), \code{"oblimin"}, or \code{"none"}, the rotation method.
-#' @param nFactors An integer (default is 1) fixing the number of factors.
-#' Only relevant when \code{method="fixed"}.
-#' @param hideLoadings A number (0~1, default is 0.3) for hiding factor loadings below this value.
+#' @note
+#' Results based on the \code{varimax} rotation method are identical to SPSS.
+#' The other rotation methods may produce results slightly different from SPSS.
 #'
-#' @return No return value.
-#'
-#' @note It does not have the extraction method "Principal Components". You may still use SPSS.
+#' @return
+#' A list of results:
+#' \describe{
+#'   \item{\code{efa}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
+#'   \item{\code{efak}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
+#'   \item{\code{extraction.method}}{Extraction method}
+#'   \item{\code{rotation.method}}{Rotation method}
+#'   \item{\code{eigenvalues}}{A \code{data.frame} of eigenvalues and sum of squared (SS) loadings}
+#'   \item{\code{loadings}}{A \code{data.frame} of factor loadings and communalities}
+#'   \item{\code{scree.plot}}{A \code{ggplot2} object of the scree plot}
+#' }
 #'
 #' @seealso
-#' \code{\link[jmv:efa]{jmv::efa()}}
+#' \code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
 #'
 #' @examples
-#' \donttest{EFA(psych::bfi, "E[1:5] + A[1:5] + C[1:5] + N[1:5] + O[1:5]", method="fixed", nFactors=5)
-#' }
+#' data=psych::bfi
+#' EFA(data, "E", 1:5)              # var + items
+#' EFA(data, "E", 1:5, nfactors=2)  # var + items
+#'
+#' EFA(data, varrange="A1:O5",
+#'     nfactors="parallel",
+#'     hide.loadings=0.45)
+#'
+#' # the same as above:
+#' # using dplyr::select() and dplyr::matches()
+#' # to select variables whose names end with numbers
+#' # (regexp: \\d matches all numbers, $ matches the end of a string)
+#' data %>% select(matches("\\d$")) %>%
+#'   EFA(vars=names(.),       # all selected variables
+#'       method="pca",        # default
+#'       rotation="varimax",  # default
+#'       nfactors="parallel", # parallel analysis
+#'       hide.loadings=0.45)  # hide loadings < 0.45
+#'
 #' @export
-EFA=function(data, vartext,
-             method="eigen", extraction="pa", rotation="varimax",
-             nFactors=1, hideLoadings=0.3) {
-  jmv::efa(data, vars=eval(expand_vars(vartext)),
-           nFactorMethod=method,  # "eigen", "parallel", "fixed"
-           extraction=extraction,  # "pa", "ml", "minres"
-           rotation=rotation,  # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
-           minEigen=1,
-           nFactors=nFactors,
-           hideLoadings=hideLoadings, sortLoadings=TRUE,
-           screePlot=TRUE, eigen=TRUE,
-           factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
-           kmo=TRUE, bartlett=TRUE)
+EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
+             method=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha"),
+             rotation=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax"),
+             nfactors=c("eigen", "parallel", "(any number >= 1)"),
+             sort.loadings=TRUE,
+             hide.loadings=0.00,
+             plot.scree=TRUE,
+             # plot.factor=TRUE,
+             kaiser=TRUE,
+             max.iter=25,
+             min.eigen=1,
+             digits=3, nsmall=digits,
+             file=NULL) {
+  if(!is.null(varrange)) {
+    dn=names(data)
+    varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
+    vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
+  }
+  if(is.null(vars)) vars=paste0(var, items)
+  if(is.numeric(rev)) rev=paste0(var, rev)
+  n.total=nrow(data)
+  data=na.omit(as.data.frame(data)[vars])
+  n.valid=nrow(data)
+  for(v in vars) {
+    data[[v]]=as.numeric(data[[v]])
+    if(v %in% rev) {
+      data[[v]]=min(data[[v]])+max(data[[v]])-data[[v]]
+      vr=paste(v, "(rev)")
+      Run("data=dplyr::rename(data, `{vr}`={v})")
+    }
+  }
+  nitems=length(vars)
+
+  # determine number of factors
+  eigen.value=eigen(cor(data), only.values=TRUE)$values
+  eigen.parallel=NULL
+  error.nfactors="`nfactors` should be \"eigen\", \"parallel\", or an integer (>= 1)."
+  if(length(nfactors)>1) nfactors="eigen"
+  if(is.numeric(nfactors)) {
+    if(nfactors<1) stop(error.nfactors, call.=FALSE)
+    nfactors=nfactors
+  } else if(nfactors=="eigen") {
+    nfactors=sum(eigen.value>min.eigen)
+  } else if(nfactors=="parallel") {
+    eigen.parallel=parallel_analysis(nrow(data), ncol(data), niter=20)
+    nfactors=max(which(eigen.value<=eigen.parallel)[1]-1, 1)
+    if(is.na(nfactors)) nfactors=length(eigen.value)
+  } else {
+    stop(error.nfactors, call.=FALSE)
+  }
+
+  # extraction method
+  valid.methods=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha")
+  if(length(method)>1) method="pca"
+  if(method %notin% valid.methods)
+    stop(Glue("
+    EFA() has changed significantly since bruceR v0.8.0.
+    `method` should be one of \"{paste(valid.methods, collapse='\", \"')}\".
+    Please see the help page: help(EFA)"), call.=FALSE)
+  Method=switch(
+    method,
+    "pca"="Principal Components Analysis",
+    "pa"="Principal Axis Factor Analysis",
+    "ml"="Maximum Likelihood Factor Analysis",
+    "minres"="Minimum Residual Factor Analysis",
+    "uls"="Unweighted Least Squares Factor Analysis",
+    "ols"="Ordinary Least Squares Factor Analysis",
+    "wls"="Weighted Least Squares Factor Analysis",
+    "gls"="Generalized Least Squares Factor Analysis",
+    "alpha"="Alpha Factor Analysis (Kaiser & Coffey, 1965)")
+
+  # rotation method
+  valid.rotations=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax")
+  if(length(rotation)>1) rotation="varimax"
+  if(rotation %notin% valid.rotations)
+    stop(Glue("
+    EFA() has changed significantly since bruceR v0.8.0.
+    `rotation` should be one of \"{paste(valid.rotations, collapse='\", \"')}\".
+    Please see the help page: help(EFA)"), call.=FALSE)
+  Method.Rotation=switch(
+    rotation,
+    "none"="None",
+    "varimax"="Varimax",
+    "oblimin"="Oblimin",
+    "promax"="Promax",
+    "quartimax"="Quartimax",
+    "equamax"="Equamax")
+  if(rotation %in% c("none", "equamax")) kaiser=FALSE
+  if(kaiser) Method.Rotation=paste(Method.Rotation, "(with Kaiser Normalization)")
+  if(nfactors==1) Method.Rotation="(Only one component was extracted. The solution was not rotated.)"
+
+  suppressMessages({
+    suppressWarnings({
+      kmo=psych::KMO(data)$MSA
+      btl=psych::cortest.bartlett(data, n=nrow(data))
+      if(method=="pca") {
+        efa=psych::principal(
+          data, nfactors=nfactors, rotate=rotation)
+      } else {
+        efa=psych::fa(
+          data, nfactors=nfactors, rotate=rotation,
+          fm=method, max.iter=max.iter)
+      }
+      if(kaiser & nfactors>1) {
+        Rotation=rotation
+        if(rotation=="varimax") Rotation="Varimax"  # GPArotation::Varimax
+        if(rotation=="promax") Rotation="Promax"  # psych::Promax
+        efak=psych::kaiser(efa, rotate=Rotation)
+        loadings=efak$loadings
+      } else {
+        efak=NULL
+        loadings=efa$loadings
+      }
+      class(loadings)="matrix"
+    })
+  })
+
+  # KMO and Bartlett's Test
+  Print("
+  \n
+  <<cyan Explanatory Factor Analysis>>
+
+  Summary:
+  Total Items: {nitems}
+  Scale Range: {min(data)} ~ {max(data)}
+  Total Cases: {n.total}
+  Valid Cases: {n.valid} ({100*n.valid/n.total:.1}%)
+
+  Extraction Method:
+  - {Method}
+  Rotation Method:
+  - {Method.Rotation}
+
+  KMO and Bartlett's Test:
+  - Kaiser-Meyer-Olkin (KMO) Measure of Sampling Adequacy: MSA = {kmo:.{nsmall}}
+  - Bartlett's Test of Sphericity: Approx. {p(chi2=btl$chisq, df=btl$df)}
+  ")
+
+  # eigenvalues and SS loadings
+  SS.loadings=apply(apply(loadings, 2, function(x) x^2), 2, sum)
+  SS.loadings=c(SS.loadings, rep(NA, nitems-nfactors))
+  eigen=data.frame(
+    Eigenvalue=eigen.value,
+    PropVar0=100*(eigen.value/nitems),
+    CumuVar0=cumsum(100*(eigen.value/nitems)),
+    SS.Loading=SS.loadings,
+    PropVar1=100*(SS.loadings/nitems),
+    CumuVar1=cumsum(100*(SS.loadings/nitems))
+  )
+  row.names(eigen)=paste("Factor", 1:nitems)
+  names(eigen)=c("Eigenvalue", "Variance %", "Cumulative %",
+                 "SS Loading", "Variance %", "Cumulative %")
+  cat("\n")
+  print_table(eigen, nsmalls=nsmall,
+              title="Total Variance Explained:")
+
+  # factor loadings
+  loadings=as.data.frame(loadings)
+  abs.loadings=abs(loadings)
+  max=apply(abs.loadings, 1, max)
+  which.max=apply(abs.loadings, 1, which.max)
+  loadings$Communality=efa$communality
+  # loadings$Uniqueness=efa$uniquenesses
+  if(sort.loadings) loadings=loadings[order(which.max, -max), ]
+  for(v in names(loadings)[1:nfactors]) {
+    loadings[abs(loadings[[v]])<abs(hide.loadings), v]=NA
+  }
+  info1=ifelse(rotation!="none" & nfactors>1, " (Rotated)", "")
+  info2=ifelse(sort.loadings, " (Sorted by Size)", "")
+  loadings.info=info1%^%info2
+  cat("\n")
+  print_table(loadings, nsmalls=nsmall,
+              title=Glue("Factor Loadings{loadings.info}:"))
+  Print("
+  Communality = Sum of Squared (SS) Factor Loadings
+  (Uniqueness = 1 - Communality)
+  \n
+  ")
+  if(!is.null(file))
+    print_table(loadings, nsmalls=nsmall, file=file,
+                title=Glue("Factor Loadings{loadings.info}:"),
+                note=Glue("Extraction Method: {Method}.</p><p>Rotation Method: {Method.Rotation}."))
+
+  # scree plot
+  dp=data.frame(
+    Type="Data",
+    Component=1:length(eigen.value),
+    Eigenvalue=eigen.value)
+  if(!is.null(eigen.parallel)) {
+    dp=rbind(dp, data.frame(
+      Type="Parallel (Simulation)",
+      Component=1:length(eigen.parallel),
+      Eigenvalue=eigen.parallel))
+  }
+  Type=Component=Eigenvalue=NULL
+  p=ggplot(dp, aes(x=Component, y=Eigenvalue, color=Type, fill=Type)) +
+    geom_hline(yintercept=min.eigen, linetype=2) +
+    geom_path(size=1) +
+    geom_point(size=2.5, shape=21) +
+    scale_y_continuous(limits=c(0, ceiling(max(eigen.value)))) +
+    scale_color_manual(values=c("black", "grey50")) +
+    scale_fill_manual(values=c("grey50", "grey90")) +
+    labs(title="Scree Plot") +
+    theme_bruce() +
+    theme(legend.position=c(0.85, 0.75))
+  if(plot.scree) print(p)
+
+  # jmv::efa(data, vars=eval(expand_vars(vartext)),
+  #          nFactorMethod=method,  # "eigen", "parallel", "fixed"
+  #          extraction=extraction,  # "pa", "ml", "minres"
+  #          rotation=rotation,  # "none", "varimax", "quartimax", "promax", "oblimin", "simplimax"
+  #          minEigen=1,
+  #          nFactors=nFactors,
+  #          hideLoadings=hideLoadings, sortLoadings=TRUE,
+  #          screePlot=TRUE, eigen=TRUE,
+  #          factorCor=TRUE, factorSummary=TRUE, modelFit=TRUE,
+  #          kmo=TRUE, bartlett=TRUE)
+
+  invisible(list(
+    efa=efa, efak=efak,
+    extraction.method=Method,
+    rotation.method=Method.Rotation,
+    eigenvalues=eigen, loadings=loadings,
+    scree.plot=p))
+}
+
+
+parallel_analysis=function(nrow, ncol, niter=20) {
+  sim.eigen=lapply(1:niter, function(x) {
+    sim.data=matrix(rnorm(nrow*ncol), nrow=nrow, ncol=ncol)
+    eigen(cor(sim.data), only.values=TRUE)$values
+  })
+  sim.eigen=t(matrix(unlist(sim.eigen), ncol=niter))
+  sim.eigen.CI=apply(sim.eigen, 2, function(x) quantile(x, 0.95))
+  return(sim.eigen.CI)
 }
 
 
@@ -505,7 +793,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' A list of results returned by \code{\link[lavaan:cfa]{lavaan::cfa()}}.
 #'
 #' @seealso
-#' \code{\link{lavaan_summary}}
+#' \code{\link{Alpha}}, \code{\link{EFA}}, \code{\link{lavaan_summary}}
 #'
 #' @examples
 #' \donttest{data.cfa=lavaan::HolzingerSwineford1939

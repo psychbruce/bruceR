@@ -40,6 +40,6 @@ Suggests: rstudioapi, pacman,
           rio, haven, foreign, readxl, openxlsx, clipr,
           tibble, plyr, glue, crayon,
           afex, car, lmtest, lme4, lmerTest, vars,
-          mediation, interactions, lavaan,
-          jmv, jtools, texreg, MuMIn, BayesFactor, GGally
+          mediation, interactions, lavaan, GPArotation,
+          jtools, texreg, MuMIn, BayesFactor, GGally
 RoxygenNote: 7.1.2
