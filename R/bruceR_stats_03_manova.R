@@ -883,7 +883,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   # if(is.null(sd.pooled))
   #   sd.pooled=sqrt(model$anova_table[term, "MSE"])
   if(contrast!="poly")
-    attr(con, "mesg")=c(Glue("SD_pooled for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
+    attr(con, "mesg")=c(Glue("Pooled SD for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
                         attr(con, "mesg"))
   # es=emmeans::eff_size(emm0, method=contrast,
   #                      sigma=stats::sigma(model$lm),
@@ -897,7 +897,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                formatF(conCI$upper.CL/sd.pooled, nsmall), "]")
   names(con)[c(1, (length(con)-5):length(con))]=
     c("Contrast", "Estimate", "SE", "df", "t", "pval",
-      "Cohen's d [95% CI of d]")
+      "Cohen\u2019s d [95% CI of d]")
   p.mesg.index=grepl("^P value adjustment", attr(con, "mesg"))
   if(any(p.mesg.index)) {
     p.mesg=attr(con, "mesg")[which(p.mesg.index)]
@@ -912,20 +912,20 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     attr(con, "mesg")=c(attr(con, "mesg"),
                         "No need to adjust p values.")
   }
-  if(contrast=="poly") con[c("Cohen's d [95% CI of d]")]=NULL
+  if(contrast=="poly") con[c("Cohen\u2019s d [95% CI of d]")]=NULL
 
   Print("{contr.method} of \"{effect.text}\":")
   print_table(con, nsmalls=nsmall, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n")); cat("\n")
   Print("<<cyan <<bold Disclaimer on Cohen\u2019s d:>>
-  By default, pooled SD is Root Mean Square Error (RMSE).
+  By default, pooled SD is <<italic Root Mean Square Error>> (RMSE).
   There is much disagreement on how to compute Cohen\u2019s d.
   You are completely responsible for setting `sd.pooled`.
   You might also use `<<green effectsize::t_to_d()>>` to compute d.
   >>")
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")
-  if(any(grepl("averaged|SD_pooled", attr(con, "mesg"))) & any(p.mesg.index)==FALSE)
+  if(any(grepl("averaged|Pooled SD", attr(con, "mesg"))) & any(p.mesg.index)==FALSE)
     cat("\n")
 
   ## Return (return the raw model for recycling across '%>%' pipelines)

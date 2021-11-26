@@ -86,7 +86,7 @@ d1=between.3
 d1$Y1=d1$SCORE  # shorter name for convenience
 d1$Y2=rnorm(32)  # random variable
 d1$B=factor(d1$B, levels=1:2, labels=c("Low", "High"))
-d1$C=factor(d1$C, levels=1:2, labels=c("Male", "Female"))
+d1$C=factor(d1$C, levels=1:2, labels=c("M", "F"))
 d2=within.1
 
 ## One-sample t-test ##

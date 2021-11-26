@@ -838,7 +838,7 @@ cor_diff=function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
 #' d1$Y1=d1$SCORE  # shorter name for convenience
 #' d1$Y2=rnorm(32)  # random variable
 #' d1$B=factor(d1$B, levels=1:2, labels=c("Low", "High"))
-#' d1$C=factor(d1$C, levels=1:2, labels=c("Male", "Female"))
+#' d1$C=factor(d1$C, levels=1:2, labels=c("M", "F"))
 #' d2=within.1
 #'
 #' ## One-sample t-test ##
@@ -950,7 +950,9 @@ TTEST=function(data, y, x=NULL,
 
   ## Info
   Print("
-  {type}
+  \n
+  <<cyan {type}>>
+
   Hypothesis: {hypo}
   \n
   ")
@@ -990,7 +992,7 @@ TTEST=function(data, y, x=NULL,
 
   ## Print (check)
   if(nrow(lev)>0) {
-    Print("Levene's test for homogeneity of variance:")
+    Print("Levene\u2019s test for homogeneity of variance:")
     print_table(lev, nsmalls=c(2, 0, 0, 0))
     Print("<<italic Note>>: H0 = equal variance (homoscedasticity).
           If significant (violation of the assumption),
@@ -1019,7 +1021,7 @@ TTEST=function(data, y, x=NULL,
                  "BF<sub>10</sub>")
   } else {
     names(RES)[4:5]=c("Difference [95% CI]",
-                      "Cohen's d [95% CI]")
+                      "Cohen\u2019s d [95% CI]")
   }
   if(mean.diff==FALSE)
     RES[,4]=NULL
@@ -1033,6 +1035,7 @@ TTEST=function(data, y, x=NULL,
     file.align.text=c("left",
                       "right", "right", "right", "left",
                       "right", "right", "right"))
+  if(is.null(file)) cat("\n")
 
   invisible(res)
 }
@@ -1171,7 +1174,7 @@ ttest=function(data, y, x=NULL,
                  lev[1, "Df"],
                  lev[2, "Df"],
                  lev[1, "Pr(>F)"]) %>% as.data.frame()
-    names(levene)=c("Levene's F", "df1", "df2", "pval")
+    names(levene)=c("Levene\u2019s F", "df1", "df2", "pval")
     row.names(levene)=row.names(RES)
   }
 

@@ -145,7 +145,7 @@ Some functions in `bruceR` allow table output to Microsoft Word (by setting `fil
 | `Freq()`              |         √         |         √         |
 | `Corr()`              |         √         | **√ (suggested)** |
 | `Alpha()`             |         √         |                   |
-| `EFA()`               |         √         |         √         |
+| `EFA()` / `PCA()`     |         √         |         √         |
 | `CFA()`               |         √         |         √         |
 | `TTEST()`             |         √         |         √         |
 | `MANOVA()`            |         √         |         √         |

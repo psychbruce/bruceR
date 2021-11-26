@@ -515,13 +515,13 @@ print_table=function(x, digits=3, nsmalls=digits,
   }
 
   ## Compute length to generate line-chars ##
-  title.length=nchar(names(x))
+  title.length=nchar(names(x), type="width")
   vars.length=c()  # bug: vars.length=apply(apply(x, 2, nchar), 2, max)
-  for(j in 1:length(x)) vars.length[j]=max(nchar(x[,j]))
+  for(j in 1:length(x)) vars.length[j]=max(nchar(x[,j], type="width"))
 
   ## Generate a row with 'linechar2' ##
-  n.lines=apply(rbind(title.length, vars.length), 2, max)+1
-  n.lines.rn=max(nchar(row.names(x)))+1
+  n.lines=apply(rbind(title.length, vars.length), 2, max)+2
+  n.lines.rn=max(nchar(row.names(x), type="width"))+2
   n.lines.table=n.lines.rn+sum(n.lines)
   line.row=data.frame()
   for(j in 1:length(x))
@@ -544,14 +544,20 @@ print_table=function(x, digits=3, nsmalls=digits,
     for(j in 1:length(xr)) {
       # cat(sprintf(glue("% {n.lines[j]}s"), names(xr)[j]))
       name.j=names(xr)[j]
-      cat(rep_char(" ", n.lines[j]-nchar(name.j)) %^% name.j)
+      cat(rep_char(" ", n.lines[j]-nchar(name.j, type="width")) %^% name.j)
     }
     cat("\n")
     for(i in 1:nrow(xr)) {
-      if(row.names==TRUE)
-        cat(sprintf(glue("%-{n.lines.rn}s"), row.names(xr[i,])))
-      for(j in 1:length(xr))
-        cat(sprintf(glue("% {n.lines[j]}s"), ifelse(is.na(xr[i,j]) | grepl("NA$", xr[i,j]), "", xr[i,j])))
+      if(row.names==TRUE) {
+        # cat(sprintf(glue("%-{n.lines.rn}s"), row.names(xr[i,])))
+        row.name.i=row.names(xr[i,])
+        cat(row.name.i %^% rep_char(" ", n.lines.rn-nchar(row.name.i, type="width")))
+      }
+      for(j in 1:length(xr)) {
+        # cat(sprintf(glue("% {n.lines[j]}s"), ifelse(is.na(xr[i,j]) | grepl("NA$", xr[i,j]), "", xr[i,j])))
+        x.ij=ifelse(is.na(xr[i,j]) | grepl("NA$", xr[i,j]), "", xr[i,j])
+        cat(rep_char(" ", n.lines[j]-nchar(x.ij, type="width")) %^% x.ij)
+      }
       cat("\n")
     }
     Print(table.line)
