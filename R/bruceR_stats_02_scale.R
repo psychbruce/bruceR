@@ -697,7 +697,21 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     labs(x=tag, title="Scree Plot") +
     theme_bruce() +
     theme(legend.position=c(0.85, 0.75))
-  if(plot.scree) print(p)
+  if(plot.scree) {
+    try({
+      plot.error=TRUE
+      print(p)
+      plot.error=FALSE
+    }, silent=TRUE)
+    if(plot.error) {
+      warning=Glue("
+        Plot is NOT successfully displayed in the RStudio `Plots` Pane.
+        Please check if the `Plots` Pane of your RStudio is too small.
+        You should enlarge the `Plots` Pane (and/or clear all plots).")
+      warning(warning, call.=TRUE)
+      cat("\n")
+    }
+  }
 
   # jmv::efa(data, vars=eval(expand_vars(vartext)),
   #          nFactorMethod=method,  # "eigen", "parallel", "fixed"

@@ -1164,7 +1164,15 @@ lavaan_summary=function(lavaan,
                         file=NULL) {
   FIT=lavaan::fitMeasures(lavaan)
 
-  pe=lavaan::parameterEstimates(lavaan, standardized=TRUE)
+  try({
+    pe.error=TRUE
+    pe=lavaan::parameterEstimates(lavaan, standardized=TRUE)
+    pe.error=FALSE
+  }, silent=TRUE)
+  if(pe.error) {
+    pe=lavaan::parameterEstimates(lavaan, standardized=FALSE)
+    pe$std.all=NA
+  }
   if("label" %notin% names(pe)) pe$label=""
 
   if(length(ci)>1) ci="raw"

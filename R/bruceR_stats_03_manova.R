@@ -411,29 +411,32 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     .data=aov.ez$data$long,
     .variables=plyr::as.quoted(c(between, within)),
     .fun=summarise,
-    M=mean(!!sym(dv), na.rm=TRUE),
-    SD=sd(!!sym(dv), na.rm=TRUE),
-    n=length(!!sym(dv)))
+    bruceR.Mean=mean(!!sym(dv), na.rm=TRUE),
+    bruceR.S.D.=sd(!!sym(dv), na.rm=TRUE),
+    bruceR.n=length(!!sym(dv)))
+  ncol.nmsd=length(nmsd)
+  names(nmsd)[1:(ncol.nmsd-3)]="\"" %^% names(nmsd)[1:(ncol.nmsd-3)] %^% "\""
+  names(nmsd)[(ncol.nmsd-2):ncol.nmsd]=c("Mean", "S.D.", "n")
 
   Print("<<yellow ====== ANOVA ({design}) ======>>")
   cat("\n")
   Print("Descriptives:")
   print_table(nmsd, row.names=FALSE,
-              nsmalls=c(rep(nsmall, length(nmsd)-1), 0))
+              nsmalls=c(rep(nsmall, ncol.nmsd-1), 0))
   Print("Total sample size: <<italic N>> = {N.info}")
   cat("\n")
 
-  nmsd$M=formatF(nmsd$M, nsmall)
-  nmsd$SD=formatF(nmsd$SD, nsmall)
-  names(nmsd)[(ncol(nmsd)-2):ncol(nmsd)]=c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
+  nmsd$Mean=formatF(nmsd$Mean, nsmall)
+  nmsd$S.D.=formatF(nmsd$S.D., nsmall)
+  names(nmsd)[(ncol.nmsd-2):ncol.nmsd]=c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
   nmsd.html=paste0(
     "<p><br/><br/></p>",
     "<p><b>Descriptive Statistics:</b></p>",
     df_to_html(
       nmsd,
-      align.head=c(rep("left", times=ncol(nmsd)-3),
+      align.head=c(rep("left", times=ncol.nmsd-3),
                    rep("right"), times=3),
-      align.text=c(rep("left", times=ncol(nmsd)-3),
+      align.text=c(rep("left", times=ncol.nmsd-3),
                    rep("right"), times=3))$TABLE,
     "<p>Total sample size: <i>N</i> = ", N.info, "</p>"
   )

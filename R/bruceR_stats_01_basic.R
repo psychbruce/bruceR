@@ -401,8 +401,8 @@ Corr=function(data,
     if(!is.null(plot.file)) {
       grDevices::png(filename=plot.file, width=plot.width, height=plot.height, units="in", res=plot.dpi)
     }
-    plot.error=TRUE
     try({
+      plot.error=TRUE
       cor_plot(r=cor$r, adjust="none", nsmall=nsmall,
                numbers=TRUE, zlim=plot.range,
                diag=FALSE, xlas=2, n=plot.color.levels,
@@ -414,9 +414,8 @@ Corr=function(data,
     if(plot.error) {
       warning=Glue("
         Plot is NOT successfully displayed in the RStudio `Plots` Pane.
-        Please check if the `Plots` Pane of YOUR RStudio is too small.
+        Please check if the `Plots` Pane of your RStudio is too small.
         You should enlarge the `Plots` Pane (and/or clear all plots).")
-      Print("<<yellow {warning}>>")
       warning(warning, call.=TRUE)
       cat("\n")
     } else {
@@ -983,9 +982,9 @@ TTEST=function(data, y, x=NULL,
 
   ## Print (nmsd)
   nmsd$MeanSD=paste0(formatF(nmsd$Mean, nsmall), " (",
-                     formatF(nmsd$SD, nsmall), ")")
-  names(nmsd)[length(nmsd)]="Mean (SD)"
-  nmsd$Mean=nmsd$SD=NULL
+                     formatF(nmsd$S.D., nsmall), ")")
+  names(nmsd)[length(nmsd)]="Mean (S.D.)"
+  nmsd$Mean=nmsd$S.D.=NULL
   Print("Descriptives:")
   print_table(nmsd, row.names=FALSE, nsmalls=0)
   cat("\n")
@@ -1065,9 +1064,9 @@ ttest=function(data, y, x=NULL,
   ## Prepare
   if(paired) {
     nmsd=data.frame(Variable=c(y[1], y[2]),
-                    N=nrow(data),
                     Mean=c(mean(data[[y[1]]]), mean(data[[y[2]]])),
-                    SD=c(sd(data[[y[1]]]), sd(data[[y[2]]])))
+                    S.D.=c(sd(data[[y[1]]]), sd(data[[y[2]]])),
+                    N=nrow(data))
     if(factor.rev) {
       formula=as.formula(Glue("Pair({y[2]}, {y[1]}) ~ 1"))
       label=paste(y[2], "-", y[1])
@@ -1085,9 +1084,9 @@ ttest=function(data, y, x=NULL,
     if(is.null(x)) {
       formula=as.formula(Glue("{y} ~ 1"))
       nmsd=data.frame(Variable=y,
-                      N=nrow(data),
                       Mean=mean(data[[y]]),
-                      SD=sd(data[[y]]))
+                      S.D.=sd(data[[y]]),
+                      N=nrow(data))
       label=paste(y, "-", test.value)
       Y=y
       X=""
@@ -1100,13 +1099,14 @@ ttest=function(data, y, x=NULL,
       data[[x]]=as.factor(data[[x]])
       if(nlevels(data[[x]])!=2)
         stop(Glue("Levels of the factor \"{x}\" should be 2."), call.=TRUE)
-      nmsd=data %>%
-        group_by(!!sym(x)) %>%
-        summarise(
-          N=length(!!sym(y)),
-          Mean=mean(!!sym(y)),
-          SD=sd(!!sym(y)))
-      names(nmsd)[1]="Level"
+      nmsd=plyr::ddply(
+        .data=data,
+        .variables=plyr::as.quoted(x),
+        .fun=summarise,
+        bruceR.Mean=mean(!!sym(y)),
+        bruceR.S.D.=sd(!!sym(y)),
+        bruceR.N=length(!!sym(y)))
+      names(nmsd)=c("Level", "Mean", "S.D.", "N")
       nmsd=cbind(data.frame(Variable=y,
                             Factor=x),
                  as.data.frame(nmsd))
