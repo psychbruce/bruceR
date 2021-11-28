@@ -30,6 +30,7 @@
 
 -   Added an alias `set_wd()` for `set.wd()`.
 -   Improved `print_table()`: Fixed an issue of incorrect length of Chinese character output in `print_table()`. Between-column blanks are now 2 spaces (rather than 1 space) for a clearer presentation of table columns.
+-   Modified onloading welcome messages.
 -   General bug-fixes and improvements.
 
 # bruceR 0.7.3 (Nov 2021)

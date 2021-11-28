@@ -230,17 +230,25 @@ NULL
     >>
 
     <<bold Packages also been loaded:>>
-    <<yellow
-    [Data]: dplyr / tidyr / stringr / forcats / data.table
-    [Stat]: emmeans / effectsize / performance
-    [Plot]: ggplot2 / ggtext / cowplot / see
+    <<underline Data\t\tStat\t\tPlot\t\t>>
+    <<blue
+    <<green \u2714>> dplyr \t<<green \u2714>> emmeans \t<<green \u2714>> ggplot2
+    <<green \u2714>> tidyr \t<<green \u2714>> effectsize \t<<green \u2714>> ggtext
+    <<green \u2714>> stringr \t<<green \u2714>> performance \t<<green \u2714>> cowplot
+    <<green \u2714>> forcats \t\t\t<<green \u2714>> see
+    <<green \u2714>> data.table
     >>
 
-    <<bold Key functions in `bruceR`:>>
-    <<cyan set_wd() / import() / export()>>
-    <<cyan print_table() / model_summary()>>
-    <<cyan Describe() / Freq() / Corr() / MEAN()>>
-    <<cyan TTEST() / MANOVA() / EMMEANS() / PROCESS()>>
+    <<bold Key functions of `bruceR`:>>
+    <<underline Basic\t\tVariable\tModeling\t>>
+    <<cyan
+    set_wd() \tDescribe() \tTTEST()
+    import() \tFreq()  \tMANOVA()
+    export() \tCorr()  \tEMMEANS()
+    print_table() \tAlpha() \tPROCESS()
+    MEAN()  \tEFA()   \tmodel_summary()
+    LOOKUP() \tCFA()   \tlavaan_summary()
+    >>
     \n
     ")
   } else {
