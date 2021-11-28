@@ -2,24 +2,24 @@
 % Please edit documentation in R/bruceR_stats_04_regress.R
 \name{model_summary}
 \alias{model_summary}
-\title{Tidy report of regression models (to R Console and MS Word).}
+\title{Tidy report of regression models.}
 \usage{
 model_summary(
-  model_list,
+  model.list,
   std = FALSE,
   digits = 3,
   nsmall = digits,
   file = NULL,
   zero = ifelse(std, FALSE, TRUE),
-  modify_se = NULL,
-  modify_head = NULL,
+  modify.se = NULL,
+  modify.head = NULL,
   line = TRUE,
   bold = 0,
   ...
 )
 }
 \arguments{
-\item{model_list}{A single model or a list of (various types of) models.
+\item{model.list}{A single model or a list of (various types of) models.
 Most types of regression models are supported!}
 
 \item{std}{Standardized coefficients? Default is \code{FALSE}.
@@ -32,12 +32,12 @@ Not applicable to generalized linear (mixed) models.}
 
 \item{zero}{Display "0" before "."? Default is \code{TRUE}.}
 
-\item{modify_se}{Replace standard errors.
+\item{modify.se}{Replace standard errors.
 Useful if you need to replace raw SEs with robust SEs.
 New SEs should be provided as a list of numeric vectors.
 See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
-\item{modify_head}{Replace model names.}
+\item{modify.head}{Replace model names.}
 
 \item{line}{Lines look like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
 Only relevant to R Console output.}
@@ -52,8 +52,8 @@ Only relevant to R Console output.}
 Invisibly return the output (character string).
 }
 \description{
-Tidy report of regression models (to R Console and MS Word).
-Most types of regression models are supported!
+Tidy report of regression models.
+Most types of models are supported.
 This function is an extension (and combination) of
 \code{\link[texreg:screenreg]{texreg::screenreg()}},
 \code{\link[texreg:htmlreg]{texreg::htmlreg()}},

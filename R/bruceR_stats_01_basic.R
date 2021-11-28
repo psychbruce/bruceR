@@ -129,7 +129,7 @@ sig.trans=function(p) {
 
 #### Basic Statistics ####
 
-#' Descriptive statistics (to R Console and MS Word).
+#' Descriptive statistics.
 #'
 #' @param data Data frame or numeric vector.
 #' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
@@ -163,7 +163,7 @@ sig.trans=function(p) {
 #' Describe(psych::bfi[c("age", "gender", "education")])
 #'
 #' d=as.data.table(psych::bfi)
-#' d[,`:=`(
+#' d[, `:=`(
 #'   gender=as.factor(gender),
 #'   education=as.factor(education),
 #'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
@@ -172,8 +172,8 @@ sig.trans=function(p) {
 #'   N=MEAN(d, "N", 1:5, likert=1:6),
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
-#' Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
-#' Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
+#' Describe(d[, .(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
+#' Describe(d[, .(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #' }
 #' @seealso \code{\link{Corr}}
 #'
@@ -259,11 +259,11 @@ Describe=function(data,
 }
 
 
-#' Frequency statistics (to R Console and MS Word).
+#' Frequency statistics.
 #'
-#' @param var Vector or variable.
-#' @param label [optional] A vector re-defining the labels of values.
-#' @param sort \code{""} (default, sorted by raw order), \code{"-"} (decreasing), or \code{"+"} (increasing).
+#' @param var Variable (or a vector of values).
+#' @param label [Optional] A vector re-defining the labels of values.
+#' @param sort \code{""} (default, sorted by the order of variable values/labels), \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).
 #' @param digits,nsmall Number of decimal places of output. Default is \code{1}.
 #' @param file File name of MS Word (\code{.doc}).
 #'
@@ -290,7 +290,7 @@ Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
                                ncol=2, dimnames=list("(NA)")))
   if(sort=="-")
     output=output[order(output[,"N"], decreasing=TRUE),]
-  else if(sort=="+")
+  if(sort=="+")
     output=output[order(output[,"N"], decreasing=FALSE),]
 
   if(is.null(file)) {
@@ -309,7 +309,7 @@ Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
 }
 
 
-#' Correlation analysis (to R Console and MS Word).
+#' Correlation analysis.
 #'
 #' @inheritParams Describe
 #' @param data Data frame.
@@ -334,7 +334,7 @@ Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
 #' Corr(airquality, p.adjust="bonferroni")
 #'
 #' d=as.data.table(psych::bfi)
-#' d[,`:=`(
+#' d[, `:=`(
 #'   gender=as.factor(gender),
 #'   education=as.factor(education),
 #'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
@@ -343,7 +343,7 @@ Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
 #'   N=MEAN(d, "N", 1:5, likert=1:6),
 #'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
-#' Corr(d[,.(age, gender, education, E, A, C, N, O)])
+#' Corr(d[, .(age, gender, education, E, A, C, N, O)])
 #'
 #' @seealso \code{\link{Describe}}
 #'
@@ -924,15 +924,15 @@ TTEST=function(data, y, x=NULL,
       stop("For paired-samples t-test, x should not be used.", call.=TRUE)
     if(length(y)%%2==1)
       stop("For paired-samples t-test, y should be a vector of 2, 4, 6, ... variables.", call.=TRUE)
-    type="Paired-samples t-test"
+    type="Paired-Samples t-test"
     mu=ifelse(factor.rev, "\u03bc2 - \u03bc1", "\u03bc1 - \u03bc2")
     y=split(y, rep(1:(length(y)/2), each=2))
   } else {
     if(is.null(x)) {
-      type="One-sample t-test"
+      type="One-Sample t-test"
       mu="\u03bc"
     } else {
-      type="Independent-samples t-test"
+      type="Independent-Samples t-test"
       mu=ifelse(factor.rev, "\u03bc2 - \u03bc1", "\u03bc1 - \u03bc2")
       if(test.value!=0)
         message("Test value (mu) for Bayes test is reset to 0.")

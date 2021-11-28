@@ -1688,7 +1688,7 @@ process_mod=function(model0,
 #### Indirect Effect: Model-Based (using the "mediation" package) ####
 
 
-#' Tidy report of mediation analysis (to R Console and MS Word).
+#' Tidy report of mediation analysis.
 #'
 #' @description
 #' Tidy report of mediation analysis,
@@ -1968,18 +1968,23 @@ granger_test=function(formula, data, lags=1:5,
     formulas=list(formula)
   }
 
-  cat("\n")
-  Print("<<yellow ====== Granger Causality Test (Bivariate) ======>>")
+  Print("
+  \n
+  <<cyan Granger Causality Test (Bivariate)>>
 
-  Print("\n\n\nHypothesized direction:")
-  Print("<<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>")
+  Hypothesized direction:
+  <<blue {formula[2]} ~ {formula[2]}[1:Lags] + <<green {formula[3]}[1:Lags]>>>>
+  ")
 
   for(f in formulas) {
     rev=FALSE
     if(test.reverse & f!=formulas[[1]]) {
       rev=TRUE
-      Print("\n\n\nReverse direction:")
-      Print("<<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>")
+      Print("
+      \n
+      Reverse direction:
+      <<blue {formula[3]} ~ {formula[3]}[1:Lags] + <<green {formula[2]}[1:Lags]>>>>
+      ")
     }
     for(lag in lags) {
       gt=lmtest::grangertest(formula=f, data=data, order=lag, na.action=na.omit)
@@ -1998,8 +2003,8 @@ granger_test=function(formula, data, lags=1:5,
     }
   }
 
+  cat("\n")
   if(!is.null(file)) {
-    cat("\n")
     RES=res
     RES[[2]]=str_replace(str_replace(
       RES[[2]], "p", "<i>p</i>"), "F", "<i>F</i>")
@@ -2179,9 +2184,10 @@ granger_causality=function(varmodel, var.y=NULL, var.x=NULL,
 
   cat("\n")
   Print("
-  <<yellow ====== Granger Causality Test (Multivariate) ======>>
+  <<cyan Granger Causality Test (Multivariate)>>
 
-  {paste(test.text, collapse=' and ')} based on VAR({varmodel$p}) model:")
+  {paste(test.text, collapse=' and ')} based on VAR({varmodel$p}) model:
+  ")
   print_table(result[c(12:13, test.which)],
               nsmalls=0,
               row.names=FALSE)

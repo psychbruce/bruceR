@@ -6,15 +6,15 @@
 #' A wrapper of \code{\link[car:recode]{car::recode()}}.
 #'
 #' @param var Variable (numeric, character, or factor).
-#' @param recodes Character string: e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}.
+#' @param recodes A character string definine the rule of recoding. e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}
 #'
 #' @return A vector of recoded variable.
 #'
 #' @examples
 #' d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
-#' d
-#'
-#' d[,":="(var.recoded=RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"))]
+#' d[, `:=`(
+#'   var.new=RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
+#' )]
 #' d
 #'
 #' @export
@@ -191,7 +191,7 @@ SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   vars=v.r$vars
   rev=v.r$rev
   if(!is.null(rev) & is.null(likert)) {
-    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
+    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
     warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?SUM", call.=TRUE)
   }
@@ -212,7 +212,7 @@ MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   vars=v.r$vars
   rev=v.r$rev
   if(!is.null(rev) & is.null(likert)) {
-    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
+    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
     warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?MEAN", call.=TRUE)
   }
@@ -233,7 +233,7 @@ STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
   vars=v.r$vars
   rev=v.r$rev
   if(!is.null(rev) & is.null(likert)) {
-    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, range)
+    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
     likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
     warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?STD", call.=TRUE)
   }
@@ -341,7 +341,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
         alpha$alpha.drop[c("raw_alpha")])
       names(items)=c("Mean", "S.D.",
                      "Item-Rest Cor.",
-                     "Cronbach's \u03b1")
+                     "Cronbach\u2019s \u03b1")
       items.need.rev=vars[loadings<0]
     })
   })
@@ -359,8 +359,8 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   Scale Statistics:
   <<italic Mean>> = {alpha$total$mean:.{nsmall}}
   <<italic S.D.>> = {alpha$total$sd:.{nsmall}}
-  Cronbach's \u03b1 = {alpha$total$raw_alpha:.{nsmall}}
-  McDonald's \u03c9 = {omega$omega.tot:.{nsmall}}
+  Cronbach\u2019s \u03b1 = {alpha$total$raw_alpha:.{nsmall}}
+  McDonald\u2019s \u03c9 = {omega$omega.tot:.{nsmall}}
   ")
   # Cronbach's \u03b1: {alpha$total$raw_alpha:.{nsmall}} (based on raw scores)
   # Cronbach's \u03b1: {alpha$total$std.alpha:.{nsmall}} (based on standardized items)
@@ -379,7 +379,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 
   cat("\n")
   print_table(items, nsmalls=nsmall,
-              title="Item Statistics (Cronbach's \u03b1 If Item Deleted):",
+              title="Item Statistics (Cronbach\u2019s \u03b1 If Item Deleted):",
               note="Item-Rest Cor. = Corrected Item-Total Correlation")
   cat("\n")
 

@@ -21,7 +21,7 @@ If \code{TRUE}, you can select a folder with the prompt of a dialog.}
 Invisibly return the path.
 }
 \description{
-Set working directory to the path of currently opened file.
+Set working directory to the path of currently opened file (usually an R script).
 You can use this function in both \strong{.R/.Rmd files and R Console}.
 \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
 (version >= 1.2) is required for running this function.

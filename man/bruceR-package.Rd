@@ -73,6 +73,8 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
       \code{\link{formatF}},
       \code{\link{formatN}}
 
+      \code{\link{print_table}}
+
       \code{\link{Print}},
       \code{\link{Glue}},
       \code{\link{Run}}
@@ -130,6 +132,8 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
   \item{\strong{(6) Tidy Report of Regression Models}}{
       \code{\link{model_summary}}
 
+      \code{\link{lavaan_summary}}
+
       \code{\link{GLM_summary}}
 
       \code{\link{HLM_summary}}
@@ -141,8 +145,6 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
 
   \item{\strong{(7) Mediation and Moderation Analyses}}{
       \code{\link{PROCESS}}
-
-      \code{\link{lavaan_summary}}
 
       \code{\link{med_summary}}
   }

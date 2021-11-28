@@ -67,7 +67,7 @@ find=function(vars, list) {
 #' @param data Data object.
 #' @param vars Variable(s) to be centered.
 #' @param std Standardized or not. Default is \code{FALSE}.
-#' @param add_suffix The suffix of the centered variable(s).
+#' @param add.suffix The suffix of the centered variable(s).
 #' Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.
 #'
 #' @return A new data object containing the centered variable(s).
@@ -78,31 +78,31 @@ find=function(vars, list) {
 #' d.c=grand_mean_center(d, "a")
 #' d.c
 #'
-#' d.c=grand_mean_center(d, c("a", "b"), add_suffix="_center")
+#' d.c=grand_mean_center(d, c("a", "b"), add.suffix="_center")
 #' d.c
 #'
 #' @seealso \code{\link{group_mean_center}}
 #'
 #' @export
 grand_mean_center=function(data, vars=names(data),
-                           std=FALSE, add_suffix="") {
-  data_c=as.data.frame(data)
+                           std=FALSE, add.suffix="") {
+  data.c=as.data.frame(data)
   for(var in vars)
-    if(inherits(data_c[[var]], c("numeric", "integer", "double", "logical")))
-      data_c[paste0(var, add_suffix)]=as.numeric(scale(data_c[var], center=TRUE, scale=std))
+    if(inherits(data.c[[var]], c("numeric", "integer", "double", "logical")))
+      data.c[paste0(var, add.suffix)]=as.numeric(scale(data.c[var], center=TRUE, scale=std))
   if(data.table::is.data.table(data))
-    data_c=data.table::as.data.table(data_c)
-  return(data_c)
+    data.c=data.table::as.data.table(data.c)
+  return(data.c)
 }
 
-#' Group-mean centering
+#' Group-mean centering.
 #'
 #' Compute group-mean centered variables.
 #' Usually used for HLM level-1 predictors.
 #'
 #' @inheritParams grand_mean_center
 #' @param by Grouping variable.
-#' @param add_group_mean The suffix of the variable name(s) of group means.
+#' @param add.group.mean The suffix of the variable name(s) of group means.
 #' Default is \code{"_mean"} (see Examples).
 #'
 #' @return A new data object containing the centered variable(s).
@@ -113,7 +113,7 @@ grand_mean_center=function(data, vars=names(data),
 #' d.c=group_mean_center(d, "x", by="g")
 #' d.c
 #'
-#' d.c=group_mean_center(d, "x", by="g", add_suffix="_c")
+#' d.c=group_mean_center(d, "x", by="g", add.suffix="_c")
 #' d.c
 #'
 #' @seealso \code{\link{grand_mean_center}}
@@ -121,22 +121,22 @@ grand_mean_center=function(data, vars=names(data),
 #' @export
 group_mean_center=function(data, vars=setdiff(names(data), by), by,
                            std=FALSE,
-                           add_suffix="",
-                           add_group_mean="_mean") {
-  data_c=as.data.frame(data)
-  grouplist=sort(unique(data_c[[by]]))
+                           add.suffix="",
+                           add.group.mean="_mean") {
+  data.c=as.data.frame(data)
+  grouplist=sort(unique(data.c[[by]]))
   for(var in vars) {
     for(group in grouplist) {
-      if(inherits(data_c[[var]], c("numeric", "integer", "double", "logical"))) {
-        dvar=data_c[which(data_c[by]==group), var]
-        data_c[which(data_c[by]==group), paste0(var, add_group_mean)]=mean(dvar, na.rm=TRUE)
-        data_c[which(data_c[by]==group), paste0(var, add_suffix)]=as.numeric(scale(dvar, center=TRUE, scale=std))
+      if(inherits(data.c[[var]], c("numeric", "integer", "double", "logical"))) {
+        dvar=data.c[which(data.c[by]==group), var]
+        data.c[which(data.c[by]==group), paste0(var, add.group.mean)]=mean(dvar, na.rm=TRUE)
+        data.c[which(data.c[by]==group), paste0(var, add.suffix)]=as.numeric(scale(dvar, center=TRUE, scale=std))
       }
     }
   }
   if(data.table::is.data.table(data))
-    data_c=data.table::as.data.table(data_c)
-  return(data_c)
+    data.c=data.table::as.data.table(data.c)
+  return(data.c)
 }
 
 
@@ -224,10 +224,10 @@ regress=function(formula, data, family=NULL,
 #### Model Summary ####
 
 
-#' Tidy report of regression models (to R Console and MS Word).
+#' Tidy report of regression models.
 #'
-#' Tidy report of regression models (to R Console and MS Word).
-#' Most types of regression models are supported!
+#' Tidy report of regression models.
+#' Most types of models are supported.
 #' This function is an extension (and combination) of
 #' \code{\link[texreg:screenreg]{texreg::screenreg()}},
 #' \code{\link[texreg:htmlreg]{texreg::htmlreg()}},
@@ -236,7 +236,7 @@ regress=function(formula, data, family=NULL,
 #' \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}},
 #' \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}.
 #'
-#' @param model_list A single model or a list of (various types of) models.
+#' @param model.list A single model or a list of (various types of) models.
 #' Most types of regression models are supported!
 #' @param std Standardized coefficients? Default is \code{FALSE}.
 #' Only applicable to linear models and linear mixed models.
@@ -244,11 +244,11 @@ regress=function(formula, data, family=NULL,
 #' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param zero Display "0" before "."? Default is \code{TRUE}.
-#' @param modify_se Replace standard errors.
+#' @param modify.se Replace standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
 #' New SEs should be provided as a list of numeric vectors.
 #' See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.
-#' @param modify_head Replace model names.
+#' @param modify.head Replace model names.
 #' @param line Lines look like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
 #' Only relevant to R Console output.
 #' @param bold The \emph{p}-value threshold below which the coefficients will be formatted in bold.
@@ -325,23 +325,23 @@ regress=function(formula, data, family=NULL,
 #' }
 #'
 #' @export
-model_summary=function(model_list,
+model_summary=function(model.list,
                        std=FALSE,
                        digits=3,
                        nsmall=digits,
                        file=NULL,
                        zero=ifelse(std, FALSE, TRUE),
-                       modify_se=NULL,
-                       modify_head=NULL,
+                       modify.se=NULL,
+                       modify.head=NULL,
                        line=TRUE,
                        bold=0,
                        ...) {
-  if(inherits(model_list, "varest")) {
-    model_list=model_list$varresult
-    modify_head=names(model_list)
+  if(inherits(model.list, "varest")) {
+    model.list=model.list$varresult
+    modify.head=names(model.list)
   }
-  if(inherits(model_list, "list")==FALSE)
-    model_list=list(model_list)
+  if(inherits(model.list, "list")==FALSE)
+    model.list=list(model.list)
   if(is.null(file)) {
     sumreg=texreg::screenreg
   } else {
@@ -389,25 +389,25 @@ model_summary=function(model_list,
       NA)
   }
 
-  if(is.null(modify_head)) {
+  if(is.null(modify.head)) {
     new.model.names=NULL
     try({
-      if(any(unlist(lapply(model_list, inherits, "nnet")))) {
-        multinom.y=as.character(lapply(model_list, model_y))[1]
-        multinom.ref=model_list[[1]][["lab"]][1]
+      if(any(unlist(lapply(model.list, inherits, "nnet")))) {
+        multinom.y=as.character(lapply(model.list, model_y))[1]
+        multinom.ref=model.list[[1]][["lab"]][1]
       } else {
-        new.model.names=paste(paste0("(", 1:length(model_list), ")"),
-                              as.character(lapply(model_list, model_y)))
+        new.model.names=paste(paste0("(", 1:length(model.list), ")"),
+                              as.character(lapply(model.list, model_y)))
         new.model.names=str_trim(new.model.names)
       }
     }, silent=TRUE)
   } else {
-    new.model.names=modify_head
+    new.model.names=modify.head
   }
 
   if(std) {
-    new.coef=lapply(model_list, model_std_coef)
-    new.s.e.=lapply(model_list, model_std_s.e.)
+    new.coef=lapply(model.list, model_std_coef)
+    new.s.e.=lapply(model.list, model_std_s.e.)
     omit="Intercept"
   } else {
     new.coef=0
@@ -415,24 +415,24 @@ model_summary=function(model_list,
     omit=NULL
   }
 
-  if(!is.null(modify_se)) new.s.e.=modify_se
+  if(!is.null(modify.se)) new.s.e.=modify.se
 
   suppressWarnings({
     new.R2.all=list()
-    if(any(unlist(lapply(model_list, inherits, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))))) {
+    if(any(unlist(lapply(model.list, inherits, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))))) {
       try({
         new.R2=list(
-          R2m=as.numeric(lapply(model_list, model_R2m)),
-          R2c=as.numeric(lapply(model_list, model_R2c))
+          R2m=as.numeric(lapply(model.list, model_R2m)),
+          R2c=as.numeric(lapply(model.list, model_R2c))
         )
         names(new.R2)=c("Marginal R^2", "Conditional R^2")
         new.R2.all=c(new.R2.all, new.R2)
       }, silent=TRUE)
     }
-    if(any(unlist(lapply(model_list, inherits, "glm")))) {
+    if(any(unlist(lapply(model.list, inherits, "glm")))) {
       new.R2=list(
-        R2mcfadden=as.numeric(lapply(model_list, model_R2mcfadden)),
-        R2nagelkerke=as.numeric(lapply(model_list, model_R2nagelkerke))
+        R2mcfadden=as.numeric(lapply(model.list, model_R2mcfadden)),
+        R2nagelkerke=as.numeric(lapply(model.list, model_R2nagelkerke))
       )
       names(new.R2)=c("McFadden's R^2", "Nagelkerke's R^2")
       new.R2.all=c(new.R2.all, new.R2)
@@ -441,7 +441,7 @@ model_summary=function(model_list,
       new.R2.all=NULL
 
     output=sumreg(
-      model_list, file=NULL,
+      model.list, file=NULL,
       leading.zero=zero, digits=nsmall, bold=bold,
       custom.model.names=new.model.names,
       override.coef=new.coef,
@@ -470,13 +470,15 @@ model_summary=function(model_list,
           "[-=]{3,}",
           rep_char("\u2500", str_count(output, "=")/2))
     }
+    cat("\n")
+    Print("<<cyan Model Summary>>")
     cat(output)
     Print("<<italic Note>>. * <<italic p>> < .05, ** <<italic p>> < .01, *** <<italic p>> < .001.")
     cat("\n")
-    if(length(model_list)==1) {
+    if(length(model.list)==1) {
       try({
         suppressWarnings({
-          check=performance::check_collinearity(model_list[[1]])
+          check=performance::check_collinearity(model.list[[1]])
         })
         if(!is.null(check)) {
           print(check)
@@ -499,7 +501,7 @@ model_summary=function(model_list,
         "<body>",
         paste0(
           "<body>\n<p><b>Table X. Regression Models",
-          ifelse(any(unlist(lapply(model_list, class)) %in% "nnet"),
+          ifelse(any(unlist(lapply(model.list, class)) %in% "nnet"),
                  paste0(" (Reference Group: ", multinom.y, " = \u2018", multinom.ref, "\u2019)"),
                  ""),
           ".</b></p>")) %>%
@@ -1274,18 +1276,6 @@ HLM_summary=function(model=NULL,
 #'
 #' @details
 #' \describe{
-#'   \item{* Note for the following formulas}{
-#'   \itemize{
-#'     \item \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
-#'     \item \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
-#'     \item \eqn{n_k}: group size of the k-th group
-#'     \item \eqn{K}: number of groups
-#'     \item \eqn{\sigma^2}: actual group variance of the k-th group
-#'     \item \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
-#'     \item \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
-#'     \item \eqn{J}: number of items
-#'   }
-#'   }
 #'   \item{\strong{ICC(1) (intra-class correlation, or non-independence of data)}}{
 #'     ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2)})
 #'
@@ -1306,6 +1296,18 @@ HLM_summary=function(model=NULL,
 #'     rWG(J) = \eqn{1 - (\sigma_{MJ}^2 / \sigma_{EU}^2) / [J * (1 - \sigma_{MJ}^2 / \sigma_{EU}^2) + \sigma_{MJ}^2 / \sigma_{EU}^2]}
 #'
 #'     rWG/rWG(J) is a measure of within-group agreement or consensus. Each group has an rWG/rWG(J).
+#'   }
+#'   \item{* Note for the above formulas}{
+#'   \itemize{
+#'     \item \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
+#'     \item \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
+#'     \item \eqn{n_k}: group size of the k-th group
+#'     \item \eqn{K}: number of groups
+#'     \item \eqn{\sigma^2}: actual group variance of the k-th group
+#'     \item \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
+#'     \item \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
+#'     \item \eqn{J}: number of items
+#'   }
 #'   }
 #' }
 #'
@@ -1413,7 +1415,7 @@ HLM_ICC_rWG=function(data, group, icc.var,
 
   Print("
   \n
-  <<yellow ---------- Sample Size Information ---------->>
+  <<cyan ------ Sample Size Information ------>>
 
   Level 1: <<italic N>> = {N} observations (\"{icc.var}\")
   Level 2: <<italic K>> = {length(n.k)} groups (\"{group}\")
@@ -1425,7 +1427,7 @@ HLM_ICC_rWG=function(data, group, icc.var,
 
   Print("
   \n
-  <<yellow ---------- ICC(1), ICC(2), and {rwg.name} ---------->>
+  <<cyan ------ ICC(1), ICC(2), and {rwg.name} ------>>
 
   ICC variable: \"{icc.var}\"
 

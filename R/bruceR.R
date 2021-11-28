@@ -80,6 +80,8 @@
 #'       \code{\link{formatF}},
 #'       \code{\link{formatN}}
 #'
+#'       \code{\link{print_table}}
+#'
 #'       \code{\link{Print}},
 #'       \code{\link{Glue}},
 #'       \code{\link{Run}}
@@ -137,6 +139,8 @@
 #'   \item{\strong{(6) Tidy Report of Regression Models}}{
 #'       \code{\link{model_summary}}
 #'
+#'       \code{\link{lavaan_summary}}
+#'
 #'       \code{\link{GLM_summary}}
 #'
 #'       \code{\link{HLM_summary}}
@@ -148,8 +152,6 @@
 #'
 #'   \item{\strong{(7) Mediation and Moderation Analyses}}{
 #'       \code{\link{PROCESS}}
-#'
-#'       \code{\link{lavaan_summary}}
 #'
 #'       \code{\link{med_summary}}
 #'   }

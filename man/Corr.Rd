@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Corr}
 \alias{Corr}
-\title{Correlation analysis (to R Console and MS Word).}
+\title{Correlation analysis.}
 \usage{
 Corr(
   data,
@@ -60,14 +60,14 @@ Invisibly return the correlation results obtained from
 \code{\link[psych:corr.test]{psych::corr.test()}}.
 }
 \description{
-Correlation analysis (to R Console and MS Word).
+Correlation analysis.
 }
 \examples{
 Corr(airquality)
 Corr(airquality, p.adjust="bonferroni")
 
 d=as.data.table(psych::bfi)
-d[,`:=`(
+d[, `:=`(
   gender=as.factor(gender),
   education=as.factor(education),
   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
@@ -76,7 +76,7 @@ d[,`:=`(
   N=MEAN(d, "N", 1:5, likert=1:6),
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
-Corr(d[,.(age, gender, education, E, A, C, N, O)])
+Corr(d[, .(age, gender, education, E, A, C, N, O)])
 
 }
 \seealso{

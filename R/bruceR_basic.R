@@ -401,15 +401,11 @@ capitalize=function(string) {
 }
 
 
-#' Print a three-line table (to R Console and MS Word).
+#' Print a three-line table (to R Console and Microsoft Word).
 #'
 #' This basic function prints any data frame as a three-line table
 #' to either R Console or Microsoft Word (.doc).
-#' It has been used in many other functions in \code{bruceR}.
-#' The implementation of Word output is using HTML code.
-#' You can check the raw HTML code by opening the Word file with any text editor.
-#' See \href{https://github.com/psychbruce/bruceR#function-output}{here}
-#' for a list of other functions in \code{bruceR} that support Word output.
+#' It has been used in many other functions of \code{bruceR} (see below).
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
 #' @param digits,nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
@@ -429,16 +425,32 @@ capitalize=function(string) {
 #'
 #' @return Invisibly return a list of data frame and HTML code.
 #'
-#' @seealso \code{\link{Describe}}, \code{\link{Freq}}, \code{\link{Corr}}
+#' @seealso
+#' These functions have implemented MS Word file output using this function:
+#' \itemize{
+#'   \item \code{\link{Describe}}
+#'   \item \code{\link{Freq}}
+#'   \item \code{\link{Corr}}
+#'   \item \code{\link{EFA}} / \code{\link{PCA}}
+#'   \item \code{\link{CFA}}
+#'   \item \code{\link{TTEST}}
+#'   \item \code{\link{MANOVA}}
+#'   \item \code{\link{model_summary}}
+#'   \item \code{\link{med_summary}}
+#'   \item \code{\link{lavaan_summary}}
+#'   \item \code{\link{PROCESS}}
+#'   \item \code{\link{granger_test}}
+#'   \item \code{\link{granger_causality}}
+#' }
 #'
 #' @examples
 #' print_table(airquality, file="airquality.doc")
-#' unlink("airquality.doc")  # delete file for test
+#' unlink("airquality.doc")  # delete file for code check
 #'
 #' model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' print_table(model)
 #' print_table(model, file="model.doc")
-#' unlink("model.doc")  # delete file for test
+#' unlink("model.doc")  # delete file for code check
 #'
 #' @export
 print_table=function(x, digits=3, nsmalls=digits,
@@ -774,7 +786,7 @@ dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
 
 #' Set working directory to the path of currently opened file.
 #'
-#' Set working directory to the path of currently opened file.
+#' Set working directory to the path of currently opened file (usually an R script).
 #' You can use this function in both \strong{.R/.Rmd files and R Console}.
 #' \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
 #' (version >= 1.2) is required for running this function.
@@ -806,7 +818,7 @@ set.wd=function(path=NULL, ask=FALSE) {
   if(rstudioapi::isAvailable()==FALSE)
     stop("[RStudio] is required for running this function!\n",
          "Please download and install the latest version of RStudio:\n",
-         "https://rstudio.com/products/rstudio/download/preview/", call.=TRUE)
+         "https://www.rstudio.com/products/rstudio/download/", call.=TRUE)
   is.windows=ifelse(Sys.info()[["sysname"]]=="Windows", TRUE, FALSE)
   if(is.null(path)) {
     tryCatch({

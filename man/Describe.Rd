@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_stats_01_basic.R
 \name{Describe}
 \alias{Describe}
-\title{Descriptive statistics (to R Console and MS Word).}
+\title{Descriptive statistics.}
 \usage{
 Describe(
   data,
@@ -52,7 +52,7 @@ Invisibly return a list consisting of
 (2) a \code{ggplot2} object if users set \code{plot=TRUE}.
 }
 \description{
-Descriptive statistics (to R Console and MS Word).
+Descriptive statistics.
 }
 \examples{
 \donttest{set.seed(1)
@@ -65,7 +65,7 @@ Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
 Describe(psych::bfi[c("age", "gender", "education")])
 
 d=as.data.table(psych::bfi)
-d[,`:=`(
+d[, `:=`(
   gender=as.factor(gender),
   education=as.factor(education),
   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
@@ -74,8 +74,8 @@ d[,`:=`(
   N=MEAN(d, "N", 1:5, likert=1:6),
   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
-Describe(d[,.(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
-Describe(d[,.(age, gender, education, E, A, C, N, O)], plot=TRUE)
+Describe(d[, .(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
+Describe(d[, .(age, gender, education, E, A, C, N, O)], plot=TRUE)
 }
 }
 \seealso{

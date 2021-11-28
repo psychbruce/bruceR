@@ -269,12 +269,16 @@ fix_long_data=function(data.long, ivs) {
 #' #### Other Examples ####
 #' data.new=mixed.3_1b2w
 #' names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
-#' MANOVA(data.new, dvs="Cond_01:Cond_04", dvs.pattern="Cond_(..)",
-#'        between="Group", within="Condition")  # rename the factor
+#' MANOVA(data.new,
+#'        dvs="Cond_01:Cond_04",
+#'        dvs.pattern="Cond_(..)",
+#'        between="Group",
+#'        within="Condition")  # rename the factor
 #'
 #' ?afex::obk.long
 #' MANOVA(afex::obk.long,
-#'        subID="id", dv="value",
+#'        subID="id",
+#'        dv="value",
 #'        between=c("treatment", "gender"),
 #'        within=c("phase", "hour"),
 #'        cov="age",
@@ -418,7 +422,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   names(nmsd)[1:(ncol.nmsd-3)]="\"" %^% names(nmsd)[1:(ncol.nmsd-3)] %^% "\""
   names(nmsd)[(ncol.nmsd-2):ncol.nmsd]=c("Mean", "S.D.", "n")
 
-  Print("<<yellow ====== ANOVA ({design}) ======>>")
+  cat("\n")
+  Print("<<cyan ====== ANOVA ({design}) ======>>")
   cat("\n")
   Print("Descriptives:")
   print_table(nmsd, row.names=FALSE,
@@ -803,7 +808,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   }, silent=TRUE)
 
   effect.text=paste(effect, collapse='\" & \"')
-  Print("<<yellow ------ EMMEANS (effect = \"{effect.text}\") ------>>")
+  Print("<<cyan ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
   Print("{ifelse(is.null(by), 'Omnibus Test', 'Simple Effects')} of \"{effect.text}\":")
   if(is.null(sim) | note) {
@@ -815,7 +820,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   print_table(sim, nsmalls=c(rep(0, length(by)+3),
                              nsmall, 0, 0),
               row.names=FALSE)
-  Print("<<green <<bold Disclaimer on simple effects:>>
+  Print("<<green Disclaimer on simple effects:
   Simple effects in <<italic within-subjects>> designs might <<italic not>> be identical to those from SPSS.
   For details see MANOVA() argument `aov.include` and EMMEANS() argument `model.type`.
   >>")
@@ -920,11 +925,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   Print("{contr.method} of \"{effect.text}\":")
   print_table(con, nsmalls=nsmall, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n")); cat("\n")
-  Print("<<cyan <<bold Disclaimer on Cohen\u2019s d:>>
+  Print("<<green Disclaimer on Cohen\u2019s d:
   By default, pooled SD is <<italic Root Mean Square Error>> (RMSE).
   There is much disagreement on how to compute Cohen\u2019s d.
   You are completely responsible for setting `sd.pooled`.
-  You might also use `<<green effectsize::t_to_d()>>` to compute d.
+  You might also use `effectsize::t_to_d()` to compute d.
   >>")
   if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
     cat("\n")

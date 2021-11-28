@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_basic.R
 \name{print_table}
 \alias{print_table}
-\title{Print a three-line table (to R Console and MS Word).}
+\title{Print a three-line table (to R Console and Microsoft Word).}
 \usage{
 print_table(
   x,
@@ -50,22 +50,33 @@ Invisibly return a list of data frame and HTML code.
 \description{
 This basic function prints any data frame as a three-line table
 to either R Console or Microsoft Word (.doc).
-It has been used in many other functions in \code{bruceR}.
-The implementation of Word output is using HTML code.
-You can check the raw HTML code by opening the Word file with any text editor.
-See \href{https://github.com/psychbruce/bruceR#function-output}{here}
-for a list of other functions in \code{bruceR} that support Word output.
+It has been used in many other functions of \code{bruceR} (see below).
 }
 \examples{
 print_table(airquality, file="airquality.doc")
-unlink("airquality.doc")  # delete file for test
+unlink("airquality.doc")  # delete file for code check
 
 model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 print_table(model)
 print_table(model, file="model.doc")
-unlink("model.doc")  # delete file for test
+unlink("model.doc")  # delete file for code check
 
 }
 \seealso{
-\code{\link{Describe}}, \code{\link{Freq}}, \code{\link{Corr}}
+These functions have implemented MS Word file output using this function:
+\itemize{
+  \item \code{\link{Describe}}
+  \item \code{\link{Freq}}
+  \item \code{\link{Corr}}
+  \item \code{\link{EFA}} / \code{\link{PCA}}
+  \item \code{\link{CFA}}
+  \item \code{\link{TTEST}}
+  \item \code{\link{MANOVA}}
+  \item \code{\link{model_summary}}
+  \item \code{\link{med_summary}}
+  \item \code{\link{lavaan_summary}}
+  \item \code{\link{PROCESS}}
+  \item \code{\link{granger_test}}
+  \item \code{\link{granger_causality}}
+}
 }

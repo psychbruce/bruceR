@@ -4,7 +4,7 @@
 \alias{grand_mean_center}
 \title{Grand-mean centering.}
 \usage{
-grand_mean_center(data, vars = names(data), std = FALSE, add_suffix = "")
+grand_mean_center(data, vars = names(data), std = FALSE, add.suffix = "")
 }
 \arguments{
 \item{data}{Data object.}
@@ -13,7 +13,7 @@ grand_mean_center(data, vars = names(data), std = FALSE, add_suffix = "")
 
 \item{std}{Standardized or not. Default is \code{FALSE}.}
 
-\item{add_suffix}{The suffix of the centered variable(s).
+\item{add.suffix}{The suffix of the centered variable(s).
 Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 }
 \value{
@@ -29,7 +29,7 @@ d=data.table(a=1:5, b=6:10)
 d.c=grand_mean_center(d, "a")
 d.c
 
-d.c=grand_mean_center(d, c("a", "b"), add_suffix="_center")
+d.c=grand_mean_center(d, c("a", "b"), add.suffix="_center")
 d.c
 
 }

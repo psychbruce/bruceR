@@ -51,18 +51,6 @@ in multilevel analysis (HLM).
 }
 \details{
 \describe{
-  \item{* Note for the following formulas}{
-  \itemize{
-    \item \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
-    \item \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
-    \item \eqn{n_k}: group size of the k-th group
-    \item \eqn{K}: number of groups
-    \item \eqn{\sigma^2}: actual group variance of the k-th group
-    \item \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
-    \item \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
-    \item \eqn{J}: number of items
-  }
-  }
   \item{\strong{ICC(1) (intra-class correlation, or non-independence of data)}}{
     ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2)})
 
@@ -83,6 +71,18 @@ in multilevel analysis (HLM).
     rWG(J) = \eqn{1 - (\sigma_{MJ}^2 / \sigma_{EU}^2) / [J * (1 - \sigma_{MJ}^2 / \sigma_{EU}^2) + \sigma_{MJ}^2 / \sigma_{EU}^2]}
 
     rWG/rWG(J) is a measure of within-group agreement or consensus. Each group has an rWG/rWG(J).
+  }
+  \item{* Note for the above formulas}{
+  \itemize{
+    \item \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
+    \item \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
+    \item \eqn{n_k}: group size of the k-th group
+    \item \eqn{K}: number of groups
+    \item \eqn{\sigma^2}: actual group variance of the k-th group
+    \item \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
+    \item \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
+    \item \eqn{J}: number of items
+  }
   }
 }
 }

@@ -2,15 +2,15 @@
 % Please edit documentation in R/bruceR_stats_04_regress.R
 \name{group_mean_center}
 \alias{group_mean_center}
-\title{Group-mean centering}
+\title{Group-mean centering.}
 \usage{
 group_mean_center(
   data,
   vars = setdiff(names(data), by),
   by,
   std = FALSE,
-  add_suffix = "",
-  add_group_mean = "_mean"
+  add.suffix = "",
+  add.group.mean = "_mean"
 )
 }
 \arguments{
@@ -22,10 +22,10 @@ group_mean_center(
 
 \item{std}{Standardized or not. Default is \code{FALSE}.}
 
-\item{add_suffix}{The suffix of the centered variable(s).
+\item{add.suffix}{The suffix of the centered variable(s).
 Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 
-\item{add_group_mean}{The suffix of the variable name(s) of group means.
+\item{add.group.mean}{The suffix of the variable name(s) of group means.
 Default is \code{"_mean"} (see Examples).}
 }
 \value{
@@ -41,7 +41,7 @@ d=data.table(x=1:9, g=rep(1:3, each=3))
 d.c=group_mean_center(d, "x", by="g")
 d.c
 
-d.c=group_mean_center(d, "x", by="g", add_suffix="_c")
+d.c=group_mean_center(d, "x", by="g", add.suffix="_c")
 d.c
 
 }

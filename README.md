@@ -80,6 +80,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   `import()`, `export()`
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
+    -   `print_table()`
     -   `Print()`, `Glue()`, `Run()`
     -   `%^%`
     -   `%notin%`
@@ -113,6 +114,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 6.  **Tidy Report of Regression Models**
 
     -   `model_summary()`
+    -   `lavaan_summary()`
     -   `GLM_summary()`
     -   `HLM_summary()`
     -   `HLM_ICC_rWG()`
@@ -121,7 +123,6 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 7.  **Mediation and Moderation Analyses**
 
     -   `PROCESS()`
-    -   `lavaan_summary()`
     -   `med_summary()`
 
 8.  **Additional Toolbox for Statistics and Graphics**
@@ -136,7 +137,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 ### Function Output
 
-Some functions in `bruceR` allow table output to Microsoft Word (by setting `file="xxx.doc"` in the function).
+For some functions, the results can be saved to Microsoft Word using the `file` argument.
 
 | bruceR Function       | Output: R Console |  Output: MS Word  |
 |:----------------------|:-----------------:|:-----------------:|
@@ -144,19 +145,19 @@ Some functions in `bruceR` allow table output to Microsoft Word (by setting `fil
 | `Describe()`          |         √         |         √         |
 | `Freq()`              |         √         |         √         |
 | `Corr()`              |         √         | **√ (suggested)** |
-| `Alpha()`             |         √         |                   |
+| `Alpha()`             |         √         |   (unnecessary)   |
 | `EFA()` / `PCA()`     |         √         |         √         |
 | `CFA()`               |         √         |         √         |
 | `TTEST()`             |         √         |         √         |
 | `MANOVA()`            |         √         |         √         |
 | `EMMEANS()`           |         √         |                   |
-| `PROCESS()`           |         √         |  √ (only a part)  |
+| `PROCESS()`           |         √         |    √ (partial)    |
 | `model_summary()`     |         √         | **√ (suggested)** |
 | `med_summary()`       |         √         |         √         |
 | `lavaan_summary()`    |         √         |         √         |
 | `GLM_summary()`       |         √         |                   |
 | `HLM_summary()`       |         √         |                   |
-| `HLM_ICC_rWG()`       |         √         |                   |
+| `HLM_ICC_rWG()`       |         √         |   (unnecessary)   |
 | `granger_test()`      |         √         |         √         |
 | `granger_causality()` |         √         |         √         |
 
