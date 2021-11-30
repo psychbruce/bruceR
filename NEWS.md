@@ -1,5 +1,11 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.8.1 (in development)
+
+### Bug Fixes
+
+-   Packages `mediation`, `interactions`, and `lavaan` are now strong dependencies such that they would be installed when installing `bruceR`. This also fixes an error when using `PROCESS()` without these packages installed.
+
 # bruceR 0.8.0 (Nov 2021)
 
 ### New Features
