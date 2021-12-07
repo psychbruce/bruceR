@@ -2,8 +2,13 @@
 
 # bruceR 0.8.1 (in development)
 
+### Minor Changes
+
+-   Added automatic version check when `library(bruceR)`.
+
 ### Bug Fixes
 
+-   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with >= 3 levels is in a regression model.
 -   Packages `mediation`, `interactions`, and `lavaan` are now strong dependencies such that they would be installed when installing `bruceR`. This also fixes an error when using `PROCESS()` without these packages installed.
 
 # bruceR 0.8.0 (Nov 2021)

@@ -36,10 +36,10 @@ Depends: R (>= 3.6.0)
 Imports: dplyr, tidyr, stringr, forcats, data.table,
          psych, emmeans, effectsize, performance,
          mediation, interactions, lavaan,
-         ggplot2, ggtext, cowplot, see
+         glue, crayon, ggplot2, ggtext, cowplot, see
 Suggests: rstudioapi, pacman,
           rio, haven, foreign, readxl, openxlsx, clipr,
-          glue, crayon, tibble, plyr, afex, car,
+          tibble, plyr, afex, car,
           lmtest, lme4, lmerTest, vars, GPArotation,
           jtools, texreg, MuMIn, BayesFactor, GGally
 RoxygenNote: 7.1.2

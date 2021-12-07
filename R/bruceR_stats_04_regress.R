@@ -617,11 +617,9 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
       CI=paste0("[",
                 formatF(FE[,1]+qt(0.025, df)*FE[,2], nsmall), ", ",
                 formatF(FE[,1]+qt(0.975, df)*FE[,2], nsmall), "]"))
-    if(nrow(FE)>2) {
+    if(length(model[["model"]])>2) {
       FE.vif=jtools::summ(model, vif=TRUE)
       FE=cbind(FE, VIF=FE.vif$coeftable[,"VIF"])
-    } else if(nrow(FE)==2) {
-      FE=cbind(FE, VIF=c(NA, 1))
     } else {
       FE=cbind(FE, VIF=NA)
     }
@@ -721,18 +719,15 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
                 formatF(b-1.96*se, nsmall), ", ",
                 formatF(b+1.96*se, nsmall), "]"),
       OR=exp(b))
-    if(nrow(FE)>2) {
+    if(length(model[["model"]])>2) {
       FE.vif=jtools::summ(model, vif=TRUE)
       FE=cbind(FE, VIF=FE.vif$coeftable[,"VIF"])
-    } else if(nrow(FE)==2) {
-      FE=cbind(FE, VIF=c(NA, 1))
     } else {
       FE=cbind(FE, VIF=NA)
     }
     FE$VIF=formatF(FE$VIF, nsmall=nsmall)
     FE$VIF[1]=""
     FE$p=p.trans(FE$p)
-    sig=FE$sig
     names(FE)[5:6]=c(" ", "[95% CI of b]")
     cat("\n")
     Print("<<underline FIXED EFFECTS:>>

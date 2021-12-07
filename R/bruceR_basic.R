@@ -194,10 +194,10 @@ pkg_install_suggested=function(by) {
     dplyr, tidyr, stringr, forcats, data.table,
     rio, haven, foreign, readxl, openxlsx, clipr,
     tibble, plyr, glue, crayon,
-    psych, emmeans, effectsize, performance,
+    emmeans, effectsize, performance,
     pwr, simr, MASS, sampling, careless,
     irr, correlation, corpcor, corrplot,
-    afex, car, lmtest, nnet,
+    afex, car, psych, lmtest, nnet,
     lme4, lmerTest, multilevel, r2mlm, MuMIn,
     metafor, meta, metaSEM, metapower,
     mediation, interactions, JSmediation,
@@ -292,49 +292,12 @@ Print=function(...) {
 
 #' @describeIn Print Paste strings.
 #'
-## @importFrom glue glue glue_col
-## @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
-## @importFrom crayon black white silver red green blue yellow cyan magenta
-## @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 #' @export
 Glue=function(...) {
   output=glue::glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
   output_color=glue::glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
   return(output_color)
 }
-
-
-glue=glue::glue
-glue_col=glue::glue_col
-
-
-bold=crayon::bold
-italic=crayon::italic
-underline=crayon::underline
-reset=crayon::reset
-blurred=crayon::blurred
-inverse=crayon::inverse
-hidden=crayon::hidden
-strikethrough=crayon::strikethrough
-
-black=crayon::black
-white=crayon::white
-silver=crayon::silver
-red=crayon::red
-green=crayon::green
-blue=crayon::blue
-yellow=crayon::yellow
-cyan=crayon::cyan
-magenta=crayon::magenta
-
-bgBlack=crayon::bgBlack
-bgWhite=crayon::bgWhite
-bgRed=crayon::bgRed
-bgGreen=crayon::bgGreen
-bgBlue=crayon::bgBlue
-bgYellow=crayon::bgYellow
-bgCyan=crayon::bgCyan
-bgMagenta=crayon::bgMagenta
 
 
 sprintf_transformer=function(text, envir) {

@@ -88,7 +88,7 @@ levene_test=function(data, id, dvs, ivs.between) {
                 lev[1, "Df"],
                 lev[2, "Df"],
                 lev[1, "Pr(>F)"]) %>% as.data.frame()
-      names(lev)=c("Levene's F", "df1", "df2", "pval")
+      names(lev)=c("Levene\u2019s F", "df1", "df2", "pval")
       row.names(lev)=paste("DV:", dv)
       levene=rbind(levene, lev)
     }
@@ -787,6 +787,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   # see 'weights' in ?emmeans
   try({
     sim=NULL
+    note=FALSE
     suppressMessages({
       sim=emmeans::joint_tests(
         object=model, by=by,
@@ -821,8 +822,8 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                              nsmall, 0, 0),
               row.names=FALSE)
   Print("<<green Disclaimer on simple effects:
-  Simple effects in <<italic within-subjects>> designs might <<italic not>> be identical to those from SPSS.
-  For details see MANOVA() argument `aov.include` and EMMEANS() argument `model.type`.
+  Simple effects of <<italic repeated measures>> may be different from SPSS (GLM or MANOVA).
+  Please see MANOVA() argument `aov.include` and EMMEANS() argument `model.type`.
   >>")
   cat("\n")
 
@@ -931,15 +932,14 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   You are completely responsible for setting `sd.pooled`.
   You might also use `effectsize::t_to_d()` to compute d.
   >>")
-  if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
-    cat("\n")
-  if(any(grepl("averaged|Pooled SD", attr(con, "mesg"))) & any(p.mesg.index)==FALSE)
-    cat("\n")
+  cat("\n")
+  # if(con0@misc[["famSize"]] > 2 & p.adjust != "none")
+  #   cat("\n")
+  # if(any(grepl("averaged|Pooled SD", attr(con, "mesg"))) & any(p.mesg.index)==FALSE)
+  #   cat("\n")
 
   ## Return (return the raw model for recycling across '%>%' pipelines)
   model$EMMEANS=c(model$EMMEANS, list(list(sim=sim, emm=emm, con=con)))
   invisible(model)
 }
-
-
 

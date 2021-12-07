@@ -197,7 +197,12 @@ NULL
 #' @importFrom stats p.adjust pnorm pt pf pchisq qnorm qt quantile rnorm anova update terms drop1
 #' @importFrom stats lm coef confint residuals df.residual sigma as.formula terms.formula model.response model.frame
 #' @importFrom dplyr %>% select left_join sym group_by summarise mutate across
+#' @importFrom glue glue glue_col
+#' @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
+#' @importFrom crayon black white silver red green blue yellow cyan magenta
+#' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 .onAttach=function(libname, pkgname) {
+  ## Loaded Package
   pkgs=c(
     ## DATA ##
     "dplyr", "tidyr", "stringr", "forcats", "data.table",
@@ -210,10 +215,13 @@ NULL
   # suppressWarnings({
   #   loaded=pacman::p_load(char=pkgs, character.only=TRUE, install=FALSE)
   # })
-  suppressMessages({suppressWarnings({
-    loaded=sapply(pkgs, require, character.only=TRUE)
-  })})
+  suppressMessages({
+    suppressWarnings({
+      loaded=sapply(pkgs, require, character.only=TRUE)
+    })
+  })
 
+  ## Welcome Message
   if(all(loaded)) {
     # LOGO=c(bell="\ud83d\udd14",
     #        bulb="\ud83d\udca1",
@@ -222,11 +230,11 @@ NULL
     #        star="\u2b50")
     # logo=sample(LOGO, 1)
     # yes: \u2714 \u221a
-    version=as.character(utils::packageVersion("bruceR"))
+    inst.ver=as.character(utils::packageVersion("bruceR"))
     Print("
     \n
     <<bold
-    \ud83c\udf81 bruceR (v{version})
+    \ud83c\udf81 bruceR (version {inst.ver})
     <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
     >>
 
@@ -260,4 +268,24 @@ NULL
     \n
     "))
   }
+
+  ## Version Check
+  tmp=suppressWarnings({
+    try({
+      readLines("https://cran.r-project.org/web/packages/bruceR/index.html")
+    }, silent=TRUE)
+  })
+  if(!inherits(tmp, "try-error")) {
+    cran.ver=tmp[grep("Version:", tmp, fixed=TRUE)+1]
+    if(!is.na(cran.ver) & length(cran.ver)>0) {
+      cran.ver=substr(cran.ver, 5, nchar(cran.ver)-5)
+      if(numeric_version(inst.ver)<numeric_version(cran.ver))
+        packageStartupMessage(Glue("
+        NEWS: An updated version of bruceR (version {cran.ver}) is available!
+        Please update to the latest version:  install.packages(\"bruceR\")
+        \n
+        "))
+    }
+  }
 }
+
