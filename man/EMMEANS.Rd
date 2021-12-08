@@ -13,7 +13,7 @@ EMMEANS(
   p.adjust = "bonferroni",
   sd.pooled = NULL,
   model.type = "multivariate",
-  digits = 2,
+  digits = 3,
   nsmall = digits
 )
 }
@@ -61,7 +61,7 @@ for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[em
 \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
 (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 }
 \value{
 The same model object as returned by
@@ -178,7 +178,7 @@ MANOVA(between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
-## just to name a few here
+## just to name a few
 ## you may test other combinations
 
 
@@ -205,6 +205,8 @@ MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
+## just to name a few
+## you may test other combinations
 
 
 #### Mixed Design ####
@@ -221,6 +223,8 @@ MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
+## just to name a few
+## you may test other combinations
 
 mixed.3_2b1w
 MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
@@ -229,6 +233,8 @@ MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
   EMMEANS("A", by="C") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("B", by=c("A", "C"))
+## just to name a few
+## you may test other combinations
 
 
 #### Other Examples ####

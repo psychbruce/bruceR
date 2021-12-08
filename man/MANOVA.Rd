@@ -16,7 +16,7 @@ MANOVA(
   ss.type = "III",
   sph.correction = "none",
   aov.include = FALSE,
-  digits = 2,
+  digits = 3,
   nsmall = digits,
   file = NULL
 )
@@ -83,7 +83,7 @@ Default is \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez(
 (please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
 If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

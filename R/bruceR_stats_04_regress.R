@@ -13,7 +13,10 @@
 #'
 #' @export
 formula_paste=function(formula) {
-  paste(formula[2], formula[1], formula[3], collapse=" ")
+  if(inherits(formula, c("formula", "call")))
+    paste(formula[2], formula[1], formula[3], collapse=" ")
+  else
+    as.character(formula)
 }
 
 
@@ -349,13 +352,14 @@ model_summary=function(model.list,
   }
 
   model_y=function(model) {
-    if(any(class(model) %in% c("lmerMod", "lmerModLmerTest", "glmerMod")))
-      y=model@call[["formula"]][[2]]
-    else if(any(class(model) %in% c("lme")))
-      y=model$call[["fixed"]][[2]]
-    else
-      y=model$call[["formula"]][[2]]
-    if(is.null(y)) y=""
+    # if(inherits(model, c("lmerMod", "lmerModLmerTest", "glmerMod")))
+    #   y=model@call[["formula"]][[2]]
+    # else if(inherits(model, "lme"))
+    #   y=model$call[["fixed"]][[2]]
+    # else
+    #   y=model$call[["formula"]][[2]]
+    # if(is.null(y)) y=""
+    y=names(model.frame(model))[1]
     return(y)
   }
   model_std_coef=function(model) {
@@ -575,187 +579,142 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     formula=dots$formula
     data=dots$data
     if("family" %notin% names(dots))
-      eval(parse(text=Glue("model=lm({formula_paste(formula)}, data=data)")))
+      Run("model=lm({formula_paste(formula)}, data=data)")
     else
-      eval(parse(text=Glue("model=glm({formula_paste(formula)}, data=data, family={dots$family})")))
-  } else {
-    formula=model[["call"]][["formula"]]
+      Run("model=glm({formula_paste(formula)}, data=data, family={dots$family})")
   }
-  dv=formula[[2]]
+  dv=names(model[["model"]])[1]
   sumModel=summary(model)
   N=nrow(model$model)
+  N.missing=ifelse("na.action" %in% names(model), Glue(" ({length(model$na.action)} missing cases deleted)"), "")
 
   ## lm vs.glm ##
-  if(class(model)[1]=="lm") {
-    ## Print: Model Information ##
-    Print("
-    <<underline MODEL INFO:>>
-    Model type: General Linear Model (GLM) (OLS Regression)
-    Observations: <<italic N>> = {N}{ifelse('na.action' %in% names(model), Glue(' ({length(model$na.action)} missing cases deleted)'), '')}
-    ")
-
-    ## Print: Model Fit (R^2) ##
+  if(inherits(model, "lm") & !inherits(model, "glm")) {
+    ## Print: Model Fit ##
     Ftest=sumModel[["fstatistic"]]
     names(Ftest)=c("F", "df1", "df2")
-    Print("\n\n
-    <<underline MODEL FIT:>>
+    Print("
+    \n
+    <<cyan General Linear Model (OLS Regression)>>
+
+    Model Fit:
     {p(f={Ftest['F']}, df1={Ftest['df1']}, df2={Ftest['df2']})}
     <<italic R>>\u00b2 = {sumModel$r.squared:.5} (Adjusted <<italic R>>\u00b2 = {sumModel$adj.r.squared:.5})
+    \n
     ")
-
-    ## Print: ANOVA Table ##
-    # cat("\n")
-    # GLM_anova(model)
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
-    names(FE)=c("b", "S.E.", "t", "p")
     df=model[["df.residual"]]
-    FE=cbind(
-      FE,
-      sig=sig.trans(FE$p),
-      CI=paste0("[",
-                formatF(FE[,1]+qt(0.025, df)*FE[,2], nsmall), ", ",
-                formatF(FE[,1]+qt(0.975, df)*FE[,2], nsmall), "]"))
+    FE$CI=paste0("[",
+                 formatF(FE[,1]+qt(0.025, df)*FE[,2], nsmall), ", ",
+                 formatF(FE[,1]+qt(0.975, df)*FE[,2], nsmall), "]")
+    names(FE)=c("b", "S.E.", "t", "pval", "[95% CI of b]")
     if(length(model[["model"]])>2) {
       FE.vif=jtools::summ(model, vif=TRUE)
       FE=cbind(FE, VIF=FE.vif$coeftable[,"VIF"])
     } else {
       FE=cbind(FE, VIF=NA)
     }
-    FE$VIF=formatF(FE$VIF, nsmall=nsmall)
-    FE$VIF[1]=""
-    FE$p=p.trans(FE$p)
-    names(FE)[5:6]=c(" ", "[95% CI of b]")
+    print_table(FE, nsmalls=nsmall,
+                title=Glue("
+    Unstandardized Coefficients:
+    Outcome Variable: {dv}
+    <<italic N>> = {N}{N.missing}"))
     cat("\n")
-    Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv} (<<italic N>> = {N})")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, 0))
 
     ## Print: Robust SE ##
     if(robust!=FALSE | !is.null(cluster)) {
       if(robust==TRUE) robust="HC1"
-      if(!is.null(cluster) & !is.character(robust)) robust="HC1"
       summ.rob=jtools::summ(model, robust=robust, cluster=cluster)
       FE.rob=as.data.frame(summ.rob$coeftable)
-      names(FE.rob)=c("b", "S.E.*", "t*", "p*")
-      FE.rob=cbind(
-        FE.rob,
-        sig=sig.trans(FE.rob$`p*`),
-        CI=paste0("[",
-                  formatF(FE.rob[,1]+qt(0.025, df)*FE.rob[,2], nsmall), ", ",
-                  formatF(FE.rob[,1]+qt(0.975, df)*FE.rob[,2], nsmall), "]"))
-      FE.rob$`p*`=p.trans(FE.rob$`p*`)
-      names(FE.rob)[5:6]=c(" ", "[95% CI of b]")
+      FE.rob$CI=paste0("[",
+                       formatF(FE.rob[,1]+qt(0.025, df)*FE.rob[,2], nsmall), ", ",
+                       formatF(FE.rob[,1]+qt(0.975, df)*FE.rob[,2], nsmall), "]")
+      names(FE.rob)=c("b", "S.E.", "t", "pval", "[95% CI of b]")
+      print_table(FE.rob, nsmalls=nsmall,
+                  title=Glue("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-Robust Standard Errors:"),
+                  note=Glue("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>"))
       cat("\n")
-      Print("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-robust standard errors:")
-      print_table(FE.rob, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0))
-      Print("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>")
     }
 
     ## Print: Standardized Coefficients ##
     if(nrow(FE)>1) {
       FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
-      # FE.std=sjstats::std_beta(model)[2:3]
-      # row.names(FE.std)=row.names(FE)[-1]
-      names(FE.std)=c("Beta*", "S.E.*")
       FE.rp=jtools::summ(model, part.corr=TRUE)
       t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
-      p=p.t(t, df)
       FE.std=cbind(
         FE.std,
-        sig=sig.trans(p),
+        t=t,
+        pval=p.t(t, df),
         CI.std=paste0("[",
                       formatF(FE.std[,1]+qt(0.025, df)*FE.std[,2], nsmall), ", ",
                       formatF(FE.std[,1]+qt(0.975, df)*FE.std[,2], nsmall), "]"),
         r.partial=FE.rp$coeftable[-1, "partial.r"],
         r.part=FE.rp$coeftable[-1, "part.r"])
+      names(FE.std)=c("\u03b2", "S.E.", "t", "pval",
+                      "[95% CI of \u03b2]",
+                      "r(partial)", "r(part)")
+      print_table(FE.std, nsmalls=nsmall,
+                  title=Glue("
+      Standardized Coefficients (\u03b2):
+      Outcome Variable: {dv}
+      <<italic N>> = {N}{N.missing}"))
       cat("\n")
-      Print("Standardized coefficients: {dv} (<<italic N>> = {N})")
-      names(FE.std)[3:4]=c(" ", "[95% CI of Beta]")
-      print_table(FE.std, nsmalls=nsmall)
     }
-  } else if(class(model)[1]=="glm") {
-    ## Print: Model Information ##
-    Print("
-    <<underline MODEL INFO:>>
-    Model type: Generalized Linear Model (GLM)
-    Family: {model$family$family}
-    Link function: {model$family$link}
-    Observations: <<italic N>> = {N}{ifelse('na.action' %in% names(model), Glue(' ({length(model$na.action)} missing cases deleted)'), '')}
-    ")
-
-    ## Print: Model Fit (Pseudo-R^2 and Information Criteria) ##
-    # null.model=glm(as.formula(paste(dv, "~ 1")), data=model$data,
-    #                family=model$family$family)
-    # aov.glm=anova(null.model, model)
+  } else if(inherits(model, "glm")) {
+    ## Print: Model Fit ##
     aov.glm=anova(model, test="Chisq")
     Chi2=sum(aov.glm$Deviance, na.rm=TRUE)
     Df=sum(aov.glm$Df, na.rm=TRUE)
-    # R2.glm=sjstats::r2(model)  # 'sjstats::r2()' is deprecated [2019-09].
     R2.glm=performance::r2_nagelkerke(model)
-    Print("\n\n
-    <<underline MODEL FIT:>>
+    Print("
+    \n
+    <<cyan Generalized Linear Model (GLM)>>
+
+    Model Fit:
     AIC = {AIC(model):.{nsmall}}
     BIC = {BIC(model):.{nsmall}}
     {p(chi2={Chi2}, df={Df})}
-    {rep_char('\u2500', 7)} Pseudo-<<italic R>>\u00b2s {rep_char('\u2500', 7)}
-    McFadden's <<italic R>>\u00b2    = {1 - model$deviance/model$null.deviance:.5}  <<blue (= 1 - logLik(model)/logLik(null.model))>>
-    Nagelkerke's <<italic R>>\u00b2  = {R2.glm:.5}  <<blue (= Cragg-Uhler's <<italic R>>\u00b2, adjusts Cox & Snell's)>>
+    {rep_char('\u2500', 7)} Pseudo-<<italic R>>\u00b2 {rep_char('\u2500', 7)}
+    McFadden\u2019s <<italic R>>\u00b2   = {1 - model$deviance/model$null.deviance:.5} <<blue (= 1 - logLik(model)/logLik(null.model))>>
+    Nagelkerke\u2019s <<italic R>>\u00b2 = {R2.glm:.5} <<blue (= Cragg-Uhler\u2019s <<italic R>>\u00b2, adjusts Cox & Snell\u2019s)>>
+    \n
     ")
-    # McFadden's adj. <<italic R>>\u00b2 = {1 - (logLik(model)-length(model$coefficients)+1)/logLik(null.model):.5}  <<blue (adjusted for number of predictors)>>
-    # Cox & Snell's <<italic R>>\u00b2 = {R2.glm$CoxSnell:.5}  <<blue (problematic, not suggested)>>
-    # Nagelkerke's <<italic R>>\u00b2  = {R2.glm$Nagelkerke:.5}  <<blue (= Cragg-Uhler's <<italic R>>\u00b2, adjusts Cox & Snell's)>>
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
-    names(FE)=c("b", "S.E.", "z", "p")
-    b=FE[,1]
-    se=FE[,2]
-    FE=cbind(
-      FE,
-      sig=sig.trans(FE$p),
-      CI=paste0("[",
-                formatF(b-1.96*se, nsmall), ", ",
-                formatF(b+1.96*se, nsmall), "]"),
-      OR=exp(b))
+    FE$CI=paste0("[",
+                 formatF(FE[,1]-qnorm(0.975)*FE[,2], nsmall), ", ",
+                 formatF(FE[,1]+qnorm(0.975)*FE[,2], nsmall), "]")
+    FE$OR=exp(FE[,1])
     if(length(model[["model"]])>2) {
-      FE.vif=jtools::summ(model, vif=TRUE)
-      FE=cbind(FE, VIF=FE.vif$coeftable[,"VIF"])
+      FE$VIF=jtools::summ(model, vif=TRUE)$coeftable[,"VIF"]
     } else {
-      FE=cbind(FE, VIF=NA)
+      FE$VIF=NA
     }
-    FE$VIF=formatF(FE$VIF, nsmall=nsmall)
-    FE$VIF[1]=""
-    FE$p=p.trans(FE$p)
-    names(FE)[5:6]=c(" ", "[95% CI of b]")
+    names(FE)=c("b", "S.E.", "z", "pval", "[95% CI of b]", "OR", "VIF")
+    print_table(FE, nsmalls=nsmall,
+                title=Glue("
+    Unstandardized Coefficients:
+    Outcome Variable: {dv} (family: {model$family$family}; link function: {model$family$link})
+    <<italic N>> = {N}{N.missing}"),
+    note=Glue("<<blue OR = odds ratio.>>"))
     cat("\n")
-    Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv} (type = {model$family$family}) (<<italic N>> = {N})")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, nsmall, 0))
-    Print("<<blue OR = odds ratio.>>")
 
     ## Print: Robust SE ##
-    if(robust!=FALSE | is.null(cluster)==FALSE) {
-      if(robust==TRUE | (is.null(cluster)==FALSE & is.character(robust)==FALSE))
-        robust="HC1" # default method in Stata
+    if(robust!=FALSE | !is.null(cluster)) {
+      if(robust==TRUE) robust="HC1"
       summ.rob=jtools::summ(model, robust=robust, cluster=cluster)
       FE.rob=as.data.frame(summ.rob$coeftable)
-      names(FE.rob)=c("b", "S.E.*", "z*", "p*")
-      b=FE[,1]
-      se.rob=FE.rob[,2]
-      FE.rob=cbind(
-        FE.rob,
-        sig=sig.trans(FE.rob$`p*`),
-        CI=paste0("[",
-                  formatF(b-1.96*se.rob, nsmall), ", ",
-                  formatF(b+1.96*se.rob, nsmall), "]"))
-      FE.rob$`p*`=p.trans(FE.rob$`p*`)
-      names(FE.rob)[5:6]=c(" ", "[95% CI of b]")
+      FE.rob$CI=paste0("[",
+                       formatF(FE.rob[,1]+qnorm(0.975)*FE.rob[,2], nsmall), ", ",
+                       formatF(FE.rob[,1]+qnorm(0.975)*FE.rob[,2], nsmall), "]")
+      names(FE.rob)=c("b", "S.E.", "z", "pval", "[95% CI of b]")
+      print_table(FE.rob, nsmalls=nsmall,
+                  title=Glue("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-Robust Standard Errors:"),
+                  note=Glue("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>"))
       cat("\n")
-      Print("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-robust standard errors:")
-      print_table(FE.rob, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0))
-      Print("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>")
     }
   } else {
     stop("GLM_summary() can only deal with 'lm' or 'glm' models.", call.=TRUE)
@@ -1038,21 +997,52 @@ HLM_summary=function(model=NULL,
   } else {
     formula=model@call[["formula"]]
   }
-  dv=formula[[2]]
+  dv=names(model.frame(model))[1]
   sumModel=summary(model, cor=F)
   ngrps=sumModel[["ngrps"]]
 
+  ## Print: Model Information ##
+  Print("
+  \n
+  <<cyan
+  Hierarchical Linear Model (HLM)
+  (also known as) Linear Mixed Model (LMM)
+  (also known as) Multilevel Linear Model (MLM)
+  >>
+  ")
+
+  ## Print: Sample Sizes ##
+  # .prt.grps(ngrps=ngrps(model), nobs=nobs(model))
+  Print("
+  \n
+  Model Information:
+  Formula: {formula_paste(formula)}
+  Level-1 Observations: <<italic N>> = {nobs(model)}
+  Level-2 Groups/Clusters: {paste(paste(names(ngrps), ngrps, sep=', '), collapse='; ')}
+  \n
+  ")
+
   ## lmer vs. glmer ##
-  if(class(model)=="lmerModLmerTest") {
-    if(is.null(vartypes)==TRUE & is.null(level2.predictors)==FALSE) {
+  if(inherits(model, "lmerModLmerTest")) {
+    if(is.null(vartypes) & !is.null(level2.predictors)) {
+      if(!inherits(formula, c("formula", "call")))
+        stop("Please specify the arguments `formula` and `data` in HLM_summary().", call.=FALSE)
       tryCatch({
         vartypes=HLM_vartypes(model, formula, level2.predictors)
       }, error=function(e) {
-        Print("\n\n\n<<red Please re-specify 'level2.predictors' or even re-define your model.>>")
-        stop(e)
+        stop("Please re-specify 'level2.predictors'.", call.=FALSE)
       })
-    } else if(is.null(vartypes)==FALSE) {
+    } else if(!is.null(vartypes)) {
       names(vartypes)=dimnames(summary(model)[["coefficients"]])[[1]]
+    }
+
+    if(!is.null(vartypes)) {
+      vt=as.data.frame(vartypes)
+      names(vt)="Variable Type"
+      Print("Level-2 predictors: '{level2.predictors}'")
+      cat("\n")
+      print(vt)
+      cat("\n")
     }
     # vartypes=c("Intercept",
     #            "L1fixed",
@@ -1060,167 +1050,107 @@ HLM_summary=function(model=NULL,
     #            "L2-GROUP",
     #            "Cross-GROUP-L1VAR")
 
-    ## Print: Model Information ##
-    Print("
-    <<underline MODEL INFO:>>
-    Model type: Linear Mixed Model (LMM)
-    = Hierarchical Linear Model (HLM)
-    = Multilevel Linear Model (MLM)
-
-    Formula: {formula_paste(formula)}
-    ")
-    if(is.null(vartypes)==FALSE) {
-      Print("
-      Level-2 predictors: '{level2.predictors}'
-      ")
-      vt=as.data.frame(vartypes)
-      names(vt)="Variable Type"
-      cat("\n")
-      print(vt)
-    }
-
-    ## Print: Sample Sizes ##
-    # .prt.grps(ngrps=ngrps(model), nobs=nobs(model))
-    Print("\n\n
-    Level-1 Observations: <<italic N>> = {nobs(model)}
-    Level-2 Groups/Clusters: {paste(paste(names(ngrps), ngrps, sep=', '), collapse='; ')}
-    ")
-
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria ##
     # logLik=sumModel[["logLik"]]
     # AIC = -2LL + 2p  [p = number of parameters]
     # BIC = -2LL + p*ln(N)  [N = number of cases]
-    # cat("-2 Log Likelihood (-2LL, deviance):  ", -2*logLik, "\n")
-    # cat("Akaike's Information Criterion (AIC):", AIC(logLik), "\n")
-    # cat("Schwarz's Bayesian Criterion (BIC):  ", BIC(logLik), "\n")
     Omg2=1-var(residuals(model))/var(model.response(model.frame(model)))
     R2.glmm=suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
-    # R2.glmm=sjstats::r2(model) # R2.glmm$rsq.marginal; R2.glmm$rsq.conditional
-    # NOTE: MuMIn::r.squaredGLMM(model) is more robust in some situations !!!
-    Print("\n\n
-    <<underline MODEL FIT:>>
+    Print("
+    Model Fit:
     AIC = {AIC(model):.{nsmall}}
     BIC = {BIC(model):.{nsmall}}
     <<italic R>>_(m)\u00b2 = {R2.glmm[1,1]:.5}  <<blue (<<italic Marginal R>>\u00b2: fixed effects)>>
     <<italic R>>_(c)\u00b2 = {R2.glmm[1,2]:.5}  <<blue (<<italic Conditional R>>\u00b2: fixed + random effects)>>
     Omega\u00b2 = {Omg2:.5}  <<blue (= 1 - proportion of unexplained variance)>>
+    \n
     ")
 
     ## Print: ANOVA Table ##
     # aov.hlm=car::Anova(model, type=3)
     aov.hlm=stats::anova(model)
     if(nrow(aov.hlm)>0) {
+      print_table(aov.hlm, nsmalls=2,
+                  title="ANOVA Table:")
       cat("\n")
-      Print("ANOVA table:")
-      print_table(aov.hlm, nsmalls=2)
     }
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
-    names(FE)=c("b", "S.E.", "df", "t", "p") # abbreviate("approx", 5)
     FE=cbind(
       FE[c(1,2,4,3,5)],
-      sig=sig.trans(FE$p),
       CI=paste0("[",
                 formatF(FE[,1]+qt(0.025, FE[,3])*FE[,2], nsmall), ", ",
                 formatF(FE[,1]+qt(0.975, FE[,3])*FE[,2], nsmall), "]"))
-    FE.raw=FE
-    FE$p=p.trans(FE$p)
-    names(FE)[6:7]=c(" ", "[95% CI of b]")
+    names(FE)=c("b/\u03b3", "S.E.", "t", "df", "pval",
+                "[95% CI of b/\u03b3]")
+    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
+                title=Glue("
+    Fixed Effects:
+    Unstandardized Coefficients (b or \u03b3):
+    Outcome Variable: {dv}"),
+    note=Glue("<<blue 'df' is estimated by Satterthwaite approximation.>>"))
     cat("\n")
-    Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv}")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0, 0))
-    Print("<<blue 'df' is estimated by Satterthwaite approximation.>>")
     if(nrow(FE)>1) {
       FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
-      # FE.std=sjstats::std_beta(model)[2:3]
-      # row.names(FE.std)=row.names(FE)[-1]
-      names(FE.std)=c("Beta*", "S.E.*")
-      if(is.null(vartypes)==FALSE)
+      t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
+      if(!is.null(vartypes))
         df=HLM_df(sumModel, vartypes)[-1]
       else
         df=FE$df[-1]
-      t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
-      p=p.t(t, df)
       FE.std=cbind(
-        FE.std,
-        `t*`=t,
-        `df*`=df,
-        `p*`=p,
-        `sig*`=sig.trans(p),
+        FE.std, t=t, df=df, pval=p.t(t, df),
         CI=paste0("[",
                   formatF(FE.std[,1]+qt(0.025, df)*FE.std[,2], nsmall), ", ",
                   formatF(FE.std[,1]+qt(0.975, df)*FE.std[,2], nsmall), "]"))
-      FE.std$`p*`=p.trans(FE.std$`p*`)
-      names(FE.std)[6:7]=c(" ", "[95% CI of Beta]")
+      names(FE.std)=c("\u03b2", "S.E.", "t", "df", "pval",
+                      "[95% CI of \u03b2]")
+      print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
+                  title=Glue("
+      Standardized Coefficients (\u03b2):
+      Outcome Variable: {dv}"),
+      note=ifelse(is.null(vartypes), "", Glue("<<blue 'df' is calculated based on variable types.>>")))
       cat("\n")
-      Print("Standardized coefficients: {dv}")
-      print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, 0))
-      if(is.null(vartypes)==FALSE)
-        Print("<<blue 'df*' is calculated based on variable types.>>")
     }
 
     ## Print: Random Effects & ICC ##
-    cat("\n")
-    Print("<<underline RANDOM EFFECTS:>>")
     # RE=sumModel[["varcor"]]
     # res=sumModel[["sigma"]]^2
     # print(RE, comp="Variance")
     RE=HLM_ICC(model, nsmall=nsmall)
-    print_table(RE, row.names=FALSE)
-  } else if(class(model)=="glmerMod") {
+    print_table(RE, row.names=FALSE, title="Random Effects:")
+    cat("\n")
+  } else if(inherits(model, "glmerMod")) {
     summ=jtools::summ(model, digits=nsmall, re.variance="var")
-    # summ(model, digits=nsmall, stars=T, exp=T, confint=T, re.variance="var")
-
-    ## Print: Model Information ##
-    Print("
-    <<underline MODEL INFO:>>
-    Model type: Generalized Linear Mixed Model (GLMM)
-    = Hierarchical Linear Model (HLM)
-    = Multilevel Linear Model (MLM)
-
-    Formula: {formula_paste(formula)}
-    Level-1 Observations: <<italic N>> = {nobs(model)}
-    Level-2 Groups/Clusters: {paste(paste(names(ngrps), ngrps, sep=', '), collapse='; ')}
-    ")
 
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria) ##
     R2.glmm=suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
-    # R2.glmm=sjstats::r2(model) # R2.glmm$rsq.marginal; R2.glmm$rsq.conditional
-    # NOTE: MuMIn::r.squaredGLMM(model) is more robust in some situations !!!
-    Print("\n\n
-    <<underline MODEL FIT:>>
+    Print("
+    Model Fit:
     AIC = {AIC(model):.{nsmall}}
     BIC = {BIC(model):.{nsmall}}
     <<italic R>>_(m)\u00b2 = {R2.glmm[1,1]:.5}  <<blue (<<italic Marginal R>>\u00b2: fixed effects)>>
     <<italic R>>_(c)\u00b2 = {R2.glmm[1,2]:.5}  <<blue (<<italic Conditional R>>\u00b2: fixed + random effects)>>
+    \n
     ")
 
     ## Print: Fixed Effects ##
     FE=as.data.frame(sumModel[["coefficients"]])
-    names(FE)=c("b", "S.E.", "z", "p")
-    b=FE[,1]
-    se=FE[,2]
-    FE=cbind(
-      FE,
-      sig=sig.trans(FE$p),
-      CI=paste0("[",
-                formatF(b-1.96*se, nsmall), ", ",
-                formatF(b+1.96*se, nsmall), "]"),
-      OR=exp(b))
-    FE.raw=FE
-    FE$p=p.trans(FE$p)
-    names(FE)[5:6]=c(" ", "[95% CI of b]")
+    FE$CI=paste0("[",
+                 formatF(FE[,1]-qnorm(0.975)*FE[,2], nsmall), ", ",
+                 formatF(FE[,1]+qnorm(0.975)*FE[,2], nsmall), "]")
+    FE$OR=exp(FE[,1])
+    names(FE)=c("b/\u03b3", "S.E.", "z", "pval",
+                "[95% CI of b/\u03b3]", "OR")
+    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall),
+                title=Glue("
+    Fixed Effects:
+    Unstandardized Coefficients (b or \u03b3):
+    Outcome Variable: {dv}"),
+    note=Glue("<<blue OR = odds ratio.>>"))
     cat("\n")
-    Print("<<underline FIXED EFFECTS:>>
-           Outcome variable: {dv}")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, 0, nsmall))
-    Print("<<blue OR = odds ratio.>>")
 
     ## Print: Random Effects & ICC ##
-    cat("\n")
-    Print("<<underline RANDOM EFFECTS:>>")
     RE=as.data.frame(summ$rcoeftable)
     ICC=as.data.frame(summ$gvars)
     names(RE)=c("Group", "Parameter", "Variance")
@@ -1242,21 +1172,21 @@ HLM_summary=function(model=NULL,
     names(RE)[1]=paste0("Cluster", rep_char(" ", max(max(nchar(RE$Group))-7, 0)))
     names(RE)[2]="K "
     names(RE)[3]=paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
-    print_table(RE, row.names=F)
+    print_table(RE, row.names=FALSE, title="Random Effects:")
     Print("<<blue Residual variance is not reported for generalized linear mixed models,
            but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
            and log(1/exp(intercept)+1) in poisson models (count data).>>")
+    cat("\n")
   } else {
-    Print("Please fit your model with '<<red lmerTest::lmer()>>' or '<<red lme4::glmer()>>'!")
-    stop("Model type.", call.=TRUE)
+    stop("Please fit your model with `lmerTest::lmer()` or `lme4::glmer()`.", call.=TRUE)
   }
 
   ## Print: Likelihood-Ratio Test (LRT) for Random Effects ##
   # ANOVA-like table for random-effects: Single term deletions
   if(test.rand) {
-    cat("\n")
     RE.test=lmerTest::rand(model)  # the same: ranova()
     print(RE.test)
+    cat("\n")
   }
 }
 

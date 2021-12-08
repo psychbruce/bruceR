@@ -92,7 +92,7 @@ levene_test=function(data, id, dvs, ivs.between) {
       row.names(lev)=paste("DV:", dv)
       levene=rbind(levene, lev)
     }
-    print_table(levene, nsmalls=c(2, 0, 0, 0))
+    print_table(levene, nsmalls=c(3, 0, 0, 0))
   }
 }
 
@@ -203,7 +203,7 @@ fix_long_data=function(data.long, ivs) {
 #' Default is \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
 #' (please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
 #' If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 ## @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
 ##
@@ -301,7 +301,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
                 sph.correction="none",
                 # which.observed=NULL,
                 aov.include=FALSE,
-                digits=2, nsmall=digits,
+                digits=3, nsmall=digits,
                 file=NULL) {
   ## Initialize
   data=as.data.frame(data)
@@ -392,11 +392,11 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   at$MS=at$`F`*at$`MSE`
   eta2=effectsize::F_to_eta2(at$`F`, at$df1, at$df2,
                              ci=0.90, alternative="two.sided")
-  at$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
-                   formatF(eta2$CI_low, nsmall+1), ", ",
-                   formatF(eta2$CI_high, nsmall+1), "]") %>%
+  at$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall), " [",
+                   formatF(eta2$CI_low, nsmall), ", ",
+                   formatF(eta2$CI_high, nsmall), "]") %>%
     str_replace_all("0\\.", ".")
-  at$g.eta2=str_replace_all(formatF(at$ges, nsmall+1), "0\\.", ".")
+  at$g.eta2=str_replace_all(formatF(at$ges, nsmall), "0\\.", ".")
   at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2", "g.eta2")]
   names(at)[7:8]=c("\u03b7\u00b2p [90% CI of \u03b7\u00b2p]",
                    "\u03b7\u00b2G")
@@ -661,7 +661,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
 #' (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).
-#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #'
 #' @return
 #' The same model object as returned by
@@ -697,7 +697,7 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("A", by=c("B", "C"))
-#' ## just to name a few here
+#' ## just to name a few
 #' ## you may test other combinations
 #'
 #'
@@ -724,6 +724,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("A", by=c("B", "C"))
+#' ## just to name a few
+#' ## you may test other combinations
 #'
 #'
 #' #### Mixed Design ####
@@ -740,6 +742,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("A", by=c("B", "C"))
+#' ## just to name a few
+#' ## you may test other combinations
 #'
 #' mixed.3_2b1w
 #' MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
@@ -748,6 +752,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'   EMMEANS("A", by="C") %>%
 #'   EMMEANS(c("A", "B"), by="C") %>%
 #'   EMMEANS("B", by=c("A", "C"))
+#' ## just to name a few
+#' ## you may test other combinations
 #'
 #'
 #' #### Other Examples ####
@@ -768,7 +774,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                  p.adjust="bonferroni",
                  sd.pooled=NULL,
                  model.type="multivariate",
-                 digits=2, nsmall=digits) {
+                 digits=3, nsmall=digits) {
   # model.raw=model
   # if(spss) model$aov=NULL
 
@@ -800,9 +806,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
     sim$Effect=str_replace_all(sim$Effect, ":", " x ")
     eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
                                ci=0.90, alternative="two.sided")
-    sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall+1), " [",
-                      formatF(eta2$CI_low, nsmall+1), ", ",
-                      formatF(eta2$CI_high, nsmall+1), "]") %>%
+    sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall), " [",
+                      formatF(eta2$CI_low, nsmall), ", ",
+                      formatF(eta2$CI_high, nsmall), "]") %>%
       str_replace_all("0\\.", ".")
     names(sim)[(length(by)+4):(length(by)+6)]=
       c("F", "pval", "\u03b7\u00b2p [90% CI of \u03b7\u00b2p]")
@@ -811,21 +817,64 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   effect.text=paste(effect, collapse='\" & \"')
   Print("<<cyan ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
-  Print("{ifelse(is.null(by), 'Omnibus Test', 'Simple Effects')} of \"{effect.text}\":")
+  Print("Joint Tests of \"{effect.text}\":")
   if(is.null(sim) | note) {
-    message("Warning:
+    message("Warning (also in SPSS):
     Within-cells error matrix is SINGULAR.
     Some variables are LINEARLY DEPENDENT.
-    Please check your data and variables.")
+    Please check your data and variables.
+    The same error also appears in SPSS!")
   }
   print_table(sim, nsmalls=c(rep(0, length(by)+3),
                              nsmall, 0, 0),
               row.names=FALSE)
-  Print("<<green Disclaimer on simple effects:
-  Simple effects of <<italic repeated measures>> may be different from SPSS (GLM or MANOVA).
-  Please see MANOVA() argument `aov.include` and EMMEANS() argument `model.type`.
-  >>")
+  Print("
+  <<italic Note>>. Simple effects of <<italic repeated measures>> with 3 or more levels
+  are <<italic different>> from the results obtained with SPSS MANOVA syntax.
+  ")
   cat("\n")
+
+  ## SPSS GLM EMMEANS Univariate/Multivariate Tests
+  try({
+    phtest=phia::testInteractions(
+      model=model$lm,
+      across=effect,
+      fixed=by,
+      idata=model$Anova$idata,
+      adjustment="none")
+    if(grepl("Multivariate", attr(phtest, "heading"))) {
+      pht=as.data.frame(phtest)[c(
+        "test stat",
+        "num Df",
+        "den Df",
+        "approx F",
+        "Pr(>F)")]
+      names(pht)=c(
+        "Pillai\u2019s trace",
+        "Hypoth. df",
+        "Error df",
+        "Exact F",
+        "pval")
+      row.names(pht)=str_replace_all(row.names(pht), " : ", " & ") %^%
+        ": " %^% Glue("\"{effect.text}\"")
+      print_table(pht, nsmalls=nsmall,
+                  title=Glue("Multivariate Tests of \"{effect.text}\":"),
+                  note=Glue("<<italic Note>>. Identical to the results obtained with SPSS GLM EMMEANS syntax."))
+      cat("\n")
+    } else {
+      pht=as.data.frame(phtest)[c(
+        "Sum of Sq", "Df", "F", "Pr(>F)")]
+      pht$MS=pht[,1]/pht[,2]
+      pht=pht[,c(1,2,5,3,4)]
+      names(pht)=c("Sum of Squares", "df", "Mean Square", "F", "pval")
+      row.names(pht)[1:(nrow(pht)-1)]=str_replace_all(row.names(pht)[1:(nrow(pht)-1)], " : ", " & ") %^%
+        ": " %^% Glue("\"{effect.text}\"")
+      print_table(pht, nsmalls=c(nsmall, 0, nsmall, nsmall, 0),
+                  title=Glue("Univariate Tests of \"{effect.text}\":"),
+                  note=Glue("<<italic Note>>. Identical to the results obtained with SPSS GLM EMMEANS syntax."))
+      cat("\n")
+    }
+  }, silent=TRUE)
 
   ## Estimated Marginal Means (emmeans)
   suppressMessages({
@@ -924,9 +973,10 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   if(contrast=="poly") con[c("Cohen\u2019s d [95% CI of d]")]=NULL
 
   Print("{contr.method} of \"{effect.text}\":")
+  con$df=formatF(con$df, 0)
   print_table(con, nsmalls=nsmall, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n")); cat("\n")
-  Print("<<green Disclaimer on Cohen\u2019s d:
+  Print("<<green Disclaimer:
   By default, pooled SD is <<italic Root Mean Square Error>> (RMSE).
   There is much disagreement on how to compute Cohen\u2019s d.
   You are completely responsible for setting `sd.pooled`.

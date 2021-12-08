@@ -35,11 +35,11 @@ BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 3.6.0)
 Imports: dplyr, tidyr, stringr, forcats, data.table,
          psych, emmeans, effectsize, performance,
-         mediation, interactions, lavaan,
+         lmerTest, mediation, interactions, lavaan,
          glue, crayon, ggplot2, ggtext, cowplot, see
 Suggests: rstudioapi, pacman,
           rio, haven, foreign, readxl, openxlsx, clipr,
-          tibble, plyr, afex, car,
-          lmtest, lme4, lmerTest, vars, GPArotation,
+          tibble, plyr, afex, car, phia,
+          lmtest, lme4, vars, GPArotation,
           jtools, texreg, MuMIn, BayesFactor, GGally
 RoxygenNote: 7.1.2

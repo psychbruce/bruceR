@@ -5,10 +5,12 @@
 ### Minor Changes
 
 -   Added automatic version check when `library(bruceR)`.
+-   Added univariate tests (*F*) and multivariate tests (Pillai's trace and *F*) using `phia::testInteractions()` in the output of `EMMEANS()`. These tests produce results identical to those obtained with the SPSS GLM (/EMMEANS) syntax.
+-   Improved the output format of `GLM_summary()` and `HLM_summary()`.
 
 ### Bug Fixes
 
--   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with >= 3 levels is in a regression model.
+-   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with >= 3 levels is in a regression model. Other bugs in these two functions have also been fixed.
 -   Packages `mediation`, `interactions`, and `lavaan` are now strong dependencies such that they would be installed when installing `bruceR`. This also fixes an error when using `PROCESS()` without these packages installed.
 
 # bruceR 0.8.0 (Nov 2021)
