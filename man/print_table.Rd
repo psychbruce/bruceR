@@ -53,6 +53,8 @@ to either R Console or Microsoft Word (.doc).
 It has been used in many other functions of \code{bruceR} (see below).
 }
 \examples{
+print_table(data.frame(x=1))
+
 print_table(airquality, file="airquality.doc")
 unlink("airquality.doc")  # delete file for code check
 

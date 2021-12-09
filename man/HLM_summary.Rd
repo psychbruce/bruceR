@@ -63,7 +63,7 @@ Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated 
 the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 }
 \examples{
-\donttest{library(lmerTest)
+library(lmerTest)
 
 ## Example 1: data from lme4::sleepstudy
 # (1) 'Subject' is a grouping/clustering variable
@@ -87,7 +87,7 @@ hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
 HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 anova(hlm.1, hlm.2)
-}
+
 }
 \references{
 Hox, J. J. (2010).

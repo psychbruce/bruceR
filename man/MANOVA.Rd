@@ -129,7 +129,7 @@ In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex
 and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
 }
 \examples{
-\donttest{#### Between-Subjects Design ####
+#### Between-Subjects Design ####
 
 between.1
 MANOVA(between.1, dv="SCORE", between="A")
@@ -167,7 +167,7 @@ MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B", sph.correction="GG")
 
-mixed.3_1b2w
+\donttest{mixed.3_1b2w
 MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C"))
 
@@ -177,6 +177,7 @@ MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 
 
 #### Other Examples ####
+
 data.new=mixed.3_1b2w
 names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
 MANOVA(data.new,

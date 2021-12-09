@@ -26,6 +26,10 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 [Release Notes](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
+[Chinese Documentation for bruceR: I. Overview](https://zhuanlan.zhihu.com/p/281150493)
+
+[Chinese Documentation for bruceR: II. FAQ](https://zhuanlan.zhihu.com/p/432931518)
+
 ### Installation
 
 ``` r

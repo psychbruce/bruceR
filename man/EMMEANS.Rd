@@ -154,23 +154,21 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 }
 
 \examples{
-\donttest{#### Between-Subjects Design ####
+#### Between-Subjects Design ####
 
 between.1
 MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
-MANOVA(between.1, dv="SCORE", between="A") \%>\%
+\donttest{MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", p.adjust="tukey")
 MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="seq")
 MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="poly")
-
+}
 between.2
 MANOVA(between.2, dv="SCORE", between=c("A", "B")) \%>\%
-  EMMEANS("A") \%>\%
   EMMEANS("A", by="B") \%>\%
-  EMMEANS("B") \%>\%
   EMMEANS("B", by="A")
 
 between.3
@@ -199,7 +197,7 @@ MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 # the linear dependence of A2B2 and A2B3.
 # see: Corr(within.2[c("A2B2", "A2B3")])
 
-within.3
+\donttest{within.3
 MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
@@ -207,7 +205,7 @@ MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
   EMMEANS("A", by=c("B", "C"))
 ## just to name a few
 ## you may test other combinations
-
+}
 
 #### Mixed Design ####
 
@@ -217,7 +215,7 @@ MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 
-mixed.3_1b2w
+\donttest{mixed.3_1b2w
 MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
@@ -238,6 +236,7 @@ MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 
 
 #### Other Examples ####
+
 air=airquality
 air$Day.1or2=ifelse(air$Day \%\% 2 == 1, 1, 2) \%>\%
   factor(levels=1:2, labels=c("odd", "even"))

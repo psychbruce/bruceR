@@ -352,7 +352,7 @@ Run=function(..., silent=FALSE) {
 #'
 #' @export
 rep_char=function(char, rep.times) {
-  paste(rep(char, rep.times), collapse="")
+  paste(rep(char, times=rep.times), collapse="")
 }
 
 
@@ -407,6 +407,8 @@ capitalize=function(string) {
 #' }
 #'
 #' @examples
+#' print_table(data.frame(x=1))
+#'
 #' print_table(airquality, file="airquality.doc")
 #' unlink("airquality.doc")  # delete file for code check
 #'
@@ -525,7 +527,7 @@ print_table=function(x, digits=3, nsmalls=digits,
     for(i in 1:nrow(xr)) {
       if(row.names==TRUE) {
         # cat(sprintf(glue("%-{n.lines.rn}s"), row.names(xr[i,])))
-        row.name.i=row.names(xr[i,])
+        row.name.i=row.names(xr)[i]
         cat(row.name.i %^% rep_char(" ", n.lines.rn-nchar(row.name.i, type="width")))
       }
       for(j in 1:length(xr)) {

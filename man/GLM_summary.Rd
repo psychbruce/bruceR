@@ -39,7 +39,7 @@ No return value.
 Tidy report of GLM (\code{lm} and \code{glm} models).
 }
 \examples{
-\donttest{## Example 1: OLS regression
+## Example 1: OLS regression
 lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 GLM_summary(lm)
 GLM_summary(lm, robust="HC1")
@@ -51,7 +51,7 @@ glm=glm(case ~ age + parity + education + spontaneous + induced,
         data=infert, family=binomial)
 GLM_summary(glm)
 GLM_summary(glm, robust="HC1", cluster="stratum")
-}
+
 }
 \seealso{
 \code{\link{HLM_summary}}, \code{\link{regress}}

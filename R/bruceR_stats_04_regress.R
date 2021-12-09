@@ -555,7 +555,7 @@ model_summary=function(model.list,
 #' @return No return value.
 #'
 #' @examples
-#' \donttest{## Example 1: OLS regression
+#' ## Example 1: OLS regression
 #' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' GLM_summary(lm)
 #' GLM_summary(lm, robust="HC1")
@@ -567,7 +567,7 @@ model_summary=function(model.list,
 #'         data=infert, family=binomial)
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
-#' }
+#'
 #' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
 #'
 #' @export
@@ -938,7 +938,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' @return No return value.
 #'
 #' @examples
-#' \donttest{library(lmerTest)
+#' library(lmerTest)
 #'
 #' ## Example 1: data from lme4::sleepstudy
 #' # (1) 'Subject' is a grouping/clustering variable
@@ -962,7 +962,7 @@ HLM_ICC=function(model, nsmall=3) {
 #' HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
 #' HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
 #' anova(hlm.1, hlm.2)
-#' }
+#'
 #' @references
 #' Hox, J. J. (2010).
 #' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).
