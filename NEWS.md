@@ -11,6 +11,7 @@
 
 ### Bug Fixes
 
+-   Fixed potential bugs in `print_table()`.
 -   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with >= 3 levels is in a regression model. Other bugs in these two functions have also been fixed.
 -   Packages `mediation`, `interactions`, and `lavaan` are now strong dependencies such that they would be installed when installing `bruceR`. This also fixes an error when using `PROCESS()` without these packages installed.
 
