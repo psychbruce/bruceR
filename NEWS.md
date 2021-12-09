@@ -4,6 +4,7 @@
 
 ### Minor Changes
 
+-   Requiring R version 4.1.0+.
 -   Added automatic version check when `library(bruceR)`.
 -   Added univariate tests (*F*) and multivariate tests (Pillai's trace and *F*) using `phia::testInteractions()` in the output of `EMMEANS()`. These tests produce results identical to those obtained with the SPSS GLM (/EMMEANS) syntax.
 -   Improved the output format of `GLM_summary()` and `HLM_summary()`.

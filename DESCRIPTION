@@ -32,7 +32,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/psychbruce/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
-Depends: R (>= 3.6.0)
+Depends: R (>= 4.1.0)
 Imports: dplyr, tidyr, stringr, forcats, data.table,
          psych, emmeans, effectsize, performance,
          lmerTest, mediation, interactions, lavaan,
