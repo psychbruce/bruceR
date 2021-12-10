@@ -23,10 +23,10 @@ interaction_F_test=function(model, data=NULL, data.name="data") {
   } else {
     dp1=drop1(model, scope=interms, test="F")
     aov.table=data.frame(
-      `F`=dp1[1, "F value"],
-      df1=dp1[1, "NumDF"],
-      df2=dp1[1, "DenDF"],
-      pval=dp1[1, "Pr(>F)"])
+      `F`=dp1[,"F value"],
+      df1=dp1[,"NumDF"],
+      df2=dp1[,"DenDF"],
+      pval=dp1[,"Pr(>F)"])
     row.names(aov.table)=gsub(":", " x ", row.names(dp1))
   }
   return(aov.table)
@@ -53,9 +53,9 @@ interaction_Chi2_test=function(model, data=NULL, data.name="data") {
     dp1=drop1(model, scope=interms.form, test="Chisq")
     dp1=dp1[!is.na(dp1$npar), c("npar", "LRT", "Pr(Chi)")]
     chi.table=data.frame(
-      `Chisq`=dp1[1, "LRT"],
-      df=dp1[1, "npar"],
-      pval=dp1[1, "Pr(Chi)"])
+      Chisq=dp1[,"LRT"],
+      df=dp1[,"npar"],
+      pval=dp1[,"Pr(Chi)"])
     row.names(chi.table)=gsub(":", " x ", row.names(dp1))
   }
   return(chi.table)
@@ -1015,7 +1015,10 @@ PROCESS=function(data,
     } else {
       Print("<<cyan <<underline Direct Effect:>> \"{x}\" (X) ==> \"{y}\" (Y)>>")
       de=as.data.frame(coef(summary(model.y)))[2,]
-      de$CI=paste0("[", paste(formatF(confint(model.y)[2,], nsmall), collapse=", "), "]")
+      de$df=NULL
+      conf.int=confint(model.y)
+      conf.int=conf.int[which(row.names(conf.int)==row.names(de)),]
+      de$CI=paste0("[", paste(formatF(conf.int, nsmall), collapse=", "), "]")
       names(de)[1]="Effect"
       names(de)[5]="[95% CI]"
       row.names(de)[1]="Direct (c')"
