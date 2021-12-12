@@ -1,7 +1,5 @@
 ## News
-In this version (0.8.0), I have added, fixed, and improved many functions (almost all functions have been improved, for their functionality and/or help page). Package dependencies have also been changed, for faster and more robust installation.
-
-I have fixed "Possibly misspelled words in DESCRIPTION" in the last submission.
+In this version (0.8.2), I have fixed some bugs and improved some functions.
 
 
 ## Test environments

@@ -4,37 +4,18 @@
 \alias{HLM_summary}
 \title{Tidy report of HLM (\code{lmer} and \code{glmer} models).}
 \usage{
-HLM_summary(
-  model = NULL,
-  level2.predictors = NULL,
-  vartypes = NULL,
-  test.rand = FALSE,
-  digits = 3,
-  nsmall = digits,
-  ...
-)
+HLM_summary(model = NULL, test.rand = FALSE, digits = 3, nsmall = digits, ...)
 }
 \arguments{
-\item{model}{A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
+\item{model}{A model fitted with \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
 
-\item{level2.predictors}{\strong{[Only for \code{lmer}]} [optional] Default is \code{NULL}.
-If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
-you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
+\item{test.rand}{[Only for \code{lmer} and \code{glmer}]
+\code{TRUE} or \code{FALSE} (default).
+Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
+which is asymptotically chi-square distributed.
+For large datasets, it is much time-consuming.}
 
-*** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
-where \code{School} and \code{House} are two grouping variables,
-\code{W1 & W2} are school-level predictors,
-and there is no house-level predictor.
-
-*** If there is no level-2 predictor in the formula of \code{lmer}, just leave this argument blank.}
-
-\item{vartypes}{\strong{[Only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
-
-\item{test.rand}{\strong{[Only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
-Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.}
-
-\item{digits, nsmall}{Number of decimal places of output. Default is 3.
-But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.}
+\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{...}{Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }
@@ -42,25 +23,7 @@ But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise informa
 No return value.
 }
 \description{
-Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
-HLM, MLM, or LMM (the same) refers to a model with nested data (e.g., Level-1: participants, Level-2: city; or Level-1: repeated-measures within a participant, Level-2: participants).
-}
-\details{
-Hierarchical Linear Model (HLM), aka. Multilevel Linear Model (MLM) or Linear Mixed Model (LMM), is more complex than General Linear Model (GLM; i.e., OLS regression).
-Predictor variables at different levels may have five types:
-\describe{
-  \item{1. Intercept}{The overall intercept (\eqn{\gamma_{00}})}
-  \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
-  \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
-  \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
-
-  *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
-  \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
-}
-The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.
-However, different software use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
-Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
-the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
+NOTE: \code{\link{model_summary}} is preferred.
 }
 \examples{
 library(lmerTest)
@@ -84,9 +47,8 @@ hlm.1=lmer(Preference ~ Sweetness + Age + Frequency +
              (1 | Consumer), data=carrots)
 hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
              (Sweetness | Consumer) + (1 | Product), data=carrots)
-HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
-HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
-anova(hlm.1, hlm.2)
+HLM_summary(hlm.1)
+HLM_summary(hlm.2)
 
 }
 \references{
@@ -103,5 +65,11 @@ Measuring explained variation in linear mixed effects models.
 \emph{Statistics in Medicine, 22,} 3527-3541. \doi{10.1002/sim.1572}
 }
 \seealso{
-\code{\link{GLM_summary}}, \code{\link{regress}}
+\code{\link{print_table}} (print simple table)
+
+\code{\link{model_summary}} (highly suggested)
+
+\code{\link{GLM_summary}}
+
+\code{\link{regress}}
 }

@@ -52,15 +52,16 @@ Only relevant to R Console output.}
 Invisibly return the output (character string).
 }
 \description{
-Tidy report of regression models.
-Most types of models are supported.
-This function is an extension (and combination) of
-\code{\link[texreg:screenreg]{texreg::screenreg()}},
-\code{\link[texreg:htmlreg]{texreg::htmlreg()}},
-\code{\link[MuMIn:std.coef]{MuMIn::std.coef()}},
-\code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}},
-\code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}},
-\code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}.
+Tidy report of regression models (most model types are supported).
+This function uses:
+\itemize{
+  \item \code{\link[texreg:screenreg]{texreg::screenreg()}}
+  \item \code{\link[texreg:htmlreg]{texreg::htmlreg()}}
+  \item \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}
+  \item \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}
+  \item \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}}
+  \item \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}
+}
 }
 \examples{
 \dontrun{
@@ -117,7 +118,7 @@ This function is an extension (and combination) of
 
 }
 \seealso{
-\code{\link{PROCESS}}
+\code{\link{print_table}} (print simple table)
 
 \code{\link{GLM_summary}}
 
@@ -127,5 +128,5 @@ This function is an extension (and combination) of
 
 \code{\link{lavaan_summary}}
 
-\code{\link{print_table}}
+\code{\link{PROCESS}}
 }

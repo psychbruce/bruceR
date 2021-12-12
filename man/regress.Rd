@@ -12,23 +12,21 @@ regress(
   nsmall = digits,
   robust = FALSE,
   cluster = NULL,
-  level2.predictors = "",
-  vartypes = NULL,
   test.rand = FALSE
 )
 }
 \arguments{
-\item{formula}{Model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).}
+\item{formula}{Model formula.}
 
 \item{data}{Data frame.}
 
-\item{family}{[optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).}
+\item{family}{[Optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} fits a logistic regression model).}
 
 \item{digits}{Number of decimal places of output. Default is 3.}
 
 \item{nsmall}{Number of decimal places of output. Default is 3.}
 
-\item{robust}{\strong{[Only for \code{lm} and \code{glm}]}
+\item{robust}{[Only for \code{lm} and \code{glm}]
 \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
 \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
 It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
@@ -36,31 +34,20 @@ For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 
 *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.}
 
-\item{cluster}{\strong{[Only for \code{lm} and \code{glm}]}
-Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
-If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.}
+\item{cluster}{[Only for \code{lm} and \code{glm}]
+Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.}
 
-\item{level2.predictors}{\strong{[Only for \code{lmer}]} [optional] Default is \code{NULL}.
-If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
-you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
-
-*** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
-where \code{School} and \code{House} are two grouping variables,
-\code{W1 & W2} are school-level predictors,
-and there is no house-level predictor.
-
-*** If there is no level-2 predictor in the formula of \code{lmer}, just leave this argument blank.}
-
-\item{vartypes}{\strong{[Only for \code{lmer}]} Manually setting variable types. Needless in most situations.}
-
-\item{test.rand}{\strong{[Only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
-Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.}
+\item{test.rand}{[Only for \code{lmer} and \code{glmer}]
+\code{TRUE} or \code{FALSE} (default).
+Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
+which is asymptotically chi-square distributed.
+For large datasets, it is much time-consuming.}
 }
 \value{
 No return value.
 }
 \description{
-Regression analysis.
+NOTE: \code{\link{model_summary}} is preferred.
 }
 \examples{
 \dontrun{
@@ -85,4 +72,13 @@ Regression analysis.
   regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 }
 
+}
+\seealso{
+\code{\link{print_table}} (print simple table)
+
+\code{\link{model_summary}} (highly suggested)
+
+\code{\link{GLM_summary}}
+
+\code{\link{HLM_summary}}
 }

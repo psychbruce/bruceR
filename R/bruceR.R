@@ -55,6 +55,7 @@
 #'   \item \strong{\code{emmeans}}: Estimates of marginal means and multiple contrasts.
 #'   \item \strong{\code{effectsize}}: Estimates of effect sizes and standardized parameters.
 #'   \item \strong{\code{performance}}: Estimates of regression models performance.
+#'   \item \strong{\code{lmerTest}}: Tests of linear mixed effects models (LMM, also known as HLM and multilevel models).
 #' }
 #'
 #' \strong{[Plot]:}
@@ -202,12 +203,19 @@ NULL
 #' @importFrom crayon black white silver red green blue yellow cyan magenta
 #' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 .onAttach=function(libname, pkgname) {
+  ## Version Check
+  xml=suppressWarnings({
+    try({
+      readLines("https://cran.r-project.org/web/packages/bruceR/index.html")
+    }, silent=TRUE)
+  })
+
   ## Loaded Package
   pkgs=c(
     ## DATA ##
     "dplyr", "tidyr", "stringr", "forcats", "data.table",
     ## STAT ##
-    "emmeans", "effectsize", "performance",
+    "emmeans", "effectsize", "performance", "lmerTest",
     ## PLOT ##
     "ggplot2", "ggtext", "cowplot", "see"
   )
@@ -239,17 +247,15 @@ NULL
     >>
 
     <<bold Packages also been loaded:>>
-    <<underline Data\t\tStat\t\tPlot\t\t>>
     <<blue
     <<green \u2714>> dplyr     \t<<green \u2714>> emmeans     \t<<green \u2714>> ggplot2
     <<green \u2714>> tidyr     \t<<green \u2714>> effectsize  \t<<green \u2714>> ggtext
     <<green \u2714>> stringr   \t<<green \u2714>> performance \t<<green \u2714>> cowplot
-    <<green \u2714>> forcats   \t              \t<<green \u2714>> see
+    <<green \u2714>> forcats   \t<<green \u2714>> lmerTest    \t<<green \u2714>> see
     <<green \u2714>> data.table
     >>
 
     <<bold Key functions of `bruceR`:>>
-    <<underline Basic\t\tVariable\tModeling\t>>
     <<cyan
     set_wd()      \tDescribe() \tTTEST()
     import()      \tFreq()     \tMANOVA()
@@ -269,23 +275,22 @@ NULL
     "))
   }
 
-  ## Version Check
-  tmp=suppressWarnings({
+  ## Update Message
+  if(!inherits(xml, "try-error")) {
     try({
-      readLines("https://cran.r-project.org/web/packages/bruceR/index.html")
+      cran.ver=xml[grep("Version:", xml, fixed=TRUE)+1]
+      cran.ymd=xml[grep("Published:", xml, fixed=TRUE)+1]
+      if(!is.na(cran.ver) & length(cran.ver)==1) {
+        cran.ver=substr(cran.ver, 5, nchar(cran.ver)-5)
+        cran.ymd=substr(cran.ymd, 5, nchar(cran.ymd)-5)
+        if(numeric_version(inst.ver)<numeric_version(cran.ver))
+          packageStartupMessage(Glue("
+          NEWS: An updated version of bruceR (version {cran.ver}) is available!
+          Please update: install.packages(\"bruceR\")
+          \n
+          "))
+      }
     }, silent=TRUE)
-  })
-  if(!inherits(tmp, "try-error")) {
-    cran.ver=tmp[grep("Version:", tmp, fixed=TRUE)+1]
-    if(!is.na(cran.ver) & length(cran.ver)>0) {
-      cran.ver=substr(cran.ver, 5, nchar(cran.ver)-5)
-      if(numeric_version(inst.ver)<numeric_version(cran.ver))
-        packageStartupMessage(Glue("
-        NEWS: An updated version of bruceR (version {cran.ver}) is available!
-        Please update to the latest version:  install.packages(\"bruceR\")
-        \n
-        "))
-    }
   }
 }
 

@@ -132,9 +132,9 @@ sig.trans=function(p) {
 #' Descriptive statistics.
 #'
 #' @param data Data frame or numeric vector.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
 #' Transform all variables into numeric (continuous).
+#' @param digits,nsmall Number of decimal places of output. Default is \code{2}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param plot \code{TRUE} or \code{FALSE} (default).
 #' Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
@@ -261,9 +261,11 @@ Describe=function(data,
 
 #' Frequency statistics.
 #'
-#' @param var Variable (or a vector of values).
-#' @param label [Optional] A vector re-defining the labels of values.
-#' @param sort \code{""} (default, sorted by the order of variable values/labels), \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).
+#' @param x A vector of values (or a data frame).
+#' @param varname [Optional] Variable name, if \code{x} is a data frame.
+#' @param labels [Optional] A vector re-defining the labels of values.
+#' @param sort \code{""} (default, sorted by the order of variable values/labels),
+#' \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).
 #' @param digits,nsmall Number of decimal places of output. Default is \code{1}.
 #' @param file File name of MS Word (\code{.doc}).
 #'
@@ -271,20 +273,37 @@ Describe=function(data,
 #'
 #' @examples
 #' data=psych::bfi
+#'
+#' ## Input `data$variable`
 #' Freq(data$education)
-#' Freq(data$gender, label=c("Male", "Female"))
+#' Freq(data$gender, labels=c("Male", "Female"))
 #' Freq(data$age)
 #'
+#' ## Input one data frame and one variable name
+#' Freq(data, "education")
+#' Freq(data, "gender", labels=c("Male", "Female"))
+#' Freq(data, "age")
+#'
 #' @export
-Freq=function(var, label=NULL, sort="", digits=1, nsmall=digits, file=NULL) {
-  tableVar=table(var)
+Freq=function(x, varname, labels, sort="",
+              digits=1, nsmall=digits, file=NULL) {
+  if(inherits(x, "data.frame")) {
+    if(missing(varname))
+      stop("Please also specify `varname` (variable name). See help page: help(Freq)", call.=FALSE)
+    if(length(varname)>1)
+      stop("Please specify only ONE variable name.", call.=FALSE)
+    var=as.data.frame(x)[[varname]]
+  } else {
+    var=x
+  }
+  table.var=table(var)
   N.na=sum(is.na(var))
-  N=sum(tableVar)+N.na
-  if(is.null(label)) label=names(tableVar)
-  output=cbind(matrix(tableVar,
-                      dimnames=list(label, "N")),
-               matrix(round(tableVar/N*100, nsmall),
-                      dimnames=list(label, "%")))
+  N=sum(table.var)+N.na
+  if(missing(labels)) labels=names(table.var)
+  output=cbind(matrix(table.var,
+                      dimnames=list(labels, "N")),
+               matrix(round(table.var/N*100, nsmall),
+                      dimnames=list(labels, "%")))
   if(N.na) output=rbind(output,
                         matrix(c(N.na, round(N.na/N*100, nsmall)),
                                ncol=2, dimnames=list("(NA)")))

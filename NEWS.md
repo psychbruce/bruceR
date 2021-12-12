@@ -1,20 +1,22 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.8.1 (in development)
+# bruceR 0.8.2 (Dec 2021)
 
 ### Minor Changes
 
--   Requiring R version 4.0+.
--   Added automatic version check when `library(bruceR)`.
--   Added univariate tests (*F*) and multivariate tests (Pillai's trace and *F*) using `phia::testInteractions()` in the output of `EMMEANS()`. These tests produce results identical to those obtained with the SPSS GLM (/EMMEANS) syntax.
+-   Requiring R version 4.0+ again.
+-   Added automatic check for new version of `bruceR` when `library(bruceR)`.
+-   Added univariate tests (*F*) and multivariate tests (Pillai's trace and *F*) using `phia::testInteractions()` in the output of `EMMEANS()`. These tests produce identical results to those obtained with the SPSS GLM (/EMMEANS) syntax.
+-   Improved the flexibility of `Freq()`: Now both vector and data frame can be used. For example, users may specify either `Freq(data$variable)` or `Freq(data, "variable")`.
 -   Improved the output format of `GLM_summary()` and `HLM_summary()`.
+-   Deprecated two useless arguments of `HLM_summary()`: `level2.predictors` and `vartypes`.
+-   Packages `lmerTest`, `mediation`, `interactions`, and `lavaan` are now strong dependencies such that they would be installed when installing `bruceR`. This also fixes an error when using `PROCESS()` without these packages installed.
 
 ### Bug Fixes
 
 -   Fixed potential bugs in `print_table()`.
 -   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with >= 3 levels is in a regression model. Other bugs in these two functions have also been fixed.
 -   Fixed a bug of interaction tests in `PROCESS()` when setting `mod.path="all"` in testing multilevel moderated mediation effects. Fixed another bug of CI output for direct effects when testing multilevel models.
--   Packages `mediation`, `interactions`, and `lavaan` are now strong dependencies such that they would be installed when installing `bruceR`. This also fixes an error when using `PROCESS()` without these packages installed.
 
 # bruceR 0.8.0 (Nov 2021)
 

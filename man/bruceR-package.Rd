@@ -43,6 +43,7 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
   \item \strong{\code{emmeans}}: Estimates of marginal means and multiple contrasts.
   \item \strong{\code{effectsize}}: Estimates of effect sizes and standardized parameters.
   \item \strong{\code{performance}}: Estimates of regression models performance.
+  \item \strong{\code{lmerTest}}: Tests of linear mixed effects models (LMM, also known as HLM and multilevel models).
 }
 
 \strong{[Plot]:}

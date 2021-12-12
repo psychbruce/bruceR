@@ -47,21 +47,6 @@ formula_expand=function(formula, as.char=FALSE) {
 }
 
 
-## Advanced %in% for factor variables (e.g., match "Sex" in "Sex1")
-`%varin%`=function(x, vector) {
-  any(grepl(paste0("^", x, "$"), vector))
-}
-
-
-## Find and return something from a list
-find=function(vars, list) {
-  n=0; var=group=c(); N=length(unlist(list))
-  for(i in 1:length(list)) for(v in vars) if(v %varin% list[[i]]) {n=n+1; var=c(var, v); group=c(group, names(list[i]))}
-  # for(i in 1:length(list)) for(lv in list[[i]]) if(lv %varin% vars) {n=n+1; var=c(var, lv); group=c(group, names(list[i]))}
-  return(list(N=N, n=n, var=var, group=group))
-}
-
-
 #' Grand-mean centering.
 #'
 #' Compute grand-mean centered variables.
@@ -145,11 +130,13 @@ group_mean_center=function(data, vars=setdiff(names(data), by), by,
 
 #' Regression analysis.
 #'
+#' NOTE: \code{\link{model_summary}} is preferred.
+#'
 #' @inheritParams GLM_summary
 #' @inheritParams HLM_summary
-#' @param formula Model formula like \code{y ~ x1 + x2} (for \code{lm, glm}) or \code{y ~ x1 + x2 + (1 | group)} (for \code{lmer, glmer}).
+#' @param formula Model formula.
 #' @param data Data frame.
-#' @param family [optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} will fit a logistic model).
+#' @param family [Optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} fits a logistic regression model).
 #'
 #' @return No return value.
 #'
@@ -176,11 +163,20 @@ group_mean_center=function(data, vars=setdiff(names(data), by), by,
 #'   regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' }
 #'
+#' @seealso
+#' \code{\link{print_table}} (print simple table)
+#'
+#' \code{\link{model_summary}} (highly suggested)
+#'
+#' \code{\link{GLM_summary}}
+#'
+#' \code{\link{HLM_summary}}
+#'
 #' @export
 regress=function(formula, data, family=NULL,
                  digits=3, nsmall=digits,
                  robust=FALSE, cluster=NULL,
-                 level2.predictors="", vartypes=NULL,
+                 # level2.predictors="", vartypes=NULL,
                  test.rand=FALSE) {
   call=sys.call()[-1]  # get function call (argument list)
   if(!is.null(family))
@@ -209,8 +205,8 @@ regress=function(formula, data, family=NULL,
     # lmer & glmer
     if(is.null(family)) {
       # model=lmerTest::lmer(formula=formula, data=data)
-      HLM_summary(model=NULL, level2.predictors, vartypes,
-                  test.rand, nsmall,
+      HLM_summary(model=NULL,
+                  test.rand=test.rand, nsmall=nsmall,
                   formula=formula, data=data)
     } else {
       # model=lme4::glmer(formula=formula, data=data, family=family)
@@ -229,15 +225,16 @@ regress=function(formula, data, family=NULL,
 
 #' Tidy report of regression models.
 #'
-#' Tidy report of regression models.
-#' Most types of models are supported.
-#' This function is an extension (and combination) of
-#' \code{\link[texreg:screenreg]{texreg::screenreg()}},
-#' \code{\link[texreg:htmlreg]{texreg::htmlreg()}},
-#' \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}},
-#' \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}},
-#' \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}},
-#' \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}.
+#' Tidy report of regression models (most model types are supported).
+#' This function uses:
+#' \itemize{
+#'   \item \code{\link[texreg:screenreg]{texreg::screenreg()}}
+#'   \item \code{\link[texreg:htmlreg]{texreg::htmlreg()}}
+#'   \item \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}
+#'   \item \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}
+#'   \item \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}}
+#'   \item \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}
+#' }
 #'
 #' @param model.list A single model or a list of (various types of) models.
 #' Most types of regression models are supported!
@@ -262,7 +259,7 @@ regress=function(formula, data, family=NULL,
 #' @return Invisibly return the output (character string).
 #'
 #' @seealso
-#' \code{\link{PROCESS}}
+#' \code{\link{print_table}} (print simple table)
 #'
 #' \code{\link{GLM_summary}}
 #'
@@ -272,7 +269,7 @@ regress=function(formula, data, family=NULL,
 #'
 #' \code{\link{lavaan_summary}}
 #'
-#' \code{\link{print_table}}
+#' \code{\link{PROCESS}}
 #'
 #' @examples
 #' \dontrun{
@@ -538,17 +535,18 @@ model_summary=function(model.list,
 
 #' Tidy report of GLM (\code{lm} and \code{glm} models).
 #'
-#' @param model A model fitted by \code{lm} or \code{glm} function.
-#' @param robust \strong{[Only for \code{lm} and \code{glm}]}
+#' NOTE: \code{\link{model_summary}} is preferred.
+#'
+#' @param model A model fitted with \code{lm} or \code{glm} function.
+#' @param robust [Only for \code{lm} and \code{glm}]
 #' \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
 #' \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
 #' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
 #' For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
 #'
 #' *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.
-#' @param cluster \strong{[Only for \code{lm} and \code{glm}]}
+#' @param cluster [Only for \code{lm} and \code{glm}]
 #' Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
-#' If you specify \code{cluster}, you may also specify the type of \code{robust}. If you do not specify \code{robust}, \code{"HC1"} will be set as default.
 #' @param digits,nsmall Number of decimal places of output. Default is 3.
 #' @param ... Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
@@ -568,7 +566,14 @@ model_summary=function(model.list,
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
 #'
-#' @seealso \code{\link{HLM_summary}}, \code{\link{regress}}
+#' @seealso
+#' \code{\link{print_table}} (print simple table)
+#'
+#' \code{\link{model_summary}} (highly suggested)
+#'
+#' \code{\link{HLM_summary}}
+#'
+#' \code{\link{regress}}
 #'
 #' @export
 GLM_summary=function(model, robust=FALSE, cluster=NULL,
@@ -727,116 +732,6 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 #### HLM Functions ####
 
 
-## Automatically judging variable types in HLM
-HLM_vartypes=function(model=NULL,
-                      formula=model@call$formula,
-                      level2.predictors="") {
-  varlist=dimnames(summary(model)[["coefficients"]])[[1]]
-  vartypes=c()
-  L1.rand.vars=L2.vars=list()
-  data=as.data.frame(model@frame)
-  formula=formula_expand(formula)
-  fx=as.character(formula)[3]
-  ## Level-1 predictor variables with random slopes
-  L1.rand.comp=str_split(gsub(" ", "", str_extract_all(fx, "(?<=\\()[^\\)]+(?=\\))", simplify=T)), "\\|")
-  for(comp in L1.rand.comp) {
-    vars.1=str_split(comp[1], "\\+")  # a list
-    for(var in vars.1[[1]]) {
-      if(var %in% names(data))
-        if(is.factor(data[,var]))
-          vars.1[[1]]=append(vars.1[[1]], paste0(var, levels(data[,var])))
-    }
-    L1.rand.vars[comp[2]]=vars.1
-  }
-  ## Level-2 predictor variables
-  L2.comp=str_split(str_split(gsub(" ", "", level2.predictors), ";", simplify=T), ":")
-  for(comp in L2.comp) {
-    vars.2=str_split(comp[2], "\\+")  # a list
-    for(var in vars.2[[1]]) {
-      if(var %in% names(data))
-        if(is.factor(data[,var]))
-          vars.2[[1]]=append(vars.2[[1]], paste0(var, levels(data[,var])))
-    }
-    L2.vars[comp[1]]=vars.2
-  }
-  ## Judge variable types
-  for(var in varlist) {
-    fd1=find(var, L1.rand.vars)
-    fd2=find(var, L2.vars)
-    if(var=="(Intercept)") {
-      vartype="Intercept"
-    } else if(grepl(":", var)) {
-      ## interaction term ##
-      inter.vars=str_split(var, ":")[[1]]
-      fd.1=find(inter.vars, L1.rand.vars)
-      fd.2=find(inter.vars, L2.vars)
-      if(fd.2$n==length(inter.vars)) {
-        vartype=glue("L2-{fd.2$group[1]}") # warning: cross-classified may not be true
-      } else if(fd.2$n>0) {
-        vartype=glue("Cross-{fd.1$group[1]}-{paste(fd.1$var, collapse=':')}")
-      } else if(fd1$n>0) {
-        vartype=glue("L1random-{fd1$group}-{fd1$var}")
-      } else {
-        vartype="L1fixed"
-      }
-    } else {
-      ## not interaction term ##
-      if(fd2$n>0) {
-        vartype=glue("L2-{fd2$group}")
-      } else if(fd1$n>0) {
-        vartype=glue("L1random-{fd1$group}-{fd1$var}")
-      } else {
-        vartype="L1fixed"
-      }
-    }
-    vartypes[var]=vartype
-  }
-  return(vartypes)
-}
-
-# f1=as.formula(Y ~ 1 + X1 + X2 + X1:X2 + X3 + X4 + X4:W1 + W1 + W2 + W1:W2 + Z1 + (X3+X4|W) + (1|Z))
-# f2=as.formula(Y ~ X1:X2:X3 + X1:X2:W1 + X1:W1:W2 + W1:W2:Z1 + (X1+X2|W) + (1|Z))
-# v1=c("(Intercept)", "X1", "X2", "X3", "X4", "W1", "W2", "Z1", "X1:X2", "X4:W1", "W1:W2")
-# v2=c("(Intercept)", "X1:X2:X3", "X1:X2:W1", "X1:W1:W2", "W1:W2:Z1")
-# HLM_vartypes(formula=f1, varlist=v1, level2.predictors="W: W1+W2; Z: Z1")
-# HLM_vartypes(formula=f2, varlist=v2, level2.predictors="W: W1+W2; Z: Z1")
-
-
-## Calculating HLM df
-HLM_df=function(sumModel, vartypes) {
-  paras=sumModel[["devcomp"]][["dims"]][["p"]]
-  df.l1=sumModel[["devcomp"]][["dims"]][["nmp"]] # N - all parameters
-  df.l2=sumModel[["ngrps"]]
-  Sq=sum(grepl("L2", vartypes)) # number of level-2 predictors
-  q=df.l2
-  for(grouptag in names(df.l2))
-    q[grouptag]=sum(grepl(paste0("L2-", grouptag), vartypes))
-  dfs=c()
-  for(i in 1:paras) {
-    if(vartypes[i]=="Intercept") {
-      # df=min(df.l2)-Sq-1
-      df=NA
-    } else if(vartypes[i]=="L1fixed") {
-      df=df.l1
-    } else {
-      vartemp=strsplit(vartypes[i], "-")[[1]]
-      vartype=vartemp[1]
-      grouptag=vartemp[2]
-      if(vartype=="L2") {
-        df=df.l2[grouptag]-q[grouptag]-1
-      } else {
-        # vartype=="L1random" | vartype=="Cross"
-        l1var=vartemp[3]
-        qc=sum(grepl(paste0("Cross-", grouptag, "-", l1var), vartypes))
-        df=df.l2[grouptag]-qc-1
-      }
-    }
-    dfs[i]=df
-  }
-  return(dfs)
-}
-
-
 ## Testing random effects and computing intraclass correlation coefficient (ICC) for HLM
 HLM_ICC=function(model, nsmall=3) {
   ## Extract components from model ##
@@ -894,45 +789,42 @@ HLM_ICC=function(model, nsmall=3) {
 #' Tidy report of HLM (\code{lmer} and \code{glmer} models).
 #'
 #' @description
-#' Nice report of \strong{Hierarchical Linear Model (HLM)}, also known as \strong{Multilevel Linear Model (MLM)} or \strong{Linear Mixed Model (LMM)}.
-#' HLM, MLM, or LMM (the same) refers to a model with nested data (e.g., Level-1: participants, Level-2: city; or Level-1: repeated-measures within a participant, Level-2: participants).
+#' NOTE: \code{\link{model_summary}} is preferred.
 #'
-#' @details
-#' Hierarchical Linear Model (HLM), aka. Multilevel Linear Model (MLM) or Linear Mixed Model (LMM), is more complex than General Linear Model (GLM; i.e., OLS regression).
-#' Predictor variables at different levels may have five types:
-#' \describe{
-#'   \item{1. Intercept}{The overall intercept (\eqn{\gamma_{00}})}
-#'   \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
-#'   \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
-#'   \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
+## @details
+## Hierarchical Linear Model (HLM), also known as Multilevel Linear Model (MLM) or Linear Mixed Model (LMM).
+## Predictor variables at different levels may have five types:
+## \describe{
+##   \item{1. Intercept}{The overall intercept (\eqn{\gamma_{00}})}
+##   \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
+##   \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
+##   \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
+##
+##   *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
+##   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
+## }
+## The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.
+## However, different software use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
+## Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
+## the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 #'
-#'   *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
-#'   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
-#' }
-#' The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.
-#' However, different software use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
-#' Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
-#' the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
-#'
-#' @param model A model fitted by \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
-#' @param level2.predictors \strong{[Only for \code{lmer}]} [optional] Default is \code{NULL}.
-#' If you have predictors at level 2, besides putting them into the formula in the \code{lmer} function as usual,
-#' you may \strong{also} define here the level-2 grouping/clustering variables and corresponding level-2 predictor variables.
-#'
-#' *** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
-#' where \code{School} and \code{House} are two grouping variables,
-#' \code{W1 & W2} are school-level predictors,
-#' and there is no house-level predictor.
-#'
-#' *** If there is no level-2 predictor in the formula of \code{lmer}, just leave this argument blank.
-#' @param vartypes \strong{[Only for \code{lmer}]} Manually setting variable types. Needless in most situations.
-#' @param test.rand \strong{[Only for \code{lmer}]} \code{TRUE} or \code{FALSE} (default).
-#' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
-## *** Note that its results would be different from those in the default output of \code{HLM_summary()} (see "Wald \emph{Z} test" in the output),
-## because they differ in the principle of statistics. The LRT is based on model comparison and the reduction of AIC, whereas the Wald \emph{Z} test is estimated by approximation.
-## The Wald \emph{Z} test can also be seen in the output of SPSS (the \code{MIXED} syntax).
-#' @param digits,nsmall Number of decimal places of output. Default is 3.
-#' But for some statistics (e.g., \emph{R}^2, ICC), to provide more precise information, we fix the decimal places to 5.
+#' @param model A model fitted with \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
+## @param level2.predictors \strong{[Only for \code{lmer}]} [Optional] Default is \code{NULL}.
+## If you have predictors at level 2,
+## you may also specify the level-2 grouping/clustering variables
+## and the corresponding level-2 predictor variables.
+##
+## *** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
+## where \code{School} and \code{House} are two grouping variables,
+## \code{W1 & W2} are school-level predictors,
+## and there is no house-level predictor.
+## @param vartypes \strong{[Only for \code{lmer}]} Manually setting variable types. Needless in most situations.
+#' @param test.rand [Only for \code{lmer} and \code{glmer}]
+#' \code{TRUE} or \code{FALSE} (default).
+#' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
+#' which is asymptotically chi-square distributed.
+#' For large datasets, it is much time-consuming.
+#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
 #' @param ... Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
 #' @return No return value.
@@ -959,9 +851,8 @@ HLM_ICC=function(model, nsmall=3) {
 #'              (1 | Consumer), data=carrots)
 #' hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
 #'              (Sweetness | Consumer) + (1 | Product), data=carrots)
-#' HLM_summary(hlm.1, level2.predictors="Consumer: Age + Frequency")
-#' HLM_summary(hlm.2, level2.predictors="Consumer: Age + Frequency")
-#' anova(hlm.1, hlm.2)
+#' HLM_summary(hlm.1)
+#' HLM_summary(hlm.2)
 #'
 #' @references
 #' Hox, J. J. (2010).
@@ -976,12 +867,19 @@ HLM_ICC=function(model, nsmall=3) {
 #' Measuring explained variation in linear mixed effects models.
 #' \emph{Statistics in Medicine, 22,} 3527-3541. \doi{10.1002/sim.1572}
 #'
-#' @seealso \code{\link{GLM_summary}}, \code{\link{regress}}
+#' @seealso
+#' \code{\link{print_table}} (print simple table)
+#'
+#' \code{\link{model_summary}} (highly suggested)
+#'
+#' \code{\link{GLM_summary}}
+#'
+#' \code{\link{regress}}
 #'
 #' @export
 HLM_summary=function(model=NULL,
-                     level2.predictors=NULL,
-                     vartypes=NULL,
+                     # level2.predictors=NULL,
+                     # vartypes=NULL,
                      test.rand=FALSE,  # time-consuming in big datasets
                      digits=3, nsmall=digits,
                      ...) {
@@ -991,14 +889,14 @@ HLM_summary=function(model=NULL,
     formula=dots$formula
     data=dots$data
     if("family" %notin% names(dots))
-      eval(parse(text=Glue("model=lmerTest::lmer({formula_paste(formula)}, data=data)")))
+      Run("model=lmerTest::lmer({formula_paste(formula)}, data=data)")
     else
-      eval(parse(text=Glue("model=lme4::glmer({formula_paste(formula)}, data=data, family={dots$family})")))
+      Run("model=lme4::glmer({formula_paste(formula)}, data=data, family={dots$family})")
   } else {
     formula=model@call[["formula"]]
   }
   dv=names(model.frame(model))[1]
-  sumModel=summary(model, cor=F)
+  sumModel=summary(model, cor=FALSE)
   ngrps=sumModel[["ngrps"]]
 
   ## Print: Model Information ##
@@ -1024,26 +922,26 @@ HLM_summary=function(model=NULL,
 
   ## lmer vs. glmer ##
   if(inherits(model, "lmerModLmerTest")) {
-    if(is.null(vartypes) & !is.null(level2.predictors)) {
-      if(!inherits(formula, c("formula", "call")))
-        stop("Please specify the arguments `formula` and `data` in HLM_summary().", call.=FALSE)
-      tryCatch({
-        vartypes=HLM_vartypes(model, formula, level2.predictors)
-      }, error=function(e) {
-        stop("Please re-specify 'level2.predictors'.", call.=FALSE)
-      })
-    } else if(!is.null(vartypes)) {
-      names(vartypes)=dimnames(summary(model)[["coefficients"]])[[1]]
-    }
+    if(!inherits(formula, c("formula", "call")))
+      stop("Please specify the arguments `formula` and `data` in HLM_summary().", call.=FALSE)
+    # if(is.null(vartypes) & !is.null(level2.predictors)) {
+    #   tryCatch({
+    #     vartypes=HLM_vartypes(model, formula, level2.predictors)
+    #   }, error=function(e) {
+    #     stop("Please re-specify 'level2.predictors'.", call.=FALSE)
+    #   })
+    # } else if(!is.null(vartypes)) {
+    #   names(vartypes)=dimnames(summary(model)[["coefficients"]])[[1]]
+    # }
 
-    if(!is.null(vartypes)) {
-      vt=as.data.frame(vartypes)
-      names(vt)="Variable Type"
-      Print("Level-2 predictors: '{level2.predictors}'")
-      cat("\n")
-      print(vt)
-      cat("\n")
-    }
+    # if(!is.null(vartypes)) {
+    #   vt=as.data.frame(vartypes)
+    #   names(vt)="Variable Type"
+    #   Print("Level-2 predictors: '{level2.predictors}'")
+    #   cat("\n")
+    #   print(vt)
+    #   cat("\n")
+    # }
     # vartypes=c("Intercept",
     #            "L1fixed",
     #            "L1random-GROUP-L1VAR",
@@ -1094,10 +992,11 @@ HLM_summary=function(model=NULL,
     if(nrow(FE)>1) {
       FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
       t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
-      if(!is.null(vartypes))
-        df=HLM_df(sumModel, vartypes)[-1]
-      else
-        df=FE$df[-1]
+      # if(!is.null(vartypes))
+      #   df=HLM_df(sumModel, vartypes)[-1]
+      # else
+      #   df=FE$df[-1]
+      df=FE$df[-1]
       FE.std=cbind(
         FE.std, t=t, df=df, pval=p.t(t, df),
         CI=paste0("[",
@@ -1108,8 +1007,7 @@ HLM_summary=function(model=NULL,
       print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
                   title=Glue("
       Standardized Coefficients (\u03b2):
-      Outcome Variable: {dv}"),
-      note=ifelse(is.null(vartypes), "", Glue("<<blue 'df' is calculated based on variable types.>>")))
+      Outcome Variable: {dv}"))
       cat("\n")
     }
 

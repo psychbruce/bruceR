@@ -20,7 +20,7 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
--   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package version 0.x.x. <https://CRAN.R-project.org/package=bruceR>
+-   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package version 0.8.x. <https://CRAN.R-project.org/package=bruceR>
 
 ## User Guide
 
@@ -38,7 +38,7 @@ install.packages("bruceR")
 
 ## Method 2: Install from GitHub
 install.packages("devtools")
-devtools::install_github("psychbruce/bruceR", force=TRUE, upgrade=FALSE)
+devtools::install_github("psychbruce/bruceR", force=TRUE)
 ```
 
 **Tips:**
@@ -68,6 +68,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
     -   [`emmeans`](https://cran.r-project.org/package=emmeans): Estimates of marginal means and multiple contrasts.
     -   [`effectsize`](https://cran.r-project.org/package=effectsize): Estimates of effect sizes and standardized parameters.
     -   [`performance`](https://cran.r-project.org/package=performance): Estimates of regression models performance.
+    -   [`lmerTest`](https://cran.r-project.org/package=lmerTest): Tests of linear mixed effects models (LMM, also known as HLM and multilevel models).
 
 -   **[Plot]:**
 

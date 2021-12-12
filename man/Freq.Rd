@@ -4,14 +4,17 @@
 \alias{Freq}
 \title{Frequency statistics.}
 \usage{
-Freq(var, label = NULL, sort = "", digits = 1, nsmall = digits, file = NULL)
+Freq(x, varname, labels, sort = "", digits = 1, nsmall = digits, file = NULL)
 }
 \arguments{
-\item{var}{Variable (or a vector of values).}
+\item{x}{A vector of values (or a data frame).}
 
-\item{label}{[Optional] A vector re-defining the labels of values.}
+\item{varname}{[Optional] Variable name, if \code{x} is a data frame.}
 
-\item{sort}{\code{""} (default, sorted by the order of variable values/labels), \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).}
+\item{labels}{[Optional] A vector re-defining the labels of values.}
+
+\item{sort}{\code{""} (default, sorted by the order of variable values/labels),
+\code{"-"} (decreasing by N), or \code{"+"} (increasing by N).}
 
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{1}.}
 
@@ -25,8 +28,15 @@ Frequency statistics.
 }
 \examples{
 data=psych::bfi
+
+## Input `data$variable`
 Freq(data$education)
-Freq(data$gender, label=c("Male", "Female"))
+Freq(data$gender, labels=c("Male", "Female"))
 Freq(data$age)
+
+## Input one data frame and one variable name
+Freq(data, "education")
+Freq(data, "gender", labels=c("Male", "Female"))
+Freq(data, "age")
 
 }

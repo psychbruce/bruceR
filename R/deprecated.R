@@ -391,6 +391,135 @@
 # }
 
 
+#### HLM Variable Types ####
+
+
+## Advanced %in% for factor variables (e.g., match "Sex" in "Sex1")
+# `%varin%`=function(x, vector) {
+#   any(grepl(paste0("^", x, "$"), vector))
+# }
+
+
+## Find and return something from a list
+# find=function(vars, list) {
+#   n=0; var=group=c(); N=length(unlist(list))
+#   for(i in 1:length(list)) for(v in vars) if(v %varin% list[[i]]) {n=n+1; var=c(var, v); group=c(group, names(list[i]))}
+#   # for(i in 1:length(list)) for(lv in list[[i]]) if(lv %varin% vars) {n=n+1; var=c(var, lv); group=c(group, names(list[i]))}
+#   return(list(N=N, n=n, var=var, group=group))
+# }
+
+
+## Automatically judging variable types in HLM
+# HLM_vartypes=function(model=NULL,
+#                       formula=model@call$formula,
+#                       level2.predictors="") {
+#   varlist=dimnames(summary(model)[["coefficients"]])[[1]]
+#   vartypes=c()
+#   L1.rand.vars=L2.vars=list()
+#   data=as.data.frame(model@frame)
+#   formula=formula_expand(formula)
+#   fx=as.character(formula)[3]
+#   ## Level-1 predictor variables with random slopes
+#   L1.rand.comp=str_split(gsub(" ", "", str_extract_all(fx, "(?<=\\()[^\\)]+(?=\\))", simplify=T)), "\\|")
+#   for(comp in L1.rand.comp) {
+#     vars.1=str_split(comp[1], "\\+")  # a list
+#     for(var in vars.1[[1]]) {
+#       if(var %in% names(data))
+#         if(is.factor(data[,var]))
+#           vars.1[[1]]=append(vars.1[[1]], paste0(var, levels(data[,var])))
+#     }
+#     L1.rand.vars[comp[2]]=vars.1
+#   }
+#   ## Level-2 predictor variables
+#   L2.comp=str_split(str_split(gsub(" ", "", level2.predictors), ";", simplify=T), ":")
+#   for(comp in L2.comp) {
+#     vars.2=str_split(comp[2], "\\+")  # a list
+#     for(var in vars.2[[1]]) {
+#       if(var %in% names(data))
+#         if(is.factor(data[,var]))
+#           vars.2[[1]]=append(vars.2[[1]], paste0(var, levels(data[,var])))
+#     }
+#     L2.vars[comp[1]]=vars.2
+#   }
+#   ## Judge variable types
+#   for(var in varlist) {
+#     fd1=find(var, L1.rand.vars)
+#     fd2=find(var, L2.vars)
+#     if(var=="(Intercept)") {
+#       vartype="Intercept"
+#     } else if(grepl(":", var)) {
+#       ## interaction term ##
+#       inter.vars=str_split(var, ":")[[1]]
+#       fd.1=find(inter.vars, L1.rand.vars)
+#       fd.2=find(inter.vars, L2.vars)
+#       if(fd.2$n==length(inter.vars)) {
+#         vartype=glue("L2-{fd.2$group[1]}") # warning: cross-classified may not be true
+#       } else if(fd.2$n>0) {
+#         vartype=glue("Cross-{fd.1$group[1]}-{paste(fd.1$var, collapse=':')}")
+#       } else if(fd1$n>0) {
+#         vartype=glue("L1random-{fd1$group}-{fd1$var}")
+#       } else {
+#         vartype="L1fixed"
+#       }
+#     } else {
+#       ## not interaction term ##
+#       if(fd2$n>0) {
+#         vartype=glue("L2-{fd2$group}")
+#       } else if(fd1$n>0) {
+#         vartype=glue("L1random-{fd1$group}-{fd1$var}")
+#       } else {
+#         vartype="L1fixed"
+#       }
+#     }
+#     vartypes[var]=vartype
+#   }
+#   return(vartypes)
+# }
+
+
+# f1=as.formula(Y ~ 1 + X1 + X2 + X1:X2 + X3 + X4 + X4:W1 + W1 + W2 + W1:W2 + Z1 + (X3+X4|W) + (1|Z))
+# f2=as.formula(Y ~ X1:X2:X3 + X1:X2:W1 + X1:W1:W2 + W1:W2:Z1 + (X1+X2|W) + (1|Z))
+# v1=c("(Intercept)", "X1", "X2", "X3", "X4", "W1", "W2", "Z1", "X1:X2", "X4:W1", "W1:W2")
+# v2=c("(Intercept)", "X1:X2:X3", "X1:X2:W1", "X1:W1:W2", "W1:W2:Z1")
+# HLM_vartypes(formula=f1, varlist=v1, level2.predictors="W: W1+W2; Z: Z1")
+# HLM_vartypes(formula=f2, varlist=v2, level2.predictors="W: W1+W2; Z: Z1")
+
+
+## Calculating HLM df
+# HLM_df=function(sumModel, vartypes) {
+#   paras=sumModel[["devcomp"]][["dims"]][["p"]]
+#   df.l1=sumModel[["devcomp"]][["dims"]][["nmp"]] # N - all parameters
+#   df.l2=sumModel[["ngrps"]]
+#   Sq=sum(grepl("L2", vartypes)) # number of level-2 predictors
+#   q=df.l2
+#   for(grouptag in names(df.l2))
+#     q[grouptag]=sum(grepl(paste0("L2-", grouptag), vartypes))
+#   dfs=c()
+#   for(i in 1:paras) {
+#     if(vartypes[i]=="Intercept") {
+#       # df=min(df.l2)-Sq-1
+#       df=NA
+#     } else if(vartypes[i]=="L1fixed") {
+#       df=df.l1
+#     } else {
+#       vartemp=strsplit(vartypes[i], "-")[[1]]
+#       vartype=vartemp[1]
+#       grouptag=vartemp[2]
+#       if(vartype=="L2") {
+#         df=df.l2[grouptag]-q[grouptag]-1
+#       } else {
+#         # vartype=="L1random" | vartype=="Cross"
+#         l1var=vartemp[3]
+#         qc=sum(grepl(paste0("Cross-", grouptag, "-", l1var), vartypes))
+#         df=df.l2[grouptag]-qc-1
+#       }
+#     }
+#     dfs[i]=df
+#   }
+#   return(dfs)
+# }
+
+
 #### Print HLM Notes ####
 # HLM_summary_notes=function() {
 #   Print("
