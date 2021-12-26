@@ -1,5 +1,11 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.8.3 (in development)
+
+### Bug Fixes
+
+-   Fixed a small bug of direct effect output in `PROCESS()` for models without `"x-y"` in `mod.path` (e.g., Model 7).
+
 # bruceR 0.8.2 (Dec 2021)
 
 ### Minor Changes

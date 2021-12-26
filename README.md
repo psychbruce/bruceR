@@ -24,7 +24,7 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## User Guide
 
-[Release Notes](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
+[NEWS (CRAN version)](https://cran.r-project.org/web/packages/bruceR/news/news.html) \| [NEWS (GitHub version)](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
 [Chinese Documentation for bruceR: I. Overview](https://zhuanlan.zhihu.com/p/281150493)
 
