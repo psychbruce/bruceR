@@ -1,5 +1,5 @@
 ## News
-In this version (0.8.2), I have fixed some bugs and improved some functions.
+In this version (0.8.3), I have fixed some bugs and improved some functions.
 
 
 ## Test environments

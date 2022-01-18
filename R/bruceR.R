@@ -204,11 +204,32 @@ NULL
 #' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 .onAttach=function(libname, pkgname) {
   ## Version Check
+  inst.ver=as.character(utils::packageVersion("bruceR"))
   xml=suppressWarnings({
     try({
       readLines("https://cran.r-project.org/web/packages/bruceR/index.html")
     }, silent=TRUE)
   })
+
+  ## Update Message
+  if(!inherits(xml, "try-error")) {
+    try({
+      cran.ver=xml[grep("Version:", xml, fixed=TRUE)+1]
+      cran.ymd=xml[grep("Published:", xml, fixed=TRUE)+1]
+      if(!is.na(cran.ver) & length(cran.ver)==1) {
+        cran.ver=substr(cran.ver, 5, nchar(cran.ver)-5)
+        cran.ymd=substr(cran.ymd, 5, nchar(cran.ymd)-5)
+        if(numeric_version(inst.ver)<numeric_version(cran.ver))
+          packageStartupMessage(Glue("
+          \n
+          NEWS: A new version of bruceR (version {cran.ver}) is available on {cran.ymd}!
+          Please update:
+          install.packages(\"bruceR\")
+          update.packages(ask=FALSE)
+          "))
+      }
+    }, silent=TRUE)
+  }
 
   ## Loaded Package
   pkgs=c(
@@ -238,21 +259,21 @@ NULL
     #        star="\u2b50")
     # logo=sample(LOGO, 1)
     # yes: \u2714 \u221a
-    inst.ver=as.character(utils::packageVersion("bruceR"))
+    # star: \u2605
     Print("
     \n
     <<bold
-    \ud83c\udf81 bruceR (version {inst.ver})
+    \u2605 bruceR (version {inst.ver})
     <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
     >>
 
     <<bold Packages also been loaded:>>
     <<blue
-    <<green \u2714>> dplyr     \t<<green \u2714>> emmeans     \t<<green \u2714>> ggplot2
-    <<green \u2714>> tidyr     \t<<green \u2714>> effectsize  \t<<green \u2714>> ggtext
-    <<green \u2714>> stringr   \t<<green \u2714>> performance \t<<green \u2714>> cowplot
-    <<green \u2714>> forcats   \t<<green \u2714>> lmerTest    \t<<green \u2714>> see
-    <<green \u2714>> data.table
+    <<green \u221a>> dplyr     \t<<green \u221a>> emmeans     \t<<green \u221a>> ggplot2
+    <<green \u221a>> tidyr     \t<<green \u221a>> effectsize  \t<<green \u221a>> ggtext
+    <<green \u221a>> stringr   \t<<green \u221a>> performance \t<<green \u221a>> cowplot
+    <<green \u221a>> forcats   \t<<green \u221a>> lmerTest    \t<<green \u221a>> see
+    <<green \u221a>> data.table
     >>
 
     <<bold Key functions of `bruceR`:>>
@@ -273,24 +294,6 @@ NULL
     {paste(pkgs[loaded==FALSE], collapse=', ')}
     \n
     "))
-  }
-
-  ## Update Message
-  if(!inherits(xml, "try-error")) {
-    try({
-      cran.ver=xml[grep("Version:", xml, fixed=TRUE)+1]
-      # cran.ymd=xml[grep("Published:", xml, fixed=TRUE)+1]
-      if(!is.na(cran.ver) & length(cran.ver)==1) {
-        cran.ver=substr(cran.ver, 5, nchar(cran.ver)-5)
-        # cran.ymd=substr(cran.ymd, 5, nchar(cran.ymd)-5)
-        if(numeric_version(inst.ver)<numeric_version(cran.ver))
-          packageStartupMessage(Glue("
-          NEWS: An updated version of bruceR (version {cran.ver}) is available!
-          Please update: install.packages(\"bruceR\")
-          \n
-          "))
-      }
-    }, silent=TRUE)
   }
 }
 

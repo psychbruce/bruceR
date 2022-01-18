@@ -437,7 +437,7 @@ print_table=function(x, digits=3, nsmalls=digits,
   for(j in 1:length(x)) {
     if(inherits(x[,j], "factor"))
       x[,j]=as.character(x[,j])
-    if(grepl("Pr\\(|pval|<i>p</i>", names(x)[j])) {
+    if(grepl("Pr\\(|pval|p.value|<i>p</i>", names(x)[j])) {
       sig=formatF(sig.trans(x[,j]), 0)  # formatF will make * left-aligned
       if(grepl("<i>p</i>", names(x)[j])==FALSE)
         names(x)[j]="p"
@@ -458,7 +458,7 @@ print_table=function(x, digits=3, nsmalls=digits,
     # if(grepl("\\[", names(x)[j])) x[,j]=paste0("[", x[,j], ",")
     # if(grepl("\\]", names(x)[j])) x[,j]=paste0(x[,j], "]")
     # if(grepl("^[Ee]stimate$", names(x)[j])) names(x)[j]="Coef."
-    names(x)[j]=gsub(" value|val$", "", names(x)[j])
+    names(x)[j]=gsub(" value$|val$", "", names(x)[j])
   }
   if(is.null(sig)==FALSE & "sig" %notin% names(x)) {
     p.pos=which(names(x) %in% c("p", "<i>p</i>"))
@@ -633,7 +633,7 @@ table th, table td {padding-left: 5px; padding-right: 5px; height: 19px;}
       f=file(file, "w", encoding="UTF-8")
       cat(HTML, file=f)
       close(f)
-      Print("<<green \u2714>> Table saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
+      Print("<<green \u221a>> Table saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
       cat("\n")
     }
   }
@@ -758,10 +758,10 @@ dtime=function(t0, unit="secs", digits=0, nsmall=digits) {
 #' @aliases set_wd
 #' @export
 set.wd=function(path=NULL, ask=FALSE) {
-  if(rstudioapi::isAvailable()==FALSE)
-    stop("[RStudio] is required for running this function!\n",
-         "Please download and install the latest version of RStudio:\n",
-         "https://www.rstudio.com/products/rstudio/download/", call.=TRUE)
+  # if(rstudioapi::isAvailable()==FALSE)
+  #   stop("[RStudio] is required for running this function!\n",
+  #        "Please download and install the latest version of RStudio:\n",
+  #        "https://www.rstudio.com/products/rstudio/download/", call.=TRUE)
   is.windows=ifelse(Sys.info()[["sysname"]]=="Windows", TRUE, FALSE)
   if(is.null(path)) {
     tryCatch({
@@ -790,7 +790,7 @@ set.wd=function(path=NULL, ask=FALSE) {
   }
   if(length(path)>0) {
     Run("setwd(\"{path}\")")
-    Print("<<green \u2714>> Set working directory to <<bold \"{getwd()}\">>")
+    Print("<<green \u221a>> Set working directory to <<bold \"{getwd()}\">>")
     # rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
   }
   invisible(path)
@@ -949,9 +949,9 @@ import=function(file,
 
   ## report data
   if(is.data.frame(data))
-    Print("<<green \u2714>> Successfully imported: {nrow(data)} obs. of {ncol(data)} variables")
+    Print("<<green \u221a>> Successfully imported: {nrow(data)} obs. of {ncol(data)} variables")
   else
-    Print("<<green \u2714>> Successfully imported: {length(data)} values of class `{class(data)[1]}`")
+    Print("<<green \u221a>> Successfully imported: {length(data)} values of class `{class(data)[1]}`")
 
   ## return data
   if(is.null(setclass) | fmt %in% c("rds", "rda", "rdata")) {
@@ -1155,9 +1155,9 @@ export=function(x, file, sheet=NULL,
 
   ## report status
   if(fmt=="clipboard")
-    Print("<<green \u2714>> Successfully paste to clipboard")
+    Print("<<green \u221a>> Successfully paste to clipboard")
   else
-    Print("<<green \u2714>> Successfully saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
+    Print("<<green \u221a>> Successfully saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
 }
 
 

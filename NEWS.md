@@ -1,10 +1,16 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.8.3 (in development)
+# bruceR 0.8.3 (Jan 2022)
+
+### Minor Changes
+
+-   Improved `print_table()`.
+-   Changed symbol (for better output of R Markdown): ✔ (\\u2714) → √ (\\u221a).
 
 ### Bug Fixes
 
 -   Fixed a small bug of direct effect output in `PROCESS()` for models without `"x-y"` in `mod.path` (e.g., Model 7).
+-   Fixed a small bug when using `set.wd()` in an R Markdown file.
 
 # bruceR 0.8.2 (Dec 2021)
 

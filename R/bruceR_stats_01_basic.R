@@ -251,7 +251,7 @@ Describe=function(data,
                        width=plot.width, height=plot.height, dpi=plot.dpi)
       plot.file=str_split(plot.file, "/", simplify=TRUE)
       plot.path=paste0(getwd(), '/', plot.file[length(plot.file)])
-      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
+      Print("\n\n\n<<green \u221a>> Plot saved to <<blue '{plot.path}'>>")
     }
   }
 
@@ -447,7 +447,7 @@ Corr=function(data,
       grDevices::dev.off()
       plot.file=str_split(plot.file, "/", simplify=TRUE)
       plot.path=paste0(getwd(), '/', plot.file[length(plot.file)])
-      Print("<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
+      Print("<<green \u221a>> Plot saved to <<blue '{plot.path}'>>")
       cat("\n")
     }
   }

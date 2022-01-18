@@ -1040,7 +1040,7 @@ PROCESS=function(data,
   ## File Closing
   # if(!is.null(file)) {
   #   close(FILE)
-  #   Print("<<green \u2714>> All results (plain text) are saved to <<blue '{paste0(getwd(), '/', file)}'>>")
+  #   Print("<<green \u221a>> All results (plain text) are saved to <<blue '{paste0(getwd(), '/', file)}'>>")
   #   cat("\n")
   # }
 

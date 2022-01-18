@@ -520,7 +520,7 @@ model_summary=function(model.list,
     f=file(file, "w", encoding="UTF-8")
     cat(output, file=f)
     close(f)
-    Print("<<green \u2714>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
+    Print("<<green \u221a>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
     cat("\n")
   }
 

@@ -20,11 +20,11 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
--   Bao, H.-W.-S. (2021). bruceR: Broadly useful convenient and efficient R functions. R package version 0.8.x. <https://CRAN.R-project.org/package=bruceR>
+-   Bao, H.-W.-S. (2022). bruceR: Broadly useful convenient and efficient R functions. R package version 0.8.x. <https://CRAN.R-project.org/package=bruceR>
 
 ## User Guide
 
-[NEWS (CRAN version)](https://cran.r-project.org/web/packages/bruceR/news/news.html) \| [NEWS (GitHub version)](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
+[NEWS (GitHub version)](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
 
 [Chinese Documentation for bruceR: I. Overview](https://zhuanlan.zhihu.com/p/281150493)
 
@@ -35,10 +35,12 @@ Website: [psychbruce.github.io](https://psychbruce.github.io)
 ``` r
 ## Method 1: Install from CRAN
 install.packages("bruceR")
+update.packages(ask=FALSE)
 
 ## Method 2: Install from GitHub
 install.packages("devtools")
 devtools::install_github("psychbruce/bruceR", force=TRUE)
+update.packages(ask=FALSE)
 ```
 
 **Tips:**
