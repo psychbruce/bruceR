@@ -2,6 +2,7 @@ data-raw
 ignore
 logo
 note
+^.Rhistory$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
