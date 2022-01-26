@@ -290,8 +290,10 @@ NULL
   } else {
     packageStartupMessage(Glue("
     \n
-    These R packages have not been installed:
+    These R packages are not installed:
     {paste(pkgs[loaded==FALSE], collapse=', ')}
+
+    Please install them.
     \n
     "))
   }

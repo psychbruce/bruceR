@@ -800,7 +800,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
         weights="equal",
         model=model.type)
     })
-    note="note" %in% names(sim)
+    # note="note" %in% names(sim)
     sim$note=NULL
     names(sim)[1]="Effect"
     sim$Effect=str_replace_all(sim$Effect, ":", " x ")
@@ -818,13 +818,18 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   Print("<<cyan ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
   Print("Joint Tests of \"{effect.text}\":")
-  if(is.null(sim) | note) {
-    message("Warning (also in SPSS):
-    Within-cells error matrix is SINGULAR.
-    Some variables are LINEARLY DEPENDENT.
-    Please check your data and variables.
-    The same error also appears in SPSS!")
+  if(is.null(sim)) {
+    stop("Package `afex` is required but is not installed.
+       Please install it:
+       install.packages(\"afex\")", call.=FALSE)
   }
+  # if(note) {
+  #   message("Warning (also in SPSS):
+  #   Within-cells error matrix is SINGULAR.
+  #   Some variables are LINEARLY DEPENDENT.
+  #   Please check your data and variables.
+  #   The same error also appears in SPSS!")
+  # }
   print_table(sim, nsmalls=c(rep(0, length(by)+3),
                              nsmall, 0, 0),
               row.names=FALSE)

@@ -1,5 +1,11 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.8.4 (in development)
+
+### Bug Fixes
+
+-   Users who have not installed the `afex` package would see an unusual error when using the `EMMEANS()` function (`Error: $ operator is invalid for atomic vectors`). So now `afex` is again a *strong dependency* of `bruceR`, such that it is automatically installed when installing `bruceR`.
+
 # bruceR 0.8.3 (Jan 2022)
 
 ### Minor Changes
