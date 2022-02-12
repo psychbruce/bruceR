@@ -21,7 +21,8 @@ interaction_F_test=function(model, data=NULL, data.name="data") {
     row.names(aov.table)=c(gsub(":", " x ", row.names(dp1)),
                            "(All Interactions)")
   } else {
-    dp1=drop1(model, scope=interms, test="F")
+    # dp1=drop1(model, scope=interms, test="F")
+    dp1=anova(model)[interms,]
     aov.table=data.frame(
       `F`=dp1[,"F value"],
       df1=dp1[,"NumDF"],
