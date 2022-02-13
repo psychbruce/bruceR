@@ -173,7 +173,7 @@ Some other R packages or scripts/modules have been further developed to improve 
 and \href{https://www.processmacro.org/download.html}{R script file "process.R"}
 (the official PROCESS R code by \emph{Andrew F. Hayes}, but it is not yet an R package and has some bugs and limitations).
 
-Here, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function provides
+Here, the \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function provides
 an alternative to performing mediation/moderation analyses in R.
 This function supports a total of \strong{24} kinds of SPSS PROCESS models (Hayes, 2018)
 and also supports multilevel mediation/moderation analyses.
@@ -181,12 +181,26 @@ Overall, it supports the most frequently used types of mediation, moderation,
 moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses
 for \strong{(generalized) linear or linear mixed models}.
 
-Specifically, the \strong{\code{\link[bruceR:PROCESS]{bruceR::PROCESS()}}} function
-first builds regression models according to the data, variable names, and a few other arguments
+Specifically, the \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function
+builds regression models based on the data, variable names, and a few other arguments
 that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
-The function can automatically judge the model number/type and also automatically conduct mean-centering before model building.
+The function can automatically judge the model number/type and also conduct grand-mean centering before model building
+(using the \code{\link[bruceR:grand_mean_center]{bruceR::grand_mean_center()}} function).
 
-Then, it uses:
+Note that this automatic grand-mean centering
+(1) makes the results of main effects accurate for interpretation;
+(2) does not change any results of model fit (it only affects the interpretation of main effects);
+(3) is only conducted in "PART 1" (for an accurate estimate of main effects) but not in "PART 2" because
+it is more intuitive and interpretable to use the raw values of variables for the simple-slope tests in "PART 2";
+(4) is not optional to users because mean-centering should always be done when there is an interaction;
+(5) is not conflicted with group-mean centering because after group-mean centering the grand mean of a variable will also be 0,
+such that the automatic grand-mean centering (with mean = 0) will not change any values of the variable.
+
+If you need to do group-mean centering, please do this before using PROCESS.
+\code{\link[bruceR:group_mean_center]{bruceR::group_mean_center()}} is a useful function of group-mean centering.
+Remember that the automatic grand-mean centering in PROCESS never affects the values of a group-mean centered variable, which already has a grand mean of 0.
+
+The \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function uses:
 \enumerate{
   \item the \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} function to
   estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
@@ -200,9 +214,12 @@ If you use this function in your research and report its results in your paper, 
 the other R packages it uses internally (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
 
 Two parts of results are printed:
-(1) \emph{regression model summary} (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
-and (2) \emph{mediation/moderation effect estimates} (using one or a combination of the above packages and functions to estimate the effects).
-To organize the Part 2 output, the results of \strong{Simple Slopes} are titled in \strong{green},
+
+PART 1. Regression model summary (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
+
+PART 2. Mediation/moderation effect estimates (using one or a combination of the above packages and functions to estimate the effects)
+
+To organize the PART 2 output, the results of \strong{Simple Slopes} are titled in \strong{green},
 whereas the results of \strong{Indirect Path} are titled in \strong{blue}.
 
 \strong{\emph{Disclaimer}:}
