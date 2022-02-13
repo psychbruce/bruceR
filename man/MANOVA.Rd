@@ -128,6 +128,14 @@ the function takes averages across those multiple observations for each case.
 In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex:aov_car]{afex::aov_ez()}}
 and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
 }
+\section{Interaction Plot}{
+
+You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
+to create an interaction plot (based on the fitted model and a formula specification).
+For usage, please see the help page of \code{\link[emmeans:emmip]{emmeans::emmip()}}.
+It returns an object of class \code{ggplot}, which can be easily modified and saved using \code{ggplot2} syntax.
+}
+
 \examples{
 #### Between-Subjects Design ####
 
@@ -139,6 +147,14 @@ MANOVA(between.2, dv="SCORE", between=c("A", "B"))
 
 between.3
 MANOVA(between.3, dv="SCORE", between=c("A", "B", "C"))
+
+## How to create an interaction plot using `emmeans::emmip()`?
+## See help page for its usage: ?emmeans::emmip()
+m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
+emmip(m, ~ A | B, CIs=TRUE)
+emmip(m, ~ B | A, CIs=TRUE)
+emmip(m, B ~ A, CIs=TRUE)
+emmip(m, A ~ B, CIs=TRUE)
 
 
 #### Within-Subjects Design ####

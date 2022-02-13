@@ -325,13 +325,14 @@ boot_ci=function(boot,
 #' @param covs Variable name(s) of covariate(s) (i.e., control variables).
 #' Use \code{c()} to combine multiple covariates.
 #' It supports all types of (and an infinite number of) variables.
-#' @param clusters HLM (multilevel) level-2 cluster(s):
-#' e.g., \code{"School_ID"} or \code{c("Sub", "Item")}.
+#' @param clusters HLM (multilevel) cluster(s):
+#' e.g., \code{"School"}, \code{c("Prov", "City")}, \code{c("Sub", "Item")}.
 #' @param hlm.re.m,hlm.re.y HLM (multilevel) random effect term of M model and Y model.
 #' By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
-#' e.g., \code{"(1 | School_ID)"} or \code{"(1 | Sub) + (1 | Item)"}.
-#' You can set these arguments to include more complex terms (e.g., random slopes).
-#' In most cases, no need to set these arguments.
+#' e.g., \code{"(1 | School)"} or \code{"(1 | Sub) + (1 | Item)"}.
+#'
+#' You may specify these arguments to include more complex terms:
+#' e.g., random slopes \code{"(X | School)"}, or 3-level random effects \code{"(1 | Prov/City)"}.
 #' @param hlm.type HLM (multilevel) mediation type (levels of "X-M-Y"):
 #' \code{"1-1-1"} (default),
 #' \code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
@@ -844,12 +845,12 @@ PROCESS=function(data,
   <<blue PROCESS Model Code : {pid}>> <<white (Hayes, 2018; <<underline www.guilford.com/p/hayes3>>)>>
   <<blue PROCESS Model Type : {ptype}>>
   <<green
-  -      Outcome (Y) : {y}
-  -    Predictor (X) : {x}{x.trans.info}
-  -    Mediators (M) : {meds.text}
-  -   Moderators (W) : {mods.text}
-  -   Covariates (C) : {covs.text}
-  - Level-2 Clusters : {clusters.text}
+  -    Outcome (Y) : {y}
+  -  Predictor (X) : {x}{x.trans.info}
+  -  Mediators (M) : {meds.text}
+  - Moderators (W) : {mods.text}
+  - Covariates (C) : {covs.text}
+  -   HLM Clusters : {clusters.text}
   >>
   <<yellow All numeric predictors have been {ifelse(std, 'standardized', 'mean-centered')}.>>
   \n

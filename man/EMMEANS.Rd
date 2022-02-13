@@ -66,11 +66,12 @@ for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[em
 \value{
 The same model object as returned by
 \code{\link{MANOVA}} (for recursive use),
-along with a list of \code{EMMEANS} tables:
+along with a list of tables:
 \code{sim} (simple effects),
 \code{emm} (estimated marginal means),
 \code{con} (contrasts).
-Each \code{EMMEANS} appends one list to the returned object.
+
+Each \code{EMMEANS(...)} appends one list to the returned object.
 }
 \description{
 Perform (1) simple-effect (and simple-simple-effect) analyses,
@@ -102,6 +103,14 @@ There is substantial disagreement on the appropriate pooled \emph{SD} to use in 
 For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
 Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
 }
+\section{Interaction Plot}{
+
+You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
+to create an interaction plot (based on the fitted model and a formula specification).
+For usage, please see the help page of \code{\link[emmeans:emmip]{emmeans::emmip()}}.
+It returns an object of class \code{ggplot}, which can be easily modified and saved using \code{ggplot2} syntax.
+}
+
 \section{Statistical Details}{
 
 
@@ -170,14 +179,21 @@ between.2
 MANOVA(between.2, dv="SCORE", between=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
+## How to create an interaction plot using `emmeans::emmip()`?
+## See help page for its usage: ?emmeans::emmip()
+m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
+emmip(m, ~ A | B, CIs=TRUE)
+emmip(m, ~ B | A, CIs=TRUE)
+emmip(m, B ~ A, CIs=TRUE)
+emmip(m, A ~ B, CIs=TRUE)
 
 between.3
 MANOVA(between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
-## just to name a few
-## you may test other combinations
+## Just to name a few...
+## You may test other combinations...
 
 
 #### Within-Subjects Design ####
@@ -195,7 +211,7 @@ MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 # :::::::::::::::::::::::::::::::::::::::
 # This would produce a WARNING because of
 # the linear dependence of A2B2 and A2B3.
-# see: Corr(within.2[c("A2B2", "A2B3")])
+# See: Corr(within.2[c("A2B2", "A2B3")])
 
 \donttest{within.3
 MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
@@ -203,8 +219,8 @@ MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
-## just to name a few
-## you may test other combinations
+## Just to name a few...
+## You may test other combinations...
 }
 
 #### Mixed Design ####
@@ -221,8 +237,8 @@ MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
   EMMEANS("A", by="B") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("A", by=c("B", "C"))
-## just to name a few
-## you may test other combinations
+## Just to name a few...
+## You may test other combinations...
 
 mixed.3_2b1w
 MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
@@ -231,8 +247,8 @@ MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
   EMMEANS("A", by="C") \%>\%
   EMMEANS(c("A", "B"), by="C") \%>\%
   EMMEANS("B", by=c("A", "C"))
-## just to name a few
-## you may test other combinations
+## Just to name a few...
+## You may test other combinations...
 
 
 #### Other Examples ####

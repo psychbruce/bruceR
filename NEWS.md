@@ -2,6 +2,10 @@
 
 # bruceR 0.8.4 (in development)
 
+### Minor Changes
+
+-   Added a guideline and examples for creating interaction plots using the returned object of `MANOVA()` and `EMMEANS()`. You can save the returned object and use the `emmeans::emmip()` function to create an interaction plot (based on the fitted model and a formula specification). For usage, please see the help page of `emmeans::emmip()`. It returns an object of class `ggplot`, which can be easily modified and saved using `ggplot2` syntax.
+
 ### Bug Fixes
 
 -   Users who have not installed the `afex` package would see an unusual error when using the `EMMEANS()` function (`Error: $ operator is invalid for atomic vectors`). So now `afex` is again a *strong dependency* of `bruceR`, such that it is automatically installed when installing `bruceR`.
