@@ -2,6 +2,10 @@
 
 # bruceR 0.8.4 (in development)
 
+### New Features
+
+-   New function `cc()`: Split up a string (with separators) into a character vector (whitespace around separator is trimmed). For example, `cc("A 1 , B 2 ; C 3 | D 4 \t E 5")` produces a vector of `c("A 1", "B 2", "C 3", "D 4", "E 5")`. The default separators include `, ; | \n \t`. Users may also specify a separator.
+
 ### Minor Changes
 
 -   Added a guideline and examples for creating interaction plots using the returned object of `MANOVA()` and `EMMEANS()`. You can save the returned object and use the `emmeans::emmip()` function to create an interaction plot (based on the fitted model and a formula specification). For usage, please see the help page of `emmeans::emmip()`. It returns an object of class `ggplot`, which can be easily modified and saved using `ggplot2` syntax.

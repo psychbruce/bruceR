@@ -85,6 +85,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
     -   `set.wd()` (alias: `set_wd()`)
     -   `import()`, `export()`
+    -   `cc()`
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
     -   `print_table()`

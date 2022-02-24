@@ -68,6 +68,8 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
       \code{\link{import}},
       \code{\link{export}}
 
+      \code{\link{cc}}
+
       \code{\link{pkg_depend}},
       \code{\link{pkg_install_suggested}}
 
