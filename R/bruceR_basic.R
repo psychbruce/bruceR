@@ -410,6 +410,7 @@ capitalize=function(string) {
 #'
 #' @param x Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).
 #' @param digits,nsmalls Numeric vector specifying the number of decimal places of output. Default is \code{3}.
+#' @param nspaces Number of whitespaces between columns. Default is \code{1}.
 #' @param row.names,col.names Print row/column names. Default is \code{TRUE} (column names are always printed).
 #' To modify the names, you can use a character vector with the same length as the raw names.
 #' @param title Title text, which will be inserted in <p></p> (HTML code).
@@ -457,6 +458,7 @@ capitalize=function(string) {
 #'
 #' @export
 print_table=function(x, digits=3, nsmalls=digits,
+                     nspaces=1,
                      row.names=TRUE,
                      col.names=TRUE,
                      title="", note="", append="",
@@ -522,8 +524,8 @@ print_table=function(x, digits=3, nsmalls=digits,
   title.length=nchar(names(x), type="width")
   vars.length=c()  # bug: vars.length=apply(apply(x, 2, nchar), 2, max)
   for(j in 1:length(x)) vars.length[j]=max(nchar(x[,j], type="width"))
-  n.lines=apply(rbind(title.length, vars.length), 2, max)+2
-  n.lines.rn=max(nchar(row.names(x), type="width"))+2
+  n.lines=apply(rbind(title.length, vars.length), 2, max)+nspaces
+  n.lines.rn=max(nchar(row.names(x), type="width"))+nspaces
   if(row.names)
     table.line=rep_char(linechar, sum(n.lines)+n.lines.rn)
   else
