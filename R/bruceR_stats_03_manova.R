@@ -844,6 +844,10 @@ EMMEANS=function(model, effect=NULL, by=NULL,
                       formatF(eta2$CI_low, nsmall), ", ",
                       formatF(eta2$CI_high, nsmall), "]") %>%
       str_replace_all("0\\.", ".")
+    if(length(by)>0) {
+      vns=names(sim)[2:(length(by)+1)]
+      names(sim)[2:(length(by)+1)]="\"" %^% vns %^% "\""
+    }
     names(sim)[(length(by)+4):(length(by)+6)]=
       c("F", "pval", "\u03b7\u00b2p [90% CI of \u03b7\u00b2p]")
   }, silent=TRUE)
@@ -926,7 +930,9 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   emm$MeanCI=paste0(formatF(emm$emmean, nsmall), " [",
                     formatF(emm$lower.CL, nsmall), ", ",
                     formatF(emm$upper.CL, nsmall), "]")
-  emm=cbind(emm[c(1:(length(by)+1))], emm[c("MeanCI", "SE")])
+  vns=names(emm)[1:(length(by)+1)]
+  names(emm)[1:(length(by)+1)]="\"" %^% vns %^% "\""
+  emm=cbind(emm[1:(length(by)+1)], emm[c("MeanCI", "SE")])
   names(emm)[length(emm)-1]="Mean [95% CI of Mean]"
 
   Print("Estimated Marginal Means of \"{effect.text}\":")
@@ -992,6 +998,10 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   con$d=paste0(formatF(con$estimate/sd.pooled, nsmall), " [",
                formatF(conCI$lower.CL/sd.pooled, nsmall), ", ",
                formatF(conCI$upper.CL/sd.pooled, nsmall), "]")
+  if(length(by)>0) {
+    vns=names(con)[2:(length(con)-6)]
+    names(con)[2:(length(con)-6)]="\"" %^% vns %^% "\""
+  }
   names(con)[c(1, (length(con)-5):length(con))]=
     c("Contrast", "Estimate", "SE", "df", "t", "pval",
       "Cohen\u2019s d [95% CI of d]")
