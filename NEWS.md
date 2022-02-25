@@ -15,6 +15,7 @@
 ### Bug Fixes
 
 -   Users who have not installed the `afex` package would see an unusual error when using the `EMMEANS()` function (`Error: $ operator is invalid for atomic vectors`). So now `afex` is again a *strong dependency* of `bruceR`, such that it is automatically installed when installing `bruceR`.
+-   Improved debugging information for `EMMEANS()` (when `model` is null).
 -   Fixed a bug of interaction tests in `PROCESS()` when setting `mod.type="3-way"` for multilevel models.
 
 # bruceR 0.8.3 (Jan 2022)

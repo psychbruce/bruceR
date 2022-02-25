@@ -817,6 +817,12 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   #   model=model.raw
   # }
 
+  if(is.null(model)) {
+    stop("MANOVA() did not run successfully (model is null).
+       Please run MANOVA() without any code of EMMEANS()
+       to check what the problem is.", call.=FALSE)
+  }
+
   ## Simple Effect (omnibus)
   # see 'weights' in ?emmeans
   try({
