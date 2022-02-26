@@ -266,16 +266,16 @@ NULL
     \n
     <<bold
     \u2605 bruceR (version {inst.ver})
-    <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
-    >>
+    <<blue <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
+    >>>>
 
     <<bold Packages also been loaded:>>
-    <<blue
-    <<green \u221a>> dplyr     \t<<green \u221a>> emmeans     \t<<green \u221a>> ggplot2
-    <<green \u221a>> tidyr     \t<<green \u221a>> effectsize  \t<<green \u221a>> ggtext
-    <<green \u221a>> stringr   \t<<green \u221a>> performance \t<<green \u221a>> cowplot
-    <<green \u221a>> forcats   \t<<green \u221a>> lmerTest    \t<<green \u221a>> see
-    <<green \u221a>> data.table
+    <<green
+    \u221a dplyr     \t\u221a emmeans     \t\u221a ggplot2
+    \u221a tidyr     \t\u221a effectsize  \t\u221a ggtext
+    \u221a stringr   \t\u221a performance \t\u221a cowplot
+    \u221a forcats   \t\u221a lmerTest    \t\u221a see
+    \u221a data.table
     >>
 
     <<bold Key functions of `bruceR`:>>
