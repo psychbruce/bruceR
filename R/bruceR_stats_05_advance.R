@@ -857,7 +857,7 @@ PROCESS=function(data,
   clusters.text=varlist(clusters)
   Print("
   \n
-  <<bold ************ PART 1. Regression Model Summary ************>>
+  <<bold ****************** PART 1. Regression Model Summary ******************>>
 
   <<blue PROCESS Model Code : {pid}>> <<white (Hayes, 2018; <<underline www.guilford.com/p/hayes3>>)>>
   <<blue PROCESS Model Type : {ptype}>>
@@ -884,7 +884,13 @@ PROCESS=function(data,
   }
   Print("<<italic Formula of Outcome>>:")
   cat("-   ", fy)
-  cat("\n")
+  cat("\n
+CAUTION:
+  Fixed effect (coef.) of a predictor involved in an interaction
+  denotes its \"simple effect/slope\" when the other predictor = 0.
+  Only when all predictors in interaction have been mean-centered
+  can the fixed effect denote the \"main effect\"!
+  ")
 
   ## Regression Model Building
   if(Y01==FALSE) {

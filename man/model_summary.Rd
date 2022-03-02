@@ -10,6 +10,7 @@ model_summary(
   digits = 3,
   nsmall = digits,
   file = NULL,
+  check = TRUE,
   zero = ifelse(std, FALSE, TRUE),
   modify.se = NULL,
   modify.head = NULL,
@@ -29,6 +30,10 @@ Not applicable to generalized linear (mixed) models.}
 \item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
+
+\item{check}{If there is only one model in \code{model.list}, it checks for multicollinearity
+using \code{\link[performance:check_collinearity]{performance::check_collinearity()}}.
+You may turn it off by setting \code{check=FALSE}.}
 
 \item{zero}{Display "0" before "."? Default is \code{TRUE}.}
 
