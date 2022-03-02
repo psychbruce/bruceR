@@ -402,7 +402,7 @@ Corr=function(data,
       formatF(cor$ci.adj$upper, nsmall), "]")
     COR$pval=p.adjust(cor$ci$p, method=p.adjust)
   }
-  if("matrix" %in% class(cor$n))
+  if(inherits(cor$n, "matrix"))
     Ns=cor$n[lower.tri(cor$n)]
   else
     Ns=cor$n

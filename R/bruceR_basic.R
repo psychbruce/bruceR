@@ -510,11 +510,11 @@ print_table=function(x, digits=3, nsmalls=digits,
     x$` `=as.character(x$` `)
   }
 
-  if(class(row.names)=="character") {
+  if(inherits(row.names, "character")) {
     row.names(x)=row.names
     row.names=TRUE
   }
-  if(class(col.names)=="character") {
+  if(inherits(col.names, "character")) {
     names(x)=col.names
     col.names=TRUE
   }
