@@ -1,6 +1,6 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
-# bruceR 0.8.4 (Mar 2022)
+# bruceR 0.8.5 (Mar 2022)
 
 ### New Features
 
