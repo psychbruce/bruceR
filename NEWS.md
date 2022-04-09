@@ -4,8 +4,8 @@
 
 ### Minor Changes
 
--   Added the `center` argument in `PROCESS()` (default is `TRUE`) for users who want to turn off the automatic grand-mean centering. However, mean centering is still highly suggested if one aim to obtain "main effect" rather than "fixed effect" (note: a fixed effect is not necessarily a main effect).
--   Added the `estimator` argument in `CFA()` (default is `"ML"`) for users who want to user another estimator (#17).
+-   Added the `center` argument of `PROCESS()` (default is `TRUE`) for users who want to turn off the automatic grand-mean centering. However, mean centering is still highly suggested if one aim to obtain "main effect" rather than "fixed effect" (note: a fixed effect is not necessarily a main effect).
+-   Added the `estimator` argument of `CFA()` (default is `"ML"`) for users who want to use any other estimator (fixed issue #17).
 
 # bruceR 0.8.5 (Mar 2022)
 
