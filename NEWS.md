@@ -1,5 +1,12 @@
 **If you are viewing this file on CRAN, please check [latest news on GitHub](https://github.com/psychbruce/bruceR/blob/master/NEWS.md) where the formatting is also better.**
 
+# bruceR 0.8.6 (in development)
+
+### Minor Changes
+
+-   Added the `center` argument in `PROCESS()` (default is `TRUE`) for users who want to turn off the automatic grand-mean centering. However, mean centering is still highly suggested if one aim to obtain "main effect" rather than "fixed effect" (note: a fixed effect is not necessarily a main effect).
+-   Added the `estimator` argument in `CFA()` (default is `"ML"`) for users who want to user another estimator (#17).
+
 # bruceR 0.8.5 (Mar 2022)
 
 ### New Features
@@ -45,7 +52,7 @@
 ### Bug Fixes
 
 -   Fixed potential bugs in `print_table()`.
--   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with >= 3 levels is in a regression model. Other bugs in these two functions have also been fixed.
+-   Fixed a bug of VIF results in `GLM_summary()` and `HLM_summary()` when only one factor-type predictor with \>= 3 levels is in a regression model. Other bugs in these two functions have also been fixed.
 -   Fixed a bug of interaction tests in `PROCESS()` when setting `mod.path="all"` in testing multilevel moderated mediation effects. Fixed another bug of CI output for direct effects when testing multilevel models.
 
 # bruceR 0.8.0 (Nov 2021)
@@ -140,7 +147,7 @@
 
 ### Major Changes
 
--   Improved `set.wd()`: Now it uses `rstudioapi::getSourceEditorContext()` to extract file path (even effective when running in R console), which only requires RStudio version >= 0.99.1111 and no longer has encoding problems (see release note in 0.6.1).
+-   Improved `set.wd()`: Now it uses `rstudioapi::getSourceEditorContext()` to extract file path (even effective when running in R console), which only requires RStudio version \>= 0.99.1111 and no longer has encoding problems (see release note in 0.6.1).
 -   Improved `theme_bruce()`: Now it uses `ggtext::element_markdown()` to render Markdown/HTML rich text format, which can be used in plot text (e.g., titles).
 -   Improved `EMMEANS()`: Now its results are always identical to those in SPSS (by setting `model="multivariate"` in `emmeans::joint_tests()` and `emmeans::emmeans()`, which use the `lm` or `mlm` objects rather than the `aov` object to perform tests). For a few cases with singular error matrix (i.e., some variables are linearly dependent), the results of simple-effect *F* tests will not be reported, but estimated marginal means and pairwise comparisons are not affected and so are still reported. Note that the `EMMEANS` results in old versions of `bruceR` (version \< 0.6.0) were identical to SPSS, but version 0.6.0 deprecated the parameter `repair` and no longer set `model$aov=NULL`, which made the results not identical to SPSS (particularly for ANOVAs with repeated measures). In response to a user's feedback, now 0.6.2 has improved this function and makes its results accurate again.
 
@@ -163,7 +170,7 @@
 
 ### Major Changes
 
--   Improved `set.wd()`: Now it converts the extracted path string from "UTF-8" to "GBK" on Windows system to support paths including Chinese characters (otherwise, the path would become messy code and cause an error). Note that this problem does not exist on Mac OS. In addition, warning messages will be printed into the console if the user's RStudio version is lower than required (RStudio version >= 1.4.843 is required for a complete implementation of this function).
+-   Improved `set.wd()`: Now it converts the extracted path string from "UTF-8" to "GBK" on Windows system to support paths including Chinese characters (otherwise, the path would become messy code and cause an error). Note that this problem does not exist on Mac OS. In addition, warning messages will be printed into the console if the user's RStudio version is lower than required (RStudio version \>= 1.4.843 is required for a complete implementation of this function).
 -   Improved `Alpha()`: Now it adds a parameter `varrange` (to keep the same as `SUM()`, `MEAN()`, ...) and reports both Cronbach's α and McDonald's ω, with more detailed documentation.
 
 > Three ways to specify the variable list (implemented in the functions such as `SUM()`, `MEAN()`, `Alpha()`):

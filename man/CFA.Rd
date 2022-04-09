@@ -7,6 +7,7 @@
 CFA(
   data,
   model = "A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
+  estimator = "ML",
   highorder = "",
   orthogonal = FALSE,
   missing = "listwise",
@@ -19,6 +20,21 @@ CFA(
 \item{data}{Data frame.}
 
 \item{model}{Model formula. See examples.}
+
+\item{estimator}{The estimator to be used
+(for details, see \link[lavaan:lavOptions]{lavaan options}).
+Default is \code{"ML"}.
+Can be one of the following:
+\describe{
+  \item{\code{"ML"}}{Maximum Likelihood (can be extended to
+  \code{"MLM"}, \code{"MLMV"}, \code{"MLMVS"}, \code{"MLF"}, or \code{"MLR"}
+  for robust standard errors and robust test statistics)}
+  \item{\code{"GLS"}}{Generalized Least Squares}
+  \item{\code{"WLS"}}{Weighted Least Squares}
+  \item{\code{"ULS"}}{Unweighted Least Squares}
+  \item{\code{"DWLS"}}{Diagonally Weighted Least Squares}
+  \item{\code{"DLS"}}{Distributionally-weighted Least Squares}
+}}
 
 \item{highorder}{High-order factor. Default is \code{""}.}
 

@@ -266,10 +266,12 @@ boot_ci=function(boot,
 #' for \strong{(generalized) linear or linear mixed models}.
 #'
 #' Specifically, the \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function
-#' builds regression models based on the data, variable names, and a few other arguments
+#' fits regression models based on the data, variable names, and a few other arguments
 #' that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
 #' The function can automatically judge the model number/type and also conduct grand-mean centering before model building
 #' (using the \code{\link[bruceR:grand_mean_center]{bruceR::grand_mean_center()}} function).
+#'
+#' This automatic grand-mean centering can be turned off by setting \code{center=FALSE}.
 #'
 #' Note that this automatic grand-mean centering
 #' (1) makes the results of main effects accurate for interpretation;
@@ -404,7 +406,8 @@ boot_ci=function(boot,
 #' get exactly the same results across different R packages
 #' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
 #' and software (e.g., SPSS, Mplus, R, jamovi).
-#' @param std Standardized coefficients? Default is \code{FALSE}.
+#' @param center Centering numeric (continuous) predictors? Default is \code{TRUE} (suggested).
+#' @param std Standardizing variables to get standardized coefficients? Default is \code{FALSE}.
 #' If \code{TRUE}, it will standardize all numeric (continuous) variables
 #' before building regression models.
 #' However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.
@@ -559,6 +562,7 @@ PROCESS=function(data,
                  ci=c("boot", "bc.boot", "bca.boot", "mcmc"),
                  nsim=100,
                  seed=NULL,
+                 center=TRUE,
                  std=FALSE,
                  digits=3,
                  nsmall=digits,
@@ -678,9 +682,11 @@ PROCESS=function(data,
       data.v=data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(x, meds, mods, covs), std=TRUE)
     else
       data.v=data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(y, x, meds, mods, covs), std=TRUE)
-  } else {
+  } else if(center) {
     data.c.NOmed=grand_mean_center(data.v, vars=c(x, mods, covs), std=FALSE)
     data.c=grand_mean_center(data.v, vars=c(x, meds, mods, covs), std=FALSE)
+  } else {
+    data.c=data.c.NOmed=data.v
   }
   nmis=nrow(data)-nrow(data.v)
 
@@ -869,13 +875,16 @@ PROCESS=function(data,
   - Covariates (C) : {covs.text}
   -   HLM Clusters : {clusters.text}
   >>
-
-  <<yellow
-  All numeric predictors have been {ifelse(std, 'standardized', 'grand-mean centered')}.
-  (For details, please see the help page of PROCESS.)
-  >>
   \n
   ")
+  if(center | std) {
+    Print("<<yellow
+    All numeric predictors have been {ifelse(std, 'standardized', 'grand-mean centered')}.
+    (For details, please see the help page of PROCESS.)
+    >>
+    \n
+    ")
+  }
 
   if(length(meds)>0) {
     Print("<<italic Formula of Mediator>>:")
@@ -887,8 +896,8 @@ PROCESS=function(data,
   cat("\n
 CAUTION:
   Fixed effect (coef.) of a predictor involved in an interaction
-  denotes its \"simple effect/slope\" when the other predictor = 0.
-  Only when all predictors in interaction have been mean-centered
+  denotes its \"simple effect/slope\" at the other predictor = 0.
+  Only when all predictors in an interaction are mean-centered
   can the fixed effect denote the \"main effect\"!
   ")
 
@@ -912,7 +921,11 @@ CAUTION:
     data.c=data.c.NOmed
     if(HLM & hlm.type=="2-2-1") {
       data.v=data.meds.L2
-      data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(x, mods, covs))
+      if(center) {
+        data.c=data.c.NOmed=grand_mean_center(data.v, vars=c(x, mods, covs))
+      } else {
+        data.c=data.c.NOmed=data.v
+      }
     }
     for(i in 1:length(fm)) {
       if(M01[i]==FALSE) {

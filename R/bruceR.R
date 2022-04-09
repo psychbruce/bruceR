@@ -264,12 +264,10 @@ NULL
     # star: \u2605
     Print("
     \n
-    <<bold
-    \u2605 bruceR (version {inst.ver})
-    <<blue <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions
-    >>>>
+    <<bold bruceR (version {inst.ver})>>
+    <<blue <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions>>
 
-    <<bold Packages also been loaded:>>
+    <<bold Packages also loaded:>>
     <<green
     \u221a dplyr     \t\u221a emmeans     \t\u221a ggplot2
     \u221a tidyr     \t\u221a effectsize  \t\u221a ggtext

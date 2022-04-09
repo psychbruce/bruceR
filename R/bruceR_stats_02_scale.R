@@ -810,6 +810,20 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #'
 #' @inheritParams %%COMPUTE%%
 #' @param model Model formula. See examples.
+#' @param estimator The estimator to be used
+#' (for details, see \link[lavaan:lavOptions]{lavaan options}).
+#' Default is \code{"ML"}.
+#' Can be one of the following:
+#' \describe{
+#'   \item{\code{"ML"}}{Maximum Likelihood (can be extended to
+#'   \code{"MLM"}, \code{"MLMV"}, \code{"MLMVS"}, \code{"MLF"}, or \code{"MLR"}
+#'   for robust standard errors and robust test statistics)}
+#'   \item{\code{"GLS"}}{Generalized Least Squares}
+#'   \item{\code{"WLS"}}{Weighted Least Squares}
+#'   \item{\code{"ULS"}}{Unweighted Least Squares}
+#'   \item{\code{"DWLS"}}{Diagonally Weighted Least Squares}
+#'   \item{\code{"DLS"}}{Distributionally-weighted Least Squares}
+#' }
 #' @param highorder High-order factor. Default is \code{""}.
 #' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.
 #' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").
@@ -838,6 +852,7 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #' }
 #' @export
 CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
+             estimator="ML",
              highorder="", orthogonal=FALSE, missing="listwise",
              # CI=FALSE, MI=FALSE,
              digits=3, nsmall=digits,
@@ -870,6 +885,7 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
   # lavaan style
   fit.lav=lavaan::cfa(model=model.lav,
                       data=data,
+                      estimator=estimator,
                       std.lv=TRUE,
                       # TRUE: fixing the factor residual variances to 1
                       # FALSE: fixing the factor loading of the first indicator to 1
@@ -885,6 +901,9 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
   # if(MI) print(lavaan::modificationIndices(fit.lav))
   # if(plot) semPlot::semPaths(fit.lav, "std", curveAdjacent=TRUE,
   #                            style="lisrel", nDigits=2, edge.label.cex=1)
+
+  Print("Estimator: {estimator}")
+  cat("\n")
 
   invisible(fit.lav)
 }

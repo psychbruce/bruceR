@@ -823,6 +823,11 @@ EMMEANS=function(model, effect=NULL, by=NULL,
        to check what the problem is.", call.=FALSE)
   }
 
+  if(!inherits(model, "afex_aov")) {
+    stop("Please use EMMEANS() together with MANOVA()!
+       See the help page for its usage:  ?EMMEANS", call.=FALSE)
+  }
+
   ## Simple Effect (omnibus)
   # see 'weights' in ?emmeans
   try({

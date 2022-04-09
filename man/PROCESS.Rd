@@ -24,6 +24,7 @@ PROCESS(
   ci = c("boot", "bc.boot", "bca.boot", "mcmc"),
   nsim = 100,
   seed = NULL,
+  center = TRUE,
   std = FALSE,
   digits = 3,
   nsmall = digits,
@@ -137,7 +138,9 @@ get exactly the same results across different R packages
 (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
 and software (e.g., SPSS, Mplus, R, jamovi).}
 
-\item{std}{Standardized coefficients? Default is \code{FALSE}.
+\item{center}{Centering numeric (continuous) predictors? Default is \code{TRUE} (suggested).}
+
+\item{std}{Standardizing variables to get standardized coefficients? Default is \code{FALSE}.
 If \code{TRUE}, it will standardize all numeric (continuous) variables
 before building regression models.
 However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.}
@@ -182,10 +185,12 @@ moderated moderation (3-way interaction), and moderated mediation (conditional i
 for \strong{(generalized) linear or linear mixed models}.
 
 Specifically, the \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function
-builds regression models based on the data, variable names, and a few other arguments
+fits regression models based on the data, variable names, and a few other arguments
 that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
 The function can automatically judge the model number/type and also conduct grand-mean centering before model building
 (using the \code{\link[bruceR:grand_mean_center]{bruceR::grand_mean_center()}} function).
+
+This automatic grand-mean centering can be turned off by setting \code{center=FALSE}.
 
 Note that this automatic grand-mean centering
 (1) makes the results of main effects accurate for interpretation;

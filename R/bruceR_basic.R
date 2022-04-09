@@ -945,7 +945,7 @@ import=function(file,
     envir=new.env()
     load(file=file, envir=envir)
     if(length(ls(envir))>1)
-      warning("Rdata file contains multiple objects. Returning the first object.", call.=TRUE)
+      warning("RData file contains multiple objects. Returning the first object.", call.=FALSE)
     data=get(ls(envir)[1], envir)
   } else if(fmt %in% c("txt", "csv", "csv2", "tsv", "psv")) {
     if(is.null(encoding)) encoding="unknown"
