@@ -369,11 +369,10 @@ Run=function(..., silent=FALSE) {
 #' @export
 cc=function(x, sep="auto") {
   as.character(
-    stringr::str_trim(
-      stringr::str_split(stringr::str_trim(x),
-                         ifelse(sep=="auto", ",|;|\\||\\n|\\t", sep),
-                         simplify=TRUE)
-    )
+    stringr::str_split(
+      stringr::str_trim(x),
+      ifelse(sep=="auto", "\\s*[,;\\|\\n\\t]\\s*", sep),
+      simplify=TRUE)
   )
 }
 
