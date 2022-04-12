@@ -72,10 +72,10 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">formula_expand</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">a</span><span class="op">*</span><span class="va">b</span><span class="op">*</span><span class="va">c</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> y ~ a + b + c + a:b + a:c + b:c + a:b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000550d90a8&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x0000000055080ba8&gt;</span>
 <span class="r-in"><span class="fu">formula_expand</span><span class="op">(</span><span class="st">"y ~ a*b*c"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> y ~ a + b + c + a:b + a:c + b:c + a:b:c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000000553a8578&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000000005526ac40&gt;</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
