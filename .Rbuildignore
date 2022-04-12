@@ -10,3 +10,6 @@ note
 ^CRAN-RELEASE$
 ^LICENSE$
 ^CRAN-SUBMISSION$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
