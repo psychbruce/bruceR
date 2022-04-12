@@ -1,4 +1,7 @@
-url: ~
+url: https://psychbruce.github.io/bruceR
 template:
-  bootstrap: 5
-
+  params:
+    bootswatch: simplex
+  bslib:
+    heading_font: {google: "Nunito Sans"}
+    base_font: {google: "Nunito"}

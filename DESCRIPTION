@@ -30,7 +30,7 @@ Description:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/psychbruce/bruceR
+URL: https://psychbruce.github.io/bruceR
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
 Imports: dplyr, tidyr, stringr, forcats, data.table,
