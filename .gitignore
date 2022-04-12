@@ -3,9 +3,10 @@
 .Rhistory
 .RData
 .Ruserdata
-data-raw
-ignore
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+data-raw
+ignore
+docs
