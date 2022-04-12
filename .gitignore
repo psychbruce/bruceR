@@ -9,4 +9,3 @@ ignore
 ^\.Rproj\.user$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
-docs
