@@ -2,6 +2,10 @@
 
 # bruceR 0.8.6 (in development)
 
+### New Features
+
+-   Built `pkgdown` homepage ([https://psychbruce.github.io/bruceR](https://psychbruce.github.io/bruceR/)).
+
 ### Minor Changes
 
 -   Improved `cc()`.

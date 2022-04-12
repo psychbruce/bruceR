@@ -751,8 +751,11 @@ RGB=function(r, g, b, alpha) {
 #' @return A character string of time difference.
 #'
 #' @examples
+#' \dontrun{
+#'
 #' t0=Sys.time()
 #' dtime(t0)
+#' }
 #'
 #' @export
 dtime=function(t0, unit="secs", digits=0, nsmall=digits) {

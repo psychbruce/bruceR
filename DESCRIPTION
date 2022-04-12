@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.8.5-3
-Date: 2022-04-11
+Version: 0.8.5-4
+Date: 2022-04-12
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
