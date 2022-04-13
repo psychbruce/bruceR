@@ -1,25 +1,33 @@
 #### For Developer ####
+
 # Install Package: 'Ctrl + Shift + B'
 # Check Package:   'Ctrl + Shift + E'
 # Test Package:    'Ctrl + Shift + T'
 
-# devtools::check()
-# devtools::spell_check()
-# devtools::check_rhub()
-# devtools::check_win_release()
-# devtools::check_win_devel()
+if(FALSE) {
+  devtools::check()
+  devtools::spell_check()
+  devtools::check_rhub()
+  devtools::check_win_release()
+  devtools::check_win_devel()
 
-# devtools::release()
-# devtools::submit_cran()
+  devtools::release()
+  devtools::submit_cran()
 
-# usethis::use_pkgdown()
-# usethis::use_pkgdown_github_pages()  # with a bug!
-# usethis::use_github_pages()  # with a bug!
-# usethis::use_github_action("pkgdown")  # GitHub Pages
-# usethis::use_coverage()  # Test Coverage
-# usethis::use_github_action("test-coverage")  # Test Coverage
-# usethis::use_github_actions()  # R-CMD-check
-# usethis::use_logo("...")
+  usethis::use_pkgdown()
+  usethis::use_pkgdown_github_pages()  # with a bug!
+  usethis::use_github_pages()  # with a bug!
+  usethis::use_github_action("pkgdown")  # GitHub Pages
+  usethis::use_coverage()  # Test Coverage
+  usethis::use_github_action("test-coverage")  # Test Coverage
+  usethis::use_github_actions()  # R-CMD-check
+  usethis::use_logo("ignore/logo/bruceR-logo-gifs.gif")
+
+  ## Build Site Locally
+  pkgdown::build_site()
+  pkgdown::init_site()
+  pkgdown::build_home_index()
+}
 
 
 #### Main Description ####

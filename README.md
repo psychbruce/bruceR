@@ -1,4 +1,4 @@
-# bruceR <a href="https://psychbruce.github.io/bruceR"><img src="man/figures/logo.gif" align="right" height="120"/></a>
+# bruceR <img src="man/figures/logo.png" align="right" width="160"/>
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
@@ -6,7 +6,7 @@ This package includes easy-to-use functions for **(1)** basic R programming (e.g
 
 <!-- badges: start -->
 
-[![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://CRAN.R-project.org/package=bruceR) [![R-CMD-check](https://github.com/psychbruce/bruceR/workflows/R-CMD-check/badge.svg)](https://github.com/psychbruce/bruceR/actions) [![Codecov-test-coverage](https://codecov.io/gh/psychbruce/bruceR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/psychbruce/bruceR?branch=main) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+[![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![R-CMD-check](https://github.com/psychbruce/bruceR/workflows/R-CMD-check/badge.svg)](https://github.com/psychbruce/bruceR/actions) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://CRAN.R-project.org/package=bruceR) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <!-- badges: end -->
 
@@ -14,7 +14,7 @@ This package includes easy-to-use functions for **(1)** basic R programming (e.g
 
 ## Author
 
-包寒吴霜 Bao H.-W.-S.
+Han-Wu-Shuang (Bruce) Bao 包寒吴霜
 
 Email: [baohws\@foxmail.com](mailto:baohws@foxmail.com)
 
@@ -47,11 +47,12 @@ update.packages(ask=FALSE)
 
 **Tips:**
 
-1.  Please **restart (close and reopen) RStudio** before installation.
-2.  If you see a dialog asking *"Do you want to install from sources the package which needs compilation?"*, it would be better to **choose "No"** (to save your time).
-3.  If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
-4.  It would be better to update R to its [latest version](https://www.r-project.org/) (v4.0+).
-5.  It would be better to download and install [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) on Windows system.
+1.  Good practice: **restart RStudio** before installation.
+2.  Good practice: **update R** to the [latest version](https://www.r-project.org/) (v4.0+).
+3.  Good practice: **install** [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) (it is *not* an R package) on Windows system.
+4.  If you see *"Do you want to restart R prior to install?"*, **choose "Yes"** at the first time and then **choose "No"**.
+5.  If you see *"Do you want to install from sources the package which needs compilation?"*, just **choose "No"**.
+6.  If you fail to install, please carefully read the warning messages and find out the R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
 
 ### Package Dependency
 

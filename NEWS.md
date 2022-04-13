@@ -4,7 +4,8 @@
 
 ### New Features
 
--   Built `pkgdown` homepage ([https://psychbruce.github.io/bruceR](https://psychbruce.github.io/bruceR/)).
+-   Rebuilt homepage ([https://psychbruce.github.io/bruceR](https://psychbruce.github.io/bruceR/)) with `pkgdown`. Configuration is specified in `_pkgdown.yml`.
+-   Added the `R CMD check` workflow.
 
 ### Minor Changes
 
