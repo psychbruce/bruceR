@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,9 +68,9 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">d</span><span class="op">=</span><span class="fu">data.table</span><span class="op">(</span>var<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">data.table</span><span class="op">(</span>var<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">d</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span></span>
-<span class="r-in">  var.new<span class="op">=</span><span class="fu">RECODE</span><span class="op">(</span><span class="va">var</span>, <span class="st">"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"</span><span class="op">)</span></span>
+<span class="r-in">  var.new <span class="op">=</span> <span class="fu">RECODE</span><span class="op">(</span><span class="va">var</span>, <span class="st">"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span><span class="op">]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    var var.new</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  NA     999</span>

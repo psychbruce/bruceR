@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,14 +130,14 @@ In formal analyses, <strong><code>nsim=1000</code> (or larger)</strong> is stron
 <span class="r-in"><span class="co"># PROCESS(airquality, y="Temp", x="Solar.R",</span></span>
 <span class="r-in"><span class="co">#         meds="Ozone", ci="boot", nsim=1000, seed=1)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">model</span><span class="op">=</span><span class="st">"</span>
+<span class="r-in"><span class="va">model</span> <span class="op">=</span> <span class="st">"</span>
 <span class="r-in">Ozone ~ a*Solar.R</span>
 <span class="r-in">Temp ~ c.*Solar.R + b*Ozone</span>
 <span class="r-in">Indirect := a*b</span>
 <span class="r-in">Direct := c.</span>
 <span class="r-in">Total := c. + a*b</span>
 <span class="r-in">"</span></span>
-<span class="r-in"><span class="va">lv</span><span class="op">=</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span>model<span class="op">=</span><span class="va">model</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">lv</span> <span class="op">=</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span>model<span class="op">=</span><span class="va">model</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">lavaan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">lv</span>, fit.measure<span class="op">=</span><span class="cn">TRUE</span>, ci<span class="op">=</span><span class="cn">TRUE</span>, nd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>  <span class="co"># raw output</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.6-11 ended normally after 1 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -250,7 +250,7 @@ In formal analyses, <strong><code>nsim=1000</code> (or larger)</strong> is stron
 <span class="r-in"><span class="co">#         meds=c("Ozone", "Wind"),</span></span>
 <span class="r-in"><span class="co">#         med.type="serial", ci="boot", nsim=1000, seed=1)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">model0</span><span class="op">=</span><span class="st">"</span>
+<span class="r-in"><span class="va">model0</span> <span class="op">=</span> <span class="st">"</span>
 <span class="r-in">Ozone ~ a1*Solar.R</span>
 <span class="r-in">Wind ~ a2*Solar.R + d12*Ozone</span>
 <span class="r-in">Temp ~ c.*Solar.R + b1*Ozone + b2*Wind</span>
@@ -261,7 +261,7 @@ In formal analyses, <strong><code>nsim=1000</code> (or larger)</strong> is stron
 <span class="r-in">Direct := c.</span>
 <span class="r-in">Total := c. + a1*b1 + a2*b2 + a1*d12*b2</span>
 <span class="r-in">"</span></span>
-<span class="r-in"><span class="va">lv0</span><span class="op">=</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span>model<span class="op">=</span><span class="va">model0</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">lv0</span> <span class="op">=</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span>model<span class="op">=</span><span class="va">model0</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">lavaan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">lv0</span>, fit.measure<span class="op">=</span><span class="cn">TRUE</span>, ci<span class="op">=</span><span class="cn">TRUE</span>, nd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>  <span class="co"># raw output</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.6-11 ended normally after 1 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -380,7 +380,7 @@ In formal analyses, <strong><code>nsim=1000</code> (or larger)</strong> is stron
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="co"># lavaan_summary(lv0, ci="boot", nsim=1000, seed=1)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">model1</span><span class="op">=</span><span class="st">"</span>
+<span class="r-in"><span class="va">model1</span> <span class="op">=</span> <span class="st">"</span>
 <span class="r-in">Ozone ~ a1*Solar.R</span>
 <span class="r-in">Wind ~ d12*Ozone</span>
 <span class="r-in">Temp ~ c.*Solar.R + b1*Ozone + b2*Wind</span>
@@ -390,7 +390,7 @@ In formal analyses, <strong><code>nsim=1000</code> (or larger)</strong> is stron
 <span class="r-in">Direct := c.</span>
 <span class="r-in">Total := c. + a1*b1 + a1*d12*b2</span>
 <span class="r-in">"</span></span>
-<span class="r-in"><span class="va">lv1</span><span class="op">=</span><span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span>model<span class="op">=</span><span class="va">model1</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">lv1</span> <span class="op">=</span> <span class="fu">lavaan</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">sem</a></span><span class="op">(</span>model<span class="op">=</span><span class="va">model1</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">lavaan</span><span class="fu">::</span><span class="fu">summary</span><span class="op">(</span><span class="va">lv1</span>, fit.measure<span class="op">=</span><span class="cn">TRUE</span>, ci<span class="op">=</span><span class="cn">TRUE</span>, nd<span class="op">=</span><span class="fl">3</span><span class="op">)</span>  <span class="co"># raw output</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> lavaan 0.6-11 ended normally after 1 iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

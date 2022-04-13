@@ -16,7 +16,7 @@ in multilevel analysis (HLM)."><meta property="og:image" content="https://psychb
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -145,7 +145,7 @@ In K. J. Klein &amp; S. W. Kozlowski (Eds.), <em>Multilevel theory, research, an
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span><span class="op">=</span><span class="fu">lme4</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lme4/man/sleepstudy.html" class="external-link">sleepstudy</a></span>  <span class="co"># continuous variable</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">lme4</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lme4/man/sleepstudy.html" class="external-link">sleepstudy</a></span>  <span class="co"># continuous variable</span></span>
 <span class="r-in"><span class="fu">HLM_ICC_rWG</span><span class="op">(</span><span class="va">data</span>, group<span class="op">=</span><span class="st">"Subject"</span>, icc.var<span class="op">=</span><span class="st">"Reaction"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">------ Sample Size Information ------</span></span>
@@ -176,7 +176,7 @@ In K. J. Klein &amp; S. W. Kozlowski (Eds.), <em>Multilevel theory, research, an
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">data</span><span class="op">=</span><span class="fu">lmerTest</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lmerTest/man/carrots.html" class="external-link">carrots</a></span>  <span class="co"># 7-point scale</span></span>
+<span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">lmerTest</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/lmerTest/man/carrots.html" class="external-link">carrots</a></span>  <span class="co"># 7-point scale</span></span>
 <span class="r-in"><span class="fu">HLM_ICC_rWG</span><span class="op">(</span><span class="va">data</span>, group<span class="op">=</span><span class="st">"Consumer"</span>, icc.var<span class="op">=</span><span class="st">"Preference"</span>,</span>
 <span class="r-in">            rwg.vars<span class="op">=</span><span class="st">"Preference"</span>,</span>
 <span class="r-in">            rwg.levels<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span>

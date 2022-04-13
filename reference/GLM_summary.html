@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +95,7 @@ Cluster-robust standard errors are computed if cluster is set to the name of the
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## Example 1: OLS regression</span></span>
-<span class="r-in"><span class="va">lm</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Temp</span> <span class="op">~</span> <span class="va">Month</span> <span class="op">+</span> <span class="va">Day</span> <span class="op">+</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Solar.R</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">lm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Temp</span> <span class="op">~</span> <span class="va">Month</span> <span class="op">+</span> <span class="va">Day</span> <span class="op">+</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Solar.R</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">GLM_summary</span><span class="op">(</span><span class="va">lm</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">General Linear Model (OLS Regression)</span></span>
@@ -178,8 +178,8 @@ Cluster-robust standard errors are computed if cluster is set to the name of the
 <span class="r-in"><span class="co"># R package &lt;sandwich&gt;'s default is "HC3"</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## Example 2: Logistic regression</span></span>
-<span class="r-in"><span class="va">glm</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">parity</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">spontaneous</span> <span class="op">+</span> <span class="va">induced</span>,</span>
-<span class="r-in">        data<span class="op">=</span><span class="va">infert</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">glm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">parity</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">spontaneous</span> <span class="op">+</span> <span class="va">induced</span>,</span>
+<span class="r-in">          data<span class="op">=</span><span class="va">infert</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">GLM_summary</span><span class="op">(</span><span class="va">glm</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Generalized Linear Model (GLM)</span></span>
@@ -240,13 +240,13 @@ Cluster-robust standard errors are computed if cluster is set to the name of the
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                        b    S.E.      z     p        [95% CI of b]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)       -1.149 (0.810) -1.418  .156     [ 0.439,  0.439]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                0.040 (0.017)  2.373  .018 *   [ 0.072,  0.072]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> parity            -0.828 (0.194) -4.278 &lt;.001 *** [-0.449, -0.449]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> education6-11yrs  -1.044 (0.542) -1.926  .054 .   [ 0.018,  0.018]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> education12+ yrs  -1.403 (0.587) -2.392  .017 *   [-0.253, -0.253]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> spontaneous        2.046 (0.351)  5.832 &lt;.001 *** [ 2.733,  2.733]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> induced            1.289 (0.319)  4.044 &lt;.001 *** [ 1.913,  1.913]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)       -1.149 (0.810) -1.418  .156     [-2.737,  0.439]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                0.040 (0.017)  2.373  .018 *   [ 0.007,  0.072]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> parity            -0.828 (0.194) -4.278 &lt;.001 *** [-1.208, -0.449]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> education6-11yrs  -1.044 (0.542) -1.926  .054 .   [-2.107,  0.018]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> education12+ yrs  -1.403 (0.587) -2.392  .017 *   [-2.553, -0.253]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> spontaneous        2.046 (0.351)  5.832 &lt;.001 *** [ 1.358,  2.733]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> induced            1.289 (0.319)  4.044 &lt;.001 *** [ 0.664,  1.913]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">Robust S.E.: type = HC1; clustering variable = stratum.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

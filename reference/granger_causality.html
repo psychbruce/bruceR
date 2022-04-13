@@ -16,7 +16,7 @@ command in Stata (but here using an F test)."><meta property="og:image" content=
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,7 +113,7 @@ the lagged values of the outcome itself.</p>
 <span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de" class="external-link">vars</a></span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Canada</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VARselect.html" class="external-link">VARselect</a></span><span class="op">(</span><span class="va">Canada</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">vm</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html" class="external-link">VAR</a></span><span class="op">(</span><span class="va">Canada</span>, p<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">vm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html" class="external-link">VAR</a></span><span class="op">(</span><span class="va">Canada</span>, p<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="model_summary.html">model_summary</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu">granger_causality</span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>

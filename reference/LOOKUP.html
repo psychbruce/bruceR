@@ -14,7 +14,7 @@ Here I provide a similar function."><meta property="og:image" content="https://p
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,10 +100,10 @@ You may also set it to <code>"new.var"</code> or <code>"new.value"</code>.</p></
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">ref</span><span class="op">=</span><span class="fu">data.table</span><span class="op">(</span>City<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">               Year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2013</span><span class="op">:</span><span class="fl">2017</span>, times<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,</span>
-<span class="r-in">               GDP<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">:</span><span class="fl">2000</span>, <span class="fl">15</span><span class="op">)</span>,</span>
-<span class="r-in">               PM2.5<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">300</span>, <span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">ref</span> <span class="op">=</span> <span class="fu">data.table</span><span class="op">(</span>City<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span class="r-in">                 Year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2013</span><span class="op">:</span><span class="fl">2017</span>, times<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span class="r-in">                 GDP<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">:</span><span class="fl">2000</span>, <span class="fl">15</span><span class="op">)</span>,</span>
+<span class="r-in">                 PM2.5<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">300</span>, <span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">ref</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     City Year  GDP PM2.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:    A 2013 1615   285</span>
@@ -122,9 +122,9 @@ You may also set it to <code>"new.var"</code> or <code>"new.value"</code>.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14:    C 2016 1649   286</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15:    C 2017 1439   183</span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">data</span><span class="op">=</span><span class="fu">data.table</span><span class="op">(</span>sub<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
-<span class="r-in">                city<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span><span class="op">)</span>,</span>
-<span class="r-in">                year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2013</span>, <span class="fl">2014</span>, <span class="fl">2015</span>, <span class="fl">2016</span>, <span class="fl">2017</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">data.table</span><span class="op">(</span>sub<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,</span>
+<span class="r-in">                  city<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span><span class="op">)</span>,</span>
+<span class="r-in">                  year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2013</span>, <span class="fl">2014</span>, <span class="fl">2015</span>, <span class="fl">2016</span>, <span class="fl">2017</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">data</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    sub city year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   1    A 2013</span>
