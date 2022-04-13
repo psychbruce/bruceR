@@ -94,9 +94,9 @@ For more usage, see:
 }
 \examples{
 ## Example 1 (bivariate correlation)
-d=as.data.table(psych::bfi)
-d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-        O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
+d = as.data.table(psych::bfi)
+d[, `:=`(E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+         O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
 ggplot(data=d, aes(x=E, y=O)) +
   geom_point(alpha=0.1) +
   geom_smooth(method="loess") +
@@ -105,10 +105,10 @@ ggplot(data=d, aes(x=E, y=O)) +
   theme_bruce(markdown=TRUE)
 
 ## Example 2 (2x2 ANOVA)
-d=data.frame(X1=factor(rep(1:3, each=2)),
-             X2=factor(rep(1:2, 3)),
-             Y.mean=c(5, 3, 2, 7, 3, 6),
-             Y.se=rep(c(0.1, 0.2, 0.1), each=2))
+d = data.frame(X1 = factor(rep(1:3, each=2)),
+               X2 = factor(rep(1:2, 3)),
+               Y.mean = c(5, 3, 2, 7, 3, 6),
+               Y.se = rep(c(0.1, 0.2, 0.1), each=2))
 ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
   geom_bar(position="dodge", stat="identity", width=0.6, show.legend=FALSE) +
   geom_errorbar(aes(x=X1, ymin=Y.mean-Y.se, ymax=Y.mean+Y.se),

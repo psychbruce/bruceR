@@ -51,9 +51,9 @@
 #'
 #' @examples
 #' ## Example 1 (bivariate correlation)
-#' d=as.data.table(psych::bfi)
-#' d[,":="(E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-#'         O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
+#' d = as.data.table(psych::bfi)
+#' d[, `:=`(E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+#'          O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
 #' ggplot(data=d, aes(x=E, y=O)) +
 #'   geom_point(alpha=0.1) +
 #'   geom_smooth(method="loess") +
@@ -62,10 +62,10 @@
 #'   theme_bruce(markdown=TRUE)
 #'
 #' ## Example 2 (2x2 ANOVA)
-#' d=data.frame(X1=factor(rep(1:3, each=2)),
-#'              X2=factor(rep(1:2, 3)),
-#'              Y.mean=c(5, 3, 2, 7, 3, 6),
-#'              Y.se=rep(c(0.1, 0.2, 0.1), each=2))
+#' d = data.frame(X1 = factor(rep(1:3, each=2)),
+#'                X2 = factor(rep(1:2, 3)),
+#'                Y.mean = c(5, 3, 2, 7, 3, 6),
+#'                Y.se = rep(c(0.1, 0.2, 0.1), each=2))
 #' ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
 #'   geom_bar(position="dodge", stat="identity", width=0.6, show.legend=FALSE) +
 #'   geom_errorbar(aes(x=X1, ymin=Y.mean-Y.se, ymax=Y.mean+Y.se),
@@ -79,27 +79,27 @@
 #'   theme_bruce(markdown=TRUE, border="")
 #'
 #' @export
-theme_bruce=function(markdown=FALSE,
-                     base.size=12, line.size=0.5,
-                     border="black",
-                     bg="white", panel.bg="white",
-                     tag="bold", plot.title="bold", axis.title="plain",
-                     title.pos=0.5, subtitle.pos=0.5, caption.pos=1,
-                     font=NULL,
-                     grid.x="", grid.y="",
-                     line.x=TRUE, line.y=TRUE,
-                     tick.x=TRUE, tick.y=TRUE) {
-  if(markdown) element_text=ggtext::element_markdown
+theme_bruce = function(markdown=FALSE,
+                       base.size=12, line.size=0.5,
+                       border="black",
+                       bg="white", panel.bg="white",
+                       tag="bold", plot.title="bold", axis.title="plain",
+                       title.pos=0.5, subtitle.pos=0.5, caption.pos=1,
+                       font=NULL,
+                       grid.x="", grid.y="",
+                       line.x=TRUE, line.y=TRUE,
+                       tick.x=TRUE, tick.y=TRUE) {
+  if(markdown) element_text = ggtext::element_markdown
   # font face:
   #     "plain", "italic", "bold", "bold.italic"
   # margin:
   #     top, right, bottom, left
-  bg=switch(bg,
-            stata="#EAF2F3", stata.grey="#E8E8E8",
-            solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2",
-            bg) # see ggthemr::ggthemr()$palette$background
+  bg = switch(bg,
+              stata="#EAF2F3", stata.grey="#E8E8E8",
+              solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2",
+              bg) # see ggthemr::ggthemr()$palette$background
   # ggthemr::colour_plot(c(solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))
-  margin=ggplot2::margin
+  margin = ggplot2::margin
   if(!is.null(font)) grDevices::windowsFonts(FONT=grDevices::windowsFont(font))
   theme = theme_bw() +
     theme(
@@ -152,8 +152,8 @@ theme_bruce=function(markdown=FALSE,
   return(theme)
 }
 
-# theme_stata=ggthemes::theme_stata(scheme="sj")
-# theme_stata=ggthemes::theme_stata(scheme="s1color")
+# theme_stata = ggthemes::theme_stata(scheme="sj")
+# theme_stata = ggthemes::theme_stata(scheme="s1color")
 
 
 #' Show colors.
@@ -181,11 +181,11 @@ theme_bruce=function(markdown=FALSE,
 #' show_colors(see::pizza_colors())  # a specific palette
 #'
 #' @export
-show_colors=function(colors=see::social_colors()) {
-  colors.names=names(colors)
-  if(is.null(colors.names)) colors.names=colors
-  dc=data.frame(names=forcats::as_factor(colors.names),
-                colors=forcats::as_factor(colors))
+show_colors = function(colors=see::social_colors()) {
+  colors.names = names(colors)
+  if(is.null(colors.names)) colors.names = colors
+  dc = data.frame(names=forcats::as_factor(colors.names),
+                  colors=forcats::as_factor(colors))
   ggplot(dc, aes(x=forcats::fct_rev(names), y=1,
                  fill=forcats::fct_rev(colors))) +
     geom_bar(stat="identity", width=1, show.legend=FALSE) +

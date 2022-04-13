@@ -6,6 +6,8 @@
 \alias{bruceR}
 \title{bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 \strong{BR}oadly
 \strong{U}seful
 \strong{C}onvenient
@@ -21,12 +23,15 @@ and
 \strong{R}
 data analyses.
 
-Install the latest \href{https://github.com/psychbruce/bruceR}{development version} by \code{devtools::install_github("psychbruce/bruceR")}
+Package homepage: \url{https://psychbruce.github.io/bruceR/}
 
-Check updates in \href{https://github.com/psychbruce/bruceR/blob/master/NEWS.md}{Release Notes}.
+Install the latest \href{https://github.com/psychbruce/bruceR}{development version}
+from GitHub:
+\code{devtools::install_github("psychbruce/bruceR")}
 
-Report bugs in \href{https://github.com/psychbruce/bruceR/issues}{GitHub Issues}.
-
+Report bugs at \href{https://github.com/psychbruce/bruceR/issues}{GitHub Issues}.
+}
+\details{
 Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages for you:
 
 \strong{[Data]:}
@@ -173,5 +178,5 @@ as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{ID
 \author{
 \href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}
 
-E-mail: \email{baohws@foxmail.com}
+Email: \email{baohws@foxmail.com}
 }

@@ -61,7 +61,7 @@ print_table(data.frame(x=1))
 print_table(airquality, file="airquality.doc")
 unlink("airquality.doc")  # delete file for code check
 
-model=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+model = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 print_table(model)
 print_table(model, file="model.doc")
 unlink("model.doc")  # delete file for code check

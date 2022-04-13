@@ -1,6 +1,6 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.8.5-5
+Version: 0.8.6
 Date: 2022-04-13
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
@@ -30,7 +30,7 @@ Description:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-URL: https://psychbruce.github.io/bruceR
+URL: https://psychbruce.github.io/bruceR/
 BugReports: https://github.com/psychbruce/bruceR/issues
 Depends: R (>= 4.0.0)
 Imports:
@@ -39,7 +39,7 @@ Imports:
     lmerTest, mediation, interactions, lavaan,
     glue, crayon, ggplot2, ggtext, cowplot, see
 Suggests: 
-    rstudioapi, pacman, covr,
+    rstudioapi, pacman,
     rio, haven, foreign, readxl, openxlsx, clipr,
     tibble, plyr, car, phia,
     lmtest, lme4, vars, GPArotation,

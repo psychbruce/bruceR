@@ -253,8 +253,8 @@ MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 
 #### Other Examples ####
 
-air=airquality
-air$Day.1or2=ifelse(air$Day \%\% 2 == 1, 1, 2) \%>\%
+air = airquality
+air$Day.1or2 = ifelse(air$Day \%\% 2 == 1, 1, 2) \%>\%
   factor(levels=1:2, labels=c("odd", "even"))
 MANOVA(air, dv="Temp", between=c("Month", "Day.1or2"),
        covariate=c("Solar.R", "Wind")) \%>\%

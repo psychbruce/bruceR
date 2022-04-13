@@ -44,7 +44,7 @@ See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:g
 }}
 
 \examples{
-name="Bruce"
+name = "Bruce"
 Print("My name is <<underline <<bold {name}>>>>.
        <<bold <<blue Pi = {pi:.15}.>>>>
        <<italic <<green 1 + 1 = {1 + 1}.>>>>

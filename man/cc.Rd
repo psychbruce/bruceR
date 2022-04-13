@@ -4,10 +4,10 @@
 \alias{cc}
 \title{Split up a string (with separators) into a character vector.}
 \usage{
-cc(x, sep = "auto")
+cc(..., sep = "auto")
 }
 \arguments{
-\item{x}{Character string.}
+\item{...}{Character string(s).}
 
 \item{sep}{Pattern for separation.
 
@@ -17,7 +17,8 @@ Default is \code{"auto"}, including 5 common separators: , ; | \\n \\t.}
 Character vector.
 }
 \description{
-Split up a string (with separators) into a character vector (whitespace around separator is trimmed).
+Split up a string (with separators) into a character vector
+(whitespace around separator is trimmed).
 }
 \examples{
 cc("a,b,c,d,e")
@@ -27,6 +28,10 @@ cc(" a , b , c , d , e ")
 cc("1, 2, 3, 4, 5")
 
 cc("A 1 , B 2 ; C 3 | D 4 \t E 5")
+
+cc("A, B, C",
+   " D | E ",
+   c("F", "G"))
 
 cc("
 American

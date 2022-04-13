@@ -36,12 +36,12 @@ Compute group-mean centered variables.
 Usually used for HLM level-1 predictors.
 }
 \examples{
-d=data.table(x=1:9, g=rep(1:3, each=3))
+d = data.table(x=1:9, g=rep(1:3, each=3))
 
-d.c=group_mean_center(d, "x", by="g")
+d.c = group_mean_center(d, "x", by="g")
 d.c
 
-d.c=group_mean_center(d, "x", by="g", add.suffix="_c")
+d.c = group_mean_center(d, "x", by="g", add.suffix="_c")
 d.c
 
 }

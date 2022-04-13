@@ -82,12 +82,12 @@ See an illustration of this issue in the section "Examples".
 }
 \examples{
 ## Demo data ##
-d1=between.3
-d1$Y1=d1$SCORE  # shorter name for convenience
-d1$Y2=rnorm(32)  # random variable
-d1$B=factor(d1$B, levels=1:2, labels=c("Low", "High"))
-d1$C=factor(d1$C, levels=1:2, labels=c("M", "F"))
-d2=within.1
+d1 = between.3
+d1$Y1 = d1$SCORE  # shorter name for convenience
+d1$Y2 = rnorm(32)  # random variable
+d1$B = factor(d1$B, levels=1:2, labels=c("Low", "High"))
+d1$C = factor(d1$C, levels=1:2, labels=c("M", "F"))
+d2 = within.1
 
 ## One-sample t-test ##
 TTEST(d1, "SCORE")
@@ -115,7 +115,7 @@ TTEST(d2, y=c("A1", "A2", "A3", "A4"), paired=TRUE)
   # In this example, the true point estimate of Cohen's d = 3.00
   # and its 95\% CI should be equal to 95\% CI of mean difference.
 
-  data=data.frame(X=rep(1:2, each=3), Y=1:6)
+  data = data.frame(X=rep(1:2, each=3), Y=1:6)
   data  # simple demo data
 
   TTEST(data, y="Y", x="X")

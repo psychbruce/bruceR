@@ -248,16 +248,16 @@ For more details and illustrations, see
 
 #### Demo Data ####
 # ?mediation::student
-data=mediation::student \%>\%
+data = mediation::student \%>\%
   dplyr::select(SCH_ID, free, smorale, pared, income,
                 gender, work, attachment, fight, late, score)
-names(data)[2:3]=c("SCH_free", "SCH_morale")
-names(data)[4:7]=c("parent_edu", "family_inc", "gender", "partjob")
-data$gender01=1-data$gender  # 0 = female, 1 = male
+names(data)[2:3] = c("SCH_free", "SCH_morale")
+names(data)[4:7] = c("parent_edu", "family_inc", "gender", "partjob")
+data$gender01 = 1 - data$gender  # 0 = female, 1 = male
 # dichotomous X: as.factor()
-data$gender=factor(data$gender01, levels=0:1, labels=c("Female", "Male"))
+data$gender = factor(data$gender01, levels=0:1, labels=c("Female", "Male"))
 # dichotomous Y: as.factor()
-data$pass=as.factor(ifelse(data$score>=50, 1, 0))
+data$pass = as.factor(ifelse(data$score>=50, 1, 0))
 
 #### Descriptive Statistics and Correlation Analyses ####
 Freq(data$gender)
@@ -278,14 +278,14 @@ PROCESS(data, y="pass", x="late", mods="gender",   # dichotomous Y (GLMM)
         clusters="SCH_ID")
 
 # (Johnson-Neyman (J-N) interval and plot)
-PROCESS(data, y="score", x="gender", mods="late")->P
+PROCESS(data, y="score", x="gender", mods="late") -> P
 P$results[[1]]$jn[[1]]       # Johnson-Neyman interval
 P$results[[1]]$jn[[1]]$plot  # Johnson-Neyman plot (ggplot object)
 GLM_summary(P$model.y)       # detailed results of regression
 
 # (allows multicategorical moderator)
-d=airquality
-d$Month=as.factor(d$Month)  # moderator: factor with levels "5"~"9"
+d = airquality
+d$Month = as.factor(d$Month)  # moderator: factor with levels "5"~"9"
 PROCESS(d, y="Temp", x="Solar.R", mods="Month")
 
 ## Model 2 ##
@@ -334,7 +334,7 @@ PROCESS(data, y="score", x="fight",
         ci="boot", nsim=100, seed=1)
 
 ## For more examples and details, see the "note" subfolder at:
-## https://github.com/psychbruce/bruceR
+## https://github.com/psychbruce/bruceR/tree/main/note
 }
 
 }

@@ -30,10 +30,10 @@ library(mediation)
 ## Bias-corrected and accelerated (BCa) bootstrap confidence intervals
 
 ## Hypothesis: Solar radiation -> Ozone -> Daily temperature
-lm.m=lm(Ozone ~ Solar.R + Month + Wind, data=airquality)
-lm.y=lm(Temp ~ Ozone + Solar.R + Month + Wind, data=airquality)
+lm.m = lm(Ozone ~ Solar.R + Month + Wind, data=airquality)
+lm.y = lm(Temp ~ Ozone + Solar.R + Month + Wind, data=airquality)
 set.seed(123)  # set a random seed for reproduction
-med=mediate(lm.m, lm.y,
+med = mediate(lm.m, lm.y,
             treat="Solar.R", mediator="Ozone",
             sims=1000, boot=TRUE, boot.ci.type="bca")
 med_summary(med)
@@ -44,14 +44,14 @@ med_summary(med)
 ## (bootstrap method is not applicable to "lmer" models)
 
 ## Hypothesis: Crips -> Sweetness -> Preference (for carrots)
-data=lmerTest::carrots  # long-format data
-data=na.omit(data)  # omit missing values
-lmm.m=lme4::lmer(Sweetness ~ Crisp + Gender + Age + (1 | Consumer), data=data)
-lmm.y=lme4::lmer(Preference ~ Sweetness + Crisp + Gender + Age + (1 | Consumer), data=data)
+data = lmerTest::carrots  # long-format data
+data = na.omit(data)  # omit missing values
+lmm.m = lme4::lmer(Sweetness ~ Crisp + Gender + Age + (1 | Consumer), data=data)
+lmm.y = lme4::lmer(Preference ~ Sweetness + Crisp + Gender + Age + (1 | Consumer), data=data)
 set.seed(123)  # set a random seed for reproduction
-med.lmm=mediate(lmm.m, lmm.y,
-                treat="Crisp", mediator="Sweetness",
-                sims=1000)
+med.lmm = mediate(lmm.m, lmm.y,
+                  treat="Crisp", mediator="Sweetness",
+                  sims=1000)
 med_summary(med.lmm)
 }
 

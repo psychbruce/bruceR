@@ -57,7 +57,7 @@ Three options to specify variables:
 }
 \examples{
 # ?psych::bfi
-data=psych::bfi
+data = psych::bfi
 Alpha(data, "E", 1:5)  # "E1" & "E2" should be reversed
 Alpha(data, "E", 1:5, rev=1:2)  # correct
 Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct

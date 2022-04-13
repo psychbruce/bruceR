@@ -69,13 +69,13 @@ shifts in a predictor \emph{precede} shifts in an outcome.
 }
 \examples{
 # resemble the default plot output by `ccf()`
-p1=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
+p1 = ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
 
 # a more colorful plot
-p2=ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
-            pos.color="#CD201F",
-            neg.color="#21759B",
-            ci.color="black")
+p2 = ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
+              pos.color="#CD201F",
+              neg.color="#21759B",
+              ci.color="black")
 
 }
 \seealso{

@@ -32,9 +32,9 @@ library(lmerTest)
 # (1) 'Subject' is a grouping/clustering variable
 # (2) 'Days' is a level-1 predictor nested within 'Subject'
 # (3) No level-2 predictors
-m1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
-m2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
-m3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+m1 = lmer(Reaction ~ (1 | Subject), data=sleepstudy)
+m2 = lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
+m3 = lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 HLM_summary(m1)
 HLM_summary(m2)
 HLM_summary(m3)
@@ -43,10 +43,10 @@ HLM_summary(m3)
 # (1) 'Consumer' is a grouping/clustering variable
 # (2) 'Sweetness' is a level-1 predictor
 # (3) 'Age' and 'Frequency' are level-2 predictors
-hlm.1=lmer(Preference ~ Sweetness + Age + Frequency +
-             (1 | Consumer), data=carrots)
-hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
-             (Sweetness | Consumer) + (1 | Product), data=carrots)
+hlm.1 = lmer(Preference ~ Sweetness + Age + Frequency +
+               (1 | Consumer), data=carrots)
+hlm.2 = lmer(Preference ~ Sweetness + Age + Frequency +
+               (Sweetness | Consumer) + (1 | Product), data=carrots)
 HLM_summary(hlm.1)
 HLM_summary(hlm.2)
 

@@ -131,7 +131,7 @@ Results based on the \code{varimax} rotation method are identical to SPSS.
 The other rotation methods may produce results slightly different from SPSS.
 }
 \examples{
-data=psych::bfi
+data = psych::bfi
 EFA(data, "E", 1:5)              # var + items
 EFA(data, "E", 1:5, nfactors=2)  # var + items
 

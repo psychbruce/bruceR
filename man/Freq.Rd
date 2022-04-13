@@ -27,7 +27,7 @@ A data frame of frequency statistics.
 Frequency statistics.
 }
 \examples{
-data=psych::bfi
+data = psych::bfi
 
 ## Input `data$variable`
 Freq(data$education)

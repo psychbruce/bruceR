@@ -12,7 +12,7 @@
 #' formula_paste(y ~ x + (1 | g))
 #'
 #' @export
-formula_paste=function(formula) {
+formula_paste = function(formula) {
   if(inherits(formula, c("formula", "call")))
     paste(formula[2], formula[1], formula[3], collapse=" ")
   else
@@ -32,17 +32,17 @@ formula_paste=function(formula) {
 #' formula_expand("y ~ a*b*c")
 #'
 #' @export
-formula_expand=function(formula, as.char=FALSE) {
-  inter_expand=function(inter) paste(attr(terms.formula(as.formula(paste("~", inter))), "term.labels"), collapse=" + ")
-  f=as.character(as.formula(formula))
-  fx=f[3]
-  fx.R=str_extract_all(fx, "\\([^\\)]+\\)", simplify=T)
-  if(length(fx.R)>0) for(i in 1:length(fx.R)) if(grepl("\\*", fx.R[i])) fx.R[i]=paste0("(", inter_expand(str_remove_all(fx.R[i], "\\(|\\|.*")), " ", str_extract(fx.R[i], "\\|.*"))
-  fx.F=str_remove_all(fx, "[\\+ ]*\\([^\\)]+\\)[\\+ ]*")
-  fx.F=ifelse(fx.F=="", "", inter_expand(fx.F))
-  fx=paste(fx.F, paste(fx.R, collapse=" + "), sep=ifelse(length(fx.R)==0 | fx.F=="", "", " + "))
-  f=as.formula(paste(f[2], f[1], fx))
-  if(as.char) f=formula_paste(f)
+formula_expand = function(formula, as.char=FALSE) {
+  inter_expand = function(inter) paste(attr(terms.formula(as.formula(paste("~", inter))), "term.labels"), collapse=" + ")
+  f = as.character(as.formula(formula))
+  fx = f[3]
+  fx.R = str_extract_all(fx, "\\([^\\)]+\\)", simplify=T)
+  if(length(fx.R)>0) for(i in 1:length(fx.R)) if(grepl("\\*", fx.R[i])) fx.R[i] = paste0("(", inter_expand(str_remove_all(fx.R[i], "\\(|\\|.*")), " ", str_extract(fx.R[i], "\\|.*"))
+  fx.F = str_remove_all(fx, "[\\+ ]*\\([^\\)]+\\)[\\+ ]*")
+  fx.F = ifelse(fx.F=="", "", inter_expand(fx.F))
+  fx = paste(fx.F, paste(fx.R, collapse=" + "), sep=ifelse(length(fx.R)==0 | fx.F=="", "", " + "))
+  f = as.formula(paste(f[2], f[1], fx))
+  if(as.char) f = formula_paste(f)
   return(f)
 }
 
@@ -61,25 +61,25 @@ formula_expand=function(formula, as.char=FALSE) {
 #' @return A new data object containing the centered variable(s).
 #'
 #' @examples
-#' d=data.table(a=1:5, b=6:10)
+#' d = data.table(a=1:5, b=6:10)
 #'
-#' d.c=grand_mean_center(d, "a")
+#' d.c = grand_mean_center(d, "a")
 #' d.c
 #'
-#' d.c=grand_mean_center(d, c("a", "b"), add.suffix="_center")
+#' d.c = grand_mean_center(d, c("a", "b"), add.suffix="_center")
 #' d.c
 #'
 #' @seealso \code{\link{group_mean_center}}
 #'
 #' @export
-grand_mean_center=function(data, vars=names(data),
-                           std=FALSE, add.suffix="") {
-  data.c=as.data.frame(data)
+grand_mean_center = function(data, vars=names(data),
+                             std=FALSE, add.suffix="") {
+  data.c = as.data.frame(data)
   for(var in vars)
     if(inherits(data.c[[var]], c("numeric", "integer", "double", "logical")))
-      data.c[paste0(var, add.suffix)]=as.numeric(scale(data.c[var], center=TRUE, scale=std))
+      data.c[paste0(var, add.suffix)] = as.numeric(scale(data.c[var], center=TRUE, scale=std))
   if(data.table::is.data.table(data))
-    data.c=data.table::as.data.table(data.c)
+    data.c = data.table::as.data.table(data.c)
   return(data.c)
 }
 
@@ -96,34 +96,34 @@ grand_mean_center=function(data, vars=names(data),
 #' @return A new data object containing the centered variable(s).
 #'
 #' @examples
-#' d=data.table(x=1:9, g=rep(1:3, each=3))
+#' d = data.table(x=1:9, g=rep(1:3, each=3))
 #'
-#' d.c=group_mean_center(d, "x", by="g")
+#' d.c = group_mean_center(d, "x", by="g")
 #' d.c
 #'
-#' d.c=group_mean_center(d, "x", by="g", add.suffix="_c")
+#' d.c = group_mean_center(d, "x", by="g", add.suffix="_c")
 #' d.c
 #'
 #' @seealso \code{\link{grand_mean_center}}
 #'
 #' @export
-group_mean_center=function(data, vars=setdiff(names(data), by), by,
-                           std=FALSE,
-                           add.suffix="",
-                           add.group.mean="_mean") {
-  data.c=as.data.frame(data)
-  grouplist=sort(unique(data.c[[by]]))
+group_mean_center = function(data, vars=setdiff(names(data), by), by,
+                             std=FALSE,
+                             add.suffix="",
+                             add.group.mean="_mean") {
+  data.c = as.data.frame(data)
+  grouplist = sort(unique(data.c[[by]]))
   for(var in vars) {
     for(group in grouplist) {
       if(inherits(data.c[[var]], c("numeric", "integer", "double", "logical"))) {
-        dvar=data.c[which(data.c[by]==group), var]
-        data.c[which(data.c[by]==group), paste0(var, add.group.mean)]=mean(dvar, na.rm=TRUE)
-        data.c[which(data.c[by]==group), paste0(var, add.suffix)]=as.numeric(scale(dvar, center=TRUE, scale=std))
+        dvar = data.c[which(data.c[by]==group), var]
+        data.c[which(data.c[by]==group), paste0(var, add.group.mean)] = mean(dvar, na.rm=TRUE)
+        data.c[which(data.c[by]==group), paste0(var, add.suffix)] = as.numeric(scale(dvar, center=TRUE, scale=std))
       }
     }
   }
   if(data.table::is.data.table(data))
-    data.c=data.table::as.data.table(data.c)
+    data.c = data.table::as.data.table(data.c)
   return(data.c)
 }
 
@@ -158,7 +158,7 @@ group_mean_center=function(data, vars=setdiff(names(data), by), by,
 #'
 #'   ## glmer
 #'   library(lmerTest)
-#'   data.glmm=MASS::bacteria
+#'   data.glmm = MASS::bacteria
 #'   regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
 #'   regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #' }
@@ -173,23 +173,23 @@ group_mean_center=function(data, vars=setdiff(names(data), by), by,
 #' \code{\link{HLM_summary}}
 #'
 #' @export
-regress=function(formula, data, family=NULL,
-                 digits=3, nsmall=digits,
-                 robust=FALSE, cluster=NULL,
-                 # level2.predictors="", vartypes=NULL,
-                 test.rand=FALSE) {
-  call=sys.call()[-1]  # get function call (argument list)
+regress = function(formula, data, family=NULL,
+                   digits=3, nsmall=digits,
+                   robust=FALSE, cluster=NULL,
+                   # level2.predictors="", vartypes=NULL,
+                   test.rand=FALSE) {
+  call = sys.call()[-1]  # get function call (argument list)
   if(!is.null(family))
-    family.text=ifelse(!is.null(call$family),
-                       deparse(call$family),
-                       deparse(call[[3]]))
-  y=as.character(formula)[2]
-  x=as.character(formula)[3]
-  # dots=list(...)
+    family.text = ifelse(!is.null(call$family),
+                         deparse(call$family),
+                         deparse(call[[3]]))
+  y = as.character(formula)[2]
+  x = as.character(formula)[3]
+  # dots = list(...)
   if(grepl("\\|", x)==FALSE) {
     # lm & glm
     if(is.null(family)) {
-      # model=lm(formula=formula, data=data)
+      # model = lm(formula=formula, data=data)
       GLM_summary(model=NULL,
                   robust, cluster,
                   nsmall,
@@ -278,8 +278,8 @@ regress=function(formula, data, family=NULL,
 #' \dontrun{
 #'
 #'   #### Example 1: Linear Model ####
-#'   lm1=lm(Temp ~ Month + Day, data=airquality)
-#'   lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+#'   lm1 = lm(Temp ~ Month + Day, data=airquality)
+#'   lm2 = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #'   model_summary(lm1)
 #'   model_summary(lm2)
 #'   model_summary(list(lm1, lm2))
@@ -288,19 +288,19 @@ regress=function(formula, data, family=NULL,
 #'   unlink("OLS Models.doc")  # delete file for code check
 #'
 #'   #### Example 2: Generalized Linear Model ####
-#'   glm1=glm(case ~ age + parity,
-#'            data=infert, family=binomial)
-#'   glm2=glm(case ~ age + parity + education + spontaneous + induced,
-#'            data=infert, family=binomial)
+#'   glm1 = glm(case ~ age + parity,
+#'              data=infert, family=binomial)
+#'   glm2 = glm(case ~ age + parity + education + spontaneous + induced,
+#'              data=infert, family=binomial)
 #'   model_summary(list(glm1, glm2))  # "std" is not applicable to glm
 #'   model_summary(list(glm1, glm2), file="GLM Models.doc")
 #'   unlink("GLM Models.doc")  # delete file for code check
 #'
 #'   #### Example 3: Linear Mixed Model ####
 #'   library(lmerTest)
-#'   hlm1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
-#'   hlm2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
-#'   hlm3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#'   hlm1 = lmer(Reaction ~ (1 | Subject), data=sleepstudy)
+#'   hlm2 = lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
+#'   hlm3 = lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 #'   model_summary(list(hlm1, hlm2, hlm3))
 #'   model_summary(list(hlm1, hlm2, hlm3), std=TRUE)
 #'   model_summary(list(hlm1, hlm2, hlm3), file="HLM Models.doc")
@@ -308,19 +308,19 @@ regress=function(formula, data, family=NULL,
 #'
 #'   #### Example 4: Generalized Linear Mixed Model ####
 #'   library(lmerTest)
-#'   data.glmm=MASS::bacteria
-#'   glmm1=glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
-#'   glmm2=glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
+#'   data.glmm = MASS::bacteria
+#'   glmm1 = glmer(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
+#'   glmm2 = glmer(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 #'   model_summary(list(glmm1, glmm2))  # "std" is not applicable to glmm
 #'   model_summary(list(glmm1, glmm2), file="GLMM Models.doc")
 #'   unlink("GLMM Models.doc")  # delete file for code check
 #'
 #'   #### Example 5: Multinomial Logistic Model ####
 #'   library(nnet)
-#'   d=airquality
-#'   d$Month=as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
-#'   mn1=multinom(Month ~ Temp, data=d, Hess=TRUE)
-#'   mn2=multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
+#'   d = airquality
+#'   d$Month = as.factor(d$Month)  # Factor levels: 5, 6, 7, 8, 9
+#'   mn1 = multinom(Month ~ Temp, data=d, Hess=TRUE)
+#'   mn2 = multinom(Month ~ Temp + Wind + Ozone, data=d, Hess=TRUE)
 #'   model_summary(mn1)
 #'   model_summary(mn2)
 #'   model_summary(mn2, file="Multinomial Logistic Model.doc")
@@ -328,66 +328,66 @@ regress=function(formula, data, family=NULL,
 #' }
 #'
 #' @export
-model_summary=function(model.list,
-                       std=FALSE,
-                       digits=3,
-                       nsmall=digits,
-                       file=NULL,
-                       check=TRUE,
-                       zero=ifelse(std, FALSE, TRUE),
-                       modify.se=NULL,
-                       modify.head=NULL,
-                       line=TRUE,
-                       bold=0,
-                       ...) {
+model_summary = function(model.list,
+                         std=FALSE,
+                         digits=3,
+                         nsmall=digits,
+                         file=NULL,
+                         check=TRUE,
+                         zero=ifelse(std, FALSE, TRUE),
+                         modify.se=NULL,
+                         modify.head=NULL,
+                         line=TRUE,
+                         bold=0,
+                         ...) {
   if(inherits(model.list, "varest")) {
-    model.list=model.list$varresult
-    modify.head=names(model.list)
+    model.list = model.list$varresult
+    modify.head = names(model.list)
   }
   if(inherits(model.list, "list")==FALSE)
-    model.list=list(model.list)
+    model.list = list(model.list)
   if(is.null(file)) {
-    sumreg=texreg::screenreg
+    sumreg = texreg::screenreg
   } else {
-    sumreg=texreg::htmlreg
+    sumreg = texreg::htmlreg
   }
 
-  model_y=function(model) {
+  model_y = function(model) {
     # if(inherits(model, c("lmerMod", "lmerModLmerTest", "glmerMod")))
-    #   y=model@call[["formula"]][[2]]
+    #   y = model@call[["formula"]][[2]]
     # else if(inherits(model, "lme"))
-    #   y=model$call[["fixed"]][[2]]
+    #   y = model$call[["fixed"]][[2]]
     # else
-    #   y=model$call[["formula"]][[2]]
-    # if(is.null(y)) y=""
-    y=names(model.frame(model))[1]
+    #   y = model$call[["formula"]][[2]]
+    # if(is.null(y)) y = ""
+    y = names(model.frame(model))[1]
     return(y)
   }
-  model_std_coef=function(model) {
+  model_std_coef = function(model) {
     MuMIn::std.coef(model, partial.sd=FALSE)[,1]
   }
-  model_std_s.e.=function(model) {
+  model_std_s.e. = function(model) {
     MuMIn::std.coef(model, partial.sd=FALSE)[,2]
   }
-  model_R2mcfadden=function(model) {
+  model_R2mcfadden = function(model) {
     ifelse(
       inherits(model, "glm"),
       1-model$deviance/model$null.deviance,
       NA)
   }
-  model_R2nagelkerke=function(model) {
+  model_R2nagelkerke = function(model) {
     ifelse(
       inherits(model, "glm"),
       as.numeric(performance::r2_nagelkerke(model)),
       NA)
   }
-  model_R2m=function(model) {
+  model_R2m = function(model) {
     ifelse(
       inherits(model, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")),
       as.numeric(MuMIn::r.squaredGLMM(model)[1, "R2m"]),
       NA)
   }
-  model_R2c=function(model) {
+  model_R2c = function(model) {
     ifelse(
       inherits(model, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")),
       as.numeric(MuMIn::r.squaredGLMM(model)[1, "R2c"]),
@@ -395,57 +395,57 @@ model_summary=function(model.list,
   }
 
   if(is.null(modify.head)) {
-    new.model.names=NULL
+    new.model.names = NULL
     try({
       if(any(unlist(lapply(model.list, inherits, "nnet")))) {
-        multinom.y=as.character(lapply(model.list, model_y))[1]
-        multinom.ref=model.list[[1]][["lab"]][1]
+        multinom.y = as.character(lapply(model.list, model_y))[1]
+        multinom.ref = model.list[[1]][["lab"]][1]
       } else {
-        new.model.names=paste(paste0("(", 1:length(model.list), ")"),
-                              as.character(lapply(model.list, model_y)))
-        new.model.names=str_trim(new.model.names)
+        new.model.names = paste(paste0("(", 1:length(model.list), ")"),
+                                as.character(lapply(model.list, model_y)))
+        new.model.names = str_trim(new.model.names)
       }
     }, silent=TRUE)
   } else {
-    new.model.names=modify.head
+    new.model.names = modify.head
   }
 
   if(std) {
-    new.coef=lapply(model.list, model_std_coef)
-    new.s.e.=lapply(model.list, model_std_s.e.)
-    omit="Intercept"
+    new.coef = lapply(model.list, model_std_coef)
+    new.s.e. = lapply(model.list, model_std_s.e.)
+    omit = "Intercept"
   } else {
-    new.coef=0
-    new.s.e.=0
-    omit=NULL
+    new.coef = 0
+    new.s.e. = 0
+    omit = NULL
   }
 
-  if(!is.null(modify.se)) new.s.e.=modify.se
+  if(!is.null(modify.se)) new.s.e. = modify.se
 
   suppressWarnings({
-    new.R2.all=list()
+    new.R2.all = list()
     if(any(unlist(lapply(model.list, inherits, c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))))) {
       try({
-        new.R2=list(
-          R2m=as.numeric(lapply(model.list, model_R2m)),
-          R2c=as.numeric(lapply(model.list, model_R2c))
+        new.R2 = list(
+          R2m = as.numeric(lapply(model.list, model_R2m)),
+          R2c = as.numeric(lapply(model.list, model_R2c))
         )
-        names(new.R2)=c("Marginal R^2", "Conditional R^2")
-        new.R2.all=c(new.R2.all, new.R2)
+        names(new.R2) = c("Marginal R^2", "Conditional R^2")
+        new.R2.all = c(new.R2.all, new.R2)
       }, silent=TRUE)
     }
     if(any(unlist(lapply(model.list, inherits, "glm")))) {
-      new.R2=list(
-        R2mcfadden=as.numeric(lapply(model.list, model_R2mcfadden)),
-        R2nagelkerke=as.numeric(lapply(model.list, model_R2nagelkerke))
+      new.R2 = list(
+        R2mcfadden = as.numeric(lapply(model.list, model_R2mcfadden)),
+        R2nagelkerke = as.numeric(lapply(model.list, model_R2nagelkerke))
       )
-      names(new.R2)=c("McFadden's R^2", "Nagelkerke's R^2")
-      new.R2.all=c(new.R2.all, new.R2)
+      names(new.R2) = c("McFadden's R^2", "Nagelkerke's R^2")
+      new.R2.all = c(new.R2.all, new.R2)
     }
     if(length(new.R2.all)==0)
-      new.R2.all=NULL
+      new.R2.all = NULL
 
-    output=sumreg(
+    output = sumreg(
       model.list, file=NULL,
       leading.zero=zero, digits=nsmall, bold=bold,
       custom.model.names=new.model.names,
@@ -470,7 +470,7 @@ model_summary=function(model.list,
 
   if(is.null(file)) {
     if(line) {
-      output=output %>%
+      output = output %>%
         str_replace_all(
           "[-=]{3,}",
           rep_char("\u2500", str_count(output, "=")/2))
@@ -483,7 +483,7 @@ model_summary=function(model.list,
     if(length(model.list)==1 & check==TRUE) {
       try({
         suppressWarnings({
-          check.coll=performance::check_collinearity(model.list[[1]])
+          check.coll = performance::check_collinearity(model.list[[1]])
         })
         if(!is.null(check.coll)) {
           print(check.coll)
@@ -492,8 +492,8 @@ model_summary=function(model.list,
       }, silent=TRUE)
     }
   } else {
-    file=str_replace(file, "\\.docx$", ".doc")
-    output=output %>%
+    file = str_replace(file, "\\.docx$", ".doc")
+    output = output %>%
       str_replace_all("&nbsp;", "") %>%
       str_replace_all("'", "\u2019") %>%
       str_replace_all("<td>-", "<td>\u2013") %>%
@@ -521,7 +521,7 @@ model_summary=function(model.list,
     # sink(file)
     # cat(output)
     # sink()
-    f=file(file, "w", encoding="UTF-8")
+    f = file(file, "w", encoding="UTF-8")
     cat(output, file=f)
     close(f)
     Print("<<green \u221a>> Table saved to <<blue '{paste0(getwd(), '/', file)}'>>")
@@ -558,15 +558,15 @@ model_summary=function(model.list,
 #'
 #' @examples
 #' ## Example 1: OLS regression
-#' lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+#' lm = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' GLM_summary(lm)
 #' GLM_summary(lm, robust="HC1")
 #' # Stata's default is "HC1"
 #' # R package <sandwich>'s default is "HC3"
 #'
 #' ## Example 2: Logistic regression
-#' glm=glm(case ~ age + parity + education + spontaneous + induced,
-#'         data=infert, family=binomial)
+#' glm = glm(case ~ age + parity + education + spontaneous + induced,
+#'           data=infert, family=binomial)
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
 #'
@@ -580,28 +580,28 @@ model_summary=function(model.list,
 #' \code{\link{regress}}
 #'
 #' @export
-GLM_summary=function(model, robust=FALSE, cluster=NULL,
-                     digits=3, nsmall=digits, ...) {
-  dots=list(...)
+GLM_summary = function(model, robust=FALSE, cluster=NULL,
+                       digits=3, nsmall=digits, ...) {
+  dots = list(...)
   if(c("formula", "data") %allin% names(dots)) {
     # re-modeling
-    formula=dots$formula
-    data=dots$data
+    formula = dots$formula
+    data = dots$data
     if("family" %notin% names(dots))
-      Run("model=lm({formula_paste(formula)}, data=data)")
+      Run("model = lm({formula_paste(formula)}, data=data)")
     else
-      Run("model=glm({formula_paste(formula)}, data=data, family={dots$family})")
+      Run("model = glm({formula_paste(formula)}, data=data, family={dots$family})")
   }
-  dv=names(model[["model"]])[1]
-  sumModel=summary(model)
-  N=nrow(model$model)
-  N.missing=ifelse("na.action" %in% names(model), Glue(" ({length(model$na.action)} missing cases deleted)"), "")
+  dv = names(model[["model"]])[1]
+  sumModel = summary(model)
+  N = nrow(model$model)
+  N.missing = ifelse("na.action" %in% names(model), Glue(" ({length(model$na.action)} missing cases deleted)"), "")
 
   ## lm vs.glm ##
   if(inherits(model, "lm") & !inherits(model, "glm")) {
     ## Print: Model Fit ##
-    Ftest=sumModel[["fstatistic"]]
-    names(Ftest)=c("F", "df1", "df2")
+    Ftest = sumModel[["fstatistic"]]
+    names(Ftest) = c("F", "df1", "df2")
     Print("
     \n
     <<cyan General Linear Model (OLS Regression)>>
@@ -613,17 +613,17 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     ")
 
     ## Print: Fixed Effects ##
-    FE=as.data.frame(sumModel[["coefficients"]])
-    df=model[["df.residual"]]
-    FE$CI=paste0("[",
-                 formatF(FE[,1]+qt(0.025, df)*FE[,2], nsmall), ", ",
-                 formatF(FE[,1]+qt(0.975, df)*FE[,2], nsmall), "]")
-    names(FE)=c("b", "S.E.", "t", "pval", "[95% CI of b]")
+    FE = as.data.frame(sumModel[["coefficients"]])
+    df = model[["df.residual"]]
+    FE$CI = cc_ci(FE[,1] + qt(0.025, df) * FE[,2],
+                  FE[,1] + qt(0.975, df) * FE[,2],
+                  nsmall)
+    names(FE) = c("b", "S.E.", "t", "pval", "[95% CI of b]")
     if(length(model[["model"]])>2) {
-      FE.vif=jtools::summ(model, vif=TRUE)
-      FE=cbind(FE, VIF=FE.vif$coeftable[,"VIF"])
+      FE.vif = jtools::summ(model, vif=TRUE)
+      FE = cbind(FE, VIF=FE.vif$coeftable[,"VIF"])
     } else {
-      FE=cbind(FE, VIF=NA)
+      FE = cbind(FE, VIF=NA)
     }
     print_table(FE, nsmalls=nsmall,
                 title=Glue("
@@ -634,13 +634,13 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
     ## Print: Robust SE ##
     if(robust!=FALSE | !is.null(cluster)) {
-      if(robust==TRUE) robust="HC1"
-      summ.rob=jtools::summ(model, robust=robust, cluster=cluster)
-      FE.rob=as.data.frame(summ.rob$coeftable)
-      FE.rob$CI=paste0("[",
-                       formatF(FE.rob[,1]+qt(0.025, df)*FE.rob[,2], nsmall), ", ",
-                       formatF(FE.rob[,1]+qt(0.975, df)*FE.rob[,2], nsmall), "]")
-      names(FE.rob)=c("b", "S.E.", "t", "pval", "[95% CI of b]")
+      if(robust==TRUE) robust = "HC1"
+      summ.rob = jtools::summ(model, robust=robust, cluster=cluster)
+      FE.rob = as.data.frame(summ.rob$coeftable)
+      FE.rob$CI = cc_ci(FE.rob[,1] + qt(0.025, df) * FE.rob[,2],
+                        FE.rob[,1] + qt(0.975, df) * FE.rob[,2],
+                        nsmall)
+      names(FE.rob) = c("b", "S.E.", "t", "pval", "[95% CI of b]")
       print_table(FE.rob, nsmalls=nsmall,
                   title=Glue("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-Robust Standard Errors:"),
                   note=Glue("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>"))
@@ -649,21 +649,21 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
     ## Print: Standardized Coefficients ##
     if(nrow(FE)>1) {
-      FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
-      FE.rp=jtools::summ(model, part.corr=TRUE)
-      t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
-      FE.std=cbind(
+      FE.std = as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
+      FE.rp = jtools::summ(model, part.corr=TRUE)
+      t = FE.std[,1] / FE.std[,2]  # FE$t[-1]
+      FE.std = cbind(
         FE.std,
-        t=t,
-        pval=p.t(t, df),
-        CI.std=paste0("[",
-                      formatF(FE.std[,1]+qt(0.025, df)*FE.std[,2], nsmall), ", ",
-                      formatF(FE.std[,1]+qt(0.975, df)*FE.std[,2], nsmall), "]"),
-        r.partial=FE.rp$coeftable[-1, "partial.r"],
-        r.part=FE.rp$coeftable[-1, "part.r"])
-      names(FE.std)=c("\u03b2", "S.E.", "t", "pval",
-                      "[95% CI of \u03b2]",
-                      "r(partial)", "r(part)")
+        t = t,
+        pval = p.t(t, df),
+        CI.std = cc_ci(FE.std[,1] + qt(0.025, df) * FE.std[,2],
+                       FE.std[,1] + qt(0.975, df) * FE.std[,2],
+                       nsmall),
+        r.partial = FE.rp$coeftable[-1, "partial.r"],
+        r.part = FE.rp$coeftable[-1, "part.r"])
+      names(FE.std) = c("\u03b2", "S.E.", "t", "pval",
+                        "[95% CI of \u03b2]",
+                        "r(partial)", "r(part)")
       print_table(FE.std, nsmalls=nsmall,
                   title=Glue("
       Standardized Coefficients (\u03b2):
@@ -673,10 +673,10 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     }
   } else if(inherits(model, "glm")) {
     ## Print: Model Fit ##
-    aov.glm=anova(model, test="Chisq")
-    Chi2=sum(aov.glm$Deviance, na.rm=TRUE)
-    Df=sum(aov.glm$Df, na.rm=TRUE)
-    R2.glm=performance::r2_nagelkerke(model)
+    aov.glm = anova(model, test="Chisq")
+    Chi2 = sum(aov.glm$Deviance, na.rm=TRUE)
+    Df = sum(aov.glm$Df, na.rm=TRUE)
+    R2.glm = performance::r2_nagelkerke(model)
     Print("
     \n
     <<cyan Generalized Linear Model (GLM)>>
@@ -692,17 +692,17 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
     ")
 
     ## Print: Fixed Effects ##
-    FE=as.data.frame(sumModel[["coefficients"]])
-    FE$CI=paste0("[",
-                 formatF(FE[,1]-qnorm(0.975)*FE[,2], nsmall), ", ",
-                 formatF(FE[,1]+qnorm(0.975)*FE[,2], nsmall), "]")
-    FE$OR=exp(FE[,1])
+    FE = as.data.frame(sumModel[["coefficients"]])
+    FE$CI = cc_ci(FE[,1] + qnorm(0.025) * FE[,2],
+                  FE[,1] + qnorm(0.975) * FE[,2],
+                  nsmall)
+    FE$OR = exp(FE[,1])
     if(length(model[["model"]])>2) {
-      FE$VIF=jtools::summ(model, vif=TRUE)$coeftable[,"VIF"]
+      FE$VIF = jtools::summ(model, vif=TRUE)$coeftable[,"VIF"]
     } else {
-      FE$VIF=NA
+      FE$VIF = NA
     }
-    names(FE)=c("b", "S.E.", "z", "pval", "[95% CI of b]", "OR", "VIF")
+    names(FE) = c("b", "S.E.", "z", "pval", "[95% CI of b]", "OR", "VIF")
     print_table(FE, nsmalls=nsmall,
                 title=Glue("
     Unstandardized Coefficients:
@@ -713,13 +713,13 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
     ## Print: Robust SE ##
     if(robust!=FALSE | !is.null(cluster)) {
-      if(robust==TRUE) robust="HC1"
-      summ.rob=jtools::summ(model, robust=robust, cluster=cluster)
-      FE.rob=as.data.frame(summ.rob$coeftable)
-      FE.rob$CI=paste0("[",
-                       formatF(FE.rob[,1]+qnorm(0.975)*FE.rob[,2], nsmall), ", ",
-                       formatF(FE.rob[,1]+qnorm(0.975)*FE.rob[,2], nsmall), "]")
-      names(FE.rob)=c("b", "S.E.", "z", "pval", "[95% CI of b]")
+      if(robust==TRUE) robust = "HC1"
+      summ.rob = jtools::summ(model, robust=robust, cluster=cluster)
+      FE.rob = as.data.frame(summ.rob$coeftable)
+      FE.rob$CI = cc_ci(FE.rob[,1] + qnorm(0.025) * FE.rob[,2],
+                        FE.rob[,1] + qnorm(0.975) * FE.rob[,2],
+                        nsmall)
+      names(FE.rob) = c("b", "S.E.", "z", "pval", "[95% CI of b]")
       print_table(FE.rob, nsmalls=nsmall,
                   title=Glue("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-Robust Standard Errors:"),
                   note=Glue("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>"))
@@ -737,54 +737,54 @@ GLM_summary=function(model, robust=FALSE, cluster=NULL,
 
 
 ## Testing random effects and computing intraclass correlation coefficient (ICC) for HLM
-HLM_ICC=function(model, nsmall=3) {
+HLM_ICC = function(model, nsmall=3) {
   ## Extract components from model ##
-  sumModel=summary(model)
-  data=as.data.frame(model@frame)
-  RE=as.data.frame(sumModel[["varcor"]])
-  RE=RE[is.na(RE[[3]]), -3]
+  sumModel = summary(model)
+  data = as.data.frame(model@frame)
+  RE = as.data.frame(sumModel[["varcor"]])
+  RE = RE[is.na(RE[[3]]), -3]
 
   ## Initialize ICC data.frame ##
-  N=nrow(model@frame)
-  K=sumModel[["ngrps"]][RE$grp]
-  group.id=na.omit(names(K))
-  ICC=data.frame(RE[1], K, RE[2], RE[3])
-  names(ICC)=c("Group", "K", "Parameter", "Variance")
-  var.resid=ICC[ICC$Group=="Residual", "Variance"]
-  var.total=sum(ICC[ICC$Parameter=="(Intercept)" | ICC$Group=="Residual", "Variance"])
+  N = nrow(model@frame)
+  K = sumModel[["ngrps"]][RE$grp]
+  group.id = na.omit(names(K))
+  ICC = data.frame(RE[1], K, RE[2], RE[3])
+  names(ICC) = c("Group", "K", "Parameter", "Variance")
+  var.resid = ICC[ICC$Group=="Residual", "Variance"]
+  var.total = sum(ICC[ICC$Parameter=="(Intercept)" | ICC$Group=="Residual", "Variance"])
 
   ## Mean sample size of each group ##
-  # n.mean=c()
-  # for(group in group.id) n.mean=c(n.mean, (N-sum(data[,.(n=.N^2), by=group]$n)/N) / (nlevels(data[[group]])-1) )  # quite similar to "N / K"
-  # n.mean=c(n.mean, NA)
+  # n.mean = c()
+  # for(group in group.id) n.mean = c(n.mean, (N-sum(data[,.(n=.N^2), by=group]$n)/N) / (nlevels(data[[group]])-1) )  # quite similar to "N / K"
+  # n.mean = c(n.mean, NA)
 
   ## Test for variance (Wen Fuxing, 2009, pp.85-97; Snijders & Bosker, 2012, pp.190-191) ##
-  var=ICC$Variance
-  # var.se=var.resid * (2/N) * sqrt(1/(n.mean-1) + 2*var/var.resid + n.mean*var^2/var.resid^2)  # error !!!
-  # var.se=sqrt(2*(var+var.resid/n.mean)^2/(K-1) + 2*var.resid^2/((N-K)*n.mean^2))
-  # var.wald.z=var/var.se
-  # var.p=p.z(var.wald.z)
+  var = ICC$Variance
+  # var.se = var.resid * (2/N) * sqrt(1/(n.mean-1) + 2*var/var.resid + n.mean*var^2/var.resid^2)  # error !!!
+  # var.se = sqrt(2*(var+var.resid/n.mean)^2/(K-1) + 2*var.resid^2/((N-K)*n.mean^2))
+  # var.wald.z = var/var.se
+  # var.p = p.z(var.wald.z)
 
   ## Compute and test for ICC (Snijders & Bosker, 2012, pp.20-21) ##
-  icc=var/var.total
-  # icc.se=(1-icc) * (1+(n.mean-1)*icc) * sqrt(2/(n.mean*(n.mean-1)*(N-1)))  # N or K ?!
-  # icc.wald.z=icc/icc.se
+  icc = var/var.total
+  # icc.se = (1-icc) * (1+(n.mean-1)*icc) * sqrt(2/(n.mean*(n.mean-1)*(N-1)))  # N or K ?!
+  # icc.wald.z = icc/icc.se
 
   ## Combine results ##
-  ICC$K=formatF(ICC$K, nsmall=0)
-  ICC$Variance=formatF(ICC$Variance, nsmall=5)
-  # ICC$S.E.=formatF(var.se, nsmall=nsmall)
-  # ICC$Wald.Z=formatF(var.wald.z, nsmall=2)
-  # ICC$p=p.trans(var.p)
-  # ICC$sig=sig.trans(var.p)
-  ICC$ICC=formatF(icc, nsmall=5)
+  ICC$K = formatF(ICC$K, nsmall=0)
+  ICC$Variance = formatF(ICC$Variance, nsmall=5)
+  # ICC$S.E. = formatF(var.se, nsmall=nsmall)
+  # ICC$Wald.Z = formatF(var.wald.z, nsmall=2)
+  # ICC$p = p.trans(var.p)
+  # ICC$sig = sig.trans(var.p)
+  ICC$ICC = formatF(icc, nsmall=5)
   ICC[ICC$Group=="Residual", c("K", "Parameter", "ICC")] = ""
   ICC[ICC$Parameter!="(Intercept)" & ICC$Group!="Residual", c("Group", "K", "ICC")] = ""
-  names(ICC)[1]=paste0("Cluster", rep_char(" ", max(nchar(ICC$Group))-7))
-  names(ICC)[2]="K  "
-  names(ICC)[3]=paste0("Parameter", rep_char(" ", max(nchar(ICC$Parameter))-9))
-  # names(ICC)[6]="Wald Z"
-  # names(ICC)[8]=" "
+  names(ICC)[1] = paste0("Cluster", rep_char(" ", max(nchar(ICC$Group))-7))
+  names(ICC)[2] = "K  "
+  names(ICC)[3] = paste0("Parameter", rep_char(" ", max(nchar(ICC$Parameter))-9))
+  # names(ICC)[6] = "Wald Z"
+  # names(ICC)[8] = " "
 
   return(ICC)
 }
@@ -840,9 +840,9 @@ HLM_ICC=function(model, nsmall=3) {
 #' # (1) 'Subject' is a grouping/clustering variable
 #' # (2) 'Days' is a level-1 predictor nested within 'Subject'
 #' # (3) No level-2 predictors
-#' m1=lmer(Reaction ~ (1 | Subject), data=sleepstudy)
-#' m2=lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
-#' m3=lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
+#' m1 = lmer(Reaction ~ (1 | Subject), data=sleepstudy)
+#' m2 = lmer(Reaction ~ Days + (1 | Subject), data=sleepstudy)
+#' m3 = lmer(Reaction ~ Days + (Days | Subject), data=sleepstudy)
 #' HLM_summary(m1)
 #' HLM_summary(m2)
 #' HLM_summary(m3)
@@ -851,10 +851,10 @@ HLM_ICC=function(model, nsmall=3) {
 #' # (1) 'Consumer' is a grouping/clustering variable
 #' # (2) 'Sweetness' is a level-1 predictor
 #' # (3) 'Age' and 'Frequency' are level-2 predictors
-#' hlm.1=lmer(Preference ~ Sweetness + Age + Frequency +
-#'              (1 | Consumer), data=carrots)
-#' hlm.2=lmer(Preference ~ Sweetness + Age + Frequency +
-#'              (Sweetness | Consumer) + (1 | Product), data=carrots)
+#' hlm.1 = lmer(Preference ~ Sweetness + Age + Frequency +
+#'                (1 | Consumer), data=carrots)
+#' hlm.2 = lmer(Preference ~ Sweetness + Age + Frequency +
+#'                (Sweetness | Consumer) + (1 | Product), data=carrots)
 #' HLM_summary(hlm.1)
 #' HLM_summary(hlm.2)
 #'
@@ -881,27 +881,27 @@ HLM_ICC=function(model, nsmall=3) {
 #' \code{\link{regress}}
 #'
 #' @export
-HLM_summary=function(model=NULL,
-                     # level2.predictors=NULL,
-                     # vartypes=NULL,
-                     test.rand=FALSE,  # time-consuming in big datasets
-                     digits=3, nsmall=digits,
-                     ...) {
-  dots=list(...)
+HLM_summary = function(model=NULL,
+                       # level2.predictors=NULL,
+                       # vartypes=NULL,
+                       test.rand=FALSE,  # time-consuming in big datasets
+                       digits=3, nsmall=digits,
+                       ...) {
+  dots = list(...)
   if(c("formula", "data") %allin% names(dots)) {
     # re-modeling
-    formula=dots$formula
-    data=dots$data
+    formula = dots$formula
+    data = dots$data
     if("family" %notin% names(dots))
-      Run("model=lmerTest::lmer({formula_paste(formula)}, data=data)")
+      Run("model = lmerTest::lmer({formula_paste(formula)}, data=data)")
     else
-      Run("model=lme4::glmer({formula_paste(formula)}, data=data, family={dots$family})")
+      Run("model = lme4::glmer({formula_paste(formula)}, data=data, family={dots$family})")
   } else {
-    formula=model@call[["formula"]]
+    formula = model@call[["formula"]]
   }
-  dv=names(model.frame(model))[1]
-  sumModel=summary(model, cor=FALSE)
-  ngrps=sumModel[["ngrps"]]
+  dv = names(model.frame(model))[1]
+  sumModel = summary(model, cor=FALSE)
+  ngrps = sumModel[["ngrps"]]
 
   ## Print: Model Information ##
   Print("
@@ -930,34 +930,34 @@ HLM_summary=function(model=NULL,
       stop("Please specify the arguments `formula` and `data` in HLM_summary().", call.=FALSE)
     # if(is.null(vartypes) & !is.null(level2.predictors)) {
     #   tryCatch({
-    #     vartypes=HLM_vartypes(model, formula, level2.predictors)
+    #     vartypes = HLM_vartypes(model, formula, level2.predictors)
     #   }, error=function(e) {
     #     stop("Please re-specify 'level2.predictors'.", call.=FALSE)
     #   })
     # } else if(!is.null(vartypes)) {
-    #   names(vartypes)=dimnames(summary(model)[["coefficients"]])[[1]]
+    #   names(vartypes) = dimnames(summary(model)[["coefficients"]])[[1]]
     # }
 
     # if(!is.null(vartypes)) {
-    #   vt=as.data.frame(vartypes)
-    #   names(vt)="Variable Type"
+    #   vt = as.data.frame(vartypes)
+    #   names(vt) = "Variable Type"
     #   Print("Level-2 predictors: '{level2.predictors}'")
     #   cat("\n")
     #   print(vt)
     #   cat("\n")
     # }
-    # vartypes=c("Intercept",
-    #            "L1fixed",
-    #            "L1random-GROUP-L1VAR",
-    #            "L2-GROUP",
-    #            "Cross-GROUP-L1VAR")
+    # vartypes = c("Intercept",
+    #              "L1fixed",
+    #              "L1random-GROUP-L1VAR",
+    #              "L2-GROUP",
+    #              "Cross-GROUP-L1VAR")
 
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria ##
     # logLik=sumModel[["logLik"]]
     # AIC = -2LL + 2p  [p = number of parameters]
     # BIC = -2LL + p*ln(N)  [N = number of cases]
-    Omg2=1-var(residuals(model))/var(model.response(model.frame(model)))
-    R2.glmm=suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
+    Omg2 = 1 - var(residuals(model)) / var(model.response(model.frame(model)))
+    R2.glmm = suppressWarnings( MuMIn::r.squaredGLMM(model) )  # R2.glmm[1,1]; R2.glmm[1,2]
     Print("
     Model Fit:
     AIC = {AIC(model):.{nsmall}}
@@ -970,7 +970,7 @@ HLM_summary=function(model=NULL,
 
     ## Print: ANOVA Table ##
     # aov.hlm=car::Anova(model, type=3)
-    aov.hlm=stats::anova(model)
+    aov.hlm = stats::anova(model)
     if(nrow(aov.hlm)>0) {
       print_table(aov.hlm, nsmalls=2,
                   title="ANOVA Table:")
@@ -978,14 +978,14 @@ HLM_summary=function(model=NULL,
     }
 
     ## Print: Fixed Effects ##
-    FE=as.data.frame(sumModel[["coefficients"]])
-    FE=cbind(
+    FE = as.data.frame(sumModel[["coefficients"]])
+    FE = cbind(
       FE[c(1,2,4,3,5)],
-      CI=paste0("[",
-                formatF(FE[,1]+qt(0.025, FE[,3])*FE[,2], nsmall), ", ",
-                formatF(FE[,1]+qt(0.975, FE[,3])*FE[,2], nsmall), "]"))
-    names(FE)=c("b/\u03b3", "S.E.", "t", "df", "pval",
-                "[95% CI of b/\u03b3]")
+      CI = cc_ci(FE[,1] + qt(0.025, FE[,3]) * FE[,2],
+                 FE[,1] + qt(0.975, FE[,3]) * FE[,2],
+                 nsmall))
+    names(FE) = c("b/\u03b3", "S.E.", "t", "df", "pval",
+                  "[95% CI of b/\u03b3]")
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
                 title=Glue("
     Fixed Effects:
@@ -994,20 +994,20 @@ HLM_summary=function(model=NULL,
     note=Glue("<<blue 'df' is estimated by Satterthwaite approximation.>>"))
     cat("\n")
     if(nrow(FE)>1) {
-      FE.std=as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
-      t=FE.std[,1]/FE.std[,2]  # FE$t[-1]
+      FE.std = as.data.frame(MuMIn::std.coef(model, partial.sd=FALSE))[-1, 1:2]
+      t = FE.std[,1] / FE.std[,2]  # FE$t[-1]
       # if(!is.null(vartypes))
-      #   df=HLM_df(sumModel, vartypes)[-1]
+      #   df = HLM_df(sumModel, vartypes)[-1]
       # else
-      #   df=FE$df[-1]
-      df=FE$df[-1]
-      FE.std=cbind(
-        FE.std, t=t, df=df, pval=p.t(t, df),
-        CI=paste0("[",
-                  formatF(FE.std[,1]+qt(0.025, df)*FE.std[,2], nsmall), ", ",
-                  formatF(FE.std[,1]+qt(0.975, df)*FE.std[,2], nsmall), "]"))
-      names(FE.std)=c("\u03b2", "S.E.", "t", "df", "pval",
-                      "[95% CI of \u03b2]")
+      #   df = FE$df[-1]
+      df = FE$df[-1]
+      FE.std = cbind(
+        FE.std, t = t, df = df, pval = p.t(t, df),
+        CI = cc_ci(FE.std[,1] + qt(0.025, df) * FE.std[,2],
+                   FE.std[,1] + qt(0.975, df) * FE.std[,2],
+                   nsmall))
+      names(FE.std) = c("\u03b2", "S.E.", "t", "df", "pval",
+                        "[95% CI of \u03b2]")
       print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
                   title=Glue("
       Standardized Coefficients (\u03b2):
@@ -1016,17 +1016,17 @@ HLM_summary=function(model=NULL,
     }
 
     ## Print: Random Effects & ICC ##
-    # RE=sumModel[["varcor"]]
-    # res=sumModel[["sigma"]]^2
+    # RE = sumModel[["varcor"]]
+    # res = sumModel[["sigma"]]^2
     # print(RE, comp="Variance")
-    RE=HLM_ICC(model, nsmall=nsmall)
+    RE = HLM_ICC(model, nsmall=nsmall)
     print_table(RE, row.names=FALSE, title="Random Effects:")
     cat("\n")
   } else if(inherits(model, "glmerMod")) {
-    summ=jtools::summ(model, digits=nsmall, re.variance="var")
+    summ = jtools::summ(model, digits=nsmall, re.variance="var")
 
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria) ##
-    R2.glmm=suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
+    R2.glmm = suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
     Print("
     Model Fit:
     AIC = {AIC(model):.{nsmall}}
@@ -1037,13 +1037,13 @@ HLM_summary=function(model=NULL,
     ")
 
     ## Print: Fixed Effects ##
-    FE=as.data.frame(sumModel[["coefficients"]])
-    FE$CI=paste0("[",
-                 formatF(FE[,1]-qnorm(0.975)*FE[,2], nsmall), ", ",
-                 formatF(FE[,1]+qnorm(0.975)*FE[,2], nsmall), "]")
-    FE$OR=exp(FE[,1])
-    names(FE)=c("b/\u03b3", "S.E.", "z", "pval",
-                "[95% CI of b/\u03b3]", "OR")
+    FE = as.data.frame(sumModel[["coefficients"]])
+    FE$CI = cc_ci(FE[,1] + qnorm(0.025) * FE[,2],
+                  FE[,1] + qnorm(0.975) * FE[,2],
+                  nsmall)
+    FE$OR = exp(FE[,1])
+    names(FE) = c("b/\u03b3", "S.E.", "z", "pval",
+                  "[95% CI of b/\u03b3]", "OR")
     print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall),
                 title=Glue("
     Fixed Effects:
@@ -1053,27 +1053,27 @@ HLM_summary=function(model=NULL,
     cat("\n")
 
     ## Print: Random Effects & ICC ##
-    RE=as.data.frame(summ$rcoeftable)
-    ICC=as.data.frame(summ$gvars)
-    names(RE)=c("Group", "Parameter", "Variance")
-    names(ICC)=c("Group", "K", "ICC")
-    RE$Group=as.character(RE$Group)
-    RE$Parameter=as.character(RE$Parameter)
-    RE$Variance=as.numeric(as.character(RE$Variance))
-    ICC$Group=as.character(ICC$Group)
-    ICC$K=as.numeric(as.character(ICC$K))
-    ICC$ICC=as.numeric(as.character(ICC$ICC))
-    RE=left_join(cbind(left_join(RE[1], ICC[1:2], by="Group"),
-                       RE[2:3]),
-                 ICC[c(1,3)], by="Group")
-    RE$K=formatF(RE$K, 0)
-    RE$Variance=formatF(RE$Variance, 5)
-    RE$ICC=formatF(RE$ICC, 5)
+    RE = as.data.frame(summ$rcoeftable)
+    ICC = as.data.frame(summ$gvars)
+    names(RE) = c("Group", "Parameter", "Variance")
+    names(ICC) = c("Group", "K", "ICC")
+    RE$Group = as.character(RE$Group)
+    RE$Parameter = as.character(RE$Parameter)
+    RE$Variance = as.numeric(as.character(RE$Variance))
+    ICC$Group = as.character(ICC$Group)
+    ICC$K = as.numeric(as.character(ICC$K))
+    ICC$ICC = as.numeric(as.character(ICC$ICC))
+    RE = left_join(cbind(left_join(RE[1], ICC[1:2], by="Group"),
+                         RE[2:3]),
+                   ICC[c(1,3)], by="Group")
+    RE$K = formatF(RE$K, 0)
+    RE$Variance = formatF(RE$Variance, 5)
+    RE$ICC = formatF(RE$ICC, 5)
     RE[RE$Parameter!="(Intercept)", c("Group", "K", "ICC")] = ""
-    RE$Group=sprintf(glue("%-{max(max(nchar(RE$Group)), 7)}s"), RE$Group)
-    names(RE)[1]=paste0("Cluster", rep_char(" ", max(max(nchar(RE$Group))-7, 0)))
-    names(RE)[2]="K "
-    names(RE)[3]=paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
+    RE$Group = sprintf(glue("%-{max(max(nchar(RE$Group)), 7)}s"), RE$Group)
+    names(RE)[1] = paste0("Cluster", rep_char(" ", max(max(nchar(RE$Group))-7, 0)))
+    names(RE)[2] = "K "
+    names(RE)[3] = paste0("Parameter", rep_char(" ", max(nchar(RE$Parameter))-9))
     print_table(RE, row.names=FALSE, title="Random Effects:")
     Print("<<blue Residual variance is not reported for generalized linear mixed models,
            but it is assumed to be \u03c0\u00b2/3 (\u2248 {pi^2/3:.2}) in logistic models (binary data)
@@ -1086,7 +1086,7 @@ HLM_summary=function(model=NULL,
   ## Print: Likelihood-Ratio Test (LRT) for Random Effects ##
   # ANOVA-like table for random-effects: Single term deletions
   if(test.rand) {
-    RE.test=lmerTest::rand(model)  # the same: ranova()
+    RE.test = lmerTest::rand(model)  # the same: ranova()
     print(RE.test)
     cat("\n")
   }
@@ -1170,10 +1170,10 @@ HLM_summary=function(model=NULL,
 #' \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}
 #'
 #' @examples
-#' data=lme4::sleepstudy  # continuous variable
+#' data = lme4::sleepstudy  # continuous variable
 #' HLM_ICC_rWG(data, group="Subject", icc.var="Reaction")
 #'
-#' data=lmerTest::carrots  # 7-point scale
+#' data = lmerTest::carrots  # 7-point scale
 #' HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
 #'             rwg.vars="Preference",
 #'             rwg.levels=7)
@@ -1182,63 +1182,63 @@ HLM_summary=function(model=NULL,
 #'             rwg.levels=7)
 #'
 #' @export
-HLM_ICC_rWG=function(data, group, icc.var,
-                     rwg.vars=icc.var,
-                     rwg.levels=0,
-                     digits=3, nsmall=digits) {
-  data=as.data.frame(data)
+HLM_ICC_rWG = function(data, group, icc.var,
+                       rwg.vars=icc.var,
+                       rwg.levels=0,
+                       digits=3, nsmall=digits) {
+  data = as.data.frame(data)
 
   ## ICC(1) and ICC(2)
-  model=lmerTest::lmer(as.formula(Glue("{icc.var} ~ (1 | {group})")), data=data)
-  d=model@frame
-  d.split=split(d[[icc.var]], d[[group]])
-  N=nrow(d)
-  n_k=sapply(d.split, length)
-  variance=as.data.frame(summary(model)[["varcor"]])[["vcov"]]
-  var.u0=variance[1]
-  var.e=variance[2]
-  ICC1=var.u0/(var.u0+var.e)
-  ICC2=mean(var.u0/(var.u0+var.e/n_k))
+  model = lmerTest::lmer(as.formula(Glue("{icc.var} ~ (1 | {group})")), data=data)
+  d = model@frame
+  d.split = split(d[[icc.var]], d[[group]])
+  N = nrow(d)
+  n_k = sapply(d.split, length)
+  variance = as.data.frame(summary(model)[["varcor"]])[["vcov"]]
+  var.u0 = variance[1]
+  var.e = variance[2]
+  ICC1 = var.u0 / (var.u0+var.e)
+  ICC2 = mean(var.u0 / (var.u0 + var.e/n_k))
 
   ## rWG and rWG(J)
   if(rwg.levels==0)
-    var.ran=(max(data[rwg.vars], na.rm=TRUE)-min(data[rwg.vars], na.rm=TRUE))^2/12
+    var.ran = (max(data[rwg.vars], na.rm=TRUE) - min(data[rwg.vars], na.rm=TRUE))^2 / 12
   else
-    var.ran=(rwg.levels^2-1)/12
-  ds=na.omit(data.frame(data[rwg.vars], data[group]))
-  ds.split=split(ds[, 1:(ncol(ds)-1)], ds[[group]])
+    var.ran = (rwg.levels^2 - 1) / 12
+  ds = na.omit(data.frame(data[rwg.vars], data[group]))
+  ds.split = split(ds[, 1:(ncol(ds)-1)], ds[[group]])
   if(length(rwg.vars)==1) {
-    rwg=sapply(ds.split, function(dsi) {
+    rwg = sapply(ds.split, function(dsi) {
       if(length(dsi)>1) {
-        var.dsi=min(var(dsi), var.ran)
-        out=1-(var.dsi/var.ran)
+        var.dsi = min(var(dsi), var.ran)
+        out = 1 - (var.dsi / var.ran)
         out
       } else {
-        out=NA
+        out = NA
         out
       }
     })
-    n.k=sapply(ds.split, length)
-    rwg.name="rWG"
-    rwg.type="single-item measures"
+    n.k = sapply(ds.split, length)
+    rwg.name = "rWG"
+    rwg.type = "single-item measures"
   } else {
-    rwg=sapply(ds.split, function(dsi) {
-      J=ncol(dsi)
+    rwg = sapply(ds.split, function(dsi) {
+      J = ncol(dsi)
       if(nrow(dsi)>1) {
-        var.dsi=min(mean(apply(dsi, 2, var, na.rm=TRUE)), var.ran)
-        out=(J*(1-(var.dsi/var.ran))) / (J*(1-(var.dsi/var.ran)) + var.dsi/var.ran)
+        var.dsi = min(mean(apply(dsi, 2, var, na.rm=TRUE)), var.ran)
+        out = (J*(1-(var.dsi/var.ran))) / (J*(1-(var.dsi/var.ran)) + var.dsi/var.ran)
         out
       } else {
-        out=NA
+        out = NA
         out
       }
     })
-    n.k=sapply(ds.split, nrow)
-    rwg.name="rWG(J)"
-    rwg.type="multi-item measures"
+    n.k = sapply(ds.split, nrow)
+    rwg.name = "rWG(J)"
+    rwg.type = "multi-item measures"
   }
-  rwg.out=data.frame(group=names(ds.split), size=n.k, rwg=rwg)
-  names(rwg.out)[3]=rwg.name
+  rwg.out = data.frame(group=names(ds.split), size=n.k, rwg=rwg)
+  names(rwg.out)[3] = rwg.name
 
   Print("
   \n
@@ -1248,8 +1248,8 @@ HLM_ICC_rWG=function(data, group, icc.var,
   Level 2: <<italic K>> = {length(n.k)} groups (\"{group}\")
   \n
   ")
-  summ_n_k=as.matrix(summary(n_k)[c(-2, -5)])
-  colnames(summ_n_k)="n (group sizes)"
+  summ_n_k = as.matrix(summary(n_k)[c(-2, -5)])
+  colnames(summ_n_k) = "n (group sizes)"
   print(summ_n_k)
 
   Print("
@@ -1265,8 +1265,8 @@ HLM_ICC_rWG=function(data, group, icc.var,
 
   {rwg.name} <<blue (within-group agreement for {rwg.type})>>
   ")
-  summ_rwg=as.data.frame(t(as.matrix(summary(rwg))))
-  rownames(summ_rwg)=rwg.name
+  summ_rwg = as.data.frame(t(as.matrix(summary(rwg))))
+  rownames(summ_rwg) = rwg.name
   print_table(summ_rwg, nsmalls=nsmall)
   cat("\n")
 

@@ -22,7 +22,7 @@ Timer (compute time difference).
 \examples{
 \dontrun{
 
-t0=Sys.time()
+t0 = Sys.time()
 dtime(t0)
 }
 

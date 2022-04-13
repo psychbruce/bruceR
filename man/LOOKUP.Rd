@@ -40,15 +40,15 @@ Here I provide a similar function.
 If multiple values were simultaneously matched, a warning message would be printed.
 }
 \examples{
-ref=data.table(City=rep(c("A", "B", "C"), each=5),
-               Year=rep(2013:2017, times=3),
-               GDP=sample(1000:2000, 15),
-               PM2.5=sample(10:300, 15))
+ref = data.table(City=rep(c("A", "B", "C"), each=5),
+                 Year=rep(2013:2017, times=3),
+                 GDP=sample(1000:2000, 15),
+                 PM2.5=sample(10:300, 15))
 ref
 
-data=data.table(sub=1:5,
-                city=c("A", "A", "B", "C", "C"),
-                year=c(2013, 2014, 2015, 2016, 2017))
+data = data.table(sub=1:5,
+                  city=c("A", "A", "B", "C", "C"),
+                  year=c(2013, 2014, 2015, 2016, 2017))
 data
 
 LOOKUP(data, c("city", "year"), ref, c("City", "Year"), "GDP")

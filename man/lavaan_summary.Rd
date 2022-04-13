@@ -64,14 +64,14 @@ Tidy report of lavaan model.
 # PROCESS(airquality, y="Temp", x="Solar.R",
 #         meds="Ozone", ci="boot", nsim=1000, seed=1)
 
-model="
+model = "
 Ozone ~ a*Solar.R
 Temp ~ c.*Solar.R + b*Ozone
 Indirect := a*b
 Direct := c.
 Total := c. + a*b
 "
-lv=lavaan::sem(model=model, data=airquality)
+lv = lavaan::sem(model=model, data=airquality)
 lavaan::summary(lv, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
 lavaan_summary(lv)
 # lavaan_summary(lv, ci="boot", nsim=1000, seed=1)
@@ -84,7 +84,7 @@ lavaan_summary(lv)
 #         meds=c("Ozone", "Wind"),
 #         med.type="serial", ci="boot", nsim=1000, seed=1)
 
-model0="
+model0 = "
 Ozone ~ a1*Solar.R
 Wind ~ a2*Solar.R + d12*Ozone
 Temp ~ c.*Solar.R + b1*Ozone + b2*Wind
@@ -95,12 +95,12 @@ Ind_X_M1_M2_Y := a1*d12*b2
 Direct := c.
 Total := c. + a1*b1 + a2*b2 + a1*d12*b2
 "
-lv0=lavaan::sem(model=model0, data=airquality)
+lv0 = lavaan::sem(model=model0, data=airquality)
 lavaan::summary(lv0, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
 lavaan_summary(lv0)
 # lavaan_summary(lv0, ci="boot", nsim=1000, seed=1)
 
-model1="
+model1 = "
 Ozone ~ a1*Solar.R
 Wind ~ d12*Ozone
 Temp ~ c.*Solar.R + b1*Ozone + b2*Wind
@@ -110,7 +110,7 @@ Ind_X_M1_M2_Y := a1*d12*b2
 Direct := c.
 Total := c. + a1*b1 + a1*d12*b2
 "
-lv1=lavaan::sem(model=model1, data=airquality)
+lv1 = lavaan::sem(model=model1, data=airquality)
 lavaan::summary(lv1, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
 lavaan_summary(lv1)
 # lavaan_summary(lv1, ci="boot", nsim=1000, seed=1)

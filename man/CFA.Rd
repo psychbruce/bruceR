@@ -61,7 +61,7 @@ CFA(data.cfa, model="
     Speed =~ x7 + x8 + x9
     ", highorder="Ability")
 
-data.bfi=na.omit(psych::bfi)
+data.bfi = na.omit(psych::bfi)
 CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 }
 }

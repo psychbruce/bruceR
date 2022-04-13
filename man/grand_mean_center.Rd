@@ -24,12 +24,12 @@ Compute grand-mean centered variables.
 Usually used for GLM interaction-term predictors and HLM level-2 predictors.
 }
 \examples{
-d=data.table(a=1:5, b=6:10)
+d = data.table(a=1:5, b=6:10)
 
-d.c=grand_mean_center(d, "a")
+d.c = grand_mean_center(d, "a")
 d.c
 
-d.c=grand_mean_center(d, c("a", "b"), add.suffix="_center")
+d.c = grand_mean_center(d, c("a", "b"), add.suffix="_center")
 d.c
 
 }

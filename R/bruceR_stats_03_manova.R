@@ -2,21 +2,21 @@
 
 
 # library(rio)
-# between.1=import("data-raw/between.1.sav", haven=F); names(between.1)[2]="SCORE"
-# between.2=import("data-raw/between.2.sav", haven=F)
-# between.3=import("data-raw/between.3.sav", haven=F)
+# between.1 = import("data-raw/between.1.sav", haven=F); names(between.1)[2]="SCORE"
+# between.2 = import("data-raw/between.2.sav", haven=F)
+# between.3 = import("data-raw/between.3.sav", haven=F)
 # usethis::use_data(between.1, overwrite=TRUE)
 # usethis::use_data(between.2, overwrite=TRUE)
 # usethis::use_data(between.3, overwrite=TRUE)
-# within.1=import("data-raw/within.1.sav", haven=F)
-# within.2=import("data-raw/within.2.sav", haven=F)
-# within.3=import("data-raw/within.3.sav", haven=F)
+# within.1 = import("data-raw/within.1.sav", haven=F)
+# within.2 = import("data-raw/within.2.sav", haven=F)
+# within.3 = import("data-raw/within.3.sav", haven=F)
 # usethis::use_data(within.1, overwrite=TRUE)
 # usethis::use_data(within.2, overwrite=TRUE)
 # usethis::use_data(within.3, overwrite=TRUE)
-# mixed.2_1b1w=import("data-raw/mixed.2_1b1w.sav", haven=F)
-# mixed.3_1b2w=import("data-raw/mixed.3_1b2w.sav", haven=F)
-# mixed.3_2b1w=import("data-raw/mixed.3_2b1w.sav", haven=F)
+# mixed.2_1b1w = import("data-raw/mixed.2_1b1w.sav", haven=F)
+# mixed.3_1b2w = import("data-raw/mixed.3_1b2w.sav", haven=F)
+# mixed.3_2b1w = import("data-raw/mixed.3_2b1w.sav", haven=F)
 # usethis::use_data(mixed.2_1b1w, overwrite=TRUE)
 # usethis::use_data(mixed.3_1b2w, overwrite=TRUE)
 # usethis::use_data(mixed.3_2b1w, overwrite=TRUE)
@@ -70,46 +70,46 @@ NULL
 
 
 ## Levene's Test for Homogeneity of Variance
-levene_test=function(data, id, dvs, ivs.between) {
+levene_test = function(data, id, dvs, ivs.between) {
   ## data should be wide-format
   Print("\n\n\nLevene\u2019s Test for Homogeneity of Variance:")
   if(is.null(ivs.between)) {
     Print("No between-subjects factors. No need to do the Levene\u2019s test.")
   } else {
-    data=data.table::as.data.table(data[c(id, dvs, ivs.between)])
-    data=unique(data, by=id) %>% as.data.frame()
+    data = data.table::as.data.table(data[c(id, dvs, ivs.between)])
+    data = unique(data, by=id) %>% as.data.frame()
     for(iv in ivs.between)
-      data[[iv]]=as.factor(data[[iv]])
-    levene=data.frame()
+      data[[iv]] = as.factor(data[[iv]])
+    levene = data.frame()
     for(dv in dvs) {
-      f=as.formula(Glue("{dv} ~ {paste(ivs.between, collapse='*')}"))
-      lev=car::leveneTest(f, data, center=mean)
-      lev=cbind(lev[1, "F value"],
-                lev[1, "Df"],
-                lev[2, "Df"],
-                lev[1, "Pr(>F)"]) %>% as.data.frame()
-      names(lev)=c("Levene\u2019s F", "df1", "df2", "pval")
-      row.names(lev)=paste("DV:", dv)
-      levene=rbind(levene, lev)
+      f = as.formula(Glue("{dv} ~ {paste(ivs.between, collapse='*')}"))
+      lev = car::leveneTest(f, data, center=mean)
+      lev = cbind(lev[1, "F value"],
+                  lev[1, "Df"],
+                  lev[2, "Df"],
+                  lev[1, "Pr(>F)"]) %>% as.data.frame()
+      names(lev) = c("Levene\u2019s F", "df1", "df2", "pval")
+      row.names(lev) = paste("DV:", dv)
+      levene = rbind(levene, lev)
     }
     print_table(levene, nsmalls=c(3, 0, 0, 0))
   }
 }
 
 
-fix_long_data=function(data.long, ivs) {
+fix_long_data = function(data.long, ivs) {
   # Ensure Factorized Variables
   for(iv in ivs) {
-    data.long[[iv]]=as.factor(data.long[[iv]])
+    data.long[[iv]] = as.factor(data.long[[iv]])
     suppressWarnings({
-      levels=levels(data.long[[iv]])
-      levels.num=as.numeric(as.character(levels))
+      levels = levels(data.long[[iv]])
+      levels.num = as.numeric(as.character(levels))
     })
     if(all(is.na(levels.num))==FALSE) {
       # numeric levels ==> character levels ("varnum")
-      data.long[[iv]]=factor(data.long[[iv]],
-                             levels=levels,
-                             labels=paste0(iv, levels))
+      data.long[[iv]] = factor(data.long[[iv]],
+                               levels=levels,
+                               labels=paste0(iv, levels))
     }
   }
   return(data.long)
@@ -282,15 +282,15 @@ fix_long_data=function(data.long, ivs) {
 #'
 #' #### Other Examples ####
 #'
-#' data.new=mixed.3_1b2w
-#' names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
+#' data.new = mixed.3_1b2w
+#' names(data.new) = c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
 #' MANOVA(data.new,
 #'        dvs="Cond_01:Cond_04",
 #'        dvs.pattern="Cond_(..)",
 #'        between="Group",
 #'        within="Condition")  # rename the factor
 #'
-#' ?afex::obk.long
+#' # ?afex::obk.long
 #' MANOVA(afex::obk.long,
 #'        subID="id",
 #'        dv="value",
@@ -309,23 +309,23 @@ fix_long_data=function(data.long, ivs) {
 #' @seealso \code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 #'
 #' @export
-MANOVA=function(data, subID=NULL, dv=NULL,
-                dvs=NULL, dvs.pattern=NULL,
-                between=NULL, within=NULL, covariate=NULL,
-                ss.type="III",
-                sph.correction="none",
-                # which.observed=NULL,
-                aov.include=FALSE,
-                digits=3, nsmall=digits,
-                file=NULL) {
+MANOVA = function(data, subID=NULL, dv=NULL,
+                  dvs=NULL, dvs.pattern=NULL,
+                  between=NULL, within=NULL, covariate=NULL,
+                  ss.type="III",
+                  sph.correction="none",
+                  # which.observed=NULL,
+                  aov.include=FALSE,
+                  digits=3, nsmall=digits,
+                  file=NULL) {
   ## Initialize
-  data=as.data.frame(data)
+  data = as.data.frame(data)
   if(is.null(within)) {
     if(is.null(between)) {
       stop("Either `between` or `within` or both should be specified.\nSee: help(MANOVA)", call.=FALSE)
     } else {
-      design="Between-Subjects Design"
-      format="wide"
+      design = "Between-Subjects Design"
+      format = "wide"
       if(is.null(dv))
         stop("`dv` should be specified.\nSee: help(MANOVA)", call.=FALSE)
       if(!is.null(dvs) | !is.null(dvs.pattern))
@@ -333,9 +333,9 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     }
   } else {
     if(is.null(between)) {
-      design="Within-Subjects Design"
+      design = "Within-Subjects Design"
     } else {
-      design="Mixed Design"
+      design = "Mixed Design"
     }
     if((!is.null(dv) & is.null(subID)) | (!is.null(dvs) & is.null(dvs.pattern))) {
       stop(Glue("
@@ -344,50 +344,55 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       - For long-format data, please specify both `dv` and `subID`.
       See: help(MANOVA)"), call.=FALSE)
     }
-    format=ifelse(!is.null(dv) & !is.null(subID),
-                  "long", "wide")
+    format = ifelse(!is.null(dv) & !is.null(subID),
+                    "long", "wide")
   }
   if(is.null(subID)) {
-    data$bruceR.ID=1:nrow(data)
-    subID="bruceR.ID"
+    data$bruceR.ID = 1:nrow(data)
+    subID = "bruceR.ID"
   }
 
   ## Wide and Long Data
   ## Wide: dv (between) | dvs, dvs.pattern
   ## Long: dv (within)
   if(is.null(dv)) {
-    data.wide=data
+    data.wide = data
     if(length(dvs)==1 & any(grepl(":", dvs)))
-      DVS=dv.vars=convert2vars(data, varrange=dvs)$vars.raw
+      DVS = dv.vars = convert2vars(data, varrange=dvs)$vars.raw
     else
-      DVS=dv.vars=dvs
-    dv="bruceR.Y"  # "Y" will generate an error when dvs are like "X1Y1"
-    data.long=tidyr::pivot_longer(
+      DVS = dv.vars = dvs
+    dv = "bruceR.Y"  # "Y" will generate an error when dvs are like "X1Y1"
+    data.long = tidyr::pivot_longer(
       data, cols=dv.vars,
       names_to=within,
       names_pattern=dvs.pattern,
       values_to=dv) %>% as.data.frame()
-    data.long=fix_long_data(data.long, c(between, within))
+    data.long = fix_long_data(data.long, c(between, within))
   } else {
-    dv.vars=dv
-    data.long=data
-    data.long=fix_long_data(data.long, c(between, within))
+    dv.vars = dv
+    data.long = data
+    data.long = fix_long_data(data.long, c(between, within))
     if(is.null(within)) {
-      data.wide=data.long
-      DVS=dv
+      data.wide = data.long
+      DVS = dv
     } else {
-      data.wide=tidyr::pivot_wider(
+      data.wide = tidyr::pivot_wider(
         data.long[c(subID, dv, between, within, covariate)],
         names_from=within,
         values_from=dv,
         values_fn=mean) %>% as.data.frame()
-      DVS=base::setdiff(names(data.wide), c(subID, between, covariate))
+      message("
+    * Data are aggregated to mean (across items/trials)
+    if there are >=2 observations per subject and cell.
+    You may use Linear Mixed Model to analyze the data,
+    e.g., with subjects and items as level-2 clusters.\n")
+      DVS = base::setdiff(names(data.wide), c(subID, between, covariate))
     }
   }
 
   ## Main ANOVA Function
   suppressMessages({
-    aov.ez=afex::aov_ez(
+    aov.ez = afex::aov_ez(
       data=data.long,
       id=subID,  # "bruceR.ID"
       dv=dv,  # "bruceR.Y"
@@ -402,40 +407,38 @@ MANOVA=function(data, subID=NULL, dv=NULL,
       factorize=FALSE,
       print.formula=FALSE)
   })
-  at=aov.ez$anova_table
-  names(at)[1:2]=c("df1", "df2")
-  at$MS=at$`F`*at$`MSE`
-  eta2=effectsize::F_to_eta2(at$`F`, at$df1, at$df2,
-                             ci=0.90, alternative="two.sided")
-  at$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall), " [",
-                   formatF(eta2$CI_low, nsmall), ", ",
-                   formatF(eta2$CI_high, nsmall), "]") %>%
+  at = aov.ez$anova_table
+  names(at)[1:2] = c("df1", "df2")
+  at$MS = at$`F`*at$`MSE`
+  eta2 = effectsize::F_to_eta2(at$`F`, at$df1, at$df2,
+                               ci=0.90, alternative="two.sided")
+  at$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, nsmall) %>%
     str_replace_all("0\\.", ".")
-  at$g.eta2=str_replace_all(formatF(at$ges, nsmall), "0\\.", ".")
-  at=at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2", "g.eta2")]
-  names(at)[7:8]=c("\u03b7\u00b2p [90% CI of \u03b7\u00b2p]",
-                   "\u03b7\u00b2G")
-  row.names(at)=row.names(aov.ez$anova_table) %>%
+  at$g.eta2 = str_replace_all(formatF(at$ges, nsmall), "0\\.", ".")
+  at = at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2", "g.eta2")]
+  names(at)[7:8] = c("\u03b7\u00b2p [90% CI of \u03b7\u00b2p]",
+                     "\u03b7\u00b2G")
+  row.names(at) = row.names(aov.ez$anova_table) %>%
     str_replace_all(":", " x ")
-  df.nsmall=ifelse(sph.correction=="none", 0, nsmall)
-  at.nsmalls=c(nsmall, nsmall, df.nsmall, df.nsmall, nsmall, 0, 0, 0)
+  df.nsmall = ifelse(sph.correction=="none", 0, nsmall)
+  at.nsmalls = c(nsmall, nsmall, df.nsmall, df.nsmall, nsmall, 0, 0, 0)
 
   ## Descriptive Statistics
-  nsub=nrow(data.wide)
-  ncom=complete.cases(data.long[c(between, within, covariate)])
-  nmis=length(ncom)-sum(ncom)
-  N.info=Glue("{nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
-  data.long$bruceR.dv=data.long[[dv]]
-  nmsd=plyr::ddply(
+  nsub = nrow(data.wide)
+  ncom = complete.cases(data.long[c(between, within, covariate)])
+  nmis = length(ncom)-sum(ncom)
+  N.info = Glue("{nsub}{ifelse(nmis>0, Glue(' ({nmis} missing observations deleted)'), '')}")
+  data.long$bruceR.dv = data.long[[dv]]
+  nmsd = plyr::ddply(
     .data=aov.ez$data$long,
     .variables=plyr::as.quoted(c(between, within)),
     .fun=summarise,
     bruceR.Mean=mean(!!sym(dv), na.rm=TRUE),
     bruceR.S.D.=sd(!!sym(dv), na.rm=TRUE),
     bruceR.n=length(!!sym(dv)))
-  ncol.nmsd=length(nmsd)
-  names(nmsd)[1:(ncol.nmsd-3)]="\"" %^% names(nmsd)[1:(ncol.nmsd-3)] %^% "\""
-  names(nmsd)[(ncol.nmsd-2):ncol.nmsd]=c("Mean", "S.D.", "n")
+  ncol.nmsd = length(nmsd)
+  names(nmsd)[1:(ncol.nmsd-3)] = "\"" %^% names(nmsd)[1:(ncol.nmsd-3)] %^% "\""
+  names(nmsd)[(ncol.nmsd-2):ncol.nmsd] = c("Mean", "S.D.", "n")
 
   cat("\n")
   Print("<<cyan ====== ANOVA ({design}) ======>>")
@@ -446,10 +449,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   Print("Total sample size: <<italic N>> = {N.info}")
   cat("\n")
 
-  nmsd$Mean=formatF(nmsd$Mean, nsmall)
-  nmsd$S.D.=formatF(nmsd$S.D., nsmall)
-  names(nmsd)[(ncol.nmsd-2):ncol.nmsd]=c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
-  nmsd.html=paste0(
+  nmsd$Mean = formatF(nmsd$Mean, nsmall)
+  nmsd$S.D. = formatF(nmsd$S.D., nsmall)
+  names(nmsd)[(ncol.nmsd-2):ncol.nmsd] = c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
+  nmsd.html = paste0(
     "<p><br/><br/></p>",
     "<p><b>Descriptive Statistics:</b></p>",
     df_to_html(
@@ -461,10 +464,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
     "<p>Total sample size: <i>N</i> = ", N.info, "</p>"
   )
 
-  DEP=ifelse(is.null(within), dv, paste(dv.vars, collapse=", "))
-  BET=ifelse(is.null(between), "\u2013", paste(between, collapse=", "))
-  WIT=ifelse(is.null(within), "\u2013", paste(within, collapse=", "))
-  COV=ifelse(is.null(covariate), "\u2013", paste(covariate, collapse=", "))
+  DEP = ifelse(is.null(within), dv, paste(dv.vars, collapse=", "))
+  BET = ifelse(is.null(between), "\u2013", paste(between, collapse=", "))
+  WIT = ifelse(is.null(within), "\u2013", paste(within, collapse=", "))
+  COV = ifelse(is.null(covariate), "\u2013", paste(covariate, collapse=", "))
   Print("
   ANOVA Table:
   Dependent variable(s):      {DEP}
@@ -497,15 +500,15 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   if(!is.null(within)) {
     Print("\n\n\nMauchly\u2019s Test of Sphericity:")
     suppressWarnings({
-      sph=summary(aov.ez$Anova)$sphericity.tests
+      sph = summary(aov.ez$Anova)$sphericity.tests
     })
     if(length(sph)==0) {
       Print("The repeated measures have only two levels. The assumption of sphericity is always met.")
     } else {
-      class(sph)="matrix"
-      sph=as.data.frame(sph)
-      names(sph)=c("Mauchly's W", "pval")
-      row.names(sph)=str_replace_all(row.names(sph), ":", " x ")
+      class(sph) = "matrix"
+      sph = as.data.frame(sph)
+      names(sph) = c("Mauchly's W", "pval")
+      row.names(sph) = str_replace_all(row.names(sph), ":", " x ")
       print_table(sph, nsmalls=4)
       if(min(sph[,2])<.05 & sph.correction=="none") {
         Print("<<red The sphericity assumption is violated.
@@ -552,10 +555,10 @@ MANOVA=function(data, subID=NULL, dv=NULL,
   }
 
   ## Return
-  aov.ez$between=between
-  aov.ez$within=within
-  aov.ez$data.wide=data.wide
-  aov.ez$data.long=data.long
+  aov.ez$between = between
+  aov.ez$within = within
+  aov.ez$data.wide = data.wide
+  aov.ez$data.long = data.long
   invisible(aov.ez)
 }
 
@@ -785,8 +788,8 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #'
 #' #### Other Examples ####
 #'
-#' air=airquality
-#' air$Day.1or2=ifelse(air$Day %% 2 == 1, 1, 2) %>%
+#' air = airquality
+#' air$Day.1or2 = ifelse(air$Day %% 2 == 1, 1, 2) %>%
 #'   factor(levels=1:2, labels=c("odd", "even"))
 #' MANOVA(air, dv="Temp", between=c("Month", "Day.1or2"),
 #'        covariate=c("Solar.R", "Wind")) %>%
@@ -796,16 +799,13 @@ MANOVA=function(data, subID=NULL, dv=NULL,
 #' @seealso \code{\link{TTEST}}, \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 #'
 #' @export
-EMMEANS=function(model, effect=NULL, by=NULL,
-                 contrast="pairwise",
-                 reverse=TRUE,
-                 p.adjust="bonferroni",
-                 sd.pooled=NULL,
-                 model.type="multivariate",
-                 digits=3, nsmall=digits) {
-  # model.raw=model
-  # if(spss) model$aov=NULL
-
+EMMEANS = function(model, effect=NULL, by=NULL,
+                   contrast="pairwise",
+                   reverse=TRUE,
+                   p.adjust="bonferroni",
+                   sd.pooled=NULL,
+                   model.type="multivariate",
+                   digits=3, nsmall=digits) {
   # IMPORTANT: If include 'aov', the 'emmeans' results of
   # within-subjects design will not be equal to those in SPSS!
   # So we do not include 'aov' object but instead use 'lm' and 'mlm'
@@ -831,33 +831,31 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   ## Simple Effect (omnibus)
   # see 'weights' in ?emmeans
   try({
-    sim=NULL
-    note=FALSE
+    sim = NULL
+    note = FALSE
     suppressMessages({
-      sim=emmeans::joint_tests(
+      sim = emmeans::joint_tests(
         object=model, by=by,
         weights="equal",
         model=model.type)
     })
-    # note="note" %in% names(sim)
-    sim$note=NULL
-    names(sim)[1]="Effect"
-    sim$Effect=str_replace_all(sim$Effect, ":", " x ")
-    eta2=effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
-                               ci=0.90, alternative="two.sided")
-    sim$p.eta2=paste0(formatF(eta2$Eta2_partial, nsmall), " [",
-                      formatF(eta2$CI_low, nsmall), ", ",
-                      formatF(eta2$CI_high, nsmall), "]") %>%
+    # note = "note" %in% names(sim)
+    sim$note = NULL
+    names(sim)[1] = "Effect"
+    sim$Effect = str_replace_all(sim$Effect, ":", " x ")
+    eta2 = effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
+                                 ci=0.90, alternative="two.sided")
+    sim$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, nsmall) %>%
       str_replace_all("0\\.", ".")
     if(length(by)>0) {
-      vns=names(sim)[2:(length(by)+1)]
-      names(sim)[2:(length(by)+1)]="\"" %^% vns %^% "\""
+      vns = names(sim)[2:(length(by)+1)]
+      names(sim)[2:(length(by)+1)] = "\"" %^% vns %^% "\""
     }
-    names(sim)[(length(by)+4):(length(by)+6)]=
+    names(sim)[(length(by)+4):(length(by)+6)] =
       c("F", "pval", "\u03b7\u00b2p [90% CI of \u03b7\u00b2p]")
   }, silent=TRUE)
 
-  effect.text=paste(effect, collapse='\" & \"')
+  effect.text = paste(effect, collapse='\" & \"')
   Print("<<cyan ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
   Print("Joint Tests of \"{effect.text}\":")
@@ -884,38 +882,38 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 
   ## SPSS GLM EMMEANS Univariate/Multivariate Tests
   try({
-    phtest=phia::testInteractions(
+    phtest = phia::testInteractions(
       model=model$lm,
       across=effect,
       fixed=by,
       idata=model$Anova$idata,
       adjustment="none")
     if(grepl("Multivariate", attr(phtest, "heading"))) {
-      pht=as.data.frame(phtest)[c(
+      pht = as.data.frame(phtest)[c(
         "test stat",
         "num Df",
         "den Df",
         "approx F",
         "Pr(>F)")]
-      names(pht)=c(
+      names(pht) = c(
         "Pillai\u2019s trace",
         "Hypoth. df",
         "Error df",
         "Exact F",
         "pval")
-      row.names(pht)=str_replace_all(row.names(pht), " : ", " & ") %^%
+      row.names(pht) = str_replace_all(row.names(pht), " : ", " & ") %^%
         ": " %^% Glue("\"{effect.text}\"")
       print_table(pht, nsmalls=nsmall,
                   title=Glue("Multivariate Tests of \"{effect.text}\":"),
                   note=Glue("<<italic Note>>. Identical to the results obtained with SPSS GLM EMMEANS syntax."))
       cat("\n")
     } else {
-      pht=as.data.frame(phtest)[c(
+      pht = as.data.frame(phtest)[c(
         "Sum of Sq", "Df", "F", "Pr(>F)")]
-      pht$MS=pht[,1]/pht[,2]
-      pht=pht[,c(1,2,5,3,4)]
-      names(pht)=c("Sum of Squares", "df", "Mean Square", "F", "pval")
-      row.names(pht)[1:(nrow(pht)-1)]=str_replace_all(row.names(pht)[1:(nrow(pht)-1)], " : ", " & ") %^%
+      pht$MS = pht[,1] / pht[,2]
+      pht = pht[, c(1, 2, 5, 3, 4)]
+      names(pht) = c("Sum of Squares", "df", "Mean Square", "F", "pval")
+      row.names(pht)[1:(nrow(pht)-1)] = str_replace_all(row.names(pht)[1:(nrow(pht)-1)], " : ", " & ") %^%
         ": " %^% Glue("\"{effect.text}\"")
       print_table(pht, nsmalls=c(nsmall, 0, nsmall, nsmall, 0),
                   title=Glue("Univariate Tests of \"{effect.text}\":"),
@@ -926,110 +924,105 @@ EMMEANS=function(model, effect=NULL, by=NULL,
 
   ## Estimated Marginal Means (emmeans)
   suppressMessages({
-    emm0=emm=emmeans::emmeans(
+    emm0 = emm = emmeans::emmeans(
       object=model, specs=effect, by=by,
       weights="equal",
       model=model.type)
   })
-  emm=summary(emm)  # to a data.frame (class 'summary_emm')
-  emm$MeanCI=paste0(formatF(emm$emmean, nsmall), " [",
-                    formatF(emm$lower.CL, nsmall), ", ",
-                    formatF(emm$upper.CL, nsmall), "]")
-  vns=names(emm)[1:(length(by)+1)]
-  names(emm)[1:(length(by)+1)]="\"" %^% vns %^% "\""
-  emm=cbind(emm[1:(length(by)+1)], emm[c("MeanCI", "SE")])
-  names(emm)[length(emm)-1]="Mean [95% CI of Mean]"
+  emm = summary(emm)  # to a data.frame (class 'summary_emm')
+  emm$MeanCI = cc_m_ci(emm$emmean, emm$lower.CL, emm$upper.CL, nsmall)
+  vns = names(emm)[1:(length(by)+1)]
+  names(emm)[1:(length(by)+1)] = "\"" %^% vns %^% "\""
+  emm = cbind(emm[1:(length(by)+1)], emm[c("MeanCI", "SE")])
+  names(emm)[length(emm)-1] = "Mean [95% CI of Mean]"
 
   Print("Estimated Marginal Means of \"{effect.text}\":")
   print_table(emm, nsmalls=nsmall, row.names=FALSE)
-  cat(paste(attr(emm, "mesg"), collapse="\n")); cat("\n")
+  cat(paste(attr(emm, "mesg"), collapse="\n"))
+  cat("\n")
 
   ## Multiple Comparison (pairwise or other methods)
   # see: ?contrast, ?pairs.emmGrid, ?pairwise.emmc
-  contr.method=switch(contrast,
-                      pairwise=,
-                      revpairwise="Pairwise Comparisons",
-                      consec=,
-                      seq="Consecutive (Sequential) Comparisons",
-                      poly="Polynomial Contrasts",
-                      eff="Effect Contrasts (vs. Grand Mean)",
-                      "Multiple Comparisons")
-  if(contrast=="pairwise" & reverse==TRUE) contrast="revpairwise"
-  if(contrast=="seq") contrast="consec"
-  if(contrast=="consec") reverse=FALSE
-  if(contrast=="poly") p.adjust="none"
-  con0=con=emmeans::contrast(
+  contr.method = switch(
+    contrast,
+    pairwise=,
+    revpairwise="Pairwise Comparisons",
+    consec=,
+    seq="Consecutive (Sequential) Comparisons",
+    poly="Polynomial Contrasts",
+    eff="Effect Contrasts (vs. Grand Mean)",
+    "Multiple Comparisons")
+  if(contrast=="pairwise" & reverse==TRUE) contrast = "revpairwise"
+  if(contrast=="seq") contrast = "consec"
+  if(contrast=="consec") reverse = FALSE
+  if(contrast=="poly") p.adjust = "none"
+  con0 = con = emmeans::contrast(
     object=emm0, method=contrast,
     adjust=p.adjust, reverse=reverse)
   # pairs(emm, simple="each", reverse=TRUE, combine=TRUE)
-  conCI=confint(con)
-  con=summary(con)  # to a data.frame (class 'summary_emm')
+  conCI = confint(con)
+  con = summary(con)  # to a data.frame (class 'summary_emm')
 
   ## Cohen's d
-  all_paired_diffs=function(v) {
-    combns=utils::combn(v, 2)
-    combns[1,]-combns[2,]
+  all_paired_diffs = function(v) {
+    combns = utils::combn(v, 2)
+    combns[1,] - combns[2,]
   }
   if(is.null(sd.pooled)) {
-    sigma=stats::sigma(model$lm)
+    sigma = stats::sigma(model$lm)
     if(length(sigma)==1) {
-      sd.pooled=sigma  # = sqrt(MSE), i.e., RMSE
+      sd.pooled = sigma  # = sqrt(MSE), i.e., RMSE
     } else {
-      res=residuals(model$lm)  # matrix
-      D=apply(res, 1, all_paired_diffs)
-      if(is.matrix(D)) {
-        sd.pooled=sqrt(mean(apply(D, 1, var)))  # RMSE
-      } else {
-        sd.pooled=sd(D)
-      }
+      res = residuals(model$lm)  # matrix
+      D = apply(res, 1, all_paired_diffs)
+      if(is.matrix(D))
+        sd.pooled = sqrt(mean(apply(D, 1, var)))  # RMSE
+      else
+        sd.pooled = sd(D)
     }
   }
-  # rn=row.names(model$anova_table)
-  # term=c()
-  # for(i in rn) if(i %in% effect) term=c(term, i)
-  # term=paste(term, collapse=":")
+  # rn = row.names(model$anova_table)
+  # term = c()
+  # for(i in rn) if(i %in% effect) term = c(term, i)
+  # term = paste(term, collapse=":")
   # if(is.null(sd.pooled))
-  #   sd.pooled=sqrt(model$anova_table[term, "MSE"])
+  #   sd.pooled = sqrt(model$anova_table[term, "MSE"])
   if(contrast!="poly")
-    attr(con, "mesg")=c(Glue("Pooled SD for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
-                        attr(con, "mesg"))
-  # es=emmeans::eff_size(emm0, method=contrast,
-  #                      sigma=stats::sigma(model$lm),
-  #                      edf=stats::df.residual(model$lm))
-  # es=summary(es)
-  # con$d=paste0(formatF(es$effect.size, nsmall), " [",
-  #              formatF(es$lower.CL, nsmall), ", ",
-  #              formatF(es$upper.CL, nsmall), "]")
-  con$d=paste0(formatF(con$estimate/sd.pooled, nsmall), " [",
-               formatF(conCI$lower.CL/sd.pooled, nsmall), ", ",
-               formatF(conCI$upper.CL/sd.pooled, nsmall), "]")
+    attr(con, "mesg") = c(
+      Glue("Pooled SD for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
+      attr(con, "mesg"))
+  con$d = cc_m_ci(con$estimate/sd.pooled,
+                  conCI$lower.CL/sd.pooled,
+                  conCI$upper.CL/sd.pooled,
+                  nsmall)
   if(length(by)>0) {
-    vns=names(con)[2:(length(con)-6)]
-    names(con)[2:(length(con)-6)]="\"" %^% vns %^% "\""
+    vns = names(con)[2:(length(con)-6)]
+    names(con)[2:(length(con)-6)] = "\"" %^% vns %^% "\""
   }
-  names(con)[c(1, (length(con)-5):length(con))]=
+  names(con)[c(1, (length(con)-5):length(con))] =
     c("Contrast", "Estimate", "SE", "df", "t", "pval",
       "Cohen\u2019s d [95% CI of d]")
-  p.mesg.index=grepl("^P value adjustment", attr(con, "mesg"))
+  p.mesg.index = grepl("^P value adjustment", attr(con, "mesg"))
   if(any(p.mesg.index)) {
-    p.mesg=attr(con, "mesg")[which(p.mesg.index)]
-    method.mesg=str_extract(p.mesg, "(?<=: ).+(?= method)")
+    p.mesg = attr(con, "mesg")[which(p.mesg.index)]
+    method.mesg = str_extract(p.mesg, "(?<=: ).+(?= method)")
     if(method.mesg %in% c("fdr", "mvt"))
-      method.mesg.new=toupper(method.mesg)
+      method.mesg.new = toupper(method.mesg)
     else
-      method.mesg.new=capitalize(method.mesg)
-    p.mesg.new=paste0("P-value adjustment: ", method.mesg.new, strsplit(p.mesg, method.mesg)[[1]][2], ".")
-    attr(con, "mesg")[which(p.mesg.index)]=p.mesg.new
+      method.mesg.new = capitalize(method.mesg)
+    p.mesg.new = paste0("P-value adjustment: ", method.mesg.new, strsplit(p.mesg, method.mesg)[[1]][2], ".")
+    attr(con, "mesg")[which(p.mesg.index)] = p.mesg.new
   } else if(p.adjust!="none") {
-    attr(con, "mesg")=c(attr(con, "mesg"),
-                        "No need to adjust p values.")
+    attr(con, "mesg") = c(attr(con, "mesg"),
+                          "No need to adjust p values.")
   }
-  if(contrast=="poly") con[c("Cohen\u2019s d [95% CI of d]")]=NULL
+  if(contrast=="poly") con[c("Cohen\u2019s d [95% CI of d]")] = NULL
 
   Print("{contr.method} of \"{effect.text}\":")
-  con$df=formatF(con$df, 0)
+  con$df = formatF(con$df, 0)
   print_table(con, nsmalls=nsmall, row.names=FALSE)
-  cat(paste(attr(con, "mesg"), collapse="\n")); cat("\n")
+  cat(paste(attr(con, "mesg"), collapse="\n"))
+  cat("\n")
   Print("<<green Disclaimer:
   By default, pooled SD is <<italic Root Mean Square Error>> (RMSE).
   There is much disagreement on how to compute Cohen\u2019s d.
@@ -1043,7 +1036,7 @@ EMMEANS=function(model, effect=NULL, by=NULL,
   #   cat("\n")
 
   ## Return (return the raw model for recycling across '%>%' pipelines)
-  model$EMMEANS=c(model$EMMEANS, list(list(sim=sim, emm=emm, con=con)))
+  model$EMMEANS = c(model$EMMEANS, list(list(sim=sim, emm=emm, con=con)))
   invisible(model)
 }
 

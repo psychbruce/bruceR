@@ -194,15 +194,15 @@ MANOVA(mixed.3_2b1w, dvs="B1:B2", dvs.pattern="B(.)",
 
 #### Other Examples ####
 
-data.new=mixed.3_1b2w
-names(data.new)=c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
+data.new = mixed.3_1b2w
+names(data.new) = c("Group", "Cond_01", "Cond_02", "Cond_03", "Cond_04")
 MANOVA(data.new,
        dvs="Cond_01:Cond_04",
        dvs.pattern="Cond_(..)",
        between="Group",
        within="Condition")  # rename the factor
 
-?afex::obk.long
+# ?afex::obk.long
 MANOVA(afex::obk.long,
        subID="id",
        dv="value",

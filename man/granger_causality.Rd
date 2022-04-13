@@ -52,7 +52,7 @@ Granger causality does not necessarily constitute a true causal effect.
   library(vars)
   data(Canada)
   VARselect(Canada)
-  vm=VAR(Canada, p=3)
+  vm = VAR(Canada, p=3)
   model_summary(vm)
   granger_causality(vm)
 }

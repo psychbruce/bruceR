@@ -11,14 +11,14 @@
 #' @return A vector of recoded variable.
 #'
 #' @examples
-#' d=data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
+#' d = data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
 #' d[, `:=`(
-#'   var.new=RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
+#'   var.new = RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
 #' )]
 #' d
 #'
 #' @export
-RECODE=function(var, recodes) {
+RECODE = function(var, recodes) {
   car::recode(var, recodes)
 }
 
@@ -33,13 +33,13 @@ RECODE=function(var, recodes) {
 #' @return A vector of rescaled variable.
 #'
 #' @examples
-#' d=data.table(var=rep(1:5, 2))
-#' d[,":="(var1=RESCALE(var, to=1:7),
-#'         var2=RESCALE(var, from=1:5, to=1:7))]
+#' d = data.table(var=rep(1:5, 2))
+#' d[, `:=`(var1 = RESCALE(var, to=1:7),
+#'          var2 = RESCALE(var, from=1:5, to=1:7))]
 #' d  # var1 is equal to var2
 #'
 #' @export
-RESCALE=function(var, from=range(var, na.rm=T), to) {
+RESCALE = function(var, from=range(var, na.rm=T), to) {
   (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
 }
 
@@ -60,7 +60,7 @@ RESCALE=function(var, from=range(var, na.rm=T), to) {
 #' # the same: RESCALE(1:5, to=0:1)
 #'
 #' @export
-scaler=function(v, min=0, max=1) {
+scaler = function(v, min=0, max=1) {
   min + (v - min(v, na.rm=T)) * (max - min) / (max(v, na.rm=T) - min(v, na.rm=T))
 }
 
@@ -100,31 +100,31 @@ scaler=function(v, min=0, max=1) {
 #' @return A vector of computed values.
 #'
 #' @examples
-#' d=data.table(x1=1:5,
-#'              x4=c(2,2,5,4,5),
-#'              x3=c(3,2,NA,NA,5),
-#'              x2=c(4,4,NA,2,5),
-#'              x5=c(5,4,1,4,5))
+#' d = data.table(x1=1:5,
+#'                x4=c(2,2,5,4,5),
+#'                x3=c(3,2,NA,NA,5),
+#'                x2=c(4,4,NA,2,5),
+#'                x5=c(5,4,1,4,5))
 #' d
 #' ## I deliberately set this order to show you
 #' ## the difference between "vars" and "varrange".
 #'
-#' d[,`:=`(
-#'   na=COUNT(d, "x", 1:5, value=NA),
-#'   n.2=COUNT(d, "x", 1:5, value=2),
-#'   sum=SUM(d, "x", 1:5),
-#'   m1=MEAN(d, "x", 1:5),
-#'   m2=MEAN(d, vars=c("x1", "x4")),
-#'   m3=MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
-#'   cons1=CONSEC(d, "x", 1:5),
-#'   cons2=CONSEC(d, varrange="x1:x5")
+#' d[, `:=`(
+#'   na = COUNT(d, "x", 1:5, value=NA),
+#'   n.2 = COUNT(d, "x", 1:5, value=2),
+#'   sum = SUM(d, "x", 1:5),
+#'   m1 = MEAN(d, "x", 1:5),
+#'   m2 = MEAN(d, vars=c("x1", "x4")),
+#'   m3 = MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
+#'   cons1 = CONSEC(d, "x", 1:5),
+#'   cons2 = CONSEC(d, varrange="x1:x5")
 #' )]
 #' d
 #'
-#' data=as.data.table(psych::bfi)
-#' data[,`:=`(
-#'   E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-#'   O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
+#' data = as.data.table(psych::bfi)
+#' data[, `:=`(
+#'   E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+#'   O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 #' )]
 #' data
 #'
@@ -133,131 +133,131 @@ scaler=function(v, min=0, max=1) {
 NULL
 
 
-convert2vars=function(data,
-                      var=NULL, items=NULL,
-                      vars=NULL,
-                      varrange=NULL,
-                      rev=NULL) {
+convert2vars = function(data,
+                        var=NULL, items=NULL,
+                        vars=NULL,
+                        varrange=NULL,
+                        rev=NULL) {
   if(!is.null(varrange)) {
-    dn=names(data)
-    varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
-    vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
+    dn = names(data)
+    varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
+    vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
-  if(is.null(vars)) vars=paste0(var, items)
-  if(is.numeric(rev)) rev=paste0(var, rev)  # bug fixed on 2019-09-28
-  if(is.character(rev)) rev=which(vars %in% rev)
-  vars.raw=vars
-  # vars=paste(deparse(substitute(data)), vars, sep="$")
-  vars=paste0(deparse(substitute(data)), "$`", vars, "`")
+  if(is.null(vars)) vars = paste0(var, items)
+  if(is.numeric(rev)) rev = paste0(var, rev)  # bug fixed on 2019-09-28
+  if(is.character(rev)) rev = which(vars %in% rev)
+  vars.raw = vars
+  # vars = paste(deparse(substitute(data)), vars, sep="$")
+  vars = paste0(deparse(substitute(data)), "$`", vars, "`")
   return(list(vars.raw=vars.raw, vars=vars, rev=rev))
 }
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes \strong{Count} a certain value across multiple variables.
 #' @export
-COUNT=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-               value=NA) {
-  Count=function(...) sum(c(...), na.rm=TRUE)
-  v.r=convert2vars(data, var, items, vars, varrange)
-  vars=v.r$vars
+COUNT = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
+                 value=NA) {
+  Count = function(...) sum(c(...), na.rm=TRUE)
+  v.r = convert2vars(data, var, items, vars, varrange)
+  vars = v.r$vars
   if(is.na(value))
-    varlist=paste0("is.na(", vars, ")")
+    varlist = paste0("is.na(", vars, ")")
   else
-    varlist=paste0(vars, "==", value)
-  eval(parse(text=paste0("mapply(Count, ", paste(varlist, collapse=", "), ")")))
+    varlist = paste0(vars, "==", value)
+  eval(parse(text = paste0("mapply(Count, ", paste(varlist, collapse=", "), ")")))
 }
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mode} across multiple variables.
 #' @export
-MODE=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
-  getmode=function(v) {
-    uniqv=unique(v)
+MODE = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
+  getmode = function(v) {
+    uniqv = unique(v)
     uniqv[which.max(tabulate(match(v, uniqv)))]
   }
-  Mode=function(...) getmode(c(...))
-  varlist=convert2vars(data, var, items, vars, varrange)$vars
+  Mode = function(...) getmode(c(...))
+  varlist = convert2vars(data, var, items, vars, varrange)$vars
   eval(parse(text=paste0("mapply(Mode, ", paste(varlist, collapse=", "), ")")))
 }
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{sum} across multiple variables.
 #' @export
-SUM=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-             rev=NULL, likert=NULL,
-             na.rm=TRUE) {
-  Sum=function(...) sum(..., na.rm=na.rm)
-  v.r=convert2vars(data, var, items, vars, varrange, rev)
-  vars=v.r$vars
-  rev=v.r$rev
+SUM = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
+               rev=NULL, likert=NULL,
+               na.rm=TRUE) {
+  Sum = function(...) sum(..., na.rm=na.rm)
+  v.r = convert2vars(data, var, items, vars, varrange, rev)
+  vars = v.r$vars
+  rev = v.r$rev
   if(!is.null(rev) & is.null(likert)) {
-    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
-    likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    ranges = apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
+    likert = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
     warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?SUM", call.=TRUE)
   }
-  pre=rep("", length(vars))
-  pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
-  varlist=paste0(pre, vars)
+  pre = rep("", length(vars))
+  pre[rev] = ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
+  varlist = paste0(pre, vars)
   eval(parse(text=paste0("mapply(Sum, ", paste(varlist, collapse=", "), ")")))
 }
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mean} across multiple variables.
 #' @export
-MEAN=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-              rev=NULL, likert=NULL,
-              na.rm=TRUE) {
-  Mean=function(...) mean(c(...), na.rm=na.rm)
-  v.r=convert2vars(data, var, items, vars, varrange, rev)
-  vars=v.r$vars
-  rev=v.r$rev
+MEAN = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
+                rev=NULL, likert=NULL,
+                na.rm=TRUE) {
+  Mean = function(...) mean(c(...), na.rm=na.rm)
+  v.r = convert2vars(data, var, items, vars, varrange, rev)
+  vars = v.r$vars
+  rev = v.r$rev
   if(!is.null(rev) & is.null(likert)) {
-    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
-    likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    ranges = apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
+    likert = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
     warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?MEAN", call.=TRUE)
   }
-  pre=rep("", length(vars))
-  pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
-  varlist=paste0(pre, vars)
+  pre = rep("", length(vars))
+  pre[rev] = ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
+  varlist = paste0(pre, vars)
   eval(parse(text=paste0("mapply(Mean, ", paste(varlist, collapse=", "), ")")))
 }
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{standard deviation} across multiple variables.
 #' @export
-STD=function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-             rev=NULL, likert=NULL,
-             na.rm=TRUE) {
-  Std=function(...) sd(c(...), na.rm=na.rm)
-  v.r=convert2vars(data, var, items, vars, varrange, rev)
-  vars=v.r$vars
-  rev=v.r$rev
+STD = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
+               rev=NULL, likert=NULL,
+               na.rm=TRUE) {
+  Std = function(...) sd(c(...), na.rm=na.rm)
+  v.r = convert2vars(data, var, items, vars, varrange, rev)
+  vars = v.r$vars
+  rev = v.r$rev
   if(!is.null(rev) & is.null(likert)) {
-    ranges=apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
-    likert=c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    ranges = apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
+    likert = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
     warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?STD", call.=TRUE)
   }
-  pre=rep("", length(vars))
-  pre[rev]=ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
-  varlist=paste0(pre, vars)
+  pre = rep("", length(vars))
+  pre[rev] = ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
+  varlist = paste0(pre, vars)
   eval(parse(text=paste0("mapply(Std, ", paste(varlist, collapse=", "), ")")))
 }
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
 #' @export
-CONSEC=function(data, var=NULL, items=NULL,
-                vars=NULL,
-                varrange=NULL,
-                values=0:9) {
-  Conseq=function(string, number=values) {
+CONSEC = function(data, var=NULL, items=NULL,
+                  vars=NULL,
+                  varrange=NULL,
+                  values=0:9) {
+  Conseq = function(string, number=values) {
     # Consecutive Identical Digits
-    pattern=paste(paste0(number, "{2,}"), collapse="|")
+    pattern = paste(paste0(number, "{2,}"), collapse="|")
     ifelse(grepl(pattern, string), max(nchar(str_extract_all(string=string, pattern=pattern, simplify=TRUE))), 0)
   }
-  v.r=convert2vars(data, var, items, vars, varrange)
-  vars=v.r$vars
-  varlist=vars
+  v.r = convert2vars(data, var, items, vars, varrange)
+  vars = v.r$vars
+  varlist = vars
   eval(parse(text=paste0("mapply(Conseq, paste0(", paste(varlist, collapse=", "), "))")))
 }
 
@@ -293,7 +293,7 @@ CONSEC=function(data, var=NULL, items=NULL,
 #'
 #' @examples
 #' # ?psych::bfi
-#' data=psych::bfi
+#' data = psych::bfi
 #' Alpha(data, "E", 1:5)  # "E1" & "E2" should be reversed
 #' Alpha(data, "E", 1:5, rev=1:2)  # correct
 #' Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct
@@ -308,41 +308,41 @@ CONSEC=function(data, var=NULL, items=NULL,
 #' \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
 #'
 #' @export
-Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
-               digits=3, nsmall=digits) {
+Alpha = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
+                 digits=3, nsmall=digits) {
   if(!is.null(varrange)) {
-    dn=names(data)
-    varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
-    vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
+    dn = names(data)
+    varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
+    vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
-  if(is.null(vars)) vars=paste0(var, items)
-  if(is.numeric(rev)) rev=paste0(var, rev)
-  n.total=nrow(data)
-  data=na.omit(as.data.frame(data)[vars])
-  n.valid=nrow(data)
+  if(is.null(vars)) vars = paste0(var, items)
+  if(is.numeric(rev)) rev = paste0(var, rev)
+  n.total = nrow(data)
+  data = na.omit(as.data.frame(data)[vars])
+  n.valid = nrow(data)
   for(v in vars) {
-    data[[v]]=as.numeric(data[[v]])
+    data[[v]] = as.numeric(data[[v]])
     if(v %in% rev) {
-      data[[v]]=min(data[[v]])+max(data[[v]])-data[[v]]
-      vr=paste(v, "(rev)")
-      Run("data=dplyr::rename(data, `{vr}`={v})")
+      data[[v]] = min(data[[v]]) + max(data[[v]]) - data[[v]]
+      vr = paste(v, "(rev)")
+      Run("data = dplyr::rename(data, `{vr}`={v})")
     }
   }
-  nitems=length(vars)
+  nitems = length(vars)
 
   suppressMessages({
     suppressWarnings({
-      alpha=psych::alpha(data, delete=FALSE, warnings=FALSE)
-      omega=psych::omega(data, nfactors=1, flip=FALSE)
-      loadings=psych::principal(data, nfactors=1, scores=FALSE)$loadings
+      alpha = psych::alpha(data, delete=FALSE, warnings=FALSE)
+      omega = psych::omega(data, nfactors=1, flip=FALSE)
+      loadings = psych::principal(data, nfactors=1, scores=FALSE)$loadings
 
-      items=cbind(
+      items = cbind(
         alpha$item.stats[c("mean", "sd", "r.drop")],
         alpha$alpha.drop[c("raw_alpha")])
-      names(items)=c("Mean", "S.D.",
-                     "Item-Rest Cor.",
-                     "Cronbach\u2019s \u03b1")
-      items.need.rev=vars[loadings<0]
+      names(items) = c("Mean", "S.D.",
+                       "Item-Rest Cor.",
+                       "Cronbach\u2019s \u03b1")
+      items.need.rev = vars[loadings<0]
     })
   })
 
@@ -383,10 +383,10 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
               note="Item-Rest Cor. = Corrected Item-Total Correlation")
   cat("\n")
 
-  # rel=jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
-  #                      meanScale=TRUE, sdScale=TRUE,
-  #                      alphaScale=TRUE, omegaScale=TRUE,
-  #                      itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
+  # rel = jmv::reliability(data, vars=eval(vars), revItems=eval(rev),
+  #                        meanScale=TRUE, sdScale=TRUE,
+  #                        alphaScale=TRUE, omegaScale=TRUE,
+  #                        itemRestCor=TRUE, alphaItems=TRUE, omegaItems=TRUE)
   # rel$items$setTitle("Item Reliability Statistics (if item is dropped)")
 
   invisible(list(alpha=alpha, omega=omega))
@@ -467,7 +467,7 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #' \code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
 #'
 #' @examples
-#' data=psych::bfi
+#' data = psych::bfi
 #' EFA(data, "E", 1:5)              # var + items
 #' EFA(data, "E", 1:5, nfactors=2)  # var + items
 #'
@@ -487,66 +487,66 @@ Alpha=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #'       hide.loadings=0.45)  # hide loadings < 0.45
 #'
 #' @export
-EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
-             method=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha"),
-             rotation=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax"),
-             nfactors=c("eigen", "parallel", "(any number >= 1)"),
-             sort.loadings=TRUE,
-             hide.loadings=0.00,
-             plot.scree=TRUE,
-             # plot.factor=TRUE,
-             kaiser=TRUE,
-             max.iter=25,
-             min.eigen=1,
-             digits=3, nsmall=digits,
-             file=NULL) {
+EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
+               method=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha"),
+               rotation=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax"),
+               nfactors=c("eigen", "parallel", "(any number >= 1)"),
+               sort.loadings=TRUE,
+               hide.loadings=0.00,
+               plot.scree=TRUE,
+               # plot.factor=TRUE,
+               kaiser=TRUE,
+               max.iter=25,
+               min.eigen=1,
+               digits=3, nsmall=digits,
+               file=NULL) {
   if(!is.null(varrange)) {
-    dn=names(data)
-    varrange=gsub(" ", "", strsplit(varrange, ":")[[1]])
-    vars=dn[which(dn==varrange[1]):which(dn==varrange[2])]
+    dn = names(data)
+    varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
+    vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
-  if(is.null(vars)) vars=paste0(var, items)
-  if(is.numeric(rev)) rev=paste0(var, rev)
-  n.total=nrow(data)
-  data=na.omit(as.data.frame(data)[vars])
-  n.valid=nrow(data)
+  if(is.null(vars)) vars = paste0(var, items)
+  if(is.numeric(rev)) rev = paste0(var, rev)
+  n.total = nrow(data)
+  data = na.omit(as.data.frame(data)[vars])
+  n.valid = nrow(data)
   for(v in vars) {
-    data[[v]]=as.numeric(data[[v]])
+    data[[v]] = as.numeric(data[[v]])
     if(v %in% rev) {
-      data[[v]]=min(data[[v]])+max(data[[v]])-data[[v]]
-      vr=paste(v, "(rev)")
-      Run("data=dplyr::rename(data, `{vr}`={v})")
+      data[[v]] = min(data[[v]])+max(data[[v]])-data[[v]]
+      vr = paste(v, "(rev)")
+      Run("data = dplyr::rename(data, `{vr}`={v})")
     }
   }
-  nitems=length(vars)
+  nitems = length(vars)
 
   # determine number of factors
-  eigen.value=eigen(cor(data), only.values=TRUE)$values
-  eigen.parallel=NULL
-  error.nfactors="`nfactors` should be \"eigen\", \"parallel\", or an integer (>= 1)."
-  if(length(nfactors)>1) nfactors="eigen"
+  eigen.value = eigen(cor(data), only.values=TRUE)$values
+  eigen.parallel = NULL
+  error.nfactors = "`nfactors` should be \"eigen\", \"parallel\", or an integer (>= 1)."
+  if(length(nfactors)>1) nfactors = "eigen"
   if(is.numeric(nfactors)) {
     if(nfactors<1) stop(error.nfactors, call.=FALSE)
-    nfactors=nfactors
+    nfactors = nfactors
   } else if(nfactors=="eigen") {
-    nfactors=sum(eigen.value>min.eigen)
+    nfactors = sum(eigen.value>min.eigen)
   } else if(nfactors=="parallel") {
-    eigen.parallel=parallel_analysis(nrow(data), ncol(data), niter=20)
-    nfactors=max(which(eigen.value<=eigen.parallel)[1]-1, 1)
-    if(is.na(nfactors)) nfactors=length(eigen.value)
+    eigen.parallel = parallel_analysis(nrow(data), ncol(data), niter=20)
+    nfactors = max(which(eigen.value<=eigen.parallel)[1]-1, 1)
+    if(is.na(nfactors)) nfactors = length(eigen.value)
   } else {
     stop(error.nfactors, call.=FALSE)
   }
 
   # extraction method
-  valid.methods=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha")
-  if(length(method)>1) method="pca"
+  valid.methods = c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha")
+  if(length(method)>1) method = "pca"
   if(method %notin% valid.methods)
     stop(Glue("
     EFA() has changed significantly since bruceR v0.8.0.
     `method` should be one of \"{paste(valid.methods, collapse='\", \"')}\".
     Please see the help page: help(EFA)"), call.=FALSE)
-  Method=switch(
+  Method = switch(
     method,
     "pca"="Principal Component Analysis",
     "pa"="Principal Axis Factor Analysis",
@@ -559,14 +559,14 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     "alpha"="Alpha Factor Analysis (Kaiser & Coffey, 1965)")
 
   # rotation method
-  valid.rotations=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax")
-  if(length(rotation)>1) rotation="varimax"
+  valid.rotations = c("none", "varimax", "oblimin", "promax", "quartimax", "equamax")
+  if(length(rotation)>1) rotation = "varimax"
   if(rotation %notin% valid.rotations)
     stop(Glue("
     EFA() has changed significantly since bruceR v0.8.0.
     `rotation` should be one of \"{paste(valid.rotations, collapse='\", \"')}\".
     Please see the help page: help(EFA)"), call.=FALSE)
-  Method.Rotation=switch(
+  Method.Rotation = switch(
     rotation,
     "none"="None",
     "varimax"="Varimax",
@@ -574,42 +574,42 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     "promax"="Promax",
     "quartimax"="Quartimax",
     "equamax"="Equamax")
-  if(rotation %in% c("none", "equamax")) kaiser=FALSE
-  if(kaiser) Method.Rotation=paste(Method.Rotation, "(with Kaiser Normalization)")
-  if(nfactors==1) Method.Rotation="(Only one component was extracted. The solution was not rotated.)"
+  if(rotation %in% c("none", "equamax")) kaiser = FALSE
+  if(kaiser) Method.Rotation = paste(Method.Rotation, "(with Kaiser Normalization)")
+  if(nfactors==1) Method.Rotation = "(Only one component was extracted. The solution was not rotated.)"
 
   # analyze
   suppressMessages({
     suppressWarnings({
-      kmo=psych::KMO(data)$MSA
-      btl=psych::cortest.bartlett(data, n=nrow(data))
+      kmo = psych::KMO(data)$MSA
+      btl = psych::cortest.bartlett(data, n=nrow(data))
       if(method=="pca") {
-        efa=psych::principal(
+        efa = psych::principal(
           data, nfactors=nfactors, rotate=rotation)
       } else {
-        efa=psych::fa(
+        efa = psych::fa(
           data, nfactors=nfactors, rotate=rotation,
           fm=method, max.iter=max.iter)
       }
       if(kaiser & nfactors>1) {
-        Rotation=rotation
-        if(rotation=="varimax") Rotation="Varimax"  # GPArotation::Varimax
-        if(rotation=="promax") Rotation="Promax"  # psych::Promax
-        efak=psych::kaiser(efa, rotate=Rotation)
-        loadings=efak$loadings
+        Rotation = rotation
+        if(rotation=="varimax") Rotation = "Varimax"  # GPArotation::Varimax
+        if(rotation=="promax") Rotation = "Promax"  # psych::Promax
+        efak = psych::kaiser(efa, rotate=Rotation)
+        loadings = efak$loadings
       } else {
-        efak=NULL
-        loadings=efa$loadings
+        efak = NULL
+        loadings = efa$loadings
       }
-      class(loadings)="matrix"
+      class(loadings) = "matrix"
     })
   })
 
   # print
-  analysis=ifelse(method=="pca",
-                  "Principal Component Analysis",
-                  "Explanatory Factor Analysis")
-  tag=ifelse(method=="pca", "Component", "Factor")
+  analysis = ifelse(method=="pca",
+                    "Principal Component Analysis",
+                    "Explanatory Factor Analysis")
+  tag = ifelse(method=="pca", "Component", "Factor")
   Print("
   \n
   <<cyan {analysis}>>
@@ -631,37 +631,37 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   ")
 
   # eigenvalues and SS loadings
-  SS.loadings=apply(apply(loadings, 2, function(x) x^2), 2, sum)
-  SS.loadings=c(SS.loadings, rep(NA, nitems-nfactors))
-  eigen=data.frame(
-    Eigenvalue=eigen.value,
-    PropVar0=100*(eigen.value/nitems),
-    CumuVar0=cumsum(100*(eigen.value/nitems)),
-    SS.Loading=SS.loadings,
-    PropVar1=100*(SS.loadings/nitems),
-    CumuVar1=cumsum(100*(SS.loadings/nitems))
+  SS.loadings = apply(apply(loadings, 2, function(x) x^2), 2, sum)
+  SS.loadings = c(SS.loadings, rep(NA, nitems-nfactors))
+  eigen = data.frame(
+    Eigenvalue = eigen.value,
+    PropVar0 = 100*(eigen.value/nitems),
+    CumuVar0 = cumsum(100*(eigen.value/nitems)),
+    SS.Loading = SS.loadings,
+    PropVar1 = 100*(SS.loadings/nitems),
+    CumuVar1 = cumsum(100*(SS.loadings/nitems))
   )
-  row.names(eigen)=paste(tag, 1:nitems)
-  names(eigen)=c("Eigenvalue", "Variance %", "Cumulative %",
-                 "SS Loading", "Variance %", "Cumulative %")
+  row.names(eigen) = paste(tag, 1:nitems)
+  names(eigen) = c("Eigenvalue", "Variance %", "Cumulative %",
+                   "SS Loading", "Variance %", "Cumulative %")
   cat("\n")
   print_table(eigen, nsmalls=nsmall,
               title="Total Variance Explained:")
 
   # factor loadings
-  loadings=as.data.frame(loadings)
-  abs.loadings=abs(loadings)
-  max=apply(abs.loadings, 1, max)
-  which.max=apply(abs.loadings, 1, which.max)
-  loadings$Communality=efa$communality
-  # loadings$Uniqueness=efa$uniquenesses
-  if(sort.loadings) loadings=loadings[order(which.max, -max), ]
+  loadings = as.data.frame(loadings)
+  abs.loadings = abs(loadings)
+  max = apply(abs.loadings, 1, max)
+  which.max = apply(abs.loadings, 1, which.max)
+  loadings$Communality = efa$communality
+  # loadings$Uniqueness = efa$uniquenesses
+  if(sort.loadings) loadings = loadings[order(which.max, -max), ]
   for(v in names(loadings)[1:nfactors]) {
-    loadings[abs(loadings[[v]])<abs(hide.loadings), v]=NA
+    loadings[abs(loadings[[v]])<abs(hide.loadings), v] = NA
   }
-  info1=ifelse(rotation!="none" & nfactors>1, " (Rotated)", "")
-  info2=ifelse(sort.loadings, " (Sorted by Size)", "")
-  loadings.info=info1%^%info2
+  info1 = ifelse(rotation!="none" & nfactors>1, " (Rotated)", "")
+  info2 = ifelse(sort.loadings, " (Sorted by Size)", "")
+  loadings.info = info1%^%info2
   cat("\n")
   print_table(loadings, nsmalls=nsmall,
               title=Glue("{tag} Loadings{loadings.info}:"))
@@ -676,18 +676,18 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
                 note=Glue("Extraction Method: {Method}.</p><p>Rotation Method: {Method.Rotation}."))
 
   # scree plot
-  dp=data.frame(
-    Type="Data",
-    Component=1:length(eigen.value),
-    Eigenvalue=eigen.value)
+  dp = data.frame(
+    Type = "Data",
+    Component = 1:length(eigen.value),
+    Eigenvalue = eigen.value)
   if(!is.null(eigen.parallel)) {
-    dp=rbind(dp, data.frame(
-      Type="Parallel (Simulation)",
-      Component=1:length(eigen.parallel),
-      Eigenvalue=eigen.parallel))
+    dp = rbind(dp, data.frame(
+      Type = "Parallel (Simulation)",
+      Component = 1:length(eigen.parallel),
+      Eigenvalue = eigen.parallel))
   }
-  Type=Component=Eigenvalue=NULL
-  p=ggplot(dp, aes(x=Component, y=Eigenvalue, color=Type, fill=Type)) +
+  Type = Component = Eigenvalue = NULL
+  p = ggplot(dp, aes(x=Component, y=Eigenvalue, color=Type, fill=Type)) +
     geom_hline(yintercept=min.eigen, linetype=2) +
     geom_path(size=1) +
     geom_point(size=2.5, shape=21) +
@@ -699,12 +699,12 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     theme(legend.position=c(0.85, 0.75))
   if(plot.scree) {
     try({
-      plot.error=TRUE
+      plot.error = TRUE
       print(p)
-      plot.error=FALSE
+      plot.error = FALSE
     }, silent=TRUE)
     if(plot.error) {
-      warning=Glue("
+      warning = Glue("
         Plot is NOT successfully displayed in the RStudio `Plots` Pane.
         Please check if the `Plots` Pane of your RStudio is too small.
         You should enlarge the `Plots` Pane (and/or clear all plots).")
@@ -737,16 +737,16 @@ EFA=function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 
 #' @describeIn EFA Principal Component Analysis - a wrapper of \code{EFA(..., method="pca")}
 #' @export
-PCA=function(..., method="pca") { EFA(..., method=method) }
+PCA = function(..., method="pca") { EFA(..., method=method) }
 
 
-parallel_analysis=function(nrow, ncol, niter=20) {
-  sim.eigen=lapply(1:niter, function(x) {
-    sim.data=matrix(rnorm(nrow*ncol), nrow=nrow, ncol=ncol)
+parallel_analysis = function(nrow, ncol, niter=20) {
+  sim.eigen = lapply(1:niter, function(x) {
+    sim.data = matrix(rnorm(nrow*ncol), nrow=nrow, ncol=ncol)
     eigen(cor(sim.data), only.values=TRUE)$values
   })
-  sim.eigen=t(matrix(unlist(sim.eigen), ncol=niter))
-  sim.eigen.CI=apply(sim.eigen, 2, function(x) quantile(x, 0.95))
+  sim.eigen = t(matrix(unlist(sim.eigen), ncol=niter))
+  sim.eigen.CI = apply(sim.eigen, 2, function(x) quantile(x, 0.95))
   return(sim.eigen.CI)
 }
 
@@ -754,50 +754,50 @@ parallel_analysis=function(nrow, ncol, niter=20) {
 ## Expand multiple variables with complex string formats
 ## Input: "X[1:5] + Y[c(1,3)] + Z"
 ## Output:
-expand_vars=function(vartext) {
-  vartexts=gsub(" ", "", strsplit(vartext, "\\+")[[1]])
-  vars=c()
+expand_vars = function(vartext) {
+  vartexts = gsub(" ", "", strsplit(vartext, "\\+")[[1]])
+  vars = c()
   for(vartext.i in vartexts) {
     if(grepl("\\[|\\]", vartext.i)==TRUE) {
-      vars.i=eval(parse(text=paste0("paste0('", gsub("\\]", ")", gsub("\\[", "',", vartext.i)))))
+      vars.i = eval(parse(text=paste0("paste0('", gsub("\\]", ")", gsub("\\[", "',", vartext.i)))))
     } else {
-      vars.i=vartext.i
+      vars.i = vartext.i
     }
-    vars=c(vars, vars.i)
+    vars = c(vars, vars.i)
   }
   return(vars)
 }
 
 
 ## CFA model formula transformation
-modelCFA.trans=function(style=c("jmv", "lavaan"),
-                        model, highorder="") {
+modelCFA.trans = function(style=c("jmv", "lavaan"),
+                          model, highorder="") {
   # model: free style input
-  model=gsub("^\\s+|\\s+$", "", model)
-  model=strsplit(gsub(" ", "", strsplit(model, "(;|\\n)+")[[1]]), "=~")
+  model = gsub("^\\s+|\\s+$", "", model)
+  model = strsplit(gsub(" ", "", strsplit(model, "(;|\\n)+")[[1]]), "=~")
   # jmv style
-  model.jmv=list()
+  model.jmv = list()
   for(i in 1:length(model)) {
-    var=model[[i]][[2]]
-    vars=expand_vars(var)
-    model.jmv[[i]]=list(label=model[[i]][[1]],
-                        vars=vars)
+    var = model[[i]][[2]]
+    vars = expand_vars(var)
+    model.jmv[[i]] = list(label=model[[i]][[1]],
+                          vars=vars)
   }
   # lavaan style
-  model.lav=c()
+  model.lav = c()
   for(i in 1:length(model.jmv)) {
-    model.i=paste(model.jmv[[i]]$label, paste(model.jmv[[i]]$vars, collapse=" + "), sep=" =~ ")
-    model.lav=c(model.lav, model.i)
+    model.i = paste(model.jmv[[i]]$label, paste(model.jmv[[i]]$vars, collapse=" + "), sep=" =~ ")
+    model.lav = c(model.lav, model.i)
   }
-  model.lav=paste(model.lav, collapse="\n")
+  model.lav = paste(model.lav, collapse="\n")
   # high-order CFA (only for lavaan)
-  factors=sapply(model.jmv, function(x) x$label)
+  factors = sapply(model.jmv, function(x) x$label)
   if(highorder!="")
-    model.lav=paste(model.lav,
-                    paste(highorder, "=~",
-                          paste(factors, collapse=" + ")),
-                    paste(highorder, "~~", highorder),
-                    sep="\n")
+    model.lav = paste(model.lav,
+                      paste(highorder, "=~",
+                            paste(factors, collapse=" + ")),
+                      paste(highorder, "~~", highorder),
+                      sep="\n")
   # output
   if(style=="jmv") return(model.jmv)
   if(style=="lavaan") return(model.lav)
@@ -847,19 +847,20 @@ modelCFA.trans=function(style=c("jmv", "lavaan"),
 #'     Speed =~ x7 + x8 + x9
 #'     ", highorder="Ability")
 #'
-#' data.bfi=na.omit(psych::bfi)
+#' data.bfi = na.omit(psych::bfi)
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 #' }
 #' @export
-CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
-             estimator="ML",
-             highorder="", orthogonal=FALSE, missing="listwise",
-             # CI=FALSE, MI=FALSE,
-             digits=3, nsmall=digits,
-             file=NULL) {
-  # model.jmv=modelCFA.trans("jmv", model)
-  model.lav=modelCFA.trans("lavaan", model, highorder)
-  # if(orthogonal==TRUE | highorder!="") style="lavaan"
+CFA = function(data,
+               model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
+               estimator="ML",
+               highorder="", orthogonal=FALSE, missing="listwise",
+               # CI=FALSE, MI=FALSE,
+               digits=3, nsmall=digits,
+               file=NULL) {
+  # model.jmv = modelCFA.trans("jmv", model)
+  model.lav = modelCFA.trans("lavaan", model, highorder)
+  # if(orthogonal==TRUE | highorder!="") style = "lavaan"
 
   cat("\n")
   Print("<<cyan Model Syntax (lavaan):>>")
@@ -868,29 +869,29 @@ CFA=function(data, model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
 
   # # jmv style
   # if("jmv" %in% style) {
-  #   fit.jmv=jmv::cfa(data=data, factors=model.jmv,
-  #                    resCov=NULL,
-  #                    constrain="facVar", # or "facInd"
-  #                    # 'facVar' fixes the factor variances to 1
-  #                    # 'facInd' fixes each factor to the scale of its first indicator
-  #                    ci=CI, mi=MI, # modification indices
-  #                    stdEst=TRUE, resCovEst=TRUE,
-  #                    # pathDiagram=plot,
-  #                    fitMeasures=c("cfi", "tli", "rmsea", "srmr", "aic", "bic"),
-  #                    miss=missing) # fiml (default), listwise
+  #   fit.jmv = jmv::cfa(data=data, factors=model.jmv,
+  #                      resCov=NULL,
+  #                      constrain="facVar", # or "facInd"
+  #                      # 'facVar' fixes the factor variances to 1
+  #                      # 'facInd' fixes each factor to the scale of its first indicator
+  #                      ci=CI, mi=MI, # modification indices
+  #                      stdEst=TRUE, resCovEst=TRUE,
+  #                      # pathDiagram=plot,
+  #                      fitMeasures=c("cfi", "tli", "rmsea", "srmr", "aic", "bic"),
+  #                      miss=missing) # fiml (default), listwise
   #   cat("\n#### jamovi style output ####\n")
   #   print(fit.jmv)
   # }
 
   # lavaan style
-  fit.lav=lavaan::cfa(model=model.lav,
-                      data=data,
-                      estimator=estimator,
-                      std.lv=TRUE,
-                      # TRUE: fixing the factor residual variances to 1
-                      # FALSE: fixing the factor loading of the first indicator to 1
-                      orthogonal=orthogonal,
-                      missing=missing) # fiml, listwise (default)
+  fit.lav = lavaan::cfa(model=model.lav,
+                        data=data,
+                        estimator=estimator,
+                        std.lv=TRUE,
+                        # TRUE: fixing the factor residual variances to 1
+                        # FALSE: fixing the factor loading of the first indicator to 1
+                        orthogonal=orthogonal,
+                        missing=missing) # fiml, listwise (default)
   # cat("\n#### lavaan output ####\n\n")
   lavaan_summary(fit.lav, ci="raw", nsmall=nsmall, file=file)
   # lavaan::summary(fit.lav,

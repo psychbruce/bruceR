@@ -72,14 +72,14 @@ It supports many file formats and uses corresponding R functions:
 \dontrun{
 
   # Import data from system clipboard
-  data=import()  # read from clipboard (on Windows and Mac OS)
+  data = import()  # read from clipboard (on Windows and Mac OS)
 
   # If you have an Excel file named "mydata.xlsx"
   export(airquality, file="mydata.xlsx")
 
   # Import data from a file
-  data=import("mydata.xlsx")  # default: data.frame
-  data=import("mydata.xlsx", as="data.table")
+  data = import("mydata.xlsx")  # default: data.frame
+  data = import("mydata.xlsx", as="data.table")
 }
 
 }

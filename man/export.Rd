@@ -74,15 +74,15 @@ It supports many file formats and uses corresponding R functions:
   export(list(airquality, npk), sheet=c("air", "npk"), file="mydata.xlsx")
 
   export(list(a=1, b=npk, c="character"), file="abc.Rdata")  # .rda, .rdata
-  d=import("abc.Rdata")  # load only the first object and rename it to `d`
+  d = import("abc.Rdata")  # load only the first object and rename it to `d`
   load("abc.Rdata")  # load all objects with original names to environment
 
   export(lm(yield ~ N*P*K, data=npk), file="lm_npk.Rdata")
-  model=import("lm_npk.Rdata")
+  model = import("lm_npk.Rdata")
   load("lm_npk.Rdata")  # because x is unnamed, the object has a name "List1"
 
   export(list(m1=lm(yield ~ N*P*K, data=npk)), file="lm_npk.Rdata")
-  model=import("lm_npk.Rdata")
+  model = import("lm_npk.Rdata")
   load("lm_npk.Rdata")  # because x is named, the object has a name "m1"
 }
 

@@ -39,15 +39,15 @@ NOTE: \code{\link{model_summary}} is preferred.
 }
 \examples{
 ## Example 1: OLS regression
-lm=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+lm = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 GLM_summary(lm)
 GLM_summary(lm, robust="HC1")
 # Stata's default is "HC1"
 # R package <sandwich>'s default is "HC3"
 
 ## Example 2: Logistic regression
-glm=glm(case ~ age + parity + education + spontaneous + induced,
-        data=infert, family=binomial)
+glm = glm(case ~ age + parity + education + spontaneous + induced,
+          data=infert, family=binomial)
 GLM_summary(glm)
 GLM_summary(glm, robust="HC1", cluster="stratum")
 

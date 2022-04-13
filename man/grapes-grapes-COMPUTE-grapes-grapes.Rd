@@ -115,31 +115,31 @@ Three options to specify variables:
 }}
 
 \examples{
-d=data.table(x1=1:5,
-             x4=c(2,2,5,4,5),
-             x3=c(3,2,NA,NA,5),
-             x2=c(4,4,NA,2,5),
-             x5=c(5,4,1,4,5))
+d = data.table(x1=1:5,
+               x4=c(2,2,5,4,5),
+               x3=c(3,2,NA,NA,5),
+               x2=c(4,4,NA,2,5),
+               x5=c(5,4,1,4,5))
 d
 ## I deliberately set this order to show you
 ## the difference between "vars" and "varrange".
 
-d[,`:=`(
-  na=COUNT(d, "x", 1:5, value=NA),
-  n.2=COUNT(d, "x", 1:5, value=2),
-  sum=SUM(d, "x", 1:5),
-  m1=MEAN(d, "x", 1:5),
-  m2=MEAN(d, vars=c("x1", "x4")),
-  m3=MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
-  cons1=CONSEC(d, "x", 1:5),
-  cons2=CONSEC(d, varrange="x1:x5")
+d[, `:=`(
+  na = COUNT(d, "x", 1:5, value=NA),
+  n.2 = COUNT(d, "x", 1:5, value=2),
+  sum = SUM(d, "x", 1:5),
+  m1 = MEAN(d, "x", 1:5),
+  m2 = MEAN(d, vars=c("x1", "x4")),
+  m3 = MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
+  cons1 = CONSEC(d, "x", 1:5),
+  cons2 = CONSEC(d, varrange="x1:x5")
 )]
 d
 
-data=as.data.table(psych::bfi)
-data[,`:=`(
-  E=MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-  O=MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
+data = as.data.table(psych::bfi)
+data[, `:=`(
+  E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
+  O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
 )]
 data
 

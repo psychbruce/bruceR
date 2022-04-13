@@ -86,9 +86,9 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 1.  **Basic R Programming**
 
+    -   `cc()`
     -   `set.wd()` (alias: `set_wd()`)
     -   `import()`, `export()`
-    -   `cc()`
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
     -   `print_table()`
@@ -179,8 +179,8 @@ Examples:
 Corr(airquality, file="cor.doc")
 
 ## Regression analysis
-lm1=lm(Temp ~ Month + Day, data=airquality)
-lm2=lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
+lm1 = lm(Temp ~ Month + Day, data=airquality)
+lm2 = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 model_summary(list(lm1, lm2), file="reg.doc")
 model_summary(list(lm1, lm2), std=TRUE, file="reg_std.doc")
 ```

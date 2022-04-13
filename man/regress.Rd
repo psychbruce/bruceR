@@ -67,7 +67,7 @@ NOTE: \code{\link{model_summary}} is preferred.
 
   ## glmer
   library(lmerTest)
-  data.glmm=MASS::bacteria
+  data.glmm = MASS::bacteria
   regress(y ~ trt + week + (1 | ID), data=data.glmm, family=binomial)
   regress(y ~ trt + week + hilo + (1 | ID), data=data.glmm, family=binomial)
 }
