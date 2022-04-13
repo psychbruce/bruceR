@@ -6,10 +6,20 @@
 # devtools::check()
 # devtools::spell_check()
 # devtools::check_rhub()
+# devtools::check_win_release()
 # devtools::check_win_devel()
 
 # devtools::release()
 # devtools::submit_cran()
+
+# usethis::use_pkgdown()
+# usethis::use_pkgdown_github_pages()  # with a bug!
+# usethis::use_github_pages()  # with a bug!
+# usethis::use_github_action("pkgdown")  # GitHub Pages
+# usethis::use_coverage()  # Test Coverage
+# usethis::use_github_action("test-coverage")  # Test Coverage
+# usethis::use_github_actions()  # R-CMD-check
+# usethis::use_logo("...")
 
 
 #### Main Description ####

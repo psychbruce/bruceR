@@ -6,7 +6,7 @@ This package includes easy-to-use functions for **(1)** basic R programming (e.g
 
 <!-- badges: start -->
 
-[![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+[![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://CRAN.R-project.org/package=bruceR) [![R-CMD-check](https://github.com/psychbruce/bruceR/workflows/R-CMD-check/badge.svg)](https://github.com/psychbruce/bruceR/actions) [![Codecov-test-coverage](https://codecov.io/gh/psychbruce/bruceR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/psychbruce/bruceR?branch=main) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <!-- badges: end -->
 
@@ -14,13 +14,11 @@ This package includes easy-to-use functions for **(1)** basic R programming (e.g
 
 ## Author
 
-[包寒吴霜 \| Bao H.-W.-S.](https://psychbruce.github.io)
+包寒吴霜 Bao H.-W.-S.
 
 Email: [baohws\@foxmail.com](mailto:baohws@foxmail.com)
 
-Website: [psychbruce.github.io](https://psychbruce.github.io)
-
-[ResearchGate](https://www.researchgate.net/profile/Han-Wu-Shuang-Bao) \| [GitHub](https://github.com/psychbruce) \| [知乎](https://www.zhihu.com/people/psychbruce)
+Homepage: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 

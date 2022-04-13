@@ -1,3 +1,6 @@
+## [![GitHub-Commits](https://img.shields.io/github/commit-activity/y/psychbruce/bruceR?logo=github&label=commits&style=social)](https://github.com/psychbruce/bruceR/commits)
+
+
 #### Deprecated Functions ####
 
 
