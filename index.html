@@ -24,6 +24,12 @@
   (7) mediation and moderation analyses (PROCESS);
   and (8) additional toolbox for statistics and graphics.">
 <title>Broadly Useful Convenient and Efficient R Functions • bruceR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="deps/_Nunito-0.4.1/font.css" rel="stylesheet">
@@ -49,6 +55,7 @@
   (to R Console and Microsoft Word);
   (7) mediation and moderation analyses (PROCESS);
   and (8) additional toolbox for statistics and graphics.">
+<meta property="og:image" content="https://psychbruce.github.io/bruceR/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -62,7 +69,7 @@
     
     <a class="navbar-brand me-2" href="index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.5-5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,9 +104,10 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="brucer-">bruceR <a href="https://psychbruce.github.io/bruceR"><img src="reference/figures/logo.gif" align="right" height="120"></a>
-<a class="anchor" aria-label="anchor" href="#brucer-"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="brucer-">bruceR <a class="anchor" aria-label="anchor" href="#brucer-"></a>
+</h1>
+</div>
 <p><strong>BR</strong>oadly <strong>U</strong>seful <strong>C</strong>onvenient and <strong>E</strong>fficient <strong>R</strong> functions that <strong>BR</strong>ing <strong>U</strong>sers <strong>C</strong>oncise and <strong>E</strong>legant <strong>R</strong> data analyses.</p>
 <p>This package includes easy-to-use functions for <strong>(1)</strong> basic R programming (e.g., set working directory to the path of currently opened file, import/export data from/to files with any format, print strings with rich formats and colors); <strong>(2)</strong> multivariate computation (e.g., compute scale sums/means/… with reverse scoring); <strong>(3)</strong> reliability analyses and factor analyses (PCA, EFA, CFA); <strong>(4)</strong> descriptive statistics and correlation analyses; <strong>(5)</strong> <em>t</em>-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; <strong>(6)</strong> tidy report of statistical models (to R Console and Microsoft Word); <strong>(7)</strong> mediation and moderation analyses (PROCESS); and <strong>(8)</strong> additional toolbox for statistics and graphics.</p>
 <!-- badges: start -->
@@ -109,7 +117,7 @@
 <div class="section level2">
 <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
 </h2>
-<p>包寒吴霜 Bao H.-W.-S.</p>
+<p>Han-Wu-Shuang (Bruce) Bao 包寒吴霜</p>
 <p>Email: <a href="mailto:baohws@foxmail.com">baohws@foxmail.com</a></p>
 <p>Homepage: <a href="https://psychbruce.github.io" class="external-link">psychbruce.github.io</a></p>
 </div>
@@ -141,11 +149,12 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/update.packages.html" class="external-link">update.packages</a></span><span class="op">(</span>ask<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><strong>Tips:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Please <strong>restart (close and reopen) RStudio</strong> before installation.</li>
-<li>If you see a dialog asking <em>“Do you want to install from sources the package which needs compilation?”</em>, it would be better to <strong>choose “No”</strong> (to save your time).</li>
-<li>If you fail to install, please read carefully the warning messages and find out the key R package(s) causing the failure, <strong>manually uninstall and reinstall these R package(s)</strong>, and then retry the main installation.</li>
-<li>It would be better to update R to its <a href="https://www.r-project.org/" class="external-link">latest version</a> (v4.0+).</li>
-<li>It would be better to download and install <a href="https://CRAN.R-project.org/bin/windows/Rtools/" class="external-link">Rtools.exe</a> on Windows system.</li>
+<li>Good practice: <strong>restart RStudio</strong> before installation.</li>
+<li>Good practice: <strong>update R</strong> to the <a href="https://www.r-project.org/" class="external-link">latest version</a> (v4.0+).</li>
+<li>Good practice: <strong>install</strong> <a href="https://CRAN.R-project.org/bin/windows/Rtools/" class="external-link">Rtools.exe</a> (it is <em>not</em> an R package) on Windows system.</li>
+<li>If you see <em>“Do you want to restart R prior to install?”</em>, <strong>choose “Yes”</strong> at the first time and then <strong>choose “No”</strong>.</li>
+<li>If you see <em>“Do you want to install from sources the package which needs compilation?”</em>, just <strong>choose “No”</strong>.</li>
+<li>If you fail to install, please carefully read the warning messages and find out the R package(s) causing the failure, <strong>manually uninstall and reinstall these R package(s)</strong>, and then retry the main installation.</li>
 </ol>
 </div>
 <div class="section level3">
@@ -490,9 +499,8 @@
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=bruceR" class="external-link"><img src="https://www.r-pkg.org/badges/version/bruceR?color=red" alt="CRAN-Version"></a></li>
 <li><a href="https://github.com/psychbruce/bruceR" class="external-link"><img src="https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&amp;color=orange" alt="GitHub-Version"></a></li>
-<li><a href="https://CRAN.R-project.org/package=bruceR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/bruceR" alt="CRAN-Downloads"></a></li>
 <li><a href="https://github.com/psychbruce/bruceR/actions" class="external-link"><img src="https://github.com/psychbruce/bruceR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/psychbruce/bruceR?branch=main" class="external-link"><img src="https://codecov.io/gh/psychbruce/bruceR/branch/main/graph/badge.svg" alt="Codecov-test-coverage"></a></li>
+<li><a href="https://CRAN.R-project.org/package=bruceR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/bruceR" alt="CRAN-Downloads"></a></li>
 <li><a href="https://github.com/Stellapros" class="external-link"><img src="https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors" alt="Logo-Designer"></a></li>
 <li><a href="https://github.com/psychbruce/bruceR/stargazers" class="external-link"><img src="https://img.shields.io/github/stars/psychbruce/bruceR?style=social" alt="GitHub-Stars"></a></li>
 </ul>
