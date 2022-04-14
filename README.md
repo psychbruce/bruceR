@@ -2,7 +2,7 @@
 
 **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to the path of currently opened file, import/export data from/to files with any format, print strings with rich formats and colors); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability analyses and factor analyses (PCA, EFA, CFA); **(4)** descriptive statistics and correlation analyses; **(5)** *t*-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of statistical models (to R Console and Microsoft Word); **(7)** mediation and moderation analyses (PROCESS); and **(8)** additional toolbox for statistics and graphics.
+This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to the path of currently opened file, import/export data from/to files in any format, and print tables to Microsoft Word); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability analyses and factor analyses (PCA, EFA, CFA); **(4)** descriptive statistics and correlation analyses; **(5)** *t*-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of statistical models (to R Console and Microsoft Word); **(7)** mediation and moderation analyses (PROCESS); and **(8)** additional toolbox for statistics and graphics.
 
 <!-- badges: start -->
 
@@ -26,7 +26,7 @@ Homepage: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## User Guide
 
-[NEWS (GitHub version)](https://github.com/psychbruce/bruceR/blob/master/NEWS.md)
+[NEWS (Changelog)](https://psychbruce.github.io/bruceR/news/index.html)
 
 [Chinese Documentation for bruceR: I. Overview](https://zhuanlan.zhihu.com/p/281150493)
 
