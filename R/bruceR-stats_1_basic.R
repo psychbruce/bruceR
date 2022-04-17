@@ -1,3 +1,231 @@
+#### Data Manipulation ####
+
+
+#' Create, modify, and delete variables.
+#'
+#' Enhanced functions designed to create, modify, and/or delete variables.
+#' The functions \strong{combine} the advantages of
+#' \code{\link[data.table:data.table]{:=}} (data.table),
+#' \code{\link[dplyr:mutate]{mutate}} (dplyr), and
+#' \code{\link[dplyr:transmute]{transmute}} (dplyr).
+#' See examples below for the usage and convenience.
+#'
+#' @param data A \code{\link[data.table:data.table]{data.table}}
+#' (preferred).
+#' @param expr R expression(s) enclosed in \code{{...}} to compute variables.
+#'
+#' Passing to \code{\link[data.table:data.table]{data.table}}:
+#' \code{DT[ , `:=`(expr), ]}
+#' (for each line of expression in \code{{...}} one by one,
+#' such that newly created variables are available immediately).
+#' @param when [Optional] Compute for which rows or rows meeting what condition(s)?
+#'
+#' Passing to \code{\link[data.table:data.table]{data.table}}:
+#' \code{DT[when, , ]}.
+#' @param by [Optional] Compute by what group(s)?
+#'
+#' Passing to \code{\link[data.table:data.table]{data.table}}:
+#' \code{DT[ , , by]}.
+#'
+#' @return
+#' \code{add()} returns a new
+#' \code{\link[data.table:data.table]{data.table}},
+#' with the raw data unchanged.
+#'
+#' \code{added()} returns nothing and has already changed the raw data.
+#'
+#' \code{addnew()} returns only new variables.
+#'
+#' @examples
+#' ## ====== Usage 1: add() ====== ##
+#'
+#' d = as.data.table(within.1)
+#' d$XYZ = 1:8
+#' d
+#'
+#' # add() does not change the raw data:
+#' add(d, {B = 1; C = 2})
+#' d
+#'
+#' # new data should be assigned to an object:
+#' d = add(d, {
+#'   ID = str_extract(ID, "\\d")  # modify a variable
+#'   XYZ = NULL                   # delete a variable
+#'   A = MEAN(d, "A", 1:4)        # create a new variable
+#'   B = A * 4    # new variable is immediately available
+#'   C = 1        # never need ,/; at the end of any line
+#' })
+#' d
+#'
+#'
+#' ## ====== Usage 2: added() ====== ##
+#'
+#' d = as.data.table(within.1)
+#' d$XYZ = 1:8
+#' d
+#'
+#' # added() has already changed the raw data:
+#' added(d, {B = 1; C = 2})
+#' d
+#'
+#' # raw data has already become the new data:
+#' added(d, {
+#'   ID = str_extract(ID, "\\d")
+#'   XYZ = NULL
+#'   A = MEAN(d, "A", 1:4)
+#'   B = A * 4
+#'   C = 1
+#' })
+#' d
+#'
+#'
+#' ## ====== Use `when` and `by` ====== ##
+#'
+#' d = as.data.table(between.2)
+#' d
+#'
+#' added(d, {SCORE2 = SCORE - mean(SCORE)},
+#'       A == 1 & B %in% 1:2,
+#'       by=B)
+#' d
+#'
+#'
+#' ## ====== Return New Variables Only ====== ##
+#'
+#' newvars = within.1 %>% addnew({
+#'   ID = str_extract(ID, "\\d")
+#'   A = MEAN(within.1, "A", 1:4)
+#' })
+#' newvars
+#'
+#' @describeIn
+#' add Return the \emph{new data}.
+#'
+#' You need to assign the new data to an object:
+#'
+#' \preformatted{data = add(data, {...})}
+#'
+#' @export
+add = function(data, expr, when, by) {
+  data = as.data.table(data)
+  exprs = as.character(substitute(expr))
+  when = deparse(substitute(when))
+  by = deparse(substitute(by))
+  if(exprs[1]!="{")
+    stop("Please use { } for expressions.\nSee: help(add)", call.=FALSE)
+  for(e in exprs[-1])
+    eval(parse(text=glue::glue("data[{when}, `:=`({e}), {by}][]")))
+  return(data)
+}
+
+
+#' @describeIn
+#' add Return nothing and \emph{change the raw data immediately}.
+#'
+#' NO need to assign the new data:
+#'
+#' \preformatted{added(data, {...})}
+#'
+#' @export
+added = function(data, expr, when, by) {
+  if(!is.data.table(data))
+    stop("Data should be a `data.table`!\nSee: help(added)", call.=FALSE)
+  exprs = as.character(substitute(expr))
+  when = deparse(substitute(when))
+  by = deparse(substitute(by))
+  if(exprs[1]!="{")
+    stop("Please use { } for expressions.\nSee: help(add)", call.=FALSE)
+  for(e in exprs[-1])
+    eval(parse(text=glue::glue("data[{when}, `:=`({e}), {by}][]")))
+  Print("<<green \u221a>> Raw data has already been changed. Please check.")
+}
+
+
+#' @describeIn
+#' add Return only \emph{new variables}.
+#'
+#' \preformatted{newvars = addnew(data, {...})}
+#'
+#' @export
+addnew = function(data, expr, when, by) {
+  data = as.data.table(data)
+  exprs = as.character(substitute(expr))
+  when = deparse(substitute(when))
+  by = deparse(substitute(by))
+  if(exprs[1]!="{")
+    stop("Please use { } for expressions.\nSee: help(addnew)", call.=FALSE)
+  for(e in exprs[-1])
+    eval(parse(text=glue::glue("data[{when}, `:=`({e}), {by}][]")))
+  ns = names(data)
+  ns.new = ns[ns %in% str_extract(exprs[-1], ".*(?= \\= )")]
+  return(data[, ns.new, with=FALSE])
+}
+
+
+#' Recode a variable.
+#'
+#' A wrapper of \code{\link[car:recode]{car::recode()}}.
+#'
+#' @param var Variable (numeric, character, or factor).
+#' @param recodes A character string definine the rule of recoding. e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}
+#'
+#' @return A vector of recoded variable.
+#'
+#' @examples
+#' d = data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
+#' d[, `:=`(
+#'   var.new = RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
+#' )]
+#' d
+#'
+#' @export
+RECODE = function(var, recodes) {
+  car::recode(var, recodes)
+}
+
+
+#' Rescale a variable (e.g., from 5-point to 7-point).
+#'
+#' @param var Variable (numeric).
+#' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
+#' If not defined, it will compute the range of \code{var}.
+#' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
+#'
+#' @return A vector of rescaled variable.
+#'
+#' @examples
+#' d = data.table(var=rep(1:5, 2))
+#' d[, `:=`(var1 = RESCALE(var, to=1:7),
+#'          var2 = RESCALE(var, from=1:5, to=1:7))]
+#' d  # var1 is equal to var2
+#'
+#' @export
+RESCALE = function(var, from=range(var, na.rm=T), to) {
+  (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
+}
+
+
+#' Min-max scaling (min-max normalization).
+#'
+#' This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}}
+#' and it is just equivalent to \code{RESCALE(var, to=0:1)}.
+#'
+#' @param v Variable (numeric vector).
+#' @param min Minimum value (default is 0).
+#' @param max Maximum value (default is 1).
+#'
+#' @return A vector of rescaled variable.
+#'
+#' @examples
+#' scaler(1:5)
+#' # the same: RESCALE(1:5, to=0:1)
+#'
+#' @export
+scaler = function(v, min=0, max=1) {
+  min + (v - min(v, na.rm=T)) * (max - min) / (max(v, na.rm=T) - min(v, na.rm=T))
+}
+
+
 #### Significance Test and Report ####
 
 
@@ -746,7 +974,7 @@ cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
 #'
 #' @param r1,r2 Correlation coefficients (Pearson's \emph{r}).
 #' @param n,n1,n2 Sample sizes.
-#' @param rcov [optional] Only for nonindependent \emph{r}s:
+#' @param rcov [Optional] Only for nonindependent \emph{r}s:
 #'
 #' \code{r1} is r(X,Y),
 #'

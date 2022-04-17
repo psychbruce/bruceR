@@ -2114,7 +2114,7 @@ vargranger = function(varmodel, var.y, var.x) {
 #' Granger causality does not necessarily constitute a true causal effect.
 #'
 #' @param varmodel VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.
-#' @param var.y,var.x [optional] Default is \code{NULL} (all variables).
+#' @param var.y,var.x [Optional] Default is \code{NULL} (all variables).
 #' If specified, then perform tests for specific variables.
 #' Values can be a single variable (e.g., \code{"X"}),
 #' a vector of variables (e.g., \code{c("X1", "X2")}),

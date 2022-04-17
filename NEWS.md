@@ -1,5 +1,11 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 0.8.7 (in development)
+
+## New Features
+
+-   New functions `add()`, `added()`, `addnew()`: Enhanced functions designed to create, modify, and/or delete variables. The functions **combine** the advantages of `:=` (data.table), `mutate()` (dplyr), and `transmute()` (dplyr). See [help page](https://psychbruce.github.io/bruceR/reference/add.html) for the usage and convenience.
+
 # bruceR 0.8.6 (Apr 2022)
 
 ## New Features

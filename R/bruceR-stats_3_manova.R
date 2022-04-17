@@ -57,6 +57,7 @@
 #' \href{https://book.douban.com/subject/1195181/}{Multi-Factor Experimental Design in Psychology and Education}
 #'
 #' @name bruceR-demodata
+#' @keywords internal
 #' @aliases
 #' between.1 between.2 between.3
 #' mixed.2_1b1w mixed.3_1b2w mixed.3_2b1w

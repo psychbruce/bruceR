@@ -41,6 +41,7 @@ vignettes/*.pdf
 # CRAN
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
 
 # Others
 data-raw

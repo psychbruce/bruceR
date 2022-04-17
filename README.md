@@ -1,8 +1,18 @@
 # bruceR <img src="man/figures/logo.png" align="right" width="160"/>
 
-**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that  
+**BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
-This package includes easy-to-use functions for **(1)** basic R programming (e.g., set working directory to the path of currently opened file, import/export data from/to files in any format, and print tables to Microsoft Word); **(2)** multivariate computation (e.g., compute scale sums/means/... with reverse scoring); **(3)** reliability analyses and factor analyses (PCA, EFA, CFA); **(4)** descriptive statistics and correlation analyses; **(5)** *t*-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; **(6)** tidy report of statistical models (to R Console and Microsoft Word); **(7)** mediation and moderation analyses (PROCESS); and **(8)** additional toolbox for statistics and graphics.
+This package includes easy-to-use functions for:
+
+1.  Basic R programming (e.g., set working directory to the path of currently opened file; import/export data from/to files in any format; print tables to Microsoft Word);
+2.  Multivariate computation (e.g., compute scale sums/means/... with reverse scoring);
+3.  Reliability analyses and factor analyses (PCA, EFA, CFA);
+4.  Descriptive statistics and correlation analyses;
+5.  *t*-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison;
+6.  Tidy report of statistical models (to R Console and Microsoft Word);
+7.  Mediation and moderation analyses (PROCESS);
+8.  Additional toolbox for statistics and graphics.
 
 <!-- badges: start -->
 

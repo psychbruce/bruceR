@@ -15,6 +15,8 @@ if(FALSE) {
   devtools::release()
   devtools::submit_cran()
 
+  usethis::use_data_table()
+
   usethis::use_github_actions()  # R-CMD-check
 
   ## Build Site on GitHub
@@ -208,14 +210,8 @@ if(FALSE) {
 #'   }
 #' }
 #'
-#' @note
-#' Please always use \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
-#' as an \href{https://en.wikipedia.org/wiki/Integrated_development_environment}{IDE} instead of using the raw R software.
-#'
 #' @author
 #' \href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}
-#'
-#' Email: \email{baohws@@foxmail.com}
 #'
 #' @docType package
 #' @name bruceR-package
@@ -231,7 +227,9 @@ NULL
 #' @importFrom stats sd var cor median na.omit complete.cases
 #' @importFrom stats p.adjust pnorm pt pf pchisq qnorm qt quantile rnorm anova update terms drop1
 #' @importFrom stats lm coef confint residuals df.residual sigma as.formula terms.formula model.response model.frame
-#' @importFrom dplyr %>% select left_join sym group_by summarise mutate across
+#' @importFrom dplyr %>% select left_join sym group_by summarise mutate transmute across
+#' @importFrom data.table data.table is.data.table as.data.table
+#' @importFrom data.table := .BY .EACHI .GRP .I .N .NGRP .SD
 #' @importFrom glue glue glue_col
 #' @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
 #' @importFrom crayon black white silver red green blue yellow cyan magenta

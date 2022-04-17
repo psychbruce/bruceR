@@ -138,7 +138,7 @@
 #' Check dependencies of R packages.
 #'
 #' @param pkgs Package(s).
-#' @param excludes [optional] Package(s) and their dependencies excluded from the dependencies of \code{pkgs}.
+#' @param excludes [Optional] Package(s) and their dependencies excluded from the dependencies of \code{pkgs}.
 #' Useful if you want to see the unique dependencies of \code{pkgs}.
 #'
 #' @return A character vector of package names.
@@ -280,8 +280,8 @@ pkg_install_suggested = function(by) {
 #' @export
 Print = function(...) {
   tryCatch({
-    output = glue::glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
-    output_color = glue::glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
+    output = glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
+    output_color = glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
     print(output_color)
   }, error = function(e) {
     warning(e)
@@ -294,14 +294,14 @@ Print = function(...) {
 #'
 #' @export
 Glue = function(...) {
-  output = glue::glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
-  output_color = glue::glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
+  output = glue(..., .transformer=sprintf_transformer, .envir=parent.frame())
+  output_color = glue_col( gsub("<<", "{", gsub(">>", "}", output)) )
   return(output_color)
 }
 
 
 sprintf_transformer = function(text, envir) {
-  text = glue::glue(text, .envir=envir)
+  text = glue(text, .envir=envir)
   m = regexpr(":.+$", text)
   if(m!=-1) {
     format = substring(regmatches(text, m), 2)
@@ -328,7 +328,7 @@ sprintf_transformer = function(text, envir) {
 #'
 #' @export
 Run = function(..., silent=FALSE) {
-  text = glue::glue(..., .sep="\n", .envir=parent.frame())
+  text = glue(..., .sep="\n", .envir=parent.frame())
   if(silent) {
     suppressWarnings({
       eval(parse(text=text), envir=parent.frame())

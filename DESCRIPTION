@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.8.6
-Date: 2022-04-13
+Version: 0.8.6-1
+Date: 2022-04-17
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
@@ -14,8 +14,8 @@ Description:
   that bring users concise and elegant R data analyses.
   This package includes easy-to-use functions for
   (1) basic R programming
-  (e.g., set working directory to the path of currently opened file,
-  import/export data from/to files in any format, and
+  (e.g., set working directory to the path of currently opened file;
+  import/export data from/to files in any format;
   print tables to Microsoft Word);
   (2) multivariate computation
   (e.g., compute scale sums/means/... with reverse scoring);

@@ -1,70 +1,6 @@
 #### Multivariate Computation ####
 
 
-#' Recode a variable.
-#'
-#' A wrapper of \code{\link[car:recode]{car::recode()}}.
-#'
-#' @param var Variable (numeric, character, or factor).
-#' @param recodes A character string definine the rule of recoding. e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}
-#'
-#' @return A vector of recoded variable.
-#'
-#' @examples
-#' d = data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
-#' d[, `:=`(
-#'   var.new = RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
-#' )]
-#' d
-#'
-#' @export
-RECODE = function(var, recodes) {
-  car::recode(var, recodes)
-}
-
-
-#' Rescale a variable (e.g., from 5-point to 7-point).
-#'
-#' @param var Variable (numeric).
-#' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
-#' If not defined, it will compute the range of \code{var}.
-#' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
-#'
-#' @return A vector of rescaled variable.
-#'
-#' @examples
-#' d = data.table(var=rep(1:5, 2))
-#' d[, `:=`(var1 = RESCALE(var, to=1:7),
-#'          var2 = RESCALE(var, from=1:5, to=1:7))]
-#' d  # var1 is equal to var2
-#'
-#' @export
-RESCALE = function(var, from=range(var, na.rm=T), to) {
-  (var - median(from)) / (max(from) - median(from)) * (max(to) - median(to)) + median(to)
-}
-
-
-#' Min-max scaling (min-max normalization).
-#'
-#' This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}}
-#' and it is just equivalent to \code{RESCALE(var, to=0:1)}.
-#'
-#' @param v Variable (numeric vector).
-#' @param min Minimum value (default is 0).
-#' @param max Maximum value (default is 1).
-#'
-#' @return A vector of rescaled variable.
-#'
-#' @examples
-#' scaler(1:5)
-#' # the same: RESCALE(1:5, to=0:1)
-#'
-#' @export
-scaler = function(v, min=0, max=1) {
-  min + (v - min(v, na.rm=T)) * (max - min) / (max(v, na.rm=T) - min(v, na.rm=T))
-}
-
-
 #' Multivariate computation.
 #'
 #' @description
@@ -545,7 +481,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     stop(Glue("
     EFA() has changed significantly since bruceR v0.8.0.
     `method` should be one of \"{paste(valid.methods, collapse='\", \"')}\".
-    Please see the help page: help(EFA)"), call.=FALSE)
+    See: help(EFA)"), call.=FALSE)
   Method = switch(
     method,
     "pca"="Principal Component Analysis",
@@ -565,7 +501,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
     stop(Glue("
     EFA() has changed significantly since bruceR v0.8.0.
     `rotation` should be one of \"{paste(valid.rotations, collapse='\", \"')}\".
-    Please see the help page: help(EFA)"), call.=FALSE)
+    See: help(EFA)"), call.=FALSE)
   Method.Rotation = switch(
     rotation,
     "none"="None",
