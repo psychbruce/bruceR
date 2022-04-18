@@ -20,7 +20,7 @@ See examples below for the usage and convenience."><meta property="og:image" con
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,11 +66,9 @@ See examples below for the usage and convenience.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">add</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">add</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu">added</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span><span class="op">)</span>
-
-<span class="fu">addnew</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span><span class="op">)</span></code></pre></div>
+<span class="fu">added</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,25 +79,29 @@ See examples below for the usage and convenience.</p>
 <dt>expr</dt>
 <dd><p>R expression(s) enclosed in <code>{...}</code> to compute variables.</p>
 <p>Passing to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>:
-<code>DT[ , `:=`(expr), ]</code>
-(for each line of expression in <code>{...}</code> one by one,
-such that newly created variables are available immediately).</p></dd>
+<code>DT[ , `:=`(expr), ]</code></p>
+<p>Execute each line of expression in <code>{...}</code> <em>one by one</em>,
+such that newly created variables are available immediately.
+This is an advantage of <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></code> and
+has been implemented here for <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>.</p></dd>
 <dt>when</dt>
 <dd><p>[Optional] Compute for which rows or rows meeting what condition(s)?</p>
 <p>Passing to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>:
-<code>DT[when, , ]</code>.</p></dd>
+<code>DT[when, , ]</code></p></dd>
 <dt>by</dt>
 <dd><p>[Optional] Compute by what group(s)?</p>
 <p>Passing to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>:
-<code>DT[ , , by]</code>.</p></dd>
+<code>DT[ , , by]</code></p></dd>
+<dt>drop</dt>
+<dd><p>Drop existing variables and return only new variables?
+Default is <code>FALSE</code>, which returns all variables.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>add()</code> returns a new
 <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>,
 with the raw data unchanged.
-<code>added()</code> returns nothing and has already changed the raw data.
-<code>addnew()</code> returns only new variables.</p>
+<code>added()</code> returns nothing and has already changed the raw data.</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -110,8 +112,6 @@ with the raw data unchanged.
 <li><p><code>added</code>: Return nothing and <em>change the raw data immediately</em>.</p>
 <p>NO need to assign the new data:</p>
 <div class="sourceCode"><pre><code><span class="fu"><a href="../reference/add.html">added</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span><span class="va">...</span><span class="op">}</span><span class="op">)</span></code></pre></div></li>
-<li><p><code>addnew</code>: Return only <em>new variables</em>.</p>
-<div class="sourceCode"><pre><code><span class="va">newvars</span> <span class="op">=</span> <span class="fu"><a href="../reference/add.html">addnew</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span><span class="va">...</span><span class="op">}</span><span class="op">)</span></code></pre></div></li>
 </ul></div>
 
     <div class="section level2">
@@ -157,21 +157,20 @@ with the raw data unchanged.
 <span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">add</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
 <span class="r-in">  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span>  <span class="co"># modify a variable</span></span>
 <span class="r-in">  <span class="va">XYZ</span> <span class="op">=</span> <span class="cn">NULL</span>                   <span class="co"># delete a variable</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">MEAN</a></span><span class="op">(</span><span class="va">d</span>, <span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>        <span class="co"># create a new variable</span></span>
+<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>          <span class="co"># create a new variable</span></span>
 <span class="r-in">  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="fl">4</span>    <span class="co"># new variable is immediately available</span></span>
 <span class="r-in">  <span class="va">C</span> <span class="op">=</span> <span class="fl">1</span>        <span class="co"># never need ,/; at the end of any line</span></span>
 <span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mapply(Mean, data$A1, data$A2, data$A3, data$A4):</span> object 'd' not found</span>
 <span class="r-in"><span class="va">d</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 XYZ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: S3  4  4  8  8   3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: S4  3  2  7  7   4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: S5  5  4  5 12   5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13   6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12   7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4    A  B C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  3  4  8  9 6.00 24 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  6  6  9  8 7.25 29 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3  4  4  8  8 6.00 24 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4  3  2  7  7 4.75 19 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  5  5  4  5 12 6.50 26 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  6  7  5  6 13 7.75 31 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7:  7  5  3  7 12 6.75 27 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8:  8  2  3  6 11 5.50 22 1</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## ====== Usage 2: added() ====== ##</span></span>
@@ -207,21 +206,21 @@ with the raw data unchanged.
 <span class="r-in"><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
 <span class="r-in">  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span></span>
 <span class="r-in">  <span class="va">XYZ</span> <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">MEAN</a></span><span class="op">(</span><span class="va">d</span>, <span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
 <span class="r-in">  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="fl">4</span></span>
 <span class="r-in">  <span class="va">C</span> <span class="op">=</span> <span class="fl">1</span></span>
 <span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mapply(Mean, data$A1, data$A2, data$A3, data$A4):</span> object 'd' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Raw data has already been changed. Please check.</span>
 <span class="r-in"><span class="va">d</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 B C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  3  4  8  9 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  6  6  9  8 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3  4  4  8  8 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4  3  2  7  7 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  5  5  4  5 12 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  6  7  5  6 13 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7:  7  5  3  7 12 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8:  8  2  3  6 11 1 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4  B C    A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  3  4  8  9 24 1 6.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  6  6  9  8 29 1 7.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3  4  4  8  8 24 1 6.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4  3  2  7  7 19 1 4.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  5  5  4  5 12 26 1 6.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:  6  7  5  6 13 31 1 7.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7:  7  5  3  7 12 27 1 6.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8:  8  2  3  6 11 22 1 5.50</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">## ====== Use `when` and `by` ====== ##</span></span>
@@ -256,8 +255,8 @@ with the raw data unchanged.
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">SCORE2</span> <span class="op">=</span> <span class="va">SCORE</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">SCORE</span><span class="op">)</span><span class="op">}</span>,</span>
-<span class="r-in">      <span class="va">A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
-<span class="r-in">      by<span class="op">=</span><span class="va">B</span><span class="op">)</span></span>
+<span class="r-in">      <span class="va">A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,  <span class="co"># `when`: for what conditions</span></span>
+<span class="r-in">      by<span class="op">=</span><span class="va">B</span><span class="op">)</span>                 <span class="co"># `by`: by what groups</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Raw data has already been changed. Please check.</span>
 <span class="r-in"><span class="va">d</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE SCORE2</span>
@@ -286,14 +285,24 @@ with the raw data unchanged.
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23: 2 3    12     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24: 2 3    11     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE SCORE2</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    A B SCORE SCORE2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1 1     3     -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1 1     6      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1 1     4      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 1 1     3     -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 1 2     4      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1 2     6      2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7: 1 2     4      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8: 1 2     2     -2</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="co">## ====== Return New Variables Only ====== ##</span></span>
+<span class="r-in"><span class="co">## ====== Return Only New Variables ====== ##</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">newvars</span> <span class="op">=</span> <span class="va">within.1</span> <span class="op">%&gt;%</span> <span class="fu">addnew</span><span class="op">(</span><span class="op">{</span></span>
+<span class="r-in"><span class="va">newvars</span> <span class="op">=</span> <span class="va">within.1</span> <span class="op">%&gt;%</span> <span class="fu">add</span><span class="op">(</span><span class="op">{</span></span>
 <span class="r-in">  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">MEAN</a></span><span class="op">(</span><span class="va">within.1</span>, <span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span>, drop<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">newvars</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID    A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 6.00</span>

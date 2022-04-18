@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,19 +72,11 @@ If not defined, it will compute the range of <code>var</code>.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">data.table</span><span class="op">(</span>var<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span>var1 <span class="op">=</span> <span class="fu">RESCALE</span><span class="op">(</span><span class="va">var</span>, to<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>,</span>
-<span class="r-in">         var2 <span class="op">=</span> <span class="fu">RESCALE</span><span class="op">(</span><span class="va">var</span>, from<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, to<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     var var1 var2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1:   1  1.0  1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2:   2  2.5  2.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3:   3  4.0  4.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4:   4  5.5  5.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5:   5  7.0  7.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6:   1  1.0  1.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7:   2  2.5  2.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8:   3  4.0  4.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9:   4  5.5  5.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10:   5  7.0  7.0</span>
+<span class="r-in"><span class="fu"><a href="add.html">added</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
+<span class="r-in">  <span class="va">var1</span> <span class="op">=</span> <span class="fu">RESCALE</span><span class="op">(</span><span class="va">var</span>, to<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">var2</span> <span class="op">=</span> <span class="fu">RESCALE</span><span class="op">(</span><span class="va">var</span>, from<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, to<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Raw data has already been changed. Please check.</span>
 <span class="r-in"><span class="va">d</span>  <span class="co"># var1 is equal to var2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     var var1 var2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1:   1  1.0  1.0</span>
