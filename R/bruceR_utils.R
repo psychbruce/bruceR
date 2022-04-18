@@ -1,9 +1,6 @@
 #### Pipeline Functions ####
 
 
-# `%>%` = dplyr::`%>%`
-
-
 #' Paste strings together.
 #'
 #' Paste strings together. A wrapper of \code{paste0()}.

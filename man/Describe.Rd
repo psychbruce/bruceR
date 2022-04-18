@@ -65,15 +65,15 @@ Describe(airquality, plot=TRUE, upper.triangle=TRUE, upper.smooth="lm")
 Describe(psych::bfi[c("age", "gender", "education")])
 
 d = as.data.table(psych::bfi)
-d[, `:=`(
-  gender = as.factor(gender),
-  education = as.factor(education),
-  E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-  A = MEAN(d, "A", 1:5, rev=1, likert=1:6),
-  C = MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
-  N = MEAN(d, "N", 1:5, likert=1:6),
-  O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
-)]
+added(d, {
+  gender = as.factor(gender)
+  education = as.factor(education)
+  E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+  A = .mean("A", 1:5, rev=1, range=1:6)
+  C = .mean("C", 1:5, rev=c(4,5), range=1:6)
+  N = .mean("N", 1:5, range=1:6)
+  O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+})
 Describe(d[, .(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 Describe(d[, .(age, gender, education, E, A, C, N, O)], plot=TRUE)
 }

@@ -52,8 +52,10 @@
 #' @examples
 #' ## Example 1 (bivariate correlation)
 #' d = as.data.table(psych::bfi)
-#' d[, `:=`(E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-#'          O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6))]
+#' added(d, {
+#'   E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+#'   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+#' })
 #' ggplot(data=d, aes(x=E, y=O)) +
 #'   geom_point(alpha=0.1) +
 #'   geom_smooth(method="loess") +

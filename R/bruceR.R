@@ -104,7 +104,7 @@ if(FALSE) {
 #'
 #' \describe{
 #'   \item{\strong{(1) Basic R Programming}}{
-#'       \code{\link{set.wd}} (alias: \code{set_wd})
+#'       \code{\link{set.wd}} (alias: \code{\link{set_wd}})
 #'
 #'       \code{\link{import}},
 #'       \code{\link{export}}
@@ -134,6 +134,12 @@ if(FALSE) {
 #'   }
 #'
 #'   \item{\strong{(2) Multivariate Computation}}{
+#'       \code{\link{add}},
+#'       \code{\link{added}}
+#'
+#'       \code{\link{.sum}},
+#'       \code{\link{.mean}}
+#'
 #'       \code{\link{SUM}},
 #'       \code{\link{MEAN}},
 #'       \code{\link{STD}},
@@ -309,11 +315,11 @@ NULL
     <<bold Main functions of `bruceR`:>>
     <<cyan
     cc()          \tDescribe() \tTTEST()
-    set_wd()      \tFreq()     \tMANOVA()
-    import()      \tCorr()     \tEMMEANS()
-    export()      \tAlpha()    \tPROCESS()
-    print_table() \tEFA()      \tmodel_summary()
-    MEAN()        \tCFA()      \tlavaan_summary()
+    add()         \tFreq()     \tMANOVA()
+    .mean()       \tCorr()     \tEMMEANS()
+    set.wd()      \tAlpha()    \tPROCESS()
+    import()      \tEFA()      \tmodel_summary()
+    print_table() \tCFA()      \tlavaan_summary()
     >>
     \n
     ")

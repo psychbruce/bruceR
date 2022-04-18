@@ -10,9 +10,9 @@
 #'
 #' Three options to specify variables:
 #' \enumerate{
-#'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define a character vector of variables.
-#'   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+#'   \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
+#'   \item \strong{\code{vars}}: a character vector of variable names (suggested).
+#'   \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 #' }
 #'
 #' @param data Data frame.
@@ -28,7 +28,7 @@
 #' @param rev [Optional] Variables that need to be reversed. It can be
 #' (1) a character vector specifying the reverse-scoring variables (recommended), or
 #' (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).
-#' @param likert [Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
+#' @param range,likert [Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 #' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
 #' @param na.rm Ignore missing values. Default is \code{TRUE}.
 #' @param values [Only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
@@ -45,23 +45,30 @@
 #' ## I deliberately set this order to show you
 #' ## the difference between "vars" and "varrange".
 #'
+#' ## ====== Usage 1: data.table `:=` ====== ##
 #' d[, `:=`(
 #'   na = COUNT(d, "x", 1:5, value=NA),
 #'   n.2 = COUNT(d, "x", 1:5, value=2),
 #'   sum = SUM(d, "x", 1:5),
 #'   m1 = MEAN(d, "x", 1:5),
 #'   m2 = MEAN(d, vars=c("x1", "x4")),
-#'   m3 = MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
+#'   m3 = MEAN(d, varrange="x1:x2", rev="x2", range=1:5),
 #'   cons1 = CONSEC(d, "x", 1:5),
 #'   cons2 = CONSEC(d, varrange="x1:x5")
 #' )]
 #' d
 #'
+#' ## ====== Usage 2: `add()` & `added()` ====== ##
 #' data = as.data.table(psych::bfi)
-#' data[, `:=`(
-#'   E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-#'   O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
-#' )]
+#' added(data, {
+#'   gender = as.factor(gender)
+#'   education = as.factor(education)
+#'   E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+#'   A = .mean("A", 1:5, rev=1, range=1:6)
+#'   C = .mean("C", 1:5, rev=c(4,5), range=1:6)
+#'   N = .mean("N", 1:5, range=1:6)
+#'   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+#' }, drop=TRUE)
 #' data
 #'
 #' @name %%COMPUTE%%
@@ -80,16 +87,21 @@ convert2vars = function(data,
     vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
   if(is.null(vars)) vars = paste0(var, items)
-  if(is.numeric(rev)) rev = paste0(var, rev)  # bug fixed on 2019-09-28
+  if(is.numeric(rev)) {
+    if(is.null(var))
+      stop("Argument `rev` must be character rather than numeric if you specify `vars` or `varrange`.", call.=FALSE)
+    else
+      rev = paste0(var, rev)
+  }
   if(is.character(rev)) rev = which(vars %in% rev)
   vars.raw = vars
-  # vars = paste(deparse(substitute(data)), vars, sep="$")
   vars = paste0(deparse(substitute(data)), "$`", vars, "`")
   return(list(vars.raw=vars.raw, vars=vars, rev=rev))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes \strong{Count} a certain value across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' \strong{Count} a certain value across variables.
 #' @export
 COUNT = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
                  value=NA) {
@@ -100,11 +112,13 @@ COUNT = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
     varlist = paste0("is.na(", vars, ")")
   else
     varlist = paste0(vars, "==", value)
-  eval(parse(text = paste0("mapply(Count, ", paste(varlist, collapse=", "), ")")))
+  expr = paste0("mapply(Count, ", paste(varlist, collapse=", "), ")")
+  eval(parse(text=expr))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mode} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Compute \strong{mode} across variables.
 #' @export
 MODE = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
   getmode = function(v) {
@@ -113,78 +127,144 @@ MODE = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
   }
   Mode = function(...) getmode(c(...))
   varlist = convert2vars(data, var, items, vars, varrange)$vars
-  eval(parse(text=paste0("mapply(Mode, ", paste(varlist, collapse=", "), ")")))
+  expr = paste0("mapply(Mode, ", paste(varlist, collapse=", "), ")")
+  eval(parse(text=expr))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{sum} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Compute \strong{sum} across variables.
 #' @export
-SUM = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-               rev=NULL, likert=NULL,
+SUM = function(data,
+               var=NULL, items=NULL, vars=NULL, varrange=NULL,
+               rev=NULL, range=likert, likert=NULL,
                na.rm=TRUE) {
   Sum = function(...) sum(..., na.rm=na.rm)
   v.r = convert2vars(data, var, items, vars, varrange, rev)
   vars = v.r$vars
   rev = v.r$rev
-  if(!is.null(rev) & is.null(likert)) {
+  if(!is.null(rev) & is.null(range)) {
     ranges = apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
-    likert = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
-    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?SUM", call.=TRUE)
+    range = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `range` argument. See ?SUM")
   }
   pre = rep("", length(vars))
-  pre[rev] = ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
+  pre[rev] = ifelse(is.null(range), "", paste0(sum(range(range)), "-"))
   varlist = paste0(pre, vars)
-  eval(parse(text=paste0("mapply(Sum, ", paste(varlist, collapse=", "), ")")))
+  expr = paste0("mapply(Sum, ", paste(varlist, collapse=", "), ")")
+  eval(parse(text=expr))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{mean} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Tidy version of \code{SUM},
+#' only can be used in \code{\link[bruceR:add]{add()/added()}}
 #' @export
-MEAN = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-                rev=NULL, likert=NULL,
+.sum = function(var=NULL, items=NULL, vars=NULL, varrange=NULL,
+                rev=NULL, range=likert, likert=NULL,
+                na.rm=TRUE) {
+  Sum = glue("function(...) sum(..., na.rm={na.rm})")
+  if(!is.null(varrange))
+    stop("Please specify either `vars` or `var` + `items`.", call.=FALSE)
+  if(is.null(vars)) vars = paste0(var, items)
+  if(!is.null(rev) & is.null(range))
+    stop("Please also specify the `range` argument!", call.=FALSE)
+  if(is.numeric(rev)) {
+    if(is.null(var))
+      stop("Argument `rev` must be character rather than numeric if you specify `vars` or `varrange`.", call.=FALSE)
+    else
+      rev = paste0(var, rev)
+  }
+  if(is.character(rev)) rev = which(vars %in% rev)
+  pre = rep("", length(vars))
+  pre[rev] = ifelse(is.null(range), "", paste0(sum(range(range)), "-"))
+  varlist = paste0(pre, vars)
+  expr = paste0("mapply(", Sum, ", ", paste(varlist, collapse=", "), ")")
+  return(glue(expr))
+}
+
+
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Compute \strong{mean} across variables.
+#' @export
+MEAN = function(data,
+                var=NULL, items=NULL, vars=NULL, varrange=NULL,
+                rev=NULL, range=likert, likert=NULL,
                 na.rm=TRUE) {
   Mean = function(...) mean(c(...), na.rm=na.rm)
   v.r = convert2vars(data, var, items, vars, varrange, rev)
   vars = v.r$vars
   rev = v.r$rev
-  if(!is.null(rev) & is.null(likert)) {
+  if(!is.null(rev) & is.null(range)) {
     ranges = apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
-    likert = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
-    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?MEAN", call.=TRUE)
+    range = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `range` argument. See ?MEAN")
   }
   pre = rep("", length(vars))
-  pre[rev] = ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
+  pre[rev] = ifelse(is.null(range), "", paste0(sum(range(range)), "-"))
   varlist = paste0(pre, vars)
-  eval(parse(text=paste0("mapply(Mean, ", paste(varlist, collapse=", "), ")")))
+  expr = paste0("mapply(Mean, ", paste(varlist, collapse=", "), ")")
+  eval(parse(text=expr))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{standard deviation} across multiple variables.
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Tidy version of \code{MEAN},
+#' only can be used in \code{\link[bruceR:add]{add()/added()}}
 #' @export
-STD = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
-               rev=NULL, likert=NULL,
+.mean = function(var=NULL, items=NULL, vars=NULL, varrange=NULL,
+                 rev=NULL, range=likert, likert=NULL,
+                 na.rm=TRUE) {
+  Mean = glue("function(...) mean(c(...), na.rm={na.rm})")
+  if(!is.null(varrange))
+    stop("Please specify either `vars` or `var` + `items`.", call.=FALSE)
+  if(is.null(vars)) vars = paste0(var, items)
+  if(!is.null(rev) & is.null(range))
+    stop("Please also specify the `range` argument!", call.=FALSE)
+  if(is.numeric(rev)) {
+    if(is.null(var))
+      stop("Argument `rev` must be character rather than numeric if you specify `vars` or `varrange`.", call.=FALSE)
+    else
+      rev = paste0(var, rev)
+  }
+  if(is.character(rev)) rev = which(vars %in% rev)
+  pre = rep("", length(vars))
+  pre[rev] = ifelse(is.null(range), "", paste0(sum(range(range)), "-"))
+  varlist = paste0(pre, vars)
+  expr = paste0("mapply(", Mean, ", ", paste(varlist, collapse=", "), ")")
+  return(glue(expr))
+}
+
+
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Compute \strong{standard deviation} across variables.
+#' @export
+STD = function(data,
+               var=NULL, items=NULL, vars=NULL, varrange=NULL,
+               rev=NULL, range=likert, likert=NULL,
                na.rm=TRUE) {
   Std = function(...) sd(c(...), na.rm=na.rm)
   v.r = convert2vars(data, var, items, vars, varrange, rev)
   vars = v.r$vars
   rev = v.r$rev
-  if(!is.null(rev) & is.null(likert)) {
+  if(!is.null(rev) & is.null(range)) {
     ranges = apply(as.data.frame(data)[,v.r$vars.raw], 2, function(...) range(..., na.rm=TRUE))
-    likert = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
-    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `likert` argument. See ?STD", call.=TRUE)
+    range = c(min(ranges[1,], na.rm=TRUE), max(ranges[2,], na.rm=TRUE))
+    warning("The range of likert scale was automatically estimated from the given data. If you are not sure about this, please specify the `range` argument. See ?STD")
   }
   pre = rep("", length(vars))
-  pre[rev] = ifelse(is.null(likert), "", paste0(sum(range(likert)), "-"))
+  pre[rev] = ifelse(is.null(range), "", paste0(sum(range(range)), "-"))
   varlist = paste0(pre, vars)
-  eval(parse(text=paste0("mapply(Std, ", paste(varlist, collapse=", "), ")")))
+  expr = paste0("mapply(Std, ", paste(varlist, collapse=", "), ")")
+  eval(parse(text=expr))
 }
 
 
-#' @describeIn grapes-grapes-COMPUTE-grapes-grapes Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
+#' @describeIn grapes-grapes-COMPUTE-grapes-grapes
+#' Compute \strong{consecutive identical digits} across variables (especially useful in detecting careless responding).
 #' @export
-CONSEC = function(data, var=NULL, items=NULL,
-                  vars=NULL,
-                  varrange=NULL,
+CONSEC = function(data,
+                  var=NULL, items=NULL, vars=NULL, varrange=NULL,
                   values=0:9) {
   Conseq = function(string, number=values) {
     # Consecutive Identical Digits
@@ -194,7 +274,8 @@ CONSEC = function(data, var=NULL, items=NULL,
   v.r = convert2vars(data, var, items, vars, varrange)
   vars = v.r$vars
   varlist = vars
-  eval(parse(text=paste0("mapply(Conseq, paste0(", paste(varlist, collapse=", "), "))")))
+  expr = paste0("mapply(Conseq, paste0(", paste(varlist, collapse=", "), "))")
+  eval(parse(text=expr))
 }
 
 
@@ -215,9 +296,9 @@ CONSEC = function(data, var=NULL, items=NULL,
 #'
 #' Three options to specify variables:
 #' \enumerate{
-#'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define a character vector of variables.
-#'   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+#'   \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
+#'   \item \strong{\code{vars}}: a character vector of variable names (suggested).
+#'   \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 #' }
 #'
 #' @inheritParams %%COMPUTE%%
@@ -230,15 +311,15 @@ CONSEC = function(data, var=NULL, items=NULL,
 #' @examples
 #' # ?psych::bfi
 #' data = psych::bfi
-#' Alpha(data, "E", 1:5)  # "E1" & "E2" should be reversed
-#' Alpha(data, "E", 1:5, rev=1:2)  # correct
-#' Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct
-#' Alpha(data, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
-#' Alpha(data, varrange="E1:E5", rev=c("E1", "E2"))
+#' Alpha(data, "E", 1:5)   # "E1" & "E2" should be reversed
+#' Alpha(data, "E", 1:5, rev=1:2)            # correct
+#' Alpha(data, "E", 1:5, rev=cc("E1, E2"))   # also correct
+#' Alpha(data, vars=cc("E1, E2, E3, E4, E5"), rev=cc("E1, E2"))
+#' Alpha(data, varrange="E1:E5", rev=cc("E1, E2"))
 #'
 #' # using dplyr::select()
 #' data %>% select(E1, E2, E3, E4, E5) %>%
-#'   Alpha(vars=names(.), rev=c("E1", "E2"))
+#'   Alpha(vars=names(.), rev=cc("E1, E2"))
 #'
 #' @seealso
 #' \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
@@ -644,7 +725,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
         Plot is NOT successfully displayed in the RStudio `Plots` Pane.
         Please check if the `Plots` Pane of your RStudio is too small.
         You should enlarge the `Plots` Pane (and/or clear all plots).")
-      warning(warning, call.=TRUE)
+      warning(warning)
       cat("\n")
     }
   }

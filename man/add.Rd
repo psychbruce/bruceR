@@ -3,14 +3,11 @@
 \name{add}
 \alias{add}
 \alias{added}
-\alias{addnew}
 \title{Create, modify, and delete variables.}
 \usage{
-add(data, expr, when, by)
+add(data, expr, when, by, drop = FALSE)
 
-added(data, expr, when, by)
-
-addnew(data, expr, when, by)
+added(data, expr, when, by, drop = FALSE)
 }
 \arguments{
 \item{data}{A \code{\link[data.table:data.table]{data.table}}
@@ -20,18 +17,24 @@ addnew(data, expr, when, by)
 
 Passing to \code{\link[data.table:data.table]{data.table}}:
 \code{DT[ , `:=`(expr), ]}
-(for each line of expression in \code{{...}} one by one,
-such that newly created variables are available immediately).}
+
+Execute each line of expression in \code{{...}} \emph{one by one},
+such that newly created variables are available immediately.
+This is an advantage of \code{\link[dplyr:mutate]{mutate}} and
+has been implemented here for \code{\link[data.table:data.table]{data.table}}.}
 
 \item{when}{[Optional] Compute for which rows or rows meeting what condition(s)?
 
 Passing to \code{\link[data.table:data.table]{data.table}}:
-\code{DT[when, , ]}.}
+\code{DT[when, , ]}}
 
 \item{by}{[Optional] Compute by what group(s)?
 
 Passing to \code{\link[data.table:data.table]{data.table}}:
-\code{DT[ , , by]}.}
+\code{DT[ , , by]}}
+
+\item{drop}{Drop existing variables and return only new variables?
+Default is \code{FALSE}, which returns all variables.}
 }
 \value{
 \code{add()} returns a new
@@ -39,8 +42,6 @@ Passing to \code{\link[data.table:data.table]{data.table}}:
 with the raw data unchanged.
 
 \code{added()} returns nothing and has already changed the raw data.
-
-\code{addnew()} returns only new variables.
 }
 \description{
 Enhanced functions designed to create, modify, and/or delete variables.
@@ -63,10 +64,6 @@ You need to assign the new data to an object:
 NO need to assign the new data:
 
 \preformatted{added(data, {...})}
-
-\item \code{addnew}: Return only \emph{new variables}.
-
-\preformatted{newvars = addnew(data, {...})}
 }}
 
 \examples{
@@ -84,7 +81,7 @@ d
 d = add(d, {
   ID = str_extract(ID, "\\\\d")  # modify a variable
   XYZ = NULL                   # delete a variable
-  A = MEAN(d, "A", 1:4)        # create a new variable
+  A = .mean("A", 1:4)          # create a new variable
   B = A * 4    # new variable is immediately available
   C = 1        # never need ,/; at the end of any line
 })
@@ -105,7 +102,7 @@ d
 added(d, {
   ID = str_extract(ID, "\\\\d")
   XYZ = NULL
-  A = MEAN(d, "A", 1:4)
+  A = .mean("A", 1:4)
   B = A * 4
   C = 1
 })
@@ -118,17 +115,18 @@ d = as.data.table(between.2)
 d
 
 added(d, {SCORE2 = SCORE - mean(SCORE)},
-      A == 1 & B \%in\% 1:2,
-      by=B)
+      A == 1 & B \%in\% 1:2,  # `when`: for what conditions
+      by=B)                 # `by`: by what groups
 d
+na.omit(d)
 
 
-## ====== Return New Variables Only ====== ##
+## ====== Return Only New Variables ====== ##
 
-newvars = within.1 \%>\% addnew({
+newvars = within.1 \%>\% add({
   ID = str_extract(ID, "\\\\d")
-  A = MEAN(within.1, "A", 1:4)
-})
+  A = .mean("A", 1:4)
+}, drop=TRUE)
 newvars
 
 }

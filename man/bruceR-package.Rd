@@ -64,7 +64,7 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
 
 \describe{
   \item{\strong{(1) Basic R Programming}}{
-      \code{\link{set.wd}} (alias: \code{set_wd})
+      \code{\link{set.wd}} (alias: \code{\link{set_wd}})
 
       \code{\link{import}},
       \code{\link{export}}
@@ -94,6 +94,12 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
   }
 
   \item{\strong{(2) Multivariate Computation}}{
+      \code{\link{add}},
+      \code{\link{added}}
+
+      \code{\link{.sum}},
+      \code{\link{.mean}}
+
       \code{\link{SUM}},
       \code{\link{MEAN}},
       \code{\link{STD}},

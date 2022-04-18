@@ -16,16 +16,21 @@
 #'
 #' Passing to \code{\link[data.table:data.table]{data.table}}:
 #' \code{DT[ , `:=`(expr), ]}
-#' (for each line of expression in \code{{...}} one by one,
-#' such that newly created variables are available immediately).
+#'
+#' Execute each line of expression in \code{{...}} \emph{one by one},
+#' such that newly created variables are available immediately.
+#' This is an advantage of \code{\link[dplyr:mutate]{mutate}} and
+#' has been implemented here for \code{\link[data.table:data.table]{data.table}}.
 #' @param when [Optional] Compute for which rows or rows meeting what condition(s)?
 #'
 #' Passing to \code{\link[data.table:data.table]{data.table}}:
-#' \code{DT[when, , ]}.
+#' \code{DT[when, , ]}
 #' @param by [Optional] Compute by what group(s)?
 #'
 #' Passing to \code{\link[data.table:data.table]{data.table}}:
-#' \code{DT[ , , by]}.
+#' \code{DT[ , , by]}
+#' @param drop Drop existing variables and return only new variables?
+#' Default is \code{FALSE}, which returns all variables.
 #'
 #' @return
 #' \code{add()} returns a new
@@ -33,8 +38,6 @@
 #' with the raw data unchanged.
 #'
 #' \code{added()} returns nothing and has already changed the raw data.
-#'
-#' \code{addnew()} returns only new variables.
 #'
 #' @examples
 #' ## ====== Usage 1: add() ====== ##
@@ -51,7 +54,7 @@
 #' d = add(d, {
 #'   ID = str_extract(ID, "\\d")  # modify a variable
 #'   XYZ = NULL                   # delete a variable
-#'   A = MEAN(d, "A", 1:4)        # create a new variable
+#'   A = .mean("A", 1:4)          # create a new variable
 #'   B = A * 4    # new variable is immediately available
 #'   C = 1        # never need ,/; at the end of any line
 #' })
@@ -72,7 +75,7 @@
 #' added(d, {
 #'   ID = str_extract(ID, "\\d")
 #'   XYZ = NULL
-#'   A = MEAN(d, "A", 1:4)
+#'   A = .mean("A", 1:4)
 #'   B = A * 4
 #'   C = 1
 #' })
@@ -85,17 +88,18 @@
 #' d
 #'
 #' added(d, {SCORE2 = SCORE - mean(SCORE)},
-#'       A == 1 & B %in% 1:2,
-#'       by=B)
+#'       A == 1 & B %in% 1:2,  # `when`: for what conditions
+#'       by=B)                 # `by`: by what groups
 #' d
+#' na.omit(d)
 #'
 #'
-#' ## ====== Return New Variables Only ====== ##
+#' ## ====== Return Only New Variables ====== ##
 #'
-#' newvars = within.1 %>% addnew({
+#' newvars = within.1 %>% add({
 #'   ID = str_extract(ID, "\\d")
-#'   A = MEAN(within.1, "A", 1:4)
-#' })
+#'   A = .mean("A", 1:4)
+#' }, drop=TRUE)
 #' newvars
 #'
 #' @describeIn
@@ -106,15 +110,27 @@
 #' \preformatted{data = add(data, {...})}
 #'
 #' @export
-add = function(data, expr, when, by) {
+add = function(data, expr, when, by, drop=FALSE) {
   data = as.data.table(data)
   exprs = as.character(substitute(expr))
   when = deparse(substitute(when))
   by = deparse(substitute(by))
   if(exprs[1]!="{")
     stop("Please use { } for expressions.\nSee: help(add)", call.=FALSE)
-  for(e in exprs[-1])
-    eval(parse(text=glue::glue("data[{when}, `:=`({e}), {by}][]")))
+  for(e in exprs[-1]) {
+    es = str_split(e, " \\= | <- ", n=2, simplify=TRUE)[1,]
+    if(str_detect(es[2], "^\\.(mean|sum)\\(.*\\)$"))
+      e = paste(es[1], "=", eval(parse(text=es[2])))
+    else if(str_detect(es[2], "\\.(mean|sum)\\("))
+      stop("Please use ONLY `.mean()` or `.sum()` for one line, without any other expression.", call.=TRUE)
+    eval(parse(text=glue("data[{when}, `:=`({e}), {by}][]")))
+  }
+  if(drop) {
+    dn = names(data)
+    dn.new = str_split(exprs[-1], " \\= | <- ", n=2, simplify=TRUE)[,1]
+    dn.drop = base::setdiff(dn, dn.new)
+    data[, (dn.drop) := NULL][]
+  }
   return(data)
 }
 
@@ -127,38 +143,30 @@ add = function(data, expr, when, by) {
 #' \preformatted{added(data, {...})}
 #'
 #' @export
-added = function(data, expr, when, by) {
+added = function(data, expr, when, by, drop=FALSE) {
   if(!is.data.table(data))
-    stop("Data should be a `data.table`!\nSee: help(added)", call.=FALSE)
+    stop("Data must be a `data.table`!\nSee: help(added)", call.=FALSE)
   exprs = as.character(substitute(expr))
   when = deparse(substitute(when))
   by = deparse(substitute(by))
   if(exprs[1]!="{")
     stop("Please use { } for expressions.\nSee: help(add)", call.=FALSE)
-  for(e in exprs[-1])
-    eval(parse(text=glue::glue("data[{when}, `:=`({e}), {by}][]")))
+  for(e in exprs[-1]) {
+    es = str_split(e, " \\= | <- ", n=2, simplify=TRUE)[1,]
+    if(str_detect(es[2], "^\\.(mean|sum)\\(.*\\)$"))
+      e = paste(es[1], "=", eval(parse(text=es[2])))
+    else if(str_detect(es[2], "\\.(mean|sum)\\("))
+      stop("Please use ONLY `.mean()` or `.sum()` for one line, without any other expression.", call.=TRUE)
+    eval(parse(text=glue("data[{when}, `:=`({e}), {by}][]")))
+  }
+  if(drop) {
+    dn = names(data)
+    dn.new = str_split(exprs[-1], " \\= | <- ", n=2, simplify=TRUE)[,1]
+    dn.drop = base::setdiff(dn, dn.new)
+    data[, (dn.drop) := NULL][]
+  }
   Print("<<green \u221a>> Raw data has already been changed. Please check.")
-}
-
-
-#' @describeIn
-#' add Return only \emph{new variables}.
-#'
-#' \preformatted{newvars = addnew(data, {...})}
-#'
-#' @export
-addnew = function(data, expr, when, by) {
-  data = as.data.table(data)
-  exprs = as.character(substitute(expr))
-  when = deparse(substitute(when))
-  by = deparse(substitute(by))
-  if(exprs[1]!="{")
-    stop("Please use { } for expressions.\nSee: help(addnew)", call.=FALSE)
-  for(e in exprs[-1])
-    eval(parse(text=glue::glue("data[{when}, `:=`({e}), {by}][]")))
-  ns = names(data)
-  ns.new = ns[ns %in% str_extract(exprs[-1], ".*(?= \\= )")]
-  return(data[, ns.new, with=FALSE])
+  invisible(data)
 }
 
 
@@ -173,9 +181,9 @@ addnew = function(data, expr, when, by) {
 #'
 #' @examples
 #' d = data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
-#' d[, `:=`(
+#' added(d, {
 #'   var.new = RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
-#' )]
+#' })
 #' d
 #'
 #' @export
@@ -195,8 +203,10 @@ RECODE = function(var, recodes) {
 #'
 #' @examples
 #' d = data.table(var=rep(1:5, 2))
-#' d[, `:=`(var1 = RESCALE(var, to=1:7),
-#'          var2 = RESCALE(var, from=1:5, to=1:7))]
+#' added(d, {
+#'   var1 = RESCALE(var, to=1:7)
+#'   var2 = RESCALE(var, from=1:5, to=1:7)
+#' })
 #' d  # var1 is equal to var2
 #'
 #' @export
@@ -391,15 +401,15 @@ sig.trans = function(p) {
 #' Describe(psych::bfi[c("age", "gender", "education")])
 #'
 #' d = as.data.table(psych::bfi)
-#' d[, `:=`(
-#'   gender = as.factor(gender),
-#'   education = as.factor(education),
-#'   E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-#'   A = MEAN(d, "A", 1:5, rev=1, likert=1:6),
-#'   C = MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
-#'   N = MEAN(d, "N", 1:5, likert=1:6),
-#'   O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
-#' )]
+#' added(d, {
+#'   gender = as.factor(gender)
+#'   education = as.factor(education)
+#'   E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+#'   A = .mean("A", 1:5, rev=1, range=1:6)
+#'   C = .mean("C", 1:5, rev=c(4,5), range=1:6)
+#'   N = .mean("N", 1:5, range=1:6)
+#'   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+#' })
 #' Describe(d[, .(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 #' Describe(d[, .(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #' }
@@ -581,15 +591,15 @@ Freq = function(x, varname, labels, sort="",
 #' Corr(airquality, p.adjust="bonferroni")
 #'
 #' d = as.data.table(psych::bfi)
-#' d[, `:=`(
-#'   gender = as.factor(gender),
-#'   education = as.factor(education),
-#'   E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-#'   A = MEAN(d, "A", 1:5, rev=1, likert=1:6),
-#'   C = MEAN(d, "C", 1:5, rev=c(4,5), likert=1:6),
-#'   N = MEAN(d, "N", 1:5, likert=1:6),
-#'   O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
-#' )]
+#' added(d, {
+#'   gender = as.factor(gender)
+#'   education = as.factor(education)
+#'   E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+#'   A = .mean("A", 1:5, rev=1, range=1:6)
+#'   C = .mean("C", 1:5, rev=c(4,5), range=1:6)
+#'   N = .mean("N", 1:5, range=1:6)
+#'   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+#' })
 #' Corr(d[, .(age, gender, education, E, A, C, N, O)])
 #'
 #' @seealso \code{\link{Describe}}

@@ -5,7 +5,9 @@
 \alias{COUNT}
 \alias{MODE}
 \alias{SUM}
+\alias{.sum}
 \alias{MEAN}
+\alias{.mean}
 \alias{STD}
 \alias{CONSEC}
 \title{Multivariate computation.}
@@ -21,6 +23,18 @@ SUM(
   vars = NULL,
   varrange = NULL,
   rev = NULL,
+  range = likert,
+  likert = NULL,
+  na.rm = TRUE
+)
+
+.sum(
+  var = NULL,
+  items = NULL,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  range = likert,
   likert = NULL,
   na.rm = TRUE
 )
@@ -32,6 +46,18 @@ MEAN(
   vars = NULL,
   varrange = NULL,
   rev = NULL,
+  range = likert,
+  likert = NULL,
+  na.rm = TRUE
+)
+
+.mean(
+  var = NULL,
+  items = NULL,
+  vars = NULL,
+  varrange = NULL,
+  rev = NULL,
+  range = likert,
   likert = NULL,
   na.rm = TRUE
 )
@@ -43,6 +69,7 @@ STD(
   vars = NULL,
   varrange = NULL,
   rev = NULL,
+  range = likert,
   likert = NULL,
   na.rm = TRUE
 )
@@ -77,7 +104,7 @@ A character string specifying the positions ("starting:stopping") of variables. 
 (1) a character vector specifying the reverse-scoring variables (recommended), or
 (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
-\item{likert}{[Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
+\item{range, likert}{[Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
 
 \item{na.rm}{Ignore missing values. Default is \code{TRUE}.}
@@ -94,24 +121,30 @@ Reverse scoring can also be easily implemented without saving extra variables.
 
 Three options to specify variables:
 \enumerate{
-  \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define a character vector of variables.
-  \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+  \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
+  \item \strong{\code{vars}}: a character vector of variable names (suggested).
+  \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 }
 }
 \section{Functions}{
 \itemize{
-\item \code{COUNT}: \strong{Count} a certain value across multiple variables.
+\item \code{COUNT}: \strong{Count} a certain value across variables.
 
-\item \code{MODE}: Compute \strong{mode} across multiple variables.
+\item \code{MODE}: Compute \strong{mode} across variables.
 
-\item \code{SUM}: Compute \strong{sum} across multiple variables.
+\item \code{SUM}: Compute \strong{sum} across variables.
 
-\item \code{MEAN}: Compute \strong{mean} across multiple variables.
+\item \code{.sum}: Tidy version of \code{SUM},
+only can be used in \code{\link[bruceR:add]{add()/added()}}
 
-\item \code{STD}: Compute \strong{standard deviation} across multiple variables.
+\item \code{MEAN}: Compute \strong{mean} across variables.
 
-\item \code{CONSEC}: Compute \strong{consecutive identical digits} across multiple variables (especially useful in detecting careless responding).
+\item \code{.mean}: Tidy version of \code{MEAN},
+only can be used in \code{\link[bruceR:add]{add()/added()}}
+
+\item \code{STD}: Compute \strong{standard deviation} across variables.
+
+\item \code{CONSEC}: Compute \strong{consecutive identical digits} across variables (especially useful in detecting careless responding).
 }}
 
 \examples{
@@ -124,23 +157,30 @@ d
 ## I deliberately set this order to show you
 ## the difference between "vars" and "varrange".
 
+## ====== Usage 1: data.table `:=` ====== ##
 d[, `:=`(
   na = COUNT(d, "x", 1:5, value=NA),
   n.2 = COUNT(d, "x", 1:5, value=2),
   sum = SUM(d, "x", 1:5),
   m1 = MEAN(d, "x", 1:5),
   m2 = MEAN(d, vars=c("x1", "x4")),
-  m3 = MEAN(d, varrange="x1:x2", rev="x2", likert=1:5),
+  m3 = MEAN(d, varrange="x1:x2", rev="x2", range=1:5),
   cons1 = CONSEC(d, "x", 1:5),
   cons2 = CONSEC(d, varrange="x1:x5")
 )]
 d
 
+## ====== Usage 2: `add()` & `added()` ====== ##
 data = as.data.table(psych::bfi)
-data[, `:=`(
-  E = MEAN(d, "E", 1:5, rev=c(1,2), likert=1:6),
-  O = MEAN(d, "O", 1:5, rev=c(2,5), likert=1:6)
-)]
+added(data, {
+  gender = as.factor(gender)
+  education = as.factor(education)
+  E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+  A = .mean("A", 1:5, rev=1, range=1:6)
+  C = .mean("C", 1:5, rev=c(4,5), range=1:6)
+  N = .mean("N", 1:5, range=1:6)
+  O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+}, drop=TRUE)
 data
 
 }

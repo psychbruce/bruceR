@@ -50,23 +50,23 @@ and Cronbach's \eqn{\alpha} if item deleted).
 
 Three options to specify variables:
 \enumerate{
-  \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define a character vector of variables.
-  \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+  \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
+  \item \strong{\code{vars}}: a character vector of variable names (suggested).
+  \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 }
 }
 \examples{
 # ?psych::bfi
 data = psych::bfi
-Alpha(data, "E", 1:5)  # "E1" & "E2" should be reversed
-Alpha(data, "E", 1:5, rev=1:2)  # correct
-Alpha(data, "E", 1:5, rev=c("E1", "E2"))  # also correct
-Alpha(data, vars=c("E1", "E2", "E3", "E4", "E5"), rev=c("E1", "E2"))
-Alpha(data, varrange="E1:E5", rev=c("E1", "E2"))
+Alpha(data, "E", 1:5)   # "E1" & "E2" should be reversed
+Alpha(data, "E", 1:5, rev=1:2)            # correct
+Alpha(data, "E", 1:5, rev=cc("E1, E2"))   # also correct
+Alpha(data, vars=cc("E1, E2, E3, E4, E5"), rev=cc("E1, E2"))
+Alpha(data, varrange="E1:E5", rev=cc("E1, E2"))
 
 # using dplyr::select()
 data \%>\% select(E1, E2, E3, E4, E5) \%>\%
-  Alpha(vars=names(.), rev=c("E1", "E2"))
+  Alpha(vars=names(.), rev=cc("E1, E2"))
 
 }
 \seealso{

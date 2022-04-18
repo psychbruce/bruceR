@@ -4,7 +4,12 @@
 
 ## New Features
 
--   New functions `add()`, `added()`, `addnew()`: Enhanced functions designed to create, modify, and/or delete variables. The functions **combine** the advantages of `:=` (data.table), `mutate()` (dplyr), and `transmute()` (dplyr). See [help page](https://psychbruce.github.io/bruceR/reference/add.html) for the usage and convenience.
+-   New functions `add()` and `added()`: Enhanced functions designed to create, modify, and/or delete variables. The functions **combine** the advantages of `:=` (data.table), `mutate()` (dplyr), and `transmute()` (dplyr). See [help page](https://psychbruce.github.io/bruceR/reference/add.html) for the usage and convenience.
+-   New functions `.sum()` and `.mean()`: Tidy version of `SUM()` and `MEAN()` designed only for `add()` and `added()`. See [help page](https://psychbruce.github.io/bruceR/reference/grapes-grapes-COMPUTE-grapes-grapes.html) for the usage and convenience.
+
+## Minor Changes
+
+-   Improved `SUM()` and `MEAN()`: Better warning information if arguments are not properly specified.
 
 # bruceR 0.8.6 (Apr 2022)
 

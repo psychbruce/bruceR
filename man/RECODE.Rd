@@ -19,9 +19,9 @@ A wrapper of \code{\link[car:recode]{car::recode()}}.
 }
 \examples{
 d = data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
-d[, `:=`(
+added(d, {
   var.new = RECODE(var, "lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999")
-)]
+})
 d
 
 }
