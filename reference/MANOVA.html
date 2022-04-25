@@ -80,7 +80,7 @@ MANOVA(data=, subID=, dv=, between=, within=, ...)
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -321,7 +321,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***    .707[.526, .798] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -388,9 +388,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.861   1  18 43.343 &lt;.001 ***    .707[.482, .817] .707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 1.861   2  18 21.784 &lt;.001 ***    .708[.470, .815] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 1.861   2  18 15.201 &lt;.001 ***    .628[.347, .763] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.861   1  18 43.343 &lt;.001 ***   .707 [.482, .817] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 1.861   2  18 21.784 &lt;.001 ***   .708 [.470, .815] .708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 1.861   2  18 15.201 &lt;.001 ***   .628 [.347, .763] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -467,13 +467,13 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 1.563   1  24 98.000 &lt;.001 ***    .803[.670, .870] .803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 1.563   1  24  8.000  .009 **     .250[.042, .466] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 1.563   1  24  2.000  .170        .077[.000, .283] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 1.563   1  24 15.680 &lt;.001 ***    .395[.147, .585] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 1.563   1  24  0.720  .405        .029[.000, .206] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 1.563   1  24  8.000  .009 **     .250[.042, .466] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 1.563   1  24 15.680 &lt;.001 ***    .395[.147, .585] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 1.563   1  24 98.000 &lt;.001 ***   .803 [.670, .870] .803</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 1.563   1  24  8.000  .009 **    .250 [.042, .466] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 1.563   1  24  2.000  .170       .077 [.000, .283] .077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 1.563   1  24 15.680 &lt;.001 ***   .395 [.147, .585] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 1.563   1  24  0.720  .405       .029 [.000, .206] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 1.563   1  24  8.000  .009 **    .250 [.042, .466] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 1.563   1  24 15.680 &lt;.001 ***   .395 [.147, .585] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -516,9 +516,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.861   1  18 43.343 &lt;.001 ***    .707[.482, .817] .707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 1.861   2  18 21.784 &lt;.001 ***    .708[.470, .815] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 1.861   2  18 15.201 &lt;.001 ***    .628[.347, .763] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.861   1  18 43.343 &lt;.001 ***   .707 [.482, .817] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 1.861   2  18 21.784 &lt;.001 ***   .708 [.470, .815] .708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 1.861   2  18 15.201 &lt;.001 ***   .628 [.347, .763] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -579,7 +579,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.518   3  21 25.170 &lt;.001 ***    .782[.609, .858] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.518   3  21 25.170 &lt;.001 ***   .782 [.609, .858] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -622,7 +622,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MyFactor  63.375 2.518   3  21 25.170 &lt;.001 ***    .782[.609, .858] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MyFactor  63.375 2.518   3  21 25.170 &lt;.001 ***   .782 [.609, .858] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -673,9 +673,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            MS   MSE df1 df2       F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.111   1   3  72.600  .003 **     .960[.699, .985] .707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 0.264   2   6 153.632 &lt;.001 ***    .981[.930, .991] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 0.236   2   6 119.824 &lt;.001 ***    .976[.911, .988] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.111   1   3  72.600  .003 **    .960 [.699, .985] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 0.264   2   6 153.632 &lt;.001 ***   .981 [.930, .991] .708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 0.236   2   6 119.824 &lt;.001 ***   .976 [.911, .988] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -729,13 +729,13 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 1.875   1   3 81.667  .003 **     .965[.727, .986] .803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1   3 21.429  .019 *      .877[.279, .954] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.042   1   3 75.000  .003 **     .962[.707, .985] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.250   1   3 98.000  .002 **     .970[.768, .989] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 0.708   1   3  1.588  .297        .346[.000, .543] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 0.417   1   3 30.000  .012 *      .909[.411, .965] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 1.083   1   3 22.615  .018 *      .883[.300, .956] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 1.875   1   3 81.667  .003 **    .965 [.727, .986] .803</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1   3 21.429  .019 *     .877 [.279, .954] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.042   1   3 75.000  .003 **    .962 [.707, .985] .077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.250   1   3 98.000  .002 **    .970 [.768, .989] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 0.708   1   3  1.588  .297       .346 [.000, .543] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 0.417   1   3 30.000  .012 *     .909 [.411, .965] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 1.083   1   3 22.615  .018 *     .883 [.300, .956] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -789,9 +789,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            MS   MSE df1 df2       F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 5.083   1   6  15.869  .007 **     .726[.248, .871] .707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 0.250   2  12 162.167 &lt;.001 ***    .964[.918, .980] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 0.250   2  12 113.167 &lt;.001 ***    .950[.885, .971] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 5.083   1   6  15.869  .007 **    .726 [.248, .871] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 0.250   2  12 162.167 &lt;.001 ***   .964 [.918, .980] .708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 0.250   2  12 113.167 &lt;.001 ***   .950 [.885, .971] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -844,9 +844,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            MS   MSE   df1   df2       F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 5.083 1.000 6.000  15.869  .007 **     .726[.248, .871] .707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B      74.702 0.461 1.085 6.513 162.167 &lt;.001 ***    .964[.880, .983] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  52.130 0.461 1.085 6.513 113.167 &lt;.001 ***    .950[.833, .976] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 5.083 1.000 6.000  15.869  .007 **    .726 [.248, .871] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B      74.702 0.461 1.085 6.513 162.167 &lt;.001 ***   .964 [.880, .983] .708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  52.130 0.461 1.085 6.513 113.167 &lt;.001 ***   .950 [.833, .976] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Sphericity correction method: GG (Greenhouse-Geisser)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
@@ -911,13 +911,13 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 4.708   1   6 32.522  .001 **     .844[.503, .926] .803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.417   1   6 30.000  .002 **     .833[.475, .921] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.417   1   6 58.800 &lt;.001 ***    .907[.684, .956] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.375   1   6  8.333  .028 *      .581[.064, .801] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 0.375   1   6  3.000  .134        .333[.000, .671] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 0.750   1   6 16.667  .006 **     .735[.264, .875] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 0.750   1   6 32.667  .001 **     .845[.505, .927] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 4.708   1   6 32.522  .001 **    .844 [.503, .926] .803</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.417   1   6 30.000  .002 **    .833 [.475, .921] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.417   1   6 58.800 &lt;.001 ***   .907 [.684, .956] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.375   1   6  8.333  .028 *     .581 [.064, .801] .077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 0.375   1   6  3.000  .134       .333 [.000, .671] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 0.750   1   6 16.667  .006 **    .735 [.264, .875] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 0.750   1   6 32.667  .001 **    .845 [.505, .927] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -985,13 +985,13 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 2.542   1  12 60.246 &lt;.001 ***    .834[.639, .906] .803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 2.542   1  12  1.230  .289        .093[.000, .390] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 2.542   1  12  0.443  .518        .036[.000, .305] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1  12 21.429 &lt;.001 ***    .641[.308, .795] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.583   1  12 42.000 &lt;.001 ***    .778[.532, .874] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C x B       12.500 0.583   1  12 21.429 &lt;.001 ***    .641[.308, .795] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C x B   24.500 0.583   1  12 42.000 &lt;.001 ***    .778[.532, .874] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 2.542   1  12 60.246 &lt;.001 ***   .834 [.639, .906] .803</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 2.542   1  12  1.230  .289       .093 [.000, .390] .077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 2.542   1  12  0.443  .518       .036 [.000, .305] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1  12 21.429 &lt;.001 ***   .641 [.308, .795] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.583   1  12 42.000 &lt;.001 ***   .778 [.532, .874] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C x B       12.500 0.583   1  12 21.429 &lt;.001 ***   .641 [.308, .795] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A x C x B   24.500 0.583   1  12 42.000 &lt;.001 ***   .778 [.532, .874] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -1047,9 +1047,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Group              153.125 4.708   1   6 32.522  .001 **     .844[.503, .926] .803</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Condition            9.375 0.514   3  18 18.243 &lt;.001 ***    .753[.533, .843] .429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Group x Condition   16.708 0.514   3  18 32.514 &lt;.001 ***    .844[.702, .902] .572</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Group              153.125 4.708   1   6 32.522  .001 **    .844 [.503, .926] .803</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Condition            9.375 0.514   3  18 18.243 &lt;.001 ***   .753 [.533, .843] .429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Group x Condition   16.708 0.514   3  18 32.514 &lt;.001 ***   .844 [.702, .902] .572</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -1197,25 +1197,25 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                        MS    MSE   df1    df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment                          85.700 23.962 2.000  9.000  3.577  .072 .      .443[.000, .684] .294</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gender                             94.598 23.962 1.000  9.000  3.948  .078 .      .305[.000, .610] .187</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                                12.399 23.962 1.000  9.000  0.517  .490        .054[.000, .381] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender                 30.766 23.962 2.000  9.000  1.284  .323        .222[.000, .516] .130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> phase                              79.287  3.909 1.697 15.277 20.281 &lt;.001 ***    .693[.420, .813] .246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x phase                  23.743  3.909 3.395 15.277  6.073  .005 **     .574[.192, .728] .164</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gender x phase                      0.963  3.909 1.697 15.277  0.246  .749        .027[.000, .193] .004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age x phase                        12.108  3.909 1.697 15.277  3.097  .081 .      .256[.000, .502] .048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender x phase          6.261  3.909 3.395 15.277  1.601  .228        .262[.000, .470] .049</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> hour                               50.786  2.475 2.137 19.230 20.519 &lt;.001 ***    .695[.459, .804] .209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x hour                    1.766  2.475 4.273 19.230  0.714  .601        .137[.000, .270] .018</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gender x hour                       1.753  2.475 2.137 19.230  0.708  .514        .073[.000, .254] .009</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age x hour                          6.976  2.475 2.137 19.230  2.818  .082 .      .238[.000, .456] .035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender x hour           1.459  2.475 4.273 19.230  0.590  .684        .116[.000, .233] .015</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> phase x hour                        2.802  2.826 3.485 31.362  0.991  .419        .099[.000, .223] .023</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x phase x hour            0.944  2.826 6.969 31.362  0.334  .932        .069[.000, .027] .016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> gender x phase x hour               2.540  2.826 3.485 31.362  0.899  .465        .091[.000, .210] .021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age x phase x hour                  2.164  2.826 3.485 31.362  0.766  .540        .078[.000, .188] .018</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender x phase x hour   1.840  2.826 6.969 31.362  0.651  .710        .126[.000, .170] .030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment                          85.700 23.962 2.000  9.000  3.577  .072 .     .443 [.000, .684] .294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gender                             94.598 23.962 1.000  9.000  3.948  .078 .     .305 [.000, .610] .187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                                12.399 23.962 1.000  9.000  0.517  .490       .054 [.000, .381] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender                 30.766 23.962 2.000  9.000  1.284  .323       .222 [.000, .516] .130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phase                              79.287  3.909 1.697 15.277 20.281 &lt;.001 ***   .693 [.420, .813] .246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x phase                  23.743  3.909 3.395 15.277  6.073  .005 **    .574 [.192, .728] .164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gender x phase                      0.963  3.909 1.697 15.277  0.246  .749       .027 [.000, .193] .004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age x phase                        12.108  3.909 1.697 15.277  3.097  .081 .     .256 [.000, .502] .048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender x phase          6.261  3.909 3.395 15.277  1.601  .228       .262 [.000, .470] .049</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hour                               50.786  2.475 2.137 19.230 20.519 &lt;.001 ***   .695 [.459, .804] .209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x hour                    1.766  2.475 4.273 19.230  0.714  .601       .137 [.000, .270] .018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gender x hour                       1.753  2.475 2.137 19.230  0.708  .514       .073 [.000, .254] .009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age x hour                          6.976  2.475 2.137 19.230  2.818  .082 .     .238 [.000, .456] .035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender x hour           1.459  2.475 4.273 19.230  0.590  .684       .116 [.000, .233] .015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phase x hour                        2.802  2.826 3.485 31.362  0.991  .419       .099 [.000, .223] .023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x phase x hour            0.944  2.826 6.969 31.362  0.334  .932       .069 [.000, .027] .016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gender x phase x hour               2.540  2.826 3.485 31.362  0.899  .465       .091 [.000, .210] .021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age x phase x hour                  2.164  2.826 3.485 31.362  0.766  .540       .078 [.000, .188] .018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment x gender x phase x hour   1.840  2.826 6.969 31.362  0.651  .710       .126 [.000, .170] .030</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Sphericity correction method: GG (Greenhouse-Geisser)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
@@ -1278,7 +1278,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>

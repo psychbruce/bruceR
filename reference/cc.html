@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cc</span><span class="op">(</span><span class="va">...</span>, sep <span class="op">=</span> <span class="st">"auto"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cc</span><span class="op">(</span><span class="va">...</span>, sep <span class="op">=</span> <span class="st">"auto"</span>, trim <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,8 +62,12 @@
     <dl><dt>...</dt>
 <dd><p>Character string(s).</p></dd>
 <dt>sep</dt>
-<dd><p>Pattern for separation.</p>
-<p>Default is <code>"auto"</code>, including 5 common separators: , ; | \n \t.</p></dd>
+<dd><p>Pattern for separation.
+Default is <code>"auto"</code>:
+<code>,</code> <code>;</code> <code>|</code> <code>\n</code> <code>\t</code></p></dd>
+<dt>trim</dt>
+<dd><p>Remove whitespace from start and end of string(s)?
+Default is <code>TRUE</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -77,6 +81,9 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">cc</span><span class="op">(</span><span class="st">" a , b , c , d , e "</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "a" "b" "c" "d" "e"</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="fu">cc</span><span class="op">(</span><span class="st">" a , b , c , d , e "</span>, trim<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] " a " " b " " c " " d " " e "</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">cc</span><span class="op">(</span><span class="st">"1, 2, 3, 4, 5"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1" "2" "3" "4" "5"</span>
@@ -107,7 +114,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer></div>
