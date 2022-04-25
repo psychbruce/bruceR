@@ -94,9 +94,6 @@ Specifically, it uses:
   \item the square root of \emph{mean square error} (MSE) for between-subjects designs;
   \item the square root of \emph{mean variance of all paired differences of the residuals of repeated measures} for within-subjects and mixed designs.
 }
-In both situations, it extracts the \code{lm} object from the returned value of \code{MANOVA()}.
-Then, it mainly uses \code{sigma()} and \code{residuals()}, respectively, to do these estimates.
-For source code, please see the file \code{bruceR_stats_03_manova.R} on the \href{https://github.com/psychbruce/bruceR}{GitHub Repository}.
 
 \strong{\emph{Disclaimer}:}
 There is substantial disagreement on the appropriate pooled \emph{SD} to use in computing the effect size.

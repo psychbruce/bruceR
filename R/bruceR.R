@@ -255,9 +255,9 @@ NULL
       cran.ver = xml[grep("Version:", xml, fixed=TRUE) + 1]
       cran.ymd = xml[grep("Published:", xml, fixed=TRUE) + 1]
       if(!is.na(cran.ver) & length(cran.ver)==1) {
-        cran.ver = substr(cran.ver, 5, nchar(cran.ver)-5)
-        cran.ymd = substr(cran.ymd, 5, nchar(cran.ymd)-5)
-        if(numeric_version(inst.ver)<numeric_version(cran.ver))
+        cran.ver = substr(cran.ver, 5, nchar(cran.ver) - 5)
+        cran.ymd = substr(cran.ymd, 5, nchar(cran.ymd) - 5)
+        if(numeric_version(inst.ver) < numeric_version(cran.ver))
           packageStartupMessage(Glue("
           \n
           NEWS: A new version of bruceR (version {cran.ver}) is available on {cran.ymd}!

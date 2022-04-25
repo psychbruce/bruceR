@@ -4,14 +4,17 @@
 \alias{cc}
 \title{Split up a string (with separators) into a character vector.}
 \usage{
-cc(..., sep = "auto")
+cc(..., sep = "auto", trim = TRUE)
 }
 \arguments{
 \item{...}{Character string(s).}
 
 \item{sep}{Pattern for separation.
+Default is \code{"auto"}:
+\code{,} \code{;} \code{|} \code{\\n} \code{\\t}}
 
-Default is \code{"auto"}, including 5 common separators: , ; | \\n \\t.}
+\item{trim}{Remove whitespace from start and end of string(s)?
+Default is \code{TRUE}.}
 }
 \value{
 Character vector.
@@ -24,6 +27,8 @@ Split up a string (with separators) into a character vector
 cc("a,b,c,d,e")
 
 cc(" a , b , c , d , e ")
+
+cc(" a , b , c , d , e ", trim=FALSE)
 
 cc("1, 2, 3, 4, 5")
 

@@ -9,7 +9,7 @@
 
 ## Minor Changes
 
--   Improved `SUM()` and `MEAN()`: Better warning information if arguments are not properly specified.
+-   Improved warning information for `SUM()`, `MEAN()`, `EMMEANS()`.
 
 # bruceR 0.8.6 (Apr 2022)
 

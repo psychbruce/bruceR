@@ -344,8 +344,10 @@ Run = function(..., silent=FALSE) {
 #'
 #' @param ... Character string(s).
 #' @param sep Pattern for separation.
-#'
-#' Default is \code{"auto"}, including 5 common separators: , ; | \\n \\t.
+#' Default is \code{"auto"}:
+#' \code{,} \code{;} \code{|} \code{\\n} \code{\\t}
+#' @param trim Remove whitespace from start and end of string(s)?
+#' Default is \code{TRUE}.
 #'
 #' @return Character vector.
 #'
@@ -353,6 +355,8 @@ Run = function(..., silent=FALSE) {
 #' cc("a,b,c,d,e")
 #'
 #' cc(" a , b , c , d , e ")
+#'
+#' cc(" a , b , c , d , e ", trim=FALSE)
 #'
 #' cc("1, 2, 3, 4, 5")
 #'
@@ -369,15 +373,14 @@ Run = function(..., silent=FALSE) {
 #' ")
 #'
 #' @export
-cc = function(..., sep="auto") {
+cc = function(..., sep="auto", trim=TRUE) {
   dots = list(...)
   x = paste(sapply(dots, function(i) paste(i, collapse=",")), collapse=",")
-  as.character(
-    stringr::str_split(
-      stringr::str_trim(x),
-      ifelse(sep=="auto", "\\s*[,;\\|\\n\\t]\\s*", sep),
-      simplify=TRUE)
-  )
+  x = ifelse(trim, str_trim(x), x)
+  sep = ifelse(sep=="auto",
+               ifelse(trim, "\\s*[,;\\|\\n\\t]\\s*", "[,;\\|\\n\\t]"),
+               sep)
+  as.character(str_split(x, sep, simplify=TRUE))
 }
 
 
@@ -389,7 +392,7 @@ cc_ci = function(llci, ulci, nsmall) {
 
 
 cc_m_ci = function(mean, llci, ulci, nsmall) {
-  paste0(formatF(mean, nsmall), "[",
+  paste0(formatF(mean, nsmall), " [",
          formatF(llci, nsmall), ", ",
          formatF(ulci, nsmall), "]")
 }

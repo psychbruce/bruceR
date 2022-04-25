@@ -587,9 +587,6 @@ MANOVA = function(data, subID=NULL, dv=NULL,
 #'   \item the square root of \emph{mean square error} (MSE) for between-subjects designs;
 #'   \item the square root of \emph{mean variance of all paired differences of the residuals of repeated measures} for within-subjects and mixed designs.
 #' }
-#' In both situations, it extracts the \code{lm} object from the returned value of \code{MANOVA()}.
-#' Then, it mainly uses \code{sigma()} and \code{residuals()}, respectively, to do these estimates.
-#' For source code, please see the file \code{bruceR_stats_03_manova.R} on the \href{https://github.com/psychbruce/bruceR}{GitHub Repository}.
 #'
 #' \strong{\emph{Disclaimer}:}
 #' There is substantial disagreement on the appropriate pooled \emph{SD} to use in computing the effect size.
@@ -818,60 +815,41 @@ EMMEANS = function(model, effect=NULL, by=NULL,
   #   model=model.raw
   # }
 
-  if(is.null(model)) {
-    stop("MANOVA() did not run successfully (model is null).
-       Please run MANOVA() without any code of EMMEANS()
-       to check what the problem is.", call.=FALSE)
-  }
+  if(is.null(model))
+    stop("`model` is invalid. Run MANOVA() without EMMEANS() to check.", call.=FALSE)
 
-  if(!inherits(model, "afex_aov")) {
-    stop("Please use EMMEANS() together with MANOVA()!
-       See the help page for its usage:  ?EMMEANS", call.=FALSE)
-  }
-
-  ## Simple Effect (omnibus)
-  # see 'weights' in ?emmeans
-  try({
-    sim = NULL
-    note = FALSE
-    suppressMessages({
-      sim = emmeans::joint_tests(
-        object=model, by=by,
-        weights="equal",
-        model=model.type)
-    })
-    # note = "note" %in% names(sim)
-    sim$note = NULL
-    names(sim)[1] = "Effect"
-    sim$Effect = str_replace_all(sim$Effect, ":", " x ")
-    eta2 = effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
-                                 ci=0.90, alternative="two.sided")
-    sim$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, nsmall) %>%
-      str_replace_all("0\\.", ".")
-    if(length(by)>0) {
-      vns = names(sim)[2:(length(by)+1)]
-      names(sim)[2:(length(by)+1)] = "\"" %^% vns %^% "\""
-    }
-    names(sim)[(length(by)+4):(length(by)+6)] =
-      c("F", "pval", "\u03b7\u00b2p [90% CI of \u03b7\u00b2p]")
-  }, silent=TRUE)
+  if(!inherits(model, "afex_aov"))
+    stop("EMMEANS() should be used with MANOVA()!", call.=FALSE)
 
   effect.text = paste(effect, collapse='\" & \"')
   Print("<<cyan ------ EMMEANS (effect = \"{effect.text}\") ------>>")
   cat("\n")
-  Print("Joint Tests of \"{effect.text}\":")
-  if(is.null(sim)) {
-    stop("Package `afex` is required but is not installed.
-       Please install it:
-       install.packages(\"afex\")", call.=FALSE)
+
+  ## Simple Effect (omnibus)
+  # see 'weights' in ?emmeans
+  suppressMessages({
+    sim = emmeans::joint_tests(
+      object=model, by=by,
+      weights="equal",
+      model=model.type)
+  })
+  if(is.null(sim))
+    stop("`model` or `by` is invalid. Please check your code.", call.=FALSE)
+  sim$note = NULL
+  names(sim)[1] = "Effect"
+  sim$Effect = str_replace_all(sim$Effect, ":", " x ")
+  eta2 = effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
+                               ci=0.90, alternative="two.sided")
+  sim$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, nsmall) %>%
+    str_replace_all("0\\.", ".")
+  if(length(by)>0) {
+    vns = names(sim)[2:(length(by)+1)]
+    names(sim)[2:(length(by)+1)] = "\"" %^% vns %^% "\""
   }
-  # if(note) {
-  #   message("Warning (also in SPSS):
-  #   Within-cells error matrix is SINGULAR.
-  #   Some variables are LINEARLY DEPENDENT.
-  #   Please check your data and variables.
-  #   The same error also appears in SPSS!")
-  # }
+  names(sim)[(length(by)+4):(length(by)+6)] =
+    c("F", "pval", "\u03b7\u00b2p [90% CI of \u03b7\u00b2p]")
+
+  Print("Joint Tests of \"{effect.text}\":")
   print_table(sim, nsmalls=c(rep(0, length(by)+3),
                              nsmall, 0, 0),
               row.names=FALSE)
@@ -1023,7 +1001,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
   con$df = formatF(con$df, 0)
   print_table(con, nsmalls=nsmall, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n"))
-  cat("\n")
+  cat("\n\n")
   Print("<<green Disclaimer:
   By default, pooled SD is <<italic Root Mean Square Error>> (RMSE).
   There is much disagreement on how to compute Cohen\u2019s d.

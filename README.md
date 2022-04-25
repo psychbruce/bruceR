@@ -96,9 +96,9 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 1.  **Basic R Programming**
 
-    -   `cc()`
-    -   `set.wd()` (alias: `set_wd()`)
-    -   `import()`, `export()`
+    -   `cc()` (suggested)
+    -   `set.wd()` (alias: `set_wd()`) (suggested)
+    -   `import()`, `export()` (suggested)
     -   `pkg_depend()`, `pkg_install_suggested()`
     -   `formatF()`, `formatN()`
     -   `print_table()`
@@ -109,6 +109,8 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 2.  **Multivariate Computation**
 
+    -   `add()`, `added()` (suggested)
+    -   `.sum()`, `.mean()` (suggested)
     -   `SUM()`, `MEAN()`, `STD()`, `MODE()`, `COUNT()`, `CONSEC()`
     -   `RECODE()`, `RESCALE()`
     -   `LOOKUP()`
@@ -134,7 +136,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 6.  **Tidy Report of Regression Models**
 
-    -   `model_summary()`
+    -   `model_summary()` (suggested)
     -   `lavaan_summary()`
     -   `GLM_summary()`
     -   `HLM_summary()`
@@ -143,7 +145,7 @@ Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
 
 7.  **Mediation and Moderation Analyses**
 
-    -   `PROCESS()`
+    -   `PROCESS()` (suggested)
     -   `med_summary()`
 
 8.  **Additional Toolbox for Statistics and Graphics**
