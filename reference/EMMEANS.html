@@ -52,7 +52,7 @@ Users should not take the default output as the only right results and are compl
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.6-3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,13 +181,14 @@ along with a list of tables:
 Each <code>EMMEANS(...)</code> appends one list to the returned object.</p>
     </div>
     <div class="section level2">
-    <h2 id="interaction-plot">Interaction Plot<a class="anchor" aria-label="anchor" href="#interaction-plot"></a></h2>
+    <h2 id="interaction-plot-see-examples-below-">Interaction Plot (See Examples Below)<a class="anchor" aria-label="anchor" href="#interaction-plot-see-examples-below-"></a></h2>
     
 
 <p>You can save the returned object and use the <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code> function
-to create an interaction plot (based on the fitted model and a formula specification).
-For usage, please see the help page of <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code>.
-It returns an object of class <code>ggplot</code>, which can be easily modified and saved using <code>ggplot2</code> syntax.</p>
+to create an interaction plot (based on the fitted model and a formula).
+See examples below for the usage.</p>
+<p>Note: <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code> returns a <code>ggplot</code> object,
+which can be modified and saved with <code>ggplot2</code> syntax.</p>
     </div>
     <div class="section level2">
     <h2 id="statistical-details">Statistical Details<a class="anchor" aria-label="anchor" href="#statistical-details"></a></h2>
@@ -678,7 +679,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.861   1  18 43.343 &lt;.001 ***   .707 [.482, .817] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 1.861   2  18 21.784 &lt;.001 ***   .708 [.470, .815] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 1.861   2  18 15.201 &lt;.001 ***   .628 [.347, .763] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B  28.292 1.861   2  18 15.201 &lt;.001 ***   .628 [.347, .763] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -829,7 +830,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.861   1  18 43.343 &lt;.001 ***   .707 [.482, .817] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 1.861   2  18 21.784 &lt;.001 ***   .708 [.470, .815] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 1.861   2  18 15.201 &lt;.001 ***   .628 [.347, .763] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B  28.292 1.861   2  18 15.201 &lt;.001 ***   .628 [.347, .763] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -920,10 +921,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 1.563   1  24 98.000 &lt;.001 ***   .803 [.670, .870] .803</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 1.563   1  24  8.000  .009 **    .250 [.042, .466] .250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 1.563   1  24  2.000  .170       .077 [.000, .283] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 1.563   1  24 15.680 &lt;.001 ***   .395 [.147, .585] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 1.563   1  24  0.720  .405       .029 [.000, .206] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 1.563   1  24  8.000  .009 **    .250 [.042, .466] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 1.563   1  24 15.680 &lt;.001 ***   .395 [.147, .585] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B       24.500 1.563   1  24 15.680 &lt;.001 ***   .395 [.147, .585] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * C        1.125 1.563   1  24  0.720  .405       .029 [.000, .206] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B * C       12.500 1.563   1  24  8.000  .009 **    .250 [.042, .466] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B * C   24.500 1.563   1  24 15.680 &lt;.001 ***   .395 [.147, .585] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -948,8 +949,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B2   1  24 96.040 &lt;.001 ***   .800 [.665, .868]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B1   1  24  1.000  .327       .040 [.000, .226]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B2   1  24  9.000  .006 **    .273 [.055, .486]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x C  B1   1  24  4.840  .038 *     .168 [.006, .388]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x C  B2   1  24 11.560  .002 **    .325 [.090, .530]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * C  B1   1  24  4.840  .038 *     .168 [.006, .388]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * C  B2   1  24 11.560  .002 **    .325 [.090, .530]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -1001,8 +1002,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C2   1  24 57.760 &lt;.001 ***   .706 [.521, .806]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C1   1  24  0.000 1.000       .000 [.000, .000]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1  24 16.000 &lt;.001 ***   .400 [.151, .589]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C1   1  24  0.000 1.000       .000 [.000, .000]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C2   1  24 31.360 &lt;.001 ***   .566 [.331, .710]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C1   1  24  0.000 1.000       .000 [.000, .000]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C2   1  24 31.360 &lt;.001 ***   .566 [.331, .710]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -1134,6 +1135,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="st">"A1:A4"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span>
 <span class="r-in">       within<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1:A4" is matched to variables:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> A1, A2, A3, A4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Within-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1234,6 +1239,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-in">       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span>  <span class="co"># singular error matrix</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1B1:A2B3" is matched to variables:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> A1B1, A1B2, A1B3, A2B1, A2B2, A2B3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Within-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1260,7 +1269,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 1.111   1   3  72.600  .003 **    .960 [.699, .985] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B      40.542 0.264   2   6 153.632 &lt;.001 ***   .981 [.930, .991] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  28.292 0.236   2   6 119.824 &lt;.001 ***   .976 [.911, .988] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B  28.292 0.236   2   6 119.824 &lt;.001 ***   .976 [.911, .988] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -1276,7 +1285,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Mauchly's W     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           0.0665  .066 .  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       0.2491  .249    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B       0.2491  .249    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">------ EMMEANS (effect = "A") ------</span></span>
@@ -1394,6 +1403,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1B1C1:A2B2C2" is matched to variables:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> A1B1C1, A1B1C2, A1B2C1, A1B2C2, A2B1C1, A2B1C2, A2B2C1, A2B2C2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Within-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1423,10 +1436,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 1.875   1   3 81.667  .003 **    .965 [.727, .986] .803</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1   3 21.429  .019 *     .877 [.279, .954] .250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.042   1   3 75.000  .003 **    .962 [.707, .985] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.250   1   3 98.000  .002 **    .970 [.768, .989] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 0.708   1   3  1.588  .297       .346 [.000, .543] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 0.417   1   3 30.000  .012 *     .909 [.411, .965] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 1.083   1   3 22.615  .018 *     .883 [.300, .956] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B       24.500 0.250   1   3 98.000  .002 **    .970 [.768, .989] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * C        1.125 0.708   1   3  1.588  .297       .346 [.000, .543] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B * C       12.500 0.417   1   3 30.000  .012 *     .909 [.411, .965] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B * C   24.500 1.083   1   3 22.615  .018 *     .883 [.300, .956] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -1450,8 +1463,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B2   1   3  61.364  .004 **    .953 [.653, .982]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B1   1   3  17.640  .025 *     .855 [.202, .945]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B2   1   3 266.778 &lt;.001 ***   .989 [.908, .996]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   C x A  B1   1   3   6.153  .089 .     .672 [.000, .877]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   C x A  B2   1   3  32.111  .011 *     .915 [.436, .968]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   C * A  B1   1   3   6.153  .089 .     .672 [.000, .877]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   C * A  B2   1   3  32.111  .011 *     .915 [.436, .968]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -1502,8 +1515,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1   3 50.000  .006 **    .943 [.610, .978]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C1   1   3 54.857  .005 **    .948 [.620, .980]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C2   1   3 63.706  .004 **    .955 [.664, .983]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B x A  C1   1   3  0.000 1.000       .000 [.000, .000]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B x A  C2   1   3 42.000  .007 **    .933 [.534, .975]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B * A  C1   1   3  0.000 1.000       .000 [.000, .000]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B * A  C2   1   3 42.000  .007 **    .933 [.534, .975]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -1634,6 +1647,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-in">       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span>, sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B3" is matched to variables:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> B1, B2, B3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Mixed Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1660,7 +1677,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A      80.667 5.083 1.000 6.000  15.869  .007 **    .726 [.248, .871] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B      74.702 0.461 1.085 6.513 162.167 &lt;.001 ***   .964 [.880, .983] .708</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B  52.130 0.461 1.085 6.513 113.167 &lt;.001 ***   .950 [.833, .976] .628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B  52.130 0.461 1.085 6.513 113.167 &lt;.001 ***   .950 [.833, .976] .628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Sphericity correction method: GG (Greenhouse-Geisser)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
@@ -1683,7 +1700,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Mauchly's W     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           0.1574  .010 ** </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       0.1574  .010 ** </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B       0.1574  .010 ** </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">------ EMMEANS (effect = "A") ------</span></span>
@@ -1807,6 +1824,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1C1:B2C2" is matched to variables:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> B1C1, B1C2, B2C1, B2C2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Mixed Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1835,11 +1856,11 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 4.708   1   6 32.522  .001 **    .844 [.503, .926] .803</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.417   1   6 30.000  .002 **    .833 [.475, .921] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.417   1   6 58.800 &lt;.001 ***   .907 [.684, .956] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B       24.500 0.417   1   6 58.800 &lt;.001 ***   .907 [.684, .956] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.375   1   6  8.333  .028 *     .581 [.064, .801] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 0.375   1   6  3.000  .134       .333 [.000, .671] .029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B x C       12.500 0.750   1   6 16.667  .006 **    .735 [.264, .875] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B x C   24.500 0.750   1   6 32.667  .001 **    .845 [.505, .927] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * C        1.125 0.375   1   6  3.000  .134       .333 [.000, .671] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B * C       12.500 0.750   1   6 16.667  .006 **    .735 [.264, .875] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B * C   24.500 0.750   1   6 32.667  .001 **    .845 [.505, .927] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -1870,8 +1891,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B2   1   6 72.758 &lt;.001 ***   .924 [.736, .964]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B1   1   6  2.143  .194       .263 [.000, .629]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B2   1   6 35.526 &lt;.001 ***   .856 [.533, .932]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x C  B1   1   6 10.371  .018 *     .633 [.117, .827]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x C  B2   1   6 45.632 &lt;.001 ***   .884 [.613, .945]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * C  B1   1   6 10.371  .018 *     .633 [.117, .827]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * C  B2   1   6 45.632 &lt;.001 ***   .884 [.613, .945]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -1922,8 +1943,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C2   1   6 37.345 &lt;.001 ***   .862 [.550, .935]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C1   1   6  0.000 1.000       .000 [.000, .000]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1   6 30.000  .002 **    .833 [.475, .921]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C1   1   6  0.000 1.000       .000 [.000, .000]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C2   1   6 58.800 &lt;.001 ***   .907 [.684, .956]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C1   1   6  0.000 1.000       .000 [.000, .000]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C2   1   6 58.800 &lt;.001 ***   .907 [.684, .956]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -2061,6 +2082,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B2" is matched to variables:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> B1, B2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Mixed Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -2089,11 +2114,11 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A          153.125 2.542   1  12 60.246 &lt;.001 ***   .834 [.639, .906] .803</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 2.542   1  12  1.230  .289       .093 [.000, .390] .077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C        1.125 2.542   1  12  0.443  .518       .036 [.000, .305] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * C        1.125 2.542   1  12  0.443  .518       .036 [.000, .305] .029</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1  12 21.429 &lt;.001 ***   .641 [.308, .795] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x B       24.500 0.583   1  12 42.000 &lt;.001 ***   .778 [.532, .874] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C x B       12.500 0.583   1  12 21.429 &lt;.001 ***   .641 [.308, .795] .250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A x C x B   24.500 0.583   1  12 42.000 &lt;.001 ***   .778 [.532, .874] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * B       24.500 0.583   1  12 42.000 &lt;.001 ***   .778 [.532, .874] .395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C * B       12.500 0.583   1  12 21.429 &lt;.001 ***   .641 [.308, .795] .250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * C * B   24.500 0.583   1  12 42.000 &lt;.001 ***   .778 [.532, .874] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -2122,8 +2147,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B2   1  12 122.085 &lt;.001 ***   .911 [.799, .949]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B1   1  12   0.824  .382       .064 [.000, .353]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B2   1  12  11.441  .005 **    .488 [.129, .702]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x C  B1   1  12   3.989  .069 .     .249 [.000, .537]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x C  B2   1  12  14.695  .002 **    .550 [.193, .741]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * C  B1   1  12   3.989  .069 .     .249 [.000, .537]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * C  B2   1  12  14.695  .002 **    .550 [.193, .741]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -2174,8 +2199,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C2   1  12 35.508 &lt;.001 ***   .747 [.477, .856]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C1   1  12  0.000 1.000       .000 [.000, .000]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1  12 42.857 &lt;.001 ***   .781 [.538, .876]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C1   1  12  0.000 1.000       .000 [.000, .000]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C2   1  12 84.000 &lt;.001 ***   .875 [.724, .929]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C1   1  12  0.000 1.000       .000 [.000, .000]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C2   1  12 84.000 &lt;.001 ***   .875 [.724, .929]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -2226,8 +2251,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C2   1  12 35.508 &lt;.001 ***   .747 [.477, .856]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C1   1  12  0.000 1.000       .000 [.000, .000]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1  12 42.857 &lt;.001 ***   .781 [.538, .876]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C1   1  12  0.000 1.000       .000 [.000, .000]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   A x B  C2   1  12 84.000 &lt;.001 ***   .875 [.724, .929]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C1   1  12  0.000 1.000       .000 [.000, .000]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   A * B  C2   1  12 84.000 &lt;.001 ***   .875 [.724, .929]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -2387,7 +2412,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> Day.1or2             6.804 35.312   1 134  0.193  .661       .001 [.000, .030] .001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Solar.R            612.990 35.312   1 134 17.359 &lt;.001 ***   .115 [.043, .204] .115</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Wind               880.158 35.312   1 134 24.925 &lt;.001 ***   .157 [.074, .251] .157</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Month x Day.1or2     7.174 35.312   4 134  0.203  .936       .006 [.000, .004] .006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Month * Day.1or2     7.174 35.312   4 134  0.203  .936       .006 [.000, .004] .006</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -2412,7 +2437,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Day.1or2           1 134  0.193  .661       .001 [.000, .030]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Solar.R            1 134 17.359 &lt;.001 ***   .115 [.043, .204]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Wind               1 134 24.925 &lt;.001 ***   .157 [.074, .251]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Month x Day.1or2   4 134  0.203  .936       .006 [.000, .004]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Month * Day.1or2   4 134  0.203  .936       .006 [.000, .004]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
