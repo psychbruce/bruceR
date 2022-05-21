@@ -18,7 +18,7 @@ interaction_F_test = function(model, data=NULL, data.name="data") {
       df1 = c(dp1[[1]], aov[2, "Df"]),
       df2 = df2,
       pval = c(dp1[[3]], aov[2, "Pr(>F)"]))
-    row.names(aov.table) = c(gsub(":", " x ", row.names(dp1)),
+    row.names(aov.table) = c(gsub(":", " * ", row.names(dp1)),
                            "(All Interactions)")
   } else {
     # dp1 = drop1(model, scope=interms, test="F")
@@ -28,7 +28,7 @@ interaction_F_test = function(model, data=NULL, data.name="data") {
       df1 = dp1[,"NumDF"],
       df2 = dp1[,"DenDF"],
       pval = dp1[,"Pr(>F)"])
-    row.names(aov.table) = gsub(":", " x ", row.names(dp1))
+    row.names(aov.table) = gsub(":", " * ", row.names(dp1))
   }
   return(aov.table)
 }
@@ -48,7 +48,7 @@ interaction_Chi2_test = function(model, data=NULL, data.name="data") {
       `Chisq` = c(dp1[[2]], chi[2, "Deviance"]),
       df = c(dp1[[1]], chi[2, "Df"]),
       pval = c(dp1[[3]], chi[2, "Pr(>Chi)"]))
-    row.names(chi.table) = c(gsub(":", " x ", row.names(dp1)),
+    row.names(chi.table) = c(gsub(":", " * ", row.names(dp1)),
                              "(All Interactions)")
   } else {
     dp1 = drop1(model, scope=interms.form, test="Chisq")
@@ -57,7 +57,7 @@ interaction_Chi2_test = function(model, data=NULL, data.name="data") {
       Chisq = dp1[,"LRT"],
       df = dp1[,"npar"],
       pval = dp1[,"Pr(Chi)"])
-    row.names(chi.table) = gsub(":", " x ", row.names(dp1))
+    row.names(chi.table) = gsub(":", " * ", row.names(dp1))
   }
   return(chi.table)
 }
@@ -1574,7 +1574,7 @@ process_mod = function(model0,
 
   # MOD = coefficients(summary(model))
   # MOD = as.data.frame(MOD)[which(grepl(":", row.names(MOD))),]
-  # row.names(MOD) = str_replace_all(row.names(MOD), ":", " x ")
+  # row.names(MOD) = str_replace_all(row.names(MOD), ":", " * ")
   MOD = interaction_test(model, data=data.c, data.name="data.c")
   if(nrow(MOD)==2)
     if(row.names(MOD)[2]=="(All Interactions)")

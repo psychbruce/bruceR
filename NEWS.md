@@ -1,6 +1,6 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
-# bruceR 0.8.7 (in development)
+# bruceR 0.8.7 (May 2022)
 
 ## New Features
 

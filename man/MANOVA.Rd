@@ -35,11 +35,20 @@ MANOVA(
 
 \item{dvs}{Repeated measures. Only for \strong{wide-format} data (within-subjects or mixed designs).
 
-Two ways to specify this argument:
+Can be:
 \itemize{
-  \item Use \code{":"} to specify the range of variables: e.g., \code{"A1B1:A2B3"}
-  (similar to the SPSS syntax "TO" and the order of variables matters)
-  \item Use a character vector to specify variable names: e.g., \code{c("Cond1", "Cond2", "Cond3")}
+  \item \code{"start:stop"} to specify the range of variables
+  (sensitive to the order of variables):
+
+  e.g., \code{"A1B1:A2B3"} is matched to all variables in the data
+  between \code{"A1B1"} and \code{"A2B3"}
+
+  \item a character vector to directly specify variables
+  (insensitive to the order of variables):
+
+  e.g., \code{c("Cond1", "Cond2", "Cond3")} or \code{cc("Cond1, Cond2, Cond3")}
+
+  See \code{\link{cc}} for its usage.
 }}
 
 \item{dvs.pattern}{If you use \code{dvs}, you should also specify the pattern of variable names

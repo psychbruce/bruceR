@@ -321,6 +321,8 @@ NULL
     import()      \tEFA()      \tmodel_summary()
     print_table() \tCFA()      \tlavaan_summary()
     >>
+
+    https://psychbruce.github.io/bruceR/
     \n
     ")
   } else {

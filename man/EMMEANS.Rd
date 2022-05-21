@@ -100,12 +100,14 @@ There is substantial disagreement on the appropriate pooled \emph{SD} to use in 
 For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
 Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
 }
-\section{Interaction Plot}{
+\section{Interaction Plot (See Examples Below)}{
 
 You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
-to create an interaction plot (based on the fitted model and a formula specification).
-For usage, please see the help page of \code{\link[emmeans:emmip]{emmeans::emmip()}}.
-It returns an object of class \code{ggplot}, which can be easily modified and saved using \code{ggplot2} syntax.
+to create an interaction plot (based on the fitted model and a formula).
+See examples below for the usage.
+
+Note: \code{\link[emmeans:emmip]{emmeans::emmip()}} returns a \code{ggplot} object,
+which can be modified and saved with \code{ggplot2} syntax.
 }
 
 \section{Statistical Details}{

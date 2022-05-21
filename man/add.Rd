@@ -44,11 +44,12 @@ with the raw data unchanged.
 \code{added()} returns nothing and has already changed the raw data.
 }
 \description{
-Enhanced functions designed to create, modify, and/or delete variables.
+Enhanced functions to create, modify, and/or delete variables.
 The functions \strong{combine} the advantages of
-\code{\link[data.table:data.table]{:=}} (data.table),
-\code{\link[dplyr:mutate]{mutate}} (dplyr), and
-\code{\link[dplyr:transmute]{transmute}} (dplyr).
+\code{\link[base:within]{within}} (base),
+\code{\link[dplyr:mutate]{mutate}} (dplyr),
+\code{\link[dplyr:transmute]{transmute}} (dplyr), and
+\code{\link[data.table:data.table]{:=}} (data.table).
 See examples below for the usage and convenience.
 }
 \section{Functions}{
@@ -78,7 +79,7 @@ add(d, {B = 1; C = 2})
 d
 
 # new data should be assigned to an object:
-d = add(d, {
+d = d \%>\% add({
   ID = str_extract(ID, "\\\\d")  # modify a variable
   XYZ = NULL                   # delete a variable
   A = .mean("A", 1:4)          # create a new variable
@@ -109,7 +110,7 @@ added(d, {
 d
 
 
-## ====== Use `when` and `by` ====== ##
+## ====== Using `when` and `by` ====== ##
 
 d = as.data.table(between.2)
 d
@@ -123,10 +124,29 @@ na.omit(d)
 
 ## ====== Return Only New Variables ====== ##
 
-newvars = within.1 \%>\% add({
+newvars = add(within.1, {
   ID = str_extract(ID, "\\\\d")
   A = .mean("A", 1:4)
 }, drop=TRUE)
 newvars
+
+
+## ====== Better Than `base::within()` ====== ##
+
+d = as.data.table(within.1)
+
+# wrong order: C B A
+within(d, {
+  A = 4
+  B = A + 1
+  C = 6
+})
+
+# correct order: A B C
+add(d, {
+  A = 4
+  B = A + 1
+  C = 6
+})
 
 }
