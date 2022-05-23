@@ -209,6 +209,9 @@ help(bruceR)
 
 ## See help pages of functions
 ## (use `?function` or `help(function)`)
+?cc
+?add
+?.mean
 ?set.wd
 ?import
 ?export

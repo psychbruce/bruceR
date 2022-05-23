@@ -844,7 +844,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
     stop("`model` is invalid. Run MANOVA() without EMMEANS() to check.", call.=FALSE)
 
   if(!inherits(model, "afex_aov"))
-    stop("EMMEANS() should be used with MANOVA()!", call.=FALSE)
+    stop("EMMEANS() should be used with MANOVA()!\nSee: help(MANOVA)", call.=FALSE)
 
   effect.text = paste(effect, collapse='\" & \"')
   Print("<<cyan ------ EMMEANS (effect = \"{effect.text}\") ------>>")
@@ -859,7 +859,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
       model=model.type)
   })
   if(is.null(sim))
-    stop("`model` or `by` is invalid. Please check your code.", call.=FALSE)
+    stop("`model` or `by` is invalid. Please check your code.\nSee: help(MANOVA)", call.=FALSE)
   sim$note = NULL
   names(sim)[1] = "Effect"
   sim$Effect = str_replace_all(sim$Effect, ":", " * ")
