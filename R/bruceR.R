@@ -341,7 +341,7 @@ NULL
     "))
 
   ## Check Dependencies
-  check_depend("bruceR")
+  try({ check_depend("bruceR") }, silent=TRUE)
 }
 
 
