@@ -28,7 +28,7 @@ performance::r2_nagelkerke()
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,57 +143,329 @@ Only relevant to R Console output.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#### Example 1: Linear Model ####</span></span>
+<span class="r-in"><span class="va">lm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Temp</span> <span class="op">~</span> <span class="va">Month</span> <span class="op">+</span> <span class="va">Day</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">lm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Temp</span> <span class="op">~</span> <span class="va">Month</span> <span class="op">+</span> <span class="va">Day</span> <span class="op">+</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Solar.R</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="va">lm1</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (1) Temp   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   60.406 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (3.718)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Month          2.806 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.490)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Day           -0.136    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.078)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R^2            0.193    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adj. R^2       0.183    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.    153        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Check for Multicollinearity</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Low Correlation</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Term  VIF Increased SE Tolerance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Month 1.00         1.00      1.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Day 1.00         1.00      1.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="va">lm2</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (1) Temp   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   68.770 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (4.391)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Month          2.225 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.441)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Day           -0.084    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.070)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Wind          -1.003 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.176)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Solar.R        0.027 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.007)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R^2            0.387    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adj. R^2       0.369    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.    146        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Check for Multicollinearity</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Low Correlation</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Term  VIF Increased SE Tolerance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Month 1.03         1.02      0.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Day 1.02         1.01      0.98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Wind 1.03         1.02      0.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Solar.R 1.03         1.02      0.97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lm1</span>, <span class="va">lm2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (1) Temp     (2) Temp   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   60.406 ***   68.770 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (3.718)      (4.391)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Month          2.806 ***    2.225 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.490)      (0.441)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Day           -0.136       -0.084    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.078)      (0.070)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Wind                       -1.003 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                            (0.176)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Solar.R                     0.027 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                            (0.007)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R^2            0.193        0.387    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adj. R^2       0.183        0.369    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.    153          146        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lm1</span>, <span class="va">lm2</span><span class="op">)</span>, std<span class="op">=</span><span class="cn">TRUE</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            (1) Temp    (2) Temp  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Month         .42 ***     .34 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (.07)       (.07)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Day          -.13        -.08    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (.07)       (.07)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Wind                     -.38 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          (.07)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Solar.R                   .27 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          (.07)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R^2           .19         .39    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adj. R^2      .18         .37    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.  153         146       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lm1</span>, <span class="va">lm2</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"OLS Models.doc"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Table saved to <span style="color: #0000BB;">'/tmp/Rtmp5YQXT2/file4260f340b9d/reference/OLS Models.doc'</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"OLS Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="co">#### Example 1: Linear Model ####</span></span>
-<span class="r-in">  <span class="va">lm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Temp</span> <span class="op">~</span> <span class="va">Month</span> <span class="op">+</span> <span class="va">Day</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">lm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Temp</span> <span class="op">~</span> <span class="va">Month</span> <span class="op">+</span> <span class="va">Day</span> <span class="op">+</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Solar.R</span>, data<span class="op">=</span><span class="va">airquality</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="va">lm1</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="va">lm2</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lm1</span>, <span class="va">lm2</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lm1</span>, <span class="va">lm2</span><span class="op">)</span>, std<span class="op">=</span><span class="cn">TRUE</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lm1</span>, <span class="va">lm2</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"OLS Models.doc"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"OLS Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
+<span class="r-in"><span class="co">#### Example 2: Generalized Linear Model ####</span></span>
+<span class="r-in"><span class="va">glm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">parity</span>,</span>
+<span class="r-in">           data<span class="op">=</span><span class="va">infert</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">glm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">parity</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">spontaneous</span> <span class="op">+</span> <span class="va">induced</span>,</span>
+<span class="r-in">           data<span class="op">=</span><span class="va">infert</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glm1</span>, <span class="va">glm2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># "std" is not applicable to glm</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   (1) case  (2) case   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        -0.754    -1.149    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    (0.836)   (1.412)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                 0.001     0.040    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    (0.026)   (0.031)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> parity              0.015    -0.828 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    (0.108)   (0.196)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> education6-11yrs             -1.044    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              (0.793)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> education12+ yrs             -1.403    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              (0.834)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> spontaneous                   2.046 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              (0.310)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> induced                       1.289 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              (0.301)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> McFadden's R^2      0.000     0.185    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Nagelkerke's R^2    0.000     0.291    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC               322.150   271.798    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BIC               332.690   296.392    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.         248       248        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glm1</span>, <span class="va">glm2</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"GLM Models.doc"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Table saved to <span style="color: #0000BB;">'/tmp/Rtmp5YQXT2/file4260f340b9d/reference/GLM Models.doc'</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"GLM Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="co">#### Example 2: Generalized Linear Model ####</span></span>
-<span class="r-in">  <span class="va">glm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">parity</span>,</span>
-<span class="r-in">             data<span class="op">=</span><span class="va">infert</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">glm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">case</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">parity</span> <span class="op">+</span> <span class="va">education</span> <span class="op">+</span> <span class="va">spontaneous</span> <span class="op">+</span> <span class="va">induced</span>,</span>
-<span class="r-in">             data<span class="op">=</span><span class="va">infert</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glm1</span>, <span class="va">glm2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># "std" is not applicable to glm</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glm1</span>, <span class="va">glm2</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"GLM Models.doc"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"GLM Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
+<span class="r-in"><span class="co">#### Example 3: Linear Mixed Model ####</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/runehaubo/lmerTestR" class="external-link">lmerTest</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="va">hlm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data<span class="op">=</span><span class="va">sleepstudy</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">hlm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data<span class="op">=</span><span class="va">sleepstudy</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">hlm3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data<span class="op">=</span><span class="va">sleepstudy</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                (1) Reaction  (2) Reaction  (3) Reaction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)                     298.508 ***   251.405 ***   251.405 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  (9.050)       (9.747)       (6.825)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Days                                           10.467 ***    10.467 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                (0.804)       (1.546)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Marginal R^2                      0.000         0.280         0.279    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Conditional R^2                   0.395         0.704         0.799    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC                            1910.327      1794.465      1755.628    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BIC                            1919.905      1807.237      1774.786    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.                       180           180           180        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. groups: Subject             18            18            18        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: Subject (Intercept)       1278.338      1378.179       612.100    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: Residual                  1958.865       960.457       654.940    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: Subject Days                                            35.072    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cov: Subject (Intercept) Days                                 9.604    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span>, std<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                (1) Reaction  (2) Reaction  (3) Reaction</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Days                                             .535 ***      .535 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 (.041)        (.079)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Marginal R^2                       .000          .280          .279    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Conditional R^2                    .395          .704          .799    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC                            1910.327      1794.465      1755.628    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BIC                            1919.905      1807.237      1774.786    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.                       180           180           180        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. groups: Subject             18            18            18        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: Subject (Intercept)       1278.338      1378.179       612.100    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: Residual                  1958.865       960.457       654.940    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: Subject Days                                            35.072    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Cov: Subject (Intercept) Days                                 9.604    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"HLM Models.doc"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Table saved to <span style="color: #0000BB;">'/tmp/Rtmp5YQXT2/file4260f340b9d/reference/HLM Models.doc'</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"HLM Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="co">#### Example 3: Linear Mixed Model ####</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/runehaubo/lmerTestR" class="external-link">lmerTest</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">hlm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data<span class="op">=</span><span class="va">sleepstudy</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">hlm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data<span class="op">=</span><span class="va">sleepstudy</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">hlm3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lmerTest/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data<span class="op">=</span><span class="va">sleepstudy</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span>, std<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">hlm1</span>, <span class="va">hlm2</span>, <span class="va">hlm3</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"HLM Models.doc"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"HLM Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
+<span class="r-in"><span class="co">#### Example 4: Generalized Linear Mixed Model ####</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/runehaubo/lmerTestR" class="external-link">lmerTest</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="va">data.glmm</span> <span class="op">=</span> <span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/bacteria.html" class="external-link">bacteria</a></span></span>
+<span class="r-in"><span class="va">glmm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/glmer.html" class="external-link">glmer</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">trt</span> <span class="op">+</span> <span class="va">week</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">ID</span><span class="op">)</span>, data<span class="op">=</span><span class="va">data.glmm</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">glmm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/glmer.html" class="external-link">glmer</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">trt</span> <span class="op">+</span> <span class="va">week</span> <span class="op">+</span> <span class="va">hilo</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">ID</span><span class="op">)</span>, data<span class="op">=</span><span class="va">data.glmm</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glmm1</span>, <span class="va">glmm2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># "std" is not applicable to glmm</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      (1) y        (2) y      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)            3.144 ***    3.399 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       (0.622)      (0.736)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> trtdrug               -1.320 *     -0.928    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       (0.642)      (0.802)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> trtdrug+              -0.795       -1.061    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       (0.652)      (0.751)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> week                  -0.144 **    -0.144 ** </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                       (0.051)      (0.051)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hilolo                             -0.656    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    (0.876)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC                  207.771      209.217    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BIC                  224.739      229.579    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.            220          220        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. groups: ID       50           50        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Var: ID (Intercept)    1.314        1.254    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glmm1</span>, <span class="va">glmm2</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"GLMM Models.doc"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Table saved to <span style="color: #0000BB;">'/tmp/Rtmp5YQXT2/file4260f340b9d/reference/GLMM Models.doc'</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"GLMM Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="co">#### Example 4: Generalized Linear Mixed Model ####</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/runehaubo/lmerTestR" class="external-link">lmerTest</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">data.glmm</span> <span class="op">=</span> <span class="fu">MASS</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MASS/man/bacteria.html" class="external-link">bacteria</a></span></span>
-<span class="r-in">  <span class="va">glmm1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/glmer.html" class="external-link">glmer</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">trt</span> <span class="op">+</span> <span class="va">week</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">ID</span><span class="op">)</span>, data<span class="op">=</span><span class="va">data.glmm</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">glmm2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/glmer.html" class="external-link">glmer</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">trt</span> <span class="op">+</span> <span class="va">week</span> <span class="op">+</span> <span class="va">hilo</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">ID</span><span class="op">)</span>, data<span class="op">=</span><span class="va">data.glmm</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glmm1</span>, <span class="va">glmm2</span><span class="op">)</span><span class="op">)</span>  <span class="co"># "std" is not applicable to glmm</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">glmm1</span>, <span class="va">glmm2</span><span class="op">)</span>, file<span class="op">=</span><span class="st">"GLMM Models.doc"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"GLMM Models.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co">#### Example 5: Multinomial Logistic Model ####</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">nnet</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">d</span> <span class="op">=</span> <span class="va">airquality</span></span>
-<span class="r-in">  <span class="va">d</span><span class="op">$</span><span class="va">Month</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">Month</span><span class="op">)</span>  <span class="co"># Factor levels: 5, 6, 7, 8, 9</span></span>
-<span class="r-in">  <span class="va">mn1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nnet/man/multinom.html" class="external-link">multinom</a></span><span class="op">(</span><span class="va">Month</span> <span class="op">~</span> <span class="va">Temp</span>, data<span class="op">=</span><span class="va">d</span>, Hess<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">mn2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nnet/man/multinom.html" class="external-link">multinom</a></span><span class="op">(</span><span class="va">Month</span> <span class="op">~</span> <span class="va">Temp</span> <span class="op">+</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Ozone</span>, data<span class="op">=</span><span class="va">d</span>, Hess<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="va">mn1</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="va">mn2</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">model_summary</span><span class="op">(</span><span class="va">mn2</span>, file<span class="op">=</span><span class="st">"Multinomial Logistic Model.doc"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"Multinomial Logistic Model.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="co">#### Example 5: Multinomial Logistic Model ####</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">nnet</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="va">airquality</span></span>
+<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">Month</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">Month</span><span class="op">)</span>  <span class="co"># Factor levels: 5, 6, 7, 8, 9</span></span>
+<span class="r-in"><span class="va">mn1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nnet/man/multinom.html" class="external-link">multinom</a></span><span class="op">(</span><span class="va">Month</span> <span class="op">~</span> <span class="va">Temp</span>, data<span class="op">=</span><span class="va">d</span>, Hess<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # weights:  15 (8 variable)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> initial  value 246.244001 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iter  10 value 196.357608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> final  value 194.725454 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> converged</span>
+<span class="r-in"><span class="va">mn2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/nnet/man/multinom.html" class="external-link">multinom</a></span><span class="op">(</span><span class="va">Month</span> <span class="op">~</span> <span class="va">Temp</span> <span class="op">+</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Ozone</span>, data<span class="op">=</span><span class="va">d</span>, Hess<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # weights:  25 (16 variable)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> initial  value 186.694798 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iter  10 value 168.210554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iter  20 value 139.276111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iter  30 value 137.478576</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> final  value 137.466340 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> converged</span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="va">mn1</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              6            7            8            9          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  -20.275 ***  -29.489 ***  -29.629 ***  -16.484 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (4.089)      (4.730)      (4.738)      (3.731)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Temp           0.280 ***    0.393 ***    0.395 ***    0.231 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.056)      (0.063)      (0.063)      (0.052)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC          405.451      405.451      405.451      405.451    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BIC          429.694      429.694      429.694      429.694    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.    153          153          153          153        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K              5            5            5            5        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="va">mn2</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              6            7            8            9          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  -27.752 ***  -27.079 ***  -27.212 ***  -17.641 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (7.316)      (5.944)      (5.948)      (4.772)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Temp           0.346 ***    0.364 ***    0.363 ***    0.261 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.094)      (0.076)      (0.076)      (0.063)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Wind           0.223        0.027        0.040       -0.007    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.147)      (0.138)      (0.137)      (0.120)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Ozone         -0.039       -0.016       -0.014       -0.032    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (0.027)      (0.016)      (0.015)      (0.017)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC          306.933      306.933      306.933      306.933    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BIC          350.990      350.990      350.990      350.990    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.    116          116          116          116        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K              5            5            5            5        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"># Check for Multicollinearity</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Low Correlation</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Term  VIF Increased SE Tolerance</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Temp 2.84         1.68      0.35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Wind 1.95         1.40      0.51</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Ozone 2.36         1.54      0.42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu">model_summary</span><span class="op">(</span><span class="va">mn2</span>, file<span class="op">=</span><span class="st">"Multinomial Logistic Model.doc"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Table saved to <span style="color: #0000BB;">'/tmp/Rtmp5YQXT2/file4260f340b9d/reference/Multinomial Logistic Model.doc'</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="st">"Multinomial Logistic Model.doc"</span><span class="op">)</span>  <span class="co"># delete file for code check</span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
