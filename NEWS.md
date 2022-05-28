@@ -1,5 +1,11 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 0.8.8 (in development)
+
+## Bug Fixes
+
+-   Moved necessary R packages (dependencies) from "Suggests" to "Imports", such that all dependencies will be automatically installed. Also added a check of dependencies when `library(bruceR)`.
+
 # bruceR 0.8.7 (May 2022)
 
 ## New Features

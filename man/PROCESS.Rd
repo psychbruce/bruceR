@@ -240,9 +240,7 @@ For more details and illustrations, see
 \href{https://github.com/psychbruce/bruceR/tree/master/note}{PROCESS-bruceR-SPSS} (PDF and Markdown files).
 }
 \examples{
-\dontrun{
-
-#### NOTE ####
+\donttest{#### NOTE ####
 ## In the following examples, I set nsim=100 to save time.
 ## In formal analyses, nsim=1000 (or larger) is suggested!
 
@@ -336,7 +334,6 @@ PROCESS(data, y="score", x="fight",
 ## For more examples and details, see the "note" subfolder at:
 ## https://github.com/psychbruce/bruceR/tree/main/note
 }
-
 }
 \references{
 Hayes, A. F. (2018). \emph{Introduction to mediation, moderation, and conditional process analysis (second edition): A regression-based approach}. Guilford Press.

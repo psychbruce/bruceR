@@ -179,8 +179,8 @@ MANOVA(between.2, dv="SCORE", between=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 ## How to create an interaction plot using `emmeans::emmip()`?
-## See help page for its usage: ?emmeans::emmip()
-m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
+## See help page: ?emmeans::emmip()
+\donttest{m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
 emmip(m, ~ A | B, CIs=TRUE)
 emmip(m, ~ B | A, CIs=TRUE)
 emmip(m, B ~ A, CIs=TRUE)
@@ -193,7 +193,7 @@ MANOVA(between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by=c("B", "C"))
 ## Just to name a few...
 ## You may test other combinations...
-
+}
 
 #### Within-Subjects Design ####
 
@@ -202,7 +202,7 @@ MANOVA(within.1, dvs="A1:A4", dvs.pattern="A(.)",
        within="A") \%>\%
   EMMEANS("A")
 
-within.2
+\donttest{within.2
 MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
@@ -212,7 +212,7 @@ MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 # the linear dependence of A2B2 and A2B3.
 # See: Corr(within.2[c("A2B2", "A2B3")])
 
-\donttest{within.3
+within.3
 MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
        within=c("A", "B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%

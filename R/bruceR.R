@@ -242,6 +242,7 @@ NULL
 #' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 .onAttach = function(libname, pkgname) {
   ## Version Check
+  new = FALSE
   inst.ver = as.character(utils::packageVersion("bruceR"))
   xml = suppressWarnings({
     try({
@@ -258,13 +259,7 @@ NULL
         cran.ver = substr(cran.ver, 5, nchar(cran.ver) - 5)
         cran.ymd = substr(cran.ymd, 5, nchar(cran.ymd) - 5)
         if(numeric_version(inst.ver) < numeric_version(cran.ver))
-          packageStartupMessage(Glue("
-          \n
-          NEWS: A new version of bruceR (version {cran.ver}) is available on {cran.ymd}!
-          Please update:
-          install.packages(\"bruceR\")
-          update.packages(ask=FALSE)
-          "))
+          new = TRUE
       }
     }, silent=TRUE)
   }
@@ -335,5 +330,32 @@ NULL
     \n
     "))
   }
+
+  ## Update Info
+  if(new)
+    packageStartupMessage(Glue("
+    NEWS: A new version of bruceR ({cran.ver}) is available on {cran.ymd}!
+    ***** Please Update *****
+    install.packages(\"bruceR\", dep=TRUE)
+    \n
+    "))
+
+  ## Check Dependencies
+  check_depend("bruceR")
+}
+
+
+check_depend = function(pkg) {
+  pkgs = utils::installed.packages()
+  deps = cc(pkgs[pkg, "Imports"], pkgs[pkg, "Suggests"])
+  need = deps[deps %notin% pkgs]
+  if(length(need)>0)
+    packageStartupMessage(Glue("
+    These R packages are dependencies of `{pkg}` but not installed:
+    {paste(need, collapse=', ')}
+    ***** Please Install All Dependencies *****
+    install.packages(\"{pkg}\", dep=TRUE)
+    \n
+    "))
 }
 

@@ -46,7 +46,7 @@ Homepage: [psychbruce.github.io](https://psychbruce.github.io)
 
 ``` r
 ## Method 1: Install from CRAN
-install.packages("bruceR")
+install.packages("bruceR", dep=TRUE)  # dependencies=TRUE
 update.packages(ask=FALSE)
 
 ## Method 2: Install from GitHub

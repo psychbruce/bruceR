@@ -1255,7 +1255,7 @@ TTEST = function(data, y, x=NULL,
 
   ## Print (nmsd)
   nmsd$MeanSD = paste0(formatF(nmsd$Mean, nsmall), " (",
-                     formatF(nmsd$S.D., nsmall), ")")
+                       formatF(nmsd$S.D., nsmall), ")")
   names(nmsd)[length(nmsd)] = "Mean (S.D.)"
   nmsd$Mean = nmsd$S.D. = NULL
   Print("Descriptives:")

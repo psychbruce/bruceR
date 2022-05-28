@@ -212,16 +212,12 @@ pkg_install_suggested = function(by) {
     cat("\n")
     Print(pkgs.suggests)
     cat("\n")
-    yesno = utils::menu(title="All these packages would be installed. Do you want to install them?",
+    yesno = utils::menu(title="All these R packages will be installed. Do it now?",
                         choices=c("Yes", "No"))
-    if(yesno==1) {
-      pkgs.suggests = pkgs.suggests %>%
-        str_remove_all("\\s") %>%
-        str_split(",", simplify=TRUE) %>%
-        as.character()
-    } else {
+    if(yesno==1)
+      pkgs.suggests = cc(pkgs.suggests)
+    else
       return(invisible())
-    }
   } else {
     pkgs.suggests = pacman::p_depends(by, character.only=TRUE, local=TRUE)$Suggests
   }
