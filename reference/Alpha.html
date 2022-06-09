@@ -131,180 +131,20 @@ A character string specifying the positions ("starting:stopping") of variables. 
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># ?psych::bfi</span></span>
 <span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">psych</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/psych/man/bfi.html" class="external-link">bfi</a></span></span>
 <span class="r-in"><span class="fu">Alpha</span><span class="op">(</span><span class="va">data</span>, <span class="st">"E"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>   <span class="co"># "E1" &amp; "E2" should be reversed</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Reliability Analysis</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Items: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Range: 1 ~ 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Cases: 2800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valid Cases: 2713 (96.9%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Mean</span> = 3.791</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">S.D.</span> = 0.542</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cronbach’s α = -0.624</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McDonald’s ω = 0.150</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Warning: Scale reliability is low. You may check item codings.</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">Items E1, E2 correlate negatively with the scale and may be reversed.</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">You can specify this argument: rev=c("E1", "E2")</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item Statistics (Cronbach’s α If Item Deleted):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Mean    S.D. Item-Rest Cor. Cronbach’s α</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E1  2.972 (1.632)         -0.263       -0.270</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E2  3.144 (1.607)         -0.355       -0.074</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E3  4.000 (1.352)         -0.002       -0.881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E4  4.421 (1.461)         -0.202       -0.423</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E5  4.418 (1.337)         -0.047       -0.765</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item-Rest Cor. = Corrected Item-Total Correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip,     digits = digits, title = title, sl = sl, labels = labels,     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option,     covar = covar, ...):</span> I am sorry, you need to have the  GPArotation package installed</span>
 <span class="r-in"><span class="fu">Alpha</span><span class="op">(</span><span class="va">data</span>, <span class="st">"E"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, rev<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>            <span class="co"># correct</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Reliability Analysis</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Items: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Range: 1 ~ 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Cases: 2800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valid Cases: 2713 (96.9%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Mean</span> = 4.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">S.D.</span> = 1.060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cronbach’s α = 0.761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McDonald’s ω = 0.763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item Statistics (Cronbach’s α If Item Deleted):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Mean    S.D. Item-Rest Cor. Cronbach’s α</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E1 (rev)  4.028 (1.632)          0.513        0.725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E2 (rev)  3.856 (1.607)          0.606        0.688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E3        4.000 (1.352)          0.501        0.728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E4        4.421 (1.461)          0.578        0.701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E5        4.418 (1.337)          0.455        0.742</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item-Rest Cor. = Corrected Item-Total Correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip,     digits = digits, title = title, sl = sl, labels = labels,     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option,     covar = covar, ...):</span> I am sorry, you need to have the  GPArotation package installed</span>
 <span class="r-in"><span class="fu">Alpha</span><span class="op">(</span><span class="va">data</span>, <span class="st">"E"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, rev<span class="op">=</span><span class="fu"><a href="cc.html">cc</a></span><span class="op">(</span><span class="st">"E1, E2"</span><span class="op">)</span><span class="op">)</span>   <span class="co"># also correct</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Reliability Analysis</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Items: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Range: 1 ~ 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Cases: 2800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valid Cases: 2713 (96.9%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Mean</span> = 4.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">S.D.</span> = 1.060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cronbach’s α = 0.761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McDonald’s ω = 0.763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item Statistics (Cronbach’s α If Item Deleted):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Mean    S.D. Item-Rest Cor. Cronbach’s α</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E1 (rev)  4.028 (1.632)          0.513        0.725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E2 (rev)  3.856 (1.607)          0.606        0.688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E3        4.000 (1.352)          0.501        0.728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E4        4.421 (1.461)          0.578        0.701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E5        4.418 (1.337)          0.455        0.742</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item-Rest Cor. = Corrected Item-Total Correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip,     digits = digits, title = title, sl = sl, labels = labels,     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option,     covar = covar, ...):</span> I am sorry, you need to have the  GPArotation package installed</span>
 <span class="r-in"><span class="fu">Alpha</span><span class="op">(</span><span class="va">data</span>, vars<span class="op">=</span><span class="fu"><a href="cc.html">cc</a></span><span class="op">(</span><span class="st">"E1, E2, E3, E4, E5"</span><span class="op">)</span>, rev<span class="op">=</span><span class="fu"><a href="cc.html">cc</a></span><span class="op">(</span><span class="st">"E1, E2"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Reliability Analysis</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Items: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Range: 1 ~ 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Cases: 2800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valid Cases: 2713 (96.9%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Mean</span> = 4.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">S.D.</span> = 1.060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cronbach’s α = 0.761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McDonald’s ω = 0.763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item Statistics (Cronbach’s α If Item Deleted):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Mean    S.D. Item-Rest Cor. Cronbach’s α</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E1 (rev)  4.028 (1.632)          0.513        0.725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E2 (rev)  3.856 (1.607)          0.606        0.688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E3        4.000 (1.352)          0.501        0.728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E4        4.421 (1.461)          0.578        0.701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E5        4.418 (1.337)          0.455        0.742</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item-Rest Cor. = Corrected Item-Total Correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip,     digits = digits, title = title, sl = sl, labels = labels,     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option,     covar = covar, ...):</span> I am sorry, you need to have the  GPArotation package installed</span>
 <span class="r-in"><span class="fu">Alpha</span><span class="op">(</span><span class="va">data</span>, varrange<span class="op">=</span><span class="st">"E1:E5"</span>, rev<span class="op">=</span><span class="fu"><a href="cc.html">cc</a></span><span class="op">(</span><span class="st">"E1, E2"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Reliability Analysis</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Items: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Range: 1 ~ 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Cases: 2800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valid Cases: 2713 (96.9%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Mean</span> = 4.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">S.D.</span> = 1.060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cronbach’s α = 0.761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McDonald’s ω = 0.763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item Statistics (Cronbach’s α If Item Deleted):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Mean    S.D. Item-Rest Cor. Cronbach’s α</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E1 (rev)  4.028 (1.632)          0.513        0.725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E2 (rev)  3.856 (1.607)          0.606        0.688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E3        4.000 (1.352)          0.501        0.728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E4        4.421 (1.461)          0.578        0.701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E5        4.418 (1.337)          0.455        0.742</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item-Rest Cor. = Corrected Item-Total Correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip,     digits = digits, title = title, sl = sl, labels = labels,     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option,     covar = covar, ...):</span> I am sorry, you need to have the  GPArotation package installed</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># using dplyr::select()</span></span>
 <span class="r-in"><span class="va">data</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">E1</span>, <span class="va">E2</span>, <span class="va">E3</span>, <span class="va">E4</span>, <span class="va">E5</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span class="r-in">  <span class="fu">Alpha</span><span class="op">(</span>vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, rev<span class="op">=</span><span class="fu"><a href="cc.html">cc</a></span><span class="op">(</span><span class="st">"E1, E2"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Reliability Analysis</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Items: 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Range: 1 ~ 6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total Cases: 2800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Valid Cases: 2713 (96.9%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Scale Statistics:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Mean</span> = 4.145</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">S.D.</span> = 1.060</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Cronbach’s α = 0.761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McDonald’s ω = 0.763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item Statistics (Cronbach’s α If Item Deleted):</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Mean    S.D. Item-Rest Cor. Cronbach’s α</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E1 (rev)  4.028 (1.632)          0.513        0.725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E2 (rev)  3.856 (1.607)          0.606        0.688</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E3        4.000 (1.352)          0.501        0.728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E4        4.421 (1.461)          0.578        0.701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E5        4.418 (1.337)          0.455        0.742</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Item-Rest Cor. = Corrected Item-Total Correlation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in omegah(m = m, nfactors = nfactors, fm = fm, key = key, flip = flip,     digits = digits, title = title, sl = sl, labels = labels,     plot = plot, n.obs = n.obs, rotate = rotate, Phi = Phi, option = option,     covar = covar, ...):</span> I am sorry, you need to have the  GPArotation package installed</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
