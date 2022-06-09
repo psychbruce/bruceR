@@ -42,5 +42,5 @@ Imports:
     car, jtools, texreg, MuMIn, BayesFactor
 Suggests:
     pacman, tibble, haven, foreign, readxl, openxlsx, clipr,
-    lmtest, lme4, nnet, vars, phia, MASS, GGally
+    lmtest, lme4, nnet, vars, phia, MASS, GGally, GPArotation
 RoxygenNote: 7.2.0
