@@ -1060,7 +1060,8 @@ cor_diff = function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
 #' One-sample, independent-samples, and paired-samples \emph{t}-test,
 #' with both Frequentist and Bayesian approaches.
 #' The output includes descriptives, \emph{t} statistics,
-#' mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI, and Bayes factor (BF10).
+#' mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI,
+#' and Bayes factor (BF10; \code{BayesFactor} package needs to be installed).
 #' It also tests the assumption of homogeneity of variance
 #' and allows users to determine whether variances are equal or not.
 #'
@@ -1091,9 +1092,24 @@ cor_diff = function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
 #' Multiple variables should be included in a character vector \code{c()}.
 #'
 #' Only necessary for independent-samples \emph{t}-test.
-#' @param paired For paired-samples \emph{t}-test, set it to \code{TRUE}. Default is \code{FALSE}.
+#' @param paired For paired-samples \emph{t}-test, set it as \code{TRUE}. Default is \code{FALSE}.
+#' @param paired.d.type Type of Cohen's \emph{d} for paired-samples \emph{t}-test (see Lakens, 2013).
+#'
+#' Default is \code{"dz"}. Options include:
+#' \describe{
+#'   \item{\code{"dz"} (\emph{d} for standardized difference)}{
+#'     Cohen's \eqn{d_{z} = \frac{M_{diff}}{SD_{diff}}}
+#'   }
+#'   \item{\code{"dav"} (\emph{d} for average standard deviation)}{
+#'     Cohen's \eqn{d_{av} = \frac{M_{diff}}{ \frac{SD_{1} + SD_{2}}{2} }}
+#'   }
+#'   \item{\code{"drm"} (\emph{d} for repeated measures, corrected for correlation)}{
+#'     Cohen's \eqn{d_{rm} = \frac{M_{diff} \times \sqrt{2(1 - r_{1,2})}}{
+#'       \sqrt{SD_{1}^2 + SD_{2}^2 - 2 \times r_{1,2} \times SD_{1} \times SD_{2}} }}
+#'   }
+#' }
 #' @param var.equal If Levene's test indicates a violation of the homogeneity of variance,
-#' then you should better set this argument to \code{FALSE}. Default is \code{TRUE}.
+#' then you should better set this argument as \code{FALSE}. Default is \code{TRUE}.
 #' @param mean.diff Whether to display results of mean difference and its 95\% CI. Default is \code{TRUE}.
 #' @param test.value The true value of the mean (or difference in means for a two-samples test). Default is \code{0}.
 #' @param test.sided Any of \code{"="} (two-sided, the default), \code{"<"} (one-sided), or \code{">"} (one-sided).
@@ -1179,9 +1195,14 @@ cor_diff = function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
 #'
 #' @seealso \code{\link{MANOVA}}, \code{\link{EMMEANS}}
 #'
+#' @references
+#' Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science:
+#' A practical primer for \emph{t}-tests and ANOVAs. \emph{Frontiers in Psychology, 4}, Article 863.
+#'
 #' @export
 TTEST = function(data, y, x=NULL,
                  paired=FALSE,
+                 paired.d.type="dz",
                  var.equal=TRUE,
                  mean.diff=TRUE,
                  test.value=0,
@@ -1235,7 +1256,7 @@ TTEST = function(data, y, x=NULL,
   res = data.frame()
   for(yi in y) {
     if(is.null(x)) {
-      res.list = ttest(data, yi, NULL, paired, var.equal,
+      res.list = ttest(data, yi, NULL, paired, paired.d.type, var.equal,
                        test.value, test.sided, factor.rev, bayes.prior)
       res = rbind(res, res.list$res)
       nmsd = rbind(nmsd, res.list$nmsd)
@@ -1243,7 +1264,7 @@ TTEST = function(data, y, x=NULL,
         lev = rbind(lev, res.list$levene)
     } else {
       for(xi in x) {
-        res.list = ttest(data, yi, xi, paired, var.equal,
+        res.list = ttest(data, yi, xi, paired, paired.d.type, var.equal,
                          test.value, test.sided, factor.rev, bayes.prior)
         res = rbind(res, res.list$res)
         nmsd = rbind(nmsd, res.list$nmsd)
@@ -1312,6 +1333,7 @@ TTEST = function(data, y, x=NULL,
 ## one y and one x
 ttest = function(data, y, x=NULL,
                  paired=FALSE,
+                 paired.d.type="dz",
                  var.equal=TRUE,
                  test.value=0,
                  test.sided="=",
@@ -1332,9 +1354,13 @@ ttest = function(data, y, x=NULL,
 
   ## Prepare
   if(paired) {
+    Y = "Paired"
+    X = ""
+    y1 = data[[y[1]]]
+    y2 = data[[y[2]]]
     nmsd = data.frame(Variable=c(y[1], y[2]),
-                      Mean=c(mean(data[[y[1]]]), mean(data[[y[2]]])),
-                      S.D.=c(sd(data[[y[1]]]), sd(data[[y[2]]])),
+                      Mean=c(mean(y1), mean(y2)),
+                      S.D.=c(sd(y1), sd(y2)),
                       N=nrow(data))
     if(factor.rev) {
       formula = as.formula(Glue("Pair({y[2]}, {y[1]}) ~ 1"))
@@ -1343,24 +1369,27 @@ ttest = function(data, y, x=NULL,
       formula = as.formula(Glue("Pair({y[1]}, {y[2]}) ~ 1"))
       label = paste(y[1], "-", y[2])
     }
-    Y = "Paired"
-    X = ""
-    y1 = data[[y[1]]]
-    y2 = data[[y[2]]]
-    sd.pooled = sd(y1-y2)
+    if(paired.d.type=="dz")
+      sd.pooled = sd(y1-y2)
+    else if(paired.d.type=="dav")
+      sd.pooled = (sd(y1) + sd(y2)) / 2
+    else if(paired.d.type=="drm")
+      sd.pooled = sqrt(sd(y1)^2 + sd(y2)^2 - 2*cor(y1, y2)*sd(y1)*sd(y2)) / sqrt(2*(1 - cor(y1, y2)))
+    else
+      stop("`paired.d.type` must be one of \"dz\", \"dav\", \"drm\".", call.=FALSE)
     mu.BF = test.value
   } else {
     if(is.null(x)) {
-      formula = as.formula(Glue("{y} ~ 1"))
-      nmsd = data.frame(Variable=y,
-                        Mean=mean(data[[y]]),
-                        S.D.=sd(data[[y]]),
-                        N=nrow(data))
-      label = paste(y, "-", test.value)
       Y = y
       X = ""
       y1 = data[[y]]
       y2 = NULL
+      formula = as.formula(Glue("{y} ~ 1"))
+      nmsd = data.frame(Variable=y,
+                        Mean=mean(y1),
+                        S.D.=sd(y1),
+                        N=nrow(data))
+      label = paste(y, "-", test.value)
       sd.pooled = sd(y1)
       mu.BF = test.value
     } else {
@@ -1413,12 +1442,20 @@ ttest = function(data, y, x=NULL,
   Cohen_d = diff/sd.pooled
   LLCI = llci/sd.pooled
   ULCI = ulci/sd.pooled
-  BF = BayesFactor::ttestBF(x=y1, y=y2,
-                            paired=paired,
-                            mu=mu.BF,
-                            nullInterval=nullInterval,
-                            rscale=bayes.prior)
-  BF = BayesFactor::extractBF(BF)
+  try({
+    BF10 = NA
+    Error = NA
+    BF = BayesFactor::ttestBF(x=y1, y=y2,
+                              paired=paired,
+                              mu=mu.BF,
+                              nullInterval=nullInterval,
+                              rscale=bayes.prior)
+    BF = BayesFactor::extractBF(BF)
+    BF10 = BF$bf[1]
+    Error = BF$error[1]
+  }, silent=TRUE)
+  if(is.na(BF10))
+    message("`BayesFactor` package needs to be installed.\n")
   RES = data.frame(
     Y=Y,
     Comparison=X %^% "(" %^% label %^% ")",
@@ -1431,8 +1468,8 @@ ttest = function(data, y, x=NULL,
     Cohen_d=Cohen_d,
     LLCI=LLCI,
     ULCI=ULCI,
-    BF10=BF$bf[1],
-    Error=BF$error[1])
+    BF10=BF10,
+    Error=Error)
   row.names(RES) = RES$Y %^% ": " %^% RES$Comparison
 
   ## Check

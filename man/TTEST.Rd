@@ -9,6 +9,7 @@ TTEST(
   y,
   x = NULL,
   paired = FALSE,
+  paired.d.type = "dz",
   var.equal = TRUE,
   mean.diff = TRUE,
   test.value = 0,
@@ -33,10 +34,26 @@ Multiple variables should be included in a character vector \code{c()}.
 
 Only necessary for independent-samples \emph{t}-test.}
 
-\item{paired}{For paired-samples \emph{t}-test, set it to \code{TRUE}. Default is \code{FALSE}.}
+\item{paired}{For paired-samples \emph{t}-test, set it as \code{TRUE}. Default is \code{FALSE}.}
+
+\item{paired.d.type}{Type of Cohen's \emph{d} for paired-samples \emph{t}-test (see Lakens, 2013).
+
+Default is \code{"dz"}. Options include:
+\describe{
+  \item{\code{"dz"} (\emph{d} for standardized difference)}{
+    Cohen's \eqn{d_{z} = \frac{M_{diff}}{SD_{diff}}}
+  }
+  \item{\code{"dav"} (\emph{d} for average standard deviation)}{
+    Cohen's \eqn{d_{av} = \frac{M_{diff}}{ \frac{SD_{1} + SD_{2}}{2} }}
+  }
+  \item{\code{"drm"} (\emph{d} for repeated measures, corrected for correlation)}{
+    Cohen's \eqn{d_{rm} = \frac{M_{diff} \times \sqrt{2(1 - r_{1,2})}}{
+      \sqrt{SD_{1}^2 + SD_{2}^2 - 2 \times r_{1,2} \times SD_{1} \times SD_{2}} }}
+  }
+}}
 
 \item{var.equal}{If Levene's test indicates a violation of the homogeneity of variance,
-then you should better set this argument to \code{FALSE}. Default is \code{TRUE}.}
+then you should better set this argument as \code{FALSE}. Default is \code{TRUE}.}
 
 \item{mean.diff}{Whether to display results of mean difference and its 95\% CI. Default is \code{TRUE}.}
 
@@ -58,7 +75,8 @@ See details in \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}}.}
 One-sample, independent-samples, and paired-samples \emph{t}-test,
 with both Frequentist and Bayesian approaches.
 The output includes descriptives, \emph{t} statistics,
-mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI, and Bayes factor (BF10).
+mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI,
+and Bayes factor (BF10; \code{BayesFactor} package needs to be installed).
 It also tests the assumption of homogeneity of variance
 and allows users to determine whether variances are equal or not.
 
@@ -153,6 +171,10 @@ TTEST(d2, y=c("A1", "A2", "A3", "A4"), paired=TRUE)
   # and effectsize::cohens_d() offers another method to compute the CI.
 }
 
+}
+\references{
+Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science:
+A practical primer for \emph{t}-tests and ANOVAs. \emph{Frontiers in Psychology, 4}, Article 863.
 }
 \seealso{
 \code{\link{MANOVA}}, \code{\link{EMMEANS}}

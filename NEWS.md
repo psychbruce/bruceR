@@ -1,6 +1,21 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
-# bruceR 0.8.8 (in development)
+# bruceR 0.8.8 (June 2022)
+
+## New Features
+
+-   New `paired.d.type` argument for `TTEST()`: Allow for specifying 3 types of Cohen's *d* for paired-samples *t*-test (`"dz"`, `"dav"`, and `"drm"`). See Lakens (2013) for details.
+    -   `"dz"` (*d* for standardized difference)
+
+        $$\text{Cohen's } d_{z} = \frac{M_{diff}}{SD_{diff}}$$
+
+    -   `"dav"` (*d* for average standard deviation)
+
+        $$\text{Cohen's } d_{av} = \frac{M_{diff}}{\frac{SD_{1} + SD_{2}}{2}}$$
+
+    -   `"drm"` (*d* for repeated measures, corrected for correlation)
+
+        $$\text{Cohen's } d_{rm} = \frac{M_{diff} \times \sqrt{2(1 - r_{1,2})}}{\sqrt{SD_{1}^2 + SD_{2}^2 - 2 \times r_{1,2} \times SD_{1} \times SD_{2}}}$$
 
 ## Bug Fixes
 
