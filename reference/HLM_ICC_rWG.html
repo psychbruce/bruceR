@@ -16,7 +16,7 @@ in multilevel analysis (HLM)."><meta property="og:image" content="https://psychb
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,14 +75,22 @@ in multilevel analysis (HLM).</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>Data frame.</p></dd>
+
+
 <dt>group</dt>
 <dd><p>Grouping variable.</p></dd>
+
+
 <dt>icc.var</dt>
 <dd><p>Key variable for analysis (usually the dependent variable).</p></dd>
+
+
 <dt>rwg.vars</dt>
 <dd><p>Default is <code>icc.var</code>. It can be:</p><ul><li><p>A single variable (<em>single-item</em> measure), then computing rWG.</p></li>
 <li><p>Multiple variables (<em>multi-item</em> measure), then computing rWG(J), where J = the number of items.</p></li>
 </ul></dd>
+
+
 <dt>rwg.levels</dt>
 <dd><p>As \(r_{WG}\)/\(r_{WG(J)}\) compares the actual group variance to the expected random variance (i.e., the variance of uniform distribution, \(\sigma_{EU}^2\)),
 it is required to specify which type of uniform distribution is.</p><ul><li><p>For <em>continuous</em> uniform distribution, \(\sigma_{EU}^2 = (max - min)^2 / 12\).
@@ -92,12 +100,17 @@ it is required to specify which type of uniform distribution is.</p><ul><li><p>F
   Then <code>rwg.levels</code> should be provided (= A in the above formula).
   For example, if the measure is a 5-point Likert scale, you should set <code>rwg.levels=5</code>.</p></li>
 </ul></dd>
+
+
 <dt>digits, nsmall</dt>
 <dd><p>Number of decimal places of output. Default is 3.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Invisibly return a list of results.</p>
+    
+
+<p>Invisibly return a list of results.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -251,7 +264,7 @@ In K. J. Klein &amp; S. W. Kozlowski (Eds.), <em>Multilevel theory, research, an
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

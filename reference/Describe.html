@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,34 +71,57 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>Data frame or numeric vector.</p></dd>
+
+
 <dt>all.as.numeric</dt>
 <dd><p><code>TRUE</code> (default) or <code>FALSE</code>.
 Transform all variables into numeric (continuous).</p></dd>
+
+
 <dt>digits, nsmall</dt>
 <dd><p>Number of decimal places of output. Default is <code>2</code>.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>File name of MS Word (<code>.doc</code>).</p></dd>
+
+
 <dt>plot</dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code> (default).
 Visualize the descriptive statistics using <code><a href="https://ggobi.github.io/ggally/reference/ggpairs.html" class="external-link">GGally::ggpairs()</a></code>.</p></dd>
+
+
 <dt>upper.triangle</dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code> (default).
 Add (scatter) plots to upper triangle (time consuming when sample size is large).</p></dd>
+
+
 <dt>upper.smooth</dt>
 <dd><p><code>"none"</code> (default), <code>"lm"</code>, or <code>"loess"</code>.
 Add fitting lines to scatter plots (if any).</p></dd>
+
+
 <dt>plot.file</dt>
 <dd><p><code>NULL</code> (default, plot in RStudio) or a file name (<code>"xxx.png"</code>).</p></dd>
+
+
 <dt>plot.width</dt>
 <dd><p>Width (in "inch") of the saved plot. Default is <code>8</code>.</p></dd>
+
+
 <dt>plot.height</dt>
 <dd><p>Height (in "inch") of the saved plot. Default is <code>6</code>.</p></dd>
+
+
 <dt>plot.dpi</dt>
 <dd><p>DPI (dots per inch) of the saved plot. Default is <code>500</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Invisibly return a list consisting of
+    
+
+<p>Invisibly return a list consisting of
 (1) a data frame of descriptive statistics and
 (2) a <code>ggplot2</code> object if users set <code>plot=TRUE</code>.</p>
     </div>
@@ -232,7 +255,7 @@ Add fitting lines to scatter plots (if any).</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

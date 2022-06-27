@@ -52,7 +52,7 @@ Users should not take the default output as the only right results and are compl
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,23 +129,33 @@ Users should <em>not</em> take the default output as the only right results and 
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>model</dt>
 <dd><p>The model object returned by <code><a href="MANOVA.html">MANOVA</a></code>.</p></dd>
+
+
 <dt>effect</dt>
 <dd><p>Effect(s) you want to test.
 If set to a character string (e.g., <code>"A"</code>),
 it reports the results of omnibus test or simple main effect.
 If set to a character vector (e.g., <code>c("A", "B")</code>),
 it also reports the results of simple interaction effect.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>Moderator variable(s). Default is <code>NULL</code>.</p></dd>
+
+
 <dt>contrast</dt>
 <dd><p>Contrast method for multiple comparisons.
 Default is <code>"pairwise"</code>.</p>
 <p>Alternatives can be <code>"pairwise"</code> (<code>"revpairwise"</code>),
 <code>"seq"</code> (<code>"consec"</code>), <code>"poly"</code>, <code>"eff"</code>.
 For details, see <code><a href="https://rdrr.io/pkg/emmeans/man/emmc-functions.html" class="external-link">?emmeans::`contrast-methods`</a></code>.</p></dd>
+
+
 <dt>reverse</dt>
 <dd><p>The order of levels to be contrasted.
 Default is <code>TRUE</code> (higher level vs. lower level).</p></dd>
+
+
 <dt>p.adjust</dt>
 <dd><p>Adjustment method of <em>p</em> values for multiple comparisons.
 Default is <code>"bonferroni"</code>.
@@ -155,30 +165,41 @@ For polynomial contrasts, default is <code>"none"</code>.</p>
 <code>"dunnettx"</code>, <code>"sidak"</code>, <code>"scheffe"</code>, <code>"bonferroni"</code>.
 For details, see <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code> and
 <code><a href="https://rdrr.io/pkg/emmeans/man/summary.emmGrid.html" class="external-link">emmeans::summary()</a></code>.</p></dd>
+
+
 <dt>sd.pooled</dt>
 <dd><p>By default, it uses <strong><code>sqrt(MSE)</code></strong> (root mean square error, RMSE)
 as the pooled <em>SD</em> to compute Cohen's <em>d</em>.
 Users may specify this argument as the <em>SD</em> of a reference group,
 or use <code><a href="https://easystats.github.io/effectsize/reference/sd_pooled.html" class="external-link">effectsize::sd_pooled()</a></code> to obtain a pooled <em>SD</em>.
 For an issue about the computation method of Cohen's <em>d</em>, see <em>Disclaimer</em> above.</p></dd>
+
+
 <dt>model.type</dt>
 <dd><p><code>"multivariate"</code> returns the results of pairwise comparisons identical to SPSS,
 which uses the <code>lm</code> (rather than <code>aov</code>) object of the <code>model</code>
 for <code><a href="https://rdrr.io/pkg/emmeans/man/joint_tests.html" class="external-link">emmeans::joint_tests()</a></code> and <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.</p>
 <p><code>"univariate"</code> requires also specifying <code>aov.include=TRUE</code> in <code><a href="MANOVA.html">MANOVA</a></code>
 (not recommended by the <code>afex</code> package; for details, see <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html" class="external-link">afex::aov_ez()</a></code>).</p></dd>
+
+
 <dt>digits, nsmall</dt>
 <dd><p>Number of decimal places of output. Default is <code>3</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The same model object as returned by
+    
+
+<p>The same model object as returned by
 <code><a href="MANOVA.html">MANOVA</a></code> (for recursive use),
 along with a list of tables:
 <code>sim</code> (simple effects),
 <code>emm</code> (estimated marginal means),
-<code>con</code> (contrasts).
-Each <code>EMMEANS(...)</code> appends one list to the returned object.</p>
+<code>con</code> (contrasts).</p>
+
+
+<p>Each <code>EMMEANS(...)</code> appends one list to the returned object.</p>
     </div>
     <div class="section level2">
     <h2 id="interaction-plot-see-examples-below-">Interaction Plot (See Examples Below)<a class="anchor" aria-label="anchor" href="#interaction-plot-see-examples-below-"></a></h2>
@@ -1344,14 +1365,17 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 2.23113e-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 5.60963e-24</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some CIs could not be estimated due to non-finite F, df, or df_error values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Joint Tests of "B":</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Effect "A" df1 df2      F     p      η²p [90% CI of η²p]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       B  A1   2   3 13.500  .032 *   .900 [.219, .962]   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       B  A2   2                         NA [   NA,    NA]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Effect "A" df1 df2      F     p      η²p [90% CI of η²p]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  B             A1   2   3 13.500  .032 *   .900 [.219, .962]   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  B             A2   2                         NA [   NA,    NA]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  (confounded)  A2   3                         NA [   NA,    NA]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -2556,7 +2580,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

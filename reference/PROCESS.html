@@ -128,7 +128,7 @@ the results of mediation analyses are unlikely to be exactly the same across dif
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -259,9 +259,13 @@ the results of mediation analyses are <em>unlikely</em> to be exactly the same a
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>Data frame.</p></dd>
+
+
 <dt>y, x</dt>
 <dd><p>Variable name of outcome (Y) and predictor (X).</p>
 <p>It supports both continuous (numeric) and dichotomous (factor) variables.</p></dd>
+
+
 <dt>meds</dt>
 <dd><p>Variable name(s) of mediator(s) (M).
 Use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to combine multiple mediators.</p>
@@ -270,6 +274,8 @@ Use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a><
 or 2~4 mediators in serial.</p>
 <p>* Order matters when <code>med.type="serial"</code>
 (PROCESS Model 6: serial mediation).</p></dd>
+
+
 <dt>mods</dt>
 <dd><p>Variable name(s) of 0~2 moderator(s) (W).
 Use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to combine multiple moderators.</p>
@@ -279,44 +285,62 @@ continuous (numeric), dichotomous (factor), and multicategorical (factor).</p>
 (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).</p>
 <p>** Do not set this argument when <code>med.type="serial"</code>
 (PROCESS Model 6).</p></dd>
+
+
 <dt>covs</dt>
 <dd><p>Variable name(s) of covariate(s) (i.e., control variables).
 Use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to combine multiple covariates.
 It supports all types of (and an infinite number of) variables.</p></dd>
+
+
 <dt>clusters</dt>
 <dd><p>HLM (multilevel) cluster(s):
 e.g., <code>"School"</code>, <code>c("Prov", "City")</code>, <code>c("Sub", "Item")</code>.</p></dd>
+
+
 <dt>hlm.re.m, hlm.re.y</dt>
 <dd><p>HLM (multilevel) random effect term of M model and Y model.
 By default, it converts <code>clusters</code> to <code><a href="https://rdrr.io/pkg/lme4/man/lme4-package.html" class="external-link">lme4</a></code> syntax of random intercepts:
 e.g., <code>"(1 | School)"</code> or <code>"(1 | Sub) + (1 | Item)"</code>.</p>
 <p>You may specify these arguments to include more complex terms:
 e.g., random slopes <code>"(X | School)"</code>, or 3-level random effects <code>"(1 | Prov/City)"</code>.</p></dd>
+
+
 <dt>hlm.type</dt>
 <dd><p>HLM (multilevel) mediation type (levels of "X-M-Y"):
 <code>"1-1-1"</code> (default),
 <code>"2-1-1"</code> (indeed the same as <code>"1-1-1"</code> in a mixed model),
 or <code>"2-2-1"</code> (currently <em>not fully supported</em>, as limited by the <code><a href="https://rdrr.io/pkg/mediation/man/mediate.html" class="external-link">mediation</a></code> package).
 In most cases, no need to set this argument.</p></dd>
+
+
 <dt>med.type</dt>
 <dd><p>Type of mediator:
 <code>"parallel"</code> (default) or <code>"serial"</code>
 (only relevant to PROCESS Model 6).
 Partial matches of <code>"p"</code> or <code>"s"</code> also work.
 In most cases, no need to set this argument.</p></dd>
+
+
 <dt>mod.type</dt>
 <dd><p>Type of moderator:
 <code>"2-way"</code> (default) or <code>"3-way"</code>
 (relevant to PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
 Partial matches of <code>"2"</code> or <code>"3"</code> also work.</p></dd>
+
+
 <dt>mod.path</dt>
 <dd><p>Which path(s) do the moderator(s) influence?
 <code>"x-y"</code>, <code>"x-m"</code>, <code>"m-y"</code>, or any combination of them
 (use <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to combine), or <code>"all"</code> (i.e., all of them).
 No default value.</p></dd>
+
+
 <dt>cov.path</dt>
 <dd><p>Which path(s) do the control variable(s) influence?
 <code>"y"</code>, <code>"m"</code>, or <code>"both"</code> (default).</p></dd>
+
+
 <dt>mod1.val, mod2.val</dt>
 <dd><p>By default (<code>NULL</code>), it uses
 <strong>Mean +/- SD</strong> of a continuous moderator (numeric) or
@@ -324,6 +348,8 @@ No default value.</p></dd>
 perform simple slope analyses and/or conditional mediation analyses.
 You may manually specify a vector of certain values: e.g.,
 <code>mod1.val=c(1, 3, 5)</code> or <code>mod1.val=c("A", "B", "C")</code>.</p></dd>
+
+
 <dt>ci</dt>
 <dd><p>Method for estimating the standard error (SE) and
 95% confidence interval (CI) of indirect effect(s).
@@ -344,10 +370,14 @@ Default is <code>"boot"</code> for (generalized) linear models or
 </dl><p>* Note that these methods <em>never</em> apply to the estimates of simple slopes.
 You <em>should not</em> report the 95% CIs of simple slopes as Bootstrap or Monte Carlo CIs,
 because they are just standard CIs without any resampling method.</p></dd>
+
+
 <dt>nsim</dt>
 <dd><p>Number of simulation samples (bootstrap resampling or Monte Carlo simulation)
 for estimating SE and 95% CI. Default is <code>100</code> for running examples faster.
 In formal analyses, however, <strong><code>nsim=1000</code> (or larger)</strong> is strongly suggested!</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>Random seed for obtaining reproducible results.
 Default is <code>NULL</code>.
@@ -360,22 +390,33 @@ However, even if you set the same seed number, it is unlikely to
 get exactly the same results across different R packages
 (e.g., <code><a href="https://rdrr.io/pkg/lavaan/man/lavaan-class.html" class="external-link">lavaan</a></code> vs. <code><a href="https://rdrr.io/pkg/mediation/man/mediate.html" class="external-link">mediation</a></code>)
 and software (e.g., SPSS, Mplus, R, jamovi).</p></dd>
+
+
 <dt>center</dt>
 <dd><p>Centering numeric (continuous) predictors? Default is <code>TRUE</code> (suggested).</p></dd>
+
+
 <dt>std</dt>
 <dd><p>Standardizing variables to get standardized coefficients? Default is <code>FALSE</code>.
 If <code>TRUE</code>, it will standardize all numeric (continuous) variables
 before building regression models.
 However, it is <em>not suggested</em> to set <code>std=TRUE</code> for <em>generalized</em> linear (mixed) models.</p></dd>
+
+
 <dt>digits, nsmall</dt>
 <dd><p>Number of decimal places of output. Default is <code>3</code>.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>File name of MS Word (<code>.doc</code>).
 Currently, only regression model summary can be saved.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Invisibly return a list of results:</p><dl><dt><code>process.id</code></dt>
+    
+
+<p>Invisibly return a list of results:</p><dl><dt><code>process.id</code></dt>
 <dd><p>PROCESS model number.</p></dd>
 
   <dt><code>process.type</code></dt>
@@ -1784,7 +1825,7 @@ The need to report and test component paths.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

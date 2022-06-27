@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,24 +65,35 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>model</dt>
 <dd><p>A model fitted with <code>lm</code> or <code>glm</code> function.</p></dd>
+
+
 <dt>robust</dt>
 <dd><p>[Only for <code>lm</code> and <code>glm</code>]
 <code>FALSE</code> (default), <code>TRUE</code> (then the default is <code>"HC1"</code>),
 <code>"HC0"</code>, <code>"HC1"</code>, <code>"HC2"</code>, <code>"HC3"</code>, <code>"HC4"</code>, <code>"HC4m"</code>, or <code>"HC5"</code>.
 It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
-For details, see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code> and <code><a href="https://jtools.jacob-long.com/reference/summ.lm.html" class="external-link">?jtools::summ.lm</a></code>.</p>
+For details, see <code><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html" class="external-link">?sandwich::vcovHC</a></code> and <code><a href="https://jtools.jacob-long.com/reference/summ.lm.html" class="external-link">?jtools::summ.lm</a></code>.</p>
 <p>*** <code>"HC1"</code> is the default of Stata, whereas <code>"HC3"</code> is the default suggested by the <code>sandwich</code> package.</p></dd>
+
+
 <dt>cluster</dt>
 <dd><p>[Only for <code>lm</code> and <code>glm</code>]
 Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.</p></dd>
+
+
 <dt>digits, nsmall</dt>
 <dd><p>Number of decimal places of output. Default is 3.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments. You may re-define <code>formula</code>, <code>data</code>, or <code>family</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>No return value.</p>
+    
+
+<p>No return value.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -262,7 +273,7 @@ Cluster-robust standard errors are computed if cluster is set to the name of the
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

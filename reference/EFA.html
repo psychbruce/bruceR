@@ -24,7 +24,7 @@ varrange: use the starting and stopping positions of variables.
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,22 +97,34 @@ performing either Principal Component Analysis (PCA) or Exploratory Factor Analy
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>Data frame.</p></dd>
+
+
 <dt>var</dt>
 <dd><p><strong>[Option 1]</strong>
 The common part across the variables. e.g., <code>"RSES"</code></p></dd>
+
+
 <dt>items</dt>
 <dd><p><strong>[Option 1]</strong>
 The unique part across the variables. e.g., <code>1:10</code></p></dd>
+
+
 <dt>vars</dt>
 <dd><p><strong>[Option 2]</strong>
 A character vector specifying the variables. e.g., <code>c("X1", "X2", "X3", "X4", "X5")</code></p></dd>
+
+
 <dt>varrange</dt>
 <dd><p><strong>[Option 3]</strong>
 A character string specifying the positions ("starting:stopping") of variables. e.g., <code>"A1:E5"</code></p></dd>
+
+
 <dt>rev</dt>
 <dd><p>[Optional] Variables that need to be reversed. It can be
 (1) a character vector specifying the reverse-scoring variables (recommended), or
 (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).</p></dd>
+
+
 <dt>method</dt>
 <dd><p>Extraction method.</p><ul><li><p><code>"pca"</code> - Principal Component Analysis (default)</p></li>
 <li><p><code>"pa"</code> - Principal Axis Factor Analysis</p></li>
@@ -124,6 +136,8 @@ A character string specifying the positions ("starting:stopping") of variables. 
 <li><p><code>"gls"</code> - Generalized Least Squares Factor Analysis</p></li>
 <li><p><code>"alpha"</code> - Alpha Factor Analysis (Kaiser &amp; Coffey, 1965)</p></li>
 </ul></dd>
+
+
 <dt>rotation</dt>
 <dd><p>Rotation method.</p><ul><li><p><code>"none"</code> - None (not suggested)</p></li>
 <li><p><code>"varimax"</code> - Varimax (default)</p></li>
@@ -132,34 +146,57 @@ A character string specifying the positions ("starting:stopping") of variables. 
 <li><p><code>"quartimax"</code> - Quartimax</p></li>
 <li><p><code>"equamax"</code> - Equamax</p></li>
 </ul></dd>
+
+
 <dt>nfactors</dt>
 <dd><p>How to determine the number of factors/components?</p><ul><li><p><code>"eigen"</code> - based on eigenvalue (&gt; minimum eigenvalue) (default)</p></li>
 <li><p><code>"parallel"</code> - based on parallel analysis</p></li>
 <li><p>(any number &gt;= 1) - user-defined fixed number</p></li>
 </ul></dd>
+
+
 <dt>sort.loadings</dt>
 <dd><p>Sort factor/component loadings by size? Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>hide.loadings</dt>
 <dd><p>A number (0~1) for hiding absolute factor/component loadings below this value.
 Default is <code>0</code> (does not hide any loading).</p></dd>
+
+
 <dt>plot.scree</dt>
 <dd><p>Display the scree plot? Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>kaiser</dt>
 <dd><p>Do the Kaiser normalization (as in SPSS)? Default is <code>TRUE</code>.</p></dd>
+
+
 <dt>max.iter</dt>
 <dd><p>Maximum number of iterations for convergence. Default is <code>25</code> (the same as in SPSS).</p></dd>
+
+
 <dt>min.eigen</dt>
 <dd><p>Minimum eigenvalue (used if <code>nfactors="eigen"</code>). Default is <code>1</code>.</p></dd>
+
+
 <dt>digits, nsmall</dt>
 <dd><p>Number of decimal places of output. Default is <code>3</code>.</p></dd>
+
+
 <dt>file</dt>
 <dd><p>File name of MS Word (<code>.doc</code>).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments passed from <code>PCA()</code> to <code>EFA()</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list of results:</p><dl><dt><code>result</code></dt>
+    
+
+<p>A list of results:</p><dl><dt><code>result</code></dt>
 <dd><p>The R object returned from <code><a href="https://rdrr.io/pkg/psych/man/principal.html" class="external-link">psych::principal()</a></code> or <code><a href="https://rdrr.io/pkg/psych/man/fa.html" class="external-link">psych::fa()</a></code></p></dd>
 
   <dt><code>result.kaiser</code></dt>
@@ -482,7 +519,7 @@ The other rotation methods may produce results slightly different from SPSS.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

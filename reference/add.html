@@ -22,7 +22,7 @@ See examples below for the usage and convenience."><meta property="og:image" con
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,6 +79,8 @@ See examples below for the usage and convenience.</p>
     <dl><dt>data</dt>
 <dd><p>A <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>
 (preferred).</p></dd>
+
+
 <dt>expr</dt>
 <dd><p>R expression(s) enclosed in <code>{...}</code> to compute variables.</p>
 <p>Passing to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>:
@@ -87,24 +89,35 @@ See examples below for the usage and convenience.</p>
 such that newly created variables are available immediately.
 This is an advantage of <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></code> and
 has been implemented here for <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>.</p></dd>
+
+
 <dt>when</dt>
 <dd><p>[Optional] Compute for which rows or rows meeting what condition(s)?</p>
 <p>Passing to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>:
 <code>DT[when, , ]</code></p></dd>
+
+
 <dt>by</dt>
 <dd><p>[Optional] Compute by what group(s)?</p>
 <p>Passing to <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>:
 <code>DT[ , , by]</code></p></dd>
+
+
 <dt>drop</dt>
 <dd><p>Drop existing variables and return only new variables?
 Default is <code>FALSE</code>, which returns all variables.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>add()</code> returns a new
+    
+
+<p><code>add()</code> returns a new
 <code><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>,
-with the raw data unchanged.
-<code>added()</code> returns nothing and has already changed the raw data.</p>
+with the raw data unchanged.</p>
+
+
+<p><code>added()</code> returns nothing and has already changed the raw data.</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -365,7 +378,7 @@ with the raw data unchanged.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

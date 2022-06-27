@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.7-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,40 +77,71 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>formula</dt>
 <dd><p>Model formula like <code>y ~ x</code>.</p></dd>
+
+
 <dt>data</dt>
 <dd><p>Data frame.</p></dd>
+
+
 <dt>lag.max</dt>
 <dd><p>Maximum time lag. Default is <code>30</code>.</p></dd>
+
+
 <dt>sig.level</dt>
 <dd><p>Significance level. Default is <code>0.05</code>.</p></dd>
+
+
 <dt>xbreaks</dt>
 <dd><p>X-axis breaks.</p></dd>
+
+
 <dt>ybreaks</dt>
 <dd><p>Y-axis breaks.</p></dd>
+
+
 <dt>ylim</dt>
 <dd><p>Y-axis limits. Default is <code>NULL</code> to automatically estimate.</p></dd>
+
+
 <dt>alpha.ns</dt>
 <dd><p>Color transparency (opacity: 0~1) for non-significant values.
 Default is <code>1</code> for no transparency (i.e., opaque color).</p></dd>
+
+
 <dt>pos.color</dt>
 <dd><p>Color for positive values. Default is <code>"black"</code>.</p></dd>
+
+
 <dt>neg.color</dt>
 <dd><p>Color for negative values. Default is <code>"black"</code>.</p></dd>
+
+
 <dt>ci.color</dt>
 <dd><p>Color for upper and lower bounds of significant values.
 Default is <code>"blue"</code>.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>Plot title. Default is an illustration of the formula.</p></dd>
+
+
 <dt>subtitle</dt>
 <dd><p>Plot subtitle.</p></dd>
+
+
 <dt>xlab</dt>
 <dd><p>X-axis title. Default is <code>"Lag"</code>.</p></dd>
+
+
 <dt>ylab</dt>
 <dd><p>Y-axis title. Default is <code>"Cross-Correlation"</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>gg</code> object, which you can further modify using
+    
+
+<p>A <code>gg</code> object, which you can further modify using
 <code>ggplot2</code> syntax and save using <code>ggsave()</code>.</p>
     </div>
     <div class="section level2">
@@ -145,7 +176,7 @@ shifts in a predictor <em>precede</em> shifts in an outcome.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
