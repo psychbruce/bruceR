@@ -20,7 +20,7 @@ the square root of mean variance of all paired differences of the residuals of r
 Disclaimer:
 There is substantial disagreement on the appropriate pooled SD to use in computing the effect size.
 For alternative methods, see emmeans::eff_size() and effectsize::t_to_d().
-Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Nunito-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Nunito%20Sans-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
+Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.2/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
 including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 with p values adjusted for factors with &amp;gt;= 3 levels.
@@ -52,7 +52,7 @@ Users should not take the default output as the only right results and are compl
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,18 +111,18 @@ Users should <em>not</em> take the default output as the only right results and 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EMMEANS</span><span class="op">(</span>
-  <span class="va">model</span>,
-  effect <span class="op">=</span> <span class="cn">NULL</span>,
-  by <span class="op">=</span> <span class="cn">NULL</span>,
-  contrast <span class="op">=</span> <span class="st">"pairwise"</span>,
-  reverse <span class="op">=</span> <span class="cn">TRUE</span>,
-  p.adjust <span class="op">=</span> <span class="st">"bonferroni"</span>,
-  sd.pooled <span class="op">=</span> <span class="cn">NULL</span>,
-  model.type <span class="op">=</span> <span class="st">"multivariate"</span>,
-  digits <span class="op">=</span> <span class="fl">3</span>,
-  nsmall <span class="op">=</span> <span class="va">digits</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">EMMEANS</span><span class="op">(</span></span>
+<span>  <span class="va">model</span>,</span>
+<span>  effect <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  contrast <span class="op">=</span> <span class="st">"pairwise"</span>,</span>
+<span>  reverse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  p.adjust <span class="op">=</span> <span class="st">"bonferroni"</span>,</span>
+<span>  sd.pooled <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  model.type <span class="op">=</span> <span class="st">"multivariate"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nsmall <span class="op">=</span> <span class="va">digits</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -259,9 +259,9 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#### Between-Subjects Design ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">between.1</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#### Between-Subjects Design ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">between.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1     6</span>
@@ -295,8 +295,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30 4    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31 4    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32 4    11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -384,8 +384,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, p.adjust<span class="op">=</span><span class="st">"tukey"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, p.adjust<span class="op">=</span><span class="st">"tukey"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -473,8 +473,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, contrast<span class="op">=</span><span class="st">"seq"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, contrast<span class="op">=</span><span class="st">"seq"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -559,8 +559,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, contrast<span class="op">=</span><span class="st">"poly"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, contrast<span class="op">=</span><span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -644,8 +644,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">between.2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">between.2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A B SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 1     6</span>
@@ -671,9 +671,9 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22 2 3    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23 2 3    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 2 3    11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -822,9 +822,9 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co">## How to create an interaction plot using `emmeans::emmip()`?</span></span>
-<span class="r-in"><span class="co">## See help page: ?emmeans::emmip()</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co">## How to create an interaction plot using `emmeans::emmip()`?</span></span></span>
+<span class="r-in"><span><span class="co">## See help page: ?emmeans::emmip()</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -866,16 +866,16 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: SCORE       0.605   5  18  .697    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">A</span> <span class="op">|</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">A</span> <span class="op">|</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="EMMEANS-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">B</span> <span class="op">|</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">B</span> <span class="op">|</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="EMMEANS-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">B</span> <span class="op">~</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">B</span> <span class="op">~</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="EMMEANS-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">A</span> <span class="op">~</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">A</span> <span class="op">~</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="EMMEANS-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">between.3</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">between.3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A B C SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 1 1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 1 1     6</span>
@@ -909,10 +909,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30 2 2 2    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31 2 2 2    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32 2 2 2    11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.3</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">between.3</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1137,13 +1137,13 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co">## Just to name a few...</span></span>
-<span class="r-in"><span class="co">## You may test other combinations...</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Within-Subjects Design ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">within.1</span></span>
+<span class="r-in"><span><span class="co">## Just to name a few...</span></span></span>
+<span class="r-in"><span><span class="co">## You may test other combinations...</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Within-Subjects Design ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">within.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID A1 A2 A3 A4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 S1  3  4  8  9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 S2  6  6  9  8</span>
@@ -1153,9 +1153,9 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 S6  7  5  6 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 S7  5  3  7 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 S8  2  3  6 11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="st">"A1:A4"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="st">"A1:A4"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="st">"A"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1:A4" is matched to variables:</span>
@@ -1249,17 +1249,17 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">within.2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">within.2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID A1B1 A1B2 A1B3 A2B1 A2B2 A2B3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 S1    3    4    5    4    8   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 S2    6    6    7    5    9   13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 S3    4    4    5    3    8   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 S4    3    2    2    3    7   11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.2</span>, dvs<span class="op">=</span><span class="st">"A1B1:A2B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span>  <span class="co"># singular error matrix</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.2</span>, dvs<span class="op">=</span><span class="st">"A1B1:A2B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span>  <span class="co"># singular error matrix</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1B1:A2B3" is matched to variables:</span>
@@ -1366,7 +1366,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 2.23113e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 5.60963e-24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 2.23113e-17</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some CIs could not be estimated due to non-finite F, df, or df_error values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Joint Tests of "B":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
@@ -1374,7 +1374,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  B             A1   2   3 13.500  .032 *   .900 [.219, .962]   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  B             A2   2                         NA [   NA,    NA]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  (confounded)  A2   3                         NA [   NA,    NA]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  (confounded)  A2   2                         NA [   NA,    NA]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
@@ -1411,22 +1411,22 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># :::::::::::::::::::::::::::::::::::::::</span></span>
-<span class="r-in"><span class="co"># This would produce a WARNING because of</span></span>
-<span class="r-in"><span class="co"># the linear dependence of A2B2 and A2B3.</span></span>
-<span class="r-in"><span class="co"># See: Corr(within.2[c("A2B2", "A2B3")])</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">within.3</span></span>
+<span class="r-in"><span><span class="co"># :::::::::::::::::::::::::::::::::::::::</span></span></span>
+<span class="r-in"><span><span class="co"># This would produce a WARNING because of</span></span></span>
+<span class="r-in"><span><span class="co"># the linear dependence of A2B2 and A2B3.</span></span></span>
+<span class="r-in"><span><span class="co"># See: Corr(within.2[c("A2B2", "A2B3")])</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">within.3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID A1B1C1 A1B1C2 A1B2C1 A1B2C2 A2B1C1 A2B1C2 A2B2C1 A2B2C2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 S1      3      5      4      4      8      5      9     12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 S2      6      7      6      5      9      6      8     13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 S3      4      5      4      3      8      7      8     12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 S4      3      2      2      3      7      6      7     11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.3</span>, dvs<span class="op">=</span><span class="st">"A1B1C1:A2B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)C(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">within.3</span>, dvs<span class="op">=</span><span class="st">"A1B1C1:A2B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)C(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1B1C1:A2B2C2" is matched to variables:</span>
@@ -1531,6 +1531,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">------ EMMEANS (effect = "A" &amp; "B") ------</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 1.67575e-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 3.46945e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Joint Tests of "A" &amp; "B":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Effect "C" df1 df2      F     p     η²p [90% CI of η²p]</span>
@@ -1651,13 +1655,13 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co">## Just to name a few...</span></span>
-<span class="r-in"><span class="co">## You may test other combinations...</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Mixed Design ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mixed.2_1b1w</span></span>
+<span class="r-in"><span><span class="co">## Just to name a few...</span></span></span>
+<span class="r-in"><span><span class="co">## You may test other combinations...</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Mixed Design ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mixed.2_1b1w</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A B1 B2 B3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1  3  4  5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1  6  6  7</span>
@@ -1667,10 +1671,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 2  5  9 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 2  3  8 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 2  3  7 11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">mixed.2_1b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span>, sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">mixed.2_1b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span>, sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B3" is matched to variables:</span>
@@ -1832,8 +1836,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mixed.3_1b2w</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mixed.3_1b2w</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A B1C1 B1C2 B2C1 B2C2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1    3    5    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1    6    7    6    5</span>
@@ -1843,11 +1847,11 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 2    9    6    8   13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 2    8    7    8   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 2    7    6    7   11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">mixed.3_1b2w</span>, dvs<span class="op">=</span><span class="st">"B1C1:B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)C(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">mixed.3_1b2w</span>, dvs<span class="op">=</span><span class="st">"B1C1:B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)C(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1C1:B2C2" is matched to variables:</span>
@@ -2079,10 +2083,10 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co">## Just to name a few...</span></span>
-<span class="r-in"><span class="co">## You may test other combinations...</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mixed.3_2b1w</span></span>
+<span class="r-in"><span><span class="co">## Just to name a few...</span></span></span>
+<span class="r-in"><span><span class="co">## You may test other combinations...</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mixed.3_2b1w</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A C B1 B2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 1  3  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 1  6  6</span>
@@ -2100,12 +2104,12 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14 2 2  6 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15 2 2  7 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 2 2  6 11</span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">mixed.3_2b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span>, within<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">mixed.3_2b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span>, within<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"B"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"A"</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"C"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"B"</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B2" is matched to variables:</span>
@@ -2387,19 +2391,19 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co">## Just to name a few...</span></span>
-<span class="r-in"><span class="co">## You may test other combinations...</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Other Examples ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">air</span> <span class="op">=</span> <span class="va">airquality</span></span>
-<span class="r-in"><span class="va">air</span><span class="op">$</span><span class="va">Day.1or2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">air</span><span class="op">$</span><span class="va">Day</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span>levels<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"odd"</span>, <span class="st">"even"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">air</span>, dv<span class="op">=</span><span class="st">"Temp"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Month"</span>, <span class="st">"Day.1or2"</span><span class="op">)</span>,</span>
-<span class="r-in">       covariate<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Solar.R"</span>, <span class="st">"Wind"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"Month"</span>, contrast<span class="op">=</span><span class="st">"seq"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"Month"</span>, by<span class="op">=</span><span class="st">"Day.1or2"</span>, contrast<span class="op">=</span><span class="st">"poly"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co">## Just to name a few...</span></span></span>
+<span class="r-in"><span><span class="co">## You may test other combinations...</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Other Examples ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">air</span> <span class="op">=</span> <span class="va">airquality</span></span></span>
+<span class="r-in"><span><span class="va">air</span><span class="op">$</span><span class="va">Day.1or2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">air</span><span class="op">$</span><span class="va">Day</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fl">2</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span>levels<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"odd"</span>, <span class="st">"even"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="MANOVA.html">MANOVA</a></span><span class="op">(</span><span class="va">air</span>, dv<span class="op">=</span><span class="st">"Temp"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Month"</span>, <span class="st">"Day.1or2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       covariate<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Solar.R"</span>, <span class="st">"Wind"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"Month"</span>, contrast<span class="op">=</span><span class="st">"seq"</span><span class="op">)</span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">EMMEANS</span><span class="op">(</span><span class="st">"Month"</span>, by<span class="op">=</span><span class="st">"Day.1or2"</span>, contrast<span class="op">=</span><span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Numerical variables NOT centered on 0 (i.e., likely bogus results): NA, Wind</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Missing values for following ID(s):</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> 5, 6, 11, 27, 96, 97, 98</span>
@@ -2568,7 +2572,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You are completely responsible for setting `sd.pooled`.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">You might also use `effectsize::t_to_d()` to compute d.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -2580,7 +2584,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>

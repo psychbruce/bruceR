@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-06-27T05:10Z
+last_built: 2022-08-11T16:43Z
 urls:
   reference: https://psychbruce.github.io/bruceR/reference
   article: https://psychbruce.github.io/bruceR/articles

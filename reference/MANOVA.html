@@ -34,7 +34,7 @@ MANOVA(data=, subID=, dv=, between=, within=, ...)
   
 
 
-"><title>Multi-factor ANOVA. — MANOVA • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Nunito-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Nunito%20Sans-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-factor ANOVA. — MANOVA"><meta property="og:description" content="Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
+"><title>Multi-factor ANOVA. — MANOVA • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.2/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-factor ANOVA. — MANOVA"><meta property="og:description" content="Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
 with and without covariates (ANCOVA).
 This function is based on and extends afex::aov_ez().
 You only need to specify the data, dependent variable(s), and factors
@@ -80,7 +80,7 @@ MANOVA(data=, subID=, dv=, between=, within=, ...)
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,22 +151,22 @@ In addition to partial \(\eta^2\), it also reports generalized \(\eta^2\), follo
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">MANOVA</span><span class="op">(</span>
-  <span class="va">data</span>,
-  subID <span class="op">=</span> <span class="cn">NULL</span>,
-  dv <span class="op">=</span> <span class="cn">NULL</span>,
-  dvs <span class="op">=</span> <span class="cn">NULL</span>,
-  dvs.pattern <span class="op">=</span> <span class="cn">NULL</span>,
-  between <span class="op">=</span> <span class="cn">NULL</span>,
-  within <span class="op">=</span> <span class="cn">NULL</span>,
-  covariate <span class="op">=</span> <span class="cn">NULL</span>,
-  ss.type <span class="op">=</span> <span class="st">"III"</span>,
-  sph.correction <span class="op">=</span> <span class="st">"none"</span>,
-  aov.include <span class="op">=</span> <span class="cn">FALSE</span>,
-  digits <span class="op">=</span> <span class="fl">3</span>,
-  nsmall <span class="op">=</span> <span class="va">digits</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">MANOVA</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  subID <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dv <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dvs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dvs.pattern <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  between <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  within <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  covariate <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ss.type <span class="op">=</span> <span class="st">"III"</span>,</span>
+<span>  sph.correction <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  aov.include <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nsmall <span class="op">=</span> <span class="va">digits</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -283,9 +283,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Olejnik, S., &amp; Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
-<em>Psychological Methods, 8</em>(4), 434-447.</p>
+<em>Psychological Methods, 8</em>(4), 434--447.</p>
 <p>Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
-<em>Psychological Methods, 9</em>(2), 164-182.</p>
+<em>Psychological Methods, 9</em>(2), 164--182.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -294,9 +294,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#### Between-Subjects Design ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">between.1</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#### Between-Subjects Design ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">between.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1     6</span>
@@ -330,7 +330,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30 4    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31 4    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32 4    11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.1</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -368,8 +368,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: SCORE       3.235   3  28  .037 *  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">between.2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">between.2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A B SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 1     6</span>
@@ -395,7 +395,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22 2 3    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23 2 3    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 2 3    11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -437,8 +437,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: SCORE       0.605   5  18  .697    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">between.3</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">between.3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A B C SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 1 1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 1 1     6</span>
@@ -472,7 +472,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30 2 2 2    13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31 2 2 2    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32 2 2 2    11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.3</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.3</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -520,10 +520,10 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: SCORE       0.668   7  24  .697    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## How to create an interaction plot using `emmeans::emmip()`?</span></span>
-<span class="r-in"><span class="co">## See help page for its usage: ?emmeans::emmip()</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">=</span> <span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## How to create an interaction plot using `emmeans::emmip()`?</span></span></span>
+<span class="r-in"><span><span class="co">## See help page for its usage: ?emmeans::emmip()</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">=</span> <span class="fu">MANOVA</span><span class="op">(</span><span class="va">between.2</span>, dv<span class="op">=</span><span class="st">"SCORE"</span>, between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Between-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -565,19 +565,19 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: SCORE       0.605   5  18  .697    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">A</span> <span class="op">|</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">A</span> <span class="op">|</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="MANOVA-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">B</span> <span class="op">|</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="op">~</span> <span class="va">B</span> <span class="op">|</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="MANOVA-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">B</span> <span class="op">~</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">B</span> <span class="op">~</span> <span class="va">A</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="MANOVA-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">A</span> <span class="op">~</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">emmip</span><span class="op">(</span><span class="va">m</span>, <span class="va">A</span> <span class="op">~</span> <span class="va">B</span>, CIs<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="MANOVA-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Within-Subjects Design ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">within.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Within-Subjects Design ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">within.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID A1 A2 A3 A4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 S1  3  4  8  9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 S2  6  6  9  8</span>
@@ -587,8 +587,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 S6  7  5  6 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 S7  5  3  7 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 S8  2  3  6 11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="st">"A1:A4"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="st">"A1:A4"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="st">"A"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1:A4" is matched to variables:</span>
@@ -633,9 +633,9 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> A       0.1899  .095 .  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co">## the same:</span></span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A1"</span>, <span class="st">"A2"</span>, <span class="st">"A3"</span>, <span class="st">"A4"</span><span class="op">)</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="st">"MyFactor"</span><span class="op">)</span>  <span class="co"># renamed the within-subjects factor</span></span>
+<span class="r-in"><span><span class="co">## the same:</span></span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.1</span>, dvs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A1"</span>, <span class="st">"A2"</span>, <span class="st">"A3"</span>, <span class="st">"A4"</span><span class="op">)</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="st">"MyFactor"</span><span class="op">)</span>  <span class="co"># renamed the within-subjects factor</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">====== ANOVA (Within-Subjects Design) ======</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -676,15 +676,15 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> MyFactor       0.1899  .095 .  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">within.2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">within.2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID A1B1 A1B2 A1B3 A2B1 A2B2 A2B3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 S1    3    4    5    4    8   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 S2    6    6    7    5    9   13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 S3    4    4    5    3    8   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 S4    3    2    2    3    7   11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.2</span>, dvs<span class="op">=</span><span class="st">"A1B1:A2B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.2</span>, dvs<span class="op">=</span><span class="st">"A1B1:A2B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1B1:A2B3" is matched to variables:</span>
@@ -734,15 +734,15 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> A * B       0.2491  .249    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">within.3</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">within.3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID A1B1C1 A1B1C2 A1B2C1 A1B2C2 A2B1C1 A2B1C2 A2B2C1 A2B2C2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 S1      3      5      4      4      8      5      9     12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 S2      6      7      6      5      9      6      8     13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 S3      4      5      4      3      8      7      8     12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 S4      3      2      2      3      7      6      7     11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.3</span>, dvs<span class="op">=</span><span class="st">"A1B1C1:A2B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)C(.)"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">within.3</span>, dvs<span class="op">=</span><span class="st">"A1B1C1:A2B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"A(.)B(.)C(.)"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="A1B1C1:A2B2C2" is matched to variables:</span>
@@ -793,11 +793,11 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mauchly’s Test of Sphericity:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The repeated measures have only two levels. The assumption of sphericity is always met.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Mixed Design ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mixed.2_1b1w</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Mixed Design ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mixed.2_1b1w</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A B1 B2 B3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1  3  4  5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1  6  6  7</span>
@@ -807,8 +807,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 2  5  9 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 2  3  8 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 2  3  7 11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.2_1b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.2_1b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B3" is matched to variables:</span>
@@ -866,8 +866,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">The sphericity assumption is violated.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">You may specify: sph.correction="GG" (or ="HF")</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.2_1b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span>, sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.2_1b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B3"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="st">"B"</span>, sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B3" is matched to variables:</span>
@@ -924,8 +924,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> A * B       0.1574  .010 ** </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mixed.3_1b2w</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mixed.3_1b2w</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A B1C1 B1C2 B2C1 B2C2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 1    3    5    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 1    6    7    6    5</span>
@@ -935,8 +935,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 2    9    6    8   13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 2    8    7    8   12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 2    7    6    7   11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.3_1b2w</span>, dvs<span class="op">=</span><span class="st">"B1C1:B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)C(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.3_1b2w</span>, dvs<span class="op">=</span><span class="st">"B1C1:B2C2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)C(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="st">"A"</span>, within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1C1:B2C2" is matched to variables:</span>
@@ -994,8 +994,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mauchly’s Test of Sphericity:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The repeated measures have only two levels. The assumption of sphericity is always met.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">mixed.3_2b1w</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mixed.3_2b1w</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A C B1 B2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 1  3  4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  1 1  6  6</span>
@@ -1013,8 +1013,8 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14 2 2  6 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15 2 2  7 12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 16 2 2  6 11</span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.3_2b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span>, within<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">mixed.3_2b1w</span>, dvs<span class="op">=</span><span class="st">"B1:B2"</span>, dvs.pattern<span class="op">=</span><span class="st">"B(.)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"C"</span><span class="op">)</span>, within<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="B1:B2" is matched to variables:</span>
@@ -1070,17 +1070,17 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mauchly’s Test of Sphericity:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> The repeated measures have only two levels. The assumption of sphericity is always met.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Other Examples ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data.new</span> <span class="op">=</span> <span class="va">mixed.3_1b2w</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data.new</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="st">"Cond_01"</span>, <span class="st">"Cond_02"</span>, <span class="st">"Cond_03"</span>, <span class="st">"Cond_04"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="va">data.new</span>,</span>
-<span class="r-in">       dvs<span class="op">=</span><span class="st">"Cond_01:Cond_04"</span>,</span>
-<span class="r-in">       dvs.pattern<span class="op">=</span><span class="st">"Cond_(..)"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="st">"Group"</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="st">"Condition"</span><span class="op">)</span>  <span class="co"># rename the factor</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Other Examples ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data.new</span> <span class="op">=</span> <span class="va">mixed.3_1b2w</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data.new</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="st">"Cond_01"</span>, <span class="st">"Cond_02"</span>, <span class="st">"Cond_03"</span>, <span class="st">"Cond_04"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="va">data.new</span>,</span></span>
+<span class="r-in"><span>       dvs<span class="op">=</span><span class="st">"Cond_01:Cond_04"</span>,</span></span>
+<span class="r-in"><span>       dvs.pattern<span class="op">=</span><span class="st">"Cond_(..)"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="st">"Group"</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="st">"Condition"</span><span class="op">)</span>  <span class="co"># rename the factor</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> dvs="Cond_01:Cond_04" is matched to variables:</span>
@@ -1139,15 +1139,15 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> Group * Condition       0.5544  .738    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># ?afex::obk.long</span></span>
-<span class="r-in"><span class="fu">MANOVA</span><span class="op">(</span><span class="fu">afex</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/afex/man/obk.long.html" class="external-link">obk.long</a></span>,</span>
-<span class="r-in">       subID<span class="op">=</span><span class="st">"id"</span>,</span>
-<span class="r-in">       dv<span class="op">=</span><span class="st">"value"</span>,</span>
-<span class="r-in">       between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"gender"</span><span class="op">)</span>,</span>
-<span class="r-in">       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"phase"</span>, <span class="st">"hour"</span><span class="op">)</span>,</span>
-<span class="r-in">       cov<span class="op">=</span><span class="st">"age"</span>,</span>
-<span class="r-in">       sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># ?afex::obk.long</span></span></span>
+<span class="r-in"><span><span class="fu">MANOVA</span><span class="op">(</span><span class="fu">afex</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/afex/man/obk.long.html" class="external-link">obk.long</a></span>,</span></span>
+<span class="r-in"><span>       subID<span class="op">=</span><span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>       dv<span class="op">=</span><span class="st">"value"</span>,</span></span>
+<span class="r-in"><span>       between<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"treatment"</span>, <span class="st">"gender"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       within<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"phase"</span>, <span class="st">"hour"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       cov<span class="op">=</span><span class="st">"age"</span>,</span></span>
+<span class="r-in"><span>       sph.correction<span class="op">=</span><span class="st">"GG"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     * Data are aggregated to mean (across items/trials)</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     if there are &gt;=2 observations per subject and cell.</span>
@@ -1330,7 +1330,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> treatment * gender * phase * hour       0.0002  .087 .  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -1342,7 +1342,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>

@@ -5,7 +5,7 @@ within (base),
 mutate (dplyr),
 transmute (dplyr), and
 := (data.table).
-See examples below for the usage and convenience."><title>Create, modify, and delete variables. — add • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Nunito-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Nunito%20Sans-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Create, modify, and delete variables. — add"><meta property="og:description" content="Enhanced functions to create, modify, and/or delete variables.
+See examples below for the usage and convenience."><title>Create, modify, and delete variables. — add • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.2/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Create, modify, and delete variables. — add"><meta property="og:description" content="Enhanced functions to create, modify, and/or delete variables.
 The functions combine the advantages of
 within (base),
 mutate (dplyr),
@@ -22,7 +22,7 @@ See examples below for the usage and convenience."><meta property="og:image" con
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,9 +69,9 @@ See examples below for the usage and convenience.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">add</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">added</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">added</span><span class="op">(</span><span class="va">data</span>, <span class="va">expr</span>, <span class="va">when</span>, <span class="va">by</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -122,21 +122,21 @@ with the raw data unchanged.</p>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
-<ul><li><p><code>add</code>: Return the <em>new data</em>.</p>
+<ul><li><p><code>add()</code>: Return the <em>new data</em>.</p>
 <p>You need to assign the new data to an object:</p>
-<div class="sourceCode"><pre><code><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="../reference/add.html">add</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span><span class="va">...</span><span class="op">}</span><span class="op">)</span></code></pre></div></li>
-<li><p><code>added</code>: Return nothing and <em>change the raw data immediately</em>.</p>
+<div class="sourceCode"><pre><code><span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="../reference/add.html">add</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span><span class="va">...</span><span class="op">}</span><span class="op">)</span></span></code></pre></div></li>
+<li><p><code>added()</code>: Return nothing and <em>change the raw data immediately</em>.</p>
 <p>NO need to assign the new data:</p>
-<div class="sourceCode"><pre><code><span class="fu"><a href="../reference/add.html">added</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span><span class="va">...</span><span class="op">}</span><span class="op">)</span></code></pre></div></li>
+<div class="sourceCode"><pre><code><span><span class="fu"><a href="../reference/add.html">added</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">{</span><span class="va">...</span><span class="op">}</span><span class="op">)</span></span></code></pre></div></li>
 </ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">## ====== Usage 1: add() ====== ##</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">within.1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">XYZ</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span></span>
-<span class="r-in"><span class="va">d</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## ====== Usage 1: add() ====== ##</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">within.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">XYZ</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 XYZ</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8   2</span>
@@ -146,9 +146,9 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13   6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12   7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11   8</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add() does not change the raw data:</span></span>
-<span class="r-in"><span class="fu">add</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">B</span> <span class="op">=</span> <span class="fl">1</span>; <span class="va">C</span> <span class="op">=</span> <span class="fl">2</span><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add() does not change the raw data:</span></span></span>
+<span class="r-in"><span><span class="fu">add</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">B</span> <span class="op">=</span> <span class="fl">1</span>; <span class="va">C</span> <span class="op">=</span> <span class="fl">2</span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 XYZ B C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9   1 1 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8   2 1 2</span>
@@ -158,7 +158,7 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13   6 1 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12   7 1 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11   8 1 2</span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 XYZ</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8   2</span>
@@ -168,16 +168,16 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13   6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12   7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11   8</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># new data should be assigned to an object:</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu">add</span><span class="op">(</span><span class="op">{</span></span>
-<span class="r-in">  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span>  <span class="co"># modify a variable</span></span>
-<span class="r-in">  <span class="va">XYZ</span> <span class="op">=</span> <span class="cn">NULL</span>                   <span class="co"># delete a variable</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>          <span class="co"># create a new variable</span></span>
-<span class="r-in">  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="fl">4</span>    <span class="co"># new variable is immediately available</span></span>
-<span class="r-in">  <span class="va">C</span> <span class="op">=</span> <span class="fl">1</span>        <span class="co"># never need ,/; at the end of any line</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># new data should be assigned to an object:</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu">add</span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span>  <span class="co"># modify a variable</span></span></span>
+<span class="r-in"><span>  <span class="va">XYZ</span> <span class="op">=</span> <span class="cn">NULL</span>                   <span class="co"># delete a variable</span></span></span>
+<span class="r-in"><span>  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>          <span class="co"># create a new variable</span></span></span>
+<span class="r-in"><span>  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="fl">4</span>    <span class="co"># new variable is immediately available</span></span></span>
+<span class="r-in"><span>  <span class="va">C</span> <span class="op">=</span> <span class="fl">1</span>        <span class="co"># never need ,/; at the end of any line</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4    A  B C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  3  4  8  9 6.00 24 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  6  6  9  8 7.25 29 1</span>
@@ -187,13 +187,13 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:  6  7  5  6 13 7.75 31 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7:  7  5  3  7 12 6.75 27 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8:  8  2  3  6 11 5.50 22 1</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## ====== Usage 2: added() ====== ##</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">within.1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">XYZ</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span></span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ====== Usage 2: added() ====== ##</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">within.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">XYZ</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 XYZ</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8   2</span>
@@ -203,11 +203,11 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13   6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12   7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11   8</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># added() has already changed the raw data:</span></span>
-<span class="r-in"><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">B</span> <span class="op">=</span> <span class="fl">1</span>; <span class="va">C</span> <span class="op">=</span> <span class="fl">2</span><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># added() has already changed the raw data:</span></span></span>
+<span class="r-in"><span><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">B</span> <span class="op">=</span> <span class="fl">1</span>; <span class="va">C</span> <span class="op">=</span> <span class="fl">2</span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Raw data has already been changed. Please check.</span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 XYZ B C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9   1 1 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8   2 1 2</span>
@@ -217,17 +217,17 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13   6 1 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12   7 1 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11   8 1 2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># raw data has already become the new data:</span></span>
-<span class="r-in"><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
-<span class="r-in">  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">XYZ</span> <span class="op">=</span> <span class="cn">NULL</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="fl">4</span></span>
-<span class="r-in">  <span class="va">C</span> <span class="op">=</span> <span class="fl">1</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># raw data has already become the new data:</span></span></span>
+<span class="r-in"><span><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">XYZ</span> <span class="op">=</span> <span class="cn">NULL</span></span></span>
+<span class="r-in"><span>  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">*</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  <span class="va">C</span> <span class="op">=</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Raw data has already been changed. Please check.</span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4  B C    A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  3  4  8  9 24 1 6.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  6  6  9  8 29 1 7.25</span>
@@ -237,12 +237,12 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:  6  7  5  6 13 31 1 7.75</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7:  7  5  3  7 12 27 1 6.75</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8:  8  2  3  6 11 22 1 5.50</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## ====== Using `when` and `by` ====== ##</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">between.2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ====== Using `when` and `by` ====== ##</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">between.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: 1 1     3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: 1 1     6</span>
@@ -269,12 +269,12 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23: 2 3    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24: 2 3    11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">SCORE2</span> <span class="op">=</span> <span class="va">SCORE</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">SCORE</span><span class="op">)</span><span class="op">}</span>,</span>
-<span class="r-in">      <span class="va">A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,  <span class="co"># `when`: for what conditions</span></span>
-<span class="r-in">      by<span class="op">=</span><span class="va">B</span><span class="op">)</span>                 <span class="co"># `by`: by what groups</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">SCORE2</span> <span class="op">=</span> <span class="va">SCORE</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">SCORE</span><span class="op">)</span><span class="op">}</span>,</span></span>
+<span class="r-in"><span>      <span class="va">A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,  <span class="co"># `when`: for what conditions</span></span></span>
+<span class="r-in"><span>      by<span class="op">=</span><span class="va">B</span><span class="op">)</span>                 <span class="co"># `by`: by what groups</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">√</span> Raw data has already been changed. Please check.</span>
-<span class="r-in"><span class="va">d</span></span>
+<span class="r-in"><span><span class="va">d</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE SCORE2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1: 1 1     3     -1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2: 1 1     6      2</span>
@@ -301,7 +301,7 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23: 2 3    12     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24: 2 3    11     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     A B SCORE SCORE2</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    A B SCORE SCORE2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1 1     3     -1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1 1     6      2</span>
@@ -311,15 +311,15 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1 2     6      2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: 1 2     4      0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: 1 2     2     -2</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## ====== Return Only New Variables ====== ##</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">newvars</span> <span class="op">=</span> <span class="fu">add</span><span class="op">(</span><span class="va">within.1</span>, <span class="op">{</span></span>
-<span class="r-in">  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span>, drop<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">newvars</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ====== Return Only New Variables ====== ##</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">newvars</span> <span class="op">=</span> <span class="fu">add</span><span class="op">(</span><span class="va">within.1</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">ID</span> <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">ID</span>, <span class="st">"\\d"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">A</span> <span class="op">=</span> <span class="fu"><a href="grapes-grapes-COMPUTE-grapes-grapes.html">.mean</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, drop<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">newvars</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID    A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1 6.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2 7.25</span>
@@ -329,18 +329,18 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6:  6 7.75</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7:  7 6.75</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8:  8 5.50</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## ====== Better Than `base::within()` ====== ##</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">within.1</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># wrong order: C B A</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">within</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fl">4</span></span>
-<span class="r-in">  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">+</span> <span class="fl">1</span></span>
-<span class="r-in">  <span class="va">C</span> <span class="op">=</span> <span class="fl">6</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## ====== Better Than `base::within()` ====== ##</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="va">within.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># wrong order: C B A</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">within</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">A</span> <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">+</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>  <span class="va">C</span> <span class="op">=</span> <span class="fl">6</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 C B A</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9 6 5 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8 6 5 4</span>
@@ -350,13 +350,13 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13 6 5 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12 6 5 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11 6 5 4</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># correct order: A B C</span></span>
-<span class="r-in"><span class="fu">add</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span>
-<span class="r-in">  <span class="va">A</span> <span class="op">=</span> <span class="fl">4</span></span>
-<span class="r-in">  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">+</span> <span class="fl">1</span></span>
-<span class="r-in">  <span class="va">C</span> <span class="op">=</span> <span class="fl">6</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># correct order: A B C</span></span></span>
+<span class="r-in"><span><span class="fu">add</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">A</span> <span class="op">=</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span>  <span class="va">B</span> <span class="op">=</span> <span class="va">A</span> <span class="op">+</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span>  <span class="va">C</span> <span class="op">=</span> <span class="fl">6</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ID A1 A2 A3 A4 A B C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: S1  3  4  8  9 4 5 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2: S2  6  6  9  8 4 5 6</span>
@@ -366,7 +366,7 @@ with the raw data unchanged.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: S6  7  5  6 13 4 5 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7: S7  5  3  7 12 4 5 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8: S8  2  3  6 11 4 5 6</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -378,7 +378,7 @@ with the raw data unchanged.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>

@@ -58,7 +58,7 @@ its development is independent from the official SPSS PROCESS macro and "process
 Any error or limitation should be attributed to the three R packages/functions that bruceR::PROCESS() uses internally.
 Moreover, as mediation analyses include random processes (i.e., bootstrap resampling or Monte Carlo simulation),
 the results of mediation analyses are unlikely to be exactly the same across different software
-(even if you set the same random seed in different software).'><title>PROCESS for mediation and/or moderation analyses. — PROCESS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Nunito-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Nunito%20Sans-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="PROCESS for mediation and/or moderation analyses. — PROCESS"><meta property="og:description" content='To perform mediation, moderation, and conditional process (moderated mediation) analyses,
+(even if you set the same random seed in different software).'><title>PROCESS for mediation and/or moderation analyses. — PROCESS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.2/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="PROCESS for mediation and/or moderation analyses. — PROCESS"><meta property="og:description" content='To perform mediation, moderation, and conditional process (moderated mediation) analyses,
 people may use software like
 Mplus,
 SPSS "PROCESS" macro,
@@ -128,7 +128,7 @@ the results of mediation analyses are unlikely to be exactly the same across dif
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -171,7 +171,7 @@ people may use software like
 and <a href="https://njrockwood.com/mlmed/" class="external-link">SPSS "MLmed" macro</a>.
 Some R packages can also perform such analyses separately and in a complex way, including
 <a href="https://rdrr.io/pkg/mediation/man/mediate.html" class="external-link">R package "mediation"</a>,
-<a href="https://interactions.jacob-long.com/reference/sim_slopes.html" class="external-link">R package "interactions"</a>,
+R package "interactions",
 and <a href="https://rdrr.io/pkg/lavaan/man/lavaan-class.html" class="external-link">R package "lavaan"</a>.
 Some other R packages or scripts/modules have been further developed to improve the convenience, including
 <a href="https://jamovi-amm.github.io/" class="external-link">jamovi module "jAMM"</a> (by <em>Marcello Gallucci</em>, based on the <code>lavaan</code> package),
@@ -202,7 +202,7 @@ such that the automatic grand-mean centering (with mean = 0) will not change any
 <p>If you need to do group-mean centering, please do this before using PROCESS.
 <code><a href="group_mean_center.html">bruceR::group_mean_center()</a></code> is a useful function of group-mean centering.
 Remember that the automatic grand-mean centering in PROCESS never affects the values of a group-mean centered variable, which already has a grand mean of 0.</p>
-<p>The <code>bruceR::PROCESS()</code> function uses:</p><ol><li><p>the <code><a href="https://interactions.jacob-long.com/reference/sim_slopes.html" class="external-link">interactions::sim_slopes()</a></code> function to
+<p>The <code>bruceR::PROCESS()</code> function uses:</p><ol><li><p>the <code>interactions::sim_slopes()</code> function to
   estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
   (PROCESS Models 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).</p></li>
 <li><p>the <code><a href="https://rdrr.io/pkg/mediation/man/mediate.html" class="external-link">mediation::mediate()</a></code> function to
@@ -227,32 +227,32 @@ the results of mediation analyses are <em>unlikely</em> to be exactly the same a
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">PROCESS</span><span class="op">(</span>
-  <span class="va">data</span>,
-  y <span class="op">=</span> <span class="st">""</span>,
-  x <span class="op">=</span> <span class="st">""</span>,
-  meds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,
-  mods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,
-  covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,
-  clusters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,
-  hlm.re.m <span class="op">=</span> <span class="st">""</span>,
-  hlm.re.y <span class="op">=</span> <span class="st">""</span>,
-  hlm.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1-1-1"</span>, <span class="st">"2-1-1"</span>, <span class="st">"2-2-1"</span><span class="op">)</span>,
-  med.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"parallel"</span>, <span class="st">"serial"</span><span class="op">)</span>,
-  mod.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2-way"</span>, <span class="st">"3-way"</span><span class="op">)</span>,
-  mod.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x-y"</span>, <span class="st">"x-m"</span>, <span class="st">"m-y"</span>, <span class="st">"all"</span><span class="op">)</span>,
-  cov.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"y"</span>, <span class="st">"m"</span>, <span class="st">"both"</span><span class="op">)</span>,
-  mod1.val <span class="op">=</span> <span class="cn">NULL</span>,
-  mod2.val <span class="op">=</span> <span class="cn">NULL</span>,
-  ci <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"boot"</span>, <span class="st">"bc.boot"</span>, <span class="st">"bca.boot"</span>, <span class="st">"mcmc"</span><span class="op">)</span>,
-  nsim <span class="op">=</span> <span class="fl">100</span>,
-  seed <span class="op">=</span> <span class="cn">NULL</span>,
-  center <span class="op">=</span> <span class="cn">TRUE</span>,
-  std <span class="op">=</span> <span class="cn">FALSE</span>,
-  digits <span class="op">=</span> <span class="fl">3</span>,
-  nsmall <span class="op">=</span> <span class="va">digits</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PROCESS</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  y <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  x <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  meds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  mods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  clusters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  hlm.re.m <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  hlm.re.y <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  hlm.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1-1-1"</span>, <span class="st">"2-1-1"</span>, <span class="st">"2-2-1"</span><span class="op">)</span>,</span>
+<span>  med.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"parallel"</span>, <span class="st">"serial"</span><span class="op">)</span>,</span>
+<span>  mod.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2-way"</span>, <span class="st">"3-way"</span><span class="op">)</span>,</span>
+<span>  mod.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x-y"</span>, <span class="st">"x-m"</span>, <span class="st">"m-y"</span>, <span class="st">"all"</span><span class="op">)</span>,</span>
+<span>  cov.path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"y"</span>, <span class="st">"m"</span>, <span class="st">"both"</span><span class="op">)</span>,</span>
+<span>  mod1.val <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mod2.val <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ci <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"boot"</span>, <span class="st">"bc.boot"</span>, <span class="st">"bca.boot"</span>, <span class="st">"mcmc"</span><span class="op">)</span>,</span>
+<span>  nsim <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  std <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  nsmall <span class="op">=</span> <span class="va">digits</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -440,11 +440,13 @@ Currently, only regression model summary can be saved.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Hayes, A. F. (2018). <em>Introduction to mediation, moderation, and conditional process analysis (second edition): A regression-based approach</em>. Guilford Press.</p>
+    <p>Hayes, A. F. (2018). <em>Introduction to mediation, moderation,
+and conditional process analysis (second edition):
+A regression-based approach</em>. Guilford Press.</p>
 <p>Yzerbyt, V., Muller, D., Batailler, C., &amp; Judd, C. M. (2018).
 New recommendations for testing indirect effects in mediational models:
 The need to report and test component paths.
-<em>Journal of Personality and Social Psychology, 115</em>(6), 929-943.</p>
+<em>Journal of Personality and Social Psychology, 115</em>(6), 929--943.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -455,25 +457,25 @@ The need to report and test component paths.
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">#### NOTE ####</span></span>
-<span class="r-in"><span class="co">## In the following examples, I set nsim=100 to save time.</span></span>
-<span class="r-in"><span class="co">## In formal analyses, nsim=1000 (or larger) is suggested!</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Demo Data ####</span></span>
-<span class="r-in"><span class="co"># ?mediation::student</span></span>
-<span class="r-in"><span class="va">data</span> <span class="op">=</span> <span class="fu">mediation</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/mediation/man/student.html" class="external-link">student</a></span> <span class="op">%&gt;%</span></span>
-<span class="r-in">  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SCH_ID</span>, <span class="va">free</span>, <span class="va">smorale</span>, <span class="va">pared</span>, <span class="va">income</span>,</span>
-<span class="r-in">                <span class="va">gender</span>, <span class="va">work</span>, <span class="va">attachment</span>, <span class="va">fight</span>, <span class="va">late</span>, <span class="va">score</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SCH_free"</span>, <span class="st">"SCH_morale"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"parent_edu"</span>, <span class="st">"family_inc"</span>, <span class="st">"gender"</span>, <span class="st">"partjob"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">data</span><span class="op">$</span><span class="va">gender01</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">gender</span>  <span class="co"># 0 = female, 1 = male</span></span>
-<span class="r-in"><span class="co"># dichotomous X: as.factor()</span></span>
-<span class="r-in"><span class="va">data</span><span class="op">$</span><span class="va">gender</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">gender01</span>, levels<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Female"</span>, <span class="st">"Male"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># dichotomous Y: as.factor()</span></span>
-<span class="r-in"><span class="va">data</span><span class="op">$</span><span class="va">pass</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">score</span><span class="op">&gt;=</span><span class="fl">50</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### Descriptive Statistics and Correlation Analyses ####</span></span>
-<span class="r-in"><span class="fu"><a href="Freq.html">Freq</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#### NOTE ####</span></span></span>
+<span class="r-in"><span><span class="co">## In the following examples, I set nsim=100 to save time.</span></span></span>
+<span class="r-in"><span><span class="co">## In formal analyses, nsim=1000 (or larger) is suggested!</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Demo Data ####</span></span></span>
+<span class="r-in"><span><span class="co"># ?mediation::student</span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">mediation</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/mediation/man/student.html" class="external-link">student</a></span> <span class="op">%&gt;%</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SCH_ID</span>, <span class="va">free</span>, <span class="va">smorale</span>, <span class="va">pared</span>, <span class="va">income</span>,</span></span>
+<span class="r-in"><span>                <span class="va">gender</span>, <span class="va">work</span>, <span class="va">attachment</span>, <span class="va">fight</span>, <span class="va">late</span>, <span class="va">score</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SCH_free"</span>, <span class="st">"SCH_morale"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[</span><span class="fl">4</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"parent_edu"</span>, <span class="st">"family_inc"</span>, <span class="st">"gender"</span>, <span class="st">"partjob"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">gender01</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">data</span><span class="op">$</span><span class="va">gender</span>  <span class="co"># 0 = female, 1 = male</span></span></span>
+<span class="r-in"><span><span class="co"># dichotomous X: as.factor()</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">gender</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">gender01</span>, levels<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Female"</span>, <span class="st">"Male"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># dichotomous Y: as.factor()</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">pass</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">score</span><span class="op">&gt;=</span><span class="fl">50</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### Descriptive Statistics and Correlation Analyses ####</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="Freq.html">Freq</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">gender</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Frequency Statistics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            N    %</span>
@@ -482,7 +484,7 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Male    4635 47.9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total <span style="font-style: italic;">N</span> = 9,679</span>
-<span class="r-in"><span class="fu"><a href="Freq.html">Freq</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">pass</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="Freq.html">Freq</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">pass</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Frequency Statistics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       N    %</span>
@@ -491,7 +493,7 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  5823 60.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Total <span style="font-style: italic;">N</span> = 9,679</span>
-<span class="r-in"><span class="fu"><a href="Describe.html">Describe</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>     <span class="co"># file="xxx.doc"</span></span>
+<span class="r-in"><span><span class="fu"><a href="Describe.html">Describe</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>     <span class="co"># file="xxx.doc"</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Descriptive Statistics:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                N   Mean     SD | Median   Min    Max Skewness Kurtosis</span>
@@ -512,7 +514,7 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">NOTE: `gender`, `pass` transformed to numeric.</span></span>
-<span class="r-in"><span class="fu"><a href="Corr.html">Corr</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span>  <span class="co"># file="xxx.doc"</span></span>
+<span class="r-in"><span><span class="fu"><a href="Corr.html">Corr</a></span><span class="op">(</span><span class="va">data</span><span class="op">[</span>,<span class="fl">4</span><span class="op">:</span><span class="fl">11</span><span class="op">]</span><span class="op">)</span>  <span class="co"># file="xxx.doc"</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">NOTE: `gender` transformed to numeric.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-plt img"><img src="PROCESS-1.png" alt="" width="700" height="433"></span>
@@ -552,11 +554,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> late-score             -0.14 [-0.16, -0.12] &lt;.001 *** 9679</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#### PROCESS Analyses ####</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Model 1 ##</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span><span class="op">)</span>  <span class="co"># continuous Y</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#### PROCESS Analyses ####</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Model 1 ##</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span><span class="op">)</span>  <span class="co"># continuous Y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -624,7 +626,7 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Male     -1.409 (0.122) -11.513 &lt;.001 *** [-1.649, -1.169]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"pass"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span><span class="op">)</span>   <span class="co"># dichotomous Y</span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"pass"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span><span class="op">)</span>   <span class="co"># dichotomous Y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -694,10 +696,10 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Male     -0.268 (0.027) -10.082 &lt;.001 *** [-0.320, -0.216]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (multilevel moderation)</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span>,  <span class="co"># continuous Y (LMM)</span></span>
-<span class="r-in">        clusters<span class="op">=</span><span class="st">"SCH_ID"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (multilevel moderation)</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span>,  <span class="co"># continuous Y (LMM)</span></span></span>
+<span class="r-in"><span>        clusters<span class="op">=</span><span class="st">"SCH_ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -770,8 +772,8 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Male     -1.109 (0.114) -9.688 &lt;.001 *** [-1.333, -0.885]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"pass"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span>,   <span class="co"># dichotomous Y (GLMM)</span></span>
-<span class="r-in">        clusters<span class="op">=</span><span class="st">"SCH_ID"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"pass"</span>, x<span class="op">=</span><span class="st">"late"</span>, mods<span class="op">=</span><span class="st">"gender"</span>,   <span class="co"># dichotomous Y (GLMM)</span></span></span>
+<span class="r-in"><span>        clusters<span class="op">=</span><span class="st">"SCH_ID"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -838,12 +840,12 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  "gender" Effect    S.E.      z     p             [95% CI]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Female   -0.202 (0.029) -6.997 &lt;.001 *** [-0.259, -0.145]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Male     -0.251 (0.029) -8.541 &lt;.001 *** [-0.308, -0.193]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Male     -0.251 (0.029) -8.542 &lt;.001 *** [-0.308, -0.193]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (Johnson-Neyman (J-N) interval and plot)</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"gender"</span>, mods<span class="op">=</span><span class="st">"late"</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">P</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (Johnson-Neyman (J-N) interval and plot)</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"gender"</span>, mods<span class="op">=</span><span class="st">"late"</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">P</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -912,7 +914,7 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3.367 (+ SD)  1.025 (0.275) 3.727 &lt;.001 *** [0.486, 1.564]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">P</span><span class="op">$</span><span class="va">results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">jn</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>       <span class="co"># Johnson-Neyman interval</span></span>
+<span class="r-in"><span><span class="va">P</span><span class="op">$</span><span class="va">results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">jn</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>       <span class="co"># Johnson-Neyman interval</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold; text-decoration: underline;">JOHNSON-NEYMAN INTERVAL</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> When late is OUTSIDE the interval [4.03, 14.93], the slope of gender</span>
@@ -920,9 +922,9 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note: The range of observed values of late is </span>[1.00, 5.00]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">P</span><span class="op">$</span><span class="va">results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">jn</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plot</span>  <span class="co"># Johnson-Neyman plot (ggplot object)</span></span>
+<span class="r-in"><span><span class="va">P</span><span class="op">$</span><span class="va">results</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">jn</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">plot</span>  <span class="co"># Johnson-Neyman plot (ggplot object)</span></span></span>
 <span class="r-plt img"><img src="PROCESS-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="GLM_summary.html">GLM_summary</a></span><span class="op">(</span><span class="va">P</span><span class="op">$</span><span class="va">model.y</span><span class="op">)</span>       <span class="co"># detailed results of regression</span></span>
+<span class="r-in"><span><span class="fu"><a href="GLM_summary.html">GLM_summary</a></span><span class="op">(</span><span class="va">P</span><span class="op">$</span><span class="va">model.y</span><span class="op">)</span>       <span class="co"># detailed results of regression</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">General Linear Model (OLS Regression)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -953,11 +955,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> gender:late  -0.027 (0.010)  -2.673  .008 **  [-0.047, -0.007]     -0.027  -0.027</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (allows multicategorical moderator)</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">=</span> <span class="va">airquality</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">Month</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">Month</span><span class="op">)</span>  <span class="co"># moderator: factor with levels "5"~"9"</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">d</span>, y<span class="op">=</span><span class="st">"Temp"</span>, x<span class="op">=</span><span class="st">"Solar.R"</span>, mods<span class="op">=</span><span class="st">"Month"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (allows multicategorical moderator)</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="va">airquality</span></span></span>
+<span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">Month</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">Month</span><span class="op">)</span>  <span class="co"># moderator: factor with levels "5"~"9"</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">d</span>, y<span class="op">=</span><span class="st">"Temp"</span>, x<span class="op">=</span><span class="st">"Solar.R"</span>, mods<span class="op">=</span><span class="st">"Month"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1040,11 +1042,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  9        0.013 (0.015) 0.865  .389     [-0.017, 0.043]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Model 2 ##</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>,</span>
-<span class="r-in">        mods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"family_inc"</span><span class="op">)</span>,</span>
-<span class="r-in">        mod.type<span class="op">=</span><span class="st">"2-way"</span><span class="op">)</span>  <span class="co"># or omit "mod.type", default is "2-way"</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Model 2 ##</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>,</span></span>
+<span class="r-in"><span>        mods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"family_inc"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        mod.type<span class="op">=</span><span class="st">"2-way"</span><span class="op">)</span>  <span class="co"># or omit "mod.type", default is "2-way"</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1122,11 +1124,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  11.594 (+ SD) Male     -1.122 (0.144) -7.778 &lt;.001 *** [-1.405, -0.839]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Model 3 ##</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>,</span>
-<span class="r-in">        mods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"family_inc"</span><span class="op">)</span>,</span>
-<span class="r-in">        mod.type<span class="op">=</span><span class="st">"3-way"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Model 3 ##</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"late"</span>,</span></span>
+<span class="r-in"><span>        mods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"family_inc"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        mod.type<span class="op">=</span><span class="st">"3-way"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1219,11 +1221,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  11.594 (+ SD) Male     -1.308 (0.166) -7.894 &lt;.001 *** [-1.633, -0.983]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"pass"</span>, x<span class="op">=</span><span class="st">"gender"</span>,</span>
-<span class="r-in">        mods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"late"</span>, <span class="st">"family_inc"</span><span class="op">)</span>,</span>
-<span class="r-in">        mod1.val<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,     <span class="co"># moderator 1: late</span></span>
-<span class="r-in">        mod2.val<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">15</span>, <span class="fl">2</span><span class="op">)</span>,  <span class="co"># moderator 2: family_inc</span></span>
-<span class="r-in">        mod.type<span class="op">=</span><span class="st">"3-way"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"pass"</span>, x<span class="op">=</span><span class="st">"gender"</span>,</span></span>
+<span class="r-in"><span>        mods<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"late"</span>, <span class="st">"family_inc"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        mod1.val<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,     <span class="co"># moderator 1: late</span></span></span>
+<span class="r-in"><span>        mod2.val<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">15</span>, <span class="fl">2</span><span class="op">)</span>,  <span class="co"># moderator 2: family_inc</span></span></span>
+<span class="r-in"><span>        mod.type<span class="op">=</span><span class="st">"3-way"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1341,11 +1343,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span>  15.000       5.000  -0.534 (0.330) -1.619  .105     [-1.181, 0.113]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Model 4 ##</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"parent_edu"</span>,</span>
-<span class="r-in">        meds<span class="op">=</span><span class="st">"family_inc"</span>, covs<span class="op">=</span><span class="st">"gender"</span>,</span>
-<span class="r-in">        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Model 4 ##</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"parent_edu"</span>,</span></span>
+<span class="r-in"><span>        meds<span class="op">=</span><span class="st">"family_inc"</span>, covs<span class="op">=</span><span class="st">"gender"</span>,</span></span>
+<span class="r-in"><span>        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1420,12 +1422,12 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Please see the help page for details: <span style="font-weight: bold;">help(PROCESS)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ignore this note if you have already set a seed. :)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (allows an infinite number of multiple mediators in parallel)</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"parent_edu"</span>,</span>
-<span class="r-in">        meds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"family_inc"</span>, <span class="st">"late"</span><span class="op">)</span>,</span>
-<span class="r-in">        covs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"partjob"</span><span class="op">)</span>,</span>
-<span class="r-in">        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (allows an infinite number of multiple mediators in parallel)</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"parent_edu"</span>,</span></span>
+<span class="r-in"><span>        meds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"family_inc"</span>, <span class="st">"late"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        covs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"partjob"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1515,11 +1517,11 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Please see the help page for details: <span style="font-weight: bold;">help(PROCESS)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ignore this note if you have already set a seed. :)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># (multilevel mediation)</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"SCH_free"</span>,</span>
-<span class="r-in">        meds<span class="op">=</span><span class="st">"late"</span>, clusters<span class="op">=</span><span class="st">"SCH_ID"</span>,</span>
-<span class="r-in">        ci<span class="op">=</span><span class="st">"mcmc"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># (multilevel mediation)</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"SCH_free"</span>,</span></span>
+<span class="r-in"><span>        meds<span class="op">=</span><span class="st">"late"</span>, clusters<span class="op">=</span><span class="st">"SCH_ID"</span>,</span></span>
+<span class="r-in"><span>        ci<span class="op">=</span><span class="st">"mcmc"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1597,13 +1599,13 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Please see the help page for details: <span style="font-weight: bold;">help(PROCESS)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ignore this note if you have already set a seed. :)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Model 6 ##</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"parent_edu"</span>,</span>
-<span class="r-in">        meds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"family_inc"</span>, <span class="st">"late"</span><span class="op">)</span>,</span>
-<span class="r-in">        covs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"partjob"</span><span class="op">)</span>,</span>
-<span class="r-in">        med.type<span class="op">=</span><span class="st">"serial"</span>,</span>
-<span class="r-in">        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Model 6 ##</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"parent_edu"</span>,</span></span>
+<span class="r-in"><span>        meds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"family_inc"</span>, <span class="st">"late"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        covs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gender"</span>, <span class="st">"partjob"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        med.type<span class="op">=</span><span class="st">"serial"</span>,</span></span>
+<span class="r-in"><span>        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1657,7 +1659,7 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">************ PART 2. Mediation/Moderation Effect Estimate ************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">Package Use : ‘lavaan’ (v0.6.11)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">Package Use : ‘lavaan’ (v0.6.12)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">Effect Type : Serial Multiple Mediation (2 meds) (Model 6)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">Sample Size : 9679</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">Random Seed : set.seed(1)</span></span>
@@ -1695,13 +1697,13 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Please see the help page for details: <span style="font-weight: bold;">help(PROCESS)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ignore this note if you have already set a seed. :)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## Model 8 ##</span></span>
-<span class="r-in"><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"fight"</span>,</span>
-<span class="r-in">        meds<span class="op">=</span><span class="st">"late"</span>,</span>
-<span class="r-in">        mods<span class="op">=</span><span class="st">"gender"</span>,</span>
-<span class="r-in">        mod.path<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x-m"</span>, <span class="st">"x-y"</span><span class="op">)</span>,</span>
-<span class="r-in">        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Model 8 ##</span></span></span>
+<span class="r-in"><span><span class="fu">PROCESS</span><span class="op">(</span><span class="va">data</span>, y<span class="op">=</span><span class="st">"score"</span>, x<span class="op">=</span><span class="st">"fight"</span>,</span></span>
+<span class="r-in"><span>        meds<span class="op">=</span><span class="st">"late"</span>,</span></span>
+<span class="r-in"><span>        mods<span class="op">=</span><span class="st">"gender"</span>,</span></span>
+<span class="r-in"><span>        mod.path<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x-m"</span>, <span class="st">"x-y"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        ci<span class="op">=</span><span class="st">"boot"</span>, nsim<span class="op">=</span><span class="fl">100</span>, seed<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">****************** PART 1. Regression Model Summary ******************</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1810,10 +1812,10 @@ The need to report and test component paths.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Please see the help page for details: <span style="font-weight: bold;">help(PROCESS)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ignore this note if you have already set a seed. :)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## For more examples and details, see the "note" subfolder at:</span></span>
-<span class="r-in"><span class="co">## https://github.com/psychbruce/bruceR/tree/main/note</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## For more examples and details, see the "note" subfolder at:</span></span></span>
+<span class="r-in"><span><span class="co">## https://github.com/psychbruce/bruceR/tree/main/note</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -1825,7 +1827,7 @@ The need to report and test component paths.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer></div>
