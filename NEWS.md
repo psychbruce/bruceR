@@ -1,6 +1,16 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
-# bruceR 0.8.8 (June 2022)
+# bruceR 0.8.9 (Aug 2022)
+
+## New Features
+
+-   Added `import()` support for importing URL-source data files and no-extension files.
+
+## Bug Fixes
+
+-   Fixed a trivial bug ("NOTE") about HTML5 for documentation pages.
+
+# bruceR 0.8.8 (Jun 2022)
 
 ## New Features
 

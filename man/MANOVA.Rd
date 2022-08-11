@@ -223,10 +223,10 @@ MANOVA(afex::obk.long,
 }
 \references{
 Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
-\emph{Psychological Methods, 8}(4), 434-447.
+\emph{Psychological Methods, 8}(4), 434--447.
 
 Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
-\emph{Psychological Methods, 9}(2), 164-182.
+\emph{Psychological Methods, 9}(2), 164--182.
 }
 \seealso{
 \code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}

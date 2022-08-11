@@ -336,12 +336,14 @@ PROCESS(data, y="score", x="fight",
 }
 }
 \references{
-Hayes, A. F. (2018). \emph{Introduction to mediation, moderation, and conditional process analysis (second edition): A regression-based approach}. Guilford Press.
+Hayes, A. F. (2018). \emph{Introduction to mediation, moderation,
+and conditional process analysis (second edition):
+A regression-based approach}. Guilford Press.
 
 Yzerbyt, V., Muller, D., Batailler, C., & Judd, C. M. (2018).
 New recommendations for testing indirect effects in mediational models:
 The need to report and test component paths.
-\emph{Journal of Personality and Social Psychology, 115}(6), 929-943.
+\emph{Journal of Personality and Social Psychology, 115}(6), 929--943.
 }
 \seealso{
 \code{\link{lavaan_summary}}

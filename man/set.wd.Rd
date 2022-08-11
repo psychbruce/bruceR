@@ -28,11 +28,11 @@ You can use this function in both \strong{.R/.Rmd files and R Console}.
 }
 \section{Functions}{
 \itemize{
-\item \code{set.wd}: Main function
+\item \code{set.wd()}: Main function
 
-\item \code{set_wd}: The alias of \code{set.wd} (the same)
+\item \code{set_wd()}: The alias of \code{set.wd} (the same)
+
 }}
-
 \examples{
 \dontrun{
 

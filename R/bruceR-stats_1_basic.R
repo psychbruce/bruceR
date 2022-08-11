@@ -142,7 +142,7 @@ add = function(data, expr, when, by, drop=FALSE) {
     if(str_detect(es[2], "^\\.(mean|sum)\\(.*\\)$"))
       e = paste(es[1], "=", eval(parse(text=es[2])))
     else if(str_detect(es[2], "\\.(mean|sum)\\("))
-      stop("Please use ONLY `.mean()` or `.sum()` for one line, without any other expression.", call.=TRUE)
+      stop("Please use ONLY `.mean()` or `.sum()` for one line, without any other expression.", call.=FALSE)
     eval(parse(text=glue("data[{when}, `:=`({e}), {by}][]")))
   }
   if(drop) {
@@ -176,7 +176,7 @@ added = function(data, expr, when, by, drop=FALSE) {
     if(str_detect(es[2], "^\\.(mean|sum)\\(.*\\)$"))
       e = paste(es[1], "=", eval(parse(text=es[2])))
     else if(str_detect(es[2], "\\.(mean|sum)\\("))
-      stop("Please use ONLY `.mean()` or `.sum()` for one line, without any other expression.", call.=TRUE)
+      stop("Please use ONLY `.mean()` or `.sum()` for one line, without any other expression.", call.=FALSE)
     eval(parse(text=glue("data[{when}, `:=`({e}), {by}][]")))
   }
   if(drop) {

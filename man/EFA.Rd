@@ -121,11 +121,11 @@ Three options to specify variables:
 }
 \section{Functions}{
 \itemize{
-\item \code{EFA}: Exploratory Factor Analysis
+\item \code{EFA()}: Exploratory Factor Analysis
 
-\item \code{PCA}: Principal Component Analysis - a wrapper of \code{EFA(..., method="pca")}
+\item \code{PCA()}: Principal Component Analysis - a wrapper of \code{EFA(..., method="pca")}
+
 }}
-
 \note{
 Results based on the \code{varimax} rotation method are identical to SPSS.
 The other rotation methods may produce results slightly different from SPSS.

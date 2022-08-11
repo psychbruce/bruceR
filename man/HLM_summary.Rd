@@ -58,11 +58,11 @@ New York, NY: Routledge.
 
 Nakagawa, S., & Schielzeth, H. (2013).
 A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models.
-\emph{Methods in Ecology and Evolution, 4,} 133-142.
+\emph{Methods in Ecology and Evolution, 4,} 133--142.
 
 Xu, R. (2003).
 Measuring explained variation in linear mixed effects models.
-\emph{Statistics in Medicine, 22,} 3527-3541.
+\emph{Statistics in Medicine, 22,} 3527--3541.
 }
 \seealso{
 \code{\link{print_table}} (print simple table)

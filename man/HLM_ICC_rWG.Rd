@@ -100,10 +100,16 @@ HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
 
 }
 \references{
-Bliese, P. D. (2000). Within-group agreement, non-independence, and reliability: Implications for data aggregation and Analysis.
-In K. J. Klein & S. W. Kozlowski (Eds.), \emph{Multilevel theory, research, and methods in organizations} (pp. 349-381). San Francisco, CA: Jossey-Bass, Inc.
+Bliese, P. D. (2000).
+Within-group agreement, non-independence, and reliability:
+Implications for data aggregation and Analysis.
+In K. J. Klein & S. W. Kozlowski (Eds.),
+\emph{Multilevel theory, research, and methods in organizations} (pp. 349--381).
+San Francisco, CA: Jossey-Bass, Inc.
 
-James, L.R., Demaree, R.G., & Wolf, G. (1984). Estimating within-group interrater reliability with and without response bias. \emph{Journal of Applied Psychology, 69}, 85-98.
+James, L.R., Demaree, R.G., & Wolf, G. (1984).
+Estimating within-group interrater reliability with and without response bias.
+\emph{Journal of Applied Psychology, 69}, 85--98.
 }
 \seealso{
 \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}

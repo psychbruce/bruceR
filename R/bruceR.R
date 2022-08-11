@@ -47,8 +47,6 @@ if(FALSE) {
 #' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions
 #'
 #' @description
-#' \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
-#'
 #' \strong{BR}oadly
 #' \strong{U}seful
 #' \strong{C}onvenient
@@ -321,24 +319,24 @@ NULL
     \n
     ")
   } else {
-    packageStartupMessage(Glue("
+    Print("
     \n
     These R packages are not installed:
     {paste(pkgs[loaded==FALSE], collapse=', ')}
 
     Please install them.
     \n
-    "))
+    ")
   }
 
   ## Update Info
   if(new)
-    packageStartupMessage(Glue("
+    Print("
     NEWS: A new version of bruceR ({cran.ver}) is available on {cran.ymd}!
     ***** Please Update *****
     install.packages(\"bruceR\", dep=TRUE)
     \n
-    "))
+    ")
 
   ## Check Dependencies
   try({ check_depend("bruceR") }, silent=TRUE)
@@ -350,12 +348,12 @@ check_depend = function(pkg) {
   deps = cc(pkgs[pkg, "Imports"], pkgs[pkg, "Suggests"])
   need = deps[deps %notin% pkgs]
   if(length(need)>0)
-    packageStartupMessage(Glue("
+    Print("
     These R packages are dependencies of `{pkg}` but not installed:
     {paste(need, collapse=', ')}
     ***** Please Install All Dependencies *****
     install.packages(\"{pkg}\", dep=TRUE)
     \n
-    "))
+    ")
 }
 

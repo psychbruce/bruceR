@@ -48,17 +48,17 @@ Compute \emph{p} value.
 }
 \section{Functions}{
 \itemize{
-\item \code{p.z}: Two-tailed \emph{p} value of \emph{z}.
+\item \code{p.z()}: Two-tailed \emph{p} value of \emph{z}.
 
-\item \code{p.t}: Two-tailed \emph{p} value of \emph{t}.
+\item \code{p.t()}: Two-tailed \emph{p} value of \emph{t}.
 
-\item \code{p.f}: One-tailed \emph{p} value of \emph{F}. (Note: \emph{F} test is one-tailed only.)
+\item \code{p.f()}: One-tailed \emph{p} value of \emph{F}. (Note: \emph{F} test is one-tailed only.)
 
-\item \code{p.r}: Two-tailed \emph{p} value of \emph{r}.
+\item \code{p.r()}: Two-tailed \emph{p} value of \emph{r}.
 
-\item \code{p.chi2}: One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
+\item \code{p.chi2()}: One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
+
 }}
-
 \examples{
 p.z(1.96)
 p.t(2, 100)

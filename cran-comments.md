@@ -1,12 +1,12 @@
 ## News
 
-In this version (0.8.8), I have fixed some bugs and improved some functions.
+In this version (0.8.9), I have fixed some bugs and improved some functions.
 
 
 ## Test environments
 
 * Windows 11 (local installation), R 4.2.1
-* Mac OS 11.5 (check_mac_release), R 4.2.0
+* Mac OS 11.5 (check_mac_release), R 4.2.1
 
 
 ## Package check results
@@ -16,7 +16,7 @@ In this version (0.8.8), I have fixed some bugs and improved some functions.
 
 ## R CMD check results
 
-passing (0 errors | 0 warnings | 1 notes)
+passing (0 errors | 0 warnings | 1 note)
 
 
 ## Reverse dependencies

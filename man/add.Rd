@@ -54,19 +54,19 @@ See examples below for the usage and convenience.
 }
 \section{Functions}{
 \itemize{
-\item \code{add}: Return the \emph{new data}.
+\item \code{add()}: Return the \emph{new data}.
 
 You need to assign the new data to an object:
 
 \preformatted{data = add(data, {...})}
 
-\item \code{added}: Return nothing and \emph{change the raw data immediately}.
+\item \code{added()}: Return nothing and \emph{change the raw data immediately}.
 
 NO need to assign the new data:
 
 \preformatted{added(data, {...})}
-}}
 
+}}
 \examples{
 ## ====== Usage 1: add() ====== ##
 

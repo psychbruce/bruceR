@@ -862,11 +862,11 @@ HLM_ICC = function(model, nsmall=3) {
 #'
 #' Nakagawa, S., & Schielzeth, H. (2013).
 #' A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models.
-#' \emph{Methods in Ecology and Evolution, 4,} 133-142.
+#' \emph{Methods in Ecology and Evolution, 4,} 133--142.
 #'
 #' Xu, R. (2003).
 #' Measuring explained variation in linear mixed effects models.
-#' \emph{Statistics in Medicine, 22,} 3527-3541.
+#' \emph{Statistics in Medicine, 22,} 3527--3541.
 #'
 #' @seealso
 #' \code{\link{print_table}} (print simple table)
@@ -1158,10 +1158,16 @@ HLM_summary = function(model=NULL,
 #' @return Invisibly return a list of results.
 #'
 #' @references
-#' Bliese, P. D. (2000). Within-group agreement, non-independence, and reliability: Implications for data aggregation and Analysis.
-#' In K. J. Klein & S. W. Kozlowski (Eds.), \emph{Multilevel theory, research, and methods in organizations} (pp. 349-381). San Francisco, CA: Jossey-Bass, Inc.
+#' Bliese, P. D. (2000).
+#' Within-group agreement, non-independence, and reliability:
+#' Implications for data aggregation and Analysis.
+#' In K. J. Klein & S. W. Kozlowski (Eds.),
+#' \emph{Multilevel theory, research, and methods in organizations} (pp. 349--381).
+#' San Francisco, CA: Jossey-Bass, Inc.
 #'
-#' James, L.R., Demaree, R.G., & Wolf, G. (1984). Estimating within-group interrater reliability with and without response bias. \emph{Journal of Applied Psychology, 69}, 85-98.
+#' James, L.R., Demaree, R.G., & Wolf, G. (1984).
+#' Estimating within-group interrater reliability with and without response bias.
+#' \emph{Journal of Applied Psychology, 69}, 85--98.
 #'
 #' @seealso
 #' \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}

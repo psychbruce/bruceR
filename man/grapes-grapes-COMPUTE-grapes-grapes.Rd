@@ -128,25 +128,25 @@ Three options to specify variables:
 }
 \section{Functions}{
 \itemize{
-\item \code{COUNT}: \strong{Count} a certain value across variables.
+\item \code{COUNT()}: \strong{Count} a certain value across variables.
 
-\item \code{MODE}: Compute \strong{mode} across variables.
+\item \code{MODE()}: Compute \strong{mode} across variables.
 
-\item \code{SUM}: Compute \strong{sum} across variables.
+\item \code{SUM()}: Compute \strong{sum} across variables.
 
-\item \code{.sum}: Tidy version of \code{SUM},
+\item \code{.sum()}: Tidy version of \code{SUM},
 only can be used in \code{\link[bruceR:add]{add()/added()}}
 
-\item \code{MEAN}: Compute \strong{mean} across variables.
+\item \code{MEAN()}: Compute \strong{mean} across variables.
 
-\item \code{.mean}: Tidy version of \code{MEAN},
+\item \code{.mean()}: Tidy version of \code{MEAN},
 only can be used in \code{\link[bruceR:add]{add()/added()}}
 
-\item \code{STD}: Compute \strong{standard deviation} across variables.
+\item \code{STD()}: Compute \strong{standard deviation} across variables.
 
-\item \code{CONSEC}: Compute \strong{consecutive identical digits} across variables (especially useful in detecting careless responding).
+\item \code{CONSEC()}: Compute \strong{consecutive identical digits} across variables (especially useful in detecting careless responding).
+
 }}
-
 \examples{
 d = data.table(x1=1:5,
                x4=c(2,2,5,4,5),

@@ -53,7 +53,8 @@ and has several modifications.
 Its purpose is to avoid using lots of \code{read_xxx()} functions in your code
 and to provide one tidy function for data import.
 
-It supports many file formats and uses corresponding R functions:
+It supports many file formats (local or URL) and
+uses the corresponding R functions:
 
 \itemize{
   \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fread]{data.table::fread()}}

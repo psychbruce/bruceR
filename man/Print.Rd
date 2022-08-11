@@ -38,11 +38,11 @@ See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:g
 }
 \section{Functions}{
 \itemize{
-\item \code{Print}: Paste and print strings.
+\item \code{Print()}: Paste and print strings.
 
-\item \code{Glue}: Paste strings.
+\item \code{Glue()}: Paste strings.
+
 }}
-
 \examples{
 name = "Bruce"
 Print("My name is <<underline <<bold {name}>>>>.

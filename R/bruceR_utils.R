@@ -877,7 +877,8 @@ file_ext = function(filename) {
 #' Its purpose is to avoid using lots of \code{read_xxx()} functions in your code
 #' and to provide one tidy function for data import.
 #'
-#' It supports many file formats and uses corresponding R functions:
+#' It supports many file formats (local or URL) and
+#' uses the corresponding R functions:
 #'
 #' \itemize{
 #'   \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fread]{data.table::fread()}}
@@ -943,14 +944,20 @@ import = function(file,
     file = "clipboard"
     fmt = "clipboard"
   } else {
-    if(file.exists(file)==FALSE)
-      stop("No such file. Did you forget adding the path or file extension?", call.=FALSE)
-    fmt = file_ext(file)  # file format extracted from file extension
+    if(grepl("^http.*://", file)) {
+      # file = rio:::remote_to_local(file=file)
+      fmt = "http"
+    } else {
+      if(file.exists(file)==FALSE)
+        stop("No such file. Did you forget adding the path or file extension?", call.=FALSE)
+      fmt = file_ext(file)  # file format extracted from file extension
+    }
   }
 
   ## import data
   if(fmt=="") {
-    stop("File has no extension.", call.=FALSE)
+    warning("File has no extension.", call.=FALSE)
+    data = readLines(file, encoding=encoding)
   } else if(fmt=="clipboard") {
     if(header=="auto") header = TRUE
     x = clipr::read_clip()

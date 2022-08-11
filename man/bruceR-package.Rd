@@ -6,8 +6,6 @@
 \alias{bruceR}
 \title{bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions}
 \description{
-\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
-
 \strong{BR}oadly
 \strong{U}seful
 \strong{C}onvenient

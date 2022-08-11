@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.8.8
-Date: 2022-06-27
+Version: 0.8.9
+Date: 2022-08-11
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
@@ -43,4 +43,4 @@ Imports:
 Suggests:
     pacman, tibble, haven, foreign, readxl, openxlsx, clipr,
     lmtest, lme4, nnet, vars, phia, MASS, BayesFactor, GGally, GPArotation
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1

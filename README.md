@@ -1,7 +1,6 @@
 # bruceR <img src="man/figures/logo.png" align="right" width="160"/>
 
-**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that  
-**BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
+**BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
 
 This package includes easy-to-use functions for:
 
