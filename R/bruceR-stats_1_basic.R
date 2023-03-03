@@ -185,7 +185,7 @@ added = function(data, expr, when, by, drop=FALSE) {
     dn.drop = base::setdiff(dn, dn.new)
     data[, (dn.drop) := NULL][]
   }
-  Print("<<green \u221a>> Raw data has already been changed. Please check.")
+  Print("<<green \u2714>> Raw data has already been changed. Please check.")
   invisible(data)
 }
 
@@ -505,11 +505,11 @@ Describe = function(data,
     if(is.null(plot.file)) {
       print(p)
     } else {
-      cowplot::ggsave2(plot=p, filename=plot.file,
-                       width=plot.width, height=plot.height, dpi=plot.dpi)
+      ggsave(plot=p, filename=plot.file,
+             width=plot.width, height=plot.height, dpi=plot.dpi)
       plot.file = str_split(plot.file, "/", simplify=TRUE)
       plot.path = paste0(getwd(), '/', plot.file[length(plot.file)])
-      Print("\n\n\n<<green \u221a>> Plot saved to <<blue '{plot.path}'>>")
+      Print("\n\n\n<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
     }
   }
 
@@ -701,7 +701,7 @@ Corr = function(data,
       grDevices::dev.off()
       plot.file = str_split(plot.file, "/", simplify=TRUE)
       plot.path = paste0(getwd(), '/', plot.file[length(plot.file)])
-      Print("<<green \u221a>> Plot saved to <<blue '{plot.path}'>>")
+      Print("<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
       cat("\n")
     }
   }
@@ -1408,7 +1408,7 @@ ttest = function(data, y, x=NULL,
       nmsd = cbind(data.frame(Variable=y,
                               Factor=x),
                    as.data.frame(nmsd))
-      if(factor.rev) data[[x]] = forcats::fct_rev(data[[x]])
+      if(factor.rev) data[[x]] = fct_rev(data[[x]])
       label = paste(levels(data[[x]]), collapse=" - ")
       Y = y
       X = x %^% " "

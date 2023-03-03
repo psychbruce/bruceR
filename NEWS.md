@@ -1,5 +1,17 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 0.9.0 (ongoing...)
+
+# bruceR 0.8.10 (Mar 2023)
+
+## Minor Changes
+
+-   Changed the default packages to be loaded when `library(bruceR)`.
+
+## Bug Fixes
+
+-   Fixed new problems on CRAN: Restricted the number of "Imports" dependencies to 20. Changed welcome messages by using `packageStartupMessage()` so that the messages can be suppressed.
+
 # bruceR 0.8.9 (Aug 2022)
 
 ## New Features
@@ -249,8 +261,8 @@
 
 -   New function `model_summary()`: Tidy report of (single/multiple) regression models (into console or to a Word/HTML file; supporting most types of models; based on the `texreg` package).
 -   New function `med_summary()`: Tidy report of (simple/moderated) mediation analyses (based on the `mediation` package).
--   New function `ccf_plot`: Cross-correlation analysis (plotting with `ggplot2`).
--   New function `granger_test`: Granger test of predictive causality (based on the `lmtest::grangertest()` function).
+-   New function `ccf_plot()`: Cross-correlation analysis (plotting with `ggplot2`).
+-   New function `granger_test()`: Granger test of predictive causality (based on the `lmtest::grangertest()` function).
 
 ## Major Changes
 

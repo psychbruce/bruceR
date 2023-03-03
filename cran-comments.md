@@ -1,25 +1,20 @@
 ## News
 
-In this version (0.8.9), I have fixed some bugs and improved some functions.
-
+In this version (0.8.10), I have fixed all problems and improved some functions.
 
 ## Test environments
 
-* Windows 11 (local installation), R 4.2.1
-* Mac OS 11.5 (check_mac_release), R 4.2.1
-
+-   Windows 11 (local installation), R 4.2.2
+-   Mac OS 11.5 (check_mac_release), R 4.2.1
 
 ## Package check results
 
-`devtools::check_win_devel()` - Status: OK
-
+passing `devtools::check_win_devel()`
 
 ## R CMD check results
 
-passing (0 errors | 0 warnings | 1 note)
-
+passing (0 errors | 0 warnings | 0 note)
 
 ## Reverse dependencies
 
 Checks on the one downstream dependency (`ChineseNames`) found no problems.
-

@@ -132,6 +132,12 @@
 #### Basic Functions ####
 
 
+installed = function(pkg) {
+  if(pkg %notin% utils::installed.packages())
+    utils::install.packages(pkg)
+}
+
+
 #' Check dependencies of R packages.
 #'
 #' @param pkgs Package(s).
@@ -293,6 +299,29 @@ Glue = function(...) {
 }
 
 
+glue = glue::glue
+glue_col = glue::glue_col
+
+bold = crayon::bold
+italic = crayon::italic
+underline = crayon::underline
+reset = crayon::reset
+blurred = crayon::blurred
+inverse = crayon::inverse
+hidden = crayon::hidden
+strikethrough = crayon::strikethrough
+
+black = crayon::black
+white = crayon::white
+silver = crayon::silver
+red = crayon::red
+green = crayon::green
+blue = crayon::blue
+yellow = crayon::yellow
+cyan = crayon::cyan
+magenta = crayon::magenta
+
+
 sprintf_transformer = function(text, envir) {
   text = glue(text, .envir=envir)
   m = regexpr(":.+$", text)
@@ -415,6 +444,18 @@ capitalize = function(string) {
   capped = grep("^[A-Z]", string, invert=TRUE)
   substr(string[capped], 1, 1) = toupper(substr(string[capped], 1, 1))
   return(string)
+}
+
+
+## forcats::as_factor()
+as_factor = function(x) {
+  factor(x, levels=unique(x))
+}
+
+
+## forcats::fct_rev()
+fct_rev = function(f) {
+  factor(f, levels=rev(levels(f)))
 }
 
 
@@ -689,7 +730,7 @@ table th, table td {padding-left: 5px; padding-right: 5px; height: 19px;}
       f = file(file, "w", encoding="UTF-8")
       cat(HTML, file=f)
       close(f)
-      Print("<<green \u221a>> Table saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
+      Print("<<green \u2714>> Table saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
       cat("\n")
     }
   }
@@ -790,7 +831,7 @@ dtime = function(t0, unit="secs", digits=0, nsmall=digits) {
 #'
 #' Set working directory to the path of currently opened file (usually an R script).
 #' You can use this function in both \strong{.R/.Rmd files and R Console}.
-#' \href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+#' \href{https://posit.co/download/rstudio-desktop/}{RStudio}
 #' (version >= 1.2) is required for running this function.
 #'
 #' @param path \code{NULL} (default) or a specific path.
@@ -849,7 +890,7 @@ set.wd = function(path=NULL, ask=FALSE) {
   }
   if(length(path)>0) {
     Run("setwd(\"{path}\")")
-    Print("<<green \u221a>> Set working directory to <<bold \"{getwd()}\">>")
+    Print("<<green \u2714>> Set working directory to <<bold \"{getwd()}\">>")
     # rstudioapi::sendToConsole(paste0("setwd(\"", path, "\")"), execute=TRUE)
   }
   invisible(path)
@@ -959,6 +1000,7 @@ import = function(file,
     warning("File has no extension.", call.=FALSE)
     data = readLines(file, encoding=encoding)
   } else if(fmt=="clipboard") {
+    installed("clipr")
     if(header=="auto") header = TRUE
     x = clipr::read_clip()
     if(is.null(x) | (is.character(x) & length(x)==1 & x[1]==""))
@@ -980,12 +1022,14 @@ import = function(file,
                              encoding=encoding,
                              header=header)
   } else if(fmt %in% c("xls", "xlsx")) {
+    installed("readxl")
     if(header=="auto") header = TRUE
     data = readxl::read_excel(path=file,
                               sheet=sheet,
                               range=range,
                               col_names=header)
   } else if(fmt %in% c("sav")) {
+    installed("foreign")
     try({
       error = TRUE
       data = foreign::read.spss(
@@ -997,9 +1041,11 @@ import = function(file,
     }, silent=TRUE)
     if(error) {
       message("[Retry] Using `haven::read_sav()` to import the data...")
+      installed("haven")
       data = haven::read_sav(file=file, encoding=encoding)
     }
   } else if(fmt %in% c("dta")) {
+    installed("foreign")
     try({
       error = TRUE
       data = foreign::read.dta(file=file, convert.factors=FALSE)
@@ -1007,6 +1053,7 @@ import = function(file,
     }, silent=TRUE)
     if(error) {
       message("[Retry] Using `haven::read_dta()` to import the data...")
+      installed("haven")
       data = haven::read_dta(file=file, encoding=encoding)
     }
   } else {
@@ -1015,9 +1062,9 @@ import = function(file,
 
   ## report data
   if(is.data.frame(data))
-    Print("<<green \u221a>> Successfully imported: {nrow(data)} obs. of {ncol(data)} variables")
+    Print("<<green \u2714>> Successfully imported: {nrow(data)} obs. of {ncol(data)} variables")
   else
-    Print("<<green \u221a>> Successfully imported: {length(data)} values of class `{class(data)[1]}`")
+    Print("<<green \u2714>> Successfully imported: {length(data)} values of class `{class(data)[1]}`")
 
   ## return data
   if(is.null(setclass) | fmt %in% c("rds", "rda", "rdata")) {
@@ -1027,6 +1074,7 @@ import = function(file,
   } else if(setclass %in% c("data.table", "dt", "DT")) {
     return(data.table::as.data.table(data))
   } else if(setclass %in% c("tibble", "tbl_df", "tbl")) {
+    installed("tibble")
     return(tibble::as_tibble(data))
   } else {
     return(data)
@@ -1126,6 +1174,7 @@ export = function(x, file, sheet=NULL,
   if(fmt=="") {
     stop("File has no extension.", call.=FALSE)
   } else if(fmt=="clipboard") {
+    installed("clipr")
     if(header=="auto") header = TRUE
     suppressWarnings({
       clipr::write_clip(content=x, sep="\t",
@@ -1173,6 +1222,7 @@ export = function(x, file, sheet=NULL,
                          fileEncoding=encoding)
     }
   } else if(fmt %in% c("xls", "xlsx")) {
+    installed("openxlsx")
     if(inherits(x, "list")==FALSE) x = list(x)  # one element
     if(header=="auto") header = TRUE
     if(is.null(sheet)) {
@@ -1210,9 +1260,11 @@ export = function(x, file, sheet=NULL,
       }
     }
   } else if(fmt %in% c("sav")) {
+    installed("haven")
     x = restore_labelled(x)
     haven::write_sav(data=x, path=file)
   } else if(fmt %in% c("dta")) {
+    installed("haven")
     x = restore_labelled(x)
     haven::write_dta(data=x, path=file)
   } else {
@@ -1221,9 +1273,9 @@ export = function(x, file, sheet=NULL,
 
   ## report status
   if(fmt=="clipboard")
-    Print("<<green \u221a>> Successfully paste to clipboard")
+    Print("<<green \u2714>> Successfully paste to clipboard")
   else
-    Print("<<green \u221a>> Successfully saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
+    Print("<<green \u2714>> Successfully saved to <<bold \"{paste0(getwd(), '/', file)}\">>")
 }
 
 

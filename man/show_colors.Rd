@@ -4,7 +4,7 @@
 \alias{show_colors}
 \title{Show colors.}
 \usage{
-show_colors(colors = see::social_colors())
+show_colors(colors)
 }
 \arguments{
 \item{colors}{Color names.
@@ -27,10 +27,10 @@ A \code{gg} object.
 Show colors.
 }
 \examples{
-show_colors()  # default is to show see::social_colors()
-show_colors("blue")  # blue
+show_colors("blue")
 show_colors("#0000FF")  # blue (hex name)
 show_colors(RGB(0, 0, 255))  # blue (RGB)
-show_colors(see::pizza_colors())  # a specific palette
+show_colors(see::social_colors())
+show_colors(see::pizza_colors())
 
 }

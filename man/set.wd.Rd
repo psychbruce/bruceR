@@ -23,7 +23,7 @@ Invisibly return the path.
 \description{
 Set working directory to the path of currently opened file (usually an R script).
 You can use this function in both \strong{.R/.Rmd files and R Console}.
-\href{https://www.rstudio.com/products/rstudio/download/preview/}{RStudio}
+\href{https://posit.co/download/rstudio-desktop/}{RStudio}
 (version >= 1.2) is required for running this function.
 }
 \section{Functions}{

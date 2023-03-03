@@ -1078,13 +1078,6 @@ CAUTION:
     }
   }
 
-  ## File Closing
-  # if(!is.null(file)) {
-  #   close(FILE)
-  #   Print("<<green \u221a>> All results (plain text) are saved to <<blue '{paste0(getwd(), '/', file)}'>>")
-  #   cat("\n")
-  # }
-
   if(length(meds)>0)
     Print("
     <<italic Note>>. The results based on bootstrapping or other random processes
@@ -1993,6 +1986,7 @@ ccf_plot = function(formula, data,
 granger_test = function(formula, data, lags=1:5,
                         test.reverse=TRUE,
                         file=NULL) {
+  installed("lmtest")
   res = data.frame(Lag=lags, D1="", D2="", D12="")
   names(res)[2:4] = c("Hypothesized Direction",
                       "Reverse Direction",

@@ -15,7 +15,7 @@ This package includes easy-to-use functions for:
 
 <!-- badges: start -->
 
-[![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![R-CMD-check](https://github.com/psychbruce/bruceR/workflows/R-CMD-check/badge.svg)](https://github.com/psychbruce/bruceR/actions) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://CRAN.R-project.org/package=bruceR) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
+[![CRAN-Version](https://www.r-pkg.org/badges/version/bruceR?color=red)](https://CRAN.R-project.org/package=bruceR) [![GitHub-Version](https://img.shields.io/github/r-package/v/psychbruce/bruceR?label=GitHub&color=orange)](https://github.com/psychbruce/bruceR) [![R-CMD-check](https://github.com/psychbruce/bruceR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/psychbruce/bruceR/actions/workflows/R-CMD-check.yaml) [![CRAN-Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bruceR)](https://CRAN.R-project.org/package=bruceR) [![Logo-Designer](https://img.shields.io/badge/Logo%20Designer-Meijia%20Li-blueviolet?logo=github-sponsors)](https://github.com/Stellapros) [![GitHub-Stars](https://img.shields.io/github/stars/psychbruce/bruceR?style=social)](https://github.com/psychbruce/bruceR/stargazers)
 
 <!-- badges: end -->
 
@@ -31,7 +31,7 @@ Homepage: [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
--   Bao, H.-W.-S. (2022). bruceR: Broadly useful convenient and efficient R functions. R package version 0.8.x. <https://CRAN.R-project.org/package=bruceR>
+-   Bao, H.-W.-S. (2023). bruceR: Broadly useful convenient and efficient R functions. R package version 0.8.x. <https://CRAN.R-project.org/package=bruceR>
 
 ## User Guide
 
@@ -54,40 +54,34 @@ devtools::install_github("psychbruce/bruceR", dep=TRUE, force=TRUE)
 
 **Tips:**
 
-1.  Good practice: **restart RStudio** before installation.
-2.  Good practice: **update R** to the [latest version](https://www.r-project.org/) (v4.0+).
-3.  Good practice: **install** [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) (it is *not* an R package) on Windows system.
-4.  If you see *"Do you want to restart R prior to install?"*, **choose "Yes"** at the first time and then **choose "No"**.
-5.  If you see *"Do you want to install from sources the package which needs compilation?"*, just **choose "No"**.
-6.  If you fail to install, please carefully read the warning messages and find out the R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
+-   Good practices:
+    -   **Restart RStudio** before installation.
+    -   **Update R** to the [latest version](https://www.r-project.org/) (v4.0+).
+    -   **Install** [Rtools.exe](https://CRAN.R-project.org/bin/windows/Rtools/) (it is *not* an R package) on Windows system.
+-   If you see *"Do you want to restart R prior to install?"*, **choose "Yes"** for the first time and then **choose "No"**.
+-   If you fail to install, please carefully read the warning messages and find out the R package(s) causing the failure, **manually uninstall and reinstall these R package(s)**, and then retry the main installation.
 
 ### Package Dependency
 
 `bruceR` depends on many important R packages.
 
-Loading `bruceR` by `library(bruceR)` will also load these R packages for you:
+Loading `bruceR` with `library(bruceR)` will also load these R packages for you:
 
 -   **[Data]:**
 
+    -   [`data.table`](https://cran.r-project.org/package=data.table): Advanced `data.frame` with higher efficiency.
     -   [`dplyr`](https://cran.r-project.org/package=dplyr): Data manipulation and processing.
     -   [`tidyr`](https://cran.r-project.org/package=tidyr): Data cleaning and reshaping.
     -   [`stringr`](https://cran.r-project.org/package=stringr): Toolbox for string operation (with regular expressions).
-    -   [`forcats`](https://cran.r-project.org/package=forcats): Toolbox for factor manipulation (for categorical variables).
-    -   [`data.table`](https://cran.r-project.org/package=data.table): Advanced `data.frame` with higher efficiency.
+    -   [`ggplot2`](https://cran.r-project.org/package=ggplot2): Data visualization.
 
 -   **[Stat]:**
 
     -   [`emmeans`](https://cran.r-project.org/package=emmeans): Estimates of marginal means and multiple contrasts.
-    -   [`effectsize`](https://cran.r-project.org/package=effectsize): Estimates of effect sizes and standardized parameters.
-    -   [`performance`](https://cran.r-project.org/package=performance): Estimates of regression models performance.
-    -   [`lmerTest`](https://cran.r-project.org/package=lmerTest): Tests of linear mixed effects models (LMM, also known as HLM and multilevel models).
-
--   **[Plot]:**
-
-    -   [`ggplot2`](https://cran.r-project.org/package=ggplot2): Data visualization.
-    -   [`ggtext`](https://cran.r-project.org/package=ggtext): Markdown/HTML rich text format for `ggplot2` (geoms and themes).
-    -   [`cowplot`](https://cran.r-project.org/package=cowplot): Advanced toolbox for `ggplot2` (arrange multiple plots and add labels).
-    -   [`see`](https://cran.r-project.org/package=see): Advanced toolbox for `ggplot2` (geoms, scales, themes, and color palettes).
+    -   [`lmerTest`](https://cran.r-project.org/package=lmerTest): Linear mixed effects modeling (multilevel modeling).
+    -   [`effectsize`](https://cran.r-project.org/package=effectsize): Effect sizes and standardized parameters.
+    -   [`performance`](https://cran.r-project.org/package=performance): Performance of regression models.
+    -   [`interactions`](https://cran.r-project.org/package=interactions): Interaction and simple effect analyses.
 
 ### Main Functions in `bruceR`
 

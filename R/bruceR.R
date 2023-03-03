@@ -234,10 +234,6 @@ NULL
 #' @importFrom dplyr %>% select left_join sym group_by summarise mutate transmute across
 #' @importFrom data.table data.table is.data.table as.data.table
 #' @importFrom data.table := .BY .EACHI .GRP .I .N .NGRP .SD
-#' @importFrom glue glue glue_col
-#' @importFrom crayon bold italic underline reset blurred inverse hidden strikethrough
-#' @importFrom crayon black white silver red green blue yellow cyan magenta
-#' @importFrom crayon bgBlack bgWhite bgRed bgGreen bgBlue bgYellow bgCyan bgMagenta
 .onAttach = function(libname, pkgname) {
   ## Version Check
   new = FALSE
@@ -265,11 +261,11 @@ NULL
   ## Loaded Package
   pkgs = c(
     ## DATA ##
-    "dplyr", "tidyr", "stringr", "forcats", "data.table",
+    "dplyr", "tidyr", "stringr", "data.table",
     ## STAT ##
-    "emmeans", "effectsize", "performance", "lmerTest",
+    "emmeans", "effectsize", "performance", "lmerTest", "interactions",
     ## PLOT ##
-    "ggplot2", "ggtext", "cowplot", "see"
+    "ggplot2"  # "ggtext", "cowplot", "see"
   )
 
   # suppressWarnings({
@@ -291,21 +287,21 @@ NULL
     # logo=sample(LOGO, 1)
     # yes: \u2714 \u221a
     # star: \u2605
-    Print("
+    packageStartupMessage(Glue("
     \n
-    <<bold bruceR (version {inst.ver})>>
+    <<magenta bruceR (v{inst.ver})>>
     <<blue <<underline BR>>oadly <<underline U>>seful <<underline C>>onvenient and <<underline E>>fficient <<underline R>> functions>>
 
-    <<bold Packages also loaded:>>
+    <<magenta Packages also loaded:>>
     <<green
-    \u221a dplyr     \t\u221a emmeans     \t\u221a ggplot2
-    \u221a tidyr     \t\u221a effectsize  \t\u221a ggtext
-    \u221a stringr   \t\u221a performance \t\u221a cowplot
-    \u221a forcats   \t\u221a lmerTest    \t\u221a see
-    \u221a data.table
+    \u2714 data.table\t\u2714 emmeans
+    \u2714 dplyr     \t\u2714 lmerTest
+    \u2714 tidyr     \t\u2714 effectsize
+    \u2714 stringr   \t\u2714 performance
+    \u2714 ggplot2   \t\u2714 interactions
     >>
 
-    <<bold Main functions of `bruceR`:>>
+    <<magenta Main functions of `bruceR`:>>
     <<cyan
     cc()          \tDescribe() \tTTEST()
     add()         \tFreq()     \tMANOVA()
@@ -315,28 +311,35 @@ NULL
     print_table() \tCFA()      \tlavaan_summary()
     >>
 
-    https://psychbruce.github.io/bruceR/
+    <<magenta For full functionality, please install all dependencies:>>
+    install.packages(\"bruceR\", dep=TRUE)
+
+    <<magenta Online documentation:>>
+    <<underline https://psychbruce.github.io/bruceR>>
     \n
-    ")
+    "))
   } else {
-    Print("
+    packageStartupMessage(Glue("
     \n
-    These R packages are not installed:
+    These R packages have not been installed:
     {paste(pkgs[loaded==FALSE], collapse=', ')}
 
     Please install them.
     \n
-    ")
+    "))
   }
 
   ## Update Info
   if(new)
-    Print("
-    NEWS: A new version of bruceR ({cran.ver}) is available on {cran.ymd}!
-    ***** Please Update *****
-    install.packages(\"bruceR\", dep=TRUE)
+    packageStartupMessage(Glue("
     \n
-    ")
+    NEWS: A new version of bruceR ({cran.ver}) is available ({cran.ymd})!
+
+    ************** Update **************
+    install.packages(\"bruceR\", dep=TRUE)
+    ************************************
+    \n
+    "))
 
   ## Check Dependencies
   try({ check_depend("bruceR") }, silent=TRUE)
@@ -348,12 +351,15 @@ check_depend = function(pkg) {
   deps = cc(pkgs[pkg, "Imports"], pkgs[pkg, "Suggests"])
   need = deps[deps %notin% pkgs]
   if(length(need)>0)
-    Print("
-    These R packages are dependencies of `{pkg}` but not installed:
-    {paste(need, collapse=', ')}
-    ***** Please Install All Dependencies *****
-    install.packages(\"{pkg}\", dep=TRUE)
+    packageStartupMessage(Glue("
     \n
-    ")
+    These packages are dependencies of `{pkg}` but not installed:
+    - {paste(need, collapse=', ')}
+
+    ***** Install all dependencies *****
+    install.packages(\"{pkg}\", dep=TRUE)
+    ************************************
+    \n
+    "))
 }
 

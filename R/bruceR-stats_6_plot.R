@@ -81,17 +81,22 @@
 #'   theme_bruce(markdown=TRUE, border="")
 #'
 #' @export
-theme_bruce = function(markdown=FALSE,
-                       base.size=12, line.size=0.5,
-                       border="black",
-                       bg="white", panel.bg="white",
-                       tag="bold", plot.title="bold", axis.title="plain",
-                       title.pos=0.5, subtitle.pos=0.5, caption.pos=1,
-                       font=NULL,
-                       grid.x="", grid.y="",
-                       line.x=TRUE, line.y=TRUE,
-                       tick.x=TRUE, tick.y=TRUE) {
-  if(markdown) element_text = ggtext::element_markdown
+theme_bruce = function(
+    markdown=FALSE,
+    base.size=12, line.size=0.5,
+    border="black",
+    bg="white", panel.bg="white",
+    tag="bold", plot.title="bold", axis.title="plain",
+    title.pos=0.5, subtitle.pos=0.5, caption.pos=1,
+    font=NULL,
+    grid.x="", grid.y="",
+    line.x=TRUE, line.y=TRUE,
+    tick.x=TRUE, tick.y=TRUE
+) {
+  if(markdown) {
+    installed("ggtext")
+    element_text = ggtext::element_markdown
+  }
   # font face:
   #     "plain", "italic", "bold", "bold.italic"
   # margin:
@@ -176,20 +181,20 @@ theme_bruce = function(markdown=FALSE,
 #' @return A \code{gg} object.
 #'
 #' @examples
-#' show_colors()  # default is to show see::social_colors()
-#' show_colors("blue")  # blue
+#' show_colors("blue")
 #' show_colors("#0000FF")  # blue (hex name)
 #' show_colors(RGB(0, 0, 255))  # blue (RGB)
-#' show_colors(see::pizza_colors())  # a specific palette
+#' show_colors(see::social_colors())
+#' show_colors(see::pizza_colors())
 #'
 #' @export
-show_colors = function(colors=see::social_colors()) {
+show_colors = function(colors) {
   colors.names = names(colors)
   if(is.null(colors.names)) colors.names = colors
-  dc = data.frame(names=forcats::as_factor(colors.names),
-                  colors=forcats::as_factor(colors))
-  ggplot(dc, aes(x=forcats::fct_rev(names), y=1,
-                 fill=forcats::fct_rev(colors))) +
+  dc = data.frame(names=as_factor(colors.names),
+                  colors=as_factor(colors))
+  ggplot(dc, aes(x=fct_rev(names), y=1,
+                 fill=fct_rev(colors))) +
     geom_bar(stat="identity", width=1, show.legend=FALSE) +
     scale_fill_manual(values=rev(as.character(dc$colors))) +
     scale_x_discrete(position="top") +  # flipped y position = "right"
