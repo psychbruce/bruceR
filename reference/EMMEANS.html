@@ -20,7 +20,7 @@ the square root of mean variance of all paired differences of the residuals of r
 Disclaimer:
 There is substantial disagreement on the appropriate pooled SD to use in computing the effect size.
 For alternative methods, see emmeans::eff_size() and effectsize::t_to_d().
-Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.2/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.2/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
+Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.5/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.5/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
 including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 with p values adjusted for factors with &amp;gt;= 3 levels.
@@ -52,7 +52,7 @@ Users should not take the default output as the only right results and are compl
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.10</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -803,16 +803,16 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pairwise Comparisons of "B":</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Contrast "A" Estimate    S.E. df      t     p     Cohen’s d [95% CI of d]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B2 - B1  A1   -0.000 (0.965) 18 -0.000 1.000      -0.000 [-1.866, 1.866]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B1  A1    0.750 (0.965) 18  0.777 1.000       0.550 [-1.316, 2.416]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B2  A1    0.750 (0.965) 18  0.777 1.000       0.550 [-1.316, 2.416]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B2 - B1  A2    4.250 (0.965) 18  4.406  .001 **    3.115 [ 1.249, 4.981]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B1  A2    8.250 (0.965) 18  8.552 &lt;.001 ***   6.047 [ 4.181, 7.914]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B2  A2    4.000 (0.965) 18  4.147  .002 **    2.932 [ 1.066, 4.798]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Contrast "A" Estimate    S.E. df     t     p     Cohen’s d [95% CI of d]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B2 - B1  A1    0.000 (0.965) 18 0.000 1.000       0.000 [-1.866, 1.866]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B1  A1    0.750 (0.965) 18 0.777 1.000       0.550 [-1.316, 2.416]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B2  A1    0.750 (0.965) 18 0.777 1.000       0.550 [-1.316, 2.416]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B2 - B1  A2    4.250 (0.965) 18 4.406  .001 **    3.115 [ 1.249, 4.981]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B1  A2    8.250 (0.965) 18 8.552 &lt;.001 ***   6.047 [ 4.181, 7.914]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B3 - B2  A2    4.000 (0.965) 18 4.147  .002 **    2.932 [ 1.066, 4.798]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pooled SD for computing Cohen’s d: 1.364</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> P-value adjustment: Bonferroni method for 3 tests.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1367,7 +1367,8 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 2.23113e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 2.23113e-17</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some CIs could not be estimated due to non-finite F, df, or df_error values.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some CIs could not be estimated due to non-finite F, df, or df_error</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span>   values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Joint Tests of "B":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Effect "A" df1 df2      F     p      η²p [90% CI of η²p]</span>
@@ -1461,7 +1462,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> B           12.500 0.583   1   3 21.429  .019 *     .877 [.279, .954] .250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C            3.125 0.042   1   3 75.000  .003 **    .962 [.707, .985] .077</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A * B       24.500 0.250   1   3 98.000  .002 **    .970 [.768, .989] .395</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A * C        1.125 0.708   1   3  1.588  .297       .346 [.000, .543] .029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A * C        1.125 0.708   1   3  1.588  .297       .346 [.000, .751] .029</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B * C       12.500 0.417   1   3 30.000  .012 *     .909 [.411, .965] .250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A * B * C   24.500 1.083   1   3 22.615  .018 *     .883 [.300, .956] .395</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────────────────</span>
@@ -1532,9 +1533,9 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">------ EMMEANS (effect = "A" &amp; "B") ------</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 1.67575e-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 3.3515e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 3.46945e-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 1.38778e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Joint Tests of "A" &amp; "B":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Effect "C" df1 df2      F     p     η²p [90% CI of η²p]</span>
@@ -2584,7 +2585,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
     </footer></div>
