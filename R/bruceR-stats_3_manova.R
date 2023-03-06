@@ -995,10 +995,10 @@ EMMEANS = function(model, effect=NULL, by=NULL,
     attr(con, "mesg") = c(
       Glue("Pooled SD for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
       attr(con, "mesg"))
-  con$d = cc_m_ci(con$estimate/sd.pooled,
-                  conCI$lower.CL/sd.pooled,
-                  conCI$upper.CL/sd.pooled,
-                  nsmall)
+  con$cohen.d.ci = cc_m_ci(con$estimate/sd.pooled,
+                           conCI$lower.CL/sd.pooled,
+                           conCI$upper.CL/sd.pooled,
+                           nsmall)
   if(length(by)>0) {
     vns = names(con)[2:(length(con)-6)]
     names(con)[2:(length(con)-6)] = "\"" %^% vns %^% "\""

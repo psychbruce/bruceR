@@ -17,4 +17,4 @@ passing (0 errors | 0 warnings | 0 note)
 
 ## Reverse dependencies
 
-Checks on the one downstream dependency (`ChineseNames`) found no problems.
+Checks on downstream dependencies (`ChineseNames` and `PsychWordVec`) found no problems.

@@ -2,6 +2,10 @@
 
 # bruceR 0.9.0 (ongoing...)
 
+## Bug Fixes
+
+-   Fixed `EMMEANS()` output when `"d"` is used as a variable name.
+
 # bruceR 0.8.10 (Mar 2023)
 
 ## Minor Changes
