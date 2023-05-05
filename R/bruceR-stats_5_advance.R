@@ -1970,6 +1970,9 @@ ccf_plot = function(formula, data,
 #' @param lags Time lags. Default is \code{1:5}.
 #' @param test.reverse Whether to test reverse causality. Default is \code{TRUE}.
 #' @param file File name of MS Word (\code{.doc}).
+#' @param ... Further arguments passed to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}.
+#' For example, you may use \emph{robust} standard errors by specifying
+#' the \code{vcov} argument (see \href{https://github.com/psychbruce/bruceR/issues/23}{GitHub Issue #23}).
 #'
 #' @return A data frame of results.
 #'
@@ -1985,7 +1988,7 @@ ccf_plot = function(formula, data,
 #' @export
 granger_test = function(formula, data, lags=1:5,
                         test.reverse=TRUE,
-                        file=NULL) {
+                        file=NULL, ...) {
   installed("lmtest")
   res = data.frame(Lag=lags, D1="", D2="", D12="")
   names(res)[2:4] = c("Hypothesized Direction",
@@ -2018,7 +2021,7 @@ granger_test = function(formula, data, lags=1:5,
       ")
     }
     for(lag in lags) {
-      gt = lmtest::grangertest(formula=f, data=data, order=lag, na.action=na.omit)
+      gt = lmtest::grangertest(formula=f, data=data, order=lag, na.action=na.omit, ...)
       Fval = gt[2, "F"]
       df1 = -gt[2, "Df"]
       df2 = gt[1, "Res.Df"]

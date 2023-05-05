@@ -1,12 +1,13 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 0.8.11
-Date: 2023-03-06
+Version: 0.8.11-1
+Date: 2023-05-05
 Authors@R:
     c(person(given = "Han-Wu-Shuang",
              family = "Bao",
              role = c("aut", "cre"),
-             email = "baohws@foxmail.com"))
+             email = "baohws@foxmail.com",
+             comment = c(ORCID = "0000-0003-3043-710X")))
 Author: Han-Wu-Shuang Bao [aut, cre]
 Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
 Description:
