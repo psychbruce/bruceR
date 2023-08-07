@@ -17,7 +17,6 @@ TTEST(
   factor.rev = TRUE,
   bayes.prior = "medium",
   digits = 2,
-  nsmall = digits,
   file = NULL
 )
 }
@@ -34,11 +33,11 @@ Multiple variables should be included in a character vector \code{c()}.
 
 Only necessary for independent-samples \emph{t}-test.}
 
-\item{paired}{For paired-samples \emph{t}-test, set it as \code{TRUE}. Default is \code{FALSE}.}
+\item{paired}{For paired-samples \emph{t}-test, set it as \code{TRUE}. Defaults to \code{FALSE}.}
 
 \item{paired.d.type}{Type of Cohen's \emph{d} for paired-samples \emph{t}-test (see Lakens, 2013).
 
-Default is \code{"dz"}. Options include:
+Defaults to \code{"dz"}. Options include:
 \describe{
   \item{\code{"dz"} (\emph{d} for standardized difference)}{
     Cohen's \eqn{d_{z} = \frac{M_{diff}}{SD_{diff}}}
@@ -53,21 +52,21 @@ Default is \code{"dz"}. Options include:
 }}
 
 \item{var.equal}{If Levene's test indicates a violation of the homogeneity of variance,
-then you should better set this argument as \code{FALSE}. Default is \code{TRUE}.}
+then you should better set this argument as \code{FALSE}. Defaults to \code{TRUE}.}
 
-\item{mean.diff}{Whether to display results of mean difference and its 95\% CI. Default is \code{TRUE}.}
+\item{mean.diff}{Whether to display results of mean difference and its 95\% CI. Defaults to \code{TRUE}.}
 
-\item{test.value}{The true value of the mean (or difference in means for a two-samples test). Default is \code{0}.}
+\item{test.value}{The true value of the mean (or difference in means for a two-samples test). Defaults to \code{0}.}
 
 \item{test.sided}{Any of \code{"="} (two-sided, the default), \code{"<"} (one-sided), or \code{">"} (one-sided).}
 
 \item{factor.rev}{Whether to reverse the levels of factor (X)
-such that the test compares higher vs. lower level. Default is \code{TRUE}.}
+such that the test compares higher vs. lower level. Defaults to \code{TRUE}.}
 
-\item{bayes.prior}{Prior scale in Bayesian \emph{t}-test. Default is 0.707.
+\item{bayes.prior}{Prior scale in Bayesian \emph{t}-test. Defaults to 0.707.
 See details in \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}}.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

@@ -12,7 +12,6 @@ CFA(
   orthogonal = FALSE,
   missing = "listwise",
   digits = 3,
-  nsmall = digits,
   file = NULL
 )
 }
@@ -23,7 +22,7 @@ CFA(
 
 \item{estimator}{The estimator to be used
 (for details, see \link[lavaan:lavOptions]{lavaan options}).
-Default is \code{"ML"}.
+Defaults to \code{"ML"}.
 Can be one of the following:
 \describe{
   \item{\code{"ML"}}{Maximum Likelihood (can be extended to
@@ -36,13 +35,13 @@ Can be one of the following:
   \item{\code{"DLS"}}{Distributionally-weighted Least Squares}
 }}
 
-\item{highorder}{High-order factor. Default is \code{""}.}
+\item{highorder}{High-order factor. Defaults to \code{""}.}
 
-\item{orthogonal}{Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.}
+\item{orthogonal}{Defaults to \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.}
 
-\item{missing}{Default is \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").}
+\item{missing}{Defaults to \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

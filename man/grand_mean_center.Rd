@@ -11,10 +11,10 @@ grand_mean_center(data, vars = names(data), std = FALSE, add.suffix = "")
 
 \item{vars}{Variable(s) to be centered.}
 
-\item{std}{Standardized or not. Default is \code{FALSE}.}
+\item{std}{Standardized or not. Defaults to \code{FALSE}.}
 
 \item{add.suffix}{The suffix of the centered variable(s).
-Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
+Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 }
 \value{
 A new data object containing the centered variable(s).

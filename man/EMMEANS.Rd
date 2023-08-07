@@ -13,8 +13,7 @@ EMMEANS(
   p.adjust = "bonferroni",
   sd.pooled = NULL,
   model.type = "multivariate",
-  digits = 3,
-  nsmall = digits
+  digits = 3
 )
 }
 \arguments{
@@ -26,21 +25,21 @@ it reports the results of omnibus test or simple main effect.
 If set to a character vector (e.g., \code{c("A", "B")}),
 it also reports the results of simple interaction effect.}
 
-\item{by}{Moderator variable(s). Default is \code{NULL}.}
+\item{by}{Moderator variable(s). Defaults to \code{NULL}.}
 
 \item{contrast}{Contrast method for multiple comparisons.
-Default is \code{"pairwise"}.
+Defaults to \code{"pairwise"}.
 
 Alternatives can be \code{"pairwise"} (\code{"revpairwise"}),
 \code{"seq"} (\code{"consec"}), \code{"poly"}, \code{"eff"}.
 For details, see \code{?emmeans::`contrast-methods`}.}
 
 \item{reverse}{The order of levels to be contrasted.
-Default is \code{TRUE} (higher level vs. lower level).}
+Defaults to \code{TRUE} (higher level vs. lower level).}
 
 \item{p.adjust}{Adjustment method of \emph{p} values for multiple comparisons.
-Default is \code{"bonferroni"}.
-For polynomial contrasts, default is \code{"none"}.
+Defaults to \code{"bonferroni"}.
+For polynomial contrasts, defaults to \code{"none"}.
 
 Alternatives can be \code{"none"}, \code{"fdr"}, \code{"hochberg"},
 \code{"hommel"}, \code{"holm"}, \code{"tukey"}, \code{"mvt"},
@@ -61,7 +60,7 @@ for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[em
 \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
 (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 }
 \value{
 The same model object as returned by

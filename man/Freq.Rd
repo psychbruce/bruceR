@@ -4,7 +4,7 @@
 \alias{Freq}
 \title{Frequency statistics.}
 \usage{
-Freq(x, varname, labels, sort = "", digits = 1, nsmall = digits, file = NULL)
+Freq(x, varname, labels, sort = "", digits = 1, file = NULL)
 }
 \arguments{
 \item{x}{A vector of values (or a data frame).}
@@ -16,7 +16,7 @@ Freq(x, varname, labels, sort = "", digits = 1, nsmall = digits, file = NULL)
 \item{sort}{\code{""} (default, sorted by the order of variable values/labels),
 \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{1}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{1}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

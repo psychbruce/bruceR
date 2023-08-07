@@ -1,11 +1,11 @@
 ## News
 
-In this version (0.8.10), I have fixed all problems and improved some functions.
+Fixed bugs and improved functions.
 
 ## Test environments
 
--   Windows 11 (local installation), R 4.2.2
--   Mac OS 11.5 (check_mac_release), R 4.2.1
+-   Windows 11 (local installation), R 4.3.0
+-   Mac OS 13.3 (check_mac_release), R 4.3.0
 
 ## Package check results
 
@@ -13,8 +13,8 @@ passing `devtools::check_win_devel()`
 
 ## R CMD check results
 
-passing (0 errors | 0 warnings | 0 note)
+passing (0 errors | 0 warnings | 0 notes)
 
 ## Reverse dependencies
 
-Checks on downstream dependencies (`ChineseNames` and `PsychWordVec`) found no problems.
+Checks on downstream dependencies (`ChineseNames`, `PsychWordVec`, and `FMAT`) found no problems.

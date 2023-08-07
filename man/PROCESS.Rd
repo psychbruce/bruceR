@@ -27,7 +27,6 @@ PROCESS(
   center = TRUE,
   std = FALSE,
   digits = 3,
-  nsmall = digits,
   file = NULL
 )
 }
@@ -109,7 +108,7 @@ You may manually specify a vector of certain values: e.g.,
 
 \item{ci}{Method for estimating the standard error (SE) and
 95\% confidence interval (CI) of indirect effect(s).
-Default is \code{"boot"} for (generalized) linear models or
+Defaults to \code{"boot"} for (generalized) linear models or
 \code{"mcmc"} for (generalized) linear mixed models (i.e., multilevel models).
 \describe{
   \item{\code{"boot"}}{Percentile Bootstrap}
@@ -122,11 +121,11 @@ You \emph{should not} report the 95\% CIs of simple slopes as Bootstrap or Monte
 because they are just standard CIs without any resampling method.}
 
 \item{nsim}{Number of simulation samples (bootstrap resampling or Monte Carlo simulation)
-for estimating SE and 95\% CI. Default is \code{100} for running examples faster.
+for estimating SE and 95\% CI. Defaults to \code{100} for running examples faster.
 In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!}
 
 \item{seed}{Random seed for obtaining reproducible results.
-Default is \code{NULL}.
+Defaults to \code{NULL}.
 You may set to any number you prefer
 (e.g., \code{seed=1234}, just an uncountable number).
 
@@ -138,14 +137,14 @@ get exactly the same results across different R packages
 (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
 and software (e.g., SPSS, Mplus, R, jamovi).}
 
-\item{center}{Centering numeric (continuous) predictors? Default is \code{TRUE} (suggested).}
+\item{center}{Centering numeric (continuous) predictors? Defaults to \code{TRUE} (suggested).}
 
-\item{std}{Standardizing variables to get standardized coefficients? Default is \code{FALSE}.
+\item{std}{Standardizing variables to get standardized coefficients? Defaults to \code{FALSE}.
 If \code{TRUE}, it will standardize all numeric (continuous) variables
 before building regression models.
 However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).
 Currently, only regression model summary can be saved.}

@@ -9,7 +9,7 @@ formula_expand(formula, as.char = FALSE)
 \arguments{
 \item{formula}{R formula or a character string indicating the formula.}
 
-\item{as.char}{Return character? Default is \code{FALSE}.}
+\item{as.char}{Return character? Defaults to \code{FALSE}.}
 }
 \value{
 A formula/character object including all expanded terms.

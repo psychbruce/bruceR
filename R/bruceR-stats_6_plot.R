@@ -19,12 +19,12 @@
 #'   \item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
 #' }
 #'
-#' @param markdown Use \code{element_markdown()} instead of \code{element_text()}. Default is \code{FALSE}.
+#' @param markdown Use \code{element_markdown()} instead of \code{element_text()}. Defaults to \code{FALSE}.
 #' If set to \code{TRUE}, then you should also use \code{element_markdown()} in \code{theme()} (if any).
-#' @param base.size Basic font size. Default is 12.
-#' @param line.size Line width. Default is 0.5.
+#' @param base.size Basic font size. Defaults to \code{12}.
+#' @param line.size Line width. Defaults to \code{0.5}.
 #' @param border \code{TRUE}, \code{FALSE}, or \code{"black"} (default).
-#' @param bg Background color of whole plot. Default is \code{"white"}.
+#' @param bg Background color of whole plot. Defaults to \code{"white"}.
 #' You can use any colors or choose from some pre-set color palettes:
 #' \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
 #'
@@ -32,7 +32,7 @@
 #'
 #' \code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
 #' solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}
-#' @param panel.bg Background color of panel. Default is \code{"white"}.
+#' @param panel.bg Background color of panel. Defaults to \code{"white"}.
 #' @param tag Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param plot.title Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
 #' @param axis.title Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
@@ -42,10 +42,10 @@
 #' @param font Text font. Only applicable to Windows system.
 #' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
 #' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
-#' @param line.x Draw the x-axis line. Default is \code{TRUE}.
-#' @param line.y Draw the y-axis line. Default is \code{TRUE}.
-#' @param tick.x Draw the x-axis ticks. Default is \code{TRUE}.
-#' @param tick.y Draw the y-axis ticks. Default is \code{TRUE}.
+#' @param line.x Draw the x-axis line. Defaults to \code{TRUE}.
+#' @param line.y Draw the y-axis line. Defaults to \code{TRUE}.
+#' @param tick.x Draw the x-axis ticks. Defaults to \code{TRUE}.
+#' @param tick.y Draw the y-axis ticks. Defaults to \code{TRUE}.
 #'
 #' @return A theme object that should be used for \code{ggplot2}.
 #'

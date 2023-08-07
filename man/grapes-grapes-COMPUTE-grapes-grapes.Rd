@@ -107,9 +107,9 @@ A character string specifying the positions ("starting:stopping") of variables. 
 \item{range, likert}{[Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
 
-\item{na.rm}{Ignore missing values. Default is \code{TRUE}.}
+\item{na.rm}{Ignore missing values. Defaults to \code{TRUE}.}
 
-\item{values}{[Only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).}
+\item{values}{[Only for \code{CONSEC}] Values to be counted as consecutive identical values. Defaults to all numbers (\code{0:9}).}
 }
 \value{
 A vector of computed values.

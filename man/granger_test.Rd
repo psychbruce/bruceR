@@ -11,9 +11,9 @@ granger_test(formula, data, lags = 1:5, test.reverse = TRUE, file = NULL, ...)
 
 \item{data}{Data frame.}
 
-\item{lags}{Time lags. Default is \code{1:5}.}
+\item{lags}{Time lags. Defaults to \code{1:5}.}
 
-\item{test.reverse}{Whether to test reverse causality. Default is \code{TRUE}.}
+\item{test.reverse}{Whether to test reverse causality. Defaults to \code{TRUE}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

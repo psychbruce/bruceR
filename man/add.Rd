@@ -34,7 +34,7 @@ Passing to \code{\link[data.table:data.table]{data.table}}:
 \code{DT[ , , by]}}
 
 \item{drop}{Drop existing variables and return only new variables?
-Default is \code{FALSE}, which returns all variables.}
+Defaults to \code{FALSE}, which returns all variables.}
 }
 \value{
 \code{add()} returns a new

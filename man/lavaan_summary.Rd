@@ -10,7 +10,6 @@ lavaan_summary(
   nsim = 100,
   seed = NULL,
   digits = 3,
-  nsmall = digits,
   print = TRUE,
   covariance = FALSE,
   file = NULL
@@ -22,7 +21,7 @@ lavaan_summary(
 \item{ci}{Method for estimating standard error (SE) and
 95\% confidence interval (CI).
 
-Default is \code{"raw"} (the standard approach of \code{lavaan}).
+Defaults to \code{"raw"} (the standard approach of \code{lavaan}).
 Other options:
 \describe{
   \item{\code{"boot"}}{Percentile Bootstrap}
@@ -34,13 +33,13 @@ Other options:
 for estimating SE and 95\% CI.
 In formal analyses, \strong{\code{nsim=1000} (or larger)} is strongly suggested.}
 
-\item{seed}{Random seed for obtaining reproducible results. Default is \code{NULL}.}
+\item{seed}{Random seed for obtaining reproducible results. Defaults to \code{NULL}.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{print}{Print results. Default is \code{TRUE}.}
+\item{print}{Print results. Defaults to \code{TRUE}.}
 
-\item{covariance}{Print (co)variances. Default is \code{FALSE}.}
+\item{covariance}{Print (co)variances. Defaults to \code{FALSE}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

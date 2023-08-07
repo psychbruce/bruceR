@@ -16,17 +16,17 @@ granger_causality(
 \arguments{
 \item{varmodel}{VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.}
 
-\item{var.y, var.x}{[Optional] Default is \code{NULL} (all variables).
+\item{var.y, var.x}{[Optional] Defaults to \code{NULL} (all variables).
 If specified, then perform tests for specific variables.
 Values can be a single variable (e.g., \code{"X"}),
 a vector of variables (e.g., \code{c("X1", "X2")}),
 or a string containing regular expression (e.g., \code{"X1|X2"}).}
 
-\item{test}{\emph{F} test and/or Wald \eqn{\chi}^2 test. Default is both: \code{c("F", "Chisq")}.}
+\item{test}{\emph{F} test and/or Wald \eqn{\chi}^2 test. Defaults to both: \code{c("F", "Chisq")}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
-\item{check.dropped}{Check dropped variables. Default is \code{FALSE}.}
+\item{check.dropped}{Check dropped variables. Defaults to \code{FALSE}.}
 }
 \value{
 A data frame of results.

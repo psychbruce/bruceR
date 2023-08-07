@@ -4,7 +4,7 @@
 \alias{HLM_summary}
 \title{Tidy report of HLM (\code{lmer} and \code{glmer} models).}
 \usage{
-HLM_summary(model = NULL, test.rand = FALSE, digits = 3, nsmall = digits, ...)
+HLM_summary(model = NULL, test.rand = FALSE, digits = 3, ...)
 }
 \arguments{
 \item{model}{A model fitted with \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
@@ -15,7 +15,7 @@ Test random effects (i.e., variance components) by using the likelihood-ratio te
 which is asymptotically chi-square distributed.
 For large datasets, it is much time-consuming.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{...}{Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.}
 }

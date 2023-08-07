@@ -11,7 +11,8 @@ import(
   encoding = NULL,
   header = "auto",
   setclass = as,
-  as = "data.frame"
+  as = "data.frame",
+  verbose = FALSE
 )
 }
 \arguments{
@@ -19,22 +20,24 @@ import(
 If unspecified, then data will be imported from clipboard.}
 
 \item{sheet}{[Only for Excel] Excel sheet name (or sheet number).
-Default is the first sheet.
+Defaults to the first sheet.
 Ignored if the sheet is specified via \code{range}.}
 
-\item{range}{[Only for Excel] Excel cell range. Default are all cells in a sheet.
+\item{range}{[Only for Excel] Excel cell range. Defaults to all cells in a sheet.
 You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
 
-\item{encoding}{File encoding. Default is \code{NULL}.
+\item{encoding}{File encoding. Defaults to \code{NULL}.
 Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 
 If you find messy code for Chinese text in the imported data,
 it is usually effective to set \code{encoding="UTF-8"}.}
 
-\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})? Default is \code{"auto"}.}
+\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})? Defaults to \code{"auto"}.}
 
-\item{setclass, as}{Class of the imported data. Default is \code{"data.frame"}.
-Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).
+\item{setclass, as}{Class of the imported data. Defaults to \code{"data.frame"}.
+Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).}
+
+\item{verbose}{Print data information? Defaults to \code{FALSE}.
 
 Alternatives can be:
 \itemize{

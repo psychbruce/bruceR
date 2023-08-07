@@ -686,3 +686,253 @@
 #   results=as.data.table(results)[order(singular, BIC, AIC, raw.id),]
 #   return(results)
 # }
+
+
+## modified `psych::cor.plot()`
+## see comment lines
+# cor_plot <- function (r, numbers = TRUE, colors = TRUE, n = 51, main = NULL,
+#                       zlim = c(-1, 1), show.legend = TRUE, labels = NULL, n.legend = 10,
+#                       select = NULL, pval = NULL, cuts = c(0.001, 0.01), scale = TRUE,
+#                       cex, MAR, upper = TRUE, diag = TRUE,
+#                       symmetric = TRUE, stars = FALSE, adjust = "holm", xaxis = 1,
+#                       xlas = 0, ylas = 2, gr = NULL, alpha = 0.75, min.length = NULL,
+#                       digits=2,  # added in bruceR
+#                       ...)
+# {
+#   oldpar <- graphics::par(no.readonly = TRUE)
+#   on.exit(graphics::par(oldpar))
+#   if (missing(MAR))
+#     # MAR <- 5
+#     MAR <- 4
+#   if (!is.matrix(r) & (!is.data.frame(r))) {
+#     if ((length(class(r)) > 1) & (inherits(r, "psych"))) {
+#       switch(class(r)[2], omega = {
+#         r <- r$schmid$sl
+#         nff <- ncol(r)
+#         r <- r[, 1:(nff - 3)]
+#         if (is.null(main)) {
+#           main <- "Omega plot"
+#         }
+#       }, cor.ci = {
+#         pval <- 2 * (1 - r$ptci)
+#         r <- r$rho
+#       }, fa = {
+#         r <- r$loadings
+#         if (is.null(main)) {
+#           main <- "Factor Loadings plot"
+#         }
+#       }, pc = {
+#         r <- r$loadings
+#         if (is.null(main)) {
+#           main <- "PCA Loadings plot"
+#         }
+#       }, principal = {
+#         r <- r$loadings
+#         if (is.null(main)) {
+#           main <- "PCA Loadings plot"
+#         }
+#       })
+#     }
+#   }
+#   else {
+#     if (symmetric & !psych::isCorrelation(r) & (nrow(r) != ncol(r))) {
+#       cp <- psych::corr.test(r, adjust = adjust)
+#       r <- cp$r
+#       pval <- cp$p
+#       if (is.null(main)) {
+#         main <- "Correlation plot"
+#       }
+#     }
+#   }
+#   R <- r <- as.matrix(r)
+#   if (!is.null(select))
+#     r <- r[select, select]
+#   if (min(dim(r)) < 2) {
+#     stop("You need at least two dimensions to make a meaningful plot.", call.=TRUE)
+#   }
+#   if (is.null(n)) {
+#     n <- dim(r)[2]
+#   }
+#   nf <- dim(r)[2]
+#   nvar <- dim(r)[1]
+#   if (!upper)
+#     r[col(r) > row(r)] <- NA
+#   if (!diag)
+#     r[col(r) == row(r)] <- NA
+#   if (nf == nvar)
+#     r <- t(r)
+#   if (missing(pval) | is.null(pval)) {
+#     pval <- matrix(rep(1, nvar * nf), nvar)
+#   }
+#   else {
+#     if (length(pval) != nvar * nf) {
+#       pr = matrix(0, nvar, nf)
+#       pr[row(pr) > col(pr)] <- pval
+#       pr <- pr + t(pr)
+#       diag(pr) <- 0
+#       pval <- pr
+#     }
+#     if (!stars) {
+#       pval <- psych::con2cat(pval, cuts = cuts)
+#       pval <- (length(cuts) + 1 - pval)/length(cuts)
+#     }
+#     pval <- t(pval)
+#   }
+#   if (is.null(labels)) {
+#     if (is.null(rownames(r)))
+#       rownames(r) <- paste("V", 1:nvar)
+#     if (is.null(colnames(r)))
+#       colnames(r) <- paste("V", 1:nf)
+#   }
+#   else {
+#     rownames(r) <- colnames(r) <- labels
+#   }
+#   if (!is.null(min.length)) {
+#     rownames(r) <- abbreviate(rownames(r), minlength = min.length)
+#     colnames(r) <- abbreviate(colnames(r), minlength = min.length)
+#   }
+#   max.len <- max(nchar(rownames(r)))/6
+#   if (is.null(zlim)) {
+#     zlim <- range(r)
+#   }
+#   if (colors) {
+#     if (missing(gr)) {
+#       gr <- grDevices::colorRampPalette(c("red", "white", "blue"))
+#     }
+#     if (max(r, na.rm = TRUE) > 1) {
+#       maxr <- max(r)
+#       n1 <- n * (zlim[2] - zlim[1])/(maxr - zlim[1])
+#       colramp <- rep(NA, n)
+#       n1 <- ceiling(n1)
+#       colramp[1:(n1 + 1)] <- gr(n1 + 1)
+#       colramp[(n1 + 1):n] <- colramp[n1 + 1]
+#       zlim[2] <- maxr
+#     }
+#     else {
+#       colramp <- gr(n)
+#     }
+#   }
+#   else {
+#     colramp <- grDevices::grey((n:0)/n)
+#   }
+#   colramp <- grDevices::adjustcolor(colramp, alpha.f = alpha)
+#   if (nvar != nf) {
+#     r <- t(r)
+#   }
+#   ord1 <- seq(nvar, 1, -1)
+#   if (nf == nvar) {
+#     r <- r[, ord1]
+#     pval <- pval[, ord1]
+#   }
+#   else {
+#     r <- r[, ord1]
+#     pval <- t(pval[ord1, ])
+#   }
+#   # graphics::par(mar = c(MAR + max.len, MAR + max.len, 4, 0.5))
+#   graphics::par(mar = c(MAR + max.len, MAR + max.len, 2.5, 0.5))
+#   if (show.legend) {
+#     graphics::layout(matrix(c(1, 2), nrow = 1), widths = c(0.9, 0.1),
+#                      heights = c(1, 1))
+#   }
+#   graphics::image(r, col = colramp, axes = FALSE, main = main, zlim = zlim)
+#   graphics::box()
+#   at1 <- (0:(nf - 1))/(nf - 1)
+#   at2 <- (0:(nvar - 1))/(nvar - 1)
+#   lab1 <- rownames(r)
+#   lab2 <- colnames(r)
+#   if (xaxis == 3) {
+#     line <- -0.5
+#     tick <- FALSE
+#   }
+#   else {
+#     line <- NA
+#     tick <- TRUE
+#   }
+#   if (max.len > 0.5) {
+#     graphics::axis(2, at = at2, labels = lab2, las = ylas, ...)
+#     graphics::axis(xaxis, at = at1, labels = lab1, las = xlas, line = line,
+#                    tick = tick, ...)
+#   }
+#   else {
+#     graphics::axis(2, at = at2, labels = lab2, las = ylas, ...)
+#     graphics::axis(xaxis, at = at1, labels = lab1, las = xlas, line = line,
+#                    tick = tick, ...)
+#   }
+#   if (numbers) {
+#     rx <- rep(at1, ncol(r))
+#     ry <- rep(at2, each = nrow(r))
+#     # rv <- round(r, 2)  # modified in bruceR
+#     rv <- formatF(r, digits)  # modified in bruceR
+#     if (stars) {
+#       symp <- stats::symnum(pval, corr = FALSE, cutpoints = c(0,
+#                                                               0.001, 0.01, 0.05, 1), symbols = c("***", "**",
+#                                                                                                  "*", " "), legend = FALSE)
+#       rv[!is.na(rv)] <- paste0(rv[!is.na(rv)], symp[!is.na(rv)])
+#       rv <- gsub("NA.*", "", rv)  # modified in bruceR
+#       if (missing(cex))
+#         cex = 9/max(nrow(r), ncol(r))
+#       graphics::text(rx, ry, rv, cex = cex, ...)
+#     }
+#     else {
+#       if (missing(cex))
+#         cex = 9/max(nrow(r), ncol(r))
+#       if (scale) {
+#         graphics::text(rx, ry, rv, cex = pval * cex, ...)
+#       }
+#       else {
+#         graphics::text(rx, ry, rv, cex = cex, ...)
+#       }
+#     }
+#   }
+#   if (show.legend) {
+#     leg <- matrix(seq(from = zlim[1], to = zlim[2], by = (zlim[2] -
+#                                                             zlim[1])/n), nrow = 1)
+#     # graphics::par(mar = c(MAR, 0, 4, 3))
+#     graphics::par(mar = c(MAR, 0, 2.5, 3))
+#     graphics::image(leg, col = colramp, axes = FALSE, zlim = zlim)
+#     at2 <- seq(0, 1, 1/n.legend)
+#     labels = seq(zlim[1], zlim[2], (zlim[2] - zlim[1])/(length(at2) -
+#                                                           1))
+#     graphics::axis(4, at = at2, labels = labels, las = 2, ...)
+#   }
+#   invisible(R)
+# }
+
+# cor_plot(r=cor$r, adjust="none", digits=digits,
+#          numbers=TRUE, zlim=plot.range,
+#          diag=FALSE, xlas=2, n=plot.color.levels,
+#          pval=cor$p, stars=TRUE,
+#          alpha=1, gr=grDevices::colorRampPalette(plot.palette),
+#          main="Correlation Matrix")
+
+
+# if(!is.null(plot.file)) {
+#   if(str_detect(plot.file, "\\.png$"))
+#     grDevices::png(plot.file, width=plot.width, height=plot.height,
+#                    units="in", res=plot.dpi)
+#   if(str_detect(plot.file, "\\.pdf$"))
+#     grDevices::pdf(plot.file, width=plot.width, height=plot.height)
+# }
+# corrplot::corrplot(
+#   cor$r,
+#   p.mat=cor$p,
+#   diag=FALSE,
+#   method="color",
+#   tl.col="black",
+#   tl.srt=45,
+#   cl.align.text="l",
+#   addCoef.col="black",
+#   number.digits=digits,
+#   insig="label_sig",
+#   sig.level=c(0.001, 0.01, 0.05),
+#   pch="*",
+#   pch.cex=2,
+#   pch.col="grey20")
+# if(!is.null(plot.file)) {
+#   grDevices::dev.off()
+#   plot.file = str_split(plot.file, "/", simplify=TRUE)
+#   plot.path = paste0(getwd(), '/', plot.file[length(plot.file)])
+#   Print("<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
+#   cat("\n")
+# }
+

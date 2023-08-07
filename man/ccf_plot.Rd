@@ -27,33 +27,33 @@ ccf_plot(
 
 \item{data}{Data frame.}
 
-\item{lag.max}{Maximum time lag. Default is \code{30}.}
+\item{lag.max}{Maximum time lag. Defaults to \code{30}.}
 
-\item{sig.level}{Significance level. Default is \code{0.05}.}
+\item{sig.level}{Significance level. Defaults to \code{0.05}.}
 
 \item{xbreaks}{X-axis breaks.}
 
 \item{ybreaks}{Y-axis breaks.}
 
-\item{ylim}{Y-axis limits. Default is \code{NULL} to automatically estimate.}
+\item{ylim}{Y-axis limits. Defaults to \code{NULL} to automatically estimate.}
 
 \item{alpha.ns}{Color transparency (opacity: 0~1) for non-significant values.
-Default is \code{1} for no transparency (i.e., opaque color).}
+Defaults to \code{1} for no transparency (i.e., opaque color).}
 
-\item{pos.color}{Color for positive values. Default is \code{"black"}.}
+\item{pos.color}{Color for positive values. Defaults to \code{"black"}.}
 
-\item{neg.color}{Color for negative values. Default is \code{"black"}.}
+\item{neg.color}{Color for negative values. Defaults to \code{"black"}.}
 
 \item{ci.color}{Color for upper and lower bounds of significant values.
-Default is \code{"blue"}.}
+Defaults to \code{"blue"}.}
 
-\item{title}{Plot title. Default is an illustration of the formula.}
+\item{title}{Plot title. Defaults to an illustration of the formula.}
 
 \item{subtitle}{Plot subtitle.}
 
-\item{xlab}{X-axis title. Default is \code{"Lag"}.}
+\item{xlab}{X-axis title. Defaults to \code{"Lag"}.}
 
-\item{ylab}{Y-axis title. Default is \code{"Cross-Correlation"}.}
+\item{ylab}{Y-axis title. Defaults to \code{"Cross-Correlation"}.}
 }
 \value{
 A \code{gg} object, which you can further modify using

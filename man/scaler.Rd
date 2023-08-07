@@ -9,9 +9,9 @@ scaler(v, min = 0, max = 1)
 \arguments{
 \item{v}{Variable (numeric vector).}
 
-\item{min}{Minimum value (default is 0).}
+\item{min}{Minimum value (defaults to 0).}
 
-\item{max}{Maximum value (default is 1).}
+\item{max}{Maximum value (defaults to 1).}
 }
 \value{
 A vector of rescaled variable.

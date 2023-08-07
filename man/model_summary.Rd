@@ -8,7 +8,6 @@ model_summary(
   model.list,
   std = FALSE,
   digits = 3,
-  nsmall = digits,
   file = NULL,
   check = TRUE,
   zero = ifelse(std, FALSE, TRUE),
@@ -23,11 +22,11 @@ model_summary(
 \item{model.list}{A single model or a list of (various types of) models.
 Most types of regression models are supported!}
 
-\item{std}{Standardized coefficients? Default is \code{FALSE}.
+\item{std}{Standardized coefficients? Defaults to \code{FALSE}.
 Only applicable to linear models and linear mixed models.
 Not applicable to generalized linear (mixed) models.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
@@ -35,7 +34,7 @@ Not applicable to generalized linear (mixed) models.}
 using \code{\link[performance:check_collinearity]{performance::check_collinearity()}}.
 You may turn it off by setting \code{check=FALSE}.}
 
-\item{zero}{Display "0" before "."? Default is \code{TRUE}.}
+\item{zero}{Display "0" before "."? Defaults to \code{TRUE}.}
 
 \item{modify.se}{Replace standard errors.
 Useful if you need to replace raw SEs with robust SEs.

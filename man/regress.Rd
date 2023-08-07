@@ -9,7 +9,6 @@ regress(
   data,
   family = NULL,
   digits = 3,
-  nsmall = digits,
   robust = FALSE,
   cluster = NULL,
   test.rand = FALSE
@@ -20,9 +19,10 @@ regress(
 
 \item{data}{Data frame.}
 
-\item{family}{[Optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} fits a logistic regression model).}
+\item{family}{[Optional] The same as in \code{glm} and \code{glmer}
+(e.g., \code{family=binomial} fits a logistic regression model).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is 3.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{robust}{[Only for \code{lm} and \code{glm}]
 \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),

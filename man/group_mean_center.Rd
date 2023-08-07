@@ -20,13 +20,13 @@ group_mean_center(
 
 \item{by}{Grouping variable.}
 
-\item{std}{Standardized or not. Default is \code{FALSE}.}
+\item{std}{Standardized or not. Defaults to \code{FALSE}.}
 
 \item{add.suffix}{The suffix of the centered variable(s).
-Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
+Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 
 \item{add.group.mean}{The suffix of the variable name(s) of group means.
-Default is \code{"_mean"} (see Examples).}
+Defaults to \code{"_mean"} (see Examples).}
 }
 \value{
 A new data object containing the centered variable(s).

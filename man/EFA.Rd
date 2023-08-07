@@ -22,7 +22,6 @@ EFA(
   max.iter = 25,
   min.eigen = 1,
   digits = 3,
-  nsmall = digits,
   file = NULL
 )
 
@@ -77,20 +76,20 @@ A character string specifying the positions ("starting:stopping") of variables. 
   \item (any number >= 1) - user-defined fixed number
 }}
 
-\item{sort.loadings}{Sort factor/component loadings by size? Default is \code{TRUE}.}
+\item{sort.loadings}{Sort factor/component loadings by size? Defaults to \code{TRUE}.}
 
 \item{hide.loadings}{A number (0~1) for hiding absolute factor/component loadings below this value.
-Default is \code{0} (does not hide any loading).}
+Defaults to \code{0} (does not hide any loading).}
 
-\item{plot.scree}{Display the scree plot? Default is \code{TRUE}.}
+\item{plot.scree}{Display the scree plot? Defaults to \code{TRUE}.}
 
-\item{kaiser}{Do the Kaiser normalization (as in SPSS)? Default is \code{TRUE}.}
+\item{kaiser}{Do the Kaiser normalization (as in SPSS)? Defaults to \code{TRUE}.}
 
-\item{max.iter}{Maximum number of iterations for convergence. Default is \code{25} (the same as in SPSS).}
+\item{max.iter}{Maximum number of iterations for convergence. Defaults to \code{25} (the same as in SPSS).}
 
-\item{min.eigen}{Minimum eigenvalue (used if \code{nfactors="eigen"}). Default is \code{1}.}
+\item{min.eigen}{Minimum eigenvalue (used if \code{nfactors="eigen"}). Defaults to \code{1}.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 

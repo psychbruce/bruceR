@@ -27,16 +27,16 @@ theme_bruce(
 )
 }
 \arguments{
-\item{markdown}{Use \code{element_markdown()} instead of \code{element_text()}. Default is \code{FALSE}.
+\item{markdown}{Use \code{element_markdown()} instead of \code{element_text()}. Defaults to \code{FALSE}.
 If set to \code{TRUE}, then you should also use \code{element_markdown()} in \code{theme()} (if any).}
 
-\item{base.size}{Basic font size. Default is 12.}
+\item{base.size}{Basic font size. Defaults to \code{12}.}
 
-\item{line.size}{Line width. Default is 0.5.}
+\item{line.size}{Line width. Defaults to \code{0.5}.}
 
 \item{border}{\code{TRUE}, \code{FALSE}, or \code{"black"} (default).}
 
-\item{bg}{Background color of whole plot. Default is \code{"white"}.
+\item{bg}{Background color of whole plot. Defaults to \code{"white"}.
 You can use any colors or choose from some pre-set color palettes:
 \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
 
@@ -45,7 +45,7 @@ To see these colors, you can type:
 \code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
 solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 
-\item{panel.bg}{Background color of panel. Default is \code{"white"}.}
+\item{panel.bg}{Background color of panel. Defaults to \code{"white"}.}
 
 \item{tag}{Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
 
@@ -65,13 +65,13 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 
 \item{grid.y}{\code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).}
 
-\item{line.x}{Draw the x-axis line. Default is \code{TRUE}.}
+\item{line.x}{Draw the x-axis line. Defaults to \code{TRUE}.}
 
-\item{line.y}{Draw the y-axis line. Default is \code{TRUE}.}
+\item{line.y}{Draw the y-axis line. Defaults to \code{TRUE}.}
 
-\item{tick.x}{Draw the x-axis ticks. Default is \code{TRUE}.}
+\item{tick.x}{Draw the x-axis ticks. Defaults to \code{TRUE}.}
 
-\item{tick.y}{Draw the y-axis ticks. Default is \code{TRUE}.}
+\item{tick.y}{Draw the y-axis ticks. Defaults to \code{TRUE}.}
 }
 \value{
 A theme object that should be used for \code{ggplot2}.

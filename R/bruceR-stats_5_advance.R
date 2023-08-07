@@ -377,7 +377,7 @@ boot_ci = function(boot,
 #' \code{mod1.val=c(1, 3, 5)} or \code{mod1.val=c("A", "B", "C")}.
 #' @param ci Method for estimating the standard error (SE) and
 #' 95\% confidence interval (CI) of indirect effect(s).
-#' Default is \code{"boot"} for (generalized) linear models or
+#' Defaults to \code{"boot"} for (generalized) linear models or
 #' \code{"mcmc"} for (generalized) linear mixed models (i.e., multilevel models).
 #' \describe{
 #'   \item{\code{"boot"}}{Percentile Bootstrap}
@@ -389,10 +389,10 @@ boot_ci = function(boot,
 #' You \emph{should not} report the 95\% CIs of simple slopes as Bootstrap or Monte Carlo CIs,
 #' because they are just standard CIs without any resampling method.
 #' @param nsim Number of simulation samples (bootstrap resampling or Monte Carlo simulation)
-#' for estimating SE and 95\% CI. Default is \code{100} for running examples faster.
+#' for estimating SE and 95\% CI. Defaults to \code{100} for running examples faster.
 #' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
 #' @param seed Random seed for obtaining reproducible results.
-#' Default is \code{NULL}.
+#' Defaults to \code{NULL}.
 #' You may set to any number you prefer
 #' (e.g., \code{seed=1234}, just an uncountable number).
 #'
@@ -403,12 +403,12 @@ boot_ci = function(boot,
 #' get exactly the same results across different R packages
 #' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
 #' and software (e.g., SPSS, Mplus, R, jamovi).
-#' @param center Centering numeric (continuous) predictors? Default is \code{TRUE} (suggested).
-#' @param std Standardizing variables to get standardized coefficients? Default is \code{FALSE}.
+#' @param center Centering numeric (continuous) predictors? Defaults to \code{TRUE} (suggested).
+#' @param std Standardizing variables to get standardized coefficients? Defaults to \code{FALSE}.
 #' If \code{TRUE}, it will standardize all numeric (continuous) variables
 #' before building regression models.
 #' However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' Currently, only regression model summary can be saved.
 #'
@@ -539,30 +539,31 @@ boot_ci = function(boot,
 #' ## https://github.com/psychbruce/bruceR/tree/main/note
 #' }
 #' @export
-PROCESS = function(data,
-                   y="",
-                   x="",
-                   meds=c(),
-                   mods=c(),
-                   covs=c(),
-                   clusters=c(),
-                   hlm.re.m="",
-                   hlm.re.y="",
-                   hlm.type=c("1-1-1", "2-1-1", "2-2-1"),
-                   med.type=c("parallel", "serial"),  # "p"*, "s"
-                   mod.type=c("2-way", "3-way"),  # "2"*, "3"
-                   mod.path=c("x-y", "x-m", "m-y", "all"),
-                   cov.path=c("y", "m", "both"),
-                   mod1.val=NULL,
-                   mod2.val=NULL,
-                   ci=c("boot", "bc.boot", "bca.boot", "mcmc"),
-                   nsim=100,
-                   seed=NULL,
-                   center=TRUE,
-                   std=FALSE,
-                   digits=3,
-                   nsmall=digits,
-                   file=NULL) {
+PROCESS = function(
+    data,
+    y="",
+    x="",
+    meds=c(),
+    mods=c(),
+    covs=c(),
+    clusters=c(),
+    hlm.re.m="",
+    hlm.re.y="",
+    hlm.type=c("1-1-1", "2-1-1", "2-2-1"),
+    med.type=c("parallel", "serial"),  # "p"*, "s"
+    mod.type=c("2-way", "3-way"),  # "2"*, "3"
+    mod.path=c("x-y", "x-m", "m-y", "all"),
+    cov.path=c("y", "m", "both"),
+    mod1.val=NULL,
+    mod2.val=NULL,
+    ci=c("boot", "bc.boot", "bca.boot", "mcmc"),
+    nsim=100,
+    seed=NULL,
+    center=TRUE,
+    std=FALSE,
+    digits=3,
+    file=NULL
+) {
   ## Default Setting
   warning.y.class = "\"y\" should be a numeric variable or a factor variable with only 2 levels."
   warning.x.class = "\"x\" should be a numeric variable or a factor variable with only 2 levels."
@@ -944,7 +945,7 @@ CAUTION:
     rm(data.v.temp, data.c.temp)
   }
   model_summary(c(list(model.t), model.m, list(model.y)),
-                nsmall=nsmall, std=std, file=file)
+                digits=digits, std=std, file=file)
   file = NULL
 
   ## PROCESS Model Summary
@@ -983,7 +984,7 @@ CAUTION:
                       x.label=\"X\",
                       y.label=\"Y\",
                       eff.tag=\"{eff.tag}\",
-                      nsmall, file=file)
+                      digits, file=file)
     RES = c(RES, list(res))")
   }
   run.process.mod.xm = function(i, eff.tag="") {
@@ -994,8 +995,8 @@ CAUTION:
                       mod.type,
                       x.label=\"X\",
                       y.label=\"M\",
-                     eff.tag=\"{eff.tag}\",
-                      nsmall, file=file)
+                      eff.tag=\"{eff.tag}\",
+                      digits, file=file)
     RES = c(RES, list(res))")
   }
   run.process.mod.my = function(i, eff.tag="") {
@@ -1007,7 +1008,7 @@ CAUTION:
                       x.label=\"M\",
                       y.label=\"Y\",
                       eff.tag=\"{eff.tag}\",
-                      nsmall, file=file)
+                      digits, file=file)
     RES = c(RES, list(res))")
   }
   run.process.med = function(eff.tag="") {
@@ -1019,7 +1020,7 @@ CAUTION:
                       direct=ifelse(length(mods)==0, TRUE, FALSE),
                       total=ifelse(length(meds)==1, TRUE, FALSE),
                       eff.tag=\"{eff.tag}\",
-                      nsmall, file=file)
+                      digits, file=file)
     RES = c(RES, list(res))")
   }
   conditional = NULL
@@ -1033,7 +1034,7 @@ CAUTION:
     # res = process_lav(data.v, y, x, meds, covs,
     #                   med.type, cov.path,
     #                   ci, nsim, seed,
-    #                   nsmall=nsmall,
+    #                   digits=digits,
     #                   file=file)
     # RES = c(RES, list(res))
     # lavaan ERROR: unordered factor(s) detected; make them numeric or ordered: pass gender
@@ -1046,7 +1047,7 @@ CAUTION:
     res = process_lav(data.v, y, x, meds, covs, clusters,
                       med.type, cov.path,
                       ci, nsim, seed,
-                      nsmall=nsmall,
+                      digits=digits,
                       file=file)
     RES = c(RES, list(res))
   } else {
@@ -1060,11 +1061,11 @@ CAUTION:
       de$df = NULL
       conf.int = confint(model.y)
       conf.int = conf.int[which(row.names(conf.int)==row.names(de)),]
-      de$CI = paste0("[", paste(formatF(conf.int, nsmall), collapse=", "), "]")
+      de$CI = paste0("[", paste(formatF(conf.int, digits), collapse=", "), "]")
       names(de)[1] = "Effect"
       names(de)[5] = "[95% CI]"
       row.names(de)[1] = "Direct (c')"
-      print_table(de, nsmalls=nsmall, file=file)
+      print_table(de, digits=digits, file=file)
       cat("\n")
     }
     for(i in 1:length(meds)) {
@@ -1104,7 +1105,7 @@ CAUTION:
 #' @param ci Method for estimating standard error (SE) and
 #' 95\% confidence interval (CI).
 #'
-#' Default is \code{"raw"} (the standard approach of \code{lavaan}).
+#' Defaults to \code{"raw"} (the standard approach of \code{lavaan}).
 #' Other options:
 #' \describe{
 #'   \item{\code{"boot"}}{Percentile Bootstrap}
@@ -1114,10 +1115,10 @@ CAUTION:
 #' @param nsim Number of simulation samples (bootstrap resampling)
 #' for estimating SE and 95\% CI.
 #' In formal analyses, \strong{\code{nsim=1000} (or larger)} is strongly suggested.
-#' @param seed Random seed for obtaining reproducible results. Default is \code{NULL}.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
-#' @param print Print results. Default is \code{TRUE}.
-#' @param covariance Print (co)variances. Default is \code{FALSE}.
+#' @param seed Random seed for obtaining reproducible results. Defaults to \code{NULL}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
+#' @param print Print results. Defaults to \code{TRUE}.
+#' @param covariance Print (co)variances. Defaults to \code{FALSE}.
 #' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return
@@ -1192,14 +1193,16 @@ CAUTION:
 #' # lavaan_summary(lv1, ci="boot", nsim=1000, seed=1)
 #'
 #' @export
-lavaan_summary = function(lavaan,
-                          ci=c("raw", "boot", "bc.boot", "bca.boot"),
-                          nsim=100,
-                          seed=NULL,
-                          digits=3, nsmall=digits,
-                          print=TRUE,
-                          covariance=FALSE,
-                          file=NULL) {
+lavaan_summary = function(
+    lavaan,
+    ci=c("raw", "boot", "bc.boot", "bca.boot"),
+    nsim=100,
+    seed=NULL,
+    digits=3,
+    print=TRUE,
+    covariance=FALSE,
+    file=NULL
+) {
   FIT = lavaan::fitMeasures(lavaan)
 
   try({
@@ -1289,21 +1292,21 @@ lavaan_summary = function(lavaan,
     cat("\n")
     Print("
     <<cyan Fit Measures (lavaan):>>
-    {p(chi2=FIT['chisq'], df=FIT['df'], n=FIT['ntotal'], nsmall=nsmall)}
-    \u03c7\u00b2/<<italic df>> = {FIT['chisq']/FIT['df']:.{nsmall}}{ifelse(FIT['df']==0, ' <<red (saturated model)>>', '')}
-    AIC = {FIT['aic']:.{nsmall}} <<white (Akaike Information Criterion)>>
-    BIC = {FIT['bic']:.{nsmall}} <<white (Bayesian Information Criterion)>>
-    CFI = {FIT['cfi']:.{nsmall}} <<white (Comparative Fit Index)>>
-    TLI = {FIT['tli']:.{nsmall}} <<white (Tucker-Lewis Index; Non-Normed Fit Index, NNFI)>>
-    NFI = {FIT['nfi']:.{nsmall}} <<white (Normed Fit Index)>>
-    IFI = {FIT['ifi']:.{nsmall}} <<white (Incremental Fit Index)>>
-    GFI = {FIT['gfi']:.{nsmall}} <<white (Goodness-of-Fit Index)>>
-    AGFI = {FIT['agfi']:.{nsmall}} <<white (Adjusted Goodness-of-Fit Index)>>
-    RMSEA = {FIT['rmsea']:.{nsmall}}, 90% CI [{FIT['rmsea.ci.lower']:.{nsmall}}, {FIT['rmsea.ci.upper']:.{nsmall}}] <<white (Root Mean Square Error of Approximation)>>
-    SRMR = {FIT['srmr']:.{nsmall}} <<white (Standardized Root Mean Square Residual)>>
+    {p(chi2=FIT['chisq'], df=FIT['df'], n=FIT['ntotal'], digits=digits)}
+    \u03c7\u00b2/<<italic df>> = {FIT['chisq']/FIT['df']:.{digits}}{ifelse(FIT['df']==0, ' <<red (saturated model)>>', '')}
+    AIC = {FIT['aic']:.{digits}} <<white (Akaike Information Criterion)>>
+    BIC = {FIT['bic']:.{digits}} <<white (Bayesian Information Criterion)>>
+    CFI = {FIT['cfi']:.{digits}} <<white (Comparative Fit Index)>>
+    TLI = {FIT['tli']:.{digits}} <<white (Tucker-Lewis Index; Non-Normed Fit Index, NNFI)>>
+    NFI = {FIT['nfi']:.{digits}} <<white (Normed Fit Index)>>
+    IFI = {FIT['ifi']:.{digits}} <<white (Incremental Fit Index)>>
+    GFI = {FIT['gfi']:.{digits}} <<white (Goodness-of-Fit Index)>>
+    AGFI = {FIT['agfi']:.{digits}} <<white (Adjusted Goodness-of-Fit Index)>>
+    RMSEA = {FIT['rmsea']:.{digits}}, 90% CI [{FIT['rmsea.ci.lower']:.{digits}}, {FIT['rmsea.ci.upper']:.{digits}}] <<white (Root Mean Square Error of Approximation)>>
+    SRMR = {FIT['srmr']:.{digits}} <<white (Standardized Root Mean Square Residual)>>
     ")
     cat("\n")
-    print_table(ALL, row.names=TRUE, nsmalls=nsmall,
+    print_table(ALL, row.names=TRUE, digits=digits,
                 title="<<cyan Model Estimates (lavaan):>>",
                 note=Glue("<<italic Note>>. {CI} Confidence Interval (CI) and SE."))
     cat("\n")
@@ -1311,7 +1314,7 @@ lavaan_summary = function(lavaan,
 
   if(!is.null(file)) {
     print_table(
-      ALL, nsmalls=nsmall, row.names=TRUE,
+      ALL, digits=digits, row.names=TRUE,
       title="<b>Table. Model Estimates.</b>",
       note="<i>Note</i>. * <i>p</i> < .05. ** <i>p</i> < .01. *** <i>p</i> < .001.",
       file=file,
@@ -1329,12 +1332,14 @@ lavaan_summary = function(lavaan,
 
 
 ## Model 4 and 6
-process_lav = function(data, y, x, meds, covs, clusters,
-                       med.type, cov.path,
-                       ci, nsim, seed,
-                       nsmall=3,
-                       file=NULL,
-                       print=TRUE) {
+process_lav = function(
+    data, y, x, meds, covs, clusters,
+    med.type, cov.path,
+    ci, nsim, seed,
+    digits=3,
+    file=NULL,
+    print=TRUE
+) {
   if(length(clusters)>=1)
     stop("Multilevel serial mediation is not supported currently.", call.=TRUE)
 
@@ -1375,13 +1380,13 @@ process_lav = function(data, y, x, meds, covs, clusters,
   if(print) {
     MED.print = MED
     MED.print$Beta = NULL
-    MED.print$CI = cc_ci(MED[["BootLLCI"]], MED[["BootULCI"]], nsmall)
+    MED.print$CI = cc_ci(MED[["BootLLCI"]], MED[["BootULCI"]], digits)
     names(MED.print)[length(MED.print)] = "[Boot 95% CI]"
     MED.print$Beta = MED$Beta
     print_table(
       dplyr::select(MED.print, !c("BootLLCI", "BootULCI")),
       row.names=TRUE,
-      nsmalls=nsmall,
+      digits=digits,
       line=is.null(file),
       file=file,
       title=Glue("
@@ -1397,7 +1402,7 @@ process_lav = function(data, y, x, meds, covs, clusters,
 }
 
 
-extract_med = function(med, ci, nsmall=3, direct=TRUE, total=TRUE) {
+extract_med = function(med, ci, digits=3, direct=TRUE, total=TRUE) {
   boot = ifelse(grepl("boot", ci), TRUE, FALSE)
   # MED = rbind(
   #   c(med$d.avg, sd(med$d.avg.sims), med$d.avg.ci, med$d.avg.p),
@@ -1418,7 +1423,7 @@ extract_med = function(med, ci, nsmall=3, direct=TRUE, total=TRUE) {
   names(MED) = c("Effect", "S.E.", "LLCI", "ULCI", "p")
   MED$z = MED$Effect / MED$S.E.
   MED$pval = p.z(MED$z)
-  MED$CI = cc_ci(MED[[3]], MED[[4]], nsmall)
+  MED$CI = cc_ci(MED[[3]], MED[[4]], digits)
   names(MED)[8] = ifelse(boot, "[Boot 95% CI]", "[MCMC 95% CI]")
   if(direct==FALSE) total = FALSE
   if(direct==FALSE) MED = MED[which(row.names(MED)!="Direct (c')"),]
@@ -1427,21 +1432,23 @@ extract_med = function(med, ci, nsmall=3, direct=TRUE, total=TRUE) {
 }
 
 
-process_med = function(model.m,
-                       model.y,
-                       x, y,
-                       medi,
-                       conditional=NULL,  # process_mod => RES0
-                       simple.slopes=NULL,  # process_mod => RES
-                       ci,
-                       nsim=100,
-                       seed=1,
-                       direct=TRUE,
-                       total=TRUE,
-                       eff.tag="",
-                       nsmall=3,
-                       file=NULL,
-                       print=TRUE) {
+process_med = function(
+    model.m,
+    model.y,
+    x, y,
+    medi,
+    conditional=NULL,  # process_mod => RES0
+    simple.slopes=NULL,  # process_mod => RES
+    ci,
+    nsim=100,
+    seed=1,
+    direct=TRUE,
+    total=TRUE,
+    eff.tag="",
+    digits=3,
+    file=NULL,
+    print=TRUE
+) {
   if(inherits(model.m, "lmerModLmerTest")) class(model.m) = "lmerMod"
   if(inherits(model.y, "lmerModLmerTest")) class(model.y) = "lmerMod"
   boot = ifelse(grepl("boot", ci), TRUE, FALSE)
@@ -1464,7 +1471,7 @@ process_med = function(model.m,
         boot=boot,
         boot.ci.type="perc",  # "bca", "perc"
         sims=nsim)
-      MED = extract_med(med, ci, nsmall, direct, total)
+      MED = extract_med(med, ci, digits, direct, total)
     } else {
       # moderated mediation
       COV.list = list()
@@ -1492,7 +1499,7 @@ process_med = function(model.m,
           boot=boot,
           boot.ci.type="perc",  # "bca", "perc"
           sims=nsim)
-        MEDi = extract_med(med, ci, nsmall, direct=FALSE, total=FALSE)
+        MEDi = extract_med(med, ci, digits, direct=FALSE, total=FALSE)
         # MEDi = cbind(data.frame(Path=row.names(MEDi)), MEDi)
         # names(MEDi)[1] = " "
         row.names(MEDi) = NULL
@@ -1515,7 +1522,7 @@ process_med = function(model.m,
     print_table(
       dplyr::select(MED, !c("LLCI", "ULCI", "p")),
       row.names=is.null(conditional),
-      nsmalls=nsmall,
+      digits=digits,
       line=is.null(file),
       title=Glue("
       <<blue <<underline Indirect Path:>> \"{x}\" (X) ==> \"{medi}\" (M) ==> \"{y}\" (Y)>>{eff.tag}"),
@@ -1529,21 +1536,23 @@ process_med = function(model.m,
 }
 
 
-process_mod = function(model0,
-                       model,
-                       data.c,
-                       x, y,
-                       mod1,
-                       mod2=NULL,
-                       mod1.val=NULL,
-                       mod2.val=NULL,
-                       mod.type=c("2-way", "3-way"),
-                       x.label="X",
-                       y.label="Y",
-                       eff.tag="",
-                       nsmall=3,
-                       file=NULL,
-                       print=TRUE) {
+process_mod = function(
+    model0,
+    model,
+    data.c,
+    x, y,
+    mod1,
+    mod2=NULL,
+    mod1.val=NULL,
+    mod2.val=NULL,
+    mod.type=c("2-way", "3-way"),
+    x.label="X",
+    y.label="Y",
+    eff.tag="",
+    digits=3,
+    file=NULL,
+    print=TRUE
+) {
   data.c = data.c
   suppressWarnings({
     simple.slopes = interactions::sim_slopes(
@@ -1588,17 +1597,17 @@ process_mod = function(model0,
     if(is.null(mod2)) {
       res0 = res = cbind(data.frame(Mod1=mod1.vals), res[-1])
       if(c("- 1 SD", "Mean", "+ 1 SD") %allin% names(mod1.vals))
-        res[[1]] = str_trim(formatF(res[[1]], nsmall)) %^%
+        res[[1]] = str_trim(formatF(res[[1]], digits)) %^%
           c(" (- SD)", " (Mean)", " (+ SD)")
       names(res0)[1] = mod1
       names(res)[1] = "\"" %^% mod1 %^% "\""
     } else {
       res0 = res = cbind(data.frame(Mod2=mod2.val), res)
       if(c("- 1 SD", "Mean", "+ 1 SD") %allin% names(mod2.vals))
-        res[[1]] = str_trim(formatF(res[[1]], nsmall)) %^%
+        res[[1]] = str_trim(formatF(res[[1]], digits)) %^%
           c(" (- SD)", " (Mean)", " (+ SD)")[i]
       if(c("- 1 SD", "Mean", "+ 1 SD") %allin% names(mod1.vals))
-        res[[2]] = str_trim(formatF(res[[2]], nsmall)) %^%
+        res[[2]] = str_trim(formatF(res[[2]], digits)) %^%
           c(" (- SD)", " (Mean)", " (+ SD)")
       names(res0)[1] = mod2
       names(res0)[2] = mod1
@@ -1609,12 +1618,12 @@ process_mod = function(model0,
     RES = rbind(RES, res)
     RES0 = rbind(RES0, res0)
   }
-  RES$`[95% CI]` = cc_ci(RES[["LLCI"]], RES[["ULCI"]], nsmall)
-  RES[[1]] = format(str_trim(formatF(RES[[1]], nsmall)),
+  RES$`[95% CI]` = cc_ci(RES[["LLCI"]], RES[["ULCI"]], digits)
+  RES[[1]] = format(str_trim(formatF(RES[[1]], digits)),
                     width=nchar(names(RES)[1]))
   names(RES)[1] = format(names(RES)[1], width=max(nchar(RES[[1]])))
   if(!is.null(mod2)) {
-    RES[[2]] = format(str_trim(formatF(RES[[2]], nsmall)),
+    RES[[2]] = format(str_trim(formatF(RES[[2]], digits)),
                       width=nchar(names(RES)[2]))
     names(RES)[2] = format(names(RES)[2], width=max(nchar(RES[[2]])))
   }
@@ -1648,20 +1657,20 @@ process_mod = function(model0,
   if(print) {
     if(eff.tag!="") eff.tag="\n" %^% eff.tag
     print_table(
-      MOD, row.names=TRUE, nsmalls=c(2, 0, 0, 0),
+      MOD, row.names=TRUE, digits=c(2, 0, 0, 0),
       line=is.null(file),
       title=Glue("Interaction Effect{ifelse(is.null(mod2), '', 's')} on \"{y}\" ({y.label})"))
     cat("\n")
     if(!is.null(mod2) & mod.type=="3-way") {
       print_table(
-        MOD.MOD, row.names=FALSE, nsmalls=c(0, 0, 2, 0, 0, 0),
+        MOD.MOD, row.names=FALSE, digits=c(0, 0, 2, 0, 0, 0),
         line=is.null(file),
         title=Glue("Conditional Interaction Effects on \"{y}\" ({y.label})"))
       cat("\n")
     }
     print_table(
       dplyr::select(RES, !c("LLCI", "ULCI")),
-      row.names=FALSE, nsmalls=nsmall,
+      row.names=FALSE, digits=digits,
       line=is.null(file),
       title=Glue("<<green <<underline Simple Slopes:>> \"{x}\" ({x.label}) ==> \"{y}\" ({y.label})>>{eff.tag}"))
     cat("\n")
@@ -1727,7 +1736,7 @@ process_mod = function(model0,
 #' which is performed using the \code{\link[mediation]{mediation}} package.
 #'
 #' @param model Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 ## @param print.avg Just set as \code{TRUE} for a concise output.
 ## For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.
@@ -1773,7 +1782,7 @@ process_mod = function(model0,
 #' }
 #'
 #' @export
-med_summary = function(model, digits=3, nsmall=digits, file=NULL) {
+med_summary = function(model, digits=3, file=NULL) {
   # for raw function, see:
   # edit(mediation::mediate)
   # edit(mediation:::print.summary.mediate)
@@ -1814,14 +1823,14 @@ med_summary = function(model, digits=3, nsmall=digits, file=NULL) {
     c(x$tau.coef, sd(x$tau.sims), x$tau.ci, x$tau.p))
   smat = as.data.frame(smat)
   row.names(smat) = c("Indirect", "Direct", "Total")
-  smat$CI = cc_ci(smat[[3]], smat[[4]], nsmall)
+  smat$CI = cc_ci(smat[[3]], smat[[4]], digits)
   names(smat) = c("Effect",
                   "S.E.",
                   ifelse(x$boot, "Boot LLCI", "LLCI"),
                   ifelse(x$boot, "Boot ULCI", "ULCI"),
                   "pval",
                   ifelse(x$boot, "[Boot 95% CI]", "[MCMC 95% CI]"))
-  print_table(smat[c(1, 2, 6, 5)], nsmalls=nsmall)
+  print_table(smat[c(1, 2, 6, 5)], digits=digits)
   Print(ci.type)
   Print("Sample Size: {x$nobs}")
   Print("Simulations: {x$sims} ({ifelse(x$boot, 'Bootstrap', 'Monte Carlo')})")
@@ -1833,7 +1842,7 @@ med_summary = function(model, digits=3, nsmall=digits, file=NULL) {
     smat.new.names[5] = "<i>p</i>"
     smat.new[[6]] = str_replace_all(smat.new[[6]], "-", "\u2013")
     print_table(
-      smat.new[c(1, 2, 6, 5)], nsmalls=nsmall,
+      smat.new[c(1, 2, 6, 5)], digits=digits,
       col.names=c(smat.new.names[c(1, 2, 6, 5)], " "),
       file=file,
       file.align.head=c("left", "right", "right", "right", "right", "left"),
@@ -1876,21 +1885,21 @@ med_summary = function(model, digits=3, nsmall=digits, file=NULL) {
 #'
 #' @param formula Model formula like \code{y ~ x}.
 #' @param data Data frame.
-#' @param lag.max Maximum time lag. Default is \code{30}.
-#' @param sig.level Significance level. Default is \code{0.05}.
+#' @param lag.max Maximum time lag. Defaults to \code{30}.
+#' @param sig.level Significance level. Defaults to \code{0.05}.
 #' @param xbreaks X-axis breaks.
 #' @param ybreaks Y-axis breaks.
-#' @param ylim Y-axis limits. Default is \code{NULL} to automatically estimate.
+#' @param ylim Y-axis limits. Defaults to \code{NULL} to automatically estimate.
 #' @param alpha.ns Color transparency (opacity: 0~1) for non-significant values.
-#' Default is \code{1} for no transparency (i.e., opaque color).
-#' @param pos.color Color for positive values. Default is \code{"black"}.
-#' @param neg.color Color for negative values. Default is \code{"black"}.
+#' Defaults to \code{1} for no transparency (i.e., opaque color).
+#' @param pos.color Color for positive values. Defaults to \code{"black"}.
+#' @param neg.color Color for negative values. Defaults to \code{"black"}.
 #' @param ci.color Color for upper and lower bounds of significant values.
-#' Default is \code{"blue"}.
-#' @param title Plot title. Default is an illustration of the formula.
+#' Defaults to \code{"blue"}.
+#' @param title Plot title. Defaults to an illustration of the formula.
 #' @param subtitle Plot subtitle.
-#' @param xlab X-axis title. Default is \code{"Lag"}.
-#' @param ylab Y-axis title. Default is \code{"Cross-Correlation"}.
+#' @param xlab X-axis title. Defaults to \code{"Lag"}.
+#' @param ylab Y-axis title. Defaults to \code{"Cross-Correlation"}.
 #'
 #' @return
 #' A \code{gg} object, which you can further modify using
@@ -1967,8 +1976,8 @@ ccf_plot = function(formula, data,
 #' Granger causality does not necessarily constitute a true causal effect.
 #'
 #' @inheritParams ccf_plot
-#' @param lags Time lags. Default is \code{1:5}.
-#' @param test.reverse Whether to test reverse causality. Default is \code{TRUE}.
+#' @param lags Time lags. Defaults to \code{1:5}.
+#' @param test.reverse Whether to test reverse causality. Defaults to \code{TRUE}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param ... Further arguments passed to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}.
 #' For example, you may use \emph{robust} standard errors by specifying
@@ -2110,14 +2119,14 @@ vargranger = function(varmodel, var.y, var.x) {
 #' Granger causality does not necessarily constitute a true causal effect.
 #'
 #' @param varmodel VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.
-#' @param var.y,var.x [Optional] Default is \code{NULL} (all variables).
+#' @param var.y,var.x [Optional] Defaults to \code{NULL} (all variables).
 #' If specified, then perform tests for specific variables.
 #' Values can be a single variable (e.g., \code{"X"}),
 #' a vector of variables (e.g., \code{c("X1", "X2")}),
 #' or a string containing regular expression (e.g., \code{"X1|X2"}).
-#' @param test \emph{F} test and/or Wald \eqn{\chi}^2 test. Default is both: \code{c("F", "Chisq")}.
+#' @param test \emph{F} test and/or Wald \eqn{\chi}^2 test. Defaults to both: \code{c("F", "Chisq")}.
 #' @param file File name of MS Word (\code{.doc}).
-#' @param check.dropped Check dropped variables. Default is \code{FALSE}.
+#' @param check.dropped Check dropped variables. Defaults to \code{FALSE}.
 #'
 #' @return A data frame of results.
 #'
@@ -2224,7 +2233,7 @@ granger_causality = function(varmodel, var.y=NULL, var.x=NULL,
   {paste(test.text, collapse=' and ')} based on VAR({varmodel$p}) model:
   ")
   print_table(result[c(12:13, test.which)],
-              nsmalls=0,
+              digits=0,
               row.names=FALSE)
   cat("\n")
 
@@ -2234,7 +2243,7 @@ granger_causality = function(varmodel, var.y=NULL, var.x=NULL,
       str_replace_all("^-+$", "")
     print_table(
       result[c(12, test.which)],
-      nsmalls=0,
+      digits=0,
       row.names=FALSE,
       col.names=col.which,
       title=paste0("<b>Table. Granger Causality Test (Multivariate) Based on VAR(", varmodel$p, ") Model.</b>"),

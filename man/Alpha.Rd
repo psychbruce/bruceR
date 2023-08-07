@@ -4,16 +4,7 @@
 \alias{Alpha}
 \title{Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).}
 \usage{
-Alpha(
-  data,
-  var,
-  items,
-  vars = NULL,
-  varrange = NULL,
-  rev = NULL,
-  digits = 3,
-  nsmall = digits
-)
+Alpha(data, var, items, vars = NULL, varrange = NULL, rev = NULL, digits = 3)
 }
 \arguments{
 \item{data}{Data frame.}
@@ -34,7 +25,7 @@ A character string specifying the positions ("starting:stopping") of variables. 
 (1) a character vector specifying the reverse-scoring variables (recommended), or
 (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 }
 \value{
 A list of results obtained from

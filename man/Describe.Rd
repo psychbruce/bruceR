@@ -8,7 +8,6 @@ Describe(
   data,
   all.as.numeric = TRUE,
   digits = 2,
-  nsmall = digits,
   file = NULL,
   plot = FALSE,
   upper.triangle = FALSE,
@@ -25,7 +24,7 @@ Describe(
 \item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
 Transform all variables into numeric (continuous).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
@@ -40,16 +39,16 @@ Add fitting lines to scatter plots (if any).}
 
 \item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
-\item{plot.width}{Width (in "inch") of the saved plot. Default is \code{8}.}
+\item{plot.width}{Width (in "inch") of the saved plot. Defaults to \code{8}.}
 
-\item{plot.height}{Height (in "inch") of the saved plot. Default is \code{6}.}
+\item{plot.height}{Height (in "inch") of the saved plot. Defaults to \code{6}.}
 
-\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
+\item{plot.dpi}{DPI (dots per inch) of the saved plot. Defaults to \code{500}.}
 }
 \value{
-Invisibly return a list consisting of
+Invisibly return a list with
 (1) a data frame of descriptive statistics and
-(2) a \code{ggplot2} object if users set \code{plot=TRUE}.
+(2) a \code{ggplot2} object if \code{plot=TRUE}.
 }
 \description{
 Descriptive statistics.

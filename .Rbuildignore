@@ -5,12 +5,11 @@ note
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+^_pkgdown\.yml$
 ^cran-comments\.md$
 ^LICENSE$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
-^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
 ^\.github$
-^codecov\.yml$

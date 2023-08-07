@@ -3,5 +3,7 @@ template:
   bootstrap: 5
   bootswatch: simplex
   bslib:
-    heading_font: {google: "Nunito Sans"}
-    base_font: {google: "Nunito"}
+    base_font:
+      google: "Roboto"
+    heading_font:
+      google: "Lexend"  # Anton, Oswald, Ubuntu, Lexend, Fjalla One

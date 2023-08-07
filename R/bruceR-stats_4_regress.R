@@ -23,7 +23,7 @@ formula_paste = function(formula) {
 #' Expand all interaction terms in a formula.
 #'
 #' @param formula R formula or a character string indicating the formula.
-#' @param as.char Return character? Default is \code{FALSE}.
+#' @param as.char Return character? Defaults to \code{FALSE}.
 #'
 #' @return A formula/character object including all expanded terms.
 #'
@@ -54,9 +54,9 @@ formula_expand = function(formula, as.char=FALSE) {
 #'
 #' @param data Data object.
 #' @param vars Variable(s) to be centered.
-#' @param std Standardized or not. Default is \code{FALSE}.
+#' @param std Standardized or not. Defaults to \code{FALSE}.
 #' @param add.suffix The suffix of the centered variable(s).
-#' Default is \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.
+#' Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.
 #'
 #' @return A new data object containing the centered variable(s).
 #'
@@ -91,7 +91,7 @@ grand_mean_center = function(data, vars=names(data),
 #' @inheritParams grand_mean_center
 #' @param by Grouping variable.
 #' @param add.group.mean The suffix of the variable name(s) of group means.
-#' Default is \code{"_mean"} (see Examples).
+#' Defaults to \code{"_mean"} (see Examples).
 #'
 #' @return A new data object containing the centered variable(s).
 #'
@@ -136,7 +136,8 @@ group_mean_center = function(data, vars=setdiff(names(data), by), by,
 #' @inheritParams HLM_summary
 #' @param formula Model formula.
 #' @param data Data frame.
-#' @param family [Optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} fits a logistic regression model).
+#' @param family [Optional] The same as in \code{glm} and \code{glmer}
+#' (e.g., \code{family=binomial} fits a logistic regression model).
 #'
 #' @return No return value.
 #'
@@ -173,11 +174,13 @@ group_mean_center = function(data, vars=setdiff(names(data), by), by,
 #' \code{\link{HLM_summary}}
 #'
 #' @export
-regress = function(formula, data, family=NULL,
-                   digits=3, nsmall=digits,
-                   robust=FALSE, cluster=NULL,
-                   # level2.predictors="", vartypes=NULL,
-                   test.rand=FALSE) {
+regress = function(
+    formula, data, family=NULL,
+    digits=3,
+    robust=FALSE, cluster=NULL,
+    # level2.predictors="", vartypes=NULL,
+    test.rand=FALSE
+) {
   call = sys.call()[-1]  # get function call (argument list)
   if(!is.null(family))
     family.text = ifelse(!is.null(call$family),
@@ -192,13 +195,13 @@ regress = function(formula, data, family=NULL,
       # model = lm(formula=formula, data=data)
       GLM_summary(model=NULL,
                   robust, cluster,
-                  nsmall,
+                  digits,
                   formula=formula, data=data)
     } else {
       # model=glm(formula=formula, data=data, family=family)
       GLM_summary(model=NULL,
                   robust, cluster,
-                  nsmall,
+                  digits,
                   formula=formula, data=data, family=family.text)
     }
   } else {
@@ -206,12 +209,12 @@ regress = function(formula, data, family=NULL,
     if(is.null(family)) {
       # model=lmerTest::lmer(formula=formula, data=data)
       HLM_summary(model=NULL,
-                  test.rand=test.rand, nsmall=nsmall,
+                  test.rand=test.rand, digits=digits,
                   formula=formula, data=data)
     } else {
       # model=lme4::glmer(formula=formula, data=data, family=family)
       HLM_summary(model=NULL,
-                  test.rand=test.rand, nsmall=nsmall,
+                  test.rand=test.rand, digits=digits,
                   formula=formula, data=data, family=family.text)
     }
   }
@@ -238,15 +241,15 @@ regress = function(formula, data, family=NULL,
 #'
 #' @param model.list A single model or a list of (various types of) models.
 #' Most types of regression models are supported!
-#' @param std Standardized coefficients? Default is \code{FALSE}.
+#' @param std Standardized coefficients? Defaults to \code{FALSE}.
 #' Only applicable to linear models and linear mixed models.
 #' Not applicable to generalized linear (mixed) models.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param check If there is only one model in \code{model.list}, it checks for multicollinearity
 #' using \code{\link[performance:check_collinearity]{performance::check_collinearity()}}.
 #' You may turn it off by setting \code{check=FALSE}.
-#' @param zero Display "0" before "."? Default is \code{TRUE}.
+#' @param zero Display "0" before "."? Defaults to \code{TRUE}.
 #' @param modify.se Replace standard errors.
 #' Useful if you need to replace raw SEs with robust SEs.
 #' New SEs should be provided as a list of numeric vectors.
@@ -325,18 +328,19 @@ regress = function(formula, data, family=NULL,
 #' unlink("Multinomial Logistic Model.doc")  # delete file for code check
 #'
 #' @export
-model_summary = function(model.list,
-                         std=FALSE,
-                         digits=3,
-                         nsmall=digits,
-                         file=NULL,
-                         check=TRUE,
-                         zero=ifelse(std, FALSE, TRUE),
-                         modify.se=NULL,
-                         modify.head=NULL,
-                         line=TRUE,
-                         bold=0,
-                         ...) {
+model_summary = function(
+    model.list,
+    std=FALSE,
+    digits=3,
+    file=NULL,
+    check=TRUE,
+    zero=ifelse(std, FALSE, TRUE),
+    modify.se=NULL,
+    modify.head=NULL,
+    line=TRUE,
+    bold=0,
+    ...
+) {
   if(inherits(model.list, "varest")) {
     model.list = model.list$varresult
     modify.head = names(model.list)
@@ -444,7 +448,7 @@ model_summary = function(model.list,
 
     output = sumreg(
       model.list, file=NULL,
-      leading.zero=zero, digits=nsmall, bold=bold,
+      leading.zero=zero, digits=digits, bold=bold,
       custom.model.names=new.model.names,
       override.coef=new.coef,
       override.se=new.s.e.,
@@ -548,7 +552,7 @@ model_summary = function(model.list,
 #' *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.
 #' @param cluster [Only for \code{lm} and \code{glm}]
 #' Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
-#' @param digits,nsmall Number of decimal places of output. Default is 3.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param ... Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
 #' @return No return value.
@@ -578,7 +582,7 @@ model_summary = function(model.list,
 #'
 #' @export
 GLM_summary = function(model, robust=FALSE, cluster=NULL,
-                       digits=3, nsmall=digits, ...) {
+                       digits=3, ...) {
   dots = list(...)
   if(c("formula", "data") %allin% names(dots)) {
     # re-modeling
@@ -614,7 +618,7 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
     df = model[["df.residual"]]
     FE$CI = cc_ci(FE[,1] + qt(0.025, df) * FE[,2],
                   FE[,1] + qt(0.975, df) * FE[,2],
-                  nsmall)
+                  digits)
     names(FE) = c("b", "S.E.", "t", "pval", "[95% CI of b]")
     if(length(model[["model"]])>2) {
       FE.vif = jtools::summ(model, vif=TRUE)
@@ -622,7 +626,7 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
     } else {
       FE = cbind(FE, VIF=NA)
     }
-    print_table(FE, nsmalls=nsmall,
+    print_table(FE, digits=digits,
                 title=Glue("
     Unstandardized Coefficients:
     Outcome Variable: {dv}
@@ -636,9 +640,9 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
       FE.rob = as.data.frame(summ.rob$coeftable)
       FE.rob$CI = cc_ci(FE.rob[,1] + qt(0.025, df) * FE.rob[,2],
                         FE.rob[,1] + qt(0.975, df) * FE.rob[,2],
-                        nsmall)
+                        digits)
       names(FE.rob) = c("b", "S.E.", "t", "pval", "[95% CI of b]")
-      print_table(FE.rob, nsmalls=nsmall,
+      print_table(FE.rob, digits=digits,
                   title=Glue("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-Robust Standard Errors:"),
                   note=Glue("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>"))
       cat("\n")
@@ -655,13 +659,13 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
         pval = p.t(t, df),
         CI.std = cc_ci(FE.std[,1] + qt(0.025, df) * FE.std[,2],
                        FE.std[,1] + qt(0.975, df) * FE.std[,2],
-                       nsmall),
+                       digits),
         r.partial = FE.rp$coeftable[-1, "partial.r"],
         r.part = FE.rp$coeftable[-1, "part.r"])
       names(FE.std) = c("\u03b2", "S.E.", "t", "pval",
                         "[95% CI of \u03b2]",
                         "r(partial)", "r(part)")
-      print_table(FE.std, nsmalls=nsmall,
+      print_table(FE.std, digits=digits,
                   title=Glue("
       Standardized Coefficients (\u03b2):
       Outcome Variable: {dv}
@@ -679,8 +683,8 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
     <<cyan Generalized Linear Model (GLM)>>
 
     Model Fit:
-    AIC = {AIC(model):.{nsmall}}
-    BIC = {BIC(model):.{nsmall}}
+    AIC = {AIC(model):.{digits}}
+    BIC = {BIC(model):.{digits}}
     {p(chi2={Chi2}, df={Df})}
     {rep_char('\u2500', 7)} Pseudo-<<italic R>>\u00b2 {rep_char('\u2500', 7)}
     McFadden\u2019s <<italic R>>\u00b2   = {1 - model$deviance/model$null.deviance:.5} <<blue (= 1 - logLik(model)/logLik(null.model))>>
@@ -692,7 +696,7 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
     FE = as.data.frame(sumModel[["coefficients"]])
     FE$CI = cc_ci(FE[,1] + qnorm(0.025) * FE[,2],
                   FE[,1] + qnorm(0.975) * FE[,2],
-                  nsmall)
+                  digits)
     FE$OR = exp(FE[,1])
     if(length(model[["model"]])>2) {
       FE$VIF = jtools::summ(model, vif=TRUE)$coeftable[,"VIF"]
@@ -700,7 +704,7 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
       FE$VIF = NA
     }
     names(FE) = c("b", "S.E.", "z", "pval", "[95% CI of b]", "OR", "VIF")
-    print_table(FE, nsmalls=nsmall,
+    print_table(FE, digits=digits,
                 title=Glue("
     Unstandardized Coefficients:
     Outcome Variable: {dv} (family: {model$family$family}; link function: {model$family$link})
@@ -715,9 +719,9 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
       FE.rob = as.data.frame(summ.rob$coeftable)
       FE.rob$CI = cc_ci(FE.rob[,1] + qnorm(0.025) * FE.rob[,2],
                         FE.rob[,1] + qnorm(0.975) * FE.rob[,2],
-                        nsmall)
+                        digits)
       names(FE.rob) = c("b", "S.E.", "z", "pval", "[95% CI of b]")
-      print_table(FE.rob, nsmalls=nsmall,
+      print_table(FE.rob, digits=digits,
                   title=Glue("{ifelse(is.null(cluster), 'Heteroskedasticity', 'Cluster')}-Robust Standard Errors:"),
                   note=Glue("<<blue Robust S.E.: type = {robust}{ifelse(is.null(cluster), '', glue('; clustering variable = {paste(cluster, collapse=', ')}'))}.>>"))
       cat("\n")
@@ -734,7 +738,7 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
 
 
 ## Testing random effects and computing intraclass correlation coefficient (ICC) for HLM
-HLM_ICC = function(model, nsmall=3) {
+HLM_ICC = function(model, digits=3) {
   ## Extract components from model ##
   sumModel = summary(model)
   data = as.data.frame(model@frame)
@@ -768,13 +772,13 @@ HLM_ICC = function(model, nsmall=3) {
   # icc.wald.z = icc/icc.se
 
   ## Combine results ##
-  ICC$K = formatF(ICC$K, nsmall=0)
-  ICC$Variance = formatF(ICC$Variance, nsmall=5)
-  # ICC$S.E. = formatF(var.se, nsmall=nsmall)
-  # ICC$Wald.Z = formatF(var.wald.z, nsmall=2)
+  ICC$K = formatF(ICC$K, digits=0)
+  ICC$Variance = formatF(ICC$Variance, digits=5)
+  # ICC$S.E. = formatF(var.se, digits=digits)
+  # ICC$Wald.Z = formatF(var.wald.z, digits=2)
   # ICC$p = p.trans(var.p)
   # ICC$sig = sig.trans(var.p)
-  ICC$ICC = formatF(icc, nsmall=5)
+  ICC$ICC = formatF(icc, digits=5)
   ICC[ICC$Group=="Residual", c("K", "Parameter", "ICC")] = ""
   ICC[ICC$Parameter!="(Intercept)" & ICC$Group!="Residual", c("Group", "K", "ICC")] = ""
   names(ICC)[1] = paste0("Cluster", rep_char(" ", max(nchar(ICC$Group))-7))
@@ -810,7 +814,7 @@ HLM_ICC = function(model, nsmall=3) {
 ## the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
 #'
 #' @param model A model fitted with \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
-## @param level2.predictors \strong{[Only for \code{lmer}]} [Optional] Default is \code{NULL}.
+## @param level2.predictors \strong{[Only for \code{lmer}]} [Optional] Defaults to \code{NULL}.
 ## If you have predictors at level 2,
 ## you may also specify the level-2 grouping/clustering variables
 ## and the corresponding level-2 predictor variables.
@@ -825,7 +829,7 @@ HLM_ICC = function(model, nsmall=3) {
 #' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
 #' which is asymptotically chi-square distributed.
 #' For large datasets, it is much time-consuming.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param ... Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.
 #'
 #' @return No return value.
@@ -878,12 +882,14 @@ HLM_ICC = function(model, nsmall=3) {
 #' \code{\link{regress}}
 #'
 #' @export
-HLM_summary = function(model=NULL,
-                       # level2.predictors=NULL,
-                       # vartypes=NULL,
-                       test.rand=FALSE,  # time-consuming in big datasets
-                       digits=3, nsmall=digits,
-                       ...) {
+HLM_summary = function(
+    model=NULL,
+    # level2.predictors=NULL,
+    # vartypes=NULL,
+    test.rand=FALSE,  # time-consuming in big datasets
+    digits=3,
+    ...
+) {
   dots = list(...)
   if(c("formula", "data") %allin% names(dots)) {
     # re-modeling
@@ -957,8 +963,8 @@ HLM_summary = function(model=NULL,
     R2.glmm = suppressWarnings( MuMIn::r.squaredGLMM(model) )  # R2.glmm[1,1]; R2.glmm[1,2]
     Print("
     Model Fit:
-    AIC = {AIC(model):.{nsmall}}
-    BIC = {BIC(model):.{nsmall}}
+    AIC = {AIC(model):.{digits}}
+    BIC = {BIC(model):.{digits}}
     <<italic R>>_(m)\u00b2 = {R2.glmm[1,1]:.5}  <<blue (<<italic Marginal R>>\u00b2: fixed effects)>>
     <<italic R>>_(c)\u00b2 = {R2.glmm[1,2]:.5}  <<blue (<<italic Conditional R>>\u00b2: fixed + random effects)>>
     Omega\u00b2 = {Omg2:.5}  <<blue (= 1 - proportion of unexplained variance)>>
@@ -969,7 +975,7 @@ HLM_summary = function(model=NULL,
     # aov.hlm=car::Anova(model, type=3)
     aov.hlm = stats::anova(model)
     if(nrow(aov.hlm)>0) {
-      print_table(aov.hlm, nsmalls=2,
+      print_table(aov.hlm, digits=2,
                   title="ANOVA Table:")
       cat("\n")
     }
@@ -980,10 +986,10 @@ HLM_summary = function(model=NULL,
       FE[c(1,2,4,3,5)],
       CI = cc_ci(FE[,1] + qt(0.025, FE[,3]) * FE[,2],
                  FE[,1] + qt(0.975, FE[,3]) * FE[,2],
-                 nsmall))
+                 digits))
     names(FE) = c("b/\u03b3", "S.E.", "t", "df", "pval",
                   "[95% CI of b/\u03b3]")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
+    print_table(FE, digits=c(digits, digits, 2, 1, 0, 0),
                 title=Glue("
     Fixed Effects:
     Unstandardized Coefficients (b or \u03b3):
@@ -1002,10 +1008,10 @@ HLM_summary = function(model=NULL,
         FE.std, t = t, df = df, pval = p.t(t, df),
         CI = cc_ci(FE.std[,1] + qt(0.025, df) * FE.std[,2],
                    FE.std[,1] + qt(0.975, df) * FE.std[,2],
-                   nsmall))
+                   digits))
       names(FE.std) = c("\u03b2", "S.E.", "t", "df", "pval",
                         "[95% CI of \u03b2]")
-      print_table(FE.std, nsmalls=c(nsmall, nsmall, 2, 1, 0, 0),
+      print_table(FE.std, digits=c(digits, digits, 2, 1, 0, 0),
                   title=Glue("
       Standardized Coefficients (\u03b2):
       Outcome Variable: {dv}"))
@@ -1016,18 +1022,18 @@ HLM_summary = function(model=NULL,
     # RE = sumModel[["varcor"]]
     # res = sumModel[["sigma"]]^2
     # print(RE, comp="Variance")
-    RE = HLM_ICC(model, nsmall=nsmall)
+    RE = HLM_ICC(model, digits=digits)
     print_table(RE, row.names=FALSE, title="Random Effects:")
     cat("\n")
   } else if(inherits(model, "glmerMod")) {
-    summ = jtools::summ(model, digits=nsmall, re.variance="var")
+    summ = jtools::summ(model, digits=digits, re.variance="var")
 
     ## Print: Model Fit (Omega^2, Pseudo-R^2, and Information Criteria) ##
     R2.glmm = suppressWarnings( MuMIn::r.squaredGLMM(model) ) # R2.glmm[1,1]; R2.glmm[1,2]
     Print("
     Model Fit:
-    AIC = {AIC(model):.{nsmall}}
-    BIC = {BIC(model):.{nsmall}}
+    AIC = {AIC(model):.{digits}}
+    BIC = {BIC(model):.{digits}}
     <<italic R>>_(m)\u00b2 = {R2.glmm[1,1]:.5}  <<blue (<<italic Marginal R>>\u00b2: fixed effects)>>
     <<italic R>>_(c)\u00b2 = {R2.glmm[1,2]:.5}  <<blue (<<italic Conditional R>>\u00b2: fixed + random effects)>>
     \n
@@ -1037,11 +1043,11 @@ HLM_summary = function(model=NULL,
     FE = as.data.frame(sumModel[["coefficients"]])
     FE$CI = cc_ci(FE[,1] + qnorm(0.025) * FE[,2],
                   FE[,1] + qnorm(0.975) * FE[,2],
-                  nsmall)
+                  digits)
     FE$OR = exp(FE[,1])
     names(FE) = c("b/\u03b3", "S.E.", "z", "pval",
                   "[95% CI of b/\u03b3]", "OR")
-    print_table(FE, nsmalls=c(nsmall, nsmall, 2, 0, 0, nsmall),
+    print_table(FE, digits=c(digits, digits, 2, 0, 0, digits),
                 title=Glue("
     Fixed Effects:
     Unstandardized Coefficients (b or \u03b3):
@@ -1138,7 +1144,7 @@ HLM_summary = function(model=NULL,
 #' @param data Data frame.
 #' @param group Grouping variable.
 #' @param icc.var Key variable for analysis (usually the dependent variable).
-#' @param rwg.vars Default is \code{icc.var}. It can be:
+#' @param rwg.vars Defaults to \code{icc.var}. It can be:
 #' \itemize{
 #'   \item A single variable (\emph{single-item} measure), then computing rWG.
 #'   \item Multiple variables (\emph{multi-item} measure), then computing rWG(J), where J = the number of items.
@@ -1153,7 +1159,7 @@ HLM_summary = function(model=NULL,
 #'   Then \code{rwg.levels} should be provided (= A in the above formula).
 #'   For example, if the measure is a 5-point Likert scale, you should set \code{rwg.levels=5}.
 #' }
-#' @param digits,nsmall Number of decimal places of output. Default is 3.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #'
 #' @return Invisibly return a list of results.
 #'
@@ -1170,6 +1176,8 @@ HLM_summary = function(model=NULL,
 #' \emph{Journal of Applied Psychology, 69}, 85--98.
 #'
 #' @seealso
+#' \code{\link{cor_multilevel}}
+#'
 #' \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}
 #'
 #' @examples
@@ -1188,7 +1196,7 @@ HLM_summary = function(model=NULL,
 HLM_ICC_rWG = function(data, group, icc.var,
                        rwg.vars=icc.var,
                        rwg.levels=0,
-                       digits=3, nsmall=digits) {
+                       digits=3) {
   data = as.data.frame(data)
 
   ## ICC(1) and ICC(2)
@@ -1261,8 +1269,8 @@ HLM_ICC_rWG = function(data, group, icc.var,
 
   ICC variable: \"{icc.var}\"
 
-  ICC(1) = {formatF(ICC1, nsmall)} <<blue (non-independence of data)>>
-  ICC(2) = {formatF(ICC2, nsmall)} <<blue (reliability of group means)>>
+  ICC(1) = {formatF(ICC1, digits)} <<blue (non-independence of data)>>
+  ICC(2) = {formatF(ICC2, digits)} <<blue (reliability of group means)>>
 
   {rwg.name} variable{ifelse(length(rwg.vars)==1, '', 's')}: \"{paste(rwg.vars, collapse='\", \"')}\"
 
@@ -1270,7 +1278,7 @@ HLM_ICC_rWG = function(data, group, icc.var,
   ")
   summ_rwg = as.data.frame(t(as.matrix(summary(rwg))))
   rownames(summ_rwg) = rwg.name
-  print_table(summ_rwg, nsmalls=nsmall)
+  print_table(summ_rwg, digits=digits)
   cat("\n")
 
   invisible(list(ICC1=ICC1, ICC2=ICC2, rwg=rwg.out))

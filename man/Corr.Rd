@@ -10,12 +10,10 @@ Corr(
   p.adjust = "none",
   all.as.numeric = TRUE,
   digits = 2,
-  nsmall = digits,
   file = NULL,
   plot = TRUE,
-  plot.range = c(-1, 1),
-  plot.palette = NULL,
-  plot.color.levels = 201,
+  plot.r.size = 4,
+  plot.colors = NULL,
   plot.file = NULL,
   plot.width = 8,
   plot.height = 6,
@@ -34,37 +32,37 @@ For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.}
 \item{all.as.numeric}{\code{TRUE} (default) or \code{FALSE}.
 Transform all variables into numeric (continuous).}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{2}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{2}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
 \item{plot}{\code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.}
 
-\item{plot.range}{Range of correlation coefficients for plot. Default is \code{c(-1, 1)}.}
+\item{plot.r.size}{Font size of correlation text label. Defaults to \code{4}.}
 
-\item{plot.palette}{Color gradient for plot. Default is \code{c("#B52127", "white", "#2171B5")}.
-You may also set it to, e.g., \code{c("red", "white", "blue")}.}
-
-\item{plot.color.levels}{Default is \code{201}.}
+\item{plot.colors}{Plot colors (character vector). Defaults to "RdBu" of the Color Brewer Palette.}
 
 \item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
-\item{plot.width}{Width (in "inch") of the saved plot. Default is \code{8}.}
+\item{plot.width}{Width (in "inch") of the saved plot. Defaults to \code{8}.}
 
-\item{plot.height}{Height (in "inch") of the saved plot. Default is \code{6}.}
+\item{plot.height}{Height (in "inch") of the saved plot. Defaults to \code{6}.}
 
-\item{plot.dpi}{DPI (dots per inch) of the saved plot. Default is \code{500}.}
+\item{plot.dpi}{DPI (dots per inch) of the saved plot. Defaults to \code{500}.}
 }
 \value{
-Invisibly return the correlation results obtained from
-\code{\link[psych:corr.test]{psych::corr.test()}}.
+Invisibly return a list with
+(1) correlation results from
+\code{\link[psych:corr.test]{psych::corr.test()}} and
+(2) a \code{ggplot2} object if \code{plot=TRUE}.
 }
 \description{
 Correlation analysis.
 }
 \examples{
 Corr(airquality)
-Corr(airquality, p.adjust="bonferroni")
+Corr(airquality, p.adjust="bonferroni",
+     plot.colors=c("#b2182b", "white", "#2166ac"))
 
 d = as.data.table(psych::bfi)
 added(d, {
@@ -81,4 +79,6 @@ Corr(d[, .(age, gender, education, E, A, C, N, O)])
 }
 \seealso{
 \code{\link{Describe}}
+
+\code{\link{cor_multilevel}}
 }

@@ -10,8 +10,7 @@ HLM_ICC_rWG(
   icc.var,
   rwg.vars = icc.var,
   rwg.levels = 0,
-  digits = 3,
-  nsmall = digits
+  digits = 3
 )
 }
 \arguments{
@@ -21,7 +20,7 @@ HLM_ICC_rWG(
 
 \item{icc.var}{Key variable for analysis (usually the dependent variable).}
 
-\item{rwg.vars}{Default is \code{icc.var}. It can be:
+\item{rwg.vars}{Defaults to \code{icc.var}. It can be:
 \itemize{
   \item A single variable (\emph{single-item} measure), then computing rWG.
   \item Multiple variables (\emph{multi-item} measure), then computing rWG(J), where J = the number of items.
@@ -38,7 +37,7 @@ it is required to specify which type of uniform distribution is.
   For example, if the measure is a 5-point Likert scale, you should set \code{rwg.levels=5}.
 }}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is 3.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 }
 \value{
 Invisibly return a list of results.
@@ -112,5 +111,7 @@ Estimating within-group interrater reliability with and without response bias.
 \emph{Journal of Applied Psychology, 69}, 85--98.
 }
 \seealso{
+\code{\link{cor_multilevel}}
+
 \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}
 }

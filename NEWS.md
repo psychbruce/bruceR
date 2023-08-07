@@ -1,6 +1,16 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
-# bruceR 0.9.0 (ongoing...)
+# bruceR 2023.8
+
+## New Features
+
+-   New function `cor_multilevel()`: Multilevel correlations (within-level and between-level).
+
+## Major Changes
+
+-   Now use "YYYY.M" as package version number.
+-   Improved `Corr()`: Now it uses `ggplot2` to produce correlation plot.
+-   Deprecated the argument `nsmall` for all functions. Now always use `digits` instead. (Both were acceptable in former versions.)
 
 ## Bug Fixes
 

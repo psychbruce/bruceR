@@ -30,8 +30,8 @@
 #' (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).
 #' @param range,likert [Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
 #' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
-#' @param na.rm Ignore missing values. Default is \code{TRUE}.
-#' @param values [Only for \code{CONSEC}] Values to be counted as consecutive identical values. Default is all numbers (\code{0:9}).
+#' @param na.rm Ignore missing values. Defaults to \code{TRUE}.
+#' @param values [Only for \code{CONSEC}] Values to be counted as consecutive identical values. Defaults to all numbers (\code{0:9}).
 #'
 #' @return A vector of computed values.
 #'
@@ -302,7 +302,7 @@ CONSEC = function(data,
 #' }
 #'
 #' @inheritParams %%COMPUTE%%
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #'
 #' @return
 #' A list of results obtained from
@@ -325,8 +325,10 @@ CONSEC = function(data,
 #' \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
 #'
 #' @export
-Alpha = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
-                 digits=3, nsmall=digits) {
+Alpha = function(
+    data, var, items, vars=NULL, varrange=NULL, rev=NULL,
+    digits=3
+) {
   if(!is.null(varrange)) {
     dn = names(data)
     varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
@@ -374,13 +376,13 @@ Alpha = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   Valid Cases: {n.valid} ({100*n.valid/n.total:.1}%)
 
   Scale Statistics:
-  <<italic Mean>> = {alpha$total$mean:.{nsmall}}
-  <<italic S.D.>> = {alpha$total$sd:.{nsmall}}
-  Cronbach\u2019s \u03b1 = {alpha$total$raw_alpha:.{nsmall}}
-  McDonald\u2019s \u03c9 = {omega$omega.tot:.{nsmall}}
+  <<italic Mean>> = {alpha$total$mean:.{digits}}
+  <<italic S.D.>> = {alpha$total$sd:.{digits}}
+  Cronbach\u2019s \u03b1 = {alpha$total$raw_alpha:.{digits}}
+  McDonald\u2019s \u03c9 = {omega$omega.tot:.{digits}}
   ")
-  # Cronbach's \u03b1: {alpha$total$raw_alpha:.{nsmall}} (based on raw scores)
-  # Cronbach's \u03b1: {alpha$total$std.alpha:.{nsmall}} (based on standardized items)
+  # Cronbach's \u03b1: {alpha$total$raw_alpha:.{digits}} (based on raw scores)
+  # Cronbach's \u03b1: {alpha$total$std.alpha:.{digits}} (based on standardized items)
 
   if(alpha$total$raw_alpha<0.5 | length(items.need.rev)>0) {
     cat("\n")
@@ -395,7 +397,7 @@ Alpha = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   }
 
   cat("\n")
-  print_table(items, nsmalls=nsmall,
+  print_table(items, digits=digits,
               title="Item Statistics (Cronbach\u2019s \u03b1 If Item Deleted):",
               note="Item-Rest Cor. = Corrected Item-Total Correlation")
   cat("\n")
@@ -451,14 +453,14 @@ Alpha = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #'   \item \code{"parallel"} - based on parallel analysis
 #'   \item (any number >= 1) - user-defined fixed number
 #' }
-#' @param sort.loadings Sort factor/component loadings by size? Default is \code{TRUE}.
+#' @param sort.loadings Sort factor/component loadings by size? Defaults to \code{TRUE}.
 #' @param hide.loadings A number (0~1) for hiding absolute factor/component loadings below this value.
-#' Default is \code{0} (does not hide any loading).
-#' @param plot.scree Display the scree plot? Default is \code{TRUE}.
-#' @param kaiser Do the Kaiser normalization (as in SPSS)? Default is \code{TRUE}.
-#' @param max.iter Maximum number of iterations for convergence. Default is \code{25} (the same as in SPSS).
-#' @param min.eigen Minimum eigenvalue (used if \code{nfactors="eigen"}). Default is \code{1}.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' Defaults to \code{0} (does not hide any loading).
+#' @param plot.scree Display the scree plot? Defaults to \code{TRUE}.
+#' @param kaiser Do the Kaiser normalization (as in SPSS)? Defaults to \code{TRUE}.
+#' @param max.iter Maximum number of iterations for convergence. Defaults to \code{25} (the same as in SPSS).
+#' @param min.eigen Minimum eigenvalue (used if \code{nfactors="eigen"}). Defaults to \code{1}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #' @param ... Arguments passed from \code{PCA()} to \code{EFA()}.
 #'
@@ -504,19 +506,21 @@ Alpha = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
 #'       hide.loadings=0.45)  # hide loadings < 0.45
 #'
 #' @export
-EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
-               method=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha"),
-               rotation=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax"),
-               nfactors=c("eigen", "parallel", "(any number >= 1)"),
-               sort.loadings=TRUE,
-               hide.loadings=0.00,
-               plot.scree=TRUE,
-               # plot.factor=TRUE,
-               kaiser=TRUE,
-               max.iter=25,
-               min.eigen=1,
-               digits=3, nsmall=digits,
-               file=NULL) {
+EFA = function(
+    data, var, items, vars=NULL, varrange=NULL, rev=NULL,
+    method=c("pca", "pa", "ml", "minres", "uls", "ols", "wls", "gls", "alpha"),
+    rotation=c("none", "varimax", "oblimin", "promax", "quartimax", "equamax"),
+    nfactors=c("eigen", "parallel", "(any number >= 1)"),
+    sort.loadings=TRUE,
+    hide.loadings=0.00,
+    plot.scree=TRUE,
+    # plot.factor=TRUE,
+    kaiser=TRUE,
+    max.iter=25,
+    min.eigen=1,
+    digits=3,
+    file=NULL
+) {
   if(!is.null(varrange)) {
     dn = names(data)
     varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
@@ -643,7 +647,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   - {Method.Rotation}
 
   KMO and Bartlett's Test:
-  - Kaiser-Meyer-Olkin (KMO) Measure of Sampling Adequacy: MSA = {kmo:.{nsmall}}
+  - Kaiser-Meyer-Olkin (KMO) Measure of Sampling Adequacy: MSA = {kmo:.{digits}}
   - Bartlett's Test of Sphericity: Approx. {p(chi2=btl$chisq, df=btl$df)}
   ")
 
@@ -662,7 +666,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   names(eigen) = c("Eigenvalue", "Variance %", "Cumulative %",
                    "SS Loading", "Variance %", "Cumulative %")
   cat("\n")
-  print_table(eigen, nsmalls=nsmall,
+  print_table(eigen, digits=digits,
               title="Total Variance Explained:")
 
   # factor loadings
@@ -680,7 +684,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   info2 = ifelse(sort.loadings, " (Sorted by Size)", "")
   loadings.info = info1%^%info2
   cat("\n")
-  print_table(loadings, nsmalls=nsmall,
+  print_table(loadings, digits=digits,
               title=Glue("{tag} Loadings{loadings.info}:"))
   Print("
   Communality = Sum of Squared (SS) Factor Loadings
@@ -688,7 +692,7 @@ EFA = function(data, var, items, vars=NULL, varrange=NULL, rev=NULL,
   \n
   ")
   if(!is.null(file))
-    print_table(loadings, nsmalls=nsmall, file=file,
+    print_table(loadings, digits=digits, file=file,
                 title=Glue("{tag} Loadings{loadings.info}:"),
                 note=Glue("Extraction Method: {Method}.</p><p>Rotation Method: {Method.Rotation}."))
 
@@ -829,7 +833,7 @@ modelCFA.trans = function(style=c("jmv", "lavaan"),
 #' @param model Model formula. See examples.
 #' @param estimator The estimator to be used
 #' (for details, see \link[lavaan:lavOptions]{lavaan options}).
-#' Default is \code{"ML"}.
+#' Defaults to \code{"ML"}.
 #' Can be one of the following:
 #' \describe{
 #'   \item{\code{"ML"}}{Maximum Likelihood (can be extended to
@@ -841,12 +845,12 @@ modelCFA.trans = function(style=c("jmv", "lavaan"),
 #'   \item{\code{"DWLS"}}{Diagonally Weighted Least Squares}
 #'   \item{\code{"DLS"}}{Distributionally-weighted Least Squares}
 #' }
-#' @param highorder High-order factor. Default is \code{""}.
-#' @param orthogonal Default is \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.
-#' @param missing Default is \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").
+#' @param highorder High-order factor. Defaults to \code{""}.
+#' @param orthogonal Defaults to \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.
+#' @param missing Defaults to \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").
 ## @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
 ## @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return
@@ -868,13 +872,15 @@ modelCFA.trans = function(style=c("jmv", "lavaan"),
 #' CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 #' }
 #' @export
-CFA = function(data,
-               model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
-               estimator="ML",
-               highorder="", orthogonal=FALSE, missing="listwise",
-               # CI=FALSE, MI=FALSE,
-               digits=3, nsmall=digits,
-               file=NULL) {
+CFA = function(
+    data,
+    model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
+    estimator="ML",
+    highorder="", orthogonal=FALSE, missing="listwise",
+    # CI=FALSE, MI=FALSE,
+    digits=3,
+    file=NULL
+) {
   # model.jmv = modelCFA.trans("jmv", model)
   model.lav = modelCFA.trans("lavaan", model, highorder)
   # if(orthogonal==TRUE | highorder!="") style = "lavaan"
@@ -910,7 +916,7 @@ CFA = function(data,
                         orthogonal=orthogonal,
                         missing=missing) # fiml, listwise (default)
   # cat("\n#### lavaan output ####\n\n")
-  lavaan_summary(fit.lav, ci="raw", nsmall=nsmall, file=file)
+  lavaan_summary(fit.lav, ci="raw", digits=digits, file=file)
   # lavaan::summary(fit.lav,
   #                 fit.measures=TRUE,
   #                 standardized=TRUE,

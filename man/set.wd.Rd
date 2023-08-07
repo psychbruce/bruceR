@@ -11,7 +11,7 @@ set_wd(path = NULL, ask = FALSE)
 }
 \arguments{
 \item{path}{\code{NULL} (default) or a specific path.
-Default is to extract the path of the currently opened file
+Defaults to extract the path of the currently opened file
 (usually .R or .Rmd) using the \code{rstudioapi::getSourceEditorContext} function.}
 
 \item{ask}{\code{TRUE} or \code{FALSE} (default).

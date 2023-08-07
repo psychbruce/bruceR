@@ -10,11 +10,11 @@ cc(..., sep = "auto", trim = TRUE)
 \item{...}{Character string(s).}
 
 \item{sep}{Pattern for separation.
-Default is \code{"auto"}:
+Defaults to \code{"auto"}:
 \code{,} \code{;} \code{|} \code{\\n} \code{\\t}}
 
 \item{trim}{Remove whitespace from start and end of string(s)?
-Default is \code{TRUE}.}
+Defaults to \code{TRUE}.}
 }
 \value{
 Character vector.

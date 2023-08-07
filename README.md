@@ -25,13 +25,13 @@ This package includes easy-to-use functions for:
 
 Han-Wu-Shuang (Bruce) Bao 包寒吴霜
 
-Email: [baohws\@foxmail.com](mailto:baohws@foxmail.com)
+📬 [baohws\@foxmail.com](mailto:baohws@foxmail.com)
 
-Homepage: [psychbruce.github.io](https://psychbruce.github.io)
+📋 [psychbruce.github.io](https://psychbruce.github.io)
 
 ## Citation
 
--   Bao, H.-W.-S. (2023). bruceR: Broadly useful convenient and efficient R functions. R package version 0.8.x. <https://CRAN.R-project.org/package=bruceR>
+-   Bao, H.-W.-S. (2023). *bruceR: Broadly useful convenient and efficient R functions*. R package version 2023.8. <https://CRAN.R-project.org/package=bruceR>
 
 ## User Guide
 
@@ -118,6 +118,7 @@ Loading `bruceR` with `library(bruceR)` will also load these R packages for you:
     -   `Freq()`
     -   `Corr()`
     -   `cor_diff()`
+    -   `cor_multilevel()`
 
 5.  **T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison**
 

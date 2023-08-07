@@ -167,6 +167,8 @@ if(FALSE) {
 #'       \code{\link{Corr}}
 #'
 #'       \code{\link{cor_diff}}
+#'
+#'       \code{\link{cor_multilevel}}
 #'   }
 #'
 #'   \item{\strong{(5) T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
@@ -231,7 +233,7 @@ NULL
 #' @importFrom stats sd var cor median na.omit complete.cases
 #' @importFrom stats p.adjust pnorm pt pf pchisq qnorm qt quantile rnorm anova update terms drop1
 #' @importFrom stats lm coef confint residuals df.residual sigma as.formula terms.formula model.response model.frame
-#' @importFrom dplyr %>% select left_join sym group_by summarise mutate transmute across
+#' @importFrom dplyr %>% select left_join sym group_by summarise mutate transmute across rename
 #' @importFrom data.table data.table is.data.table as.data.table
 #' @importFrom data.table := .BY .EACHI .GRP .I .N .NGRP .SD
 .onAttach = function(libname, pkgname) {

@@ -17,7 +17,6 @@ MANOVA(
   sph.correction = "none",
   aov.include = FALSE,
   digits = 3,
-  nsmall = digits,
   file = NULL
 )
 }
@@ -79,20 +78,20 @@ Tips on regular expression:
 
 \item{covariate}{Covariates. Multiple variables should be included in a character vector \code{c()}.}
 
-\item{ss.type}{Type of sums of squares (SS) for ANOVA. Default is \code{"III"}.
+\item{ss.type}{Type of sums of squares (SS) for ANOVA. Defaults to \code{"III"}.
 Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.}
 
 \item{sph.correction}{[Only for repeated measures with >= 3 levels]
 
-Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Defaults to \code{"none"}.
 If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
 \item{aov.include}{Include the \code{aov} object in the returned object?
-Default is \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
+Defaults to \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
 (please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
 If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }

@@ -7,7 +7,6 @@
 print_table(
   x,
   digits = 3,
-  nsmalls = digits,
   nspaces = 1,
   row.names = TRUE,
   col.names = TRUE,
@@ -23,11 +22,11 @@ print_table(
 \arguments{
 \item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
 
-\item{digits, nsmalls}{Numeric vector specifying the number of decimal places of output. Default is \code{3}.}
+\item{digits}{Numeric vector specifying the number of decimal places of output. Defaults to \code{3}.}
 
-\item{nspaces}{Number of whitespaces between columns. Default is \code{1}.}
+\item{nspaces}{Number of whitespaces between columns. Defaults to \code{1}.}
 
-\item{row.names, col.names}{Print row/column names. Default is \code{TRUE} (column names are always printed).
+\item{row.names, col.names}{Print row/column names. Defaults to \code{TRUE} (column names are always printed).
 To modify the names, you can use a character vector with the same length as the raw names.}
 
 \item{title}{Title text, which will be inserted in <p></p> (HTML code).}

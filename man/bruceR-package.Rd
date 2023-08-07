@@ -127,6 +127,8 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
       \code{\link{Corr}}
 
       \code{\link{cor_diff}}
+
+      \code{\link{cor_multilevel}}
   }
 
   \item{\strong{(5) T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{

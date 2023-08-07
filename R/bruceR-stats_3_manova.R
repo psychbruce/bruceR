@@ -93,7 +93,7 @@ levene_test = function(data, id, dvs, ivs.between) {
       row.names(lev) = paste("DV:", dv)
       levene = rbind(levene, lev)
     }
-    print_table(levene, nsmalls=c(3, 0, 0, 0))
+    print_table(levene, digits=c(3, 0, 0, 0))
   }
 }
 
@@ -203,21 +203,21 @@ fix_long_data = function(data.long, ivs) {
 #' @param between Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
 #' @param within Within-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
 #' @param covariate Covariates. Multiple variables should be included in a character vector \code{c()}.
-#' @param ss.type Type of sums of squares (SS) for ANOVA. Default is \code{"III"}.
+#' @param ss.type Type of sums of squares (SS) for ANOVA. Defaults to \code{"III"}.
 #' Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.
 #' @param sph.correction [Only for repeated measures with >= 3 levels]
 #'
-#' Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Default is \code{"none"}.
+#' Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Defaults to \code{"none"}.
 #' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
 #' @param aov.include Include the \code{aov} object in the returned object?
-#' Default is \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
+#' Defaults to \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
 #' (please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
 #' If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #' @param file File name of MS Word (\code{.doc}).
 ## @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
 ##
-## Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Default is \code{NULL}.
+## Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Defaults to \code{NULL}.
 ## The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
 ## (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
 #'
@@ -319,15 +319,17 @@ fix_long_data = function(data.long, ivs) {
 #' @seealso \code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
 #'
 #' @export
-MANOVA = function(data, subID=NULL, dv=NULL,
-                  dvs=NULL, dvs.pattern=NULL,
-                  between=NULL, within=NULL, covariate=NULL,
-                  ss.type="III",
-                  sph.correction="none",
-                  # which.observed=NULL,
-                  aov.include=FALSE,
-                  digits=3, nsmall=digits,
-                  file=NULL) {
+MANOVA = function(
+    data, subID=NULL, dv=NULL,
+    dvs=NULL, dvs.pattern=NULL,
+    between=NULL, within=NULL, covariate=NULL,
+    ss.type="III",
+    sph.correction="none",
+    # which.observed=NULL,
+    aov.include=FALSE,
+    digits=3,
+    file=NULL
+) {
   ## Initialize
   data = as.data.frame(data)
   if(is.null(within)) {
@@ -436,16 +438,16 @@ MANOVA = function(data, subID=NULL, dv=NULL,
   at$MS = at$`F`*at$`MSE`
   eta2 = effectsize::F_to_eta2(at$`F`, at$df1, at$df2,
                                ci=0.90, alternative="two.sided")
-  at$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, nsmall) %>%
+  at$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, digits) %>%
     str_replace_all("0\\.", ".")
-  at$g.eta2 = str_replace_all(formatF(at$ges, nsmall), "0\\.", ".")
+  at$g.eta2 = str_replace_all(formatF(at$ges, digits), "0\\.", ".")
   at = at[c("MS", "MSE", "df1", "df2", "F", "Pr(>F)", "p.eta2", "g.eta2")]
   names(at)[7:8] = c("\u03b7\u00b2p [90% CI of \u03b7\u00b2p]",
                      "\u03b7\u00b2G")
   row.names(at) = row.names(aov.ez$anova_table) %>%
     str_replace_all(":", " * ")
-  df.nsmall = ifelse(sph.correction=="none", 0, nsmall)
-  at.nsmalls = c(nsmall, nsmall, df.nsmall, df.nsmall, nsmall, 0, 0, 0)
+  df.nsmall = ifelse(sph.correction=="none", 0, digits)
+  at.nsmalls = c(digits, digits, df.nsmall, df.nsmall, digits, 0, 0, 0)
 
   ## Descriptive Statistics
   nsub = nrow(data.wide)
@@ -469,12 +471,12 @@ MANOVA = function(data, subID=NULL, dv=NULL,
   cat("\n")
   Print("Descriptives:")
   print_table(nmsd, row.names=FALSE,
-              nsmalls=c(rep(nsmall, ncol.nmsd-1), 0))
+              digits=c(rep(digits, ncol.nmsd-1), 0))
   Print("Total sample size: <<italic N>> = {N.info}")
   cat("\n")
 
-  nmsd$Mean = formatF(nmsd$Mean, nsmall)
-  nmsd$S.D. = formatF(nmsd$S.D., nsmall)
+  nmsd$Mean = formatF(nmsd$Mean, digits)
+  nmsd$S.D. = formatF(nmsd$S.D., digits)
   names(nmsd)[(ncol.nmsd-2):ncol.nmsd] = c("<i>M</i>", "<i>SD</i>", "<i>n</i>")
   nmsd.html = paste0(
     "<p><br/><br/></p>",
@@ -499,7 +501,7 @@ MANOVA = function(data, subID=NULL, dv=NULL,
   Within-subjects factor(s):  {WIT}
   Covariate(s):               {COV}
   ")
-  print_table(at, nsmalls=at.nsmalls)
+  print_table(at, digits=at.nsmalls)
   if(sph.correction %in% c("GG", "HF")) {
     sph.text=switch(sph.correction,
                     "GG"="GG (Greenhouse-Geisser)",
@@ -533,7 +535,7 @@ MANOVA = function(data, subID=NULL, dv=NULL,
       sph = as.data.frame(sph)
       names(sph) = c("Mauchly's W", "pval")
       row.names(sph) = str_replace_all(row.names(sph), ":", " * ")
-      print_table(sph, nsmalls=4)
+      print_table(sph, digits=4)
       if(min(sph[,2])<.05 & sph.correction=="none") {
         Print("<<red The sphericity assumption is violated.
               You may specify: sph.correction=\"GG\" (or =\"HF\")>>")
@@ -545,7 +547,7 @@ MANOVA = function(data, subID=NULL, dv=NULL,
   if(!is.null(file)) {
     print_table(
       at,
-      nsmalls=at.nsmalls,
+      digits=at.nsmalls,
       col.names=c("<i>MS</i>",
                   "<i>MSE</i>",
                   "<i>df</i><sub>1</sub>",
@@ -679,18 +681,18 @@ MANOVA = function(data, subID=NULL, dv=NULL,
 #' it reports the results of omnibus test or simple main effect.
 #' If set to a character vector (e.g., \code{c("A", "B")}),
 #' it also reports the results of simple interaction effect.
-#' @param by Moderator variable(s). Default is \code{NULL}.
+#' @param by Moderator variable(s). Defaults to \code{NULL}.
 #' @param contrast Contrast method for multiple comparisons.
-#' Default is \code{"pairwise"}.
+#' Defaults to \code{"pairwise"}.
 #'
 #' Alternatives can be \code{"pairwise"} (\code{"revpairwise"}),
 #' \code{"seq"} (\code{"consec"}), \code{"poly"}, \code{"eff"}.
 #' For details, see \code{?emmeans::`contrast-methods`}.
 #' @param reverse The order of levels to be contrasted.
-#' Default is \code{TRUE} (higher level vs. lower level).
+#' Defaults to \code{TRUE} (higher level vs. lower level).
 #' @param p.adjust Adjustment method of \emph{p} values for multiple comparisons.
-#' Default is \code{"bonferroni"}.
-#' For polynomial contrasts, default is \code{"none"}.
+#' Defaults to \code{"bonferroni"}.
+#' For polynomial contrasts, defaults to \code{"none"}.
 #'
 #' Alternatives can be \code{"none"}, \code{"fdr"}, \code{"hochberg"},
 #' \code{"hommel"}, \code{"holm"}, \code{"tukey"}, \code{"mvt"},
@@ -708,7 +710,7 @@ MANOVA = function(data, subID=NULL, dv=NULL,
 #'
 #' \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
 #' (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).
-#' @param digits,nsmall Number of decimal places of output. Default is \code{3}.
+#' @param digits Number of decimal places of output. Defaults to \code{3}.
 #'
 #' @return
 #' The same model object as returned by
@@ -822,13 +824,15 @@ MANOVA = function(data, subID=NULL, dv=NULL,
 #' @seealso \code{\link{TTEST}}, \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
 #'
 #' @export
-EMMEANS = function(model, effect=NULL, by=NULL,
-                   contrast="pairwise",
-                   reverse=TRUE,
-                   p.adjust="bonferroni",
-                   sd.pooled=NULL,
-                   model.type="multivariate",
-                   digits=3, nsmall=digits) {
+EMMEANS = function(
+    model, effect=NULL, by=NULL,
+    contrast="pairwise",
+    reverse=TRUE,
+    p.adjust="bonferroni",
+    sd.pooled=NULL,
+    model.type="multivariate",
+    digits=3
+) {
   # IMPORTANT: If include 'aov', the 'emmeans' results of
   # within-subjects design will not be equal to those in SPSS!
   # So we do not include 'aov' object but instead use 'lm' and 'mlm'
@@ -865,7 +869,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
   sim$Effect = str_replace_all(sim$Effect, ":", " * ")
   eta2 = effectsize::F_to_eta2(sim$F.ratio, sim$df1, sim$df2,
                                ci=0.90, alternative="two.sided")
-  sim$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, nsmall) %>%
+  sim$p.eta2 = cc_m_ci(eta2$Eta2_partial, eta2$CI_low, eta2$CI_high, digits) %>%
     str_replace_all("0\\.", ".")
   if(length(by)>0) {
     vns = names(sim)[2:(length(by)+1)]
@@ -875,8 +879,8 @@ EMMEANS = function(model, effect=NULL, by=NULL,
     c("F", "pval", "\u03b7\u00b2p [90% CI of \u03b7\u00b2p]")
 
   Print("Joint Tests of \"{effect.text}\":")
-  print_table(sim, nsmalls=c(rep(0, length(by)+3),
-                             nsmall, 0, 0),
+  print_table(sim, digits=c(rep(0, length(by)+3),
+                            digits, 0, 0),
               row.names=FALSE)
   Print("
   <<italic Note>>. Simple effects of <<italic repeated measures>> with 3 or more levels
@@ -907,7 +911,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
         "pval")
       row.names(pht) = str_replace_all(row.names(pht), " : ", " & ") %^%
         ": " %^% Glue("\"{effect.text}\"")
-      print_table(pht, nsmalls=nsmall,
+      print_table(pht, digits=digits,
                   title=Glue("Multivariate Tests of \"{effect.text}\":"),
                   note=Glue("<<italic Note>>. Identical to the results obtained with SPSS GLM EMMEANS syntax."))
       cat("\n")
@@ -919,7 +923,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
       names(pht) = c("Sum of Squares", "df", "Mean Square", "F", "pval")
       row.names(pht)[1:(nrow(pht)-1)] = str_replace_all(row.names(pht)[1:(nrow(pht)-1)], " : ", " & ") %^%
         ": " %^% Glue("\"{effect.text}\"")
-      print_table(pht, nsmalls=c(nsmall, 0, nsmall, nsmall, 0),
+      print_table(pht, digits=c(digits, 0, digits, digits, 0),
                   title=Glue("Univariate Tests of \"{effect.text}\":"),
                   note=Glue("<<italic Note>>. Identical to the results obtained with SPSS GLM EMMEANS syntax."))
       cat("\n")
@@ -934,14 +938,14 @@ EMMEANS = function(model, effect=NULL, by=NULL,
       model=model.type)
   })
   emm = summary(emm)  # to a data.frame (class 'summary_emm')
-  emm$MeanCI = cc_m_ci(emm$emmean, emm$lower.CL, emm$upper.CL, nsmall)
+  emm$MeanCI = cc_m_ci(emm$emmean, emm$lower.CL, emm$upper.CL, digits)
   vns = names(emm)[1:(length(by)+1)]
   names(emm)[1:(length(by)+1)] = "\"" %^% vns %^% "\""
   emm = cbind(emm[1:(length(by)+1)], emm[c("MeanCI", "SE")])
   names(emm)[length(emm)-1] = "Mean [95% CI of Mean]"
 
   Print("Estimated Marginal Means of \"{effect.text}\":")
-  print_table(emm, nsmalls=nsmall, row.names=FALSE)
+  print_table(emm, digits=digits, row.names=FALSE)
   cat(paste(attr(emm, "mesg"), collapse="\n"))
   cat("\n")
 
@@ -993,12 +997,12 @@ EMMEANS = function(model, effect=NULL, by=NULL,
   #   sd.pooled = sqrt(model$anova_table[term, "MSE"])
   if(contrast!="poly")
     attr(con, "mesg") = c(
-      Glue("Pooled SD for computing Cohen\u2019s d: {formatF(sd.pooled, nsmall)}"),
+      Glue("Pooled SD for computing Cohen\u2019s d: {formatF(sd.pooled, digits)}"),
       attr(con, "mesg"))
   con$cohen.d.ci = cc_m_ci(con$estimate/sd.pooled,
                            conCI$lower.CL/sd.pooled,
                            conCI$upper.CL/sd.pooled,
-                           nsmall)
+                           digits)
   if(length(by)>0) {
     vns = names(con)[2:(length(con)-6)]
     names(con)[2:(length(con)-6)] = "\"" %^% vns %^% "\""
@@ -1024,7 +1028,7 @@ EMMEANS = function(model, effect=NULL, by=NULL,
 
   Print("{contr.method} of \"{effect.text}\":")
   con$df = formatF(con$df, 0)
-  print_table(con, nsmalls=nsmall, row.names=FALSE)
+  print_table(con, digits=digits, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n"))
   cat("\n\n")
   Print("<<green Disclaimer:

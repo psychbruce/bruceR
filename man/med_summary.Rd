@@ -4,12 +4,12 @@
 \alias{med_summary}
 \title{Tidy report of mediation analysis.}
 \usage{
-med_summary(model, digits = 3, nsmall = digits, file = NULL)
+med_summary(model, digits = 3, file = NULL)
 }
 \arguments{
 \item{model}{Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.}
 
-\item{digits, nsmall}{Number of decimal places of output. Default is \code{3}.}
+\item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 }
