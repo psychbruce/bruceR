@@ -20,7 +20,7 @@ the square root of mean variance of all paired differences of the residuals of r
 Disclaimer:
 There is substantial disagreement on the appropriate pooled SD to use in computing the effect size.
 For alternative methods, see emmeans::eff_size() and effectsize::t_to_d().
-Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Nunito-0.4.6/font.css" rel="stylesheet"><link href="../deps/Nunito_Sans-0.4.6/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
+Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
 including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 with p values adjusted for factors with &amp;gt;= 3 levels.
@@ -52,7 +52,7 @@ Users should not take the default output as the only right results and are compl
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.11-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.8</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,8 +120,7 @@ Users should <em>not</em> take the default output as the only right results and 
 <span>  p.adjust <span class="op">=</span> <span class="st">"bonferroni"</span>,</span>
 <span>  sd.pooled <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  model.type <span class="op">=</span> <span class="st">"multivariate"</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  nsmall <span class="op">=</span> <span class="va">digits</span></span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -140,12 +139,12 @@ it also reports the results of simple interaction effect.</p></dd>
 
 
 <dt>by</dt>
-<dd><p>Moderator variable(s). Default is <code>NULL</code>.</p></dd>
+<dd><p>Moderator variable(s). Defaults to <code>NULL</code>.</p></dd>
 
 
 <dt>contrast</dt>
 <dd><p>Contrast method for multiple comparisons.
-Default is <code>"pairwise"</code>.</p>
+Defaults to <code>"pairwise"</code>.</p>
 <p>Alternatives can be <code>"pairwise"</code> (<code>"revpairwise"</code>),
 <code>"seq"</code> (<code>"consec"</code>), <code>"poly"</code>, <code>"eff"</code>.
 For details, see <code><a href="https://rdrr.io/pkg/emmeans/man/emmc-functions.html" class="external-link">?emmeans::`contrast-methods`</a></code>.</p></dd>
@@ -153,13 +152,13 @@ For details, see <code><a href="https://rdrr.io/pkg/emmeans/man/emmc-functions.h
 
 <dt>reverse</dt>
 <dd><p>The order of levels to be contrasted.
-Default is <code>TRUE</code> (higher level vs. lower level).</p></dd>
+Defaults to <code>TRUE</code> (higher level vs. lower level).</p></dd>
 
 
 <dt>p.adjust</dt>
 <dd><p>Adjustment method of <em>p</em> values for multiple comparisons.
-Default is <code>"bonferroni"</code>.
-For polynomial contrasts, default is <code>"none"</code>.</p>
+Defaults to <code>"bonferroni"</code>.
+For polynomial contrasts, defaults to <code>"none"</code>.</p>
 <p>Alternatives can be <code>"none"</code>, <code>"fdr"</code>, <code>"hochberg"</code>,
 <code>"hommel"</code>, <code>"holm"</code>, <code>"tukey"</code>, <code>"mvt"</code>,
 <code>"dunnettx"</code>, <code>"sidak"</code>, <code>"scheffe"</code>, <code>"bonferroni"</code>.
@@ -183,8 +182,8 @@ for <code><a href="https://rdrr.io/pkg/emmeans/man/joint_tests.html" class="exte
 (not recommended by the <code>afex</code> package; for details, see <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html" class="external-link">afex::aov_ez()</a></code>).</p></dd>
 
 
-<dt>digits, nsmall</dt>
-<dd><p>Number of decimal places of output. Default is <code>3</code>.</p></dd>
+<dt>digits</dt>
+<dd><p>Number of decimal places of output. Defaults to <code>3</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
