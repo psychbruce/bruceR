@@ -6,11 +6,12 @@
 \usage{
 import(
   file,
-  sheet = NULL,
-  range = NULL,
   encoding = NULL,
   header = "auto",
-  setclass = as,
+  sheet = NULL,
+  range = NULL,
+  pkg = c("foreign", "haven"),
+  value.labels = TRUE,
   as = "data.frame",
   verbose = FALSE
 )
@@ -19,32 +20,43 @@ import(
 \item{file}{File name (with extension).
 If unspecified, then data will be imported from clipboard.}
 
-\item{sheet}{[Only for Excel] Excel sheet name (or sheet number).
-Defaults to the first sheet.
-Ignored if the sheet is specified via \code{range}.}
-
-\item{range}{[Only for Excel] Excel cell range. Defaults to all cells in a sheet.
-You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
-
 \item{encoding}{File encoding. Defaults to \code{NULL}.
-Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+Options: \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 
 If you find messy code for Chinese text in the imported data,
 it is usually effective to set \code{encoding="UTF-8"}.}
 
-\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})? Defaults to \code{"auto"}.}
+\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})?
+Defaults to \code{"auto"}.}
 
-\item{setclass, as}{Class of the imported data. Defaults to \code{"data.frame"}.
-Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).}
+\item{sheet}{[Only for Excel] Excel sheet name (or sheet number).
+Defaults to the first sheet.
+Ignored if the sheet is specified via \code{range}.}
 
-\item{verbose}{Print data information? Defaults to \code{FALSE}.
+\item{range}{[Only for Excel] Excel cell range.
+Defaults to all cells in a sheet.
+You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
 
-Alternatives can be:
+\item{pkg}{[Only for SPSS & Stata] Use which R package to read
+SPSS (.sav) or Stata (.dta) data file?
+Defaults to using \code{foreign}; if failed, then using \code{haven}.
+Users may also specify one of them to use.}
+
+\item{value.labels}{[Only for SPSS & Stata] Convert variables with value labels
+into R factors with those levels? Defaults to \code{TRUE}.}
+
+\item{as}{Class of the imported data.
+Defaults to \code{"data.frame"}.
+Ignored if the file is an R data object (.rds, .rda, .rdata, .RData).
+
+Options:
 \itemize{
   \item data.frame: \code{"data.frame"}, \code{"df"}, \code{"DF"}
   \item data.table: \code{"data.table"}, \code{"dt"}, \code{"DT"}
   \item tbl_df: \code{"tibble"}, \code{"tbl_df"}, \code{"tbl"}
 }}
+
+\item{verbose}{Print data information? Defaults to \code{FALSE}.}
 }
 \value{
 A data object (default class is \code{data.frame}).
@@ -66,7 +78,7 @@ uses the corresponding R functions:
   if failed, using \code{\link[haven:read_spss]{haven::read_sav()}} instead
   \item Stata (.dta), using \code{\link[foreign:read.dta]{foreign::read.dta()}};
   if failed, using \code{\link[haven:read_dta]{haven::read_dta()}} instead
-  \item R objects (.rda, .rdata, .Rdata), using \code{\link[base:load]{base::load()}}
+  \item R objects (.rda, .rdata, .RData), using \code{\link[base:load]{base::load()}}
   \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::readRDS()}}
   \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:read_clip_tbl]{clipr::read_clip_tbl()}}
   \item Other formats, using \code{\link[rio:import]{rio::import()}}

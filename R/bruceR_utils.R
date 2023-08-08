@@ -930,7 +930,7 @@ file_ext = function(filename) {
 #'   if failed, using \code{\link[haven:read_spss]{haven::read_sav()}} instead
 #'   \item Stata (.dta), using \code{\link[foreign:read.dta]{foreign::read.dta()}};
 #'   if failed, using \code{\link[haven:read_dta]{haven::read_dta()}} instead
-#'   \item R objects (.rda, .rdata, .Rdata), using \code{\link[base:load]{base::load()}}
+#'   \item R objects (.rda, .rdata, .RData), using \code{\link[base:load]{base::load()}}
 #'   \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::readRDS()}}
 #'   \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:read_clip_tbl]{clipr::read_clip_tbl()}}
 #'   \item Other formats, using \code{\link[rio:import]{rio::import()}}
@@ -938,27 +938,36 @@ file_ext = function(filename) {
 #'
 #' @param file File name (with extension).
 #' If unspecified, then data will be imported from clipboard.
-#' @param sheet [Only for Excel] Excel sheet name (or sheet number).
-#' Defaults to the first sheet.
-#' Ignored if the sheet is specified via \code{range}.
-#' @param range [Only for Excel] Excel cell range. Defaults to all cells in a sheet.
-#' You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.
 #' @param encoding File encoding. Defaults to \code{NULL}.
-#' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+#' Options: \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 #'
 #' If you find messy code for Chinese text in the imported data,
 #' it is usually effective to set \code{encoding="UTF-8"}.
-#' @param header Does the first row contain column names (\code{TRUE} or \code{FALSE})? Defaults to \code{"auto"}.
-#' @param setclass,as Class of the imported data. Defaults to \code{"data.frame"}.
-#' Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).
-#' @param verbose Print data information? Defaults to \code{FALSE}.
+#' @param header Does the first row contain column names (\code{TRUE} or \code{FALSE})?
+#' Defaults to \code{"auto"}.
+#' @param sheet [Only for Excel] Excel sheet name (or sheet number).
+#' Defaults to the first sheet.
+#' Ignored if the sheet is specified via \code{range}.
+#' @param range [Only for Excel] Excel cell range.
+#' Defaults to all cells in a sheet.
+#' You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.
+#' @param pkg [Only for SPSS & Stata] Use which R package to read
+#' SPSS (.sav) or Stata (.dta) data file?
+#' Defaults to using \code{foreign}; if failed, then using \code{haven}.
+#' Users may also specify one of them to use.
+#' @param value.labels [Only for SPSS & Stata] Convert variables with value labels
+#' into R factors with those levels? Defaults to \code{TRUE}.
+#' @param as Class of the imported data.
+#' Defaults to \code{"data.frame"}.
+#' Ignored if the file is an R data object (.rds, .rda, .rdata, .RData).
 #'
-#' Alternatives can be:
+#' Options:
 #' \itemize{
 #'   \item data.frame: \code{"data.frame"}, \code{"df"}, \code{"DF"}
 #'   \item data.table: \code{"data.table"}, \code{"dt"}, \code{"DT"}
 #'   \item tbl_df: \code{"tibble"}, \code{"tbl_df"}, \code{"tbl"}
 #' }
+#' @param verbose Print data information? Defaults to \code{FALSE}.
 #'
 #' @return A data object (default class is \code{data.frame}).
 #'
@@ -981,9 +990,13 @@ file_ext = function(filename) {
 #' @export
 import = function(
     file,
-    sheet=NULL, range=NULL,
-    encoding=NULL, header="auto",
-    setclass=as, as="data.frame",
+    encoding=NULL,
+    header="auto",
+    sheet=NULL,
+    range=NULL,
+    pkg=c("foreign", "haven"),
+    value.labels=TRUE,
+    as="data.frame",
     verbose=FALSE
 ) {
   ## initialize
@@ -1035,32 +1048,44 @@ import = function(
                               range=range,
                               col_names=header)
   } else if(fmt %in% c("sav")) {
-    installed("foreign")
-    try({
-      error = TRUE
-      data = foreign::read.spss(
-        file=file,
-        reencode=ifelse(is.null(encoding), NA, encoding),
-        to.data.frame=TRUE,
-        use.value.labels=FALSE)
-      error = FALSE
-    }, silent=TRUE)
-    if(error) {
-      message("[Retry] Using `haven::read_sav()` to import the data...")
+    error = TRUE
+    if(pkg[1]=="foreign") {
+      # default & pkg="foreign"
+      installed("foreign")
+      try({
+        data = foreign::read.spss(
+          file=file,
+          reencode=ifelse(is.null(encoding), NA, encoding),
+          to.data.frame=TRUE,
+          use.value.labels=value.labels)
+        error = FALSE
+      }, silent=TRUE)
+    }
+    if(error | pkg[1]=="haven") {
+      # pkg="haven"
+      if(pkg[1]=="foreign")
+        message("[Retry] Using `haven::read_sav()` to import the data...")
       installed("haven")
       data = haven::read_sav(file=file, encoding=encoding)
+      if(value.labels) data = haven::as_factor(data)
     }
   } else if(fmt %in% c("dta")) {
-    installed("foreign")
-    try({
-      error = TRUE
-      data = foreign::read.dta(file=file, convert.factors=FALSE)
-      error = FALSE
-    }, silent=TRUE)
-    if(error) {
-      message("[Retry] Using `haven::read_dta()` to import the data...")
+    error = TRUE
+    if(pkg[1]=="foreign") {
+      # default & pkg="foreign"
+      installed("foreign")
+      try({
+        data = foreign::read.dta(file=file, convert.factors=value.labels)
+        error = FALSE
+      }, silent=TRUE)
+    }
+    if(error | pkg[1]=="haven") {
+      # pkg="haven"
+      if(pkg[1]=="foreign")
+        message("[Retry] Using `haven::read_dta()` to import the data...")
       installed("haven")
       data = haven::read_dta(file=file, encoding=encoding)
+      if(value.labels) data = haven::as_factor(data)
     }
   } else {
     data = rio::import(file=file)
@@ -1075,13 +1100,13 @@ import = function(
   }
 
   ## return data
-  if(is.null(setclass) | fmt %in% c("rds", "rda", "rdata")) {
+  if(is.null(as) | fmt %in% c("rds", "rda", "rdata")) {
     return(data)
-  } else if(setclass %in% c("data.frame", "df", "DF")) {
-    return(base::as.data.frame(data))
-  } else if(setclass %in% c("data.table", "dt", "DT")) {
+  } else if(as %in% c("data.frame", "df", "DF")) {
+    return(as.data.frame(data))
+  } else if(as %in% c("data.table", "dt", "DT")) {
     return(data.table::as.data.table(data))
-  } else if(setclass %in% c("tibble", "tbl_df", "tbl")) {
+  } else if(as %in% c("tibble", "tbl_df", "tbl")) {
     installed("tibble")
     return(tibble::as_tibble(data))
   } else {
@@ -1107,7 +1132,7 @@ import = function(
 #'   \item Excel (.xls, .xlsx), using \code{\link[openxlsx:write.xlsx]{openxlsx::write.xlsx()}}
 #'   \item SPSS (.sav), using \code{\link[haven:read_spss]{haven::write_sav()}}
 #'   \item Stata (.dta), using \code{\link[haven:read_dta]{haven::write_dta()}}
-#'   \item R objects (.rda, .rdata, .Rdata), using \code{\link[base:save]{base::save()}}
+#'   \item R objects (.rda, .rdata, .RData), using \code{\link[base:save]{base::save()}}
 #'   \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::saveRDS()}}
 #'   \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:write_clip]{clipr::write_clip()}}
 #'   \item Other formats, using \code{\link[rio:export]{rio::export()}}
@@ -1117,19 +1142,19 @@ import = function(
 #' Multiple R objects should be included in a \emph{named} \code{list} (see examples).
 #'
 #' If you want to save R objects other than a data frame (e.g., model results),
-#' you'd better specify \code{file} with extensions .rda, .rdata, or .Rdata.
+#' you'd better specify \code{file} with extensions .rda, .rdata, or .RData.
 #' @param file File name (with extension).
 #' If unspecified, then data will be exported to clipboard.
-#' @param sheet [Only for Excel] Excel sheet name(s).
-#' Defaults to Sheet1, Sheet2, ...
-#' You may specify multiple sheet names in a character vector
-#' \code{c()} with the \emph{same length} as \code{x} (see examples).
 #' @param encoding File encoding. Defaults to \code{NULL}.
-#' Alternatives can be \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
+#' Options: \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 #'
 #' If you find messy code for Chinese text in the exported data (often in CSV when opened with Excel),
-#' it is usually effective to set \code{encoding="GBK"} or \code{encoding="CP936"}.
+#' it is usually useful to set \code{encoding="GBK"} or \code{encoding="CP936"}.
 #' @param header Does the first row contain column names (\code{TRUE} or \code{FALSE})? Defaults to \code{"auto"}.
+#' @param sheet [Only for Excel] Excel sheet name(s).
+#' Defaults to "Sheet1", "Sheet2", ...
+#' You may specify multiple sheet names in a character vector
+#' \code{c()} with the \emph{same length} as \code{x} (see examples).
 #' @param overwrite Overwrite the existing file (if any)? Defaults to \code{TRUE}.
 #' @param verbose Print output information? Defaults to \code{FALSE}.
 #'
@@ -1163,8 +1188,10 @@ import = function(
 #'
 #' @export
 export = function(
-    x, file, sheet=NULL,
-    encoding=NULL, header="auto",
+    x, file,
+    encoding=NULL,
+    header="auto",
+    sheet=NULL,
     overwrite=TRUE,
     verbose=FALSE
 ) {

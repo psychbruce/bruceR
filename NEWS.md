@@ -5,6 +5,7 @@
 ## New Features
 
 -   New function `cor_multilevel()`: Multilevel correlations (within-level and between-level).
+-   Added arguments `pkg` and `value.labels` to `import()`, providing more flexible settings and allowing for converting variables with value labels into R factors.
 
 ## Major Changes
 
