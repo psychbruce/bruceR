@@ -9,10 +9,10 @@ uses the corresponding R functions:
 
 Plain text (.txt, .csv, .csv2, .tsv, .psv), using data.table::fread()
 Excel (.xls, .xlsx), using readxl::read_excel()
-SPSS (.sav), using foreign::read.spss();
-  if failed, using haven::read_sav() instead
-Stata (.dta), using foreign::read.dta();
-  if failed, using haven::read_dta() instead
+SPSS (.sav), using haven::read_sav()
+  or foreign::read.spss()
+Stata (.dta), using haven::read_dta()
+  or foreign::read.dta()
 R objects (.rda, .rdata, .RData), using base::load()
 R serialized objects (.rds), using base::readRDS()
 Clipboard (on Windows and Mac OS), using clipr::read_clip_tbl()
@@ -28,10 +28,10 @@ uses the corresponding R functions:
 
 Plain text (.txt, .csv, .csv2, .tsv, .psv), using data.table::fread()
 Excel (.xls, .xlsx), using readxl::read_excel()
-SPSS (.sav), using foreign::read.spss();
-  if failed, using haven::read_sav() instead
-Stata (.dta), using foreign::read.dta();
-  if failed, using haven::read_dta() instead
+SPSS (.sav), using haven::read_sav()
+  or foreign::read.spss()
+Stata (.dta), using haven::read_dta()
+  or foreign::read.dta()
 R objects (.rda, .rdata, .RData), using base::load()
 R serialized objects (.rds), using base::readRDS()
 Clipboard (on Windows and Mac OS), using clipr::read_clip_tbl()
@@ -93,10 +93,10 @@ and to provide one tidy function for data import.</p>
 uses the corresponding R functions:</p>
 <ul><li><p>Plain text (.txt, .csv, .csv2, .tsv, .psv), using <code><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">data.table::fread()</a></code></p></li>
 <li><p>Excel (.xls, .xlsx), using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code></p></li>
-<li><p>SPSS (.sav), using <code><a href="https://rdrr.io/pkg/foreign/man/read.spss.html" class="external-link">foreign::read.spss()</a></code>;
-  if failed, using <code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::read_sav()</a></code> instead</p></li>
-<li><p>Stata (.dta), using <code><a href="https://rdrr.io/pkg/foreign/man/read.dta.html" class="external-link">foreign::read.dta()</a></code>;
-  if failed, using <code><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">haven::read_dta()</a></code> instead</p></li>
+<li><p>SPSS (.sav), using <code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::read_sav()</a></code>
+  or <code><a href="https://rdrr.io/pkg/foreign/man/read.spss.html" class="external-link">foreign::read.spss()</a></code></p></li>
+<li><p>Stata (.dta), using <code><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">haven::read_dta()</a></code>
+  or <code><a href="https://rdrr.io/pkg/foreign/man/read.dta.html" class="external-link">foreign::read.dta()</a></code></p></li>
 <li><p>R objects (.rda, .rdata, .RData), using <code><a href="https://rdrr.io/r/base/load.html" class="external-link">base::load()</a></code></p></li>
 <li><p>R serialized objects (.rds), using <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">base::readRDS()</a></code></p></li>
 <li><p>Clipboard (on Windows and Mac OS), using <code><a href="http://matthewlincoln.net/clipr/reference/read_clip_tbl.html" class="external-link">clipr::read_clip_tbl()</a></code></p></li>
@@ -111,8 +111,8 @@ uses the corresponding R functions:</p>
 <span>  header <span class="op">=</span> <span class="st">"auto"</span>,</span>
 <span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"foreign"</span>, <span class="st">"haven"</span><span class="op">)</span>,</span>
-<span>  value.labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"haven"</span>, <span class="st">"foreign"</span><span class="op">)</span>,</span>
+<span>  value.labels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  as <span class="op">=</span> <span class="st">"data.frame"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -152,13 +152,15 @@ You may specify it as <code>range="A1:E100"</code> or <code>range="Sheet1!A1:E10
 <dt>pkg</dt>
 <dd><p>[Only for SPSS &amp; Stata] Use which R package to read
 SPSS (.sav) or Stata (.dta) data file?
-Defaults to using <code>foreign</code>; if failed, then using <code>haven</code>.
-Users may also specify one of them to use.</p></dd>
+Defaults to <code>"haven"</code>. You may also use <code>"foreign"</code>.</p>
+<p>Notably, <code>"haven"</code> may be preferred because it is more robust to
+non-English characters and can also keep variable labels (descriptions)
+from SPSS.</p></dd>
 
 
 <dt>value.labels</dt>
 <dd><p>[Only for SPSS &amp; Stata] Convert variables with value labels
-into R factors with those levels? Defaults to <code>TRUE</code>.</p></dd>
+into R factors with those levels? Defaults to <code>FALSE</code>.</p></dd>
 
 
 <dt>as</dt>
