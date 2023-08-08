@@ -13,7 +13,7 @@ SPSS (.sav), using foreign::read.spss();
   if failed, using haven::read_sav() instead
 Stata (.dta), using foreign::read.dta();
   if failed, using haven::read_dta() instead
-R objects (.rda, .rdata, .Rdata), using base::load()
+R objects (.rda, .rdata, .RData), using base::load()
 R serialized objects (.rds), using base::readRDS()
 Clipboard (on Windows and Mac OS), using clipr::read_clip_tbl()
 Other formats, using rio::import()
@@ -32,7 +32,7 @@ SPSS (.sav), using foreign::read.spss();
   if failed, using haven::read_sav() instead
 Stata (.dta), using foreign::read.dta();
   if failed, using haven::read_dta() instead
-R objects (.rda, .rdata, .Rdata), using base::load()
+R objects (.rda, .rdata, .RData), using base::load()
 R serialized objects (.rds), using base::readRDS()
 Clipboard (on Windows and Mac OS), using clipr::read_clip_tbl()
 Other formats, using rio::import()
@@ -97,7 +97,7 @@ uses the corresponding R functions:</p>
   if failed, using <code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::read_sav()</a></code> instead</p></li>
 <li><p>Stata (.dta), using <code><a href="https://rdrr.io/pkg/foreign/man/read.dta.html" class="external-link">foreign::read.dta()</a></code>;
   if failed, using <code><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">haven::read_dta()</a></code> instead</p></li>
-<li><p>R objects (.rda, .rdata, .Rdata), using <code><a href="https://rdrr.io/r/base/load.html" class="external-link">base::load()</a></code></p></li>
+<li><p>R objects (.rda, .rdata, .RData), using <code><a href="https://rdrr.io/r/base/load.html" class="external-link">base::load()</a></code></p></li>
 <li><p>R serialized objects (.rds), using <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">base::readRDS()</a></code></p></li>
 <li><p>Clipboard (on Windows and Mac OS), using <code><a href="http://matthewlincoln.net/clipr/reference/read_clip_tbl.html" class="external-link">clipr::read_clip_tbl()</a></code></p></li>
 <li><p>Other formats, using <code><a href="https://rdrr.io/pkg/rio/man/import.html" class="external-link">rio::import()</a></code></p></li>
@@ -107,11 +107,12 @@ uses the corresponding R functions:</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">import</span><span class="op">(</span></span>
 <span>  <span class="va">file</span>,</span>
-<span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  header <span class="op">=</span> <span class="st">"auto"</span>,</span>
-<span>  setclass <span class="op">=</span> <span class="va">as</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  range <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"foreign"</span>, <span class="st">"haven"</span><span class="op">)</span>,</span>
+<span>  value.labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  as <span class="op">=</span> <span class="st">"data.frame"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -124,6 +125,18 @@ uses the corresponding R functions:</p>
 If unspecified, then data will be imported from clipboard.</p></dd>
 
 
+<dt>encoding</dt>
+<dd><p>File encoding. Defaults to <code>NULL</code>.
+Options: <code>"UTF-8"</code>, <code>"GBK"</code>, <code>"CP936"</code>, etc.</p>
+<p>If you find messy code for Chinese text in the imported data,
+it is usually effective to set <code>encoding="UTF-8"</code>.</p></dd>
+
+
+<dt>header</dt>
+<dd><p>Does the first row contain column names (<code>TRUE</code> or <code>FALSE</code>)?
+Defaults to <code>"auto"</code>.</p></dd>
+
+
 <dt>sheet</dt>
 <dd><p>[Only for Excel] Excel sheet name (or sheet number).
 Defaults to the first sheet.
@@ -131,32 +144,35 @@ Ignored if the sheet is specified via <code>range</code>.</p></dd>
 
 
 <dt>range</dt>
-<dd><p>[Only for Excel] Excel cell range. Defaults to all cells in a sheet.
+<dd><p>[Only for Excel] Excel cell range.
+Defaults to all cells in a sheet.
 You may specify it as <code>range="A1:E100"</code> or <code>range="Sheet1!A1:E100"</code>.</p></dd>
 
 
-<dt>encoding</dt>
-<dd><p>File encoding. Defaults to <code>NULL</code>.
-Alternatives can be <code>"UTF-8"</code>, <code>"GBK"</code>, <code>"CP936"</code>, etc.</p>
-<p>If you find messy code for Chinese text in the imported data,
-it is usually effective to set <code>encoding="UTF-8"</code>.</p></dd>
+<dt>pkg</dt>
+<dd><p>[Only for SPSS &amp; Stata] Use which R package to read
+SPSS (.sav) or Stata (.dta) data file?
+Defaults to using <code>foreign</code>; if failed, then using <code>haven</code>.
+Users may also specify one of them to use.</p></dd>
 
 
-<dt>header</dt>
-<dd><p>Does the first row contain column names (<code>TRUE</code> or <code>FALSE</code>)? Defaults to <code>"auto"</code>.</p></dd>
+<dt>value.labels</dt>
+<dd><p>[Only for SPSS &amp; Stata] Convert variables with value labels
+into R factors with those levels? Defaults to <code>TRUE</code>.</p></dd>
 
 
-<dt>setclass, as</dt>
-<dd><p>Class of the imported data. Defaults to <code>"data.frame"</code>.
-Ignored if the data file is R object (.rds, .rda, .rdata, .Rdata).</p></dd>
-
-
-<dt>verbose</dt>
-<dd><p>Print data information? Defaults to <code>FALSE</code>.</p>
-<p>Alternatives can be:</p><ul><li><p>data.frame: <code>"data.frame"</code>, <code>"df"</code>, <code>"DF"</code></p></li>
+<dt>as</dt>
+<dd><p>Class of the imported data.
+Defaults to <code>"data.frame"</code>.
+Ignored if the file is an R data object (.rds, .rda, .rdata, .RData).</p>
+<p>Options:</p><ul><li><p>data.frame: <code>"data.frame"</code>, <code>"df"</code>, <code>"DF"</code></p></li>
 <li><p>data.table: <code>"data.table"</code>, <code>"dt"</code>, <code>"DT"</code></p></li>
 <li><p>tbl_df: <code>"tibble"</code>, <code>"tbl_df"</code>, <code>"tbl"</code></p></li>
 </ul></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Print data information? Defaults to <code>FALSE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

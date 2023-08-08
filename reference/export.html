@@ -11,7 +11,7 @@ Plain text (.txt, .csv, .csv2, .tsv, .psv), using data.table::fwrite();
 Excel (.xls, .xlsx), using openxlsx::write.xlsx()
 SPSS (.sav), using haven::write_sav()
 Stata (.dta), using haven::write_dta()
-R objects (.rda, .rdata, .Rdata), using base::save()
+R objects (.rda, .rdata, .RData), using base::save()
 R serialized objects (.rds), using base::saveRDS()
 Clipboard (on Windows and Mac OS), using clipr::write_clip()
 Other formats, using rio::export()
@@ -28,7 +28,7 @@ Plain text (.txt, .csv, .csv2, .tsv, .psv), using data.table::fwrite();
 Excel (.xls, .xlsx), using openxlsx::write.xlsx()
 SPSS (.sav), using haven::write_sav()
 Stata (.dta), using haven::write_dta()
-R objects (.rda, .rdata, .Rdata), using base::save()
+R objects (.rda, .rdata, .RData), using base::save()
 R serialized objects (.rds), using base::saveRDS()
 Clipboard (on Windows and Mac OS), using clipr::write_clip()
 Other formats, using rio::export()
@@ -91,7 +91,7 @@ and to provide one tidy function for data export.</p>
 <li><p>Excel (.xls, .xlsx), using <code><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html" class="external-link">openxlsx::write.xlsx()</a></code></p></li>
 <li><p>SPSS (.sav), using <code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::write_sav()</a></code></p></li>
 <li><p>Stata (.dta), using <code><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">haven::write_dta()</a></code></p></li>
-<li><p>R objects (.rda, .rdata, .Rdata), using <code><a href="https://rdrr.io/r/base/save.html" class="external-link">base::save()</a></code></p></li>
+<li><p>R objects (.rda, .rdata, .RData), using <code><a href="https://rdrr.io/r/base/save.html" class="external-link">base::save()</a></code></p></li>
 <li><p>R serialized objects (.rds), using <code><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">base::saveRDS()</a></code></p></li>
 <li><p>Clipboard (on Windows and Mac OS), using <code><a href="http://matthewlincoln.net/clipr/reference/write_clip.html" class="external-link">clipr::write_clip()</a></code></p></li>
 <li><p>Other formats, using <code><a href="https://rdrr.io/pkg/rio/man/export.html" class="external-link">rio::export()</a></code></p></li>
@@ -102,9 +102,9 @@ and to provide one tidy function for data export.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">export</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">file</span>,</span>
-<span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  header <span class="op">=</span> <span class="st">"auto"</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  overwrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -116,7 +116,7 @@ and to provide one tidy function for data export.</p>
 <dd><p>Any R object, usually a data frame (<code>data.frame</code>, <code>data.table</code>, <code>tbl_df</code>).
 Multiple R objects should be included in a <em>named</em> <code>list</code> (see examples).</p>
 <p>If you want to save R objects other than a data frame (e.g., model results),
-you'd better specify <code>file</code> with extensions .rda, .rdata, or .Rdata.</p></dd>
+you'd better specify <code>file</code> with extensions .rda, .rdata, or .RData.</p></dd>
 
 
 <dt>file</dt>
@@ -124,22 +124,22 @@ you'd better specify <code>file</code> with extensions .rda, .rdata, or .Rdata.<
 If unspecified, then data will be exported to clipboard.</p></dd>
 
 
-<dt>sheet</dt>
-<dd><p>[Only for Excel] Excel sheet name(s).
-Defaults to Sheet1, Sheet2, ...
-You may specify multiple sheet names in a character vector
-<code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> with the <em>same length</em> as <code>x</code> (see examples).</p></dd>
-
-
 <dt>encoding</dt>
 <dd><p>File encoding. Defaults to <code>NULL</code>.
-Alternatives can be <code>"UTF-8"</code>, <code>"GBK"</code>, <code>"CP936"</code>, etc.</p>
+Options: <code>"UTF-8"</code>, <code>"GBK"</code>, <code>"CP936"</code>, etc.</p>
 <p>If you find messy code for Chinese text in the exported data (often in CSV when opened with Excel),
-it is usually effective to set <code>encoding="GBK"</code> or <code>encoding="CP936"</code>.</p></dd>
+it is usually useful to set <code>encoding="GBK"</code> or <code>encoding="CP936"</code>.</p></dd>
 
 
 <dt>header</dt>
 <dd><p>Does the first row contain column names (<code>TRUE</code> or <code>FALSE</code>)? Defaults to <code>"auto"</code>.</p></dd>
+
+
+<dt>sheet</dt>
+<dd><p>[Only for Excel] Excel sheet name(s).
+Defaults to "Sheet1", "Sheet2", ...
+You may specify multiple sheet names in a character vector
+<code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> with the <em>same length</em> as <code>x</code> (see examples).</p></dd>
 
 
 <dt>overwrite</dt>
