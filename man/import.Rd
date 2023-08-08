@@ -10,8 +10,8 @@ import(
   header = "auto",
   sheet = NULL,
   range = NULL,
-  pkg = c("foreign", "haven"),
-  value.labels = TRUE,
+  pkg = c("haven", "foreign"),
+  value.labels = FALSE,
   as = "data.frame",
   verbose = FALSE
 )
@@ -39,11 +39,14 @@ You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
 
 \item{pkg}{[Only for SPSS & Stata] Use which R package to read
 SPSS (.sav) or Stata (.dta) data file?
-Defaults to using \code{foreign}; if failed, then using \code{haven}.
-Users may also specify one of them to use.}
+Defaults to \code{"haven"}. You may also use \code{"foreign"}.
+
+Notably, \code{"haven"} may be preferred because it is more robust to
+non-English characters and can also keep variable labels (descriptions)
+from SPSS.}
 
 \item{value.labels}{[Only for SPSS & Stata] Convert variables with value labels
-into R factors with those levels? Defaults to \code{TRUE}.}
+into R factors with those levels? Defaults to \code{FALSE}.}
 
 \item{as}{Class of the imported data.
 Defaults to \code{"data.frame"}.
@@ -74,10 +77,10 @@ uses the corresponding R functions:
 \itemize{
   \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fread]{data.table::fread()}}
   \item Excel (.xls, .xlsx), using \code{\link[readxl:read_excel]{readxl::read_excel()}}
-  \item SPSS (.sav), using \code{\link[foreign:read.spss]{foreign::read.spss()}};
-  if failed, using \code{\link[haven:read_spss]{haven::read_sav()}} instead
-  \item Stata (.dta), using \code{\link[foreign:read.dta]{foreign::read.dta()}};
-  if failed, using \code{\link[haven:read_dta]{haven::read_dta()}} instead
+  \item SPSS (.sav), using \code{\link[haven:read_spss]{haven::read_sav()}}
+  or \code{\link[foreign:read.spss]{foreign::read.spss()}}
+  \item Stata (.dta), using \code{\link[haven:read_dta]{haven::read_dta()}}
+  or \code{\link[foreign:read.dta]{foreign::read.dta()}}
   \item R objects (.rda, .rdata, .RData), using \code{\link[base:load]{base::load()}}
   \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::readRDS()}}
   \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:read_clip_tbl]{clipr::read_clip_tbl()}}
