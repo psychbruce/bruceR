@@ -2,8 +2,8 @@
 % Please edit documentation in R/bruceR.R
 \docType{package}
 \name{bruceR-package}
-\alias{bruceR-package}
 \alias{bruceR}
+\alias{bruceR-package}
 \title{bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions}
 \description{
 \strong{BR}oadly
@@ -28,34 +28,6 @@ from GitHub:
 \code{devtools::install_github("psychbruce/bruceR")}
 
 Report bugs at \href{https://github.com/psychbruce/bruceR/issues}{GitHub Issues}.
-}
-\details{
-Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages for you:
-
-\strong{[Data]:}
-\itemize{
-  \item \strong{\code{dplyr}}: Data manipulation and processing.
-  \item \strong{\code{tidyr}}: Data cleaning and reshaping.
-  \item \strong{\code{stringr}}: Toolbox for string operation (with regular expressions).
-  \item \strong{\code{forcats}}: Toolbox for factor manipulation (for categorical variables).
-  \item \strong{\code{data.table}}: Advanced \code{data.frame} with higher efficiency.
-}
-
-\strong{[Stat]:}
-\itemize{
-  \item \strong{\code{emmeans}}: Estimates of marginal means and multiple contrasts.
-  \item \strong{\code{effectsize}}: Estimates of effect sizes and standardized parameters.
-  \item \strong{\code{performance}}: Estimates of regression models performance.
-  \item \strong{\code{lmerTest}}: Tests of linear mixed effects models (LMM, also known as HLM and multilevel models).
-}
-
-\strong{[Plot]:}
-\itemize{
-  \item \strong{\code{ggplot2}}: Data visualization.
-  \item \strong{\code{ggtext}}: Markdown/HTML rich text format for \code{ggplot2} (geoms and themes).
-  \item \strong{\code{cowplot}}: Advanced toolbox for \code{ggplot2} (arrange multiple plots and add labels).
-  \item \strong{\code{see}}: Advanced toolbox for \code{ggplot2} (geoms, scales, themes, and color palettes).
-}
 }
 \section{Main Functions in \code{bruceR}}{
 
@@ -177,6 +149,15 @@ Loading \code{bruceR} by \code{library(bruceR)} will also load these R packages 
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://psychbruce.github.io/bruceR/}
+  \item Report bugs at \url{https://github.com/psychbruce/bruceR/issues}
+}
+
+}
 \author{
-\href{https://psychbruce.github.io}{Han-Wu-Shuang (Bruce) Bao}
+\strong{Maintainer}: Han-Wu-Shuang Bao \email{baohws@foxmail.com} (\href{https://orcid.org/0000-0003-3043-710X}{ORCID})
+
 }
