@@ -16,7 +16,7 @@ command in Stata (but here using an F test)."><meta property="og:image" content=
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.8.23</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,16 +118,118 @@ the lagged values of the outcome itself.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># R package "vars" should be installed</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de" class="external-link">vars</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Canada</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VARselect.html" class="external-link">VARselect</a></span><span class="op">(</span><span class="va">Canada</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="va">vm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html" class="external-link">VAR</a></span><span class="op">(</span><span class="va">Canada</span>, p<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="model_summary.html">model_summary</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu">granger_causality</span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># R package "vars" should be installed</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de" class="external-link">vars</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: MASS</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘MASS’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:dplyr’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     select</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: strucchange</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: zoo</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘zoo’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     as.Date, as.Date.numeric</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sandwich</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘strucchange’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:stringr’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     boundary</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: urca</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: lmtest</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">Canada</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/VARselect.html" class="external-link">VARselect</a></span><span class="op">(</span><span class="va">Canada</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $selection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC(n)  HQ(n)  SC(n) FPE(n) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      3      2      1      3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $criteria</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1            2            3            4           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC(n) -6.191599834 -6.621627919 -6.709002047 -6.512701777 -6.30174681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> HQ(n)  -5.943189052 -6.174488511 -6.063134014 -5.668105118 -5.25842152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SC(n)  -5.568879538 -5.500731387 -5.089929279 -4.395452772 -3.68632157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FPE(n)  0.002048239  0.001337721  0.001237985  0.001534875  0.00195439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   6            7            8            9           10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC(n) -6.194596715 -6.011720944 -6.054479536 -5.912126222 -5.867271844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> HQ(n)  -4.952542805 -4.570938409 -4.414968375 -4.073886435 -3.830303432</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SC(n)  -3.080995238 -2.399943231 -1.944525586 -1.303996035 -0.760965421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FPE(n)  0.002278812  0.002924622  0.003073249  0.004015164  0.004961704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="va">vm</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html" class="external-link">VAR</a></span><span class="op">(</span><span class="va">Canada</span>, p<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="model_summary.html">model_summary</a></span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Model Summary</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            e             prod          rw            U          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e.l1          1.753 ***    -0.149        -0.472       -0.618 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.151)       (0.289)       (0.337)      (0.125)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> prod.l1       0.170 **      1.148 ***    -0.065       -0.098    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.062)       (0.119)       (0.139)      (0.052)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rw.l1        -0.083         0.024         0.909 ***    0.015    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.053)       (0.101)       (0.118)      (0.044)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U.l1          0.100        -0.658        -0.001        0.660 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.197)       (0.379)       (0.442)      (0.164)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e.l2         -1.184 ***    -0.182         0.667        0.518 ** </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.235)       (0.451)       (0.526)      (0.195)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> prod.l2      -0.106        -0.196        -0.216        0.088    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.094)       (0.181)       (0.211)      (0.078)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rw.l2        -0.024        -0.203        -0.146        0.070    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.070)       (0.133)       (0.156)      (0.058)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U.l2         -0.051         0.822        -0.301       -0.081    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.245)       (0.470)       (0.549)      (0.203)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> e.l3          0.587 ***     0.575        -0.129       -0.030    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.164)       (0.315)       (0.367)      (0.136)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> prod.l3       0.011         0.044         0.214       -0.011    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.064)       (0.122)       (0.143)      (0.053)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rw.l3         0.038         0.093         0.190       -0.039    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.054)       (0.103)       (0.120)      (0.044)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> U.l3          0.341         0.401         0.151        0.067    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              (0.205)       (0.394)       (0.459)      (0.170)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> const      -150.687 *    -195.870       -11.669      114.367 *  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (61.009)     (116.958)     (136.454)     (50.598)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> R^2           0.999         0.980         0.999        0.974    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Adj. R^2      0.999         0.976         0.999        0.969    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Num. obs.    81            81            81           81        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. * <span style="font-style: italic;">p</span> &lt; .05, ** <span style="font-style: italic;">p</span> &lt; .01, *** <span style="font-style: italic;">p</span> &lt; .001.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">granger_causality</span><span class="op">(</span><span class="va">vm</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Granger Causality Test (Multivariate)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">F</span> test and Wald χ² test based on VAR(3) model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    F df1 df2     p     Chisq df     p    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -----------                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  e &lt;= prod      5.90   3  68  .001 **  17.69  3 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  e &lt;= rw        3.29   3  68  .026 *    9.86  3  .020 *  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  e &lt;= U         2.13   3  68  .105      6.39  3  .094 .  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  e &lt;= ALL       3.86   9  68 &lt;.001 *** 34.77  9 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -----------                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  prod &lt;= e      1.90   3  68  .137      5.71  3  .127    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  prod &lt;= rw     1.81   3  68  .154      5.42  3  .144    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  prod &lt;= U      3.22   3  68  .028 *    9.67  3  .022 *  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  prod &lt;= ALL    2.36   9  68  .022 *   21.21  9  .012 *  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -----------                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  rw &lt;= e        0.75   3  68  .527      2.25  3  .523    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  rw &lt;= prod     1.97   3  68  .126      5.92  3  .115    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  rw &lt;= U        0.18   3  68  .912      0.53  3  .913    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  rw &lt;= ALL      3.58   9  68  .001 **  32.24  9 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -----------                                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  U &lt;= e         9.53   3  68 &lt;.001 *** 28.60  3 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  U &lt;= prod      1.58   3  68  .203      4.74  3  .192    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  U &lt;= rw        2.19   3  68  .098 .    6.56  3  .087 .  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  U &lt;= ALL       5.81   9  68 &lt;.001 *** 52.26  9 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -24,7 +24,7 @@ varrange: use the starting and stopping positions of variables.
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.8.23</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,22 +100,24 @@ performing either Principal Component Analysis (PCA) or Exploratory Factor Analy
 
 <dt>var</dt>
 <dd><p><strong>[Option 1]</strong>
-The common part across the variables. e.g., <code>"RSES"</code></p></dd>
+Common part across variables: e.g., <code>"RSES"</code>, <code>"XX.{i}.pre"</code>
+(if <code>var</code> string has any placeholder in braces <code>{...}</code>,
+then <code>items</code> will be pasted into the braces, see examples)</p></dd>
 
 
 <dt>items</dt>
 <dd><p><strong>[Option 1]</strong>
-The unique part across the variables. e.g., <code>1:10</code></p></dd>
+Unique part across variables: e.g., <code>1:10</code>, <code>c("a", "b", "c")</code></p></dd>
 
 
 <dt>vars</dt>
 <dd><p><strong>[Option 2]</strong>
-A character vector specifying the variables. e.g., <code>c("X1", "X2", "X3", "X4", "X5")</code></p></dd>
+Character vector specifying variables: e.g., <code>c("X1", "X2", "X3", "X4", "X5")</code></p></dd>
 
 
 <dt>varrange</dt>
 <dd><p><strong>[Option 3]</strong>
-A character string specifying the positions ("starting:stopping") of variables. e.g., <code>"A1:E5"</code></p></dd>
+Character string specifying positions ("start:stop") of variables: e.g., <code>"A1:E5"</code></p></dd>
 
 
 <dt>rev</dt>
