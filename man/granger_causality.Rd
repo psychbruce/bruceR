@@ -46,17 +46,14 @@ the lagged values of the outcome itself.
 Granger causality does not necessarily constitute a true causal effect.
 }
 \examples{
-\dontrun{
-
-  # R package "vars" should be installed
-  library(vars)
-  data(Canada)
-  VARselect(Canada)
-  vm = VAR(Canada, p=3)
-  model_summary(vm)
-  granger_causality(vm)
+\donttest{# R package "vars" should be installed
+library(vars)
+data(Canada)
+VARselect(Canada)
+vm = VAR(Canada, p=3)
+model_summary(vm)
+granger_causality(vm)
 }
-
 }
 \seealso{
 \code{\link{ccf_plot}},

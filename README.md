@@ -43,7 +43,7 @@ Han-Wu-Shuang (Bruce) Bao 包寒吴霜
 
 ### Installation
 
-[**Please always set `dep=TRUE` to install ALL package dependencies for FULL features!**]{.underline}
+**Please always set `dep=TRUE` to install ALL package dependencies for FULL features!**
 
 ``` r
 ## Method 1: Install from CRAN

@@ -162,24 +162,24 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 
 \examples{
 #### Between-Subjects Design ####
-
+\donttest{
 between.1
 MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A")
-\donttest{MANOVA(between.1, dv="SCORE", between="A") \%>\%
+MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", p.adjust="tukey")
 MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="seq")
 MANOVA(between.1, dv="SCORE", between="A") \%>\%
   EMMEANS("A", contrast="poly")
-}
+
 between.2
 MANOVA(between.2, dv="SCORE", between=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 ## How to create an interaction plot using `emmeans::emmip()`?
 ## See help page: ?emmeans::emmip()
-\donttest{m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
+m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
 emmip(m, ~ A | B, CIs=TRUE)
 emmip(m, ~ B | A, CIs=TRUE)
 emmip(m, B ~ A, CIs=TRUE)
@@ -192,7 +192,7 @@ MANOVA(between.3, dv="SCORE", between=c("A", "B", "C")) \%>\%
   EMMEANS("A", by=c("B", "C"))
 ## Just to name a few...
 ## You may test other combinations...
-}
+
 
 #### Within-Subjects Design ####
 
@@ -201,7 +201,7 @@ MANOVA(within.1, dvs="A1:A4", dvs.pattern="A(.)",
        within="A") \%>\%
   EMMEANS("A")
 
-\donttest{within.2
+within.2
 MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
        within=c("A", "B")) \%>\%
   EMMEANS("A", by="B") \%>\%
@@ -219,7 +219,7 @@ MANOVA(within.3, dvs="A1B1C1:A2B2C2", dvs.pattern="A(.)B(.)C(.)",
   EMMEANS("A", by=c("B", "C"))
 ## Just to name a few...
 ## You may test other combinations...
-}
+
 
 #### Mixed Design ####
 
@@ -229,7 +229,7 @@ MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
   EMMEANS("A", by="B") \%>\%
   EMMEANS("B", by="A")
 
-\donttest{mixed.3_1b2w
+mixed.3_1b2w
 MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C")) \%>\%
   EMMEANS("A", by="B") \%>\%

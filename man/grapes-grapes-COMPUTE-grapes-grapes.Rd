@@ -87,16 +87,18 @@ CONSEC(
 \item{data}{Data frame.}
 
 \item{var}{\strong{[Option 1]}
-The common part across the variables. e.g., \code{"RSES"}}
+Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
+(if \code{var} string has any placeholder in braces \code{{...}},
+then \code{items} will be pasted into the braces, see examples)}
 
 \item{items}{\strong{[Option 1]}
-The unique part across the variables. e.g., \code{1:10}}
+Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
 
 \item{vars}{\strong{[Option 2]}
-A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
+Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
 \item{varrange}{\strong{[Option 3]}
-A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}}
+Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}}
 
 \item{value}{[Only for \code{COUNT}] The value to be counted.}
 
@@ -104,7 +106,7 @@ A character string specifying the positions ("starting:stopping") of variables. 
 (1) a character vector specifying the reverse-scoring variables (recommended), or
 (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
-\item{range, likert}{[Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
+\item{range, likert}{[Optional] Range of likert scale: e.g., \code{1:5}, \code{c(1, 5)}.
 If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
 
 \item{na.rm}{Ignore missing values. Defaults to \code{TRUE}.}
@@ -119,7 +121,7 @@ Easily compute multivariate sum, mean, and other scores.
 Reverse scoring can also be easily implemented without saving extra variables.
 \code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
 
-Three options to specify variables:
+Three ways to specify variables:
 \enumerate{
   \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
   \item \strong{\code{vars}}: a character vector of variable names (suggested).
@@ -148,11 +150,13 @@ only can be used in \code{\link[bruceR:add]{add()/added()}}
 
 }}
 \examples{
-d = data.table(x1=1:5,
-               x4=c(2,2,5,4,5),
-               x3=c(3,2,NA,NA,5),
-               x2=c(4,4,NA,2,5),
-               x5=c(5,4,1,4,5))
+d = data.table(
+  x1 = 1:5,
+  x4 = c(2,2,5,4,5),
+  x3 = c(3,2,NA,NA,5),
+  x2 = c(4,4,NA,2,5),
+  x5 = c(5,4,1,4,5)
+)
 d
 ## I deliberately set this order to show you
 ## the difference between "vars" and "varrange".
@@ -182,5 +186,15 @@ added(data, {
   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
 }, drop=TRUE)
 data
+
+## ====== New Feature for `var` & `items` ====== ##
+d = data.table(
+  XX.1.pre = 1:5,
+  XX.2.pre = 6:10,
+  XX.3.pre = 11:15
+)
+add(d, { XX.mean = .mean("XX.{i}.pre", 1:3) })
+add(d, { XX.mean = .mean("XX.{items}.pre", 1:3) })  # the same
+add(d, { XX.mean = .mean("XX.{#$\%^&}.pre", 1:3) })  # the same
 
 }

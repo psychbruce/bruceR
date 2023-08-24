@@ -278,7 +278,7 @@ regress = function(
 #' \code{\link{PROCESS}}
 #'
 #' @examples
-#' #### Example 1: Linear Model ####
+#' \donttest{#### Example 1: Linear Model ####
 #' lm1 = lm(Temp ~ Month + Day, data=airquality)
 #' lm2 = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' model_summary(lm1)
@@ -326,7 +326,7 @@ regress = function(
 #' model_summary(mn2)
 #' model_summary(mn2, file="Multinomial Logistic Model.doc")
 #' unlink("Multinomial Logistic Model.doc")  # delete file for code check
-#'
+#' }
 #' @export
 model_summary = function(
     model.list,
@@ -558,7 +558,7 @@ model_summary = function(
 #' @return No return value.
 #'
 #' @examples
-#' ## Example 1: OLS regression
+#' \donttest{## Example 1: OLS regression
 #' lm = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 #' GLM_summary(lm)
 #' GLM_summary(lm, robust="HC1")
@@ -570,7 +570,7 @@ model_summary = function(
 #'           data=infert, family=binomial)
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
-#'
+#' }
 #' @seealso
 #' \code{\link{print_table}} (print simple table)
 #'
@@ -835,7 +835,7 @@ HLM_ICC = function(model, digits=3) {
 #' @return No return value.
 #'
 #' @examples
-#' library(lmerTest)
+#' \donttest{library(lmerTest)
 #'
 #' ## Example 1: data from lme4::sleepstudy
 #' # (1) 'Subject' is a grouping/clustering variable
@@ -858,7 +858,7 @@ HLM_ICC = function(model, digits=3) {
 #'                (Sweetness | Consumer) + (1 | Product), data=carrots)
 #' HLM_summary(hlm.1)
 #' HLM_summary(hlm.2)
-#'
+#' }
 #' @references
 #' Hox, J. J. (2010).
 #' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).
@@ -1181,7 +1181,7 @@ HLM_summary = function(
 #' \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}
 #'
 #' @examples
-#' data = lme4::sleepstudy  # continuous variable
+#' \donttest{data = lme4::sleepstudy  # continuous variable
 #' HLM_ICC_rWG(data, group="Subject", icc.var="Reaction")
 #'
 #' data = lmerTest::carrots  # 7-point scale
@@ -1191,7 +1191,7 @@ HLM_summary = function(
 #' HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
 #'             rwg.vars=c("Sweetness", "Bitter", "Crisp"),
 #'             rwg.levels=7)
-#'
+#' }
 #' @export
 HLM_ICC_rWG = function(data, group, icc.var,
                        rwg.vars=icc.var,

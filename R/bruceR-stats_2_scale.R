@@ -8,7 +8,7 @@
 #' Reverse scoring can also be easily implemented without saving extra variables.
 #' \code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
 #'
-#' Three options to specify variables:
+#' Three ways to specify variables:
 #' \enumerate{
 #'   \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
 #'   \item \strong{\code{vars}}: a character vector of variable names (suggested).
@@ -17,18 +17,20 @@
 #'
 #' @param data Data frame.
 #' @param var \strong{[Option 1]}
-#' The common part across the variables. e.g., \code{"RSES"}
+#' Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
+#' (if \code{var} string has any placeholder in braces \code{{...}},
+#' then \code{items} will be pasted into the braces, see examples)
 #' @param items \strong{[Option 1]}
-#' The unique part across the variables. e.g., \code{1:10}
+#' Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}
 #' @param vars \strong{[Option 2]}
-#' A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}
+#' Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}
 #' @param varrange \strong{[Option 3]}
-#' A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}
+#' Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}
 #' @param value [Only for \code{COUNT}] The value to be counted.
 #' @param rev [Optional] Variables that need to be reversed. It can be
 #' (1) a character vector specifying the reverse-scoring variables (recommended), or
 #' (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).
-#' @param range,likert [Optional] Range of likert scale (e.g., \code{1:5}, \code{c(1, 5)}).
+#' @param range,likert [Optional] Range of likert scale: e.g., \code{1:5}, \code{c(1, 5)}.
 #' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
 #' @param na.rm Ignore missing values. Defaults to \code{TRUE}.
 #' @param values [Only for \code{CONSEC}] Values to be counted as consecutive identical values. Defaults to all numbers (\code{0:9}).
@@ -36,11 +38,13 @@
 #' @return A vector of computed values.
 #'
 #' @examples
-#' d = data.table(x1=1:5,
-#'                x4=c(2,2,5,4,5),
-#'                x3=c(3,2,NA,NA,5),
-#'                x2=c(4,4,NA,2,5),
-#'                x5=c(5,4,1,4,5))
+#' d = data.table(
+#'   x1 = 1:5,
+#'   x4 = c(2,2,5,4,5),
+#'   x3 = c(3,2,NA,NA,5),
+#'   x2 = c(4,4,NA,2,5),
+#'   x5 = c(5,4,1,4,5)
+#' )
 #' d
 #' ## I deliberately set this order to show you
 #' ## the difference between "vars" and "varrange".
@@ -71,9 +75,29 @@
 #' }, drop=TRUE)
 #' data
 #'
+#' ## ====== New Feature for `var` & `items` ====== ##
+#' d = data.table(
+#'   XX.1.pre = 1:5,
+#'   XX.2.pre = 6:10,
+#'   XX.3.pre = 11:15
+#' )
+#' add(d, { XX.mean = .mean("XX.{i}.pre", 1:3) })
+#' add(d, { XX.mean = .mean("XX.{items}.pre", 1:3) })  # the same
+#' add(d, { XX.mean = .mean("XX.{#$%^&}.pre", 1:3) })  # the same
+#'
 #' @name %%COMPUTE%%
-## @aliases COUNT SUM MEAN STD CONSEC
 NULL
+
+
+paste_var_items = function(var, items) {
+  if(grepl("\\{.*\\}", var)) {
+    var.split = strsplit(var, "\\{.*\\}")[[1]]
+    vars = paste0(var.split[1], items, var.split[2])
+  } else {
+    vars = paste0(var, items)
+  }
+  return(vars)
+}
 
 
 convert2vars = function(data,
@@ -86,7 +110,7 @@ convert2vars = function(data,
     varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
     vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
-  if(is.null(vars)) vars = paste0(var, items)
+  if(is.null(vars)) vars = paste_var_items(var, items)
   if(is.numeric(rev)) {
     if(is.null(var))
       stop("Argument `rev` must be character rather than numeric if you specify `vars` or `varrange`.", call.=FALSE)
@@ -165,8 +189,8 @@ SUM = function(data,
                 na.rm=TRUE) {
   Sum = glue("function(...) sum(..., na.rm={na.rm})")
   if(!is.null(varrange))
-    stop("Please specify either `vars` or `var` + `items`.", call.=FALSE)
-  if(is.null(vars)) vars = paste0(var, items)
+    stop("Please specify either `vars` or `var` + `items`. To specify `varrange`, please use `SUM()`.", call.=FALSE)
+  if(is.null(vars)) vars = paste_var_items(var, items)
   if(!is.null(rev) & is.null(range))
     stop("Please also specify the `range` argument!", call.=FALSE)
   if(is.numeric(rev)) {
@@ -217,8 +241,8 @@ MEAN = function(data,
                  na.rm=TRUE) {
   Mean = glue("function(...) mean(c(...), na.rm={na.rm})")
   if(!is.null(varrange))
-    stop("Please specify either `vars` or `var` + `items`.", call.=FALSE)
-  if(is.null(vars)) vars = paste0(var, items)
+    stop("Please specify either `vars` or `var` + `items`. To specify `varrange`, please use `MEAN()`.", call.=FALSE)
+  if(is.null(vars)) vars = paste_var_items(var, items)
   if(!is.null(rev) & is.null(range))
     stop("Please also specify the `range` argument!", call.=FALSE)
   if(is.numeric(rev)) {
@@ -310,7 +334,7 @@ CONSEC = function(data,
 #'
 #' @examples
 #' # ?psych::bfi
-#' data = psych::bfi
+#' \donttest{data = psych::bfi
 #' Alpha(data, "E", 1:5)   # "E1" & "E2" should be reversed
 #' Alpha(data, "E", 1:5, rev=1:2)            # correct
 #' Alpha(data, "E", 1:5, rev=cc("E1, E2"))   # also correct
@@ -320,7 +344,7 @@ CONSEC = function(data,
 #' # using dplyr::select()
 #' data %>% select(E1, E2, E3, E4, E5) %>%
 #'   Alpha(vars=names(.), rev=cc("E1, E2"))
-#'
+#' }
 #' @seealso
 #' \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
 #'
@@ -334,7 +358,7 @@ Alpha = function(
     varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
     vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
-  if(is.null(vars)) vars = paste0(var, items)
+  if(is.null(vars)) vars = paste_var_items(var, items)
   if(is.numeric(rev)) rev = paste0(var, rev)
   n.total = nrow(data)
   data = na.omit(as.data.frame(data)[vars])
@@ -486,7 +510,7 @@ Alpha = function(
 #' \code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
 #'
 #' @examples
-#' data = psych::bfi
+#' \donttest{data = psych::bfi
 #' EFA(data, "E", 1:5)              # var + items
 #' EFA(data, "E", 1:5, nfactors=2)  # var + items
 #'
@@ -504,7 +528,7 @@ Alpha = function(
 #'       rotation="varimax",  # default
 #'       nfactors="parallel", # parallel analysis
 #'       hide.loadings=0.45)  # hide loadings < 0.45
-#'
+#' }
 #' @export
 EFA = function(
     data, var, items, vars=NULL, varrange=NULL, rev=NULL,
@@ -526,7 +550,7 @@ EFA = function(
     varrange = gsub(" ", "", strsplit(varrange, ":")[[1]])
     vars = dn[which(dn==varrange[1]):which(dn==varrange[2])]
   }
-  if(is.null(vars)) vars = paste0(var, items)
+  if(is.null(vars)) vars = paste_var_items(var, items)
   if(is.numeric(rev)) rev = paste0(var, rev)
   n.total = nrow(data)
   data = na.omit(as.data.frame(data)[vars])

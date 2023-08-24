@@ -1135,7 +1135,7 @@ CAUTION:
 #' \code{\link{PROCESS}}, \code{\link{CFA}}
 #'
 #' @examples
-#' ## Simple Mediation:
+#' \donttest{## Simple Mediation:
 #' ## Solar.R (X) => Ozone (M) => Temp (Y)
 #'
 #' # PROCESS(airquality, y="Temp", x="Solar.R",
@@ -1191,7 +1191,7 @@ CAUTION:
 #' lavaan::summary(lv1, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
 #' lavaan_summary(lv1)
 #' # lavaan_summary(lv1, ci="boot", nsim=1000, seed=1)
-#'
+#' }
 #' @export
 lavaan_summary = function(
     lavaan,
@@ -1908,12 +1908,14 @@ med_summary = function(model, digits=3, file=NULL) {
 #' @examples
 #' # resemble the default plot output by `ccf()`
 #' p1 = ccf_plot(chicken ~ egg, data=lmtest::ChickEgg)
+#' p1
 #'
 #' # a more colorful plot
 #' p2 = ccf_plot(chicken ~ egg, data=lmtest::ChickEgg, alpha.ns=0.3,
 #'               pos.color="#CD201F",
 #'               neg.color="#21759B",
 #'               ci.color="black")
+#' p2
 #'
 #' @seealso \code{\link{granger_test}}
 #'
@@ -2135,17 +2137,14 @@ vargranger = function(varmodel, var.y, var.x) {
 #' \code{\link{granger_test}}
 #'
 #' @examples
-#' \dontrun{
-#'
-#'   # R package "vars" should be installed
-#'   library(vars)
-#'   data(Canada)
-#'   VARselect(Canada)
-#'   vm = VAR(Canada, p=3)
-#'   model_summary(vm)
-#'   granger_causality(vm)
+#' \donttest{# R package "vars" should be installed
+#' library(vars)
+#' data(Canada)
+#' VARselect(Canada)
+#' vm = VAR(Canada, p=3)
+#' model_summary(vm)
+#' granger_causality(vm)
 #' }
-#'
 #' @export
 granger_causality = function(varmodel, var.y=NULL, var.x=NULL,
                              test=c("F", "Chisq"),

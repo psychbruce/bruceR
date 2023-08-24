@@ -185,7 +185,6 @@ added = function(data, expr, when, by, drop=FALSE) {
     dn.drop = base::setdiff(dn, dn.new)
     data[, (dn.drop) := NULL][]
   }
-  Print("<<green \u2714>> Raw data has already been changed. Please check.")
   invisible(data)
 }
 
@@ -618,7 +617,7 @@ Freq = function(
 #' (2) a \code{ggplot2} object if \code{plot=TRUE}.
 #'
 #' @examples
-#' Corr(airquality)
+#' \donttest{Corr(airquality)
 #' Corr(airquality, p.adjust="bonferroni",
 #'      plot.colors=c("#b2182b", "white", "#2166ac"))
 #'
@@ -633,7 +632,7 @@ Freq = function(
 #'   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
 #' })
 #' Corr(d[, .(age, gender, education, E, A, C, N, O)])
-#'
+#' }
 #' @seealso
 #' \code{\link{Describe}}
 #'

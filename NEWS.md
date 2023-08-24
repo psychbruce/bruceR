@@ -1,5 +1,14 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 2023.9
+
+## Minor Changes
+
+-   Now `var` and `items` support more flexible input, e.g.:
+    -   `.mean(var="X", items=1:3)` matches `X1`, `X2`, `X3`
+    -   `.mean(var="X.{any_placeholder}.pre", items=1:3)` matches `X.1.pre`, `X.2.pre`, `X.3.pre`
+-   Use `\donttest{}` in more examples to avoid unnecessary errors.
+
 # bruceR 2023.8
 
 ## New Features

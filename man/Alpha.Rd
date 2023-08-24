@@ -10,16 +10,18 @@ Alpha(data, var, items, vars = NULL, varrange = NULL, rev = NULL, digits = 3)
 \item{data}{Data frame.}
 
 \item{var}{\strong{[Option 1]}
-The common part across the variables. e.g., \code{"RSES"}}
+Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
+(if \code{var} string has any placeholder in braces \code{{...}},
+then \code{items} will be pasted into the braces, see examples)}
 
 \item{items}{\strong{[Option 1]}
-The unique part across the variables. e.g., \code{1:10}}
+Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
 
 \item{vars}{\strong{[Option 2]}
-A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
+Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
 \item{varrange}{\strong{[Option 3]}
-A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}}
+Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}}
 
 \item{rev}{[Optional] Variables that need to be reversed. It can be
 (1) a character vector specifying the reverse-scoring variables (recommended), or
@@ -48,7 +50,7 @@ Three options to specify variables:
 }
 \examples{
 # ?psych::bfi
-data = psych::bfi
+\donttest{data = psych::bfi
 Alpha(data, "E", 1:5)   # "E1" & "E2" should be reversed
 Alpha(data, "E", 1:5, rev=1:2)            # correct
 Alpha(data, "E", 1:5, rev=cc("E1, E2"))   # also correct
@@ -58,7 +60,7 @@ Alpha(data, varrange="E1:E5", rev=cc("E1, E2"))
 # using dplyr::select()
 data \%>\% select(E1, E2, E3, E4, E5) \%>\%
   Alpha(vars=names(.), rev=cc("E1, E2"))
-
+}
 }
 \seealso{
 \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}

@@ -26,7 +26,7 @@ No return value.
 NOTE: \code{\link{model_summary}} is preferred.
 }
 \examples{
-library(lmerTest)
+\donttest{library(lmerTest)
 
 ## Example 1: data from lme4::sleepstudy
 # (1) 'Subject' is a grouping/clustering variable
@@ -49,7 +49,7 @@ hlm.2 = lmer(Preference ~ Sweetness + Age + Frequency +
                (Sweetness | Consumer) + (1 | Product), data=carrots)
 HLM_summary(hlm.1)
 HLM_summary(hlm.2)
-
+}
 }
 \references{
 Hox, J. J. (2010).

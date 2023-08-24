@@ -31,16 +31,18 @@ PCA(..., method = "pca")
 \item{data}{Data frame.}
 
 \item{var}{\strong{[Option 1]}
-The common part across the variables. e.g., \code{"RSES"}}
+Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
+(if \code{var} string has any placeholder in braces \code{{...}},
+then \code{items} will be pasted into the braces, see examples)}
 
 \item{items}{\strong{[Option 1]}
-The unique part across the variables. e.g., \code{1:10}}
+Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
 
 \item{vars}{\strong{[Option 2]}
-A character vector specifying the variables. e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
+Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
 \item{varrange}{\strong{[Option 3]}
-A character string specifying the positions ("starting:stopping") of variables. e.g., \code{"A1:E5"}}
+Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}}
 
 \item{rev}{[Optional] Variables that need to be reversed. It can be
 (1) a character vector specifying the reverse-scoring variables (recommended), or
@@ -130,7 +132,7 @@ Results based on the \code{varimax} rotation method are identical to SPSS.
 The other rotation methods may produce results slightly different from SPSS.
 }
 \examples{
-data = psych::bfi
+\donttest{data = psych::bfi
 EFA(data, "E", 1:5)              # var + items
 EFA(data, "E", 1:5, nfactors=2)  # var + items
 
@@ -148,7 +150,7 @@ data \%>\% select(matches("\\\\d$")) \%>\%
       rotation="varimax",  # default
       nfactors="parallel", # parallel analysis
       hide.loadings=0.45)  # hide loadings < 0.45
-
+}
 }
 \seealso{
 \code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}

@@ -93,7 +93,7 @@ For more usage, see:
 }
 }
 \examples{
-## Example 1 (bivariate correlation)
+\donttest{## Example 1 (bivariate correlation)
 d = as.data.table(psych::bfi)
 added(d, {
   E = .mean("E", 1:5, rev=c(1,2), range=1:6)
@@ -122,5 +122,5 @@ ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
        y="Dependent Variable (*Y*)",  # italic Y
        title="Demo Plot<sup>bruceR</sup>") +
   theme_bruce(markdown=TRUE, border="")
-
+}
 }

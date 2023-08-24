@@ -27,10 +27,10 @@ A \code{gg} object.
 Show colors.
 }
 \examples{
-show_colors("blue")
+\donttest{show_colors("blue")
 show_colors("#0000FF")  # blue (hex name)
 show_colors(RGB(0, 0, 255))  # blue (RGB)
 show_colors(see::social_colors())
 show_colors(see::pizza_colors())
-
+}
 }

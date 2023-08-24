@@ -86,7 +86,7 @@ in multilevel analysis (HLM).
 }
 }
 \examples{
-data = lme4::sleepstudy  # continuous variable
+\donttest{data = lme4::sleepstudy  # continuous variable
 HLM_ICC_rWG(data, group="Subject", icc.var="Reaction")
 
 data = lmerTest::carrots  # 7-point scale
@@ -96,7 +96,7 @@ HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
 HLM_ICC_rWG(data, group="Consumer", icc.var="Preference",
             rwg.vars=c("Sweetness", "Bitter", "Crisp"),
             rwg.levels=7)
-
+}
 }
 \references{
 Bliese, P. D. (2000).

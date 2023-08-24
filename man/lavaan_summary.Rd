@@ -57,7 +57,7 @@ Invisibly return a list of results:
 Tidy report of lavaan model.
 }
 \examples{
-## Simple Mediation:
+\donttest{## Simple Mediation:
 ## Solar.R (X) => Ozone (M) => Temp (Y)
 
 # PROCESS(airquality, y="Temp", x="Solar.R",
@@ -113,7 +113,7 @@ lv1 = lavaan::sem(model=model1, data=airquality)
 lavaan::summary(lv1, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
 lavaan_summary(lv1)
 # lavaan_summary(lv1, ci="boot", nsim=1000, seed=1)
-
+}
 }
 \seealso{
 \code{\link{PROCESS}}, \code{\link{CFA}}

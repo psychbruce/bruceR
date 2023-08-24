@@ -236,7 +236,7 @@ fix_long_data = function(data.long, ivs) {
 #'
 #' @examples
 #' #### Between-Subjects Design ####
-#'
+#' \donttest{
 #' between.1
 #' MANOVA(between.1, dv="SCORE", between="A")
 #'
@@ -281,7 +281,7 @@ fix_long_data = function(data.long, ivs) {
 #' MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 #'        between="A", within="B", sph.correction="GG")
 #'
-#' \donttest{mixed.3_1b2w
+#' mixed.3_1b2w
 #' MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 #'        between="A", within=c("B", "C"))
 #'
@@ -724,24 +724,24 @@ MANOVA = function(
 #'
 #' @examples
 #' #### Between-Subjects Design ####
-#'
+#' \donttest{
 #' between.1
 #' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A")
-#' \donttest{MANOVA(between.1, dv="SCORE", between="A") %>%
+#' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", p.adjust="tukey")
 #' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="seq")
 #' MANOVA(between.1, dv="SCORE", between="A") %>%
 #'   EMMEANS("A", contrast="poly")
-#' }
+#'
 #' between.2
 #' MANOVA(between.2, dv="SCORE", between=c("A", "B")) %>%
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")
 #' ## How to create an interaction plot using `emmeans::emmip()`?
 #' ## See help page: ?emmeans::emmip()
-#' \donttest{m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
+#' m = MANOVA(between.2, dv="SCORE", between=c("A", "B"))
 #' emmip(m, ~ A | B, CIs=TRUE)
 #' emmip(m, ~ B | A, CIs=TRUE)
 #' emmip(m, B ~ A, CIs=TRUE)
@@ -754,7 +754,7 @@ MANOVA = function(
 #'   EMMEANS("A", by=c("B", "C"))
 #' ## Just to name a few...
 #' ## You may test other combinations...
-#' }
+#'
 #'
 #' #### Within-Subjects Design ####
 #'
@@ -763,7 +763,7 @@ MANOVA = function(
 #'        within="A") %>%
 #'   EMMEANS("A")
 #'
-#' \donttest{within.2
+#' within.2
 #' MANOVA(within.2, dvs="A1B1:A2B3", dvs.pattern="A(.)B(.)",
 #'        within=c("A", "B")) %>%
 #'   EMMEANS("A", by="B") %>%
@@ -781,7 +781,7 @@ MANOVA = function(
 #'   EMMEANS("A", by=c("B", "C"))
 #' ## Just to name a few...
 #' ## You may test other combinations...
-#' }
+#'
 #'
 #' #### Mixed Design ####
 #'
@@ -791,7 +791,7 @@ MANOVA = function(
 #'   EMMEANS("A", by="B") %>%
 #'   EMMEANS("B", by="A")
 #'
-#' \donttest{mixed.3_1b2w
+#' mixed.3_1b2w
 #' MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
 #'        between="A", within=c("B", "C")) %>%
 #'   EMMEANS("A", by="B") %>%

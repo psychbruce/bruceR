@@ -68,7 +68,7 @@ This function uses:
 }
 }
 \examples{
-#### Example 1: Linear Model ####
+\donttest{#### Example 1: Linear Model ####
 lm1 = lm(Temp ~ Month + Day, data=airquality)
 lm2 = lm(Temp ~ Month + Day + Wind + Solar.R, data=airquality)
 model_summary(lm1)
@@ -116,7 +116,7 @@ model_summary(mn1)
 model_summary(mn2)
 model_summary(mn2, file="Multinomial Logistic Model.doc")
 unlink("Multinomial Logistic Model.doc")  # delete file for code check
-
+}
 }
 \seealso{
 \code{\link{print_table}} (print simple table)

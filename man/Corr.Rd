@@ -60,7 +60,7 @@ Invisibly return a list with
 Correlation analysis.
 }
 \examples{
-Corr(airquality)
+\donttest{Corr(airquality)
 Corr(airquality, p.adjust="bonferroni",
      plot.colors=c("#b2182b", "white", "#2166ac"))
 
@@ -75,7 +75,7 @@ added(d, {
   O = .mean("O", 1:5, rev=c(2,5), range=1:6)
 })
 Corr(d[, .(age, gender, education, E, A, C, N, O)])
-
+}
 }
 \seealso{
 \code{\link{Describe}}

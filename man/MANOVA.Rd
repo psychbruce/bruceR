@@ -146,7 +146,7 @@ It returns an object of class \code{ggplot}, which can be easily modified and sa
 
 \examples{
 #### Between-Subjects Design ####
-
+\donttest{
 between.1
 MANOVA(between.1, dv="SCORE", between="A")
 
@@ -191,7 +191,7 @@ MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
 MANOVA(mixed.2_1b1w, dvs="B1:B3", dvs.pattern="B(.)",
        between="A", within="B", sph.correction="GG")
 
-\donttest{mixed.3_1b2w
+mixed.3_1b2w
 MANOVA(mixed.3_1b2w, dvs="B1C1:B2C2", dvs.pattern="B(.)C(.)",
        between="A", within=c("B", "C"))
 

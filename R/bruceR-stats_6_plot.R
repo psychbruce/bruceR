@@ -50,7 +50,7 @@
 #' @return A theme object that should be used for \code{ggplot2}.
 #'
 #' @examples
-#' ## Example 1 (bivariate correlation)
+#' \donttest{## Example 1 (bivariate correlation)
 #' d = as.data.table(psych::bfi)
 #' added(d, {
 #'   E = .mean("E", 1:5, rev=c(1,2), range=1:6)
@@ -79,7 +79,7 @@
 #'        y="Dependent Variable (*Y*)",  # italic Y
 #'        title="Demo Plot<sup>bruceR</sup>") +
 #'   theme_bruce(markdown=TRUE, border="")
-#'
+#' }
 #' @export
 theme_bruce = function(
     markdown=FALSE,
@@ -181,12 +181,12 @@ theme_bruce = function(
 #' @return A \code{gg} object.
 #'
 #' @examples
-#' show_colors("blue")
+#' \donttest{show_colors("blue")
 #' show_colors("#0000FF")  # blue (hex name)
 #' show_colors(RGB(0, 0, 255))  # blue (RGB)
 #' show_colors(see::social_colors())
 #' show_colors(see::pizza_colors())
-#'
+#' }
 #' @export
 show_colors = function(colors) {
   colors.names = names(colors)
