@@ -31,7 +31,8 @@ Han-Wu-Shuang (Bruce) Bao 包寒吴霜
 
 ## Citation
 
--   Bao, H.-W.-S. (2023). *bruceR: Broadly useful convenient and efficient R functions* (Version 2023.8) [Computer software]. <https://CRAN.R-project.org/package=bruceR>
+-   Bao, H.-W.-S. (2021). *bruceR: Broadly useful convenient and efficient R functions*. <https://CRAN.R-project.org/package=bruceR>
+    -   *Note*: This is the original citation format. Please refer to the information when you `library(bruceR)` for the APA-7 format of your installed version.
 
 ## User Guide
 

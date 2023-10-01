@@ -1,6 +1,6 @@
 ## News
 
-Fixed bugs and improved functions.
+Minor changes.
 
 ## Test environments
 
