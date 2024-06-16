@@ -7,7 +7,7 @@ var + items: common and unique parts of variable names (suggested).
 vars: a character vector of variable names (suggested).
 varrange: starting and stopping positions of variables (NOT suggested).
 
-"><title>Multivariate computation. — %%COMPUTE%% • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multivariate computation. — %%COMPUTE%%"><meta property="og:description" content="Easily compute multivariate sum, mean, and other scores.
+"><title>Multivariate computation. — %%COMPUTE%% • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.9/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multivariate computation. — %%COMPUTE%%"><meta property="og:description" content="Easily compute multivariate sum, mean, and other scores.
 Reverse scoring can also be easily implemented without saving extra variables.
 Alpha function uses a similar method to deal with reverse scoring.
 Three ways to specify variables:
@@ -22,11 +22,11 @@ varrange: starting and stopping positions of variables (NOT suggested).
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -226,12 +226,13 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 <span class="r-in"><span>  x5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">d</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x1 x4 x3 x2 x5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  2  3  4  5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  2  2  4  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3  5 NA NA  1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4  4 NA  2  4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  5  5  5  5  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x1    x4    x3    x2    x5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1     2     3     4     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2     2     2     4     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3     5    NA    NA     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4     4    NA     2     4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     5     5     5     5     5</span>
 <span class="r-in"><span><span class="co">## I deliberately set this order to show you</span></span></span>
 <span class="r-in"><span><span class="co">## the difference between "vars" and "varrange".</span></span></span>
 <span class="r-in"><span></span></span>
@@ -246,19 +247,35 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 <span class="r-in"><span>  cons1 <span class="op">=</span> <span class="fu">CONSEC</span><span class="op">(</span><span class="va">d</span>, <span class="st">"x"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  cons2 <span class="op">=</span> <span class="fu">CONSEC</span><span class="op">(</span><span class="va">d</span>, varrange<span class="op">=</span><span class="st">"x1:x5"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x1 x4 x3 x2 x5 na n.2 sum  m1  m2 m3 cons1 cons2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  2  3  4  5  0   1  15 3.0 1.5  2     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  2  2  4  4  0   3  14 2.8 2.0  2     2     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3  5 NA NA  1  2   0   9 3.0 4.0  4     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4  4 NA  2  4  1   1  14 3.5 4.0  4     2     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  5  5  5  5  5  0   0  25 5.0 5.0  4     5     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x1    x4    x3    x2    x5    na   n.2   sum    m1    m2    m3 cons1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;int&gt; &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1     2     3     4     5     0     1    15   3.0   1.5     2     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2     2     2     4     4     0     3    14   2.8   2.0     2     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3     5    NA    NA     1     2     0     9   3.0   4.0     4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4     4    NA     2     4     1     1    14   3.5   4.0     4     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     5     5     5     5     5     0     0    25   5.0   5.0     4     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    cons2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     5</span>
 <span class="r-in"><span><span class="va">d</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    x1 x4 x3 x2 x5 na n.2 sum  m1  m2 m3 cons1 cons2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  1  2  3  4  5  0   1  15 3.0 1.5  2     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  2  2  2  4  4  0   3  14 2.8 2.0  2     2     3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  3  5 NA NA  1  2   0   9 3.0 4.0  4     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:  4  4 NA  2  4  1   1  14 3.5 4.0  4     2     2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:  5  5  5  5  5  0   0  25 5.0 5.0  4     5     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       x1    x4    x3    x2    x5    na   n.2   sum    m1    m2    m3 cons1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;int&gt; &lt;int&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     1     2     3     4     5     0     1    15   3.0   1.5     2     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     2     2     2     4     4     0     3    14   2.8   2.0     2     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     3     5    NA    NA     1     2     0     9   3.0   4.0     4     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     4     4    NA     2     4     1     1    14   3.5   4.0     4     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     5     5     5     5     5     0     0    25   5.0   5.0     4     5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    cons2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:     2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:     5</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ====== Usage 2: `add()` &amp; `added()` ====== ##</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">=</span> <span class="fu">as.data.table</span><span class="op">(</span><span class="fu">psych</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/psych/man/bfi.html" class="external-link">bfi</a></span><span class="op">)</span></span></span>
@@ -272,18 +289,19 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 <span class="r-in"><span>  <span class="va">O</span> <span class="op">=</span> <span class="fu">.mean</span><span class="op">(</span><span class="st">"O"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, rev<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">5</span><span class="op">)</span>, range<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span>, drop<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">data</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       gender education   E   A   C    N   O</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1:      1      &lt;NA&gt; 3.8 4.0 2.8 2.80 3.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2:      2      &lt;NA&gt; 5.0 4.2 4.0 3.80 4.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    3:      2      &lt;NA&gt; 4.2 3.8 4.0 3.60 4.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    4:      2      &lt;NA&gt; 3.6 4.6 3.0 2.80 3.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    5:      1      &lt;NA&gt; 4.8 4.0 4.4 3.20 3.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ---                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2796:      1         3 5.0 2.2 6.0 1.00 6.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2797:      1         4 4.2 4.2 3.2 2.75 4.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2798:      2         4 5.0 4.0 5.4 2.80 5.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2799:      1         4 4.6 2.8 4.2 4.20 5.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2800:      2         4 2.6 3.0 4.2 1.40 4.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       gender education     E     A     C     N     O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;fctr&gt;    &lt;fctr&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt; &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1:      1      &lt;NA&gt;   3.8   4.0   2.8  2.80   3.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    2:      2      &lt;NA&gt;   5.0   4.2   4.0  3.80   4.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    3:      2      &lt;NA&gt;   4.2   3.8   4.0  3.60   4.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    4:      2      &lt;NA&gt;   3.6   4.6   3.0  2.80   3.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    5:      1      &lt;NA&gt;   4.8   4.0   4.4  3.20   3.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ---                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2796:      1         3   5.0   2.2   6.0  1.00   6.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2797:      1         4   4.2   4.2   3.2  2.75   4.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2798:      2         4   5.0   4.0   5.4  2.80   5.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2799:      1         4   4.6   2.8   4.2  4.20   5.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2800:      2         4   2.6   3.0   4.2  1.40   4.6</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## ====== New Feature for `var` &amp; `items` ====== ##</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op">=</span> <span class="fu">data.table</span><span class="op">(</span></span></span>
@@ -293,6 +311,7 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="add.html">add</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span> <span class="va">XX.mean</span> <span class="op">=</span> <span class="fu">.mean</span><span class="op">(</span><span class="st">"XX.{i}.pre"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    XX.1.pre XX.2.pre XX.3.pre XX.mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1        6       11       6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2        7       12       7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3        8       13       8</span>
@@ -300,6 +319,7 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:        5       10       15      10</span>
 <span class="r-in"><span><span class="fu"><a href="add.html">add</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span> <span class="va">XX.mean</span> <span class="op">=</span> <span class="fu">.mean</span><span class="op">(</span><span class="st">"XX.{items}.pre"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>  <span class="co"># the same</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    XX.1.pre XX.2.pre XX.3.pre XX.mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1        6       11       6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2        7       12       7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3        8       13       8</span>
@@ -307,6 +327,7 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5:        5       10       15      10</span>
 <span class="r-in"><span><span class="fu"><a href="add.html">add</a></span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span> <span class="va">XX.mean</span> <span class="op">=</span> <span class="fu">.mean</span><span class="op">(</span><span class="st">"XX.{#$%^&amp;}.pre"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>  <span class="co"># the same</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    XX.1.pre XX.2.pre XX.3.pre XX.mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;int&gt;    &lt;int&gt;    &lt;int&gt;   &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:        1        6       11       6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        2        7       12       7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:        3        8       13       8</span>
@@ -320,11 +341,11 @@ only can be used in <code><a href="add.html">add()/added()</a></code></p></li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Han-Wu-Shuang Bao.</p>
+  <p>Developed by Han-Wu-Shuang Bao.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer></div>

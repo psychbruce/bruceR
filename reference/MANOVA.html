@@ -34,7 +34,7 @@ MANOVA(data=, subID=, dv=, between=, within=, ...)
   
 
 
-"><title>Multi-factor ANOVA. — MANOVA • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-factor ANOVA. — MANOVA"><meta property="og:description" content="Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
+"><title>Multi-factor ANOVA. — MANOVA • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.9/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Multi-factor ANOVA. — MANOVA"><meta property="og:description" content="Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
 with and without covariates (ANCOVA).
 This function is based on and extends afex::aov_ez().
 You only need to specify the data, dependent variable(s), and factors
@@ -76,11 +76,11 @@ MANOVA(data=, subID=, dv=, between=, within=, ...)
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -274,9 +274,9 @@ and <code>values_fn=mean</code> in <code><a href="https://tidyr.tidyverse.org/re
     <h2 id="interaction-plot">Interaction Plot<a class="anchor" aria-label="anchor" href="#interaction-plot"></a></h2>
     
 
-<p>You can save the returned object and use the <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code> function
+<p>You can save the returned object and use the <code><a href="https://rvlenth.github.io/emmeans/reference/emmip.html" class="external-link">emmeans::emmip()</a></code> function
 to create an interaction plot (based on the fitted model and a formula specification).
-For usage, please see the help page of <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code>.
+For usage, please see the help page of <code><a href="https://rvlenth.github.io/emmeans/reference/emmip.html" class="external-link">emmeans::emmip()</a></code>.
 It returns an object of class <code>ggplot</code>, which can be easily modified and saved using <code>ggplot2</code> syntax.</p>
     </div>
     <div class="section level2">
@@ -352,7 +352,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.813   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -1270,14 +1270,14 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> age * phase                        12.108  3.909 1.697 15.277  3.097  .081 .     .256 [.000, .502] .048</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> treatment * gender * phase          6.261  3.909 3.395 15.277  1.601  .228       .262 [.000, .470] .049</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> hour                               50.786  2.475 2.137 19.230 20.519 &lt;.001 ***   .695 [.459, .804] .209</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treatment * hour                    1.766  2.475 4.273 19.230  0.714  .601       .137 [.000, .270] .018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> treatment * hour                    1.766  2.475 4.273 19.230  0.714  .601       .137 [.000, .271] .018</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> gender * hour                       1.753  2.475 2.137 19.230  0.708  .514       .073 [.000, .254] .009</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age * hour                          6.976  2.475 2.137 19.230  2.818  .082 .     .238 [.000, .456] .035</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> treatment * gender * hour           1.459  2.475 4.273 19.230  0.590  .684       .116 [.000, .233] .015</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phase * hour                        2.802  2.826 3.485 31.362  0.991  .419       .099 [.000, .223] .023</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> treatment * phase * hour            0.944  2.826 6.969 31.362  0.334  .932       .069 [.000, .027] .016</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> gender * phase * hour               2.540  2.826 3.485 31.362  0.899  .465       .091 [.000, .210] .021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age * phase * hour                  2.164  2.826 3.485 31.362  0.766  .540       .078 [.000, .160] .018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age * phase * hour                  2.164  2.826 3.485 31.362  0.766  .540       .078 [.000, .188] .018</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> treatment * gender * phase * hour   1.840  2.826 6.969 31.362  0.651  .710       .126 [.000, .170] .030</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Sphericity correction method: GG (Greenhouse-Geisser)</span></span>
@@ -1304,7 +1304,7 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: fup_hour1        3.012   5  10  .065 .  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: fup_hour2        1.392   5  10  .306    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: fup_hour3        2.672   5  10  .087 .  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> DV: fup_hour4        3.363   5  10  .049 *  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> DV: fup_hour4        3.362   5  10  .049 *  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> DV: fup_hour5        0.679   5  10  .650    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1337,11 +1337,11 @@ It returns an object of class <code>ggplot</code>, which can be easily modified 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Han-Wu-Shuang Bao.</p>
+  <p>Developed by Han-Wu-Shuang Bao.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer></div>

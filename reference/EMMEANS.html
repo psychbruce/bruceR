@@ -20,7 +20,7 @@ the square root of mean variance of all paired differences of the residuals of r
 Disclaimer:
 There is substantial disagreement on the appropriate pooled SD to use in computing the effect size.
 For alternative methods, see emmeans::eff_size() and effectsize::t_to_d().
-Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.7/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
+Users should not take the default output as the only right results and are completely responsible for specifying sd.pooled."><title>Simple-effect analysis and post-hoc multiple comparison. — EMMEANS • bruceR</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet"><link href="../deps/Lexend-0.4.9/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Simple-effect analysis and post-hoc multiple comparison. — EMMEANS"><meta property="og:description" content="Perform (1) simple-effect (and simple-simple-effect) analyses,
 including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 with p values adjusted for factors with &amp;gt;= 3 levels.
@@ -48,11 +48,11 @@ Users should not take the default output as the only right results and are compl
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2023.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,9 +93,9 @@ including both simple main effects and simple interaction effects,
 and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
 with <em>p</em> values adjusted for factors with &gt;= 3 levels.</p>
 <p>This function is based on and extends
-(1) <code><a href="https://rdrr.io/pkg/emmeans/man/joint_tests.html" class="external-link">emmeans::joint_tests()</a></code>,
-(2) <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>, and
-(3) <code><a href="https://rdrr.io/pkg/emmeans/man/contrast.html" class="external-link">emmeans::contrast()</a></code>.
+(1) <code><a href="https://rvlenth.github.io/emmeans/reference/joint_tests.html" class="external-link">emmeans::joint_tests()</a></code>,
+(2) <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>, and
+(3) <code><a href="https://rvlenth.github.io/emmeans/reference/contrast.html" class="external-link">emmeans::contrast()</a></code>.
 You only need to specify the model object, to-be-tested effect(s), and moderator(s).
 Almost all results you need will be displayed together,
 including effect sizes (partial \(\eta^2\) and Cohen's <em>d</em>) and their confidence intervals (CIs).
@@ -105,7 +105,7 @@ Specifically, it uses:</p><ol><li><p>the square root of <em>mean square error</e
 <li><p>the square root of <em>mean variance of all paired differences of the residuals of repeated measures</em> for within-subjects and mixed designs.</p></li>
 </ol><p><strong><em>Disclaimer</em>:</strong>
 There is substantial disagreement on the appropriate pooled <em>SD</em> to use in computing the effect size.
-For alternative methods, see <code><a href="https://rdrr.io/pkg/emmeans/man/eff_size.html" class="external-link">emmeans::eff_size()</a></code> and <code><a href="https://easystats.github.io/effectsize/reference/t_to_r.html" class="external-link">effectsize::t_to_d()</a></code>.
+For alternative methods, see <code><a href="https://rvlenth.github.io/emmeans/reference/eff_size.html" class="external-link">emmeans::eff_size()</a></code> and <code><a href="https://easystats.github.io/effectsize/reference/t_to_r.html" class="external-link">effectsize::t_to_d()</a></code>.
 Users should <em>not</em> take the default output as the only right results and are completely responsible for specifying <code>sd.pooled</code>.</p>
     </div>
 
@@ -120,7 +120,8 @@ Users should <em>not</em> take the default output as the only right results and 
 <span>  p.adjust <span class="op">=</span> <span class="st">"bonferroni"</span>,</span>
 <span>  sd.pooled <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  model.type <span class="op">=</span> <span class="st">"multivariate"</span>,</span>
-<span>  digits <span class="op">=</span> <span class="fl">3</span></span>
+<span>  digits <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -147,7 +148,7 @@ it also reports the results of simple interaction effect.</p></dd>
 Defaults to <code>"pairwise"</code>.</p>
 <p>Alternatives can be <code>"pairwise"</code> (<code>"revpairwise"</code>),
 <code>"seq"</code> (<code>"consec"</code>), <code>"poly"</code>, <code>"eff"</code>.
-For details, see <code><a href="https://rdrr.io/pkg/emmeans/man/emmc-functions.html" class="external-link">?emmeans::`contrast-methods`</a></code>.</p></dd>
+For details, see <code><a href="https://rvlenth.github.io/emmeans/reference/emmc-functions.html" class="external-link">?emmeans::`contrast-methods`</a></code>.</p></dd>
 
 
 <dt>reverse</dt>
@@ -163,7 +164,7 @@ For polynomial contrasts, defaults to <code>"none"</code>.</p>
 <code>"hommel"</code>, <code>"holm"</code>, <code>"tukey"</code>, <code>"mvt"</code>,
 <code>"dunnettx"</code>, <code>"sidak"</code>, <code>"scheffe"</code>, <code>"bonferroni"</code>.
 For details, see <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">stats::p.adjust()</a></code> and
-<code><a href="https://rdrr.io/pkg/emmeans/man/summary.emmGrid.html" class="external-link">emmeans::summary()</a></code>.</p></dd>
+<code><a href="https://rvlenth.github.io/emmeans/reference/summary.emmGrid.html" class="external-link">emmeans::summary()</a></code>.</p></dd>
 
 
 <dt>sd.pooled</dt>
@@ -177,13 +178,17 @@ For an issue about the computation method of Cohen's <em>d</em>, see <em>Disclai
 <dt>model.type</dt>
 <dd><p><code>"multivariate"</code> returns the results of pairwise comparisons identical to SPSS,
 which uses the <code>lm</code> (rather than <code>aov</code>) object of the <code>model</code>
-for <code><a href="https://rdrr.io/pkg/emmeans/man/joint_tests.html" class="external-link">emmeans::joint_tests()</a></code> and <code><a href="https://rdrr.io/pkg/emmeans/man/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.</p>
+for <code><a href="https://rvlenth.github.io/emmeans/reference/joint_tests.html" class="external-link">emmeans::joint_tests()</a></code> and <code><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html" class="external-link">emmeans::emmeans()</a></code>.</p>
 <p><code>"univariate"</code> requires also specifying <code>aov.include=TRUE</code> in <code><a href="MANOVA.html">MANOVA</a></code>
 (not recommended by the <code>afex</code> package; for details, see <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html" class="external-link">afex::aov_ez()</a></code>).</p></dd>
 
 
 <dt>digits</dt>
 <dd><p>Number of decimal places of output. Defaults to <code>3</code>.</p></dd>
+
+
+<dt>file</dt>
+<dd><p>File name of MS Word (<code>.doc</code>).</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -204,10 +209,10 @@ along with a list of tables:
     <h2 id="interaction-plot-see-examples-below-">Interaction Plot (See Examples Below)<a class="anchor" aria-label="anchor" href="#interaction-plot-see-examples-below-"></a></h2>
     
 
-<p>You can save the returned object and use the <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code> function
+<p>You can save the returned object and use the <code><a href="https://rvlenth.github.io/emmeans/reference/emmip.html" class="external-link">emmeans::emmip()</a></code> function
 to create an interaction plot (based on the fitted model and a formula).
 See examples below for the usage.</p>
-<p>Note: <code><a href="https://rdrr.io/pkg/emmeans/man/emmip.html" class="external-link">emmeans::emmip()</a></code> returns a <code>ggplot</code> object,
+<p>Note: <code><a href="https://rvlenth.github.io/emmeans/reference/emmip.html" class="external-link">emmeans::emmip()</a></code> returns a <code>ggplot</code> object,
 which can be modified and saved with <code>ggplot2</code> syntax.</p>
     </div>
     <div class="section level2">
@@ -318,7 +323,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.813   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -344,12 +349,13 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 10, is not a multiple of vector length 7 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean: "A"         190.125  3      63.375 22.533 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          78.750 28       2.812                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -407,7 +413,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.813   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -433,12 +439,13 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 10, is not a multiple of vector length 7 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean: "A"         190.125  3      63.375 22.533 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          78.750 28       2.812                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -496,7 +503,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.813   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -522,12 +529,13 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 10, is not a multiple of vector length 7 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean: "A"         190.125  3      63.375 22.533 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          78.750 28       2.812                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -582,7 +590,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MS   MSE df1 df2      F     p     η²p [90% CI of η²p]  η²G</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.812   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A  63.375 2.813   3  28 22.533 &lt;.001 ***   .707 [.526, .798] .707</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">MSE = mean square error (the residual variance of the linear model)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">η²p = partial eta-squared = SS / (SS + SSE) = F * df1 / (F * df1 + df2)</span></span>
@@ -608,12 +616,13 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 10, is not a multiple of vector length 7 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean: "A"         190.125  3      63.375 22.533 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          78.750 28       2.812                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -727,6 +736,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 6, is not a multiple of vector length 5 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
@@ -734,7 +744,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> B1: "A"             0.125  1       0.125  0.067  .798    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B2: "A"            32.000  1      32.000 17.194 &lt;.001 ***</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B3: "A"           105.125  1     105.125 56.485 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          33.500 18       1.861                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                 34                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -779,13 +789,14 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 8, is not a multiple of vector length 6 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "B":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A1: "B"             1.500  2       0.750  0.403  .674    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> A2: "B"           136.167  2      68.083 36.582 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          33.500 18       1.861                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -975,13 +986,14 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 6, is not a multiple of vector length 5 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B1: "A"            27.562  1      27.562 17.640 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B1: "A"            27.563  1      27.563 17.640 &lt;.001 ***</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B2: "A"           150.062  1     150.062 96.040 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals          37.500 24       1.563                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                 38                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1028,13 +1040,14 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 6, is not a multiple of vector length 5 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A" &amp; "B":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                Sum of Squares df Mean Square      F     p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C1: "A" &amp; "B"           0.000  1       0.000  0.000 1.000    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> C2: "A" &amp; "B"          49.000  1      49.000 31.360 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals              37.500 24       1.563                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                     38                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1057,7 +1070,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Contrast "C" Estimate    S.E. df      t     p     Cohen’s d [95% CI of d]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ───────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A2 B1 - A1 B1  C1    4.000 (0.884) 24  4.525 &lt;.001 ***  3.200 [ 1.167,  5.233]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  A1 B2 - A1 B1  C1   -0.000 (0.884) 24 -0.000 1.000     -0.000 [-2.033,  2.033]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  A1 B2 - A1 B1  C1    0.000 (0.884) 24  0.000 1.000      0.000 [-2.033,  2.033]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A1 B2 - A2 B1  C1   -4.000 (0.884) 24 -4.525 &lt;.001 *** -3.200 [-5.233, -1.167]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A2 B2 - A1 B1  C1    4.000 (0.884) 24  4.525 &lt;.001 ***  3.200 [ 1.167,  5.233]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A2 B2 - A2 B1  C1   -0.000 (0.884) 24 -0.000 1.000     -0.000 [-2.033,  2.033]</span>
@@ -1092,6 +1105,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 6, is not a multiple of vector length 5 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "A":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               Sum of Squares df Mean Square      F     p    </span>
@@ -1100,7 +1114,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> B2 &amp; C1: "A"          32.000  1      32.000 20.480 &lt;.001 ***</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B1 &amp; C2: "A"           3.125  1       3.125  2.000  .170    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> B2 &amp; C2: "A"         136.125  1     136.125 87.120 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals             37.500 24       1.563                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                    38                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1487,7 +1501,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C      B2   1   3  61.364  .004 **    .953 [.653, .982]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B1   1   3  17.640  .025 *     .855 [.202, .945]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      B2   1   3 266.778 &lt;.001 ***   .989 [.908, .996]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   C * A  B1   1   3   6.153  .089 .     .672 [.000, .877]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   C * A  B1   1   3   6.153  .089 .     .672 [.000, .878]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   C * A  B2   1   3  32.111  .011 *     .915 [.436, .968]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
@@ -1532,7 +1546,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">------ EMMEANS (effect = "A" &amp; "B") ------</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 3.3515e-17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 1.67575e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in solve.default(zcov, z) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   system is computationally singular: reciprocal condition number = 1.38778e-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Joint Tests of "A" &amp; "B":</span>
@@ -1540,7 +1554,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Effect "C" df1 df2      F     p     η²p [90% CI of η²p]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B      C1   1   3  0.000 1.000       .000 [.000, .000]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1   3 50.000  .006 **    .943 [.610, .978]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   B      C2   1   3 50.000  .006 **    .943 [.592, .978]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C1   1   3 54.857  .005 **    .948 [.620, .980]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   A      C2   1   3 63.706  .004 **    .955 [.664, .983]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   B * A  C1   1   3  0.000 1.000       .000 [.000, .000]</span>
@@ -1737,7 +1751,7 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Effect "B" df1 df2      F     p     η²p [90% CI of η²p]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       A  B1   1   6  0.086  .780       .014 [.000, .337]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       A  B1   1   6  0.086  .780       .014 [.000, .339]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       A  B2   1   6 19.200  .005 **    .762 [.314, .888]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       A  B3   1   6 42.763 &lt;.001 ***   .877 [.593, .942]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────</span>
@@ -2478,13 +2492,14 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 12, is not a multiple of vector length 8 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "Month":</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Sum of Squares  df Mean Square      F     p    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean: "Month"        4236.730   4    1059.183 29.995 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals            4731.762 134      35.312                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Sum of Squares df Mean Square      F     p    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean: "Month"        4236.730  4    1059.183 29.995 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated Marginal Means of "Month":</span>
@@ -2533,14 +2548,15 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Simple effects of <span style="font-style: italic;">repeated measures</span> with 3 or more levels</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> are <span style="font-style: italic;">different</span> from the results obtained with SPSS MANOVA syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>number of columns of result, 12, is not a multiple of vector length 8 of arg 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Univariate Tests of "Month":</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Sum of Squares  df Mean Square      F     p    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  odd: "Month"        1875.512   4     468.878 13.278 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> even: "Month"        2562.180   4     640.545 18.140 &lt;.001 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals            4731.762 134      35.312                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ──────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Sum of Squares df Mean Square      F     p    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  odd: "Month"        1875.512  4     468.878 13.278 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> even: "Month"        2562.180  4     640.545 18.140 &lt;.001 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residuals                                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-style: italic;">Note</span>. Identical to the results obtained with SPSS GLM EMMEANS syntax.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated Marginal Means of "Month":</span>
@@ -2588,11 +2604,11 @@ Such a confusion is not uncommon. Here I explain what these terms actually refer
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Han-Wu-Shuang Bao.</p>
+  <p>Developed by Han-Wu-Shuang Bao.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer></div>
