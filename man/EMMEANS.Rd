@@ -13,7 +13,8 @@ EMMEANS(
   p.adjust = "bonferroni",
   sd.pooled = NULL,
   model.type = "multivariate",
-  digits = 3
+  digits = 3,
+  file = NULL
 )
 }
 \arguments{
@@ -61,6 +62,8 @@ for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[em
 (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
+
+\item{file}{File name of MS Word (\code{.doc}).}
 }
 \value{
 The same model object as returned by

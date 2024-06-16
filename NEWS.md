@@ -1,5 +1,10 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 2024.6
+
+-   Had to move `MuMIn` from "Imports" to "Suggests" due to its unresolved CRAN issues which need fixing before 2024-06-14.
+-   Added `file` argument for `EMMEANS()` to allow for saving the contrast table to MS Word.
+
 # bruceR 2023.9
 
 ## Minor Changes
@@ -14,7 +19,7 @@
 ## New Features
 
 -   New function `cor_multilevel()`: Multilevel correlations (within-level and between-level).
--   Added arguments `pkg` and `value.labels` to `import()`, providing more flexible settings and allowing for converting variables with value labels into R factors.
+-   Added arguments `pkg` and `value.labels` for `import()`, providing more flexible settings and allowing for converting variables with value labels into R factors.
 
 ## Major Changes
 
@@ -89,8 +94,8 @@
 
 -   Improved `cc()`. Now it becomes much more convenient!
 -   Added a prompt message for the use of long data in `MANOVA()`: "*Data are aggregated to mean (across items/trials) if there are \>=2 observations per subject and cell. You may use Linear Mixed Model to analyze the data, e.g., with subjects and items as level-2 clusters.*"
--   Added the `center` argument of `PROCESS()` (default is `TRUE`) for users who want to turn off the automatic grand-mean centering. However, mean centering is still highly suggested if one aim to obtain "main effect" rather than "fixed effect" (note: a fixed effect is not necessarily a main effect).
--   Added the `estimator` argument of `CFA()` (default is `"ML"`) for users who want to use any other estimator (fixed issue [#17](https://github.com/psychbruce/bruceR/issues/17)).
+-   Added `center` argument for `PROCESS()` (default is `TRUE`) for users who want to turn off the automatic grand-mean centering. However, mean centering is still highly suggested if one aim to obtain "main effect" rather than "fixed effect" (note: a fixed effect is not necessarily a main effect).
+-   Added `estimator` argument for `CFA()` (default is `"ML"`) for users who want to use any other estimator (fixed issue [#17](https://github.com/psychbruce/bruceR/issues/17)).
 
 # bruceR 0.8.5 (Mar 2022)
 

@@ -38,7 +38,7 @@
 #'
 #' @export
 `%notin%` = function(x, vector) {
-  match(x, vector, nomatch=0) == 0
+  match(x, vector, nomatch=0L) == 0L
 }
 
 

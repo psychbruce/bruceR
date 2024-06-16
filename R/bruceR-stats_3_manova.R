@@ -711,6 +711,7 @@ MANOVA = function(
 #' \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
 #' (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).
 #' @param digits Number of decimal places of output. Defaults to \code{3}.
+#' @param file File name of MS Word (\code{.doc}).
 #'
 #' @return
 #' The same model object as returned by
@@ -831,7 +832,8 @@ EMMEANS = function(
     p.adjust="bonferroni",
     sd.pooled=NULL,
     model.type="multivariate",
-    digits=3
+    digits=3,
+    file=NULL
 ) {
   # IMPORTANT: If include 'aov', the 'emmeans' results of
   # within-subjects design will not be equal to those in SPSS!
@@ -1029,6 +1031,8 @@ EMMEANS = function(
   Print("{contr.method} of \"{effect.text}\":")
   con$df = formatF(con$df, 0)
   print_table(con, digits=digits, row.names=FALSE)
+  if(!is.null(file))
+    print_table(con, digits=digits, file=file, row.names=FALSE)
   cat(paste(attr(con, "mesg"), collapse="\n"))
   cat("\n\n")
   Print("<<green Disclaimer:

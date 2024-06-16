@@ -203,6 +203,8 @@ if(FALSE) {
 #' @importFrom dplyr %>% select left_join sym group_by summarise mutate transmute across rename
 #' @importFrom data.table data.table is.data.table as.data.table
 #' @importFrom data.table := .BY .EACHI .GRP .I .N .NGRP .SD
+#' @importFrom crayon bold italic underline inverse hidden
+#' @importFrom crayon black red green yellow blue magenta cyan white silver
 .onAttach = function(libname, pkgname) {
   ## Version Check
   new = FALSE
@@ -237,7 +239,7 @@ if(FALSE) {
 
   suppressMessages({
     suppressWarnings({
-      loaded = sapply(pkgs, require, character.only=TRUE)
+      loaded = sapply(pkgs, require, character.only=TRUE, exclude="%notin%")
     })
   })
 

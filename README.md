@@ -19,7 +19,7 @@ This package includes easy-to-use functions for:
 
 <!-- badges: end -->
 
-<img src="https://s1.ax1x.com/2020/07/28/aAjUJg.jpg" width="120px" height="42px"/>
+<img src="https://psychbruce.github.io/img/CC-BY-NC-SA.jpg" width="120px" height="42px"/>
 
 ## Author
 
@@ -32,7 +32,7 @@ Han-Wu-Shuang (Bruce) Bao 包寒吴霜
 ## Citation
 
 -   Bao, H.-W.-S. (2021). *bruceR: Broadly useful convenient and efficient R functions*. <https://CRAN.R-project.org/package=bruceR>
-    -   *Note*: This is the original citation format. Please refer to the information when you `library(bruceR)` for the APA-7 format of your installed version.
+    -   *Note*: This is the original citation. Please refer to the information when you `library(bruceR)` for the APA-7 format of the version you installed.
 
 ## User Guide
 
@@ -168,7 +168,7 @@ For some functions, the results can be saved to Microsoft Word using the `file` 
 | `CFA()`               |         √         |         √         |
 | `TTEST()`             |         √         |         √         |
 | `MANOVA()`            |         √         |         √         |
-| `EMMEANS()`           |         √         |                   |
+| `EMMEANS()`           |         √         |         √         |
 | `PROCESS()`           |         √         |    √ (partial)    |
 | `model_summary()`     |         √         | **√ (suggested)** |
 | `med_summary()`       |         √         |         √         |
