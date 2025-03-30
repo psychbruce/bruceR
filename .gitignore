@@ -47,4 +47,3 @@ vignettes/*.pdf
 data-raw
 ignore
 docs
-pkgdown

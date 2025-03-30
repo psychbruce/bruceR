@@ -46,4 +46,4 @@ Suggests:
     cowplot, ggtext, see,
     car, lmtest, lme4, nnet, vars, phia,
     MASS, MuMIn, BayesFactor, GGally, GPArotation
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

@@ -37,7 +37,10 @@ if(FALSE) {
   usethis::use_coverage()  # Test Coverage
   usethis::use_github_action("test-coverage")  # Test Coverage
 
+  ## Logo & Favicon
   usethis::use_logo("ignore/logo/bruceR-logo.png")
+  pkgdown::build_favicons()  # pkgdown/favicon
+  # pkgdown should not be included in .gitignore
 }
 
 
