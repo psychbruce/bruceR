@@ -287,7 +287,7 @@ if(FALSE) {
     {underline https://psychbruce.github.io/bruceR}
 
     {magenta To use this package in publications, please cite:}
-    Bao, H.-W.-S. ({pkg.date}). "),
+    Bao, H. W. S. ({pkg.date}). "),
     glue::glue_col("{italic bruceR: Broadly useful convenient and efficient R functions}"),
     glue::glue_col(" (Version {inst.ver}) [Computer software]. "),
     glue::glue_col("{underline https://CRAN.R-project.org/package=bruceR}"),

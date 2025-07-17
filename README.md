@@ -23,7 +23,7 @@ This package includes easy-to-use functions for:
 
 ## Author
 
-Han-Wu-Shuang (Bruce) Bao 包寒吴霜
+Bruce H. W. S. Bao 包寒吴霜
 
 📬 [baohws\@foxmail.com](mailto:baohws@foxmail.com)
 
@@ -31,8 +31,7 @@ Han-Wu-Shuang (Bruce) Bao 包寒吴霜
 
 ## Citation
 
--   Bao, H.-W.-S. (2021). *bruceR: Broadly useful convenient and efficient R functions*. <https://CRAN.R-project.org/package=bruceR>
-    -   *Note*: This is the original citation. Please refer to the information when you `library(bruceR)` for the APA-7 format of the version you installed.
+-   Bao, H. W. S. (2021). *bruceR: Broadly useful convenient and efficient R functions*. <https://CRAN.R-project.org/package=bruceR>
 
 ## User Guide
 
