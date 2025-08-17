@@ -7,18 +7,17 @@
 med_summary(model, digits = 3, file = NULL)
 }
 \arguments{
-\item{model}{Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.}
+\item{model}{Mediation model built with \code{\link[mediation:mediate]{mediation::mediate()}}.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 }
 \value{
 Invisibly return a data frame containing the results.
 }
 \description{
-Tidy report of mediation analysis,
-which is performed using the \code{\link[mediation]{mediation}} package.
+Tidy report of mediation analysis, which is performed using \code{\link[mediation:mediate]{mediation::mediate()}}.
 }
 \examples{
 \dontrun{
@@ -57,5 +56,5 @@ med_summary(med.lmm)
 
 }
 \seealso{
-\code{\link{PROCESS}}
+\code{\link[=PROCESS]{PROCESS()}}
 }

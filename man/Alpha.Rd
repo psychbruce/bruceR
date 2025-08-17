@@ -9,43 +9,29 @@ Alpha(data, var, items, vars = NULL, varrange = NULL, rev = NULL, digits = 3)
 \arguments{
 \item{data}{Data frame.}
 
-\item{var}{\strong{[Option 1]}
-Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
-(if \code{var} string has any placeholder in braces \code{{...}},
-then \code{items} will be pasted into the braces, see examples)}
+\item{var}{\strong{[Option 1]} Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"} (if \code{var} string has any placeholder in braces \code{{...}}, then \code{items} will be pasted into the braces, see examples)}
 
-\item{items}{\strong{[Option 1]}
-Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
+\item{items}{\strong{[Option 1]} Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
 
-\item{vars}{\strong{[Option 2]}
-Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
+\item{vars}{\strong{[Option 2]} Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
-\item{varrange}{\strong{[Option 3]}
-Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}}
+\item{varrange}{\strong{[Option 3]} Character string specifying positions (\code{"start:stop"}) of variables: e.g., \code{"A1:E5"}}
 
-\item{rev}{[Optional] Variables that need to be reversed. It can be
-(1) a character vector specifying the reverse-scoring variables (recommended), or
-(2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
+\item{rev}{[Optional] Variables that need to be reversed. It can be (1) a character vector specifying the reverse-scoring variables (recommended), or (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 }
 \value{
-A list of results obtained from
-\code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}}.
+A list of results obtained from \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}}.
 }
 \description{
-An extension of \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}},
-reporting (1) scale statistics
-(Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
-(2) item statistics
-(item-rest correlation [i.e., corrected item-total correlation]
-and Cronbach's \eqn{\alpha} if item deleted).
+An extension of \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}}, reporting (1) scale statistics (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and (2) item statistics (item-rest correlation [i.e., corrected item-total correlation] and Cronbach's \eqn{\alpha} if item deleted).
 
 Three options to specify variables:
 \enumerate{
-  \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
-  \item \strong{\code{vars}}: a character vector of variable names (suggested).
-  \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
+\item \strong{\code{var} + \code{items}}: common and unique parts of variable names (suggested).
+\item \strong{\code{vars}}: a character vector of variable names (suggested).
+\item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 }
 }
 \examples{
@@ -63,5 +49,9 @@ data \%>\% select(E1, E2, E3, E4, E5) \%>\%
 }
 }
 \seealso{
-\code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
+\code{\link[=MEAN]{MEAN()}}
+
+\code{\link[=EFA]{EFA()}}
+
+\code{\link[=CFA]{CFA()}}
 }

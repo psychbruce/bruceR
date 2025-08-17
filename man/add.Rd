@@ -10,63 +10,31 @@ add(data, expr, when, by, drop = FALSE)
 added(data, expr, when, by, drop = FALSE)
 }
 \arguments{
-\item{data}{A \code{\link[data.table:data.table]{data.table}}
-(preferred).}
+\item{data}{A \code{\link[data.table:data.table]{data.table}} (preferred).}
 
-\item{expr}{R expression(s) enclosed in \code{{...}} to compute variables.
+\item{expr}{Passing to \code{\link[data.table:data.table]{data.table}}: \code{DT[ , let(expr), ]}
 
-Passing to \code{\link[data.table:data.table]{data.table}}:
-\code{DT[ , `:=`(expr), ]}
+R expression(s) to compute variables. Execute each line of expression \emph{one by one}, such that newly created variables are available immediately. This is an advantage of \code{\link[dplyr:mutate]{dplyr::mutate()}} and has been implemented here for \code{\link[data.table:data.table]{data.table}}.}
 
-Execute each line of expression in \code{{...}} \emph{one by one},
-such that newly created variables are available immediately.
-This is an advantage of \code{\link[dplyr:mutate]{mutate}} and
-has been implemented here for \code{\link[data.table:data.table]{data.table}}.}
+\item{when}{[Optional] Passing to \code{\link[data.table:data.table]{data.table}}: \code{DT[when, , ]}
 
-\item{when}{[Optional] Compute for which rows or rows meeting what condition(s)?
+Compute \emph{for} which rows or rows meeting what condition(s)?}
 
-Passing to \code{\link[data.table:data.table]{data.table}}:
-\code{DT[when, , ]}}
+\item{by}{[Optional] Passing to \code{\link[data.table:data.table]{data.table}}: \code{DT[ , , by]}
 
-\item{by}{[Optional] Compute by what group(s)?
+Compute \emph{by} what group(s)?}
 
-Passing to \code{\link[data.table:data.table]{data.table}}:
-\code{DT[ , , by]}}
-
-\item{drop}{Drop existing variables and return only new variables?
-Defaults to \code{FALSE}, which returns all variables.}
+\item{drop}{Drop existing variables and return only new variables? Defaults to \code{FALSE}, which returns all variables.}
 }
 \value{
-\code{add()} returns a new
-\code{\link[data.table:data.table]{data.table}},
-with the raw data unchanged.
-
-\code{added()} returns nothing and has already changed the raw data.
+\itemize{
+\item \code{add()} returns a new \code{\link[data.table:data.table]{data.table}}, with the raw data unchanged.
+\item \code{added()} returns nothing and has already changed the raw data.
+}
 }
 \description{
-Enhanced functions to create, modify, and/or delete variables.
-The functions \strong{combine} the advantages of
-\code{\link[base:within]{within}} (base),
-\code{\link[dplyr:mutate]{mutate}} (dplyr),
-\code{\link[dplyr:transmute]{transmute}} (dplyr), and
-\code{\link[data.table:data.table]{:=}} (data.table).
-See examples below for the usage and convenience.
+Enhanced functions to create, modify, and/or delete variables. The functions \strong{integrate} the advantages of \code{\link[base:with]{base::within()}}, \code{\link[dplyr:mutate]{dplyr::mutate()}}, \code{\link[dplyr:transmute]{dplyr::transmute()}}, and \code{\link[data.table:assign]{data.table::let()}}.
 }
-\section{Functions}{
-\itemize{
-\item \code{add()}: Return the \emph{new data}.
-
-You need to assign the new data to an object:
-
-\preformatted{data = add(data, {...})}
-
-\item \code{added()}: Return nothing and \emph{change the raw data immediately}.
-
-NO need to assign the new data:
-
-\preformatted{added(data, {...})}
-
-}}
 \examples{
 ## ====== Usage 1: add() ====== ##
 

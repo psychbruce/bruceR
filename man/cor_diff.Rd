@@ -7,11 +7,11 @@
 cor_diff(r1, n1, r2, n2, n = NULL, rcov = NULL)
 }
 \arguments{
-\item{r1, r2}{Correlation coefficients (Pearson's \emph{r}).}
+\item{r1, r2}{Correlation coefficients (Pearson's \eqn{r}).}
 
 \item{n, n1, n2}{Sample sizes.}
 
-\item{rcov}{[Optional] Only for nonindependent \emph{r}s:
+\item{rcov}{[Optional] Only for nonindependent \eqn{r}s:
 
 \code{r1} is r(X,Y),
 

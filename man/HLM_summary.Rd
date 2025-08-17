@@ -9,11 +9,7 @@ HLM_summary(model = NULL, test.rand = FALSE, digits = 3, ...)
 \arguments{
 \item{model}{A model fitted with \code{lmer} or \code{glmer} function using the \code{lmerTest} package.}
 
-\item{test.rand}{[Only for \code{lmer} and \code{glmer}]
-\code{TRUE} or \code{FALSE} (default).
-Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
-which is asymptotically chi-square distributed.
-For large datasets, it is much time-consuming.}
+\item{test.rand}{[Only for \code{lmer} and \code{glmer}] \code{TRUE} or \code{FALSE} (default). Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
@@ -23,7 +19,7 @@ For large datasets, it is much time-consuming.}
 No return value.
 }
 \description{
-NOTE: \code{\link{model_summary}} is preferred.
+NOTE: \code{\link[=model_summary]{model_summary()}} is preferred.
 }
 \examples{
 \donttest{library(lmerTest)
@@ -52,24 +48,18 @@ HLM_summary(hlm.2)
 }
 }
 \references{
-Hox, J. J. (2010).
-\emph{Multilevel analysis: Techniques and applications} (2nd ed.).
-New York, NY: Routledge.
+Hox, J. J. (2010). \emph{Multilevel analysis: Techniques and applications} (2nd ed.). New York, NY: Routledge.
 
-Nakagawa, S., & Schielzeth, H. (2013).
-A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models.
-\emph{Methods in Ecology and Evolution, 4,} 133--142.
+Nakagawa, S., & Schielzeth, H. (2013). A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models. \emph{Methods in Ecology and Evolution, 4,} 133--142.
 
-Xu, R. (2003).
-Measuring explained variation in linear mixed effects models.
-\emph{Statistics in Medicine, 22,} 3527--3541.
+Xu, R. (2003). Measuring explained variation in linear mixed effects models. \emph{Statistics in Medicine, 22,} 3527--3541.
 }
 \seealso{
-\code{\link{print_table}} (print simple table)
+\code{\link[=print_table]{print_table()}} (print simple table)
 
-\code{\link{model_summary}} (highly suggested)
+\code{\link[=model_summary]{model_summary()}} (strongly suggested)
 
-\code{\link{GLM_summary}}
+\code{\link[=GLM_summary]{GLM_summary()}}
 
-\code{\link{regress}}
+\code{\link[=regress]{regress()}}
 }

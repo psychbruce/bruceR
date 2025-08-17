@@ -18,14 +18,14 @@ Invisibly return a list of results.
 }
 \description{
 Multilevel correlations (within-level and between-level).
-For details, see description in \code{\link{HLM_ICC_rWG}}.
+For details, see description in \code{\link[=HLM_ICC_rWG]{HLM_ICC_rWG()}}.
 }
 \examples{
 # see https://psychbruce.github.io/supp/CEM
 
 }
 \seealso{
-\code{\link{Corr}}
+\code{\link[=Corr]{Corr()}}
 
-\code{\link{HLM_ICC_rWG}}
+\code{\link[=HLM_ICC_rWG]{HLM_ICC_rWG()}}
 }

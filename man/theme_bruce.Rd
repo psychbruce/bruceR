@@ -38,20 +38,15 @@ If set to \code{TRUE}, then you should also use \code{element_markdown()} in \co
 
 \item{bg}{Background color of whole plot. Defaults to \code{"white"}.
 You can use any colors or choose from some pre-set color palettes:
-\code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
-
-To see these colors, you can type:
-
-\code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
-solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
+\code{"stata"}, \code{"stata.grey"}, \code{"solar"}, \code{"wsj"}, \code{"light"}, \code{"dust"}.}
 
 \item{panel.bg}{Background color of panel. Defaults to \code{"white"}.}
 
-\item{tag}{Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
+\item{tag}{Font face of tag. Choose from \code{"plain"}, \code{"italic"}, \code{"bold"}, \code{"bold.italic"}.}
 
-\item{plot.title}{Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
+\item{plot.title}{Font face of title. Choose from \code{"plain"}, \code{"italic"}, \code{"bold"}, \code{"bold.italic"}.}
 
-\item{axis.title}{Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.}
+\item{axis.title}{Font face of axis text. Choose from \code{"plain"}, \code{"italic"}, \code{"bold"}, \code{"bold.italic"}.}
 
 \item{title.pos}{Title position (0~1).}
 
@@ -74,22 +69,17 @@ solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}}
 \item{tick.y}{Draw the y-axis ticks. Defaults to \code{TRUE}.}
 }
 \value{
-A theme object that should be used for \code{ggplot2}.
+A \code{theme} object that should be used for \code{ggplot2}.
 }
 \description{
-A nice \code{ggplot2} theme for scientific publication.
-It uses \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
-to render Markdown/HTML formatted rich text.
-You can use a combination of Markdown and/or HTML syntax
-(e.g., \code{"*y* = *x*<sup>2</sup>"}) in plot text or title,
-and this function draws text elements with rich text format.
+A nice \code{ggplot2} theme for scientific publication. It also uses \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}} to render Markdown/HTML formatted rich text. You can use a combination of Markdown and/or HTML syntax (e.g., \code{"*y* = *x*<sup>2</sup>"}) in plot text or title, and this function draws text elements with rich text format.
 
 For more usage, see:
 \itemize{
-  \item \code{\link[ggtext:geom_richtext]{ggtext::geom_richtext()}}
-  \item \code{\link[ggtext:geom_textbox]{ggtext::geom_textbox()}}
-  \item \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
-  \item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
+\item \code{\link[ggtext:geom_richtext]{ggtext::geom_richtext()}}
+\item \code{\link[ggtext:geom_textbox]{ggtext::geom_textbox()}}
+\item \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
+\item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
 }
 }
 \examples{

@@ -5,7 +5,8 @@
 #'
 #' @param formula R formula.
 #'
-#' @return A character string indicating the formula.
+#' @return
+#' A character string indicating the formula.
 #'
 #' @examples
 #' formula_paste(y ~ x)
@@ -23,9 +24,10 @@ formula_paste = function(formula) {
 #' Expand all interaction terms in a formula.
 #'
 #' @param formula R formula or a character string indicating the formula.
-#' @param as.char Return character? Defaults to \code{FALSE}.
+#' @param as.char Return character? Defaults to `FALSE`.
 #'
-#' @return A formula/character object including all expanded terms.
+#' @return
+#' A formula/character object including all expanded terms.
 #'
 #' @examples
 #' formula_expand(y ~ a*b*c)
@@ -49,16 +51,15 @@ formula_expand = function(formula, as.char=FALSE) {
 
 #' Grand-mean centering.
 #'
-#' Compute grand-mean centered variables.
-#' Usually used for GLM interaction-term predictors and HLM level-2 predictors.
+#' Compute grand-mean centered variables. Usually used for GLM interaction-term predictors and HLM level-2 predictors.
 #'
 #' @param data Data object.
 #' @param vars Variable(s) to be centered.
-#' @param std Standardized or not. Defaults to \code{FALSE}.
-#' @param add.suffix The suffix of the centered variable(s).
-#' Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.
+#' @param std Standardized or not. Defaults to `FALSE`.
+#' @param add.suffix The suffix of the centered variable(s). Defaults to `""`. You may set it to `"_c"`, `"_center"`, etc.
 #'
-#' @return A new data object containing the centered variable(s).
+#' @return
+#' A new data object containing the centered variable(s).
 #'
 #' @examples
 #' d = data.table(a=1:5, b=6:10)
@@ -69,7 +70,8 @@ formula_expand = function(formula, as.char=FALSE) {
 #' d.c = grand_mean_center(d, c("a", "b"), add.suffix="_center")
 #' d.c
 #'
-#' @seealso \code{\link{group_mean_center}}
+#' @seealso
+#' [group_mean_center()]
 #'
 #' @export
 grand_mean_center = function(data, vars=names(data),
@@ -85,15 +87,14 @@ grand_mean_center = function(data, vars=names(data),
 
 #' Group-mean centering.
 #'
-#' Compute group-mean centered variables.
-#' Usually used for HLM level-1 predictors.
+#' Compute group-mean centered variables. Usually used for HLM level-1 predictors.
 #'
 #' @inheritParams grand_mean_center
 #' @param by Grouping variable.
-#' @param add.group.mean The suffix of the variable name(s) of group means.
-#' Defaults to \code{"_mean"} (see Examples).
+#' @param add.group.mean The suffix of the variable name(s) of group means. Defaults to `"_mean"` (see Examples).
 #'
-#' @return A new data object containing the centered variable(s).
+#' @return
+#' A new data object containing the centered variable(s).
 #'
 #' @examples
 #' d = data.table(x=1:9, g=rep(1:3, each=3))
@@ -104,7 +105,8 @@ grand_mean_center = function(data, vars=names(data),
 #' d.c = group_mean_center(d, "x", by="g", add.suffix="_c")
 #' d.c
 #'
-#' @seealso \code{\link{grand_mean_center}}
+#' @seealso
+#' [grand_mean_center()]
 #'
 #' @export
 group_mean_center = function(data, vars=setdiff(names(data), by), by,
@@ -130,16 +132,16 @@ group_mean_center = function(data, vars=setdiff(names(data), by), by,
 
 #' Regression analysis.
 #'
-#' NOTE: \code{\link{model_summary}} is preferred.
+#' NOTE: [model_summary()] is preferred.
 #'
 #' @inheritParams GLM_summary
 #' @inheritParams HLM_summary
 #' @param formula Model formula.
 #' @param data Data frame.
-#' @param family [Optional] The same as in \code{glm} and \code{glmer}
-#' (e.g., \code{family=binomial} fits a logistic regression model).
+#' @param family \[Optional\] The same as in `glm` and `glmer` (e.g., `family=binomial` fits a logistic regression model).
 #'
-#' @return No return value.
+#' @return
+#' No return value.
 #'
 #' @examples
 #' \dontrun{
@@ -165,13 +167,13 @@ group_mean_center = function(data, vars=setdiff(names(data), by), by,
 #' }
 #'
 #' @seealso
-#' \code{\link{print_table}} (print simple table)
+#' [print_table()] (print simple table)
 #'
-#' \code{\link{model_summary}} (highly suggested)
+#' [model_summary()] (strongly suggested)
 #'
-#' \code{\link{GLM_summary}}
+#' [GLM_summary()]
 #'
-#' \code{\link{HLM_summary}}
+#' [HLM_summary()]
 #'
 #' @export
 regress = function(
@@ -221,61 +223,46 @@ regress = function(
 }
 
 
-
-
 #### Model Summary ####
 
 
 #' Tidy report of regression models.
 #'
-#' Tidy report of regression models (most model types are supported).
-#' This function uses:
-#' \itemize{
-#'   \item \code{\link[texreg:screenreg]{texreg::screenreg()}}
-#'   \item \code{\link[texreg:htmlreg]{texreg::htmlreg()}}
-#'   \item \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}
-#'   \item \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}
-#'   \item \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}}
-#'   \item \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}
-#' }
+#' Tidy report of regression models (most model types are supported). This function uses:
+#' - [texreg::screenreg()]
+#' - [texreg::htmlreg()]
+#' - [MuMIn::std.coef()]
+#' - [MuMIn::r.squaredGLMM()]
+#' - [performance::r2_mcfadden()]
+#' - [performance::r2_nagelkerke()]
 #'
-#' @param model.list A single model or a list of (various types of) models.
-#' Most types of regression models are supported!
-#' @param std Standardized coefficients? Defaults to \code{FALSE}.
-#' Only applicable to linear models and linear mixed models.
-#' Not applicable to generalized linear (mixed) models.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
-#' @param check If there is only one model in \code{model.list}, it checks for multicollinearity
-#' using \code{\link[performance:check_collinearity]{performance::check_collinearity()}}.
-#' You may turn it off by setting \code{check=FALSE}.
-#' @param zero Display "0" before "."? Defaults to \code{TRUE}.
-#' @param modify.se Replace standard errors.
-#' Useful if you need to replace raw SEs with robust SEs.
-#' New SEs should be provided as a list of numeric vectors.
-#' See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.
-#' @param modify.head Replace model names.
-#' @param line Lines look like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
-#' Only relevant to R Console output.
-#' @param bold The \emph{p}-value threshold below which the coefficients will be formatted in bold.
-#' @param ... Other arguments passed to
-#' \code{\link[texreg:screenreg]{texreg::screenreg()}} or
-#' \code{\link[texreg:htmlreg]{texreg::htmlreg()}}.
+#' @param model.list A single model or a list of (various types of) models. Most types of regression models are supported!
+#' @param std Standardized coefficients? Defaults to `FALSE`. Only applicable to linear models and linear mixed models. Not applicable to generalized linear (mixed) models.
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`).
+#' @param check If there is only one model in `model.list`, it checks for multicollinearity using [performance::check_collinearity()]. You may turn it off by setting `check=FALSE`.
+#' @param zero Display "0" before "."? Defaults to `TRUE`.
+#' @param modify.se Modify standard errors. Useful if you need to change raw SEs to robust SEs. New SEs should be provided as a list of numeric vectors. See usage in [texreg::screenreg()].
+#' @param modify.head Modify model names.
+#' @param line Lines look like true line (`TRUE`) or `=== --- ===` (`FALSE`). Only effective in R Console output.
+#' @param bold The *p*-value threshold below which the coefficients will be formatted in bold.
+#' @param ... Other arguments passed to [texreg::screenreg()] or [texreg::htmlreg()].
 #'
-#' @return Invisibly return the output (character string).
+#' @return
+#' Invisibly return the output (character string).
 #'
 #' @seealso
-#' \code{\link{print_table}} (print simple table)
+#' [print_table()] (print simple table)
 #'
-#' \code{\link{GLM_summary}}
+#' [GLM_summary()]
 #'
-#' \code{\link{HLM_summary}}
+#' [HLM_summary()]
 #'
-#' \code{\link{med_summary}}
+#' [med_summary()]
 #'
-#' \code{\link{lavaan_summary}}
+#' [lavaan_summary()]
 #'
-#' \code{\link{PROCESS}}
+#' [PROCESS()]
 #'
 #' @examples
 #' \donttest{#### Example 1: Linear Model ####
@@ -447,25 +434,28 @@ model_summary = function(
       new.R2.all = NULL
 
     output = sumreg(
-      model.list, file=NULL,
-      leading.zero=zero, digits=digits, bold=bold,
-      custom.model.names=new.model.names,
-      override.coef=new.coef,
-      override.se=new.s.e.,
-      omit.coef=omit,
-      custom.gof.rows=new.R2.all,
-      margin=1,
-      inline.css=FALSE,
-      doctype=TRUE,
-      html.tag=TRUE,
-      head.tag=TRUE,
-      body.tag=TRUE,
-      caption.above=TRUE,
-      caption=NULL,
-      custom.note="",
-      include.loglik=FALSE,
-      include.deviance=FALSE,
-      beside=TRUE,  # for 'multinom' models
+      model.list,
+      file = NULL,
+      leading.zero = zero,
+      digits = digits,
+      bold = bold,
+      custom.model.names = new.model.names,
+      override.coef = new.coef,
+      override.se = new.s.e.,
+      omit.coef = omit,
+      custom.gof.rows = new.R2.all,
+      margin = 1,
+      inline.css = FALSE,
+      doctype = TRUE,
+      html.tag = TRUE,
+      head.tag = TRUE,
+      body.tag = TRUE,
+      caption.above = TRUE,
+      caption = NULL,
+      custom.note = "",
+      include.loglik = FALSE,
+      include.deviance = FALSE,
+      beside = TRUE,  # for 'multinom' models
       ...)
   })
 
@@ -533,29 +523,34 @@ model_summary = function(
 }
 
 
-
-
 #### GLM Functions ####
 
 
-#' Tidy report of GLM (\code{lm} and \code{glm} models).
+#' Tidy report of GLM (`lm` and `glm` models).
 #'
-#' NOTE: \code{\link{model_summary}} is preferred.
+#' NOTE: [model_summary()] is preferred.
 #'
-#' @param model A model fitted with \code{lm} or \code{glm} function.
-#' @param robust [Only for \code{lm} and \code{glm}]
-#' \code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
-#' \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
-#' It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
-#' For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
+#' @param model A model fitted with `lm` or `glm` function.
+#' @param robust \[Only for `lm` and `glm`\] Robust standard errors. Add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
 #'
-#' *** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.
-#' @param cluster [Only for \code{lm} and \code{glm}]
-#' Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param ... Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.
+#' Options: `FALSE` (default), `TRUE` (`"HC1"`), `"HC0"`, `"HC1"`, `"HC2"`, `"HC3"`, `"HC4"`, `"HC4m"`, `"HC5"`. For details, see [sandwich::vcovHC()] and [jtools::summ.lm()].
 #'
-#' @return No return value.
+#' Note: `"HC1"` is the default of Stata, while `"HC3"` is the default suggested by the `sandwich` package.
+#' @param cluster \[Only for `lm` and `glm`\] Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param ... Other arguments. You may re-define `formula`, `data`, or `family`.
+#'
+#' @return
+#' No return value.
+#'
+#' @seealso
+#' [print_table()] (print simple table)
+#'
+#' [model_summary()] (strongly suggested)
+#'
+#' [HLM_summary()]
+#'
+#' [regress()]
 #'
 #' @examples
 #' \donttest{## Example 1: OLS regression
@@ -571,15 +566,6 @@ model_summary = function(
 #' GLM_summary(glm)
 #' GLM_summary(glm, robust="HC1", cluster="stratum")
 #' }
-#' @seealso
-#' \code{\link{print_table}} (print simple table)
-#'
-#' \code{\link{model_summary}} (highly suggested)
-#'
-#' \code{\link{HLM_summary}}
-#'
-#' \code{\link{regress}}
-#'
 #' @export
 GLM_summary = function(model, robust=FALSE, cluster=NULL,
                        digits=3, ...) {
@@ -732,8 +718,6 @@ GLM_summary = function(model, robust=FALSE, cluster=NULL,
 }
 
 
-
-
 #### HLM Functions ####
 
 
@@ -791,48 +775,33 @@ HLM_ICC = function(model, digits=3) {
 }
 
 
-#' Tidy report of HLM (\code{lmer} and \code{glmer} models).
+#' Tidy report of HLM (`lmer` and `glmer` models).
 #'
-#' @description
-#' NOTE: \code{\link{model_summary}} is preferred.
+#' NOTE: [model_summary()] is preferred.
 #'
-## @details
-## Hierarchical Linear Model (HLM), also known as Multilevel Linear Model (MLM) or Linear Mixed Model (LMM).
-## Predictor variables at different levels may have five types:
-## \describe{
-##   \item{1. Intercept}{The overall intercept (\eqn{\gamma_{00}})}
-##   \item{2. L1fixed}{Level-1 predictor with \strong{fixed} slope}
-##   \item{3. L1random-GROUP-L1VAR}{Level-1 predictor with \strong{random} slopes nested with a grouping/clustering variable}
-##   \item{4. L2-GROUP}{Level-2 predictor (e.g., GDP per capita at city level), always with \strong{fixed} slope unless there is also a level-3 structure.
-##
-##   *** NOTE: the current version of \code{'HLM_summary'} function does not consider three-levels design, so you may only use this function in two-levels HLM or cross-classified HLM.}
-##   \item{5. Cross-GROUP-L1VAR}{Cross-level interaction consisting of level-1 and level-2 predictors}
-## }
-## The degrees of freedom (\emph{df}) of predictor variables in HLM vary across different levels and also depend on the variable types.
-## However, different software use different estimation methods and thus provide somewhat different \emph{df}s, which may be confusing.
-## Whereas the \code{lmerTest} package in R provides \emph{df}s that are estimated by the Satterthwaite's (1946) approximation (i.e., a data-driven approach without defining variable types),
-## the \code{HLM} software provides \emph{df}s that totally depend on the variable types (i.e., a theory-driven approach).
+#' @param model A model fitted with `lmer` or `glmer` function using the `lmerTest` package.
+#' @param test.rand \[Only for `lmer` and `glmer`\] `TRUE` or `FALSE` (default). Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param ... Other arguments. You may re-define `formula`, `data`, or `family`.
 #'
-#' @param model A model fitted with \code{lmer} or \code{glmer} function using the \code{lmerTest} package.
-## @param level2.predictors \strong{[Only for \code{lmer}]} [Optional] Defaults to \code{NULL}.
-## If you have predictors at level 2,
-## you may also specify the level-2 grouping/clustering variables
-## and the corresponding level-2 predictor variables.
-##
-## *** Example: \code{level2.predictors="School: W1 + W2; House: 1"},
-## where \code{School} and \code{House} are two grouping variables,
-## \code{W1 & W2} are school-level predictors,
-## and there is no house-level predictor.
-## @param vartypes \strong{[Only for \code{lmer}]} Manually setting variable types. Needless in most situations.
-#' @param test.rand [Only for \code{lmer} and \code{glmer}]
-#' \code{TRUE} or \code{FALSE} (default).
-#' Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
-#' which is asymptotically chi-square distributed.
-#' For large datasets, it is much time-consuming.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param ... Other arguments. You may re-define \code{formula}, \code{data}, or \code{family}.
+#' @return
+#' No return value.
 #'
-#' @return No return value.
+#' @references
+#' Hox, J. J. (2010). *Multilevel analysis: Techniques and applications* (2nd ed.). New York, NY: Routledge.
+#'
+#' Nakagawa, S., & Schielzeth, H. (2013). A general and simple method for obtaining *R*^2 from generalized linear mixed-effects models. *Methods in Ecology and Evolution, 4,* 133--142.
+#'
+#' Xu, R. (2003). Measuring explained variation in linear mixed effects models. *Statistics in Medicine, 22,* 3527--3541.
+#'
+#' @seealso
+#' [print_table()] (print simple table)
+#'
+#' [model_summary()] (strongly suggested)
+#'
+#' [GLM_summary()]
+#'
+#' [regress()]
 #'
 #' @examples
 #' \donttest{library(lmerTest)
@@ -859,28 +828,6 @@ HLM_ICC = function(model, digits=3) {
 #' HLM_summary(hlm.1)
 #' HLM_summary(hlm.2)
 #' }
-#' @references
-#' Hox, J. J. (2010).
-#' \emph{Multilevel analysis: Techniques and applications} (2nd ed.).
-#' New York, NY: Routledge.
-#'
-#' Nakagawa, S., & Schielzeth, H. (2013).
-#' A general and simple method for obtaining \emph{R}^2 from generalized linear mixed-effects models.
-#' \emph{Methods in Ecology and Evolution, 4,} 133--142.
-#'
-#' Xu, R. (2003).
-#' Measuring explained variation in linear mixed effects models.
-#' \emph{Statistics in Medicine, 22,} 3527--3541.
-#'
-#' @seealso
-#' \code{\link{print_table}} (print simple table)
-#'
-#' \code{\link{model_summary}} (highly suggested)
-#'
-#' \code{\link{GLM_summary}}
-#'
-#' \code{\link{regress}}
-#'
 #' @export
 HLM_summary = function(
     model=NULL,
@@ -1098,87 +1045,64 @@ HLM_summary = function(
 
 #' Tidy report of HLM indices: ICC(1), ICC(2), and rWG/rWG(J).
 #'
-#' @description
-#' Compute ICC(1) (non-independence of data),
-#' ICC(2) (reliability of group means),
-#' and \eqn{r_{WG}}/\eqn{r_{WG(J)}} (within-group agreement for single-item/multi-item measures)
-#' in multilevel analysis (HLM).
+#' Compute ICC(1) (non-independence of data), ICC(2) (reliability of group means), and \eqn{r_{WG} / r_{WG(J)}} (within-group agreement for single-item/multi-item measures) in multilevel analysis (HLM).
 #'
-#' @details
-#' \describe{
-#'   \item{\strong{ICC(1) (intra-class correlation, or non-independence of data)}}{
-#'     ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2)}
+#' # Statistical Details
 #'
-#'     ICC(1) is the ICC we often compute and report in multilevel analysis
-#'     (usually in the Null Model, where only the random intercept of group is included).
-#'     It can be interpreted as either \strong{"the proportion of variance explained by groups"} (i.e., \emph{heterogeneity} between groups)
-#'     or \strong{"the expectation of correlation coefficient between any two observations within any group"} (i.e., \emph{homogeneity} within groups).
-#'   }
-#'   \item{\strong{ICC(2) (reliability of group means)}}{
-#'     ICC(2) = mean(var.u0 / (var.u0 + var.e / n.k)) = \eqn{\Sigma[\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2 / n_k)] / K}
+#' ## ICC(1) (intra-class correlation, or non-independence of data)
 #'
-#'     ICC(2) is a measure of \strong{"the representativeness of group-level aggregated means for within-group individual values"}
-#'     or \strong{"the degree to which an individual score can be considered a reliable assessment of a group-level construct"}.
-#'   }
-#'   \item{\strong{\eqn{r_{WG}}/\eqn{r_{WG(J)}} (within-group agreement for single-item/multi-item measures)}}{
-#'     \eqn{r_{WG} = 1 - \sigma^2 / \sigma_{EU}^2}
+#' ICC(1) = var.u0 / (var.u0 + var.e) = \eqn{\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2)}
 #'
-#'     \eqn{r_{WG(J)} = 1 - (\sigma_{MJ}^2 / \sigma_{EU}^2) / [J * (1 - \sigma_{MJ}^2 / \sigma_{EU}^2) + \sigma_{MJ}^2 / \sigma_{EU}^2]}
+#' ICC(1) is the ICC we often compute and report in multilevel analysis (usually in the Null Model, where only the random intercept of group is included). It can be interpreted as either **"the proportion of variance explained by groups"** (i.e., *heterogeneity* between groups) or **"the expectation of correlation coefficient between any two observations within any group"** (i.e., *homogeneity* within groups).
 #'
-#'     \eqn{r_{WG}}/\eqn{r_{WG(J)}} is a measure of within-group agreement or consensus. Each group has an \eqn{r_{WG}}/\eqn{r_{WG(J)}}.
-#'   }
-#'   \item{* Note for the above formulas}{
-#'   \itemize{
-#'     \item \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
-#'     \item \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
-#'     \item \eqn{n_k}: group size of the k-th group
-#'     \item \eqn{K}: number of groups
-#'     \item \eqn{\sigma^2}: actual group variance of the k-th group
-#'     \item \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
-#'     \item \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
-#'     \item \eqn{J}: number of items
-#'   }
-#'   }
-#' }
+#' ## ICC(2) (reliability of group means)
+#'
+#' ICC(2) = mean(var.u0 / (var.u0 + var.e / n.k)) = \eqn{\Sigma[\sigma_{u0}^2 / (\sigma_{u0}^2 + \sigma_{e}^2 / n_k)] / K}
+#'
+#' ICC(2) is a measure of **"the representativeness of group-level aggregated means for within-group individual values"** or **"the degree to which an individual score can be considered a reliable assessment of a group-level construct"**.
+#'
+#' ## \eqn{r_{WG}}/\eqn{r_{WG(J)}} (within-group agreement for single-item/multi-item measures)
+#'
+#' \eqn{r_{WG} = 1 - \sigma^2 / \sigma_{EU}^2}
+#'
+#' \eqn{r_{WG(J)} = 1 - (\sigma_{MJ}^2 / \sigma_{EU}^2) / [J * (1 - \sigma_{MJ}^2 / \sigma_{EU}^2) + \sigma_{MJ}^2 / \sigma_{EU}^2]}
+#'
+#' \eqn{r_{WG} / r_{WG(J)}} is a measure of within-group agreement or consensus. Each group has an \eqn{r_{WG} / r_{WG(J)}}.
+#'
+#' ## Notes for the above formulas
+#'
+#' - \eqn{\sigma_{u0}^2}: between-group variance (i.e., tau00)
+#' - \eqn{\sigma_{e}^2}: within-group variance (i.e., residual variance)
+#' - \eqn{n_k}: group size of the k-th group
+#' - \eqn{K}: number of groups
+#' - \eqn{\sigma^2}: actual group variance of the k-th group
+#' - \eqn{\sigma_{MJ}^2}: mean value of actual group variance of the k-th group across all J items
+#' - \eqn{\sigma_{EU}^2}: expected random variance (i.e., the variance of uniform distribution)
+#' - \eqn{J}: number of items
 #'
 #' @param data Data frame.
 #' @param group Grouping variable.
 #' @param icc.var Key variable for analysis (usually the dependent variable).
-#' @param rwg.vars Defaults to \code{icc.var}. It can be:
-#' \itemize{
-#'   \item A single variable (\emph{single-item} measure), then computing rWG.
-#'   \item Multiple variables (\emph{multi-item} measure), then computing rWG(J), where J = the number of items.
-#' }
-#' @param rwg.levels As \eqn{r_{WG}}/\eqn{r_{WG(J)}} compares the actual group variance to the expected random variance (i.e., the variance of uniform distribution, \eqn{\sigma_{EU}^2}),
-#' it is required to specify which type of uniform distribution is.
-#' \itemize{
-#'   \item For \emph{continuous} uniform distribution, \eqn{\sigma_{EU}^2 = (max - min)^2 / 12}.
-#'   Then \code{rwg.levels} is not useful and will be set to \code{0} (the default).
-#'   \item For \emph{discrete} uniform distribution, \eqn{\sigma_{EU}^2 = (A^2 - 1) / 12},
-#'   where A is the number of response options (levels).
-#'   Then \code{rwg.levels} should be provided (= A in the above formula).
-#'   For example, if the measure is a 5-point Likert scale, you should set \code{rwg.levels=5}.
-#' }
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
+#' @param rwg.vars Defaults to `icc.var`. It can be:
+#' - A single variable (*single-item* measure), then computing rWG.
+#' - Multiple variables (*multi-item* measure), then computing rWG(J), where J = the number of items.
+#' @param rwg.levels As \eqn{r_{WG} / r_{WG(J)}} compares the actual group variance to the expected random variance (i.e., the variance of uniform distribution, \eqn{\sigma_{EU}^2}), it is required to specify which type of uniform distribution is.
+#' - For *continuous* uniform distribution, \eqn{\sigma_{EU}^2 = (max - min)^2 / 12}. Then `rwg.levels` is not useful and will be set to `0` (default).
+#' - For *discrete* uniform distribution, \eqn{\sigma_{EU}^2 = (A^2 - 1) / 12}, where A is the number of response options (levels). Then `rwg.levels` should be provided (= A in the above formula). For example, if the measure is a 5-point Likert scale, you should set `rwg.levels=5`.
+#' @param digits Number of decimal places of output. Defaults to `3`.
 #'
-#' @return Invisibly return a list of results.
+#' @return
+#' Invisibly return a list of results.
 #'
 #' @references
-#' Bliese, P. D. (2000).
-#' Within-group agreement, non-independence, and reliability:
-#' Implications for data aggregation and Analysis.
-#' In K. J. Klein & S. W. Kozlowski (Eds.),
-#' \emph{Multilevel theory, research, and methods in organizations} (pp. 349--381).
-#' San Francisco, CA: Jossey-Bass, Inc.
+#' Bliese, P. D. (2000). Within-group agreement, non-independence, and reliability: Implications for data aggregation and Analysis. In K. J. Klein & S. W. Kozlowski (Eds.), *Multilevel theory, research, and methods in organizations* (pp. 349--381). San Francisco, CA: Jossey-Bass, Inc.
 #'
-#' James, L.R., Demaree, R.G., & Wolf, G. (1984).
-#' Estimating within-group interrater reliability with and without response bias.
-#' \emph{Journal of Applied Psychology, 69}, 85--98.
+#' James, L.R., Demaree, R.G., & Wolf, G. (1984). Estimating within-group interrater reliability with and without response bias. *Journal of Applied Psychology, 69*, 85--98.
 #'
 #' @seealso
-#' \code{\link{cor_multilevel}}
+#' [cor_multilevel()]
 #'
-#' \href{https://CRAN.R-project.org/package=multilevel}{R package "multilevel"}
+#' [R package `multilevel`](https://CRAN.R-project.org/package=multilevel)
 #'
 #' @examples
 #' \donttest{data = lme4::sleepstudy  # continuous variable
@@ -1283,5 +1207,4 @@ HLM_ICC_rWG = function(data, group, icc.var,
 
   invisible(list(ICC1=ICC1, ICC2=ICC2, rwg=rwg.out))
 }
-
 

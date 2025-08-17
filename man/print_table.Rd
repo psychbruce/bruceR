@@ -20,39 +20,31 @@ print_table(
 )
 }
 \arguments{
-\item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm, glm, lmer, glmer, ...}).}
+\item{x}{Matrix, data.frame (or data.table), or any model object (e.g., \code{lm}, \code{glm}, \code{lmer}, \code{glmer}, ...).}
 
 \item{digits}{Numeric vector specifying the number of decimal places of output. Defaults to \code{3}.}
 
 \item{nspaces}{Number of whitespaces between columns. Defaults to \code{1}.}
 
-\item{row.names, col.names}{Print row/column names. Defaults to \code{TRUE} (column names are always printed).
-To modify the names, you can use a character vector with the same length as the raw names.}
+\item{row.names, col.names}{Print row/column names. Defaults to \code{TRUE} (column names are always printed). To modify the names, you can use a character vector with the same length as the raw names.}
 
-\item{title}{Title text, which will be inserted in <p></p> (HTML code).}
+\item{title}{Title text, which will be inserted in \verb{<p></p>} (HTML code).}
 
-\item{note}{Note text, which will be inserted in <p></p> (HTML code).}
+\item{note}{Note text, which will be inserted in \verb{<p></p>} (HTML code).}
 
 \item{append}{Other contents, which will be appended in the end (HTML code).}
 
-\item{line}{Lines looks like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).}
+\item{line}{Lines looks like true line (\code{TRUE}) or \verb{=== --- ===} (\code{FALSE}).}
 
 \item{file}{File name of MS Word (\code{.doc}).}
 
-\item{file.align.head, file.align.text}{Alignment of table head or table text:
-\code{"left"}, \code{"right"}, \code{"center"}.
-Either one value of them OR a character vector of mixed values
-with the same length as the table columns.
-Default alignment (if set as \code{"auto"}):
-left, right, right, ..., right.}
+\item{file.align.head, file.align.text}{Alignment of table head or table text: \code{"left"}, \code{"right"}, \code{"center"}. Either one value of them OR a character vector of mixed values with the same length as the table columns. Default alignment (if set as \code{"auto"}): left, right, right, ..., right.}
 }
 \value{
 Invisibly return a list of data frame and HTML code.
 }
 \description{
-This basic function prints any data frame as a three-line table
-to either R Console or Microsoft Word (.doc).
-It has been used in many other functions of \code{bruceR} (see below).
+This basic function prints any data frame as a three-line table to either R Console or Microsoft Word (.doc). It has been used in many other functions of \code{bruceR} (see below).
 }
 \examples{
 print_table(data.frame(x=1))
@@ -65,22 +57,4 @@ print_table(model)
 print_table(model, file="model.doc")
 unlink("model.doc")  # delete file for code check
 
-}
-\seealso{
-These functions have implemented MS Word file output using this function:
-\itemize{
-  \item \code{\link{Describe}}
-  \item \code{\link{Freq}}
-  \item \code{\link{Corr}}
-  \item \code{\link{EFA}} / \code{\link{PCA}}
-  \item \code{\link{CFA}}
-  \item \code{\link{TTEST}}
-  \item \code{\link{MANOVA}}
-  \item \code{\link{model_summary}}
-  \item \code{\link{med_summary}}
-  \item \code{\link{lavaan_summary}}
-  \item \code{\link{PROCESS}}
-  \item \code{\link{granger_test}}
-  \item \code{\link{granger_causality}}
-}
 }

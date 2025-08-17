@@ -1,7 +1,6 @@
 #### Demo Data ####
 
 
-# library(rio)
 # between.1 = import("data-raw/between.1.sav", haven=F); names(between.1)[2]="SCORE"
 # between.2 = import("data-raw/between.2.sav", haven=F)
 # between.3 = import("data-raw/between.3.sav", haven=F)
@@ -25,36 +24,35 @@
 #' Demo data.
 #'
 #' @description
-#' Demo datasets of multi-factor ANOVA as examples to show how the functions
-#' \code{\link{MANOVA}} and \code{\link{EMMEANS}} work.
+#' Demo datasets of multi-factor ANOVA as examples to show how the functions [MANOVA()] and [EMMEANS()] work.
 #'
 #' @format
 #' \describe{
-#'   \item{\strong{1. Between-Subjects Design}}{
+#'   \item{**1. Between-Subjects Design**}{
 #'     \itemize{
-#'       \item \code{between.1} - A(4)
-#'       \item \code{between.2} - A(2) * B(3)
-#'       \item \code{between.3} - A(2) * B(2) * C(2)
+#'       \item `between.1` - A(4)
+#'       \item `between.2` - A(2) * B(3)
+#'       \item `between.3` - A(2) * B(2) * C(2)
 #'     }
 #'   }
-#'   \item{\strong{2. Within-Subjects Design}}{
+#'   \item{**2. Within-Subjects Design**}{
 #'     \itemize{
-#'       \item \code{within.1} - A(4)
-#'       \item \code{within.2} - A(2) * B(3)
-#'       \item \code{within.3} - A(2) * B(2) * C(2)
+#'       \item `within.1` - A(4)
+#'       \item `within.2` - A(2) * B(3)
+#'       \item `within.3` - A(2) * B(2) * C(2)
 #'     }
 #'   }
-#'   \item{\strong{3. Mixed Design}}{
+#'   \item{**3. Mixed Design**}{
 #'     \itemize{
-#'       \item \code{mixed.2_1b1w} - A(2, between) * B(3, within)
-#'       \item \code{mixed.3_1b2w} - A(2, between) * B(2, within) * C(2, within)
-#'       \item \code{mixed.3_2b1w} - A(2, between) * B(2, within) * C(2, between)
+#'       \item `mixed.2_1b1w` - A(2, between) * B(3, within)
+#'       \item `mixed.3_1b2w` - A(2, between) * B(2, within) * C(2, within)
+#'       \item `mixed.3_2b1w` - A(2, between) * B(2, within) * C(2, between)
 #'     }
 #'   }
 #' }
 #'
 #' @source
-#' \href{https://book.douban.com/subject/1195181/}{Multi-Factor Experimental Design in Psychology and Education}
+#' [Multi-Factor Experimental Design in Psychology and Education](https://book.douban.com/subject/1195181/)
 #'
 #' @name bruceR-demodata
 #' @keywords internal
@@ -63,8 +61,6 @@
 #' mixed.2_1b1w mixed.3_1b2w mixed.3_2b1w
 #' within.1 within.2 within.3
 NULL
-
-
 
 
 #### MANOVA ####
@@ -119,120 +115,94 @@ fix_long_data = function(data.long, ivs) {
 
 #' Multi-factor ANOVA.
 #'
-#' @description
-#' Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
-#' with and without covariates (ANCOVA).
+#' Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs), with and without covariates (ANCOVA). This function is based on and extends [afex::aov_ez()]. You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects). Almost all results you need will be displayed together, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs). 90% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004). In addition, it reports generalized \eqn{\eta^2}, following Olejnik & Algina (2003).
 #'
-#' This function is based on and extends \code{\link[afex:aov_car]{afex::aov_ez()}}.
-#' You only need to specify the data, dependent variable(s), and factors
-#' (between-subjects and/or within-subjects).
-#' Almost all results you need will be displayed together,
-#' including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
-#' 90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004).
-#' In addition to partial \eqn{\eta^2}, it also reports generalized \eqn{\eta^2}, following Olejnik & Algina (2003).
+#' # Data Preparation
 #'
-#' How to prepare your data and specify the arguments of \code{MANOVA}?
-#' \itemize{
-#'   \item \strong{Wide-format data} (one person in one row, and repeated measures in multiple columns):
+#' How to prepare your data and specify the arguments of [MANOVA()]?
+#' - _**Wide-format data**_ (one person in one row, and repeated measures in multiple columns):
 #'   \describe{
-#'     \item{Betweem-subjects design}{\code{MANOVA(data=, dv=, between=, ...)}}
-#'     \item{Within-subjects design}{\code{MANOVA(data=, dvs=, dvs.pattern=, within=, ...)}}
-#'     \item{Mixed design}{\code{MANOVA(data=, dvs=, dvs.pattern=, between=, within=, ...)}}
+#'     \item{Betweem-subjects design}{`MANOVA(data=, dv=, between=, ...)`}
+#'     \item{Within-subjects design}{`MANOVA(data=, dvs=, dvs.pattern=, within=, ...)`}
+#'     \item{Mixed design}{`MANOVA(data=, dvs=, dvs.pattern=, between=, within=, ...)`}
 #'   }
-#'   \item \strong{Long-format data} (one person in multiple rows, and repeated measures in one column):
+#' - _**Long-format data**_ (one person in multiple rows, and repeated measures in one column):
 #'   \describe{
 #'     \item{Betweem-subjects design}{(not applicable)}
-#'     \item{Within-subjects design}{\code{MANOVA(data=, subID=, dv=, within=, ...)}}
-#'     \item{Mixed design}{\code{MANOVA(data=, subID=, dv=, between=, within=, ...)}}
+#'     \item{Within-subjects design}{`MANOVA(data=, subID=, dv=, within=, ...)`}
+#'     \item{Mixed design}{`MANOVA(data=, subID=, dv=, between=, within=, ...)`}
 #'   }
-#' }
 #'
-#' @details
-#' If observations are not uniquely identified in user-defined long-format data,
-#' the function takes averages across those multiple observations for each case.
-#' In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex:aov_car]{afex::aov_ez()}}
-#' and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
+#' # Averaging Across Multiple Observations
 #'
-#' @param data Data frame. Both \strong{wide-format} and \strong{long-format} are supported.
-#' @param subID Subject ID (the column name). Only necessary for \strong{long-format} data.
+#' If observations are not uniquely identified in user-defined long-format data, the function takes averages across those multiple observations for each case. In technical details, it specifies `fun_aggregate=mean` in [afex::aov_ez()] and `values_fn=mean` in [tidyr::pivot_wider()].
+#'
+#' # Interaction Plot
+#'
+#' You can save the returned object and use [emmeans::emmip()] to create an interaction plot (based on the fitted model and a formula specification). It returns a `ggplot` object, which can be easily modified and saved using `ggplot2` syntax.
+#'
+#' @param data Data frame. Both *wide-format* and *long-format* are supported.
+#' @param subID Subject ID (the column name). Only necessary for *long-format* data.
 #' @param dv Dependent variable.
-#' \itemize{
-#'   \item For \strong{wide-format} data, \code{dv} only can be used for between-subjects designs.
-#'   For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
-#'   \item For \strong{long-format} data, \code{dv} is the outcome variable.
-#' }
-#' @param dvs Repeated measures. Only for \strong{wide-format} data (within-subjects or mixed designs).
+#' - For *wide-format* data, `dv` only can be used for between-subjects designs.
+#'   For within-subjects and mixed designs, please use `dvs` and `dvs.pattern`.
+#' - For *long-format* data, `dv` is the outcome variable.
+#' @param dvs Repeated measures. Only for *wide-format* data (within-subjects or mixed designs).
 #'
 #' Can be:
-#' \itemize{
-#'   \item \code{"start:stop"} to specify the range of variables
+#' - `"start:stop"` to specify the range of variables
 #'   (sensitive to the order of variables):
 #'
-#'   e.g., \code{"A1B1:A2B3"} is matched to all variables in the data
-#'   between \code{"A1B1"} and \code{"A2B3"}
+#'   e.g., `"A1B1:A2B3"` is matched to all variables in the data
+#'   between `"A1B1"` and `"A2B3"`
 #'
-#'   \item a character vector to directly specify variables
+#' - a character vector to directly specify variables
 #'   (insensitive to the order of variables):
 #'
-#'   e.g., \code{c("Cond1", "Cond2", "Cond3")} or \code{cc("Cond1, Cond2, Cond3")}
+#'   e.g., `c("Cond1", "Cond2", "Cond3")` or `cc("Cond1, Cond2, Cond3")`
 #'
-#'   See \code{\link{cc}} for its usage.
-#' }
-#' @param dvs.pattern If you use \code{dvs}, you should also specify the pattern of variable names
-#' using \emph{regular expression}.
+#'   See [cc()] for its usage.
+#' @param dvs.pattern If you use `dvs`, you should also specify the pattern of variable names using *regular expression*.
 #'
 #' Examples:
-#' \itemize{
-#'   \item \code{"Cond(.)"} extracts levels from \code{"Cond1", "Cond2", "Cond3", ...}
-#'   You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
-#'   \item \code{"X(..)Y(..)"} extracts levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
-#'   \item \code{"X(.+)Y(.+)"} extracts levels from \code{"X1Y1", "XaYb", "XaY002", ...}
-#' }
+#' - `"Cond(.)"` extracts levels from `"Cond1", "Cond2", "Cond3", ...`
+#'   You may rename the factor using the `within` argument (e.g., `within="Condition"`)
+#' - `"X(..)Y(..)"` extracts levels from `"X01Y01", "X02Y02", "XaaYbc", ...`
+#' - `"X(.+)Y(.+)"` extracts levels from `"X1Y1", "XaYb", "XaY002", ...`
 #'
 #' Tips on regular expression:
-#' \itemize{
-#'   \item \code{"(.)"} extracts any single character (number, letter, and other symbols)
-#'   \item \code{"(.+)"} extracts >= 1 character(s)
-#'   \item \code{"(.*)"} extracts >= 0 character(s)
-#'   \item \code{"([0-9])"} extracts any single number
-#'   \item \code{"([a-z])"} extracts any single letter
-#'   \item More information: \href{https://regexr.com/}{Link 1 (in English)} and
-#'         \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{Link 2 (in Chinese)}
-#' }
+#' - `"(.)"` extracts any single character (number, letter, and other symbols)
+#' - `"(.+)"` extracts >= 1 character(s)
+#' - `"(.*)"` extracts >= 0 character(s)
+#' - `"([0-9])"` extracts any single number
+#' - `"([a-z])"` extracts any single letter
+#' @param between Between-subjects factor(s). Multiple variables should be included in a character vector [c()].
+#' @param within Within-subjects factor(s). Multiple variables should be included in a character vector [c()].
+#' @param covariate Covariates. Multiple variables should be included in a character vector [c()].
+#' @param ss.type Type of sums of squares (SS) for ANOVA. Defaults to `"III"`.
 #'
-#' @param between Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
-#' @param within Within-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.
-#' @param covariate Covariates. Multiple variables should be included in a character vector \code{c()}.
-#' @param ss.type Type of sums of squares (SS) for ANOVA. Defaults to \code{"III"}.
-#' Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.
-#' @param sph.correction [Only for repeated measures with >= 3 levels]
+#' Options: `"II"`, `"III"`, `2`, and `3`.
+#' @param sph.correction \[Only for repeated measures with >= 3 levels\]
 #'
-#' Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Defaults to \code{"none"}.
-#' If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).
-#' @param aov.include Include the \code{aov} object in the returned object?
-#' Defaults to \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
-#' (please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
-#' If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
-## @param which.observed \strong{[only effective for computing generalized \eqn{\eta^2}]}
-##
-## Factors that are observed or measured (e.g., gender, age group, measured covariates) but not experimentally manipulated. Defaults to \code{NULL}.
-## The generalized \eqn{\eta^2} requires correct specification of the observed (vs. manipulated) variables.
-## (If all the variables in \code{between} and \code{within} are set to \code{observed}, then generalized \eqn{\eta^2} will be equal to \eqn{\eta^2}.)
+#' Sphericity correction method for adjusting the degrees of freedom (*df*) when the sphericity assumption is violated. Defaults to `"none"`. If Mauchly's test of sphericity is significant, you may set it to `"GG"` (Greenhouse-Geisser) or `"HF"` (Huynh-Feldt).
+#' @param aov.include Include the `aov` object in the returned object? Defaults to `FALSE`, as suggested by [afex::aov_ez()] (please see the `include_aov` argument in this help page, which provides a detailed explanation). If `TRUE`, you should also specify `model.type="univariate"` in [EMMEANS()].
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`).
 #'
 #' @return
-#' A result object (list) returned by
-#' \code{\link[afex:aov_car]{afex::aov_ez()}},
-#' along with several other elements:
-#' \code{between}, \code{within},
-#' \code{data.wide}, \code{data.long}.
+#' A result object (list) returned by [afex::aov_ez()] with several other elements: `between`, `within`, `data.wide`, `data.long`.
 #'
-#' @section Interaction Plot:
-#' You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
-#' to create an interaction plot (based on the fitted model and a formula specification).
-#' For usage, please see the help page of \code{\link[emmeans:emmip]{emmeans::emmip()}}.
-#' It returns an object of class \code{ggplot}, which can be easily modified and saved using \code{ggplot2} syntax.
+#' @references
+#' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs. *Psychological Methods, 8*(4), 434--447.
+#'
+#' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis. *Psychological Methods, 9*(2), 164--182.
+#'
+#' @seealso
+#' [TTEST()]
+#'
+#' [EMMEANS()]
+#'
+#' [`bruceR-demodata`]
 #'
 #' @examples
 #' #### Between-Subjects Design ####
@@ -309,15 +279,6 @@ fix_long_data = function(data.long, ivs) {
 #'        cov="age",
 #'        sph.correction="GG")
 #' }
-#' @references
-#' Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
-#' \emph{Psychological Methods, 8}(4), 434--447.
-#'
-#' Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
-#' \emph{Psychological Methods, 9}(2), 164--182.
-#'
-#' @seealso \code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
-#'
 #' @export
 MANOVA = function(
     data, subID=NULL, dv=NULL,
@@ -410,28 +371,31 @@ MANOVA = function(
     err = TRUE
     suppressMessages({
       aov.ez = afex::aov_ez(
-        data=data.long,
-        id=subID,  # "bruceR.ID"
-        dv=dv,  # "bruceR.Y"
-        between=between,
-        within=within,
-        covariate=covariate,
-        type=ss.type,
-        # observed=which.observed,
-        anova_table=list(correction=sph.correction, es="ges"),
-        fun_aggregate=mean,
-        include_aov=aov.include,
-        factorize=FALSE,
-        print.formula=FALSE)
+        data = data.long,
+        id = subID,  # "bruceR.ID"
+        dv = dv,  # "bruceR.Y"
+        between = between,
+        within = within,
+        covariate = covariate,
+        type = ss.type,
+        # observed = which.observed,
+        anova_table = list(correction=sph.correction, es="ges"),
+        fun_aggregate = mean,
+        include_aov = aov.include,
+        factorize = FALSE,
+        print.formula = FALSE)
     })
     err = FALSE
   }, silent=TRUE)
   if(err) {
     cat("\n")
     stop("
-    Failed to perform MANOVA.
-    Please follow the correct usage.
-    See: help(MANOVA)", call.=FALSE)
+    Cannot perform MANOVA...
+
+    Solutions:
+    1. Ensure you follow its usage: help(MANOVA)
+    2. Update R and all R packages to the latest versions! (always useful)",
+         call.=FALSE)
   }
   at = aov.ez$anova_table
   names(at)[1:2] = c("df1", "df2")
@@ -591,137 +555,79 @@ MANOVA = function(
 
 #' Simple-effect analysis and post-hoc multiple comparison.
 #'
-#' @description
-#' Perform (1) simple-effect (and simple-simple-effect) analyses,
-#' including both simple main effects and simple interaction effects,
-#' and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
-#' with \emph{p} values adjusted for factors with >= 3 levels.
+#' Perform (1) simple-effect (and simple-simple-effect) analyses, including both simple main effects and simple interaction effects, and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with *p* values adjusted for factors with >= 3 levels. This function is based on and extends [emmeans::joint_tests()], [emmeans::emmeans()], and [emmeans::contrast()]. You only need to specify the model object, to-be-tested effect(s), and moderator(s). Almost all results you need will be displayed together, including effect sizes (partial \eqn{\eta^2} and Cohen's *d*) and their confidence intervals (CIs). 90% CIs for partial \eqn{\eta^2} and 95% CIs for Cohen's *d* are reported.
 #'
-#' This function is based on and extends
-#' (1) \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}},
-#' (2) \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, and
-#' (3) \code{\link[emmeans:contrast]{emmeans::contrast()}}.
-#' You only need to specify the model object, to-be-tested effect(s), and moderator(s).
-#' Almost all results you need will be displayed together,
-#' including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
-#' 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
+#' # Disclaimer
 #'
-#' By default, the \emph{root mean square error} (RMSE) is used to compute the pooled \emph{SD} for Cohen's \emph{d}.
-#' Specifically, it uses:
-#' \enumerate{
-#'   \item the square root of \emph{mean square error} (MSE) for between-subjects designs;
-#'   \item the square root of \emph{mean variance of all paired differences of the residuals of repeated measures} for within-subjects and mixed designs.
-#' }
+#' By default, the *root mean square error* (RMSE) is used to compute the pooled *SD* for Cohen's *d*. Specifically, it uses:
+#' 1. the square root of *mean square error* (MSE) for between-subjects designs;
+#' 2. the square root of *mean variance of all paired differences of the residuals of repeated measures* for within-subjects and mixed designs.
 #'
-#' \strong{\emph{Disclaimer}:}
-#' There is substantial disagreement on the appropriate pooled \emph{SD} to use in computing the effect size.
-#' For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
-#' Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
+#' _**Disclaimer**_: There is substantial disagreement on the appropriate pooled *SD* to use in computing the effect size. For alternative methods, see [emmeans::eff_size()] and [effectsize::t_to_d()]. Please *do not* take the default output as the only right results and users are completely responsible for specifying `sd.pooled`.
 #'
-#' @section Interaction Plot (See Examples Below):
-#' You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
-#' to create an interaction plot (based on the fitted model and a formula).
-#' See examples below for the usage.
+#' # Interaction Plot
 #'
-#' Note: \code{\link[emmeans:emmip]{emmeans::emmip()}} returns a \code{ggplot} object,
-#' which can be modified and saved with \code{ggplot2} syntax.
+#' You can save the returned object and use the [emmeans::emmip()] function to create an interaction plot (based on the fitted model and a formula). See examples below for the usage. [emmeans::emmip()] returns a `ggplot` object, which can be modified and saved with `ggplot2` syntax.
 #'
-#' @section Statistical Details:
+#' # Statistical Details
 #'
-#' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
-#' Such a confusion is not uncommon. Here I explain what these terms actually refer to.
-#' \describe{
-#'   \item{\strong{1. Simple Effect}}{
-#'     When we speak of "simple effect", we are referring to ...
-#'     \itemize{
-#'       \item simple main effect
-#'       \item simple interaction effect (only for designs with 3 or more factors)
-#'       \item simple simple effect (only for designs with 3 or more factors)
-#'     }
-#'     When the interaction effect in ANOVA is significant,
-#'     we should then perform a "simple-effect analysis".
-#'     In regression, we call this "simple-slope analysis".
-#'     They are identical in statistical principles.
+#' Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons". Such a confusion is not uncommon. Here I explain what these terms actually refer to.
 #'
-#'     In a two-factors design, we only test \strong{"simple main effect"}.
-#'     That is, at different levels of a factor "B", the main effects of "A" would be different.
-#'     However, in a three-factors (or more) design, we may also test \strong{"simple interaction effect"} and \strong{"simple simple effect"}.
-#'     That is, at different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
+#' ## 1. Simple Effect
 #'
-#'     To note, simple effects \emph{per se} never require \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
-#'   }
-#'   \item{\strong{2. Post-Hoc Test}}{
-#'     The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
-#'     However, these two terms should be distinguished. In many situations,
-#'     "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
-#'     We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
+#' When we speak of "simple effect", we are referring to ...
+#' - simple main effect
+#' - simple interaction effect (only for designs with 3 or more factors)
+#' - simple simple effect (only for designs with 3 or more factors)
 #'
-#'     Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
-#'     In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
-#'   }
-#'   \item{\strong{3. Multiple Comparison}}{
-#'     As mentioned above, multiple comparisons are indeed post-hoc tests but have no relationship with simple-effect analyses.
-#'     Post-hoc multiple comparisons are \strong{independent of} interaction effects and simple effects.
-#'     Furthermore, if a simple main effect contains 3 or more levels, we also need to do multiple comparisons \emph{within} the simple-effect analysis.
-#'     In this situation, we also need \emph{p}-value adjustment with methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+#' When the interaction effect in ANOVA is significant, we should then perform a "simple-effect analysis". In regression, we call this "simple-slope analysis". They are identical in statistical principles.
 #'
-#'     Options for multiple comparison:
-#'     \itemize{
-#'       \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
-#'       \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons
-#'       \item \code{"poly"} - Polynomial contrasts (linear, quadratic, cubic, quartic, ...)
-#'       \item \code{"eff"} - Effect contrasts (vs. the grand mean)
-#'     }
-#'   }
-#' }
+#' In a two-factors design, we only test **"simple main effect"**. That is, at different levels of a factor "B", the main effects of "A" would be different. However, in a three-factors (or more) design, we may also test **"simple interaction effect"** and **"simple simple effect"**. That is, at different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
 #'
-#' @param model The model object returned by \code{\link{MANOVA}}.
-#' @param effect Effect(s) you want to test.
-#' If set to a character string (e.g., \code{"A"}),
-#' it reports the results of omnibus test or simple main effect.
-#' If set to a character vector (e.g., \code{c("A", "B")}),
-#' it also reports the results of simple interaction effect.
-#' @param by Moderator variable(s). Defaults to \code{NULL}.
-#' @param contrast Contrast method for multiple comparisons.
-#' Defaults to \code{"pairwise"}.
+#' To note, simple effects *per se* never require *p*-value adjustment, because what we test in simple-effect analyses are still "omnibus *F*-tests".
 #'
-#' Alternatives can be \code{"pairwise"} (\code{"revpairwise"}),
-#' \code{"seq"} (\code{"consec"}), \code{"poly"}, \code{"eff"}.
-#' For details, see \code{?emmeans::`contrast-methods`}.
-#' @param reverse The order of levels to be contrasted.
-#' Defaults to \code{TRUE} (higher level vs. lower level).
-#' @param p.adjust Adjustment method of \emph{p} values for multiple comparisons.
-#' Defaults to \code{"bonferroni"}.
-#' For polynomial contrasts, defaults to \code{"none"}.
+#' ## 2. Post-Hoc Test
 #'
-#' Alternatives can be \code{"none"}, \code{"fdr"}, \code{"hochberg"},
-#' \code{"hommel"}, \code{"holm"}, \code{"tukey"}, \code{"mvt"},
-#' \code{"dunnettx"}, \code{"sidak"}, \code{"scheffe"}, \code{"bonferroni"}.
-#' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and
-#' \code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.
-#' @param sd.pooled By default, it uses \strong{\code{sqrt(MSE)}} (root mean square error, RMSE)
-#' as the pooled \emph{SD} to compute Cohen's \emph{d}.
-#' Users may specify this argument as the \emph{SD} of a reference group,
-#' or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}.
-#' For an issue about the computation method of Cohen's \emph{d}, see \emph{Disclaimer} above.
-#' @param model.type \code{"multivariate"} returns the results of pairwise comparisons identical to SPSS,
-#' which uses the \code{lm} (rather than \code{aov}) object of the \code{model}
-#' for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
+#' The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests. However, these two terms should be distinguished. In many situations, "post-hoc tests" only refer to **"post-hoc comparisons"** using *t*-tests and some *p*-value adjustment techniques. We need post-hoc comparisons **only when there are factors with 3 or more levels**.
 #'
-#' \code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
-#' (not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
+#' Post-hoc tests are totally **independent of** whether there is a significant interaction effect. **It only deals with factors with multiple levels.** In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
+#'
+#' ## 3. Multiple Comparison
+#'
+#' As mentioned above, multiple comparisons are indeed post-hoc tests but have no relationship with simple-effect analyses. Post-hoc multiple comparisons are **independent of** interaction effects and simple effects. Furthermore, if a simple main effect contains 3 or more levels, we also need to do multiple comparisons *within* the simple-effect analysis. In this situation, we also need *p*-value adjustment with methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+#'
+#' Options for multiple comparison:
+#' - `"pairwise"`: Pairwise comparisons (defaults to "higher level - lower level")
+#' - `"seq"` or `"consec"`: Consecutive (sequential) comparisons
+#' - `"poly"`: Polynomial contrasts (linear, quadratic, cubic, quartic, ...)
+#' - `"eff"`: Effect contrasts (vs. the grand mean)
+#'
+#' @param model The model object returned by [MANOVA()].
+#' @param effect Effect(s) you want to test. If set to a character string (e.g., `"A"`), it reports the results of omnibus test or simple main effect. If set to a character vector (e.g., `c("A", "B")`), it also reports the results of simple interaction effect.
+#' @param by Moderator variable(s). Defaults to `NULL`.
+#' @param contrast Contrast method for multiple comparisons. Defaults to `"pairwise"`.
+#'
+#' Options: `"pairwise"`, `"revpairwise"`, `"seq"`, `"consec"`, `"poly"`, `"eff"`. For details, see [emmeans::contrast-methods].
+#' @param reverse The order of levels to be contrasted. Defaults to `TRUE` (higher level vs. lower level).
+#' @param p.adjust Adjustment method of *p* values for multiple comparisons. Defaults to `"bonferroni"`. For polynomial contrasts, defaults to `"none"`.
+#'
+#' Options: `"none"`, `"fdr"`, `"hochberg"`, `"hommel"`, `"holm"`, `"tukey"`, `"mvt"`, `"dunnettx"`, `"sidak"`, `"scheffe"`, `"bonferroni"`. For details, see [stats::p.adjust()] and [emmeans::summary.emmGrid()].
+#' @param sd.pooled By default, it uses **`sqrt(MSE)`** (root mean square error, RMSE) as the pooled *SD* to compute Cohen's *d*. Users may specify this argument as the *SD* of a reference group, or use [effectsize::sd_pooled()] to obtain a pooled *SD*. For an issue about the computation method of Cohen's *d*, see the _**Disclaimer**_ section.
+#' @param model.type `"multivariate"` returns the results of pairwise comparisons identical to SPSS, which uses the `lm` (rather than `aov`) object of the `model` for [emmeans::joint_tests()] and [emmeans::emmeans()].
+#'
+#' `"univariate"` requires also specifying `aov.include=TRUE` in [MANOVA()], which is not recommended by the `afex` package, see [afex::aov_ez()].
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`).
 #'
 #' @return
-#' The same model object as returned by
-#' \code{\link{MANOVA}} (for recursive use),
-#' along with a list of tables:
-#' \code{sim} (simple effects),
-#' \code{emm} (estimated marginal means),
-#' \code{con} (contrasts).
+#' The same model object as returned by [MANOVA()] (for recursive use), with a list of tables: `sim` (simple effects), `emm` (estimated marginal means), `con` (contrasts). Each `EMMEANS(...)` appends one list to the returned object.
 #'
-#' Each \code{EMMEANS(...)} appends one list to the returned object.
+#' @seealso
+#' [TTEST()]
+#'
+#' [MANOVA()]
+#'
+#' [`bruceR-demodata`]
 #'
 #' @examples
 #' #### Between-Subjects Design ####
@@ -822,8 +728,6 @@ MANOVA = function(
 #'   EMMEANS("Month", contrast="seq") %>%
 #'   EMMEANS("Month", by="Day.1or2", contrast="poly")
 #' }
-#' @seealso \code{\link{TTEST}}, \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
-#'
 #' @export
 EMMEANS = function(
     model, effect=NULL, by=NULL,
@@ -860,9 +764,9 @@ EMMEANS = function(
   # see 'weights' in ?emmeans
   suppressMessages({
     sim = emmeans::joint_tests(
-      object=model, by=by,
-      weights="equal",
-      model=model.type)
+      object = model, by=by,
+      weights = "equal",
+      model = model.type)
   })
   if(is.null(sim))
     stop("`model` or `by` is invalid. Please check your code.\nSee: help(MANOVA)", call.=FALSE)
@@ -893,11 +797,11 @@ EMMEANS = function(
   ## SPSS GLM EMMEANS Univariate/Multivariate Tests
   try({
     phtest = phia::testInteractions(
-      model=model$lm,
-      across=effect,
-      fixed=by,
-      idata=model$Anova$idata,
-      adjustment="none")
+      model = model$lm,
+      across = effect,
+      fixed = by,
+      idata = model$Anova$idata,
+      adjustment = "none")
     if(grepl("Multivariate", attr(phtest, "heading"))) {
       pht = as.data.frame(phtest)[c(
         "test stat",
@@ -935,9 +839,9 @@ EMMEANS = function(
   ## Estimated Marginal Means (emmeans)
   suppressMessages({
     emm0 = emm = emmeans::emmeans(
-      object=model, specs=effect, by=by,
-      weights="equal",
-      model=model.type)
+      object = model, specs=effect, by=by,
+      weights = "equal",
+      model = model.type)
   })
   emm = summary(emm)  # to a data.frame (class 'summary_emm')
   emm$MeanCI = cc_m_ci(emm$emmean, emm$lower.CL, emm$upper.CL, digits)
@@ -955,20 +859,22 @@ EMMEANS = function(
   # see: ?contrast, ?pairs.emmGrid, ?pairwise.emmc
   contr.method = switch(
     contrast,
-    pairwise=,
-    revpairwise="Pairwise Comparisons",
-    consec=,
-    seq="Consecutive (Sequential) Comparisons",
-    poly="Polynomial Contrasts",
-    eff="Effect Contrasts (vs. Grand Mean)",
+    pairwise = ,
+    revpairwise = "Pairwise Comparisons",
+    consec = ,
+    seq = "Consecutive (Sequential) Comparisons",
+    poly = "Polynomial Contrasts",
+    eff = "Effect Contrasts (vs. Grand Mean)",
     "Multiple Comparisons")
   if(contrast=="pairwise" & reverse==TRUE) contrast = "revpairwise"
   if(contrast=="seq") contrast = "consec"
   if(contrast=="consec") reverse = FALSE
   if(contrast=="poly") p.adjust = "none"
   con0 = con = emmeans::contrast(
-    object=emm0, method=contrast,
-    adjust=p.adjust, reverse=reverse)
+    object = emm0,
+    method = contrast,
+    adjust = p.adjust,
+    reverse = reverse)
   # pairs(emm, simple="each", reverse=TRUE, combine=TRUE)
   conCI = confint(con)
   con = summary(con)  # to a data.frame (class 'summary_emm')

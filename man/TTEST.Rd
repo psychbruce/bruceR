@@ -23,32 +23,30 @@ TTEST(
 \arguments{
 \item{data}{Data frame (wide-format only, i.e., one case in one row).}
 
-\item{y}{Dependent variable(s).
-Multiple variables should be included in a character vector \code{c()}.
+\item{y}{Dependent variable(s). Multiple variables should be included in a character vector \code{c()}.
 
 For paired-samples \emph{t}-test, the number of variables should be 2, 4, 6, etc.}
 
-\item{x}{Independent variable(s).
-Multiple variables should be included in a character vector \code{c()}.
+\item{x}{Independent variable(s). Multiple variables should be included in a character vector \code{c()}.
 
 Only necessary for independent-samples \emph{t}-test.}
 
 \item{paired}{For paired-samples \emph{t}-test, set it as \code{TRUE}. Defaults to \code{FALSE}.}
 
-\item{paired.d.type}{Type of Cohen's \emph{d} for paired-samples \emph{t}-test (see Lakens, 2013).
+\item{paired.d.type}{Type of Cohen's \emph{d} for paired-samples \emph{t}-test (see Lakens, 2013). Defaults to \code{"dz"}.
 
-Defaults to \code{"dz"}. Options include:
+Options:
 \describe{
-  \item{\code{"dz"} (\emph{d} for standardized difference)}{
-    Cohen's \eqn{d_{z} = \frac{M_{diff}}{SD_{diff}}}
-  }
-  \item{\code{"dav"} (\emph{d} for average standard deviation)}{
-    Cohen's \eqn{d_{av} = \frac{M_{diff}}{ \frac{SD_{1} + SD_{2}}{2} }}
-  }
-  \item{\code{"drm"} (\emph{d} for repeated measures, corrected for correlation)}{
-    Cohen's \eqn{d_{rm} = \frac{M_{diff} \times \sqrt{2(1 - r_{1,2})}}{
+\item{\code{"dz"} (\emph{d} for standardized difference)}{
+Cohen's \eqn{d_{z} = \frac{M_{diff}}{SD_{diff}}}
+}
+\item{\code{"dav"} (\emph{d} for average standard deviation)}{
+Cohen's \eqn{d_{av} = \frac{M_{diff}}{ \frac{SD_{1} + SD_{2}}{2} }}
+}
+\item{\code{"drm"} (\emph{d} for repeated measures, corrected for correlation)}{
+Cohen's \eqn{d_{rm} = \frac{M_{diff} \times \sqrt{2(1 - r_{1,2})}}{
       \sqrt{SD_{1}^2 + SD_{2}^2 - 2 \times r_{1,2} \times SD_{1} \times SD_{2}} }}
-  }
+}
 }}
 
 \item{var.equal}{If Levene's test indicates a violation of the homogeneity of variance,
@@ -68,32 +66,20 @@ See details in \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}}.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{2}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
+}
+\value{
+Invisibly return the results.
 }
 \description{
-One-sample, independent-samples, and paired-samples \emph{t}-test,
-with both Frequentist and Bayesian approaches.
-The output includes descriptives, \emph{t} statistics,
-mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI,
-and Bayes factor (BF10; \code{BayesFactor} package needs to be installed).
-It also tests the assumption of homogeneity of variance
-and allows users to determine whether variances are equal or not.
+One-sample, independent-samples, and paired-samples \emph{t}-test, with both Frequentist and Bayesian approaches. The output includes descriptives, \emph{t} statistics, mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI, and Bayes factor (\eqn{BF_{10}}; \code{BayesFactor} package needs to be installed). It also tests the assumption of homogeneity of variance and allows users to determine whether variances are equal or not.
 
-Users can simultaneously test multiple dependent and/or independent variables.
-The results of one pair of Y-X would be summarized in one row in the output.
-Key results can be saved in APA format to MS Word.
+Users can simultaneously test multiple dependent and/or independent variables. The results of one pair of Y-X would be summarized in one row in the output. Key results can be saved in APA format to MS Word.
 }
 \details{
-Note that the point estimate of Cohen's \emph{d} is computed using
-the common method "Cohen's \emph{d} = mean difference / (pooled) standard deviation", which is
-consistent with results from other R packages (e.g., \code{effectsize}) and software (e.g., \code{jamovi}).
-The 95\% CI of Cohen's \emph{d} is estimated based on the 95\% CI of mean difference
-(i.e., also divided by the pooled standard deviation).
+Note that the point estimate of Cohen's \emph{d} is computed using the common method "Cohen's \emph{d} = mean difference / (pooled) standard deviation", which is consistent with results from other R packages (e.g., \code{effectsize}) and software (e.g., \code{jamovi}). The 95\% CI of Cohen's \emph{d} is estimated based on the 95\% CI of mean difference (i.e., also divided by the pooled standard deviation).
 
-However, different packages and software diverge greatly on the estimate of the 95\% CI of Cohen's \emph{d}.
-R packages such as \code{psych} and \code{effectsize}, R software \code{jamovi},
-and several online statistical tools for estimating effect sizes
-indeed produce surprisingly inconsistent results on the 95\% CI of Cohen's \emph{d}.
+However, different packages and software diverge greatly on the estimate of the 95\% CI of Cohen's \emph{d}. R packages such as \code{psych} and \code{effectsize}, R software \code{jamovi}, and several online statistical tools for estimating effect sizes indeed produce surprisingly inconsistent results on the 95\% CI of Cohen's \emph{d}.
 
 See an illustration of this issue in the section "Examples".
 }
@@ -172,9 +158,10 @@ TTEST(d2, y=c("A1", "A2", "A3", "A4"), paired=TRUE)
 
 }
 \references{
-Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science:
-A practical primer for \emph{t}-tests and ANOVAs. \emph{Frontiers in Psychology, 4}, Article 863.
+Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for \emph{t}-tests and ANOVAs. \emph{Frontiers in Psychology, 4}, Article 863.
 }
 \seealso{
-\code{\link{MANOVA}}, \code{\link{EMMEANS}}
+\code{\link[=MANOVA]{MANOVA()}}
+
+\code{\link[=EMMEANS]{EMMEANS()}}
 }

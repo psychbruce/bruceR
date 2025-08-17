@@ -13,12 +13,11 @@ Freq(x, varname, labels, sort = "", digits = 1, file = NULL)
 
 \item{labels}{[Optional] A vector re-defining the labels of values.}
 
-\item{sort}{\code{""} (default, sorted by the order of variable values/labels),
-\code{"-"} (decreasing by N), or \code{"+"} (increasing by N).}
+\item{sort}{\code{""} (default, sorted by the order of variable values/labels), \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{1}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 }
 \value{
 A data frame of frequency statistics.

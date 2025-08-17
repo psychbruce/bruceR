@@ -20,19 +20,16 @@ CFA(
 
 \item{model}{Model formula. See examples.}
 
-\item{estimator}{The estimator to be used
-(for details, see \link[lavaan:lavOptions]{lavaan options}).
-Defaults to \code{"ML"}.
-Can be one of the following:
-\describe{
-  \item{\code{"ML"}}{Maximum Likelihood (can be extended to
-  \code{"MLM"}, \code{"MLMV"}, \code{"MLMVS"}, \code{"MLF"}, or \code{"MLR"}
-  for robust standard errors and robust test statistics)}
-  \item{\code{"GLS"}}{Generalized Least Squares}
-  \item{\code{"WLS"}}{Weighted Least Squares}
-  \item{\code{"ULS"}}{Unweighted Least Squares}
-  \item{\code{"DWLS"}}{Diagonally Weighted Least Squares}
-  \item{\code{"DLS"}}{Distributionally-weighted Least Squares}
+\item{estimator}{The estimator to be used (for details, see \link[lavaan:lavOptions]{lavaan options}).
+
+Defaults to \code{"ML"}. Can be one of the following:
+\itemize{
+\item \code{"ML"}: Maximum Likelihood (can be extended to \code{"MLM"}, \code{"MLMV"}, \code{"MLMVS"}, \code{"MLF"}, or \code{"MLR"} for robust standard errors and robust test statistics)
+\item \code{"GLS"}: Generalized Least Squares
+\item \code{"WLS"}: Weighted Least Squares
+\item \code{"ULS"}: Unweighted Least Squares
+\item \code{"DWLS"}: Diagonally Weighted Least Squares
+\item \code{"DLS"}: Distributionally-weighted Least Squares
 }}
 
 \item{highorder}{High-order factor. Defaults to \code{""}.}
@@ -43,7 +40,7 @@ Can be one of the following:
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 }
 \value{
 A list of results returned by \code{\link[lavaan:cfa]{lavaan::cfa()}}.
@@ -65,5 +62,9 @@ CFA(data.bfi, "E =~ E[1:5]; A =~ A[1:5]; C =~ C[1:5]; N =~ N[1:5]; O =~ O[1:5]")
 }
 }
 \seealso{
-\code{\link{Alpha}}, \code{\link{EFA}}, \code{\link{lavaan_summary}}
+\code{\link[=Alpha]{Alpha()}}
+
+\code{\link[=EFA]{EFA()}}
+
+\code{\link[=lavaan_summary]{lavaan_summary()}}
 }

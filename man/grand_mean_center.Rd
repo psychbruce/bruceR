@@ -13,15 +13,13 @@ grand_mean_center(data, vars = names(data), std = FALSE, add.suffix = "")
 
 \item{std}{Standardized or not. Defaults to \code{FALSE}.}
 
-\item{add.suffix}{The suffix of the centered variable(s).
-Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
+\item{add.suffix}{The suffix of the centered variable(s). Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 }
 \value{
 A new data object containing the centered variable(s).
 }
 \description{
-Compute grand-mean centered variables.
-Usually used for GLM interaction-term predictors and HLM level-2 predictors.
+Compute grand-mean centered variables. Usually used for GLM interaction-term predictors and HLM level-2 predictors.
 }
 \examples{
 d = data.table(a=1:5, b=6:10)
@@ -34,5 +32,5 @@ d.c
 
 }
 \seealso{
-\code{\link{group_mean_center}}
+\code{\link[=group_mean_center]{group_mean_center()}}
 }

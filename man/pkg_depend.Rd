@@ -18,6 +18,3 @@ A character vector of package names.
 \description{
 Check dependencies of R packages.
 }
-\seealso{
-\code{\link{pkg_install_suggested}}
-}

@@ -14,17 +14,13 @@ granger_causality(
 )
 }
 \arguments{
-\item{varmodel}{VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.}
+\item{varmodel}{VAR model fitted using \code{\link[vars:VAR]{vars::VAR()}}.}
 
-\item{var.y, var.x}{[Optional] Defaults to \code{NULL} (all variables).
-If specified, then perform tests for specific variables.
-Values can be a single variable (e.g., \code{"X"}),
-a vector of variables (e.g., \code{c("X1", "X2")}),
-or a string containing regular expression (e.g., \code{"X1|X2"}).}
+\item{var.y, var.x}{[Optional] Defaults to \code{NULL} (all variables). If specified, then perform tests for specific variables. Values can be a single variable (e.g., \code{"X"}), a vector of variables (e.g., \code{c("X1", "X2")}), or a string containing regular expression (e.g., \code{"X1|X2"}).}
 
-\item{test}{\emph{F} test and/or Wald \eqn{\chi}^2 test. Defaults to both: \code{c("F", "Chisq")}.}
+\item{test}{\eqn{F} test and/or Wald \eqn{\chi^2} test. Defaults to both: \code{c("F", "Chisq")}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 
 \item{check.dropped}{Check dropped variables. Defaults to \code{FALSE}.}
 }
@@ -32,18 +28,10 @@ or a string containing regular expression (e.g., \code{"X1|X2"}).}
 A data frame of results.
 }
 \description{
-Granger test of predictive causality (between multivariate time series)
-based on vector autoregression (\code{\link[vars:VAR]{VAR}}) model.
-Its output resembles the output of the \code{vargranger}
-command in Stata (but here using an \emph{F} test).
+Granger test of predictive causality (between multivariate time series) based on vector autoregression model using \code{\link[vars:VAR]{vars::VAR()}}. Its output resembles the output of the \code{vargranger} command in Stata (but here using an \eqn{F} test).
 }
 \details{
-Granger causality test (based on VAR model) examines whether
-the lagged values of a predictor (or predictors)
-help to predict an outcome when controlling for
-the lagged values of the outcome itself.
-
-Granger causality does not necessarily constitute a true causal effect.
+Granger causality test (based on VAR model) examines whether the lagged values of a predictor (or predictors) help to predict an outcome when controlling for the lagged values of the outcome itself. Granger causality does not represent a true causal effect.
 }
 \examples{
 \donttest{# R package "vars" should be installed
@@ -56,6 +44,7 @@ granger_causality(vm)
 }
 }
 \seealso{
-\code{\link{ccf_plot}},
-\code{\link{granger_test}}
+\code{\link[=ccf_plot]{ccf_plot()}}
+
+\code{\link[=granger_test]{granger_test()}}
 }

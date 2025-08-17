@@ -236,212 +236,126 @@ boot_ci = function(boot,
 }
 
 
-#' PROCESS for mediation and/or moderation analyses.
+#' Model-based mediation and moderation analyses (named after but distinct from SPSS PROCESS).
 #'
 #' @description
-#' To perform mediation, moderation, and conditional process (moderated mediation) analyses,
-#' people may use software like
-#' \href{http://www.statmodel.com/index.shtml}{Mplus},
-#' \href{https://www.processmacro.org/index.html}{SPSS "PROCESS" macro},
-#' and \href{https://njrockwood.com/mlmed/}{SPSS "MLmed" macro}.
-#' Some R packages can also perform such analyses separately and in a complex way, including
-#' \link[mediation:mediate]{R package "mediation"},
-#' \link[interactions:sim_slopes]{R package "interactions"},
-#' and \link[lavaan:lavaan-class]{R package "lavaan"}.
-#' Some other R packages or scripts/modules have been further developed to improve the convenience, including
-#' \href{https://jamovi-amm.github.io/}{jamovi module "jAMM"} (by \emph{Marcello Gallucci}, based on the \code{lavaan} package),
-#' \href{https://CRAN.R-project.org/package=processR}{R package "processR"} (by \emph{Keon-Woong Moon}, not official, also based on the \code{lavaan} package),
-#' and \href{https://www.processmacro.org/download.html}{R script file "process.R"}
-#' (the official PROCESS R code by \emph{Andrew F. Hayes}, but it is not yet an R package and has some bugs and limitations).
 #'
-#' Here, the \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function provides
-#' an alternative to performing mediation/moderation analyses in R.
-#' This function supports a total of \strong{24} kinds of SPSS PROCESS models (Hayes, 2018)
-#' and also supports multilevel mediation/moderation analyses.
-#' Overall, it supports the most frequently used types of mediation, moderation,
-#' moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses
-#' for \strong{(generalized) linear or linear mixed models}.
+#' Model-based mediation and moderation analyses (i.e., using raw regression model objects with distinct R packages, _**BUT NOT** with the SPSS PROCESS Macro_, to estimate effects in mediation/moderation models).
 #'
-#' Specifically, the \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function
-#' fits regression models based on the data, variable names, and a few other arguments
-#' that users input (with \strong{no need to} specify the PROCESS model number and \strong{no need to} manually mean-center the variables).
-#' The function can automatically judge the model number/type and also conduct grand-mean centering before model building
-#' (using the \code{\link[bruceR:grand_mean_center]{bruceR::grand_mean_center()}} function).
+#' **NOTE**: [PROCESS()] _**DOES NOT**_ use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model Number in Hayes's numbering system.
 #'
-#' This automatic grand-mean centering can be turned off by setting \code{center=FALSE}.
+#' To use [PROCESS()] in publications, please cite not only `bruceR` but also the following R packages:
+#' - [interactions::sim_slopes()] is used to estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models (for PROCESS Model Numbers 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+#' - [mediation::mediate()] is used to estimate (conditional) indirect effects in (moderated) mediation models (for PROCESS Model Numbers 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+#' - [lavaan::sem()] is used to perform serial multiple mediation analysis (for PROCESS Model Number 6).
 #'
-#' Note that this automatic grand-mean centering
-#' (1) makes the results of main effects accurate for interpretation;
-#' (2) does not change any results of model fit (it only affects the interpretation of main effects);
-#' (3) is only conducted in "PART 1" (for an accurate estimate of main effects) but not in "PART 2" because
-#' it is more intuitive and interpretable to use the raw values of variables for the simple-slope tests in "PART 2";
-#' (4) is not optional to users because mean-centering should always be done when there is an interaction;
-#' (5) is not conflicted with group-mean centering because after group-mean centering the grand mean of a variable will also be 0,
-#' such that the automatic grand-mean centering (with mean = 0) will not change any values of the variable.
+#' @details
 #'
-#' If you need to do group-mean centering, please do this before using PROCESS.
-#' \code{\link[bruceR:group_mean_center]{bruceR::group_mean_center()}} is a useful function of group-mean centering.
-#' Remember that the automatic grand-mean centering in PROCESS never affects the values of a group-mean centered variable, which already has a grand mean of 0.
-#'
-#' The \code{\link[bruceR:PROCESS]{bruceR::PROCESS()}} function uses:
-#' \enumerate{
-#'   \item the \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} function to
-#'   estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models
-#'   (PROCESS Models 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
-#'   \item the \code{\link[mediation:mediate]{mediation::mediate()}} function to
-#'   estimate (conditional) indirect effects in (moderated) mediation models
-#'   (PROCESS Models 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
-#'   \item the \code{\link[lavaan:sem]{lavaan::sem()}} function to perform serial multiple mediation analysis (PROCESS Model 6).
-#' }
-#' If you use this function in your research and report its results in your paper, please cite not only \code{bruceR} but also
-#' the other R packages it uses internally (\code{mediation}, \code{interactions}, and/or \code{lavaan}).
+#' # Output
 #'
 #' Two parts of results are printed:
+#' - PART 1. Regression model summary
+#' - PART 2. Mediation/moderation effect estimates
 #'
-#' PART 1. Regression model summary (using \code{\link[bruceR:model_summary]{bruceR::model_summary()}} to summarize the models)
+#' # Disclaimer
 #'
-#' PART 2. Mediation/moderation effect estimates (using one or a combination of the above packages and functions to estimate the effects)
+#' [PROCESS()] _**DOES NOT**_ use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model Number in Hayes's numbering system.
 #'
-#' To organize the PART 2 output, the results of \strong{Simple Slopes} are titled in \strong{green},
-#' whereas the results of \strong{Indirect Path} are titled in \strong{blue}.
+#' _**DO NOT**_ state that "the bruceR package runs the PROCESS Model Code developed by Hayes (2018)" --- it was not the truth. The `bruceR` package only links results to Hayes's numbering system but never uses his code.
 #'
-#' \strong{\emph{Disclaimer}:}
-#' Although this function is named after \code{PROCESS}, Andrew F. Hayes has no role in its design, and
-#' its development is independent from the official SPSS PROCESS macro and "process.R" script.
-#' Any error or limitation should be attributed to the three R packages/functions that \code{bruceR::PROCESS()} uses internally.
-#' Moreover, as mediation analyses include \emph{random processes} (i.e., bootstrap resampling or Monte Carlo simulation),
-#' the results of mediation analyses are \emph{unlikely} to be exactly the same across different software
-#' (even if you set the same random seed in different software).
+#' # Software Comparison
+#'
+#' To perform mediation, moderation, and conditional process (moderated mediation) analyses, people may use [Mplus](http://www.statmodel.com/index.shtml), [SPSS "PROCESS" macro](https://www.processmacro.org/index.html), or [SPSS "MLmed" macro](https://njrockwood.com/mlmed/). Some R packages and functions can also perform such analyses, in a somewhat complex way, including [mediation::mediate()], [interactions::sim_slopes()], and [lavaan::sem()].
+#'
+#' Furthermore, some other R packages or scripts/modules have been developed, including [jamovi module `jAMM`](https://jamovi-amm.github.io/) (by *Marcello Gallucci*, based on the `lavaan` package), [R package `processR`](https://CRAN.R-project.org/package=processR) (by *Keon-Woong Moon*, not official, also based on the `lavaan` package), and [R script file "process.R"](https://www.processmacro.org/download.html) (the official PROCESS R code by *Andrew F. Hayes*, but it is not yet an R package).
+#'
+#' Distinct from these existing tools, [PROCESS()] provides an integrative way for performing mediation/moderation analyses in R. This function supports 24 kinds of SPSS PROCESS models numbered by Hayes (2018) (but does not use or transform his code), and also supports multilevel mediation/moderation analyses. Overall, it supports the most frequently used types of mediation, moderation, moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses for (generalized) linear or linear mixed models.
+#'
+#' Specifically, [PROCESS()] fits regression models based on the data, variable names, and a few other arguments that users input (with no need to specify the PROCESS model number or manually mean-center the variables). The function can automatically link model settings to Hayes's numbering system.
+#'
+#' # Variable Centering
+#'
+#' [PROCESS()] automatically conducts grand-mean centering, using [grand_mean_center()], before model building, though it can be turned off by setting `center=FALSE`.
+#'
+#' The grand-mean centering is important because it:
+#' 1. makes the results of main effects accurate for interpretation (see my commentary on this issue: [Bao et al., 2022](https://psycnet.apa.org/record/2022-96483-005));
+#' 2. does not change any model fit indices (it only affects the interpretation of main effects);
+#' 3. is only conducted in "PART 1" (for an accurate estimate of main effects) but not in "PART 2" because it is more intuitive and interpretable to use the raw values of variables for the simple-slope tests in "PART 2";
+#' 4. is not conflicted with group-mean centering because after group-mean centering the grand mean of a variable will also be 0, such that the automatic grand-mean centering (with mean = 0) will not change any values of the variable.
+#'
+#' Conduct group-mean centering, if necessary, with [group_mean_center()] before using [PROCESS()]. Remember that the automatic grand-mean centering never affects the values of a group-mean centered variable, which already has a grand mean of 0.
 #'
 #' @param data Data frame.
 #' @param y,x Variable name of outcome (Y) and predictor (X).
+#' - Can be: continuous (numeric) or dichotomous (factor)
+#' @param meds Variable name(s) of mediator(s) (M). Use `c()` to combine multiple mediators.
+#' - Can be: continuous (numeric) or dichotomous (factor)
+#' - Allows any number of mediators in parallel or 2~4 mediators in serial
+#' - Order matters when `med.type="serial"` (PROCESS Model 6: serial mediation)
+#' @param mods Variable name(s) of 0~2 moderator(s) (W). Use `c()` to combine multiple moderators.
+#' - Can be: continuous (numeric), dichotomous (factor), or multicategorical (factor)
+#' - Order matters when `mod.type="3-way"` (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73)
+#' - Not applicable to `med.type="serial"` (PROCESS Model 6)
+#' @param covs Variable name(s) of covariate(s) (i.e., control variables). Use `c()` to combine multiple covariates.
+#' - Can be any type and any number of variables
+#' @param clusters HLM (multilevel) cluster(s): e.g., `"School"`, `c("Prov", "City")`, `c("Sub", "Item")`.
+#' @param hlm.re.m,hlm.re.y HLM (multilevel) random effect term of M model and Y model. By default, it converts `clusters` to [`lme4`][lme4::lme4-package] syntax of random intercepts: e.g., `"(1 | School)"` or `"(1 | Sub) + (1 | Item)"`.
 #'
-#' It supports both continuous (numeric) and dichotomous (factor) variables.
-#' @param meds Variable name(s) of mediator(s) (M).
-#' Use \code{c()} to combine multiple mediators.
+#' You may specify these arguments to include more complex terms: e.g., random slopes `"(X | School)"`, or 3-level random effects `"(1 | Prov/City)"`.
+#' @param hlm.type HLM (multilevel) mediation type (levels of "X-M-Y"): `"1-1-1"` (default), `"2-1-1"` (indeed the same as `"1-1-1"` in a mixed model), or `"2-2-1"` (currently *not fully supported*, as limited by the `mediation` package). In most cases, no need to set this argument.
+#' @param med.type Type of mediator: `"parallel"` (default) or `"serial"` (only relevant to PROCESS Model 6). Partial matches with `"p"` or `"s"` also work. In most cases, no need to set this argument.
+#' @param mod.type Type of moderator: `"2-way"` (default) or `"3-way"` (relevant to PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73). Partial matches with `"2"` or `"3"` also work.
+#' @param mod.path Which path(s) do the moderator(s) influence? `"x-y"`, `"x-m"`, `"m-y"`, or any combination of them (use `c()` to combine), or `"all"` (i.e., all of them). No default value.
+#' @param cov.path Which path(s) do the control variable(s) influence? `"y"`, `"m"`, or `"both"` (default).
+#' @param mod1.val,mod2.val By default (`NULL`), it uses **Mean +/- SD** of a continuous moderator (numeric) or **all levels** of a dichotomous/multicategorical moderator (factor) to perform simple slope analyses and/or conditional mediation analyses. You may manually specify a vector of certain values: e.g., `mod1.val=c(1, 3, 5)` or `mod1.val=c("A", "B", "C")`.
+#' @param ci Method for estimating the standard error (SE) and 95% confidence interval (CI) of indirect effect(s). Defaults to `"boot"` for (generalized) linear models or `"mcmc"` for (generalized) linear mixed models (i.e., multilevel models).
+#' - `"boot"`: Percentile Bootstrap
+#' - `"bc.boot"`: Bias-Corrected Percentile Bootstrap
+#' - `"bca.boot"`: Bias-Corrected and Accelerated (BCa) Percentile Bootstrap
+#' - `"mcmc"`: Markov Chain Monte Carlo (Quasi-Bayesian)
 #'
-#' It supports both continuous (numeric) and dichotomous (factor) variables.
-#'
-#' It allows an infinite number of mediators in parallel
-#' or 2~4 mediators in serial.
-#'
-#' * Order matters when \code{med.type="serial"}
-#' (PROCESS Model 6: serial mediation).
-#' @param mods Variable name(s) of 0~2 moderator(s) (W).
-#' Use \code{c()} to combine multiple moderators.
-#'
-#' It supports all types of variables:
-#' continuous (numeric), dichotomous (factor), and multicategorical (factor).
-#'
-#' * Order matters when \code{mod.type="3-way"}
-#' (PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
-#'
-#' ** Do not set this argument when \code{med.type="serial"}
-#' (PROCESS Model 6).
-#' @param covs Variable name(s) of covariate(s) (i.e., control variables).
-#' Use \code{c()} to combine multiple covariates.
-#' It supports all types of (and an infinite number of) variables.
-#' @param clusters HLM (multilevel) cluster(s):
-#' e.g., \code{"School"}, \code{c("Prov", "City")}, \code{c("Sub", "Item")}.
-#' @param hlm.re.m,hlm.re.y HLM (multilevel) random effect term of M model and Y model.
-#' By default, it converts \code{clusters} to \code{\link[lme4:lme4-package]{lme4}} syntax of random intercepts:
-#' e.g., \code{"(1 | School)"} or \code{"(1 | Sub) + (1 | Item)"}.
-#'
-#' You may specify these arguments to include more complex terms:
-#' e.g., random slopes \code{"(X | School)"}, or 3-level random effects \code{"(1 | Prov/City)"}.
-#' @param hlm.type HLM (multilevel) mediation type (levels of "X-M-Y"):
-#' \code{"1-1-1"} (default),
-#' \code{"2-1-1"} (indeed the same as \code{"1-1-1"} in a mixed model),
-#' or \code{"2-2-1"} (currently \emph{not fully supported}, as limited by the \code{\link[mediation:mediate]{mediation}} package).
-#' In most cases, no need to set this argument.
-#' @param med.type Type of mediator:
-#' \code{"parallel"} (default) or \code{"serial"}
-#' (only relevant to PROCESS Model 6).
-#' Partial matches of \code{"p"} or \code{"s"} also work.
-#' In most cases, no need to set this argument.
-#' @param mod.type Type of moderator:
-#' \code{"2-way"} (default) or \code{"3-way"}
-#' (relevant to PROCESS Models 3, 5.3, 11, 12, 18, 19, 72, and 73).
-#' Partial matches of \code{"2"} or \code{"3"} also work.
-#' @param mod.path Which path(s) do the moderator(s) influence?
-#' \code{"x-y"}, \code{"x-m"}, \code{"m-y"}, or any combination of them
-#' (use \code{c()} to combine), or \code{"all"} (i.e., all of them).
-#' No default value.
-#' @param cov.path Which path(s) do the control variable(s) influence?
-#' \code{"y"}, \code{"m"}, or \code{"both"} (default).
-#' @param mod1.val,mod2.val By default (\code{NULL}), it uses
-#' \strong{Mean +/- SD} of a continuous moderator (numeric) or
-#' \strong{all levels} of a dichotomous/multicategorical moderator (factor) to
-#' perform simple slope analyses and/or conditional mediation analyses.
-#' You may manually specify a vector of certain values: e.g.,
-#' \code{mod1.val=c(1, 3, 5)} or \code{mod1.val=c("A", "B", "C")}.
-#' @param ci Method for estimating the standard error (SE) and
-#' 95\% confidence interval (CI) of indirect effect(s).
-#' Defaults to \code{"boot"} for (generalized) linear models or
-#' \code{"mcmc"} for (generalized) linear mixed models (i.e., multilevel models).
-#' \describe{
-#'   \item{\code{"boot"}}{Percentile Bootstrap}
-#'   \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
-#'   \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
-#'   \item{\code{"mcmc"}}{Markov Chain Monte Carlo (Quasi-Bayesian)}
-#' }
-#' * Note that these methods \emph{never} apply to the estimates of simple slopes.
-#' You \emph{should not} report the 95\% CIs of simple slopes as Bootstrap or Monte Carlo CIs,
-#' because they are just standard CIs without any resampling method.
-#' @param nsim Number of simulation samples (bootstrap resampling or Monte Carlo simulation)
-#' for estimating SE and 95\% CI. Defaults to \code{100} for running examples faster.
-#' In formal analyses, however, \strong{\code{nsim=1000} (or larger)} is strongly suggested!
-#' @param seed Random seed for obtaining reproducible results.
-#' Defaults to \code{NULL}.
-#' You may set to any number you prefer
-#' (e.g., \code{seed=1234}, just an uncountable number).
-#'
-#' * Note that all mediation models include random processes
-#' (i.e., bootstrap resampling or Monte Carlo simulation).
-#' To get exactly the same results between runs, you need to set a random seed.
-#' However, even if you set the same seed number, it is unlikely to
-#' get exactly the same results across different R packages
-#' (e.g., \code{\link[lavaan:lavaan-class]{lavaan}} vs. \code{\link[mediation:mediate]{mediation}})
-#' and software (e.g., SPSS, Mplus, R, jamovi).
-#' @param center Centering numeric (continuous) predictors? Defaults to \code{TRUE} (suggested).
-#' @param std Standardizing variables to get standardized coefficients? Defaults to \code{FALSE}.
-#' If \code{TRUE}, it will standardize all numeric (continuous) variables
-#' before building regression models.
-#' However, it is \emph{not suggested} to set \code{std=TRUE} for \emph{generalized} linear (mixed) models.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
-#' Currently, only regression model summary can be saved.
+#' Note that these methods *never* apply to the estimates of simple slopes. You *should not* report the 95% CIs of simple slopes as Bootstrap or Monte Carlo CIs, because they are just standard CIs without any resampling method.
+#' @param nsim Number of simulation samples (bootstrap resampling or Monte Carlo simulation) for estimating SE and 95% CI. Defaults to `100` for running examples faster. In formal analyses, however, `nsim=1000` (or larger) is strongly suggested!
+#' @param seed Random seed for reproducible results. Defaults to `NULL`. Note that all mediation analyses include random processes (i.e., bootstrap resampling or Monte Carlo simulation). To reproduce results, you need to set a random seed. However, even if you set the same seed number, it is unlikely to get exactly the same results across different R packages (e.g., `lavaan` vs. `mediation`) and software (e.g., SPSS, Mplus, R, jamovi).
+#' @param center Centering numeric (continuous) predictors? Defaults to `TRUE` (suggested).
+#' @param std Standardizing variables to get standardized coefficients? Defaults to `FALSE`. If `TRUE`, it will standardize all numeric (continuous) variables before building regression models. However, it is *not suggested* to set `std=TRUE` for *generalized* linear (mixed) models.
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`). Currently, only regression model summary can be saved.
 #'
 #' @return
 #' Invisibly return a list of results:
 #' \describe{
-#'   \item{\code{process.id}}{PROCESS model number.}
-#'   \item{\code{process.type}}{PROCESS model type.}
-#'   \item{\code{model.m}}{"Mediator" (M) models (a list of multiple models).}
-#'   \item{\code{model.y}}{"Outcome" (Y) model.}
-#'   \item{\code{results}}{Effect estimates and other results (unnamed list object).}
+#'   \item{`process.id`}{
+#'     PROCESS model number (in Hayes's numbering system).
+#'   }
+#'   \item{`process.type`}{
+#'     PROCESS model type.
+#'   }
+#'   \item{`model.m`}{
+#'     Mediator (M) model(s) (a list of multiple models).
+#'   }
+#'   \item{`model.y`}{
+#'     Outcome (Y) model.
+#'   }
+#'   \item{`results`}{
+#'     Effect estimates and other results (unnamed list object).
+#'   }
 #' }
 #'
-#' @details
-#' For more details and illustrations, see
-#' \href{https://github.com/psychbruce/bruceR/tree/master/note}{PROCESS-bruceR-SPSS} (PDF and Markdown files).
-#'
 #' @seealso
-#' \code{\link{lavaan_summary}}
+#' [lavaan_summary()]
 #'
-#' \code{\link{model_summary}}
+#' [model_summary()]
 #'
-#' \code{\link{med_summary}}
+#' [med_summary()]
+#'
+#' For more details and illustrations, see [PROCESS-bruceR-SPSS](https://github.com/psychbruce/bruceR/tree/main/note) (PDF and Markdown files).
 #'
 #' @references
-#' Hayes, A. F. (2018). \emph{Introduction to mediation, moderation,
-#' and conditional process analysis (second edition):
-#' A regression-based approach}. Guilford Press.
+#' Hayes, A. F. (2018). *Introduction to mediation, moderation, and conditional process analysis (second edition): A regression-based approach*. Guilford Press.
 #'
-#' Yzerbyt, V., Muller, D., Batailler, C., & Judd, C. M. (2018).
-#' New recommendations for testing indirect effects in mediational models:
-#' The need to report and test component paths.
-#' \emph{Journal of Personality and Social Psychology, 115}(6), 929--943.
+#' Yzerbyt, V., Muller, D., Batailler, C., & Judd, C. M. (2018). New recommendations for testing indirect effects in mediational models:
+#' The need to report and test component paths. *Journal of Personality and Social Psychology, 115*(6), 929--943.
 #'
 #' @examples
 #' \donttest{#### NOTE ####
@@ -535,34 +449,34 @@ boot_ci = function(boot,
 #'         mod.path=c("x-m", "x-y"),
 #'         ci="boot", nsim=100, seed=1)
 #'
-#' ## For more examples and details, see the "note" subfolder at:
+#' ## For more examples and details, see:
 #' ## https://github.com/psychbruce/bruceR/tree/main/note
 #' }
 #' @export
 PROCESS = function(
     data,
-    y="",
-    x="",
-    meds=c(),
-    mods=c(),
-    covs=c(),
-    clusters=c(),
-    hlm.re.m="",
-    hlm.re.y="",
-    hlm.type=c("1-1-1", "2-1-1", "2-2-1"),
-    med.type=c("parallel", "serial"),  # "p"*, "s"
-    mod.type=c("2-way", "3-way"),  # "2"*, "3"
-    mod.path=c("x-y", "x-m", "m-y", "all"),
-    cov.path=c("y", "m", "both"),
-    mod1.val=NULL,
-    mod2.val=NULL,
-    ci=c("boot", "bc.boot", "bca.boot", "mcmc"),
-    nsim=100,
-    seed=NULL,
-    center=TRUE,
-    std=FALSE,
-    digits=3,
-    file=NULL
+    y = "",
+    x = "",
+    meds = c(),
+    mods = c(),
+    covs = c(),
+    clusters = c(),
+    hlm.re.m = "",
+    hlm.re.y = "",
+    hlm.type = c("1-1-1", "2-1-1", "2-2-1"),
+    med.type = c("parallel", "serial"),  # "p"*, "s"
+    mod.type = c("2-way", "3-way"),  # "2"*, "3"
+    mod.path = c("x-y", "x-m", "m-y", "all"),
+    cov.path = c("y", "m", "both"),
+    mod1.val = NULL,
+    mod2.val = NULL,
+    ci = c("boot", "bc.boot", "bca.boot", "mcmc"),
+    nsim = 100,
+    seed = NULL,
+    center = TRUE,
+    std = FALSE,
+    digits = 3,
+    file = NULL
 ) {
   ## Default Setting
   warning.y.class = "\"y\" should be a numeric variable or a factor variable with only 2 levels."
@@ -1103,7 +1017,7 @@ CAUTION:
 #'
 #' @param lavaan Model object fitted by \code{\link[lavaan:lavaan-class]{lavaan}}.
 #' @param ci Method for estimating standard error (SE) and
-#' 95\% confidence interval (CI).
+#' 95% confidence interval (CI).
 #'
 #' Defaults to \code{"raw"} (the standard approach of \code{lavaan}).
 #' Other options:
@@ -1113,7 +1027,7 @@ CAUTION:
 #'   \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
 #' }
 #' @param nsim Number of simulation samples (bootstrap resampling)
-#' for estimating SE and 95\% CI.
+#' for estimating SE and 95% CI.
 #' In formal analyses, \strong{\code{nsim=1000} (or larger)} is strongly suggested.
 #' @param seed Random seed for obtaining reproducible results. Defaults to \code{NULL}.
 #' @param digits Number of decimal places of output. Defaults to \code{3}.
@@ -1724,27 +1638,22 @@ process_mod = function(
 # }
 
 
-
-
-#### Indirect Effect: Model-Based (using the "mediation" package) ####
+#### Indirect Effect: Model-Based (using "mediation") ####
 
 
 #' Tidy report of mediation analysis.
 #'
-#' @description
-#' Tidy report of mediation analysis,
-#' which is performed using the \code{\link[mediation]{mediation}} package.
+#' Tidy report of mediation analysis, which is performed using [mediation::mediate()].
 #'
-#' @param model Mediation model built using \code{\link[mediation:mediate]{mediation::mediate()}}.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
-## @param print.avg Just set as \code{TRUE} for a concise output.
-## For details, see the "Value" section in \code{\link[mediation:mediate]{mediation::mediate()}}.
+#' @param model Mediation model built with [mediation::mediate()].
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`).
 #'
-#' @return Invisibly return a data frame containing the results.
+#' @return
+#' Invisibly return a data frame containing the results.
 #'
 #' @seealso
-#' \code{\link{PROCESS}}
+#' [PROCESS()]
 #'
 #' @examples
 #' \dontrun{
@@ -1868,42 +1777,34 @@ med_summary = function(model, digits=3, file=NULL) {
 }
 
 
-
-
 #### Time-Series Analyses ####
 
 
 #' Cross-correlation analysis.
 #'
-#' @description
-#' Plot the results of cross-correlation analysis using \code{ggplot2}
-#' (rather than R base plot) for more flexible modification of the plot.
+#' Plot the results of cross-correlation analysis using `ggplot2`.
 #'
-#' @details
-#' Significant correlations with \emph{negative time lags} suggest
-#' shifts in a predictor \emph{precede} shifts in an outcome.
+#' Significant correlations with *negative time lags* suggest
+#' shifts in a predictor *precede* shifts in an outcome.
 #'
-#' @param formula Model formula like \code{y ~ x}.
+#' @param formula Model formula like `y ~ x`.
 #' @param data Data frame.
-#' @param lag.max Maximum time lag. Defaults to \code{30}.
-#' @param sig.level Significance level. Defaults to \code{0.05}.
+#' @param lag.max Maximum time lag. Defaults to `30`.
+#' @param sig.level Significance level. Defaults to `0.05`.
 #' @param xbreaks X-axis breaks.
 #' @param ybreaks Y-axis breaks.
-#' @param ylim Y-axis limits. Defaults to \code{NULL} to automatically estimate.
-#' @param alpha.ns Color transparency (opacity: 0~1) for non-significant values.
-#' Defaults to \code{1} for no transparency (i.e., opaque color).
-#' @param pos.color Color for positive values. Defaults to \code{"black"}.
-#' @param neg.color Color for negative values. Defaults to \code{"black"}.
-#' @param ci.color Color for upper and lower bounds of significant values.
-#' Defaults to \code{"blue"}.
+#' @param ylim Y-axis limits. Defaults to `NULL` to automatically estimate.
+#' @param alpha.ns Color transparency (opacity: 0~1) for non-significant values. Defaults to `1` for no transparency (i.e., opaque color).
+#' @param pos.color Color for positive values. Defaults to `"black"`.
+#' @param neg.color Color for negative values. Defaults to `"black"`.
+#' @param ci.color Color for upper and lower bounds of significant values. Defaults to `"blue"`.
 #' @param title Plot title. Defaults to an illustration of the formula.
 #' @param subtitle Plot subtitle.
-#' @param xlab X-axis title. Defaults to \code{"Lag"}.
-#' @param ylab Y-axis title. Defaults to \code{"Cross-Correlation"}.
+#' @param xlab X-axis title. Defaults to `"Lag"`.
+#' @param ylab Y-axis title. Defaults to `"Cross-Correlation"`.
 #'
 #' @return
-#' A \code{gg} object, which you can further modify using
-#' \code{ggplot2} syntax and save using \code{ggsave()}.
+#' A `ggplot` object, which can be further modified using `ggplot2` syntax and saved using [`ggsave()`][ggplot2::ggsave].
 #'
 #' @examples
 #' # resemble the default plot output by `ccf()`
@@ -1917,7 +1818,8 @@ med_summary = function(model, digits=3, file=NULL) {
 #'               ci.color="black")
 #' p2
 #'
-#' @seealso \code{\link{granger_test}}
+#' @seealso
+#' [granger_test()]
 #'
 #' @export
 ccf_plot = function(formula, data,
@@ -1965,36 +1867,28 @@ ccf_plot = function(formula, data,
 
 #' Granger causality test (bivariate).
 #'
-#' @description
-#' Granger test of predictive causality (between two time series)
-#' using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
+#' Granger test of predictive causality (between two time series) using [lmtest::grangertest()].
 #'
-#' @details
-#' Granger causality test examines whether
-#' the lagged values of a predictor
-#' have an incremental role in predicting (i.e., help to predict)
-#' an outcome when controlling for the lagged values of the outcome.
-#'
-#' Granger causality does not necessarily constitute a true causal effect.
+#' Granger causality test examines whether the lagged values of a predictor have an incremental role in predicting (i.e., help to predict) an outcome when controlling for the lagged values of the outcome. Granger causality does not represent a true causal effect.
 #'
 #' @inheritParams ccf_plot
-#' @param lags Time lags. Defaults to \code{1:5}.
-#' @param test.reverse Whether to test reverse causality. Defaults to \code{TRUE}.
-#' @param file File name of MS Word (\code{.doc}).
-#' @param ... Further arguments passed to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}.
-#' For example, you may use \emph{robust} standard errors by specifying
-#' the \code{vcov} argument (see \href{https://github.com/psychbruce/bruceR/issues/23}{GitHub Issue #23}).
+#' @param lags Time lags. Defaults to `1:5`.
+#' @param test.reverse Whether to test reverse causality. Defaults to `TRUE`.
+#' @param file File name of MS Word (`".doc"`).
+#' @param ... Further arguments passed to [lmtest::grangertest()]. For example, you may use *robust* standard errors by specifying the `vcov` argument (see [GitHub Issue #23](https://github.com/psychbruce/bruceR/issues/23)).
 #'
-#' @return A data frame of results.
+#' @return
+#' A data frame of results.
+#'
+#' @seealso
+#' [ccf_plot()]
+#'
+#' [granger_causality()]
 #'
 #' @examples
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg)
 #' granger_test(chicken ~ egg, data=lmtest::ChickEgg, lags=1:10, file="Granger.doc")
 #' unlink("Granger.doc")  # delete file for code check
-#'
-#' @seealso
-#' \code{\link{ccf_plot}},
-#' \code{\link{granger_causality}}
 #'
 #' @export
 granger_test = function(formula, data, lags=1:5,
@@ -2106,35 +2000,23 @@ vargranger = function(varmodel, var.y, var.x) {
 
 #' Granger causality test (multivariate).
 #'
-#' @description
-#' Granger test of predictive causality (between multivariate time series)
-#' based on vector autoregression (\code{\link[vars:VAR]{VAR}}) model.
-#' Its output resembles the output of the \code{vargranger}
-#' command in Stata (but here using an \emph{F} test).
+#' Granger test of predictive causality (between multivariate time series) based on vector autoregression model using [vars::VAR()]. Its output resembles the output of the `vargranger` command in Stata (but here using an \eqn{F} test).
 #'
-#' @details
-#' Granger causality test (based on VAR model) examines whether
-#' the lagged values of a predictor (or predictors)
-#' help to predict an outcome when controlling for
-#' the lagged values of the outcome itself.
+#' Granger causality test (based on VAR model) examines whether the lagged values of a predictor (or predictors) help to predict an outcome when controlling for the lagged values of the outcome itself. Granger causality does not represent a true causal effect.
 #'
-#' Granger causality does not necessarily constitute a true causal effect.
+#' @param varmodel VAR model fitted using [vars::VAR()].
+#' @param var.y,var.x \[Optional\] Defaults to `NULL` (all variables). If specified, then perform tests for specific variables. Values can be a single variable (e.g., `"X"`), a vector of variables (e.g., `c("X1", "X2")`), or a string containing regular expression (e.g., `"X1|X2"`).
+#' @param test \eqn{F} test and/or Wald \eqn{\chi^2} test. Defaults to both: `c("F", "Chisq")`.
+#' @param file File name of MS Word (`".doc"`).
+#' @param check.dropped Check dropped variables. Defaults to `FALSE`.
 #'
-#' @param varmodel VAR model fitted using the \code{\link[vars:VAR]{vars::VAR()}} function.
-#' @param var.y,var.x [Optional] Defaults to \code{NULL} (all variables).
-#' If specified, then perform tests for specific variables.
-#' Values can be a single variable (e.g., \code{"X"}),
-#' a vector of variables (e.g., \code{c("X1", "X2")}),
-#' or a string containing regular expression (e.g., \code{"X1|X2"}).
-#' @param test \emph{F} test and/or Wald \eqn{\chi}^2 test. Defaults to both: \code{c("F", "Chisq")}.
-#' @param file File name of MS Word (\code{.doc}).
-#' @param check.dropped Check dropped variables. Defaults to \code{FALSE}.
-#'
-#' @return A data frame of results.
+#' @return
+#' A data frame of results.
 #'
 #' @seealso
-#' \code{\link{ccf_plot}},
-#' \code{\link{granger_test}}
+#' [ccf_plot()]
+#'
+#' [granger_test()]
 #'
 #' @examples
 #' \donttest{# R package "vars" should be installed

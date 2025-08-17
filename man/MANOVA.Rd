@@ -21,127 +21,103 @@ MANOVA(
 )
 }
 \arguments{
-\item{data}{Data frame. Both \strong{wide-format} and \strong{long-format} are supported.}
+\item{data}{Data frame. Both \emph{wide-format} and \emph{long-format} are supported.}
 
-\item{subID}{Subject ID (the column name). Only necessary for \strong{long-format} data.}
+\item{subID}{Subject ID (the column name). Only necessary for \emph{long-format} data.}
 
 \item{dv}{Dependent variable.
 \itemize{
-  \item For \strong{wide-format} data, \code{dv} only can be used for between-subjects designs.
-  For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
-  \item For \strong{long-format} data, \code{dv} is the outcome variable.
+\item For \emph{wide-format} data, \code{dv} only can be used for between-subjects designs.
+For within-subjects and mixed designs, please use \code{dvs} and \code{dvs.pattern}.
+\item For \emph{long-format} data, \code{dv} is the outcome variable.
 }}
 
-\item{dvs}{Repeated measures. Only for \strong{wide-format} data (within-subjects or mixed designs).
+\item{dvs}{Repeated measures. Only for \emph{wide-format} data (within-subjects or mixed designs).
 
 Can be:
 \itemize{
-  \item \code{"start:stop"} to specify the range of variables
-  (sensitive to the order of variables):
+\item \code{"start:stop"} to specify the range of variables
+(sensitive to the order of variables):
 
-  e.g., \code{"A1B1:A2B3"} is matched to all variables in the data
-  between \code{"A1B1"} and \code{"A2B3"}
+e.g., \code{"A1B1:A2B3"} is matched to all variables in the data
+between \code{"A1B1"} and \code{"A2B3"}
+\item a character vector to directly specify variables
+(insensitive to the order of variables):
 
-  \item a character vector to directly specify variables
-  (insensitive to the order of variables):
+e.g., \code{c("Cond1", "Cond2", "Cond3")} or \code{cc("Cond1, Cond2, Cond3")}
 
-  e.g., \code{c("Cond1", "Cond2", "Cond3")} or \code{cc("Cond1, Cond2, Cond3")}
-
-  See \code{\link{cc}} for its usage.
+See \code{\link[=cc]{cc()}} for its usage.
 }}
 
-\item{dvs.pattern}{If you use \code{dvs}, you should also specify the pattern of variable names
-using \emph{regular expression}.
+\item{dvs.pattern}{If you use \code{dvs}, you should also specify the pattern of variable names using \emph{regular expression}.
 
 Examples:
 \itemize{
-  \item \code{"Cond(.)"} extracts levels from \code{"Cond1", "Cond2", "Cond3", ...}
-  You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
-  \item \code{"X(..)Y(..)"} extracts levels from \code{"X01Y01", "X02Y02", "XaaYbc", ...}
-  \item \code{"X(.+)Y(.+)"} extracts levels from \code{"X1Y1", "XaYb", "XaY002", ...}
+\item \code{"Cond(.)"} extracts levels from \verb{"Cond1", "Cond2", "Cond3", ...}
+You may rename the factor using the \code{within} argument (e.g., \code{within="Condition"})
+\item \code{"X(..)Y(..)"} extracts levels from \verb{"X01Y01", "X02Y02", "XaaYbc", ...}
+\item \code{"X(.+)Y(.+)"} extracts levels from \verb{"X1Y1", "XaYb", "XaY002", ...}
 }
 
 Tips on regular expression:
 \itemize{
-  \item \code{"(.)"} extracts any single character (number, letter, and other symbols)
-  \item \code{"(.+)"} extracts >= 1 character(s)
-  \item \code{"(.*)"} extracts >= 0 character(s)
-  \item \code{"([0-9])"} extracts any single number
-  \item \code{"([a-z])"} extracts any single letter
-  \item More information: \href{https://regexr.com/}{Link 1 (in English)} and
-        \href{https://www.jb51.net/shouce/jquery1.82/regexp.html}{Link 2 (in Chinese)}
+\item \code{"(.)"} extracts any single character (number, letter, and other symbols)
+\item \code{"(.+)"} extracts >= 1 character(s)
+\item \code{"(.*)"} extracts >= 0 character(s)
+\item \code{"([0-9])"} extracts any single number
+\item \code{"([a-z])"} extracts any single letter
 }}
 
-\item{between}{Between-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.}
+\item{between}{Between-subjects factor(s). Multiple variables should be included in a character vector \code{\link[=c]{c()}}.}
 
-\item{within}{Within-subjects factor(s). Multiple variables should be included in a character vector \code{c()}.}
+\item{within}{Within-subjects factor(s). Multiple variables should be included in a character vector \code{\link[=c]{c()}}.}
 
-\item{covariate}{Covariates. Multiple variables should be included in a character vector \code{c()}.}
+\item{covariate}{Covariates. Multiple variables should be included in a character vector \code{\link[=c]{c()}}.}
 
 \item{ss.type}{Type of sums of squares (SS) for ANOVA. Defaults to \code{"III"}.
-Possible values are \code{"II"}, \code{"III"}, \code{2}, or \code{3}.}
+
+Options: \code{"II"}, \code{"III"}, \code{2}, and \code{3}.}
 
 \item{sph.correction}{[Only for repeated measures with >= 3 levels]
 
-Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Defaults to \code{"none"}.
-If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
+Sphericity correction method for adjusting the degrees of freedom (\emph{df}) when the sphericity assumption is violated. Defaults to \code{"none"}. If Mauchly's test of sphericity is significant, you may set it to \code{"GG"} (Greenhouse-Geisser) or \code{"HF"} (Huynh-Feldt).}
 
-\item{aov.include}{Include the \code{aov} object in the returned object?
-Defaults to \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}}
-(please see the \code{include_aov} argument in this help page, which provides a detailed explanation).
-If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link{EMMEANS}}.}
+\item{aov.include}{Include the \code{aov} object in the returned object? Defaults to \code{FALSE}, as suggested by \code{\link[afex:aov_car]{afex::aov_ez()}} (please see the \code{include_aov} argument in this help page, which provides a detailed explanation). If \code{TRUE}, you should also specify \code{model.type="univariate"} in \code{\link[=EMMEANS]{EMMEANS()}}.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 }
 \value{
-A result object (list) returned by
-\code{\link[afex:aov_car]{afex::aov_ez()}},
-along with several other elements:
-\code{between}, \code{within},
-\code{data.wide}, \code{data.long}.
+A result object (list) returned by \code{\link[afex:aov_car]{afex::aov_ez()}} with several other elements: \code{between}, \code{within}, \code{data.wide}, \code{data.long}.
 }
 \description{
-Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs),
-with and without covariates (ANCOVA).
-
-This function is based on and extends \code{\link[afex:aov_car]{afex::aov_ez()}}.
-You only need to specify the data, dependent variable(s), and factors
-(between-subjects and/or within-subjects).
-Almost all results you need will be displayed together,
-including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs).
-90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004).
-In addition to partial \eqn{\eta^2}, it also reports generalized \eqn{\eta^2}, following Olejnik & Algina (2003).
-
-How to prepare your data and specify the arguments of \code{MANOVA}?
+Multi-factor ANOVA (between-subjects, within-subjects, and mixed designs), with and without covariates (ANCOVA). This function is based on and extends \code{\link[afex:aov_car]{afex::aov_ez()}}. You only need to specify the data, dependent variable(s), and factors (between-subjects and/or within-subjects). Almost all results you need will be displayed together, including effect sizes (partial \eqn{\eta^2}) and their confidence intervals (CIs). 90\% CIs for partial \eqn{\eta^2} (two-sided) are reported, following Steiger (2004). In addition, it reports generalized \eqn{\eta^2}, following Olejnik & Algina (2003).
+}
+\section{Data Preparation}{
+How to prepare your data and specify the arguments of \code{\link[=MANOVA]{MANOVA()}}?
 \itemize{
-  \item \strong{Wide-format data} (one person in one row, and repeated measures in multiple columns):
-  \describe{
-    \item{Betweem-subjects design}{\code{MANOVA(data=, dv=, between=, ...)}}
-    \item{Within-subjects design}{\code{MANOVA(data=, dvs=, dvs.pattern=, within=, ...)}}
-    \item{Mixed design}{\code{MANOVA(data=, dvs=, dvs.pattern=, between=, within=, ...)}}
-  }
-  \item \strong{Long-format data} (one person in multiple rows, and repeated measures in one column):
-  \describe{
-    \item{Betweem-subjects design}{(not applicable)}
-    \item{Within-subjects design}{\code{MANOVA(data=, subID=, dv=, within=, ...)}}
-    \item{Mixed design}{\code{MANOVA(data=, subID=, dv=, between=, within=, ...)}}
-  }
+\item \emph{\strong{Wide-format data}} (one person in one row, and repeated measures in multiple columns):
+\describe{
+\item{Betweem-subjects design}{\code{MANOVA(data=, dv=, between=, ...)}}
+\item{Within-subjects design}{\code{MANOVA(data=, dvs=, dvs.pattern=, within=, ...)}}
+\item{Mixed design}{\code{MANOVA(data=, dvs=, dvs.pattern=, between=, within=, ...)}}
+}
+\item \emph{\strong{Long-format data}} (one person in multiple rows, and repeated measures in one column):
+\describe{
+\item{Betweem-subjects design}{(not applicable)}
+\item{Within-subjects design}{\code{MANOVA(data=, subID=, dv=, within=, ...)}}
+\item{Mixed design}{\code{MANOVA(data=, subID=, dv=, between=, within=, ...)}}
 }
 }
-\details{
-If observations are not uniquely identified in user-defined long-format data,
-the function takes averages across those multiple observations for each case.
-In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex:aov_car]{afex::aov_ez()}}
-and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
 }
-\section{Interaction Plot}{
 
-You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
-to create an interaction plot (based on the fitted model and a formula specification).
-For usage, please see the help page of \code{\link[emmeans:emmip]{emmeans::emmip()}}.
-It returns an object of class \code{ggplot}, which can be easily modified and saved using \code{ggplot2} syntax.
+\section{Averaging Across Multiple Observations}{
+If observations are not uniquely identified in user-defined long-format data, the function takes averages across those multiple observations for each case. In technical details, it specifies \code{fun_aggregate=mean} in \code{\link[afex:aov_car]{afex::aov_ez()}} and \code{values_fn=mean} in \code{\link[tidyr:pivot_wider]{tidyr::pivot_wider()}}.
+}
+
+\section{Interaction Plot}{
+You can save the returned object and use \code{\link[emmeans:emmip]{emmeans::emmip()}} to create an interaction plot (based on the fitted model and a formula specification). It returns a \code{ggplot} object, which can be easily modified and saved using \code{ggplot2} syntax.
 }
 
 \examples{
@@ -221,12 +197,14 @@ MANOVA(afex::obk.long,
 }
 }
 \references{
-Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs.
-\emph{Psychological Methods, 8}(4), 434--447.
+Olejnik, S., & Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs. \emph{Psychological Methods, 8}(4), 434--447.
 
-Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
-\emph{Psychological Methods, 9}(2), 164--182.
+Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis. \emph{Psychological Methods, 9}(2), 164--182.
 }
 \seealso{
-\code{\link{TTEST}}, \code{\link{EMMEANS}}, \code{\link{bruceR-demodata}}
+\code{\link[=TTEST]{TTEST()}}
+
+\code{\link[=EMMEANS]{EMMEANS()}}
+
+\code{\link{bruceR-demodata}}
 }

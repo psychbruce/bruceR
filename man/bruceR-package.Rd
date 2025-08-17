@@ -6,146 +6,107 @@
 \alias{bruceR-package}
 \title{bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions}
 \description{
-\strong{BR}oadly
-\strong{U}seful
-\strong{C}onvenient
-and
-\strong{E}fficient
-\strong{R}
-functions that
-\strong{BR}ing
-\strong{U}sers
-\strong{C}oncise
-and
-\strong{E}legant
-\strong{R}
-data analyses.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Package homepage: \url{https://psychbruce.github.io/bruceR/}
-
-Install the latest \href{https://github.com/psychbruce/bruceR}{development version}
-from GitHub:
-\code{devtools::install_github("psychbruce/bruceR")}
-
-Report bugs at \href{https://github.com/psychbruce/bruceR/issues}{GitHub Issues}.
+Broadly useful convenient and efficient R functions that bring users concise and elegant R data analyses. This package includes easy-to-use functions for (1) basic R programming (e.g., set working directory to the path of currently opened file; import/export data from/to files in any format; print tables to Microsoft Word); (2) multivariate computation (e.g., compute scale sums/means/... with reverse scoring); (3) reliability analyses and factor analyses; (4) descriptive statistics and correlation analyses; (5) t-test, multi-factor analysis of variance (ANOVA), simple-effect analysis, and post-hoc multiple comparison; (6) tidy report of statistical models (to R Console and Microsoft Word); (7) mediation and moderation analyses (PROCESS); and (8) additional toolbox for statistics and graphics.
 }
 \section{Main Functions in \code{bruceR}}{
+\subsection{1. Basic R Programming}{
+\itemize{
+\item \code{\link[=set.wd]{set.wd()}} (alias: \code{\link[=set_wd]{set_wd()}})
+\item \code{\link[=import]{import()}}
+\item \code{\link[=export]{export()}}
+\item \code{\link[=cc]{cc()}}
+\item \code{\link[=pkg_depend]{pkg_depend()}}
+\item \code{\link[=formatF]{formatF()}}
+\item \code{\link[=formatN]{formatN()}}
+\item \code{\link[=print_table]{print_table()}}
+\item \code{\link[=Print]{Print()}}
+\item \code{\link[=Glue]{Glue()}}
+\item \code{\link[=Run]{Run()}}
+\item \code{\link{\%^\%}}
+\item \code{\link{\%notin\%}}
+\item \code{\link{\%allin\%}}
+\item \code{\link{\%anyin\%}}
+\item \code{\link{\%nonein\%}}
+\item \code{\link{\%partin\%}}
+}
+}
 
+\subsection{2. Multivariate Computation}{
+\itemize{
+\item \code{\link[=add]{add()}}
+\item \code{\link[=added]{added()}}
+\item \code{\link[=.sum]{.sum()}}
+\item \code{\link[=.mean]{.mean()}}
+\item \code{\link[=SUM]{SUM()}}
+\item \code{\link[=MEAN]{MEAN()}}
+\item \code{\link[=STD]{STD()}}
+\item \code{\link[=MODE]{MODE()}}
+\item \code{\link[=COUNT]{COUNT()}}
+\item \code{\link[=CONSEC]{CONSEC()}}
+\item \code{\link[=RECODE]{RECODE()}}
+\item \code{\link[=RESCALE]{RESCALE()}}
+\item \code{\link[=LOOKUP]{LOOKUP()}}
+}
+}
 
-\describe{
-  \item{\strong{(1) Basic R Programming}}{
-      \code{\link{set.wd}} (alias: \code{\link{set_wd}})
+\subsection{3. Reliability and Factor Analyses}{
+\itemize{
+\item \code{\link[=Alpha]{Alpha()}}
+\item \code{\link[=EFA]{EFA()}}
+\item \code{\link[=PCA]{PCA()}}
+\item \code{\link[=CFA]{CFA()}}
+}
+}
 
-      \code{\link{import}},
-      \code{\link{export}}
+\subsection{4. Descriptive Statistics and Correlation Analyses}{
+\itemize{
+\item \code{\link[=Describe]{Describe()}}
+\item \code{\link[=Freq]{Freq()}}
+\item \code{\link[=Corr]{Corr()}}
+\item \code{\link[=cor_diff]{cor_diff()}}
+\item \code{\link[=cor_multilevel]{cor_multilevel()}}
+}
+}
 
-      \code{\link{cc}}
+\subsection{5. T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}{
+\itemize{
+\item \code{\link[=TTEST]{TTEST()}}
+\item \code{\link[=MANOVA]{MANOVA()}}
+\item \code{\link[=EMMEANS]{EMMEANS()}}
+}
+}
 
-      \code{\link{pkg_depend}},
-      \code{\link{pkg_install_suggested}}
+\subsection{6. Tidy Report of Regression Models}{
+\itemize{
+\item \code{\link[=model_summary]{model_summary()}}
+\item \code{\link[=lavaan_summary]{lavaan_summary()}}
+\item \code{\link[=GLM_summary]{GLM_summary()}}
+\item \code{\link[=HLM_summary]{HLM_summary()}}
+\item \code{\link[=HLM_ICC_rWG]{HLM_ICC_rWG()}}
+\item \code{\link[=regress]{regress()}}
+}
+}
 
-      \code{\link{formatF}},
-      \code{\link{formatN}}
+\subsection{7. Mediation and Moderation Analyses}{
+\itemize{
+\item \code{\link[=PROCESS]{PROCESS()}}
+\item \code{\link[=med_summary]{med_summary()}}
+\item \code{\link[=lavaan_summary]{lavaan_summary()}}
+}
+}
 
-      \code{\link{print_table}}
-
-      \code{\link{Print}},
-      \code{\link{Glue}},
-      \code{\link{Run}}
-
-      \code{\link{\%^\%}}
-
-      \code{\link{\%notin\%}}
-
-      \code{\link{\%allin\%}},
-      \code{\link{\%anyin\%}},
-      \code{\link{\%nonein\%}},
-      \code{\link{\%partin\%}}
-  }
-
-  \item{\strong{(2) Multivariate Computation}}{
-      \code{\link{add}},
-      \code{\link{added}}
-
-      \code{\link{.sum}},
-      \code{\link{.mean}}
-
-      \code{\link{SUM}},
-      \code{\link{MEAN}},
-      \code{\link{STD}},
-      \code{\link{MODE}},
-      \code{\link{COUNT}},
-      \code{\link{CONSEC}}
-
-      \code{\link{RECODE}},
-      \code{\link{RESCALE}}
-
-      \code{\link{LOOKUP}}
-  }
-
-  \item{\strong{(3) Reliability and Factor Analyses}}{
-      \code{\link{Alpha}}
-
-      \code{\link{EFA}} / \code{\link{PCA}}
-
-      \code{\link{CFA}}
-  }
-
-  \item{\strong{(4) Descriptive Statistics and Correlation Analyses}}{
-      \code{\link{Describe}}
-
-      \code{\link{Freq}}
-
-      \code{\link{Corr}}
-
-      \code{\link{cor_diff}}
-
-      \code{\link{cor_multilevel}}
-  }
-
-  \item{\strong{(5) T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
-      \code{\link{TTEST}}
-
-      \code{\link{MANOVA}}
-
-      \code{\link{EMMEANS}}
-  }
-
-  \item{\strong{(6) Tidy Report of Regression Models}}{
-      \code{\link{model_summary}}
-
-      \code{\link{lavaan_summary}}
-
-      \code{\link{GLM_summary}}
-
-      \code{\link{HLM_summary}}
-
-      \code{\link{HLM_ICC_rWG}}
-
-      \code{\link{regress}}
-  }
-
-  \item{\strong{(7) Mediation and Moderation Analyses}}{
-      \code{\link{PROCESS}}
-
-      \code{\link{med_summary}}
-  }
-
-  \item{\strong{(8) Additional Toolbox for Statistics and Graphics}}{
-      \code{\link{grand_mean_center}}
-
-      \code{\link{group_mean_center}}
-
-      \code{\link{ccf_plot}}
-
-      \code{\link{granger_test}}
-
-      \code{\link{granger_causality}}
-
-      \code{\link{theme_bruce}}
-
-      \code{\link{show_colors}}
-  }
+\subsection{8. Additional Toolbox for Statistics and Graphics}{
+\itemize{
+\item \code{\link[=grand_mean_center]{grand_mean_center()}}
+\item \code{\link[=group_mean_center]{group_mean_center()}}
+\item \code{\link[=ccf_plot]{ccf_plot()}}
+\item \code{\link[=granger_test]{granger_test()}}
+\item \code{\link[=granger_causality]{granger_causality()}}
+\item \code{\link[=theme_bruce]{theme_bruce()}}
+\item \code{\link[=show_colors]{show_colors()}}
+}
 }
 }
 
@@ -158,6 +119,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Han-Wu-Shuang Bao \email{baohws@foxmail.com} (\href{https://orcid.org/0000-0003-3043-710X}{ORCID})
+\strong{Maintainer}: Han Wu Shuang Bao \email{baohws@foxmail.com} (\href{https://orcid.org/0000-0003-3043-710X}{ORCID})
 
 }

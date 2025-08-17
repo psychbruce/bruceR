@@ -2,7 +2,7 @@
 % Please edit documentation in R/bruceR_utils.R
 \name{RGB}
 \alias{RGB}
-\title{A simple extension of \code{rgb()}.}
+\title{A simple extension of \code{\link[=rgb]{rgb()}}.}
 \usage{
 RGB(r, g, b, alpha)
 }
@@ -16,10 +16,10 @@ If not specified, an opaque color will be generated.}
 \code{"#rrggbb"} or \code{"#rrggbbaa"}.
 }
 \description{
-A simple extension of \code{rgb()}.
+A simple extension of \code{\link[=rgb]{rgb()}}.
 }
 \examples{
 RGB(255, 0, 0)  # red: "#FF0000"
-RGB(255, 0, 0, 0.8)  # red with 80\\% opacity: "#FF0000CC"
+RGB(255, 0, 0, 0.8)  # red with 80\% opacity: "#FF0000CC"
 
 }

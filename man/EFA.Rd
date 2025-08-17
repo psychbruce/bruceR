@@ -30,58 +30,49 @@ PCA(..., method = "pca")
 \arguments{
 \item{data}{Data frame.}
 
-\item{var}{\strong{[Option 1]}
-Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
-(if \code{var} string has any placeholder in braces \code{{...}},
-then \code{items} will be pasted into the braces, see examples)}
+\item{var}{\strong{[Option 1]} Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"} (if \code{var} string has any placeholder in braces \code{{...}}, then \code{items} will be pasted into the braces, see examples)}
 
-\item{items}{\strong{[Option 1]}
-Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
+\item{items}{\strong{[Option 1]} Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
 
-\item{vars}{\strong{[Option 2]}
-Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
+\item{vars}{\strong{[Option 2]} Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
-\item{varrange}{\strong{[Option 3]}
-Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}}
+\item{varrange}{\strong{[Option 3]} Character string specifying positions (\code{"start:stop"}) of variables: e.g., \code{"A1:E5"}}
 
-\item{rev}{[Optional] Variables that need to be reversed. It can be
-(1) a character vector specifying the reverse-scoring variables (recommended), or
-(2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
+\item{rev}{[Optional] Variables that need to be reversed. It can be (1) a character vector specifying the reverse-scoring variables (recommended), or (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
 \item{method}{Extraction method.
 \itemize{
-  \item \code{"pca"} - Principal Component Analysis (default)
-  \item \code{"pa"} - Principal Axis Factor Analysis
-  \item \code{"ml"} - Maximum Likelihood Factor Analysis
-  \item \code{"minres"} - Minimum Residual Factor Analysis
-  \item \code{"uls"} - Unweighted Least Squares Factor Analysis
-  \item \code{"ols"} - Ordinary Least Squares Factor Analysis
-  \item \code{"wls"} - Weighted Least Squares Factor Analysis
-  \item \code{"gls"} - Generalized Least Squares Factor Analysis
-  \item \code{"alpha"} - Alpha Factor Analysis (Kaiser & Coffey, 1965)
+\item \code{"pca"}: Principal Component Analysis (default)
+\item \code{"pa"}: Principal Axis Factor Analysis
+\item \code{"ml"}: Maximum Likelihood Factor Analysis
+\item \code{"minres"}: Minimum Residual Factor Analysis
+\item \code{"uls"}: Unweighted Least Squares Factor Analysis
+\item \code{"ols"}: Ordinary Least Squares Factor Analysis
+\item \code{"wls"}: Weighted Least Squares Factor Analysis
+\item \code{"gls"}: Generalized Least Squares Factor Analysis
+\item \code{"alpha"}: Alpha Factor Analysis (Kaiser & Coffey, 1965)
 }}
 
 \item{rotation}{Rotation method.
 \itemize{
-  \item \code{"none"} - None (not suggested)
-  \item \code{"varimax"} - Varimax (default)
-  \item \code{"oblimin"} - Direct Oblimin
-  \item \code{"promax"} - Promax
-  \item \code{"quartimax"} - Quartimax
-  \item \code{"equamax"} - Equamax
+\item \code{"none"}: None (not suggested)
+\item \code{"varimax"}: Varimax (default)
+\item \code{"oblimin"}: Direct Oblimin
+\item \code{"promax"}: Promax
+\item \code{"quartimax"}: Quartimax
+\item \code{"equamax"}: Equamax
 }}
 
 \item{nfactors}{How to determine the number of factors/components?
 \itemize{
-  \item \code{"eigen"} - based on eigenvalue (> minimum eigenvalue) (default)
-  \item \code{"parallel"} - based on parallel analysis
-  \item (any number >= 1) - user-defined fixed number
+\item \code{"eigen"}: based on eigenvalue (> minimum eigenvalue) (default)
+\item \code{"parallel"}: based on parallel analysis
+\item any number >= \code{1}: user-defined fixed number
 }}
 
 \item{sort.loadings}{Sort factor/component loadings by size? Defaults to \code{TRUE}.}
 
-\item{hide.loadings}{A number (0~1) for hiding absolute factor/component loadings below this value.
-Defaults to \code{0} (does not hide any loading).}
+\item{hide.loadings}{A number (0~1) for hiding absolute factor/component loadings below this value. Defaults to \code{0} (does not hide any loading).}
 
 \item{plot.scree}{Display the scree plot? Defaults to \code{TRUE}.}
 
@@ -93,31 +84,44 @@ Defaults to \code{0} (does not hide any loading).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 
-\item{...}{Arguments passed from \code{PCA()} to \code{EFA()}.}
+\item{...}{Arguments passed from \code{\link[=PCA]{PCA()}} to \code{\link[=EFA]{EFA()}}.}
 }
 \value{
 A list of results:
 \describe{
-  \item{\code{result}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
-  \item{\code{result.kaiser}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
-  \item{\code{extraction.method}}{Extraction method}
-  \item{\code{rotation.method}}{Rotation method}
-  \item{\code{eigenvalues}}{A \code{data.frame} of eigenvalues and sum of squared (SS) loadings}
-  \item{\code{loadings}}{A \code{data.frame} of factor/component loadings and communalities}
-  \item{\code{scree.plot}}{A \code{ggplot2} object of the scree plot}
+\item{\code{result}}{
+The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}
+}
+\item{\code{result.kaiser}}{
+The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)
+}
+\item{\code{extraction.method}}{
+Extraction method
+}
+\item{\code{rotation.method}}{
+Rotation method
+}
+\item{\code{eigenvalues}}{
+A \code{data.frame} of eigenvalues and sum of squared (SS) loadings
+}
+\item{\code{loadings}}{
+A \code{data.frame} of factor/component loadings and communalities
+}
+\item{\code{scree.plot}}{
+A \code{ggplot} object of the scree plot
+}
 }
 }
 \description{
-An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}},
-performing either Principal Component Analysis (PCA) or Exploratory Factor Analysis (EFA).
+An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}}, performing either Principal Component Analysis (PCA) or Exploratory Factor Analysis (EFA).
 
 Three options to specify variables:
 \enumerate{
-  \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-  \item \strong{\code{vars}}: directly define a character vector of variables.
-  \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
+\item \strong{\code{var} + \code{items}}: common and unique parts of variable names (suggested).
+\item \strong{\code{vars}}: a character vector of variable names (suggested).
+\item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 }
 }
 \section{Functions}{
@@ -128,8 +132,7 @@ Three options to specify variables:
 
 }}
 \note{
-Results based on the \code{varimax} rotation method are identical to SPSS.
-The other rotation methods may produce results slightly different from SPSS.
+Results based on the \code{varimax} rotation method are identical to SPSS. The other rotation methods may produce results slightly different from SPSS.
 }
 \examples{
 \donttest{data = psych::bfi
@@ -153,5 +156,9 @@ data \%>\% select(matches("\\\\d$")) \%>\%
 }
 }
 \seealso{
-\code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
+\code{\link[=MEAN]{MEAN()}}
+
+\code{\link[=Alpha]{Alpha()}}
+
+\code{\link[=CFA]{CFA()}}
 }

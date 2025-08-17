@@ -9,7 +9,7 @@ dtime(t0, unit = "secs", digits = 0)
 \arguments{
 \item{t0}{Time at the beginning.}
 
-\item{unit}{Options: \code{"auto", "secs", "mins", "hours", "days", "weeks"}. Defaults to \code{"secs"}.}
+\item{unit}{Options: \code{"auto"}, \code{"secs"}, \code{"mins"}, \code{"hours"}, \code{"days"}, \code{"weeks"}. Defaults to \code{"secs"}.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{0}.}
 }

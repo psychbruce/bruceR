@@ -1,5 +1,16 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 2025.8
+
+-   Rewrote all help pages in the style of Roxygen markdown, and refined most of them.
+-   Provided solutions when `MANOVA()` gets unknown errors: Simply updating R and all R packages. This issue has been reported by not a few users and can be solved simply by updating all packages.
+-   Highlight in `PROCESS()` that it ***DOES NOT*** use any code or macro from the SPSS PROCESS macro developed by Hayes, though the output links the model setting to the PROCESS Model Number in Hayes's numbering system. So please ***DO NOT*** state that "~~the bruceR package runs the PROCESS Model Code developed by Hayes (2018)~~" — it was not the truth.
+    -   Remember that `PROCESS()` uses `mediation::mediate()`, `interactions::sim_slopes()`, and `lavaan::sem()` as main functions inside, completely different from and having no relation with the SPSS PROCESS macro.
+-   Fixed `Corr()` when `plot=FALSE` does not return the `ggplot` object (thanks to a student in my R course at ECNU for reporting this issue).
+-   No longer check online updates when `library(bruceR)` since it is getting stable.
+-   Reexported `%notin%` from `data.table` to avoid function name conflict.
+-   Deprecated `pkg_install_suggested()` from exported functions, but it can be accessed via `bruceR:::pkg_install_suggested()`.
+
 # bruceR 2024.6
 
 -   Had to move `MuMIn` from "Imports" to "Suggests" due to its unresolved CRAN issues which need fixing before 2024-06-14.

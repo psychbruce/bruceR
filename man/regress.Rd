@@ -19,33 +19,25 @@ regress(
 
 \item{data}{Data frame.}
 
-\item{family}{[Optional] The same as in \code{glm} and \code{glmer}
-(e.g., \code{family=binomial} fits a logistic regression model).}
+\item{family}{[Optional] The same as in \code{glm} and \code{glmer} (e.g., \code{family=binomial} fits a logistic regression model).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{robust}{[Only for \code{lm} and \code{glm}]
-\code{FALSE} (default), \code{TRUE} (then the default is \code{"HC1"}),
-\code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, or \code{"HC5"}.
-It will add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
-For details, see \code{?sandwich::vcovHC} and \code{?jtools::summ.lm}.
+\item{robust}{[Only for \code{lm} and \code{glm}] Robust standard errors. Add a table with heteroskedasticity-robust standard errors (aka. Huber-White standard errors).
 
-*** \code{"HC1"} is the default of Stata, whereas \code{"HC3"} is the default suggested by the \code{sandwich} package.}
+Options: \code{FALSE} (default), \code{TRUE} (\code{"HC1"}), \code{"HC0"}, \code{"HC1"}, \code{"HC2"}, \code{"HC3"}, \code{"HC4"}, \code{"HC4m"}, \code{"HC5"}. For details, see \code{\link[sandwich:vcovHC]{sandwich::vcovHC()}} and \code{\link[jtools:summ.lm]{jtools::summ.lm()}}.
 
-\item{cluster}{[Only for \code{lm} and \code{glm}]
-Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.}
+Note: \code{"HC1"} is the default of Stata, while \code{"HC3"} is the default suggested by the \code{sandwich} package.}
 
-\item{test.rand}{[Only for \code{lmer} and \code{glmer}]
-\code{TRUE} or \code{FALSE} (default).
-Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT),
-which is asymptotically chi-square distributed.
-For large datasets, it is much time-consuming.}
+\item{cluster}{[Only for \code{lm} and \code{glm}] Cluster-robust standard errors are computed if cluster is set to the name of the input data's cluster variable or is a vector of clusters.}
+
+\item{test.rand}{[Only for \code{lmer} and \code{glmer}] \code{TRUE} or \code{FALSE} (default). Test random effects (i.e., variance components) by using the likelihood-ratio test (LRT), which is asymptotically chi-square distributed. For large datasets, it is much time-consuming.}
 }
 \value{
 No return value.
 }
 \description{
-NOTE: \code{\link{model_summary}} is preferred.
+NOTE: \code{\link[=model_summary]{model_summary()}} is preferred.
 }
 \examples{
 \dontrun{
@@ -72,11 +64,11 @@ NOTE: \code{\link{model_summary}} is preferred.
 
 }
 \seealso{
-\code{\link{print_table}} (print simple table)
+\code{\link[=print_table]{print_table()}} (print simple table)
 
-\code{\link{model_summary}} (highly suggested)
+\code{\link[=model_summary]{model_summary()}} (strongly suggested)
 
-\code{\link{GLM_summary}}
+\code{\link[=GLM_summary]{GLM_summary()}}
 
-\code{\link{HLM_summary}}
+\code{\link[=HLM_summary]{HLM_summary()}}
 }

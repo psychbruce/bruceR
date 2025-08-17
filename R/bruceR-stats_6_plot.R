@@ -1,53 +1,42 @@
 #### Plot Toolbox ####
 
 
-#' A nice \code{ggplot2} theme that enables Markdown/HTML rich text.
+#' A nice `ggplot2` theme that enables Markdown/HTML rich text.
 #'
 #' @description
-#' A nice \code{ggplot2} theme for scientific publication.
-#' It uses \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
-#' to render Markdown/HTML formatted rich text.
-#' You can use a combination of Markdown and/or HTML syntax
-#' (e.g., \code{"*y* = *x*<sup>2</sup>"}) in plot text or title,
-#' and this function draws text elements with rich text format.
+#' A nice `ggplot2` theme for scientific publication. It also uses [ggtext::element_markdown()] to render Markdown/HTML formatted rich text. You can use a combination of Markdown and/or HTML syntax (e.g., `"*y* = *x*<sup>2</sup>"`) in plot text or title, and this function draws text elements with rich text format.
 #'
 #' For more usage, see:
-#' \itemize{
-#'   \item \code{\link[ggtext:geom_richtext]{ggtext::geom_richtext()}}
-#'   \item \code{\link[ggtext:geom_textbox]{ggtext::geom_textbox()}}
-#'   \item \code{\link[ggtext:element_markdown]{ggtext::element_markdown()}}
-#'   \item \code{\link[ggtext:element_textbox]{ggtext::element_textbox()}}
-#' }
+#' - [ggtext::geom_richtext()]
+#' - [ggtext::geom_textbox()]
+#' - [ggtext::element_markdown()]
+#' - [ggtext::element_textbox()]
 #'
-#' @param markdown Use \code{element_markdown()} instead of \code{element_text()}. Defaults to \code{FALSE}.
-#' If set to \code{TRUE}, then you should also use \code{element_markdown()} in \code{theme()} (if any).
-#' @param base.size Basic font size. Defaults to \code{12}.
-#' @param line.size Line width. Defaults to \code{0.5}.
-#' @param border \code{TRUE}, \code{FALSE}, or \code{"black"} (default).
-#' @param bg Background color of whole plot. Defaults to \code{"white"}.
+#' @param markdown Use `element_markdown()` instead of `element_text()`. Defaults to `FALSE`.
+#' If set to `TRUE`, then you should also use `element_markdown()` in `theme()` (if any).
+#' @param base.size Basic font size. Defaults to `12`.
+#' @param line.size Line width. Defaults to `0.5`.
+#' @param border `TRUE`, `FALSE`, or `"black"` (default).
+#' @param bg Background color of whole plot. Defaults to `"white"`.
 #' You can use any colors or choose from some pre-set color palettes:
-#' \code{"stata", "stata.grey", "solar", "wsj", "light", "dust"}.
-#'
-#' To see these colors, you can type:
-#'
-#' \code{ggthemr::colour_plot(c(stata="#EAF2F3", stata.grey="#E8E8E8",
-#' solar="#FDF6E3", wsj="#F8F2E4", light="#F6F1EB", dust="#FAF7F2"))}
-#' @param panel.bg Background color of panel. Defaults to \code{"white"}.
-#' @param tag Font face of tag. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
-#' @param plot.title Font face of title. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
-#' @param axis.title Font face of axis text. Choose from \code{"plain", "italic", "bold", "bold.italic"}.
+#' `"stata"`, `"stata.grey"`, `"solar"`, `"wsj"`, `"light"`, `"dust"`.
+#' @param panel.bg Background color of panel. Defaults to `"white"`.
+#' @param tag Font face of tag. Choose from `"plain"`, `"italic"`, `"bold"`, `"bold.italic"`.
+#' @param plot.title Font face of title. Choose from `"plain"`, `"italic"`, `"bold"`, `"bold.italic"`.
+#' @param axis.title Font face of axis text. Choose from `"plain"`, `"italic"`, `"bold"`, `"bold.italic"`.
 #' @param title.pos Title position (0~1).
 #' @param subtitle.pos Subtitle position (0~1).
 #' @param caption.pos Caption position (0~1).
 #' @param font Text font. Only applicable to Windows system.
-#' @param grid.x \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (x).
-#' @param grid.y \code{FALSE}, \code{""} (default), or a color (e.g., \code{"grey90"}) to set the color of panel grid (y).
-#' @param line.x Draw the x-axis line. Defaults to \code{TRUE}.
-#' @param line.y Draw the y-axis line. Defaults to \code{TRUE}.
-#' @param tick.x Draw the x-axis ticks. Defaults to \code{TRUE}.
-#' @param tick.y Draw the y-axis ticks. Defaults to \code{TRUE}.
+#' @param grid.x `FALSE`, `""` (default), or a color (e.g., `"grey90"`) to set the color of panel grid (x).
+#' @param grid.y `FALSE`, `""` (default), or a color (e.g., `"grey90"`) to set the color of panel grid (y).
+#' @param line.x Draw the x-axis line. Defaults to `TRUE`.
+#' @param line.y Draw the y-axis line. Defaults to `TRUE`.
+#' @param tick.x Draw the x-axis ticks. Defaults to `TRUE`.
+#' @param tick.y Draw the y-axis ticks. Defaults to `TRUE`.
 #'
-#' @return A theme object that should be used for \code{ggplot2}.
+#' @return
+#' A `theme` object that should be used for `ggplot2`.
 #'
 #' @examples
 #' \donttest{## Example 1 (bivariate correlation)
@@ -167,18 +156,17 @@ theme_bruce = function(
 #'
 #' @param colors Color names.
 #'
-#' e.g.,
-#' \itemize{
-#'   \item \code{"red"} (R base color names)
-#'   \item \code{"#FF0000"} (hex color names)
-#'   \item \code{see::social_colors()}
-#'   \item \code{viridis::viridis_pal()(10)}
-#'   \item \code{RColorBrewer::brewer.pal(name="Set1", n=9)}
-#'   \item \code{RColorBrewer::brewer.pal(name="Set2", n=8)}
-#'   \item \code{RColorBrewer::brewer.pal(name="Spectral", n=11)}
-#' }
+#' Examples:
+#' - `"red"` (R base color names)
+#' - `"#FF0000"` (hex color names)
+#' - `see::social_colors()`
+#' - `viridis::viridis_pal()(10)`
+#' - `RColorBrewer::brewer.pal(name="Set1", n=9)`
+#' - `RColorBrewer::brewer.pal(name="Set2", n=8)`
+#' - `RColorBrewer::brewer.pal(name="Spectral", n=11)`
 #'
-#' @return A \code{gg} object.
+#' @return
+#' A `ggplot` object.
 #'
 #' @examples
 #' \donttest{show_colors("blue")

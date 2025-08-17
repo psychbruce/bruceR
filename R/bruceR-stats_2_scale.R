@@ -4,38 +4,27 @@
 #' Multivariate computation.
 #'
 #' @description
-#' Easily compute multivariate sum, mean, and other scores.
-#' Reverse scoring can also be easily implemented without saving extra variables.
-#' \code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
+#' Easily compute multivariate sum, mean, and other scores. Reverse scoring can also be easily implemented without saving extra variables.
+#' [Alpha()] function uses a similar method to deal with reverse scoring.
 #'
-#' Three ways to specify variables:
-#' \enumerate{
-#'   \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
-#'   \item \strong{\code{vars}}: a character vector of variable names (suggested).
-#'   \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
-#' }
+#' Three options to specify variables:
+#' 1. **`var` + `items`**: common and unique parts of variable names (suggested).
+#' 2. **`vars`**: a character vector of variable names (suggested).
+#' 3. **`varrange`**: starting and stopping positions of variables (NOT suggested).
 #'
 #' @param data Data frame.
-#' @param var \strong{[Option 1]}
-#' Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
-#' (if \code{var} string has any placeholder in braces \code{{...}},
-#' then \code{items} will be pasted into the braces, see examples)
-#' @param items \strong{[Option 1]}
-#' Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}
-#' @param vars \strong{[Option 2]}
-#' Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}
-#' @param varrange \strong{[Option 3]}
-#' Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}
-#' @param value [Only for \code{COUNT}] The value to be counted.
-#' @param rev [Optional] Variables that need to be reversed. It can be
-#' (1) a character vector specifying the reverse-scoring variables (recommended), or
-#' (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).
-#' @param range,likert [Optional] Range of likert scale: e.g., \code{1:5}, \code{c(1, 5)}.
-#' If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
-#' @param na.rm Ignore missing values. Defaults to \code{TRUE}.
-#' @param values [Only for \code{CONSEC}] Values to be counted as consecutive identical values. Defaults to all numbers (\code{0:9}).
+#' @param var **\[Option 1\]** Common part across variables: e.g., `"RSES"`, `"XX.{i}.pre"` (if `var` string has any placeholder in braces `{...}`, then `items` will be pasted into the braces, see examples)
+#' @param items **\[Option 1\]** Unique part across variables: e.g., `1:10`, `c("a", "b", "c")`
+#' @param vars **\[Option 2\]** Character vector specifying variables: e.g., `c("X1", "X2", "X3", "X4", "X5")`
+#' @param varrange **\[Option 3\]** Character string specifying positions (`"start:stop"`) of variables: e.g., `"A1:E5"`
+#' @param value \[Only for [COUNT()]\] The value to be counted.
+#' @param rev \[Optional\] Variables that need to be reversed. It can be (1) a character vector specifying the reverse-scoring variables (recommended), or (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).
+#' @param range,likert \[Optional\] Range of likert scale: e.g., `1:5`, `c(1, 5)`. If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).
+#' @param na.rm Ignore missing values. Defaults to `TRUE`.
+#' @param values \[Only for [CONSEC()]\] Values to be counted as consecutive identical values. Defaults to all numbers (`0:9`).
 #'
-#' @return A vector of computed values.
+#' @return
+#' A vector of computed values.
 #'
 #' @examples
 #' d = data.table(
@@ -125,7 +114,7 @@ convert2vars = function(data,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' \strong{Count} a certain value across variables.
+#' **Count** a certain value across variables.
 #' @export
 COUNT = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
                  value=NA) {
@@ -142,7 +131,7 @@ COUNT = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Compute \strong{mode} across variables.
+#' Compute **mode** across variables.
 #' @export
 MODE = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
   getmode = function(v) {
@@ -157,7 +146,7 @@ MODE = function(data, var=NULL, items=NULL, vars=NULL, varrange=NULL) {
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Compute \strong{sum} across variables.
+#' Compute **sum** across variables.
 #' @export
 SUM = function(data,
                var=NULL, items=NULL, vars=NULL, varrange=NULL,
@@ -181,8 +170,7 @@ SUM = function(data,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Tidy version of \code{SUM},
-#' only can be used in \code{\link[bruceR:add]{add()/added()}}
+#' Tidy version of [SUM()], can only be used in [`add()/added()`][bruceR::add].
 #' @export
 .sum = function(var=NULL, items=NULL, vars=NULL, varrange=NULL,
                 rev=NULL, range=likert, likert=NULL,
@@ -209,7 +197,7 @@ SUM = function(data,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Compute \strong{mean} across variables.
+#' Compute **mean** across variables.
 #' @export
 MEAN = function(data,
                 var=NULL, items=NULL, vars=NULL, varrange=NULL,
@@ -233,8 +221,7 @@ MEAN = function(data,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Tidy version of \code{MEAN},
-#' only can be used in \code{\link[bruceR:add]{add()/added()}}
+#' Tidy version of [MEAN()], can only be used in [`add()/added()`][bruceR::add].
 #' @export
 .mean = function(var=NULL, items=NULL, vars=NULL, varrange=NULL,
                  rev=NULL, range=likert, likert=NULL,
@@ -261,7 +248,7 @@ MEAN = function(data,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Compute \strong{standard deviation} across variables.
+#' Compute **standard deviation** across variables.
 #' @export
 STD = function(data,
                var=NULL, items=NULL, vars=NULL, varrange=NULL,
@@ -285,7 +272,7 @@ STD = function(data,
 
 
 #' @describeIn grapes-grapes-COMPUTE-grapes-grapes
-#' Compute \strong{consecutive identical digits} across variables (especially useful in detecting careless responding).
+#' Compute **consecutive identical digits** across variables (especially useful in detecting careless responding).
 #' @export
 CONSEC = function(data,
                   var=NULL, items=NULL, vars=NULL, varrange=NULL,
@@ -303,34 +290,31 @@ CONSEC = function(data,
 }
 
 
-
-
 #### Reliability, EFA, and CFA ####
 
 
 #' Reliability analysis (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}).
 #'
 #' @description
-#' An extension of \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}},
-#' reporting (1) scale statistics
-#' (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and
-#' (2) item statistics
-#' (item-rest correlation [i.e., corrected item-total correlation]
-#' and Cronbach's \eqn{\alpha} if item deleted).
+#' An extension of [psych::alpha()] and [psych::omega()], reporting (1) scale statistics (Cronbach's \eqn{\alpha} and McDonald's \eqn{\omega}) and (2) item statistics (item-rest correlation \[i.e., corrected item-total correlation\] and Cronbach's \eqn{\alpha} if item deleted).
 #'
 #' Three options to specify variables:
-#' \enumerate{
-#'   \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
-#'   \item \strong{\code{vars}}: a character vector of variable names (suggested).
-#'   \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
-#' }
+#' 1. **`var` + `items`**: common and unique parts of variable names (suggested).
+#' 2. **`vars`**: a character vector of variable names (suggested).
+#' 3. **`varrange`**: starting and stopping positions of variables (NOT suggested).
 #'
 #' @inheritParams %%COMPUTE%%
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
+#' @param digits Number of decimal places of output. Defaults to `3`.
 #'
 #' @return
-#' A list of results obtained from
-#' \code{\link[psych:alpha]{psych::alpha()}} and \code{\link[psych:omega]{psych::omega()}}.
+#' A list of results obtained from [psych::alpha()] and [psych::omega()].
+#'
+#' @seealso
+#' [MEAN()]
+#'
+#' [EFA()]
+#'
+#' [CFA()]
 #'
 #' @examples
 #' # ?psych::bfi
@@ -345,9 +329,6 @@ CONSEC = function(data,
 #' data %>% select(E1, E2, E3, E4, E5) %>%
 #'   Alpha(vars=names(.), rev=cc("E1, E2"))
 #' }
-#' @seealso
-#' \code{\link{MEAN}}, \code{\link{EFA}}, \code{\link{CFA}}
-#'
 #' @export
 Alpha = function(
     data, var, items, vars=NULL, varrange=NULL, rev=NULL,
@@ -439,75 +420,83 @@ Alpha = function(
 #' Principal Component Analysis (PCA) and Exploratory Factor analysis (EFA).
 #'
 #' @description
-#' An extension of \code{\link[psych:principal]{psych::principal()}} and \code{\link[psych:fa]{psych::fa()}},
-#' performing either Principal Component Analysis (PCA) or Exploratory Factor Analysis (EFA).
+#' An extension of [psych::principal()] and [psych::fa()], performing either Principal Component Analysis (PCA) or Exploratory Factor Analysis (EFA).
 #'
 #' Three options to specify variables:
-#' \enumerate{
-#'   \item \strong{\code{var + items}}: use the common and unique parts of variable names.
-#'   \item \strong{\code{vars}}: directly define a character vector of variables.
-#'   \item \strong{\code{varrange}}: use the starting and stopping positions of variables.
-#' }
+#' 1. **`var` + `items`**: common and unique parts of variable names (suggested).
+#' 2. **`vars`**: a character vector of variable names (suggested).
+#' 3. **`varrange`**: starting and stopping positions of variables (NOT suggested).
 #'
 #' @inheritParams %%COMPUTE%%
 #' @param method Extraction method.
-#' \itemize{
-#'   \item \code{"pca"} - Principal Component Analysis (default)
-#'   \item \code{"pa"} - Principal Axis Factor Analysis
-#'   \item \code{"ml"} - Maximum Likelihood Factor Analysis
-#'   \item \code{"minres"} - Minimum Residual Factor Analysis
-#'   \item \code{"uls"} - Unweighted Least Squares Factor Analysis
-#'   \item \code{"ols"} - Ordinary Least Squares Factor Analysis
-#'   \item \code{"wls"} - Weighted Least Squares Factor Analysis
-#'   \item \code{"gls"} - Generalized Least Squares Factor Analysis
-#'   \item \code{"alpha"} - Alpha Factor Analysis (Kaiser & Coffey, 1965)
-#' }
+#' - `"pca"`: Principal Component Analysis (default)
+#' - `"pa"`: Principal Axis Factor Analysis
+#' - `"ml"`: Maximum Likelihood Factor Analysis
+#' - `"minres"`: Minimum Residual Factor Analysis
+#' - `"uls"`: Unweighted Least Squares Factor Analysis
+#' - `"ols"`: Ordinary Least Squares Factor Analysis
+#' - `"wls"`: Weighted Least Squares Factor Analysis
+#' - `"gls"`: Generalized Least Squares Factor Analysis
+#' - `"alpha"`: Alpha Factor Analysis (Kaiser & Coffey, 1965)
 #' @param rotation Rotation method.
-#' \itemize{
-#'   \item \code{"none"} - None (not suggested)
-#'   \item \code{"varimax"} - Varimax (default)
-#'   \item \code{"oblimin"} - Direct Oblimin
-#'   \item \code{"promax"} - Promax
-#'   \item \code{"quartimax"} - Quartimax
-#'   \item \code{"equamax"} - Equamax
-#' }
+#' - `"none"`: None (not suggested)
+#' - `"varimax"`: Varimax (default)
+#' - `"oblimin"`: Direct Oblimin
+#' - `"promax"`: Promax
+#' - `"quartimax"`: Quartimax
+#' - `"equamax"`: Equamax
 #' @param nfactors How to determine the number of factors/components?
-#' \itemize{
-#'   \item \code{"eigen"} - based on eigenvalue (> minimum eigenvalue) (default)
-#'   \item \code{"parallel"} - based on parallel analysis
-#'   \item (any number >= 1) - user-defined fixed number
-#' }
-#' @param sort.loadings Sort factor/component loadings by size? Defaults to \code{TRUE}.
-#' @param hide.loadings A number (0~1) for hiding absolute factor/component loadings below this value.
-#' Defaults to \code{0} (does not hide any loading).
-#' @param plot.scree Display the scree plot? Defaults to \code{TRUE}.
-#' @param kaiser Do the Kaiser normalization (as in SPSS)? Defaults to \code{TRUE}.
-#' @param max.iter Maximum number of iterations for convergence. Defaults to \code{25} (the same as in SPSS).
-#' @param min.eigen Minimum eigenvalue (used if \code{nfactors="eigen"}). Defaults to \code{1}.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
-#' @param ... Arguments passed from \code{PCA()} to \code{EFA()}.
+#' - `"eigen"`: based on eigenvalue (> minimum eigenvalue) (default)
+#' - `"parallel"`: based on parallel analysis
+#' - any number >= `1`: user-defined fixed number
+#' @param sort.loadings Sort factor/component loadings by size? Defaults to `TRUE`.
+#' @param hide.loadings A number (0~1) for hiding absolute factor/component loadings below this value. Defaults to `0` (does not hide any loading).
+#' @param plot.scree Display the scree plot? Defaults to `TRUE`.
+#' @param kaiser Do the Kaiser normalization (as in SPSS)? Defaults to `TRUE`.
+#' @param max.iter Maximum number of iterations for convergence. Defaults to `25` (the same as in SPSS).
+#' @param min.eigen Minimum eigenvalue (used if `nfactors="eigen"`). Defaults to `1`.
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`).
+#' @param ... Arguments passed from [PCA()] to [EFA()].
 #'
 #' @note
-#' Results based on the \code{varimax} rotation method are identical to SPSS.
-#' The other rotation methods may produce results slightly different from SPSS.
+#' Results based on the `varimax` rotation method are identical to SPSS. The other rotation methods may produce results slightly different from SPSS.
 #'
 #' @return
 #' A list of results:
 #' \describe{
-#'   \item{\code{result}}{The R object returned from \code{\link[psych:principal]{psych::principal()}} or \code{\link[psych:fa]{psych::fa()}}}
-#'   \item{\code{result.kaiser}}{The R object returned from \code{\link[psych:kaiser]{psych::kaiser()}} (if any)}
-#'   \item{\code{extraction.method}}{Extraction method}
-#'   \item{\code{rotation.method}}{Rotation method}
-#'   \item{\code{eigenvalues}}{A \code{data.frame} of eigenvalues and sum of squared (SS) loadings}
-#'   \item{\code{loadings}}{A \code{data.frame} of factor/component loadings and communalities}
-#'   \item{\code{scree.plot}}{A \code{ggplot2} object of the scree plot}
+#'   \item{`result`}{
+#'     The R object returned from [psych::principal()] or [psych::fa()]
+#'   }
+#'   \item{`result.kaiser`}{
+#'     The R object returned from [psych::kaiser()] (if any)
+#'   }
+#'   \item{`extraction.method`}{
+#'     Extraction method
+#'   }
+#'   \item{`rotation.method`}{
+#'     Rotation method
+#'   }
+#'   \item{`eigenvalues`}{
+#'     A `data.frame` of eigenvalues and sum of squared (SS) loadings
+#'   }
+#'   \item{`loadings`}{
+#'     A `data.frame` of factor/component loadings and communalities
+#'   }
+#'   \item{`scree.plot`}{
+#'     A `ggplot` object of the scree plot
+#'   }
 #' }
 #'
-#' @describeIn EFA Exploratory Factor Analysis
+#' @describeIn EFA
+#' Exploratory Factor Analysis
 #'
 #' @seealso
-#' \code{\link{MEAN}}, \code{\link{Alpha}}, \code{\link{CFA}}
+#' [MEAN()]
+#'
+#' [Alpha()]
+#'
+#' [CFA()]
 #'
 #' @examples
 #' \donttest{data = psych::bfi
@@ -780,7 +769,8 @@ EFA = function(
 }
 
 
-#' @describeIn EFA Principal Component Analysis - a wrapper of \code{EFA(..., method="pca")}
+#' @describeIn EFA
+#' Principal Component Analysis - a wrapper of `EFA(..., method="pca")`
 #' @export
 PCA = function(..., method="pca") { EFA(..., method=method) }
 
@@ -851,37 +841,34 @@ modelCFA.trans = function(style=c("jmv", "lavaan"),
 
 #' Confirmatory Factor Analysis (CFA).
 #'
-#' An extension of \code{\link[lavaan:cfa]{lavaan::cfa()}}.
+#' An extension of [lavaan::cfa()].
 #'
 #' @inheritParams %%COMPUTE%%
 #' @param model Model formula. See examples.
-#' @param estimator The estimator to be used
-#' (for details, see \link[lavaan:lavOptions]{lavaan options}).
-#' Defaults to \code{"ML"}.
-#' Can be one of the following:
-#' \describe{
-#'   \item{\code{"ML"}}{Maximum Likelihood (can be extended to
-#'   \code{"MLM"}, \code{"MLMV"}, \code{"MLMVS"}, \code{"MLF"}, or \code{"MLR"}
-#'   for robust standard errors and robust test statistics)}
-#'   \item{\code{"GLS"}}{Generalized Least Squares}
-#'   \item{\code{"WLS"}}{Weighted Least Squares}
-#'   \item{\code{"ULS"}}{Unweighted Least Squares}
-#'   \item{\code{"DWLS"}}{Diagonally Weighted Least Squares}
-#'   \item{\code{"DLS"}}{Distributionally-weighted Least Squares}
-#' }
-#' @param highorder High-order factor. Defaults to \code{""}.
-#' @param orthogonal Defaults to \code{FALSE}. If \code{TRUE}, all covariances among latent variables are set to zero.
-#' @param missing Defaults to \code{"listwise"}. Alternative is \code{"fiml"} ("Full Information Maximum Likelihood").
-## @param CI \code{TRUE} or \code{FALSE} (default), provide confidence intervals for the model estimates.
-## @param MI \code{TRUE} or \code{FALSE} (default), provide modification indices for the parameters not included in the model.
-#' @param digits Number of decimal places of output. Defaults to \code{3}.
-#' @param file File name of MS Word (\code{.doc}).
+#' @param estimator The estimator to be used (for details, see [lavaan options][lavaan::lavOptions]).
+#'
+#' Defaults to `"ML"`. Can be one of the following:
+#' - `"ML"`: Maximum Likelihood (can be extended to `"MLM"`, `"MLMV"`, `"MLMVS"`, `"MLF"`, or `"MLR"` for robust standard errors and robust test statistics)
+#' - `"GLS"`: Generalized Least Squares
+#' - `"WLS"`: Weighted Least Squares
+#' - `"ULS"`: Unweighted Least Squares
+#' - `"DWLS"`: Diagonally Weighted Least Squares
+#' - `"DLS"`: Distributionally-weighted Least Squares
+#' @param highorder High-order factor. Defaults to `""`.
+#' @param orthogonal Defaults to `FALSE`. If `TRUE`, all covariances among latent variables are set to zero.
+#' @param missing Defaults to `"listwise"`. Alternative is `"fiml"` ("Full Information Maximum Likelihood").
+#' @param digits Number of decimal places of output. Defaults to `3`.
+#' @param file File name of MS Word (`".doc"`).
 #'
 #' @return
-#' A list of results returned by \code{\link[lavaan:cfa]{lavaan::cfa()}}.
+#' A list of results returned by [lavaan::cfa()].
 #'
 #' @seealso
-#' \code{\link{Alpha}}, \code{\link{EFA}}, \code{\link{lavaan_summary}}
+#' [Alpha()]
+#'
+#' [EFA()]
+#'
+#' [lavaan_summary()]
 #'
 #' @examples
 #' \donttest{data.cfa=lavaan::HolzingerSwineford1939
@@ -901,7 +888,6 @@ CFA = function(
     model="A =~ a[1:5]; B =~ b[c(1,3,5)]; C =~ c1 + c2 + c3",
     estimator="ML",
     highorder="", orthogonal=FALSE, missing="listwise",
-    # CI=FALSE, MI=FALSE,
     digits=3,
     file=NULL
 ) {
@@ -914,31 +900,17 @@ CFA = function(
   cat(model.lav)
   cat("\n")
 
-  # # jmv style
-  # if("jmv" %in% style) {
-  #   fit.jmv = jmv::cfa(data=data, factors=model.jmv,
-  #                      resCov=NULL,
-  #                      constrain="facVar", # or "facInd"
-  #                      # 'facVar' fixes the factor variances to 1
-  #                      # 'facInd' fixes each factor to the scale of its first indicator
-  #                      ci=CI, mi=MI, # modification indices
-  #                      stdEst=TRUE, resCovEst=TRUE,
-  #                      # pathDiagram=plot,
-  #                      fitMeasures=c("cfi", "tli", "rmsea", "srmr", "aic", "bic"),
-  #                      miss=missing) # fiml (default), listwise
-  #   cat("\n#### jamovi style output ####\n")
-  #   print(fit.jmv)
-  # }
-
   # lavaan style
-  fit.lav = lavaan::cfa(model=model.lav,
-                        data=data,
-                        estimator=estimator,
-                        std.lv=TRUE,
-                        # TRUE: fixing the factor residual variances to 1
-                        # FALSE: fixing the factor loading of the first indicator to 1
-                        orthogonal=orthogonal,
-                        missing=missing) # fiml, listwise (default)
+  fit.lav = lavaan::cfa(
+    model=model.lav,
+    data=data,
+    estimator=estimator,
+    std.lv=TRUE,
+    # TRUE: fixing the factor residual variances to 1
+    # FALSE: fixing the factor loading of the first indicator to 1
+    orthogonal=orthogonal,
+    missing=missing  # fiml, listwise (default)
+  )
   # cat("\n#### lavaan output ####\n\n")
   lavaan_summary(fit.lav, ci="raw", digits=digits, file=file)
   # lavaan::summary(fit.lav,

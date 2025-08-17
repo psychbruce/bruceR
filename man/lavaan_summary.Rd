@@ -24,9 +24,9 @@ lavaan_summary(
 Defaults to \code{"raw"} (the standard approach of \code{lavaan}).
 Other options:
 \describe{
-  \item{\code{"boot"}}{Percentile Bootstrap}
-  \item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
-  \item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
+\item{\code{"boot"}}{Percentile Bootstrap}
+\item{\code{"bc.boot"}}{Bias-Corrected Percentile Bootstrap}
+\item{\code{"bca.boot"}}{Bias-Corrected and Accelerated (BCa) Percentile Bootstrap}
 }}
 
 \item{nsim}{Number of simulation samples (bootstrap resampling)
@@ -46,11 +46,11 @@ In formal analyses, \strong{\code{nsim=1000} (or larger)} is strongly suggested.
 \value{
 Invisibly return a list of results:
 \describe{
-  \item{\code{fit}}{Model fit indices.}
-  \item{\code{measure}}{Latent variable measures.}
-  \item{\code{regression}}{Regression paths.}
-  \item{\code{covariance}}{Variances and/or covariances.}
-  \item{\code{effect}}{Defined effect estimates.}
+\item{\code{fit}}{Model fit indices.}
+\item{\code{measure}}{Latent variable measures.}
+\item{\code{regression}}{Regression paths.}
+\item{\code{covariance}}{Variances and/or covariances.}
+\item{\code{effect}}{Defined effect estimates.}
 }
 }
 \description{

@@ -11,7 +11,7 @@ cc(..., sep = "auto", trim = TRUE)
 
 \item{sep}{Pattern for separation.
 Defaults to \code{"auto"}:
-\code{,} \code{;} \code{|} \code{\\n} \code{\\t}}
+\verb{,} \verb{;} \code{|} \verb{\\n} \verb{\\t}}
 
 \item{trim}{Remove whitespace from start and end of string(s)?
 Defaults to \code{TRUE}.}

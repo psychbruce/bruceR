@@ -33,7 +33,7 @@ p.r(r, n)
 p.chi2(chi2, df)
 }
 \arguments{
-\item{z, t, f, r, chi2}{\emph{z}, \emph{t}, \emph{F}, \emph{r}, \eqn{\chi}^2 value.}
+\item{z, t, f, r, chi2}{\eqn{z}, \eqn{t}, \eqn{F}, \eqn{r}, \eqn{\chi^2} value.}
 
 \item{n, df, df1, df2}{Sample size or degree of freedom.}
 
@@ -47,15 +47,15 @@ Compute \emph{p} value.
 }
 \section{Functions}{
 \itemize{
-\item \code{p.z()}: Two-tailed \emph{p} value of \emph{z}.
+\item \code{p.z()}: Two-tailed \emph{p} value of \eqn{z}.
 
-\item \code{p.t()}: Two-tailed \emph{p} value of \emph{t}.
+\item \code{p.t()}: Two-tailed \emph{p} value of \eqn{t}.
 
-\item \code{p.f()}: One-tailed \emph{p} value of \emph{F}. (Note: \emph{F} test is one-tailed only.)
+\item \code{p.f()}: One-tailed \emph{p} value of \eqn{F}. (Note: \eqn{F} test is one-tailed only.)
 
-\item \code{p.r()}: Two-tailed \emph{p} value of \emph{r}.
+\item \code{p.r()}: Two-tailed \emph{p} value of \eqn{r}.
 
-\item \code{p.chi2()}: One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
+\item \code{p.chi2()}: One-tailed \emph{p} value of \eqn{\chi^2}. (Note: \eqn{\chi^2} test is one-tailed only.)
 
 }}
 \examples{

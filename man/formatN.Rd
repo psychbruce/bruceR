@@ -22,5 +22,7 @@ formatN(1234)
 
 }
 \seealso{
-\code{\link[base:format]{format}}, \code{\link{formatF}}
+\code{\link[=format]{format()}}
+
+\code{\link[=formatF]{formatF()}}
 }

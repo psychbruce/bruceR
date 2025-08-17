@@ -19,52 +19,40 @@ model_summary(
 )
 }
 \arguments{
-\item{model.list}{A single model or a list of (various types of) models.
-Most types of regression models are supported!}
+\item{model.list}{A single model or a list of (various types of) models. Most types of regression models are supported!}
 
-\item{std}{Standardized coefficients? Defaults to \code{FALSE}.
-Only applicable to linear models and linear mixed models.
-Not applicable to generalized linear (mixed) models.}
+\item{std}{Standardized coefficients? Defaults to \code{FALSE}. Only applicable to linear models and linear mixed models. Not applicable to generalized linear (mixed) models.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 
-\item{check}{If there is only one model in \code{model.list}, it checks for multicollinearity
-using \code{\link[performance:check_collinearity]{performance::check_collinearity()}}.
-You may turn it off by setting \code{check=FALSE}.}
+\item{check}{If there is only one model in \code{model.list}, it checks for multicollinearity using \code{\link[performance:check_collinearity]{performance::check_collinearity()}}. You may turn it off by setting \code{check=FALSE}.}
 
 \item{zero}{Display "0" before "."? Defaults to \code{TRUE}.}
 
-\item{modify.se}{Replace standard errors.
-Useful if you need to replace raw SEs with robust SEs.
-New SEs should be provided as a list of numeric vectors.
-See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
+\item{modify.se}{Modify standard errors. Useful if you need to change raw SEs to robust SEs. New SEs should be provided as a list of numeric vectors. See usage in \code{\link[texreg:screenreg]{texreg::screenreg()}}.}
 
-\item{modify.head}{Replace model names.}
+\item{modify.head}{Modify model names.}
 
-\item{line}{Lines look like true line (\code{TRUE}) or \code{=== --- ===} (\code{FALSE}).
-Only relevant to R Console output.}
+\item{line}{Lines look like true line (\code{TRUE}) or \verb{=== --- ===} (\code{FALSE}). Only effective in R Console output.}
 
 \item{bold}{The \emph{p}-value threshold below which the coefficients will be formatted in bold.}
 
-\item{...}{Other arguments passed to
-\code{\link[texreg:screenreg]{texreg::screenreg()}} or
-\code{\link[texreg:htmlreg]{texreg::htmlreg()}}.}
+\item{...}{Other arguments passed to \code{\link[texreg:screenreg]{texreg::screenreg()}} or \code{\link[texreg:htmlreg]{texreg::htmlreg()}}.}
 }
 \value{
 Invisibly return the output (character string).
 }
 \description{
-Tidy report of regression models (most model types are supported).
-This function uses:
+Tidy report of regression models (most model types are supported). This function uses:
 \itemize{
-  \item \code{\link[texreg:screenreg]{texreg::screenreg()}}
-  \item \code{\link[texreg:htmlreg]{texreg::htmlreg()}}
-  \item \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}
-  \item \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}
-  \item \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}}
-  \item \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}
+\item \code{\link[texreg:screenreg]{texreg::screenreg()}}
+\item \code{\link[texreg:htmlreg]{texreg::htmlreg()}}
+\item \code{\link[MuMIn:std.coef]{MuMIn::std.coef()}}
+\item \code{\link[MuMIn:r.squaredGLMM]{MuMIn::r.squaredGLMM()}}
+\item \code{\link[performance:r2_mcfadden]{performance::r2_mcfadden()}}
+\item \code{\link[performance:r2_nagelkerke]{performance::r2_nagelkerke()}}
 }
 }
 \examples{
@@ -119,15 +107,15 @@ unlink("Multinomial Logistic Model.doc")  # delete file for code check
 }
 }
 \seealso{
-\code{\link{print_table}} (print simple table)
+\code{\link[=print_table]{print_table()}} (print simple table)
 
-\code{\link{GLM_summary}}
+\code{\link[=GLM_summary]{GLM_summary()}}
 
-\code{\link{HLM_summary}}
+\code{\link[=HLM_summary]{HLM_summary()}}
 
-\code{\link{med_summary}}
+\code{\link[=med_summary]{med_summary()}}
 
-\code{\link{lavaan_summary}}
+\code{\link[=lavaan_summary]{lavaan_summary()}}
 
-\code{\link{PROCESS}}
+\code{\link[=PROCESS]{PROCESS()}}
 }

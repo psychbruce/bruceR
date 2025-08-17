@@ -26,7 +26,7 @@ Transform all variables into numeric (continuous).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{2}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 
 \item{plot}{\code{TRUE} or \code{FALSE} (default).
 Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.}
@@ -48,7 +48,7 @@ Add fitting lines to scatter plots (if any).}
 \value{
 Invisibly return a list with
 (1) a data frame of descriptive statistics and
-(2) a \code{ggplot2} object if \code{plot=TRUE}.
+(2) a \code{ggplot} object if \code{plot=TRUE}.
 }
 \description{
 Descriptive statistics.
@@ -78,5 +78,5 @@ Describe(d[, .(age, gender, education, E, A, C, N, O)], plot=TRUE)
 }
 }
 \seealso{
-\code{\link{Corr}}
+\code{\link[=Corr]{Corr()}}
 }

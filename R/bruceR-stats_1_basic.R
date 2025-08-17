@@ -3,42 +3,23 @@
 
 #' Create, modify, and delete variables.
 #'
-#' Enhanced functions to create, modify, and/or delete variables.
-#' The functions \strong{combine} the advantages of
-#' \code{\link[base:within]{within}} (base),
-#' \code{\link[dplyr:mutate]{mutate}} (dplyr),
-#' \code{\link[dplyr:transmute]{transmute}} (dplyr), and
-#' \code{\link[data.table:data.table]{:=}} (data.table).
-#' See examples below for the usage and convenience.
+#' Enhanced functions to create, modify, and/or delete variables. The functions **integrate** the advantages of [base::within()], [dplyr::mutate()], [dplyr::transmute()], and [data.table::let()].
 #'
-#' @param data A \code{\link[data.table:data.table]{data.table}}
-#' (preferred).
-#' @param expr R expression(s) enclosed in \code{{...}} to compute variables.
+#' @param data A [`data.table`][data.table::data.table] (preferred).
+#' @param expr Passing to [`data.table`][data.table::data.table]: `DT[ , let(expr), ]`
 #'
-#' Passing to \code{\link[data.table:data.table]{data.table}}:
-#' \code{DT[ , `:=`(expr), ]}
+#' R expression(s) to compute variables. Execute each line of expression *one by one*, such that newly created variables are available immediately. This is an advantage of [dplyr::mutate()] and has been implemented here for [`data.table`][data.table::data.table].
+#' @param when \[Optional\] Passing to [`data.table`][data.table::data.table]: `DT[when, , ]`
 #'
-#' Execute each line of expression in \code{{...}} \emph{one by one},
-#' such that newly created variables are available immediately.
-#' This is an advantage of \code{\link[dplyr:mutate]{mutate}} and
-#' has been implemented here for \code{\link[data.table:data.table]{data.table}}.
-#' @param when [Optional] Compute for which rows or rows meeting what condition(s)?
+#' Compute *for* which rows or rows meeting what condition(s)?
+#' @param by \[Optional\] Passing to [`data.table`][data.table::data.table]: `DT[ , , by]`
 #'
-#' Passing to \code{\link[data.table:data.table]{data.table}}:
-#' \code{DT[when, , ]}
-#' @param by [Optional] Compute by what group(s)?
-#'
-#' Passing to \code{\link[data.table:data.table]{data.table}}:
-#' \code{DT[ , , by]}
-#' @param drop Drop existing variables and return only new variables?
-#' Defaults to \code{FALSE}, which returns all variables.
+#' Compute *by* what group(s)?
+#' @param drop Drop existing variables and return only new variables? Defaults to `FALSE`, which returns all variables.
 #'
 #' @return
-#' \code{add()} returns a new
-#' \code{\link[data.table:data.table]{data.table}},
-#' with the raw data unchanged.
-#'
-#' \code{added()} returns nothing and has already changed the raw data.
+#' - `add()` returns a new [`data.table`][data.table::data.table], with the raw data unchanged.
+#' - `added()` returns nothing and has already changed the raw data.
 #'
 #' @examples
 #' ## ====== Usage 1: add() ====== ##
@@ -122,13 +103,6 @@
 #'   C = 6
 #' })
 #'
-#' @describeIn
-#' add Return the \emph{new data}.
-#'
-#' You need to assign the new data to an object:
-#'
-#' \preformatted{data = add(data, {...})}
-#'
 #' @export
 add = function(data, expr, when, by, drop=FALSE) {
   data = as.data.table(data)
@@ -155,13 +129,7 @@ add = function(data, expr, when, by, drop=FALSE) {
 }
 
 
-#' @describeIn
-#' add Return nothing and \emph{change the raw data immediately}.
-#'
-#' NO need to assign the new data:
-#'
-#' \preformatted{added(data, {...})}
-#'
+#' @rdname add
 #' @export
 added = function(data, expr, when, by, drop=FALSE) {
   if(!is.data.table(data))
@@ -191,12 +159,13 @@ added = function(data, expr, when, by, drop=FALSE) {
 
 #' Recode a variable.
 #'
-#' A wrapper of \code{\link[car:recode]{car::recode()}}.
+#' A wrapper of [car::recode()].
 #'
 #' @param var Variable (numeric, character, or factor).
-#' @param recodes A character string definine the rule of recoding. e.g., \code{"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"}
+#' @param recodes A character string definine the rule of recoding. e.g., `"lo:1=0; c(2,3)=1; 4=2; 5:hi=3; else=999"`
 #'
-#' @return A vector of recoded variable.
+#' @return
+#' A vector of recoded variable.
 #'
 #' @examples
 #' d = data.table(var=c(NA, 0, 1, 2, 3, 4, 5, 6))
@@ -214,11 +183,12 @@ RECODE = function(var, recodes) {
 #' Rescale a variable (e.g., from 5-point to 7-point).
 #'
 #' @param var Variable (numeric).
-#' @param from Numeric vector, the range of old scale (e.g., \code{1:5}).
-#' If not defined, it will compute the range of \code{var}.
-#' @param to Numeric vector, the range of new scale (e.g., \code{1:7}).
+#' @param from Numeric vector, the range of old scale (e.g., `1:5`).
+#' If not defined, it will compute the range of `var`.
+#' @param to Numeric vector, the range of new scale (e.g., `1:7`).
 #'
-#' @return A vector of rescaled variable.
+#' @return
+#' A vector of rescaled variable.
 #'
 #' @examples
 #' d = data.table(var=rep(1:5, 2))
@@ -236,14 +206,15 @@ RESCALE = function(var, from=range(var, na.rm=T), to) {
 
 #' Min-max scaling (min-max normalization).
 #'
-#' This function resembles \code{\link[bruceR:RESCALE]{RESCALE()}}
-#' and it is just equivalent to \code{RESCALE(var, to=0:1)}.
+#' This function resembles [RESCALE()]
+#' and it is just equivalent to `RESCALE(var, to=0:1)`.
 #'
 #' @param v Variable (numeric vector).
 #' @param min Minimum value (defaults to 0).
 #' @param max Maximum value (defaults to 1).
 #'
-#' @return A vector of rescaled variable.
+#' @return
+#' A vector of rescaled variable.
 #'
 #' @examples
 #' scaler(1:5)
@@ -258,13 +229,14 @@ scaler = function(v, min=0, max=1) {
 #### Significance Test and Report ####
 
 
-#' Compute \emph{p} value.
+#' Compute *p* value.
 #'
-#' @param z,t,f,r,chi2 \emph{z}, \emph{t}, \emph{F}, \emph{r}, \eqn{\chi}^2 value.
+#' @param z,t,f,r,chi2 \eqn{z}, \eqn{t}, \eqn{F}, \eqn{r}, \eqn{\chi^2} value.
 #' @param n,df,df1,df2 Sample size or degree of freedom.
-#' @param digits Number of decimal places of output. Defaults to \code{2}.
+#' @param digits Number of decimal places of output. Defaults to `2`.
 #'
-#' @return \emph{p} value statistics.
+#' @return
+#' *p* value statistics.
 #'
 #' @examples
 #' p.z(1.96)
@@ -300,40 +272,32 @@ p.plain = function(z=NULL, t=NULL, f=NULL, r=NULL, chi2=NULL,
   return(pstat)
 }
 
-#' @describeIn p Two-tailed \emph{p} value of \emph{z}.
+#' @describeIn p
+#' Two-tailed *p* value of \eqn{z}.
 #' @export
 p.z = function(z) pnorm(abs(z), lower.tail=FALSE)*2
 
-#' @describeIn p Two-tailed \emph{p} value of \emph{t}.
+#' @describeIn p
+#' Two-tailed *p* value of \eqn{t}.
 #' @export
 p.t = function(t, df) pt(abs(t), df, lower.tail=FALSE)*2
 
-#' @describeIn p One-tailed \emph{p} value of \emph{F}. (Note: \emph{F} test is one-tailed only.)
+#' @describeIn p
+#' One-tailed *p* value of \eqn{F}. (Note: \eqn{F} test is one-tailed only.)
 #' @export
 p.f = function(f, df1, df2) pf(f, df1, df2, lower.tail=FALSE)
 
-#' @describeIn p Two-tailed \emph{p} value of \emph{r}.
+#' @describeIn p
+#' Two-tailed *p* value of \eqn{r}.
 #' @export
 p.r = function(r, n) p.t(r/sqrt((1-r^2)/(n-2)), n-2)
 
-#' @describeIn p One-tailed \emph{p} value of \eqn{\chi}^2. (Note: \eqn{\chi}^2 test is one-tailed only.)
+#' @describeIn p
+#' One-tailed *p* value of \eqn{\chi^2}. (Note: \eqn{\chi^2} test is one-tailed only.)
 #' @export
 p.chi2 = function(chi2, df) ifelse(df==0, 1, pchisq(chi2, df, lower.tail=FALSE))
 
 
-## Transform \emph{p} value.
-##
-## @param p \emph{p} value.
-## @param nsmall.p Number of decimal places of \emph{p} value. Defaults to \code{3}.
-##
-## @return A character string of transformed \emph{p} value.
-##
-## @examples
-## p.trans(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
-##
-## @seealso \code{\link{p.trans2}}
-##
-## @export
 p.trans = function(p, digits.p=3) {
   mapply(function(p, digits.p) {
     ifelse(is.na(p) | p > 1 | p < 0, "",
@@ -343,19 +307,6 @@ p.trans = function(p, digits.p=3) {
 }
 
 
-## Transform \emph{p} value.
-##
-## @inheritParams p.trans
-## @param p.min Minimum of \emph{p}. Defaults to \code{1e-99}.
-##
-## @return A character string of transformed \emph{p} value.
-##
-## @examples
-## p.trans2(c(1, 0.1, 0.05, 0.01, 0.001, 0.0001, 0.0000001, 1e-50)) %>% data.table(p=.)
-##
-## @seealso \code{\link{p.trans}}
-##
-## @export
 p.trans2 = function(p, digits.p=3, p.min=1e-99) {
   ifelse(is.na(p) | p > 1 | p < 0, "",
          ifelse(p < p.min, paste("<", p.min),
@@ -391,32 +342,34 @@ sig.trans2 = function(p) {
 }
 
 
-
-
 #### Basic Statistics ####
+
 
 #' Descriptive statistics.
 #'
 #' @param data Data frame or numeric vector.
-#' @param all.as.numeric \code{TRUE} (default) or \code{FALSE}.
+#' @param all.as.numeric `TRUE` (default) or `FALSE`.
 #' Transform all variables into numeric (continuous).
-#' @param digits Number of decimal places of output. Defaults to \code{2}.
-#' @param file File name of MS Word (\code{.doc}).
-#' @param plot \code{TRUE} or \code{FALSE} (default).
-#' Visualize the descriptive statistics using \code{\link[GGally:ggpairs]{GGally::ggpairs()}}.
-#' @param upper.triangle \code{TRUE} or \code{FALSE} (default).
+#' @param digits Number of decimal places of output. Defaults to `2`.
+#' @param file File name of MS Word (`".doc"`).
+#' @param plot `TRUE` or `FALSE` (default).
+#' Visualize the descriptive statistics using [GGally::ggpairs()].
+#' @param upper.triangle `TRUE` or `FALSE` (default).
 #' Add (scatter) plots to upper triangle (time consuming when sample size is large).
-#' @param upper.smooth \code{"none"} (default), \code{"lm"}, or \code{"loess"}.
+#' @param upper.smooth `"none"` (default), `"lm"`, or `"loess"`.
 #' Add fitting lines to scatter plots (if any).
-#' @param plot.file \code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).
-#' @param plot.width Width (in "inch") of the saved plot. Defaults to \code{8}.
-#' @param plot.height Height (in "inch") of the saved plot. Defaults to \code{6}.
-#' @param plot.dpi DPI (dots per inch) of the saved plot. Defaults to \code{500}.
+#' @param plot.file `NULL` (default, plot in RStudio) or a file name (`"xxx.png"`).
+#' @param plot.width Width (in "inch") of the saved plot. Defaults to `8`.
+#' @param plot.height Height (in "inch") of the saved plot. Defaults to `6`.
+#' @param plot.dpi DPI (dots per inch) of the saved plot. Defaults to `500`.
 #'
 #' @return
 #' Invisibly return a list with
 #' (1) a data frame of descriptive statistics and
-#' (2) a \code{ggplot2} object if \code{plot=TRUE}.
+#' (2) a `ggplot` object if `plot=TRUE`.
+#'
+#' @seealso
+#' [Corr()]
 #'
 #' @examples
 #' \donttest{set.seed(1)
@@ -441,8 +394,6 @@ sig.trans2 = function(p) {
 #' Describe(d[, .(age, gender, education)], plot=TRUE, all.as.numeric=FALSE)
 #' Describe(d[, .(age, gender, education, E, A, C, N, O)], plot=TRUE)
 #' }
-#' @seealso \code{\link{Corr}}
-#'
 #' @export
 Describe = function(
     data,
@@ -528,14 +479,14 @@ Describe = function(
 #' Frequency statistics.
 #'
 #' @param x A vector of values (or a data frame).
-#' @param varname [Optional] Variable name, if \code{x} is a data frame.
-#' @param labels [Optional] A vector re-defining the labels of values.
-#' @param sort \code{""} (default, sorted by the order of variable values/labels),
-#' \code{"-"} (decreasing by N), or \code{"+"} (increasing by N).
-#' @param digits Number of decimal places of output. Defaults to \code{1}.
-#' @param file File name of MS Word (\code{.doc}).
+#' @param varname \[Optional\] Variable name, if `x` is a data frame.
+#' @param labels \[Optional\] A vector re-defining the labels of values.
+#' @param sort `""` (default, sorted by the order of variable values/labels), `"-"` (decreasing by N), or `"+"` (increasing by N).
+#' @param digits Number of decimal places of output. Defaults to `1`.
+#' @param file File name of MS Word (`".doc"`).
 #'
-#' @return A data frame of frequency statistics.
+#' @return
+#' A data frame of frequency statistics.
 #'
 #' @examples
 #' data = psych::bfi
@@ -600,21 +551,25 @@ Freq = function(
 #'
 #' @inheritParams Describe
 #' @param data Data frame.
-#' @param method \code{"pearson"} (default), \code{"spearman"}, or \code{"kendall"}.
-#' @param p.adjust Adjustment of \emph{p} values for multiple tests:
-#' \code{"none"}, \code{"fdr"}, \code{"holm"}, \code{"bonferroni"}, ...
-#' For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}}.
-#' @param digits Number of decimal places of output. Defaults to \code{2}.
-#' @param file File name of MS Word (\code{.doc}).
-#' @param plot \code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.
-#' @param plot.r.size Font size of correlation text label. Defaults to \code{4}.
-#' @param plot.colors Plot colors (character vector). Defaults to "RdBu" of the Color Brewer Palette.
+#' @param method `"pearson"` (default), `"spearman"`, or `"kendall"`.
+#' @param p.adjust Adjustment of *p* values for multiple tests:
+#' `"none"`, `"fdr"`, `"holm"`, `"bonferroni"`, ...
+#' For details, see [stats::p.adjust()].
+#' @param digits Number of decimal places of output. Defaults to `2`.
+#' @param file File name of MS Word (`".doc"`).
+#' @param plot `TRUE` (default) or `FALSE`. Plot the correlation matrix.
+#' @param plot.r.size Font size of correlation text label. Defaults to `4`.
+#' @param plot.colors Plot colors (character vector). Defaults to `"RdBu"` of the Color Brewer Palette.
 #'
 #' @return
 #' Invisibly return a list with
-#' (1) correlation results from
-#' \code{\link[psych:corr.test]{psych::corr.test()}} and
-#' (2) a \code{ggplot2} object if \code{plot=TRUE}.
+#' (1) correlation results from [psych::corr.test()] and
+#' (2) a `ggplot` object if `plot=TRUE`.
+#'
+#' @seealso
+#' [Describe()]
+#'
+#' [cor_multilevel()]
 #'
 #' @examples
 #' \donttest{Corr(airquality)
@@ -633,23 +588,21 @@ Freq = function(
 #' })
 #' Corr(d[, .(age, gender, education, E, A, C, N, O)])
 #' }
-#' @seealso
-#' \code{\link{Describe}}
-#'
-#' \code{\link{cor_multilevel}}
-#'
 #' @export
 Corr = function(
     data,
-    method="pearson",
-    p.adjust="none",
-    all.as.numeric=TRUE,
-    digits=2,
-    file=NULL,
-    plot=TRUE,
-    plot.r.size=4,
-    plot.colors=NULL,
-    plot.file=NULL, plot.width=8, plot.height=6, plot.dpi=500
+    method = "pearson",
+    p.adjust = "none",
+    all.as.numeric = TRUE,
+    digits = 2,
+    file = NULL,
+    plot = TRUE,
+    plot.r.size = 4,
+    plot.colors = NULL,
+    plot.file = NULL,
+    plot.width = 8,
+    plot.height = 6,
+    plot.dpi = 500
 ) {
   data.new = as.data.frame(data)
   vars.not.numeric = c()
@@ -765,51 +718,48 @@ Corr = function(
 
 
   p = label = r = x = y = NULL
-  if(plot) {
-    dcor = cbind(expand.grid(y=row.names(cor$r), x=row.names(cor$r)),
-                 data.frame(r=as.numeric(cor$r), p=as.numeric(cor$p)))
-    dcor$label = str_replace(str_replace(
-      str_trim(formatF(dcor$r, digits)), "0\\.", "."), "-", "\u2013") %^%
-      sig.trans2(dcor$p)
-    colors = c("#67001f", "#b2182b", "#d6604d", "#f4a582",
-               "#fddbc7", "#f7f7f7", "#d1e5f0", "#92c5de",
-               "#4393c3", "#2166ac", "#053061")
-    if(is.null(plot.colors))
-      plot.colors = grDevices::colorRampPalette(colors)(100)
-    p = ggplot(dcor[which(dcor$x!=dcor$y),],
-               aes(x=x, y=y, fill=r)) +
-      geom_tile() +
-      geom_text(aes(label=label), size=plot.r.size) +
-      scale_x_discrete(position="top", expand=expansion(add=0)) +
-      scale_y_discrete(limits=rev, expand=expansion(add=0)) +
-      # scale_fill_fermenter(
-      #   palette="RdBu", direction=1,
-      #   limits=c(-1, 1), breaks=seq(-1, 1, 0.2),
-      #   guide=guide_colorsteps(barwidth=0.5, barheight=10)) +
-      scale_fill_stepsn(
-        colors=plot.colors,
-        limits=c(-1, 1), breaks=seq(-1, 1, 0.1),
-        labels=function(x) ifelse(x %in% seq(-1, 1, 0.2), x, ""),
-        guide=guide_colorsteps(barwidth=0.5, barheight=10)) +
-      coord_equal() +
-      labs(x=NULL, y=NULL, fill=NULL) +
-      theme_bruce(border=TRUE, line.x=FALSE, line.y=FALSE,
-                  tick.x=FALSE, tick.y=FALSE) +
-      theme(axis.text.x=element_text(hjust=0, angle=45))
-    if(is.null(plot.file)) {
-      print(p)
-      Print("Correlation matrix is displayed in the RStudio `Plots` Pane.")
-      if(p.adjust!="none")
-        Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
-      cat("\n")
-    } else {
-      ggsave(plot=p, filename=plot.file,
-             width=plot.width, height=plot.height, dpi=plot.dpi)
-      plot.file = str_split(plot.file, "/", simplify=TRUE)
-      plot.path = paste0(getwd(), '/', plot.file[length(plot.file)])
-      Print("<<green \u2714>> Plot saved to <<blue '{plot.path}'>>")
-      cat("\n")
-    }
+  dcor = cbind(expand.grid(y=row.names(cor$r), x=row.names(cor$r)),
+               data.frame(r=as.numeric(cor$r), p=as.numeric(cor$p)))
+  dcor$label = str_replace(str_replace(
+    str_trim(formatF(dcor$r, digits)), "0\\.", "."), "-", "\u2013") %^%
+    sig.trans2(dcor$p)
+  colors = c("#67001f", "#b2182b", "#d6604d", "#f4a582",
+             "#fddbc7", "#f7f7f7", "#d1e5f0", "#92c5de",
+             "#4393c3", "#2166ac", "#053061")
+  if(is.null(plot.colors))
+    plot.colors = grDevices::colorRampPalette(colors)(100)
+  p = ggplot(dcor[which(dcor$x!=dcor$y),],
+             aes(x=x, y=y, fill=r)) +
+    geom_tile() +
+    geom_text(aes(label=label), size=plot.r.size) +
+    scale_x_discrete(position="top", expand=expansion(add=0)) +
+    scale_y_discrete(limits=rev, expand=expansion(add=0)) +
+    # scale_fill_fermenter(
+    #   palette="RdBu", direction=1,
+    #   limits=c(-1, 1), breaks=seq(-1, 1, 0.2),
+    #   guide=guide_colorsteps(barwidth=0.5, barheight=10)) +
+    scale_fill_stepsn(
+      colors=plot.colors,
+      limits=c(-1, 1), breaks=seq(-1, 1, 0.1),
+      labels=function(x) ifelse(x %in% seq(-1, 1, 0.2), x, ""),
+      guide=guide_colorsteps(barwidth=0.5, barheight=10)) +
+    coord_equal() +
+    labs(x=NULL, y=NULL, fill=NULL) +
+    theme_bruce(border=TRUE, line.x=FALSE, line.y=FALSE,
+                tick.x=FALSE, tick.y=FALSE) +
+    theme(axis.text.x=element_text(hjust=0, angle=45))
+
+  if(plot) print(p)
+
+  if(is.null(plot.file)) {
+    if(p.adjust!="none")
+      Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
+    cat("\n")
+  } else {
+    ggsave(plot=p, filename=plot.file,
+           width=plot.width, height=plot.height, dpi=plot.dpi)
+    Print("<<green \u2714>> Plot saved to <<blue '{plot.file}'>>")
+    cat("\n")
   }
 
   invisible(list(corr=cor, plot=p))
@@ -818,19 +768,20 @@ Corr = function(
 
 #' Test the difference between two correlations.
 #'
-#' @param r1,r2 Correlation coefficients (Pearson's \emph{r}).
+#' @param r1,r2 Correlation coefficients (Pearson's \eqn{r}).
 #' @param n,n1,n2 Sample sizes.
-#' @param rcov [Optional] Only for nonindependent \emph{r}s:
+#' @param rcov \[Optional\] Only for nonindependent \eqn{r}s:
 #'
-#' \code{r1} is r(X,Y),
+#' `r1` is r(X,Y),
 #'
-#' \code{r2} is r(X,Z),
+#' `r2` is r(X,Z),
 #'
 #' then, as Y and Z are also correlated,
 #'
-#' we should also consider \code{rcov}: r(Y,Z)
+#' we should also consider `rcov`: r(Y,Z)
 #'
-#' @return Invisibly return the \emph{p} value.
+#' @return
+#' Invisibly return the *p* value.
 #'
 #' @examples
 #' # two independent rs (X~Y vs. Z~W)
@@ -871,16 +822,17 @@ cor_diff = function(r1, n1, r2, n2, n=NULL, rcov=NULL) {
 #' Multilevel correlations (within-level and between-level).
 #'
 #' Multilevel correlations (within-level and between-level).
-#' For details, see description in \code{\link{HLM_ICC_rWG}}.
+#' For details, see description in [HLM_ICC_rWG()].
 #'
 #' @inheritParams HLM_ICC_rWG
 #'
-#' @return Invisibly return a list of results.
+#' @return
+#' Invisibly return a list of results.
 #'
 #' @seealso
-#' \code{\link{Corr}}
+#' [Corr()]
 #'
-#' \code{\link{HLM_ICC_rWG}}
+#' [HLM_ICC_rWG()]
 #'
 #' @examples
 #' # see https://psychbruce.github.io/supp/CEM
@@ -958,71 +910,66 @@ cor_multilevel = function(
 
 #### T-Tests ####
 
+
 #' One-sample, independent-samples, and paired-samples t-test.
 #'
 #' @description
-#' One-sample, independent-samples, and paired-samples \emph{t}-test,
-#' with both Frequentist and Bayesian approaches.
-#' The output includes descriptives, \emph{t} statistics,
-#' mean difference with 95\% CI, Cohen's \emph{d} with 95\% CI,
-#' and Bayes factor (BF10; \code{BayesFactor} package needs to be installed).
-#' It also tests the assumption of homogeneity of variance
-#' and allows users to determine whether variances are equal or not.
+#' One-sample, independent-samples, and paired-samples *t*-test, with both Frequentist and Bayesian approaches. The output includes descriptives, *t* statistics, mean difference with 95% CI, Cohen's *d* with 95% CI, and Bayes factor (\eqn{BF_{10}}; `BayesFactor` package needs to be installed). It also tests the assumption of homogeneity of variance and allows users to determine whether variances are equal or not.
 #'
-#' Users can simultaneously test multiple dependent and/or independent variables.
-#' The results of one pair of Y-X would be summarized in one row in the output.
-#' Key results can be saved in APA format to MS Word.
+#' Users can simultaneously test multiple dependent and/or independent variables. The results of one pair of Y-X would be summarized in one row in the output. Key results can be saved in APA format to MS Word.
 #'
 #' @details
-#' Note that the point estimate of Cohen's \emph{d} is computed using
-#' the common method "Cohen's \emph{d} = mean difference / (pooled) standard deviation", which is
-#' consistent with results from other R packages (e.g., \code{effectsize}) and software (e.g., \code{jamovi}).
-#' The 95\% CI of Cohen's \emph{d} is estimated based on the 95\% CI of mean difference
-#' (i.e., also divided by the pooled standard deviation).
+#' Note that the point estimate of Cohen's *d* is computed using the common method "Cohen's *d* = mean difference / (pooled) standard deviation", which is consistent with results from other R packages (e.g., `effectsize`) and software (e.g., `jamovi`). The 95% CI of Cohen's *d* is estimated based on the 95% CI of mean difference (i.e., also divided by the pooled standard deviation).
 #'
-#' However, different packages and software diverge greatly on the estimate of the 95\% CI of Cohen's \emph{d}.
-#' R packages such as \code{psych} and \code{effectsize}, R software \code{jamovi},
-#' and several online statistical tools for estimating effect sizes
-#' indeed produce surprisingly inconsistent results on the 95\% CI of Cohen's \emph{d}.
+#' However, different packages and software diverge greatly on the estimate of the 95% CI of Cohen's *d*. R packages such as `psych` and `effectsize`, R software `jamovi`, and several online statistical tools for estimating effect sizes indeed produce surprisingly inconsistent results on the 95% CI of Cohen's *d*.
 #'
 #' See an illustration of this issue in the section "Examples".
 #'
 #' @param data Data frame (wide-format only, i.e., one case in one row).
-#' @param y Dependent variable(s).
-#' Multiple variables should be included in a character vector \code{c()}.
+#' @param y Dependent variable(s). Multiple variables should be included in a character vector `c()`.
 #'
-#' For paired-samples \emph{t}-test, the number of variables should be 2, 4, 6, etc.
-#' @param x Independent variable(s).
-#' Multiple variables should be included in a character vector \code{c()}.
+#' For paired-samples *t*-test, the number of variables should be 2, 4, 6, etc.
+#' @param x Independent variable(s). Multiple variables should be included in a character vector `c()`.
 #'
-#' Only necessary for independent-samples \emph{t}-test.
-#' @param paired For paired-samples \emph{t}-test, set it as \code{TRUE}. Defaults to \code{FALSE}.
-#' @param paired.d.type Type of Cohen's \emph{d} for paired-samples \emph{t}-test (see Lakens, 2013).
+#' Only necessary for independent-samples *t*-test.
+#' @param paired For paired-samples *t*-test, set it as `TRUE`. Defaults to `FALSE`.
+#' @param paired.d.type Type of Cohen's *d* for paired-samples *t*-test (see Lakens, 2013). Defaults to `"dz"`.
 #'
-#' Defaults to \code{"dz"}. Options include:
+#' Options:
 #' \describe{
-#'   \item{\code{"dz"} (\emph{d} for standardized difference)}{
+#'   \item{`"dz"` (*d* for standardized difference)}{
 #'     Cohen's \eqn{d_{z} = \frac{M_{diff}}{SD_{diff}}}
 #'   }
-#'   \item{\code{"dav"} (\emph{d} for average standard deviation)}{
+#'   \item{`"dav"` (*d* for average standard deviation)}{
 #'     Cohen's \eqn{d_{av} = \frac{M_{diff}}{ \frac{SD_{1} + SD_{2}}{2} }}
 #'   }
-#'   \item{\code{"drm"} (\emph{d} for repeated measures, corrected for correlation)}{
+#'   \item{`"drm"` (*d* for repeated measures, corrected for correlation)}{
 #'     Cohen's \eqn{d_{rm} = \frac{M_{diff} \times \sqrt{2(1 - r_{1,2})}}{
 #'       \sqrt{SD_{1}^2 + SD_{2}^2 - 2 \times r_{1,2} \times SD_{1} \times SD_{2}} }}
 #'   }
 #' }
 #' @param var.equal If Levene's test indicates a violation of the homogeneity of variance,
-#' then you should better set this argument as \code{FALSE}. Defaults to \code{TRUE}.
-#' @param mean.diff Whether to display results of mean difference and its 95\% CI. Defaults to \code{TRUE}.
-#' @param test.value The true value of the mean (or difference in means for a two-samples test). Defaults to \code{0}.
-#' @param test.sided Any of \code{"="} (two-sided, the default), \code{"<"} (one-sided), or \code{">"} (one-sided).
+#' then you should better set this argument as `FALSE`. Defaults to `TRUE`.
+#' @param mean.diff Whether to display results of mean difference and its 95% CI. Defaults to `TRUE`.
+#' @param test.value The true value of the mean (or difference in means for a two-samples test). Defaults to `0`.
+#' @param test.sided Any of `"="` (two-sided, the default), `"<"` (one-sided), or `">"` (one-sided).
 #' @param factor.rev Whether to reverse the levels of factor (X)
-#' such that the test compares higher vs. lower level. Defaults to \code{TRUE}.
-#' @param bayes.prior Prior scale in Bayesian \emph{t}-test. Defaults to 0.707.
-#' See details in \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}}.
-#' @param digits Number of decimal places of output. Defaults to \code{2}.
-#' @param file File name of MS Word (\code{.doc}).
+#' such that the test compares higher vs. lower level. Defaults to `TRUE`.
+#' @param bayes.prior Prior scale in Bayesian *t*-test. Defaults to 0.707.
+#' See details in [BayesFactor::ttestBF()].
+#' @param digits Number of decimal places of output. Defaults to `2`.
+#' @param file File name of MS Word (`".doc"`).
+#'
+#' @return
+#' Invisibly return the results.
+#'
+#' @seealso
+#' [MANOVA()]
+#'
+#' [EMMEANS()]
+#'
+#' @references
+#' Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for *t*-tests and ANOVAs. *Frontiers in Psychology, 4*, Article 863.
 #'
 #' @examples
 #' ## Demo data ##
@@ -1096,12 +1043,6 @@ cor_multilevel = function(
 #'   # TTEST() provides a reasonable estimate of Cohen's d and its 95% CI,
 #'   # and effectsize::cohens_d() offers another method to compute the CI.
 #' }
-#'
-#' @seealso \code{\link{MANOVA}}, \code{\link{EMMEANS}}
-#'
-#' @references
-#' Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science:
-#' A practical primer for \emph{t}-tests and ANOVAs. \emph{Frontiers in Psychology, 4}, Article 863.
 #'
 #' @export
 TTEST = function(

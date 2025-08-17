@@ -22,7 +22,7 @@ Leading whitespace and blank lines from the first and last lines are automatical
 Formatted text.
 }
 \description{
-Be frustrated with \code{print()} and \code{cat()}? Try \code{Print()}!
+Frustrated with \code{\link[=print]{print()}} and \code{\link[=cat]{cat()}}? Try this!
 Run examples to see what it can do.
 }
 \details{
@@ -34,7 +34,7 @@ Possible formats/colors that can be used in \code{"<< >>"} include:
 
 (3) bgBlack, bgWhite, bgRed, bgGreen, bgBlue, bgYellow, bgCyan, bgMagenta.
 
-See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue]{glue::glue_col()}}.
+See more details in \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue_col]{glue::glue_col()}}.
 }
 \section{Functions}{
 \itemize{

@@ -9,19 +9,19 @@ show_colors(colors)
 \arguments{
 \item{colors}{Color names.
 
-e.g.,
+Examples:
 \itemize{
-  \item \code{"red"} (R base color names)
-  \item \code{"#FF0000"} (hex color names)
-  \item \code{see::social_colors()}
-  \item \code{viridis::viridis_pal()(10)}
-  \item \code{RColorBrewer::brewer.pal(name="Set1", n=9)}
-  \item \code{RColorBrewer::brewer.pal(name="Set2", n=8)}
-  \item \code{RColorBrewer::brewer.pal(name="Spectral", n=11)}
+\item \code{"red"} (R base color names)
+\item \code{"#FF0000"} (hex color names)
+\item \code{see::social_colors()}
+\item \code{viridis::viridis_pal()(10)}
+\item \code{RColorBrewer::brewer.pal(name="Set1", n=9)}
+\item \code{RColorBrewer::brewer.pal(name="Set2", n=8)}
+\item \code{RColorBrewer::brewer.pal(name="Spectral", n=11)}
 }}
 }
 \value{
-A \code{gg} object.
+A \code{ggplot} object.
 }
 \description{
 Show colors.

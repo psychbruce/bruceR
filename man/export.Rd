@@ -15,27 +15,19 @@ export(
 )
 }
 \arguments{
-\item{x}{Any R object, usually a data frame (\code{data.frame}, \code{data.table}, \code{tbl_df}).
-Multiple R objects should be included in a \emph{named} \code{list} (see examples).
+\item{x}{Any R object, usually a data frame (\code{data.frame}, \code{data.table}, \code{tbl_df}). Multiple R objects should be included in a \emph{named} \code{list} (see examples). To save R objects, specify \code{file} with extensions \code{.rda}, \code{.rdata}, or \code{.RData}.}
 
-If you want to save R objects other than a data frame (e.g., model results),
-you'd better specify \code{file} with extensions .rda, .rdata, or .RData.}
-
-\item{file}{File name (with extension).
-If unspecified, then data will be exported to clipboard.}
+\item{file}{File name (with extension). If unspecified, data will be exported to clipboard.}
 
 \item{encoding}{File encoding. Defaults to \code{NULL}.
+
 Options: \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 
-If you find messy code for Chinese text in the exported data (often in CSV when opened with Excel),
-it is usually useful to set \code{encoding="GBK"} or \code{encoding="CP936"}.}
+If you find messy code for Chinese text in the exported data (often in CSV when opened with Excel), it is usually useful to set \code{encoding="GBK"} or \code{encoding="CP936"}.}
 
 \item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})? Defaults to \code{"auto"}.}
 
-\item{sheet}{[Only for Excel] Excel sheet name(s).
-Defaults to "Sheet1", "Sheet2", ...
-You may specify multiple sheet names in a character vector
-\code{c()} with the \emph{same length} as \code{x} (see examples).}
+\item{sheet}{[Only for Excel] Excel sheet name(s). Defaults to "Sheet1", "Sheet2", ... You may specify multiple sheet names in a character vector \code{c()} with the \emph{same length} as \code{x} (see examples).}
 
 \item{overwrite}{Overwrite the existing file (if any)? Defaults to \code{TRUE}.}
 
@@ -45,24 +37,18 @@ You may specify multiple sheet names in a character vector
 No return value.
 }
 \description{
-Export data to a file, with format automatically judged from file extension.
-This function is inspired by \code{\link[rio:export]{rio::export()}}
-and has several modifications.
-Its purpose is to avoid using lots of \code{write_xxx()} functions in your code
-and to provide one tidy function for data export.
+Export data to a file, with format automatically judged from file extension. This function is inspired by \code{\link[rio:export]{rio::export()}} and has several modifications. Its purpose is to avoid using lots of \code{write_xxx()} functions in your code and to provide one tidy function for data export.
 
 It supports many file formats and uses corresponding R functions:
-
 \itemize{
-  \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fwrite]{data.table::fwrite()}};
-  if the \code{encoding} argument is specified, using \code{\link[utils:write.table]{utils::write.table()}} instead
-  \item Excel (.xls, .xlsx), using \code{\link[openxlsx:write.xlsx]{openxlsx::write.xlsx()}}
-  \item SPSS (.sav), using \code{\link[haven:read_spss]{haven::write_sav()}}
-  \item Stata (.dta), using \code{\link[haven:read_dta]{haven::write_dta()}}
-  \item R objects (.rda, .rdata, .RData), using \code{\link[base:save]{base::save()}}
-  \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::saveRDS()}}
-  \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:write_clip]{clipr::write_clip()}}
-  \item Other formats, using \code{\link[rio:export]{rio::export()}}
+\item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fwrite]{data.table::fwrite()}}; if the \code{encoding} argument is specified, using \code{\link[utils:write.table]{utils::write.table()}} instead
+\item Excel (.xls, .xlsx), using \code{\link[openxlsx:write.xlsx]{openxlsx::write.xlsx()}}
+\item SPSS (.sav), using \code{\link[haven:read_spss]{haven::write_sav()}}
+\item Stata (.dta), using \code{\link[haven:read_dta]{haven::write_dta()}}
+\item R objects (.rda, .rdata, .RData), using \code{\link[=save]{save()}}
+\item R serialized objects (.rds), using \code{\link[=saveRDS]{saveRDS()}}
+\item Clipboard (on Windows and Mac OS), using \code{\link[clipr:write_clip]{clipr::write_clip()}}
+\item Other formats, using \code{\link[rio:export]{rio::export()}}
 }
 }
 \examples{
@@ -91,5 +77,7 @@ It supports many file formats and uses corresponding R functions:
 
 }
 \seealso{
-\code{\link{import}}, \code{\link{print_table}}
+\code{\link[=import]{import()}}
+
+\code{\link[=print_table]{print_table()}}
 }

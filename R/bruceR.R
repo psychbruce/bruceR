@@ -44,157 +44,102 @@ if(FALSE) {
 }
 
 
-#### Main Description ####
+#### Package Description ####
 
 
-#' bruceR: \strong{BR}oadly \strong{U}seful \strong{C}onvenient and \strong{E}fficient \strong{R} functions
+#' bruceR: **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions
 #'
-#' @description
-#' \strong{BR}oadly
-#' \strong{U}seful
-#' \strong{C}onvenient
-#' and
-#' \strong{E}fficient
-#' \strong{R}
-#' functions that
-#' \strong{BR}ing
-#' \strong{U}sers
-#' \strong{C}oncise
-#' and
-#' \strong{E}legant
-#' \strong{R}
-#' data analyses.
+#' @details
 #'
-#' Package homepage: \url{https://psychbruce.github.io/bruceR/}
+#' # Main Functions in `bruceR`
 #'
-#' Install the latest \href{https://github.com/psychbruce/bruceR}{development version}
-#' from GitHub:
-#' \code{devtools::install_github("psychbruce/bruceR")}
+#' ## 1. Basic R Programming
 #'
-#' Report bugs at \href{https://github.com/psychbruce/bruceR/issues}{GitHub Issues}.
+#' - [set.wd()] (alias: [set_wd()])
+#' - [import()]
+#' - [export()]
+#' - [cc()]
+#' - [pkg_depend()]
+#' - [formatF()]
+#' - [formatN()]
+#' - [print_table()]
+#' - [Print()]
+#' - [Glue()]
+#' - [Run()]
+#' - [`%^%`]
+#' - [`%notin%`]
+#' - [`%allin%`]
+#' - [`%anyin%`]
+#' - [`%nonein%`]
+#' - [`%partin%`]
 #'
-#' @section Main Functions in \code{bruceR}:
+#' ## 2. Multivariate Computation
 #'
-#' \describe{
-#'   \item{\strong{(1) Basic R Programming}}{
-#'       \code{\link{set.wd}} (alias: \code{\link{set_wd}})
+#' - [add()]
+#' - [added()]
+#' - [.sum()]
+#' - [.mean()]
+#' - [SUM()]
+#' - [MEAN()]
+#' - [STD()]
+#' - [MODE()]
+#' - [COUNT()]
+#' - [CONSEC()]
+#' - [RECODE()]
+#' - [RESCALE()]
+#' - [LOOKUP()]
 #'
-#'       \code{\link{import}},
-#'       \code{\link{export}}
+#' ## 3. Reliability and Factor Analyses
 #'
-#'       \code{\link{cc}}
+#' - [Alpha()]
+#' - [EFA()]
+#' - [PCA()]
+#' - [CFA()]
 #'
-#'       \code{\link{pkg_depend}},
-#'       \code{\link{pkg_install_suggested}}
+#' ## 4. Descriptive Statistics and Correlation Analyses
 #'
-#'       \code{\link{formatF}},
-#'       \code{\link{formatN}}
+#' - [Describe()]
+#' - [Freq()]
+#' - [Corr()]
+#' - [cor_diff()]
+#' - [cor_multilevel()]
 #'
-#'       \code{\link{print_table}}
+#' ## 5. T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison
 #'
-#'       \code{\link{Print}},
-#'       \code{\link{Glue}},
-#'       \code{\link{Run}}
+#' - [TTEST()]
+#' - [MANOVA()]
+#' - [EMMEANS()]
 #'
-#'       \code{\link{\%^\%}}
+#' ## 6. Tidy Report of Regression Models
 #'
-#'       \code{\link{\%notin\%}}
+#' - [model_summary()]
+#' - [lavaan_summary()]
+#' - [GLM_summary()]
+#' - [HLM_summary()]
+#' - [HLM_ICC_rWG()]
+#' - [regress()]
 #'
-#'       \code{\link{\%allin\%}},
-#'       \code{\link{\%anyin\%}},
-#'       \code{\link{\%nonein\%}},
-#'       \code{\link{\%partin\%}}
-#'   }
+#' ## 7. Mediation and Moderation Analyses
 #'
-#'   \item{\strong{(2) Multivariate Computation}}{
-#'       \code{\link{add}},
-#'       \code{\link{added}}
+#' - [PROCESS()]
+#' - [med_summary()]
+#' - [lavaan_summary()]
 #'
-#'       \code{\link{.sum}},
-#'       \code{\link{.mean}}
+#' ## 8. Additional Toolbox for Statistics and Graphics
 #'
-#'       \code{\link{SUM}},
-#'       \code{\link{MEAN}},
-#'       \code{\link{STD}},
-#'       \code{\link{MODE}},
-#'       \code{\link{COUNT}},
-#'       \code{\link{CONSEC}}
+#' - [grand_mean_center()]
+#' - [group_mean_center()]
+#' - [ccf_plot()]
+#' - [granger_test()]
+#' - [granger_causality()]
+#' - [theme_bruce()]
+#' - [show_colors()]
 #'
-#'       \code{\link{RECODE}},
-#'       \code{\link{RESCALE}}
-#'
-#'       \code{\link{LOOKUP}}
-#'   }
-#'
-#'   \item{\strong{(3) Reliability and Factor Analyses}}{
-#'       \code{\link{Alpha}}
-#'
-#'       \code{\link{EFA}} / \code{\link{PCA}}
-#'
-#'       \code{\link{CFA}}
-#'   }
-#'
-#'   \item{\strong{(4) Descriptive Statistics and Correlation Analyses}}{
-#'       \code{\link{Describe}}
-#'
-#'       \code{\link{Freq}}
-#'
-#'       \code{\link{Corr}}
-#'
-#'       \code{\link{cor_diff}}
-#'
-#'       \code{\link{cor_multilevel}}
-#'   }
-#'
-#'   \item{\strong{(5) T-Test, Multi-Factor ANOVA, Simple-Effect Analysis, and Post-Hoc Multiple Comparison}}{
-#'       \code{\link{TTEST}}
-#'
-#'       \code{\link{MANOVA}}
-#'
-#'       \code{\link{EMMEANS}}
-#'   }
-#'
-#'   \item{\strong{(6) Tidy Report of Regression Models}}{
-#'       \code{\link{model_summary}}
-#'
-#'       \code{\link{lavaan_summary}}
-#'
-#'       \code{\link{GLM_summary}}
-#'
-#'       \code{\link{HLM_summary}}
-#'
-#'       \code{\link{HLM_ICC_rWG}}
-#'
-#'       \code{\link{regress}}
-#'   }
-#'
-#'   \item{\strong{(7) Mediation and Moderation Analyses}}{
-#'       \code{\link{PROCESS}}
-#'
-#'       \code{\link{med_summary}}
-#'   }
-#'
-#'   \item{\strong{(8) Additional Toolbox for Statistics and Graphics}}{
-#'       \code{\link{grand_mean_center}}
-#'
-#'       \code{\link{group_mean_center}}
-#'
-#'       \code{\link{ccf_plot}}
-#'
-#'       \code{\link{granger_test}}
-#'
-#'       \code{\link{granger_causality}}
-#'
-#'       \code{\link{theme_bruce}}
-#'
-#'       \code{\link{show_colors}}
-#'   }
-#' }
-#'
+## @keywords internal
 "_PACKAGE"
 
 
-#### Package-Loading Information ####
+#### Package Loading Information ####
 
 
 #' @import stringr
@@ -209,44 +154,26 @@ if(FALSE) {
 #' @importFrom crayon bold italic underline inverse hidden
 #' @importFrom crayon black red green yellow blue magenta cyan white silver
 .onAttach = function(libname, pkgname) {
-  ## Version Check
-  new = FALSE
   inst.ver = as.character(utils::packageVersion("bruceR"))
-  pkg.date = substr(utils::packageDate("bruceR"), 1, 4)
-  xml = suppressWarnings({
-    try({
-      readLines("https://cran.r-project.org/web/packages/bruceR/index.html")
-    }, silent=TRUE)
-  })
-
-  ## Update Message
-  if(!inherits(xml, "try-error")) {
-    try({
-      cran.ver = xml[grep("Version:", xml, fixed=TRUE) + 1]
-      cran.ymd = xml[grep("Published:", xml, fixed=TRUE) + 1]
-      if(!is.na(cran.ver) & length(cran.ver)==1) {
-        cran.ver = substr(cran.ver, 5, nchar(cran.ver) - 5)
-        cran.ymd = substr(cran.ymd, 5, nchar(cran.ymd) - 5)
-        if(numeric_version(inst.ver) < numeric_version(cran.ver))
-          new = TRUE
-      }
-    }, silent=TRUE)
-  }
-
-  ## Loaded Package
+  # pkg.date = substr(utils::packageDate("bruceR"), 1, 4)
   pkgs = c(
-    "dplyr", "tidyr", "stringr", "data.table",
-    "emmeans", "effectsize", "performance", "lmerTest", "interactions",
+    "dplyr",
+    "tidyr",
+    "stringr",
+    "forcats",
+    "data.table",
+    "emmeans",
+    "effectsize",
+    "performance",
+    "lmerTest",
+    "interactions",
     "ggplot2"
   )
-
   suppressMessages({
     suppressWarnings({
       loaded = sapply(pkgs, require, character.only=TRUE, exclude="%notin%")
     })
   })
-
-  ## Welcome Message
   if(all(loaded)) {
     # LOGO=c(bell="\ud83d\udd14",
     #        bulb="\ud83d\udca1",
@@ -256,7 +183,8 @@ if(FALSE) {
     # logo=sample(LOGO, 1)
     # yes: \u2714 \u221a
     # star: \u2605
-    packageStartupMessage(glue::glue_col("
+    packageStartupMessage(
+    glue::glue_col("
 
     {magenta bruceR (v{inst.ver})}
     {blue Broadly Useful Convenient and Efficient R functions}
@@ -287,32 +215,21 @@ if(FALSE) {
     {underline https://psychbruce.github.io/bruceR}
 
     {magenta To use this package in publications, please cite:}
-    Bao, H. W. S. ({pkg.date}). "),
-    glue::glue_col("{italic bruceR: Broadly useful convenient and efficient R functions}"),
-    glue::glue_col(" (Version {inst.ver}) [Computer software]. "),
-    glue::glue_col("{underline https://CRAN.R-project.org/package=bruceR}"),
-    "\n")
+    Bao, H. W. S. (2021). {italic bruceR: Broadly useful convenient and efficient R functions} (Version {inst.ver}) [Computer software]. {underline https://doi.org/10.32614/CRAN.package.bruceR}
+
+    "))
   } else {
-    packageStartupMessage(glue::glue_col("
+    packageStartupMessage(
+    glue::glue_col("
 
     These R packages have not been installed:
     {paste(pkgs[loaded==FALSE], collapse=', ')}
 
-    Please install them.
-
-    "))
-  }
-
-  ## Update Info
-  if(new)
-    packageStartupMessage(glue::glue_col("
-
-    NEWS: A new version of bruceR ({cran.ver}) is available ({cran.ymd})!
-
-    ***** Please update *****
+    ***** Please Install All Dependencies *****
     install.packages(\"bruceR\", dep=TRUE)
 
     "))
+  }
 
   ## Check Dependencies
   try({ check_depend("bruceR") }, silent=TRUE)
@@ -323,13 +240,14 @@ check_depend = function(pkg) {
   pkgs = utils::installed.packages()
   deps = cc(pkgs[pkg, "Imports"], pkgs[pkg, "Suggests"])
   need = deps[deps %notin% pkgs]
-  if(length(need)>0)
-    packageStartupMessage(glue::glue_col("
+  if(length(need) > 0)
+    packageStartupMessage(
+    glue::glue_col("
 
-    These packages are dependencies of `{pkg}` but not installed:
+    These packages are dependencies but not yet installed:
     - {paste(need, collapse=', ')}
 
-    ***** Install all dependencies *****
+    ***** Install All Dependencies *****
     install.packages(\"{pkg}\", dep=TRUE)
 
     "))

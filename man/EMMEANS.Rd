@@ -18,148 +18,88 @@ EMMEANS(
 )
 }
 \arguments{
-\item{model}{The model object returned by \code{\link{MANOVA}}.}
+\item{model}{The model object returned by \code{\link[=MANOVA]{MANOVA()}}.}
 
-\item{effect}{Effect(s) you want to test.
-If set to a character string (e.g., \code{"A"}),
-it reports the results of omnibus test or simple main effect.
-If set to a character vector (e.g., \code{c("A", "B")}),
-it also reports the results of simple interaction effect.}
+\item{effect}{Effect(s) you want to test. If set to a character string (e.g., \code{"A"}), it reports the results of omnibus test or simple main effect. If set to a character vector (e.g., \code{c("A", "B")}), it also reports the results of simple interaction effect.}
 
 \item{by}{Moderator variable(s). Defaults to \code{NULL}.}
 
-\item{contrast}{Contrast method for multiple comparisons.
-Defaults to \code{"pairwise"}.
+\item{contrast}{Contrast method for multiple comparisons. Defaults to \code{"pairwise"}.
 
-Alternatives can be \code{"pairwise"} (\code{"revpairwise"}),
-\code{"seq"} (\code{"consec"}), \code{"poly"}, \code{"eff"}.
-For details, see \code{?emmeans::`contrast-methods`}.}
+Options: \code{"pairwise"}, \code{"revpairwise"}, \code{"seq"}, \code{"consec"}, \code{"poly"}, \code{"eff"}. For details, see \link[emmeans:emmc-functions]{emmeans::contrast-methods}.}
 
-\item{reverse}{The order of levels to be contrasted.
-Defaults to \code{TRUE} (higher level vs. lower level).}
+\item{reverse}{The order of levels to be contrasted. Defaults to \code{TRUE} (higher level vs. lower level).}
 
-\item{p.adjust}{Adjustment method of \emph{p} values for multiple comparisons.
-Defaults to \code{"bonferroni"}.
-For polynomial contrasts, defaults to \code{"none"}.
+\item{p.adjust}{Adjustment method of \emph{p} values for multiple comparisons. Defaults to \code{"bonferroni"}. For polynomial contrasts, defaults to \code{"none"}.
 
-Alternatives can be \code{"none"}, \code{"fdr"}, \code{"hochberg"},
-\code{"hommel"}, \code{"holm"}, \code{"tukey"}, \code{"mvt"},
-\code{"dunnettx"}, \code{"sidak"}, \code{"scheffe"}, \code{"bonferroni"}.
-For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and
-\code{\link[emmeans:summary.emmGrid]{emmeans::summary()}}.}
+Options: \code{"none"}, \code{"fdr"}, \code{"hochberg"}, \code{"hommel"}, \code{"holm"}, \code{"tukey"}, \code{"mvt"}, \code{"dunnettx"}, \code{"sidak"}, \code{"scheffe"}, \code{"bonferroni"}. For details, see \code{\link[stats:p.adjust]{stats::p.adjust()}} and \code{\link[emmeans:summary.emmGrid]{emmeans::summary.emmGrid()}}.}
 
-\item{sd.pooled}{By default, it uses \strong{\code{sqrt(MSE)}} (root mean square error, RMSE)
-as the pooled \emph{SD} to compute Cohen's \emph{d}.
-Users may specify this argument as the \emph{SD} of a reference group,
-or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}.
-For an issue about the computation method of Cohen's \emph{d}, see \emph{Disclaimer} above.}
+\item{sd.pooled}{By default, it uses \strong{\code{sqrt(MSE)}} (root mean square error, RMSE) as the pooled \emph{SD} to compute Cohen's \emph{d}. Users may specify this argument as the \emph{SD} of a reference group, or use \code{\link[effectsize:sd_pooled]{effectsize::sd_pooled()}} to obtain a pooled \emph{SD}. For an issue about the computation method of Cohen's \emph{d}, see the \emph{\strong{Disclaimer}} section.}
 
-\item{model.type}{\code{"multivariate"} returns the results of pairwise comparisons identical to SPSS,
-which uses the \code{lm} (rather than \code{aov}) object of the \code{model}
-for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
+\item{model.type}{\code{"multivariate"} returns the results of pairwise comparisons identical to SPSS, which uses the \code{lm} (rather than \code{aov}) object of the \code{model} for \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}} and \code{\link[emmeans:emmeans]{emmeans::emmeans()}}.
 
-\code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link{MANOVA}}
-(not recommended by the \code{afex} package; for details, see \code{\link[afex:aov_car]{afex::aov_ez()}}).}
+\code{"univariate"} requires also specifying \code{aov.include=TRUE} in \code{\link[=MANOVA]{MANOVA()}}, which is not recommended by the \code{afex} package, see \code{\link[afex:aov_car]{afex::aov_ez()}}.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 }
 \value{
-The same model object as returned by
-\code{\link{MANOVA}} (for recursive use),
-along with a list of tables:
-\code{sim} (simple effects),
-\code{emm} (estimated marginal means),
-\code{con} (contrasts).
-
-Each \code{EMMEANS(...)} appends one list to the returned object.
+The same model object as returned by \code{\link[=MANOVA]{MANOVA()}} (for recursive use), with a list of tables: \code{sim} (simple effects), \code{emm} (estimated marginal means), \code{con} (contrasts). Each \code{EMMEANS(...)} appends one list to the returned object.
 }
 \description{
-Perform (1) simple-effect (and simple-simple-effect) analyses,
-including both simple main effects and simple interaction effects,
-and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial),
-with \emph{p} values adjusted for factors with >= 3 levels.
-
-This function is based on and extends
-(1) \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}},
-(2) \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, and
-(3) \code{\link[emmeans:contrast]{emmeans::contrast()}}.
-You only need to specify the model object, to-be-tested effect(s), and moderator(s).
-Almost all results you need will be displayed together,
-including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs).
-90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
-
-By default, the \emph{root mean square error} (RMSE) is used to compute the pooled \emph{SD} for Cohen's \emph{d}.
-Specifically, it uses:
+Perform (1) simple-effect (and simple-simple-effect) analyses, including both simple main effects and simple interaction effects, and (2) post-hoc multiple comparisons (e.g., pairwise, sequential, polynomial), with \emph{p} values adjusted for factors with >= 3 levels. This function is based on and extends \code{\link[emmeans:joint_tests]{emmeans::joint_tests()}}, \code{\link[emmeans:emmeans]{emmeans::emmeans()}}, and \code{\link[emmeans:contrast]{emmeans::contrast()}}. You only need to specify the model object, to-be-tested effect(s), and moderator(s). Almost all results you need will be displayed together, including effect sizes (partial \eqn{\eta^2} and Cohen's \emph{d}) and their confidence intervals (CIs). 90\% CIs for partial \eqn{\eta^2} and 95\% CIs for Cohen's \emph{d} are reported.
+}
+\section{Disclaimer}{
+By default, the \emph{root mean square error} (RMSE) is used to compute the pooled \emph{SD} for Cohen's \emph{d}. Specifically, it uses:
 \enumerate{
-  \item the square root of \emph{mean square error} (MSE) for between-subjects designs;
-  \item the square root of \emph{mean variance of all paired differences of the residuals of repeated measures} for within-subjects and mixed designs.
+\item the square root of \emph{mean square error} (MSE) for between-subjects designs;
+\item the square root of \emph{mean variance of all paired differences of the residuals of repeated measures} for within-subjects and mixed designs.
 }
 
-\strong{\emph{Disclaimer}:}
-There is substantial disagreement on the appropriate pooled \emph{SD} to use in computing the effect size.
-For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}.
-Users should \emph{not} take the default output as the only right results and are completely responsible for specifying \code{sd.pooled}.
+\emph{\strong{Disclaimer}}: There is substantial disagreement on the appropriate pooled \emph{SD} to use in computing the effect size. For alternative methods, see \code{\link[emmeans:eff_size]{emmeans::eff_size()}} and \code{\link[effectsize:t_to_r]{effectsize::t_to_d()}}. Please \emph{do not} take the default output as the only right results and users are completely responsible for specifying \code{sd.pooled}.
 }
-\section{Interaction Plot (See Examples Below)}{
 
-You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function
-to create an interaction plot (based on the fitted model and a formula).
-See examples below for the usage.
-
-Note: \code{\link[emmeans:emmip]{emmeans::emmip()}} returns a \code{ggplot} object,
-which can be modified and saved with \code{ggplot2} syntax.
+\section{Interaction Plot}{
+You can save the returned object and use the \code{\link[emmeans:emmip]{emmeans::emmip()}} function to create an interaction plot (based on the fitted model and a formula). See examples below for the usage. \code{\link[emmeans:emmip]{emmeans::emmip()}} returns a \code{ggplot} object, which can be modified and saved with \code{ggplot2} syntax.
 }
 
 \section{Statistical Details}{
+Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons". Such a confusion is not uncommon. Here I explain what these terms actually refer to.
+\subsection{1. Simple Effect}{
 
+When we speak of "simple effect", we are referring to ...
+\itemize{
+\item simple main effect
+\item simple interaction effect (only for designs with 3 or more factors)
+\item simple simple effect (only for designs with 3 or more factors)
+}
 
-Some may confuse the statistical terms "simple effects", "post-hoc tests", and "multiple comparisons".
-Such a confusion is not uncommon. Here I explain what these terms actually refer to.
-\describe{
-  \item{\strong{1. Simple Effect}}{
-    When we speak of "simple effect", we are referring to ...
-    \itemize{
-      \item simple main effect
-      \item simple interaction effect (only for designs with 3 or more factors)
-      \item simple simple effect (only for designs with 3 or more factors)
-    }
-    When the interaction effect in ANOVA is significant,
-    we should then perform a "simple-effect analysis".
-    In regression, we call this "simple-slope analysis".
-    They are identical in statistical principles.
+When the interaction effect in ANOVA is significant, we should then perform a "simple-effect analysis". In regression, we call this "simple-slope analysis". They are identical in statistical principles.
 
-    In a two-factors design, we only test \strong{"simple main effect"}.
-    That is, at different levels of a factor "B", the main effects of "A" would be different.
-    However, in a three-factors (or more) design, we may also test \strong{"simple interaction effect"} and \strong{"simple simple effect"}.
-    That is, at different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
+In a two-factors design, we only test \strong{"simple main effect"}. That is, at different levels of a factor "B", the main effects of "A" would be different. However, in a three-factors (or more) design, we may also test \strong{"simple interaction effect"} and \strong{"simple simple effect"}. That is, at different combinations of levels of factors "B" and "C", the main effects of "A" would be different.
 
-    To note, simple effects \emph{per se} never require \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
-  }
-  \item{\strong{2. Post-Hoc Test}}{
-    The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests.
-    However, these two terms should be distinguished. In many situations,
-    "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques.
-    We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
+To note, simple effects \emph{per se} never require \emph{p}-value adjustment, because what we test in simple-effect analyses are still "omnibus \emph{F}-tests".
+}
 
-    Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.}
-    In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
-  }
-  \item{\strong{3. Multiple Comparison}}{
-    As mentioned above, multiple comparisons are indeed post-hoc tests but have no relationship with simple-effect analyses.
-    Post-hoc multiple comparisons are \strong{independent of} interaction effects and simple effects.
-    Furthermore, if a simple main effect contains 3 or more levels, we also need to do multiple comparisons \emph{within} the simple-effect analysis.
-    In this situation, we also need \emph{p}-value adjustment with methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+\subsection{2. Post-Hoc Test}{
 
-    Options for multiple comparison:
-    \itemize{
-      \item \code{"pairwise"} - Pairwise comparisons (default is "higher level - lower level")
-      \item \code{"seq"} or \code{"consec"} - Consecutive (sequential) comparisons
-      \item \code{"poly"} - Polynomial contrasts (linear, quadratic, cubic, quartic, ...)
-      \item \code{"eff"} - Effect contrasts (vs. the grand mean)
-    }
-  }
+The term "post-hoc" means that the tests are performed after ANOVA. Given this, some may (wrongly) regard simple-effect analyses also as a kind of post-hoc tests. However, these two terms should be distinguished. In many situations, "post-hoc tests" only refer to \strong{"post-hoc comparisons"} using \emph{t}-tests and some \emph{p}-value adjustment techniques. We need post-hoc comparisons \strong{only when there are factors with 3 or more levels}.
+
+Post-hoc tests are totally \strong{independent of} whether there is a significant interaction effect. \strong{It only deals with factors with multiple levels.} In most cases, we use pairwise comparisons to do post-hoc tests. See the next part for details.
+}
+
+\subsection{3. Multiple Comparison}{
+
+As mentioned above, multiple comparisons are indeed post-hoc tests but have no relationship with simple-effect analyses. Post-hoc multiple comparisons are \strong{independent of} interaction effects and simple effects. Furthermore, if a simple main effect contains 3 or more levels, we also need to do multiple comparisons \emph{within} the simple-effect analysis. In this situation, we also need \emph{p}-value adjustment with methods such as Bonferroni, Tukey's HSD (honest significant difference), FDR (false discovery rate), and so forth.
+
+Options for multiple comparison:
+\itemize{
+\item \code{"pairwise"}: Pairwise comparisons (defaults to "higher level - lower level")
+\item \code{"seq"} or \code{"consec"}: Consecutive (sequential) comparisons
+\item \code{"poly"}: Polynomial contrasts (linear, quadratic, cubic, quartic, ...)
+\item \code{"eff"}: Effect contrasts (vs. the grand mean)
+}
 }
 }
 
@@ -264,5 +204,9 @@ MANOVA(air, dv="Temp", between=c("Month", "Day.1or2"),
 }
 }
 \seealso{
-\code{\link{TTEST}}, \code{\link{MANOVA}}, \code{\link{bruceR-demodata}}
+\code{\link[=TTEST]{TTEST()}}
+
+\code{\link[=MANOVA]{MANOVA()}}
+
+\code{\link{bruceR-demodata}}
 }

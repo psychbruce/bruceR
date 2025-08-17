@@ -86,46 +86,36 @@ CONSEC(
 \arguments{
 \item{data}{Data frame.}
 
-\item{var}{\strong{[Option 1]}
-Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"}
-(if \code{var} string has any placeholder in braces \code{{...}},
-then \code{items} will be pasted into the braces, see examples)}
+\item{var}{\strong{[Option 1]} Common part across variables: e.g., \code{"RSES"}, \code{"XX.{i}.pre"} (if \code{var} string has any placeholder in braces \code{{...}}, then \code{items} will be pasted into the braces, see examples)}
 
-\item{items}{\strong{[Option 1]}
-Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
+\item{items}{\strong{[Option 1]} Unique part across variables: e.g., \code{1:10}, \code{c("a", "b", "c")}}
 
-\item{vars}{\strong{[Option 2]}
-Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
+\item{vars}{\strong{[Option 2]} Character vector specifying variables: e.g., \code{c("X1", "X2", "X3", "X4", "X5")}}
 
-\item{varrange}{\strong{[Option 3]}
-Character string specifying positions ("start:stop") of variables: e.g., \code{"A1:E5"}}
+\item{varrange}{\strong{[Option 3]} Character string specifying positions (\code{"start:stop"}) of variables: e.g., \code{"A1:E5"}}
 
-\item{value}{[Only for \code{COUNT}] The value to be counted.}
+\item{value}{[Only for \code{\link[=COUNT]{COUNT()}}] The value to be counted.}
 
-\item{rev}{[Optional] Variables that need to be reversed. It can be
-(1) a character vector specifying the reverse-scoring variables (recommended), or
-(2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
+\item{rev}{[Optional] Variables that need to be reversed. It can be (1) a character vector specifying the reverse-scoring variables (recommended), or (2) a numeric vector specifying the item number of reverse-scoring variables (not recommended).}
 
-\item{range, likert}{[Optional] Range of likert scale: e.g., \code{1:5}, \code{c(1, 5)}.
-If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
+\item{range, likert}{[Optional] Range of likert scale: e.g., \code{1:5}, \code{c(1, 5)}. If not provided, it will be automatically estimated from the given data (BUT you should use this carefully).}
 
 \item{na.rm}{Ignore missing values. Defaults to \code{TRUE}.}
 
-\item{values}{[Only for \code{CONSEC}] Values to be counted as consecutive identical values. Defaults to all numbers (\code{0:9}).}
+\item{values}{[Only for \code{\link[=CONSEC]{CONSEC()}}] Values to be counted as consecutive identical values. Defaults to all numbers (\code{0:9}).}
 }
 \value{
 A vector of computed values.
 }
 \description{
-Easily compute multivariate sum, mean, and other scores.
-Reverse scoring can also be easily implemented without saving extra variables.
-\code{\link{Alpha}} function uses a similar method to deal with reverse scoring.
+Easily compute multivariate sum, mean, and other scores. Reverse scoring can also be easily implemented without saving extra variables.
+\code{\link[=Alpha]{Alpha()}} function uses a similar method to deal with reverse scoring.
 
-Three ways to specify variables:
+Three options to specify variables:
 \enumerate{
-  \item \strong{\code{var + items}}: common and unique parts of variable names (suggested).
-  \item \strong{\code{vars}}: a character vector of variable names (suggested).
-  \item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
+\item \strong{\code{var} + \code{items}}: common and unique parts of variable names (suggested).
+\item \strong{\code{vars}}: a character vector of variable names (suggested).
+\item \strong{\code{varrange}}: starting and stopping positions of variables (NOT suggested).
 }
 }
 \section{Functions}{
@@ -136,13 +126,11 @@ Three ways to specify variables:
 
 \item \code{SUM()}: Compute \strong{sum} across variables.
 
-\item \code{.sum()}: Tidy version of \code{SUM},
-only can be used in \code{\link[bruceR:add]{add()/added()}}
+\item \code{.sum()}: Tidy version of \code{\link[=SUM]{SUM()}}, can only be used in \code{\link[=add]{add()/added()}}.
 
 \item \code{MEAN()}: Compute \strong{mean} across variables.
 
-\item \code{.mean()}: Tidy version of \code{MEAN},
-only can be used in \code{\link[bruceR:add]{add()/added()}}
+\item \code{.mean()}: Tidy version of \code{\link[=MEAN]{MEAN()}}, can only be used in \code{\link[=add]{add()/added()}}.
 
 \item \code{STD()}: Compute \strong{standard deviation} across variables.
 

@@ -22,18 +22,15 @@ group_mean_center(
 
 \item{std}{Standardized or not. Defaults to \code{FALSE}.}
 
-\item{add.suffix}{The suffix of the centered variable(s).
-Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
+\item{add.suffix}{The suffix of the centered variable(s). Defaults to \code{""}. You may set it to \code{"_c"}, \code{"_center"}, etc.}
 
-\item{add.group.mean}{The suffix of the variable name(s) of group means.
-Defaults to \code{"_mean"} (see Examples).}
+\item{add.group.mean}{The suffix of the variable name(s) of group means. Defaults to \code{"_mean"} (see Examples).}
 }
 \value{
 A new data object containing the centered variable(s).
 }
 \description{
-Compute group-mean centered variables.
-Usually used for HLM level-1 predictors.
+Compute group-mean centered variables. Usually used for HLM level-1 predictors.
 }
 \examples{
 d = data.table(x=1:9, g=rep(1:3, each=3))
@@ -46,5 +43,5 @@ d.c
 
 }
 \seealso{
-\code{\link{grand_mean_center}}
+\code{\link[=grand_mean_center]{grand_mean_center()}}
 }

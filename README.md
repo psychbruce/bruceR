@@ -31,7 +31,7 @@ Bruce H. W. S. Bao 包寒吴霜
 
 ## Citation
 
--   Bao, H. W. S. (2021). *bruceR: Broadly useful convenient and efficient R functions*. <https://CRAN.R-project.org/package=bruceR>
+-   Bao, H. W. S. (2021). *bruceR: Broadly useful convenient and efficient R functions*. <https://doi.org/10.32614/CRAN.package.bruceR>
 
 ## User Guide
 
@@ -92,7 +92,7 @@ Loading `bruceR` with `library(bruceR)` will also load these R packages for you:
     -   `cc()` (suggested)
     -   `set.wd()` (alias: `set_wd()`) (suggested)
     -   `import()`, `export()` (suggested)
-    -   `pkg_depend()`, `pkg_install_suggested()`
+    -   `pkg_depend()`
     -   `formatF()`, `formatN()`
     -   `print_table()`
     -   `Print()`, `Glue()`, `Run()`
@@ -141,6 +141,7 @@ Loading `bruceR` with `library(bruceR)` will also load these R packages for you:
 
     -   `PROCESS()` (suggested)
     -   `med_summary()`
+    -   `lavaan_summary()`
 
 8.  **Additional Toolbox for Statistics and Graphics**
 

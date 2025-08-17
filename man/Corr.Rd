@@ -34,13 +34,13 @@ Transform all variables into numeric (continuous).}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{2}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 
 \item{plot}{\code{TRUE} (default) or \code{FALSE}. Plot the correlation matrix.}
 
 \item{plot.r.size}{Font size of correlation text label. Defaults to \code{4}.}
 
-\item{plot.colors}{Plot colors (character vector). Defaults to "RdBu" of the Color Brewer Palette.}
+\item{plot.colors}{Plot colors (character vector). Defaults to \code{"RdBu"} of the Color Brewer Palette.}
 
 \item{plot.file}{\code{NULL} (default, plot in RStudio) or a file name (\code{"xxx.png"}).}
 
@@ -52,9 +52,8 @@ Transform all variables into numeric (continuous).}
 }
 \value{
 Invisibly return a list with
-(1) correlation results from
-\code{\link[psych:corr.test]{psych::corr.test()}} and
-(2) a \code{ggplot2} object if \code{plot=TRUE}.
+(1) correlation results from \code{\link[psych:corr.test]{psych::corr.test()}} and
+(2) a \code{ggplot} object if \code{plot=TRUE}.
 }
 \description{
 Correlation analysis.
@@ -78,7 +77,7 @@ Corr(d[, .(age, gender, education, E, A, C, N, O)])
 }
 }
 \seealso{
-\code{\link{Describe}}
+\code{\link[=Describe]{Describe()}}
 
-\code{\link{cor_multilevel}}
+\code{\link[=cor_multilevel]{cor_multilevel()}}
 }

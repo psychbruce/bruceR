@@ -13,8 +13,8 @@ x \%^\% y
 A character string/vector of the pasted values.
 }
 \description{
-Paste strings together. A wrapper of \code{paste0()}.
-Why \code{\%^\%}? Because typing \code{\%} and \code{^} is pretty easy by
+Paste strings together. A wrapper of \code{\link[base:paste]{paste0()}}.
+Why \verb{\%^\%}? Because typing \verb{\%} and \code{^} is pretty easy by
 pressing \strong{Shift + 5 + 6 + 5}.
 }
 \examples{

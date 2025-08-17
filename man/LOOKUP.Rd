@@ -20,24 +20,17 @@ LOOKUP(
 
 \item{data.ref}{Reference data containing both the reference variable(s) and the lookup variable(s).}
 
-\item{vars.ref}{Character (vector), with the \strong{same length and order} as \code{vars},
-specifying the reference variable(s) to be matched in \code{data.ref}.}
+\item{vars.ref}{Character (vector), with the \strong{same length and order} as \code{vars}, specifying the reference variable(s) to be matched in \code{data.ref}.}
 
 \item{vars.lookup}{Character (vector), specifying the variable(s) to be looked up and returned from \code{data.ref}.}
 
-\item{return}{What to return. Default (\code{"new.data"}) is to return a data frame with the lookup values added.
-You may also set it to \code{"new.var"} or \code{"new.value"}.}
+\item{return}{What to return. Default (\code{"new.data"}) is to return a data frame with the lookup values added. You may also set it to \code{"new.var"} or \code{"new.value"}.}
 }
 \value{
 New data object, new variable, or new value (see the argument \code{return}).
 }
 \description{
-In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019),
-or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values.
-Here I provide a similar function.
-}
-\details{
-If multiple values were simultaneously matched, a warning message would be printed.
+In Excel, we can use \code{VLOOKUP}, \code{HLOOKUP}, \code{XLOOKUP} (a new function released in 2019), or the combination of \code{INDEX} and \code{MATCH} to search, match, and look up values. Here I provide a similar function. If multiple values were simultaneously matched, a warning message would be printed.
 }
 \examples{
 ref = data.table(City=rep(c("A", "B", "C"), each=5),
@@ -57,6 +50,4 @@ LOOKUP(data, c("city", "year"), ref, c("City", "Year"), c("GDP", "PM2.5"))
 }
 \seealso{
 \code{\link[dplyr:mutate-joins]{dplyr::left_join()}}
-
-\href{https://www.excel-university.com/xlookup/}{XLOOKUP: Excel University}
 }

@@ -37,15 +37,13 @@ ccf_plot(
 
 \item{ylim}{Y-axis limits. Defaults to \code{NULL} to automatically estimate.}
 
-\item{alpha.ns}{Color transparency (opacity: 0~1) for non-significant values.
-Defaults to \code{1} for no transparency (i.e., opaque color).}
+\item{alpha.ns}{Color transparency (opacity: 0~1) for non-significant values. Defaults to \code{1} for no transparency (i.e., opaque color).}
 
 \item{pos.color}{Color for positive values. Defaults to \code{"black"}.}
 
 \item{neg.color}{Color for negative values. Defaults to \code{"black"}.}
 
-\item{ci.color}{Color for upper and lower bounds of significant values.
-Defaults to \code{"blue"}.}
+\item{ci.color}{Color for upper and lower bounds of significant values. Defaults to \code{"blue"}.}
 
 \item{title}{Plot title. Defaults to an illustration of the formula.}
 
@@ -56,12 +54,10 @@ Defaults to \code{"blue"}.}
 \item{ylab}{Y-axis title. Defaults to \code{"Cross-Correlation"}.}
 }
 \value{
-A \code{gg} object, which you can further modify using
-\code{ggplot2} syntax and save using \code{ggsave()}.
+A \code{ggplot} object, which can be further modified using \code{ggplot2} syntax and saved using \code{\link[ggplot2:ggsave]{ggsave()}}.
 }
 \description{
-Plot the results of cross-correlation analysis using \code{ggplot2}
-(rather than R base plot) for more flexible modification of the plot.
+Plot the results of cross-correlation analysis using \code{ggplot2}.
 }
 \details{
 Significant correlations with \emph{negative time lags} suggest
@@ -81,5 +77,5 @@ p2
 
 }
 \seealso{
-\code{\link{granger_test}}
+\code{\link[=granger_test]{granger_test()}}
 }

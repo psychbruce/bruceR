@@ -15,26 +15,18 @@ granger_test(formula, data, lags = 1:5, test.reverse = TRUE, file = NULL, ...)
 
 \item{test.reverse}{Whether to test reverse causality. Defaults to \code{TRUE}.}
 
-\item{file}{File name of MS Word (\code{.doc}).}
+\item{file}{File name of MS Word (\code{".doc"}).}
 
-\item{...}{Further arguments passed to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}.
-For example, you may use \emph{robust} standard errors by specifying
-the \code{vcov} argument (see \href{https://github.com/psychbruce/bruceR/issues/23}{GitHub Issue #23}).}
+\item{...}{Further arguments passed to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}. For example, you may use \emph{robust} standard errors by specifying the \code{vcov} argument (see \href{https://github.com/psychbruce/bruceR/issues/23}{GitHub Issue #23}).}
 }
 \value{
 A data frame of results.
 }
 \description{
-Granger test of predictive causality (between two time series)
-using the \code{\link[lmtest:grangertest]{lmtest::grangertest()}} function.
+Granger test of predictive causality (between two time series) using \code{\link[lmtest:grangertest]{lmtest::grangertest()}}.
 }
 \details{
-Granger causality test examines whether
-the lagged values of a predictor
-have an incremental role in predicting (i.e., help to predict)
-an outcome when controlling for the lagged values of the outcome.
-
-Granger causality does not necessarily constitute a true causal effect.
+Granger causality test examines whether the lagged values of a predictor have an incremental role in predicting (i.e., help to predict) an outcome when controlling for the lagged values of the outcome. Granger causality does not represent a true causal effect.
 }
 \examples{
 granger_test(chicken ~ egg, data=lmtest::ChickEgg)
@@ -43,6 +35,7 @@ unlink("Granger.doc")  # delete file for code check
 
 }
 \seealso{
-\code{\link{ccf_plot}},
-\code{\link{granger_causality}}
+\code{\link[=ccf_plot]{ccf_plot()}}
+
+\code{\link[=granger_causality]{granger_causality()}}
 }

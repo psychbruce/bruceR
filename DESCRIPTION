@@ -1,14 +1,14 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 2024.6
-Date: 2024-06-12
+Version: 2025.8
+Date: 2025-08-15
 Authors@R:
-    c(person(given = "Han-Wu-Shuang",
+    c(person(given = "Han Wu Shuang",
              family = "Bao",
              role = c("aut", "cre"),
              email = "baohws@foxmail.com",
              comment = c(ORCID = "0000-0003-3043-710X")))
-Maintainer: Han-Wu-Shuang Bao <baohws@foxmail.com>
+Maintainer: Han Wu Shuang Bao <baohws@foxmail.com>
 Description:
     Broadly useful convenient and efficient R functions
     that bring users concise and elegant R data analyses.
@@ -47,3 +47,4 @@ Suggests:
     car, lmtest, lme4, nnet, vars, phia,
     MASS, MuMIn, BayesFactor, GGally, GPArotation
 RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)

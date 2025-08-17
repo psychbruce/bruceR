@@ -21,42 +21,31 @@ import(
 If unspecified, then data will be imported from clipboard.}
 
 \item{encoding}{File encoding. Defaults to \code{NULL}.
+
 Options: \code{"UTF-8"}, \code{"GBK"}, \code{"CP936"}, etc.
 
-If you find messy code for Chinese text in the imported data,
-it is usually effective to set \code{encoding="UTF-8"}.}
+If you find messy code for Chinese text in the imported data, it is usually effective to set \code{encoding="UTF-8"}.}
 
-\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})?
-Defaults to \code{"auto"}.}
+\item{header}{Does the first row contain column names (\code{TRUE} or \code{FALSE})? Defaults to \code{"auto"}.}
 
-\item{sheet}{[Only for Excel] Excel sheet name (or sheet number).
-Defaults to the first sheet.
-Ignored if the sheet is specified via \code{range}.}
+\item{sheet}{[Only for Excel] Excel sheet name (or sheet number). Defaults to the first sheet. Ignored if the sheet is specified via \code{range}.}
 
-\item{range}{[Only for Excel] Excel cell range.
-Defaults to all cells in a sheet.
-You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
+\item{range}{[Only for Excel] Excel cell range. Defaults to all cells in a sheet. You may specify it as \code{range="A1:E100"} or \code{range="Sheet1!A1:E100"}.}
 
 \item{pkg}{[Only for SPSS & Stata] Use which R package to read
-SPSS (.sav) or Stata (.dta) data file?
-Defaults to \code{"haven"}. You may also use \code{"foreign"}.
+SPSS (.sav) or Stata (.dta) data file? Defaults to \code{"haven"}. You may also use \code{"foreign"}.
 
-Notably, \code{"haven"} may be preferred because it is more robust to
-non-English characters and can also keep variable labels (descriptions)
-from SPSS.}
+Notably, \code{"haven"} may be preferred because it is more robust to non-English characters and can also keep variable labels (descriptions) from SPSS.}
 
-\item{value.labels}{[Only for SPSS & Stata] Convert variables with value labels
-into R factors with those levels? Defaults to \code{FALSE}.}
+\item{value.labels}{[Only for SPSS & Stata] Convert variables with value labels into R factors with those levels? Defaults to \code{FALSE}.}
 
-\item{as}{Class of the imported data.
-Defaults to \code{"data.frame"}.
-Ignored if the file is an R data object (.rds, .rda, .rdata, .RData).
+\item{as}{Class of the imported data. Defaults to \code{"data.frame"}. Ignored if the file is an R data object (.rds, .rda, .rdata, .RData).
 
 Options:
 \itemize{
-  \item data.frame: \code{"data.frame"}, \code{"df"}, \code{"DF"}
-  \item data.table: \code{"data.table"}, \code{"dt"}, \code{"DT"}
-  \item tbl_df: \code{"tibble"}, \code{"tbl_df"}, \code{"tbl"}
+\item data.frame: \code{"data.frame"}, \code{"df"}, \code{"DF"}
+\item data.table: \code{"data.table"}, \code{"dt"}, \code{"DT"}
+\item tbl_df: \code{"tibble"}, \code{"tbl_df"}, \code{"tbl"}
 }}
 
 \item{verbose}{Print data information? Defaults to \code{FALSE}.}
@@ -65,26 +54,16 @@ Options:
 A data object (default class is \code{data.frame}).
 }
 \description{
-Import data from a file, with format automatically judged from file extension.
-This function is inspired by \code{\link[rio:import]{rio::import()}}
-and has several modifications.
-Its purpose is to avoid using lots of \code{read_xxx()} functions in your code
-and to provide one tidy function for data import.
-
-It supports many file formats (local or URL) and
-uses the corresponding R functions:
-
+Import data from a file, with format automatically judged from file extension. This function is inspired by \code{\link[rio:import]{rio::import()}} and has several modifications. Its purpose is to avoid using lots of \code{read_xxx()} functions in your code and to provide one tidy function for data import. It supports many file formats (local or URL) and uses the corresponding R functions:
 \itemize{
-  \item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fread]{data.table::fread()}}
-  \item Excel (.xls, .xlsx), using \code{\link[readxl:read_excel]{readxl::read_excel()}}
-  \item SPSS (.sav), using \code{\link[haven:read_spss]{haven::read_sav()}}
-  or \code{\link[foreign:read.spss]{foreign::read.spss()}}
-  \item Stata (.dta), using \code{\link[haven:read_dta]{haven::read_dta()}}
-  or \code{\link[foreign:read.dta]{foreign::read.dta()}}
-  \item R objects (.rda, .rdata, .RData), using \code{\link[base:load]{base::load()}}
-  \item R serialized objects (.rds), using \code{\link[base:readRDS]{base::readRDS()}}
-  \item Clipboard (on Windows and Mac OS), using \code{\link[clipr:read_clip_tbl]{clipr::read_clip_tbl()}}
-  \item Other formats, using \code{\link[rio:import]{rio::import()}}
+\item Plain text (.txt, .csv, .csv2, .tsv, .psv), using \code{\link[data.table:fread]{data.table::fread()}}
+\item Excel (.xls, .xlsx), using \code{\link[readxl:read_excel]{readxl::read_excel()}}
+\item SPSS (.sav), using \code{\link[haven:read_spss]{haven::read_sav()}} or \code{\link[foreign:read.spss]{foreign::read.spss()}}
+\item Stata (.dta), using \code{\link[haven:read_dta]{haven::read_dta()}} or \code{\link[foreign:read.dta]{foreign::read.dta()}}
+\item R objects (.rda, .rdata, .RData), using \code{\link[=load]{load()}}
+\item R serialized objects (.rds), using \code{\link[=readRDS]{readRDS()}}
+\item Clipboard (on Windows and Mac OS), using \code{\link[clipr:read_clip_tbl]{clipr::read_clip_tbl()}}
+\item Other formats, using \code{\link[rio:import]{rio::import()}}
 }
 }
 \examples{
@@ -103,5 +82,5 @@ uses the corresponding R functions:
 
 }
 \seealso{
-\code{\link{export}}
+\code{\link[=export]{export()}}
 }
