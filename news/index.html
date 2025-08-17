@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,18 @@
       <small>Source: <a href="https://github.com/psychbruce/bruceR/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2025.8" id="brucer-20258">bruceR 2025.8<a class="anchor" aria-label="anchor" href="#brucer-20258"></a></h2>
+<ul><li>Rewrote all help pages in the style of Roxygen markdown, and refined most of them.</li>
+<li>Provided solutions when <code><a href="../reference/MANOVA.html">MANOVA()</a></code> gets unknown errors: Simply updating R and all R packages. This issue has been reported by not a few users and can be solved simply by updating all packages.</li>
+<li>Highlight in <code><a href="../reference/PROCESS.html">PROCESS()</a></code> that it <strong><em>DOES NOT</em></strong> use any code or macro from the SPSS PROCESS macro developed by Hayes, though the output links the model setting to the PROCESS Model Number in Hayes’s numbering system. So please <strong><em>DO NOT</em></strong> state that “<del>the bruceR package runs the PROCESS Model Code developed by Hayes (2018)</del>” — it was not the truth.
+<ul><li>Remember that <code><a href="../reference/PROCESS.html">PROCESS()</a></code> uses <code><a href="https://rdrr.io/pkg/mediation/man/mediate.html" class="external-link">mediation::mediate()</a></code>, <code>interactions::sim_slopes()</code>, and <code><a href="https://rdrr.io/pkg/lavaan/man/sem.html" class="external-link">lavaan::sem()</a></code> as main functions inside, completely different from and having no relation with the SPSS PROCESS macro.</li>
+</ul></li>
+<li>Fixed <code><a href="../reference/Corr.html">Corr()</a></code> when <code>plot=FALSE</code> does not return the <code>ggplot</code> object (thanks to a student in my R course at ECNU for reporting this issue).</li>
+<li>No longer check online updates when <code><a href="https://psychbruce.github.io/bruceR/">library(bruceR)</a></code> since it is getting stable.</li>
+<li>Reexported <code>%notin%</code> from <code>data.table</code> to avoid function name conflict.</li>
+<li>Deprecated <code>pkg_install_suggested()</code> from exported functions, but it can be accessed via <code>bruceR:::pkg_install_suggested()</code>.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2024.6" id="brucer-20246">bruceR 2024.6<a class="anchor" aria-label="anchor" href="#brucer-20246"></a></h2><p class="text-muted">CRAN release: 2024-06-13</p>
 <ul><li>Had to move <code>MuMIn</code> from “Imports” to “Suggests” due to its unresolved CRAN issues which need fixing before 2024-06-14.</li>
@@ -349,7 +361,7 @@
 <ul><li>Improved many major functions, especially <code><a href="../reference/set.wd.html">set.wd()</a></code>, <code><a href="../reference/Describe.html">Describe()</a></code>, <code><a href="../reference/Corr.html">Corr()</a></code>, <code><a href="../reference/MANOVA.html">MANOVA()</a></code>, and <code><a href="../reference/EMMEANS.html">EMMEANS()</a></code>.</li>
 <li>Tidy welcome messages when you <code><a href="https://psychbruce.github.io/bruceR/">library(bruceR)</a></code>.</li>
 <li>More packages for default loading (see <a href="https://github.com/psychbruce/bruceR#package-dependency" class="external-link">details</a>).</li>
-<li>Less packages for default installation (you can install all suggested packages by using the <code><a href="../reference/pkg_install_suggested.html">pkg_install_suggested()</a></code> function).</li>
+<li>Less packages for default installation (you can install all suggested packages by using the <code>pkg_install_suggested()</code> function).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="minor-changes-0-6-0">Minor Changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-6-0"></a></h3>
@@ -396,7 +408,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Han-Wu-Shuang Bao.</p>
+  <p>Developed by Han Wu Shuang Bao.</p>
 </div>
 
 <div class="pkgdown-footer-right">

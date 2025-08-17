@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2024.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@ Transform all variables into numeric (continuous).</p></dd>
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
-<dd><p>File name of MS Word (<code>.doc</code>).</p></dd>
+<dd><p>File name of MS Word (<code>".doc"</code>).</p></dd>
 
 
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
@@ -95,7 +95,7 @@ Transform all variables into numeric (continuous).</p></dd>
 
 
 <dt id="arg-plot-colors">plot.colors<a class="anchor" aria-label="anchor" href="#arg-plot-colors"></a></dt>
-<dd><p>Plot colors (character vector). Defaults to "RdBu" of the Color Brewer Palette.</p></dd>
+<dd><p>Plot colors (character vector). Defaults to <code>"RdBu"</code> of the Color Brewer Palette.</p></dd>
 
 
 <dt id="arg-plot-file">plot.file<a class="anchor" aria-label="anchor" href="#arg-plot-file"></a></dt>
@@ -117,14 +117,13 @@ Transform all variables into numeric (continuous).</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Invisibly return a list with
-(1) correlation results from
-<code><a href="https://rdrr.io/pkg/psych/man/corr.test.html" class="external-link">psych::corr.test()</a></code> and
-(2) a <code>ggplot2</code> object if <code>plot=TRUE</code>.</p>
+(1) correlation results from <code><a href="https://rdrr.io/pkg/psych/man/corr.test.html" class="external-link">psych::corr.test()</a></code> and
+(2) a <code>ggplot</code> object if <code>plot=TRUE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="Describe.html">Describe</a></code></p>
-<p><code><a href="cor_multilevel.html">cor_multilevel</a></code></p></div>
+    <div class="dont-index"><p><code><a href="Describe.html">Describe()</a></code></p>
+<p><code><a href="cor_multilevel.html">cor_multilevel()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -152,7 +151,6 @@ Transform all variables into numeric (continuous).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-plt img"><img src="Corr-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix is displayed in the RStudio `Plots` Pane.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">Corr</span><span class="op">(</span><span class="va">airquality</span>, p.adjust<span class="op">=</span><span class="st">"bonferroni"</span>,</span></span>
 <span class="r-in"><span>     plot.colors<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b2182b"</span>, <span class="st">"white"</span>, <span class="st">"#2166ac"</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -179,7 +177,6 @@ Transform all variables into numeric (continuous).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-plt img"><img src="Corr-2.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix is displayed in the RStudio `Plots` Pane.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-style: italic;">p</span><span style="color: #0000BB;"> values ABOVE the diagonal are adjusted using the "bonferroni" method.</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
@@ -231,7 +228,6 @@ Transform all variables into numeric (continuous).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ─────────────────────────────────────────────────────</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-plt img"><img src="Corr-3.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Correlation matrix is displayed in the RStudio `Plots` Pane.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -241,7 +237,7 @@ Transform all variables into numeric (continuous).</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Han-Wu-Shuang Bao.</p>
+  <p>Developed by Han Wu Shuang Bao.</p>
 </div>
 
 <div class="pkgdown-footer-right">
