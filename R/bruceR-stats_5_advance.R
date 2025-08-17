@@ -242,12 +242,12 @@ boot_ci = function(boot,
 #'
 #' Model-based mediation and moderation analyses (i.e., using raw regression model objects with distinct R packages, _**BUT NOT** with the SPSS PROCESS Macro_, to estimate effects in mediation/moderation models).
 #'
-#' **NOTE**: [PROCESS()] _**DOES NOT**_ use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model Number in Hayes's numbering system.
+#' **NOTE**: [PROCESS()] _**DOES NOT**_ use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model ID in Hayes's numbering system.
 #'
 #' To use [PROCESS()] in publications, please cite not only `bruceR` but also the following R packages:
-#' - [interactions::sim_slopes()] is used to estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models (for PROCESS Model Numbers 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
-#' - [mediation::mediate()] is used to estimate (conditional) indirect effects in (moderated) mediation models (for PROCESS Model Numbers 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
-#' - [lavaan::sem()] is used to perform serial multiple mediation analysis (for PROCESS Model Number 6).
+#' - [interactions::sim_slopes()] is used to estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models (for PROCESS Model IDs 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+#' - [mediation::mediate()] is used to estimate (conditional) indirect effects in (moderated) mediation models (for PROCESS Model IDs 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+#' - [lavaan::sem()] is used to perform serial multiple mediation analysis (for PROCESS Model ID 6).
 #'
 #' @details
 #'
@@ -259,7 +259,7 @@ boot_ci = function(boot,
 #'
 #' # Disclaimer
 #'
-#' [PROCESS()] _**DOES NOT**_ use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model Number in Hayes's numbering system.
+#' [PROCESS()] _**DOES NOT**_ use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model ID in Hayes's numbering system.
 #'
 #' _**DO NOT**_ state that "the bruceR package runs the PROCESS Model Code developed by Hayes (2018)" --- it was not the truth. The `bruceR` package only links results to Hayes's numbering system but never uses his code.
 #'
@@ -271,7 +271,7 @@ boot_ci = function(boot,
 #'
 #' Distinct from these existing tools, [PROCESS()] provides an integrative way for performing mediation/moderation analyses in R. This function supports 24 kinds of SPSS PROCESS models numbered by Hayes (2018) (but does not use or transform his code), and also supports multilevel mediation/moderation analyses. Overall, it supports the most frequently used types of mediation, moderation, moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses for (generalized) linear or linear mixed models.
 #'
-#' Specifically, [PROCESS()] fits regression models based on the data, variable names, and a few other arguments that users input (with no need to specify the PROCESS model number or manually mean-center the variables). The function can automatically link model settings to Hayes's numbering system.
+#' Specifically, [PROCESS()] fits regression models based on the data, variable names, and a few other arguments that users input (with no need to specify the PROCESS Model ID or manually mean-center the variables). The function can automatically link model settings to Hayes's numbering system.
 #'
 #' # Variable Centering
 #'
@@ -326,7 +326,7 @@ boot_ci = function(boot,
 #' Invisibly return a list of results:
 #' \describe{
 #'   \item{`process.id`}{
-#'     PROCESS model number (in Hayes's numbering system).
+#'     PROCESS Model ID (in Hayes's numbering system).
 #'   }
 #'   \item{`process.type`}{
 #'     PROCESS model type.
@@ -778,8 +778,8 @@ PROCESS = function(
   \n
   <<bold ****************** PART 1. Regression Model Summary ******************>>
 
-  <<blue PROCESS Model Code : {pid}>> <<white (Hayes, 2018; <<underline www.guilford.com/p/hayes3>>)>>
-  <<blue PROCESS Model Type : {ptype}>>
+  <<blue PROCESS Model ID : {pid}>>
+  <<blue       Model Type : {ptype}>>
   <<green
   -    Outcome (Y) : {y}
   -  Predictor (X) : {x}{x.trans.info}
@@ -811,7 +811,7 @@ CAUTION:
   Fixed effect (coef.) of a predictor involved in an interaction
   denotes its \"simple effect/slope\" at the other predictor = 0.
   Only when all predictors in an interaction are mean-centered
-  can the fixed effect denote the \"main effect\"!
+  can the fixed effect be interpreted as \"main effect\"!
   ")
 
   ## Regression Model Building

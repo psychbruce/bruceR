@@ -101,7 +101,7 @@ Note that these methods \emph{never} apply to the estimates of simple slopes. Yo
 Invisibly return a list of results:
 \describe{
 \item{\code{process.id}}{
-PROCESS model number (in Hayes's numbering system).
+PROCESS Model ID (in Hayes's numbering system).
 }
 \item{\code{process.type}}{
 PROCESS model type.
@@ -120,13 +120,13 @@ Effect estimates and other results (unnamed list object).
 \description{
 Model-based mediation and moderation analyses (i.e., using raw regression model objects with distinct R packages, \emph{\strong{BUT NOT} with the SPSS PROCESS Macro}, to estimate effects in mediation/moderation models).
 
-\strong{NOTE}: \code{\link[=PROCESS]{PROCESS()}} \emph{\strong{DOES NOT}} use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model Number in Hayes's numbering system.
+\strong{NOTE}: \code{\link[=PROCESS]{PROCESS()}} \emph{\strong{DOES NOT}} use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model ID in Hayes's numbering system.
 
 To use \code{\link[=PROCESS]{PROCESS()}} in publications, please cite not only \code{bruceR} but also the following R packages:
 \itemize{
-\item \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} is used to estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models (for PROCESS Model Numbers 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
-\item \code{\link[mediation:mediate]{mediation::mediate()}} is used to estimate (conditional) indirect effects in (moderated) mediation models (for PROCESS Model Numbers 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
-\item \code{\link[lavaan:sem]{lavaan::sem()}} is used to perform serial multiple mediation analysis (for PROCESS Model Number 6).
+\item \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}} is used to estimate simple slopes (and conditional direct effects) in moderation, moderated moderation, and moderated mediation models (for PROCESS Model IDs 1, 2, 3, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+\item \code{\link[mediation:mediate]{mediation::mediate()}} is used to estimate (conditional) indirect effects in (moderated) mediation models (for PROCESS Model IDs 4, 5, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 58, 59, 72, 73, 75, 76).
+\item \code{\link[lavaan:sem]{lavaan::sem()}} is used to perform serial multiple mediation analysis (for PROCESS Model ID 6).
 }
 }
 \section{Output}{
@@ -138,7 +138,7 @@ Two parts of results are printed:
 }
 
 \section{Disclaimer}{
-\code{\link[=PROCESS]{PROCESS()}} \emph{\strong{DOES NOT}} use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model Number in Hayes's numbering system.
+\code{\link[=PROCESS]{PROCESS()}} \emph{\strong{DOES NOT}} use or transform any code or macro from the original SPSS PROCESS macro developed by Hayes, though its output would link model settings to a PROCESS Model ID in Hayes's numbering system.
 
 \emph{\strong{DO NOT}} state that "the bruceR package runs the PROCESS Model Code developed by Hayes (2018)" --- it was not the truth. The \code{bruceR} package only links results to Hayes's numbering system but never uses his code.
 }
@@ -150,7 +150,7 @@ Furthermore, some other R packages or scripts/modules have been developed, inclu
 
 Distinct from these existing tools, \code{\link[=PROCESS]{PROCESS()}} provides an integrative way for performing mediation/moderation analyses in R. This function supports 24 kinds of SPSS PROCESS models numbered by Hayes (2018) (but does not use or transform his code), and also supports multilevel mediation/moderation analyses. Overall, it supports the most frequently used types of mediation, moderation, moderated moderation (3-way interaction), and moderated mediation (conditional indirect effect) analyses for (generalized) linear or linear mixed models.
 
-Specifically, \code{\link[=PROCESS]{PROCESS()}} fits regression models based on the data, variable names, and a few other arguments that users input (with no need to specify the PROCESS model number or manually mean-center the variables). The function can automatically link model settings to Hayes's numbering system.
+Specifically, \code{\link[=PROCESS]{PROCESS()}} fits regression models based on the data, variable names, and a few other arguments that users input (with no need to specify the PROCESS Model ID or manually mean-center the variables). The function can automatically link model settings to Hayes's numbering system.
 }
 
 \section{Variable Centering}{
