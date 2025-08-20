@@ -347,8 +347,7 @@ sprintf_transformer = function(text, envir) {
 
 #' Run code parsed from text.
 #'
-#' @param ... Character string(s) to run.
-#' You can use `"{ }"` to insert any R object in the environment.
+#' @param ... Character string(s) to run. You can use `"{ }"` to insert any R object in the environment.
 #' @param silent Suppress error/warning messages. Defaults to `FALSE`.
 #'
 #' @return

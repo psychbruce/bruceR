@@ -37,14 +37,13 @@ Depends: R (>= 4.0.0)
 Imports:
     rstudioapi, data.table, rio, crayon,
     plyr, dplyr, tidyr, stringr, ggplot2,
-    psych, afex, emmeans, effectsize, performance,
-    mediation, interactions, lavaan,
-    jtools, texreg, lmerTest
+    psych, afex, emmeans, effectsize,
+    mediation, interactions, lavaan, jtools, texreg
 Suggests:
     pacman, glue, tibble, forcats,
     haven, foreign, readxl, openxlsx, clipr,
     cowplot, ggtext, see,
-    car, lmtest, lme4, nnet, vars, phia,
+    car, lmtest, lme4, lmerTest, nnet, vars, phia, performance,
     MASS, MuMIn, BayesFactor, GGally, GPArotation
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)

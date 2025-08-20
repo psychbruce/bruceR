@@ -155,7 +155,6 @@ if(FALSE) {
 #' @importFrom crayon black red green yellow blue magenta cyan white silver
 .onAttach = function(libname, pkgname) {
   inst.ver = as.character(utils::packageVersion("bruceR"))
-  # pkg.date = substr(utils::packageDate("bruceR"), 1, 4)
   pkgs = c(
     "dplyr",
     "tidyr",
@@ -167,11 +166,12 @@ if(FALSE) {
     "performance",
     "lmerTest",
     "interactions",
-    "ggplot2"
+    "ggplot2",
+    "cowplot"
   )
   suppressMessages({
     suppressWarnings({
-      loaded = sapply(pkgs, require, character.only=TRUE, exclude="%notin%")
+      loaded = sapply(pkgs, require, character.only=TRUE)
     })
   })
   if(all(loaded)) {
@@ -191,11 +191,12 @@ if(FALSE) {
 
     {magenta Packages also loaded:}
     {green
-    \u2714 data.table\t\u2714 emmeans
-    \u2714 dplyr     \t\u2714 lmerTest
-    \u2714 tidyr     \t\u2714 effectsize
-    \u2714 stringr   \t\u2714 performance
-    \u2714 ggplot2   \t\u2714 interactions
+    \u2714 dplyr     \t\u2714 data.table
+    \u2714 tidyr     \t\u2714 emmeans
+    \u2714 stringr   \t\u2714 lmerTest
+    \u2714 forcats   \t\u2714 effectsize
+    \u2714 ggplot2   \t\u2714 performance
+    \u2714 cowplot   \t\u2714 interactions
     }
 
     {magenta Main functions of `bruceR`:}

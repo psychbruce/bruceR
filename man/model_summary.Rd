@@ -39,7 +39,7 @@ model_summary(
 
 \item{bold}{The \emph{p}-value threshold below which the coefficients will be formatted in bold.}
 
-\item{...}{Other arguments passed to \code{\link[texreg:screenreg]{texreg::screenreg()}} or \code{\link[texreg:htmlreg]{texreg::htmlreg()}}.}
+\item{...}{Arguments passed on to \code{\link[texreg:screenreg]{texreg::screenreg()}} or \code{\link[texreg:htmlreg]{texreg::htmlreg()}}.}
 }
 \value{
 Invisibly return the output (character string).

@@ -7,8 +7,7 @@
 Run(..., silent = FALSE)
 }
 \arguments{
-\item{...}{Character string(s) to run.
-You can use \code{"{ }"} to insert any R object in the environment.}
+\item{...}{Character string(s) to run. You can use \code{"{ }"} to insert any R object in the environment.}
 
 \item{silent}{Suppress error/warning messages. Defaults to \code{FALSE}.}
 }

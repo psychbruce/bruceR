@@ -17,7 +17,7 @@ granger_test(formula, data, lags = 1:5, test.reverse = TRUE, file = NULL, ...)
 
 \item{file}{File name of MS Word (\code{".doc"}).}
 
-\item{...}{Further arguments passed to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}. For example, you may use \emph{robust} standard errors by specifying the \code{vcov} argument (see \href{https://github.com/psychbruce/bruceR/issues/23}{GitHub Issue #23}).}
+\item{...}{Arguments passed on to \code{\link[lmtest:grangertest]{lmtest::grangertest()}}. For example, you may use \emph{robust} standard errors by specifying the \code{vcov} argument (see \href{https://github.com/psychbruce/bruceR/issues/23}{GitHub Issue #23}).}
 }
 \value{
 A data frame of results.

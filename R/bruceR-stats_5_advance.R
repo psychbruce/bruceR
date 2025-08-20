@@ -1875,7 +1875,7 @@ ccf_plot = function(formula, data,
 #' @param lags Time lags. Defaults to `1:5`.
 #' @param test.reverse Whether to test reverse causality. Defaults to `TRUE`.
 #' @param file File name of MS Word (`".doc"`).
-#' @param ... Further arguments passed to [lmtest::grangertest()]. For example, you may use *robust* standard errors by specifying the `vcov` argument (see [GitHub Issue #23](https://github.com/psychbruce/bruceR/issues/23)).
+#' @param ... Arguments passed on to [lmtest::grangertest()]. For example, you may use *robust* standard errors by specifying the `vcov` argument (see [GitHub Issue #23](https://github.com/psychbruce/bruceR/issues/23)).
 #'
 #' @return
 #' A data frame of results.

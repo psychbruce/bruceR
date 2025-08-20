@@ -246,7 +246,7 @@ regress = function(
 #' @param modify.head Modify model names.
 #' @param line Lines look like true line (`TRUE`) or `=== --- ===` (`FALSE`). Only effective in R Console output.
 #' @param bold The *p*-value threshold below which the coefficients will be formatted in bold.
-#' @param ... Other arguments passed to [texreg::screenreg()] or [texreg::htmlreg()].
+#' @param ... Arguments passed on to [texreg::screenreg()] or [texreg::htmlreg()].
 #'
 #' @return
 #' Invisibly return the output (character string).
