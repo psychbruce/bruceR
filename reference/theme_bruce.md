@@ -1,0 +1,172 @@
+# A nice `ggplot2` theme that enables Markdown/HTML rich text.
+
+A nice `ggplot2` theme for scientific publication. It also uses
+[`ggtext::element_markdown()`](https://wilkelab.org/ggtext/reference/element_markdown.html)
+to render Markdown/HTML formatted rich text. You can use a combination
+of Markdown and/or HTML syntax (e.g., `"*y* = *x*<sup>2</sup>"`) in plot
+text or title, and this function draws text elements with rich text
+format.
+
+For more usage, see:
+
+- [`ggtext::geom_richtext()`](https://wilkelab.org/ggtext/reference/geom_richtext.html)
+
+- [`ggtext::geom_textbox()`](https://wilkelab.org/ggtext/reference/geom_textbox.html)
+
+- [`ggtext::element_markdown()`](https://wilkelab.org/ggtext/reference/element_markdown.html)
+
+- [`ggtext::element_textbox()`](https://wilkelab.org/ggtext/reference/element_textbox.html)
+
+## Usage
+
+``` r
+theme_bruce(
+  markdown = FALSE,
+  base.size = 12,
+  line.width = 0.5,
+  border = "black",
+  bg = "white",
+  panel.bg = "white",
+  tag = "bold",
+  plot.title = "bold",
+  axis.title = "plain",
+  title.pos = 0.5,
+  subtitle.pos = 0.5,
+  caption.pos = 1,
+  font = NULL,
+  grid.x = "",
+  grid.y = "",
+  line.x = TRUE,
+  line.y = TRUE,
+  tick.x = TRUE,
+  tick.y = TRUE
+)
+```
+
+## Arguments
+
+- markdown:
+
+  Use `element_markdown()` instead of `element_text()`. Defaults to
+  `FALSE`. If set to `TRUE`, then you should also use
+  `element_markdown()` in `theme()` (if any).
+
+- base.size:
+
+  Basic font size. Defaults to `12`.
+
+- line.width:
+
+  Line width. Defaults to `0.5`.
+
+- border:
+
+  `TRUE`, `FALSE`, or `"black"` (default).
+
+- bg:
+
+  Background color of whole plot. Defaults to `"white"`. You can use any
+  colors or choose from some pre-set color palettes: `"stata"`,
+  `"stata.grey"`, `"solar"`, `"wsj"`, `"light"`, `"dust"`.
+
+- panel.bg:
+
+  Background color of panel. Defaults to `"white"`.
+
+- tag:
+
+  Font face of tag. Choose from `"plain"`, `"italic"`, `"bold"`,
+  `"bold.italic"`.
+
+- plot.title:
+
+  Font face of title. Choose from `"plain"`, `"italic"`, `"bold"`,
+  `"bold.italic"`.
+
+- axis.title:
+
+  Font face of axis text. Choose from `"plain"`, `"italic"`, `"bold"`,
+  `"bold.italic"`.
+
+- title.pos:
+
+  Title position (0~1).
+
+- subtitle.pos:
+
+  Subtitle position (0~1).
+
+- caption.pos:
+
+  Caption position (0~1).
+
+- font:
+
+  Text font. Only applicable to Windows system.
+
+- grid.x:
+
+  `FALSE`, `""` (default), or a color (e.g., `"grey90"`) to set the
+  color of panel grid (x).
+
+- grid.y:
+
+  `FALSE`, `""` (default), or a color (e.g., `"grey90"`) to set the
+  color of panel grid (y).
+
+- line.x:
+
+  Draw the x-axis line. Defaults to `TRUE`.
+
+- line.y:
+
+  Draw the y-axis line. Defaults to `TRUE`.
+
+- tick.x:
+
+  Draw the x-axis ticks. Defaults to `TRUE`.
+
+- tick.y:
+
+  Draw the y-axis ticks. Defaults to `TRUE`.
+
+## Value
+
+A `theme` object that should be used for `ggplot2`.
+
+## Examples
+
+``` r
+## Example 1 (bivariate correlation)
+d = as.data.table(psych::bfi)
+added(d, {
+  E = .mean("E", 1:5, rev=c(1,2), range=1:6)
+  O = .mean("O", 1:5, rev=c(2,5), range=1:6)
+})
+ggplot(data=d, aes(x=E, y=O)) +
+  geom_point(alpha=0.1) +
+  geom_smooth(method="loess") +
+  labs(x="Extraversion<sub>Big 5</sub>",
+       y="Openness<sub>Big 5</sub>") +
+  theme_bruce(markdown=TRUE)
+#> `geom_smooth()` using formula = 'y ~ x'
+
+
+## Example 2 (2x2 ANOVA)
+d = data.frame(X1 = factor(rep(1:3, each=2)),
+               X2 = factor(rep(1:2, 3)),
+               Y.mean = c(5, 3, 2, 7, 3, 6),
+               Y.se = rep(c(0.1, 0.2, 0.1), each=2))
+ggplot(data=d, aes(x=X1, y=Y.mean, fill=X2)) +
+  geom_bar(position="dodge", stat="identity", width=0.6, show.legend=FALSE) +
+  geom_errorbar(aes(x=X1, ymin=Y.mean-Y.se, ymax=Y.mean+Y.se),
+                width=0.1, color="black", position=position_dodge(0.6)) +
+  scale_y_continuous(expand=expansion(add=0),
+                     limits=c(0,8), breaks=0:8) +
+  scale_fill_brewer(palette="Set1") +
+  labs(x="Independent Variable (*X*)",  # italic X
+       y="Dependent Variable (*Y*)",  # italic Y
+       title="Demo Plot<sup>bruceR</sup>") +
+  theme_bruce(markdown=TRUE, border="")
+
+```
