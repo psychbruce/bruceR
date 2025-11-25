@@ -61,11 +61,11 @@ data.table::`%notin%`
 #' @seealso
 #' [`%in%`][base::match]
 #'
-#' [`%anyin%`]
+#' [`%anyin%`][bruceR::%anyin%]
 #'
-#' [`%nonein%`]
+#' [`%nonein%`][bruceR::%nonein%]
 #'
-#' [`%partin%`]
+#' [`%partin%`][bruceR::%partin%]
 #'
 #' @examples
 #' 1:2 %allin% 1:3  # TRUE
@@ -87,11 +87,11 @@ data.table::`%notin%`
 #' @seealso
 #' [`%in%`][base::match]
 #'
-#' [`%allin%`]
+#' [`%allin%`][bruceR::%allin%]
 #'
-#' [`%nonein%`]
+#' [`%nonein%`][bruceR::%nonein%]
 #'
-#' [`%partin%`]
+#' [`%partin%`][bruceR::%partin%]
 #'
 #' @examples
 #' 3:4 %anyin% 1:3  # TRUE
@@ -113,11 +113,11 @@ data.table::`%notin%`
 #' @seealso
 #' [`%in%`][base::match]
 #'
-#' [`%allin%`]
+#' [`%allin%`][bruceR::%allin%]
 #'
-#' [`%anyin%`]
+#' [`%anyin%`][bruceR::%anyin%]
 #'
-#' [`%partin%`]
+#' [`%partin%`][bruceR::%partin%]
 #'
 #' @examples
 #' 3:4 %nonein% 1:3  # FALSE
@@ -140,11 +140,11 @@ data.table::`%notin%`
 #' @seealso
 #' [`%in%`][base::match]
 #'
-#' [`%allin%`]
+#' [`%allin%`][bruceR::%allin%]
 #'
-#' [`%anyin%`]
+#' [`%anyin%`][bruceR::%anyin%]
 #'
-#' [`%nonein%`]
+#' [`%nonein%`][bruceR::%nonein%]
 #'
 #' @examples
 #' "Bei" %partin% c("Beijing", "Shanghai")  # TRUE

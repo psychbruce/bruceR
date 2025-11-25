@@ -1,7 +1,7 @@
 Package: bruceR
 Title: Broadly Useful Convenient and Efficient R Functions
-Version: 2025.8
-Date: 2025-08-15
+Version: 2025.11
+Date: 2025-11-24
 Authors@R:
     c(person(given = "Han Wu Shuang",
              family = "Bao",
@@ -45,5 +45,5 @@ Suggests:
     cowplot, ggtext, see,
     car, lmtest, lme4, lmerTest, nnet, vars, phia, performance,
     MASS, MuMIn, BayesFactor, GGally, GPArotation
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)

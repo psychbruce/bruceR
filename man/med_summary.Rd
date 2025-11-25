@@ -7,7 +7,7 @@
 med_summary(model, digits = 3, file = NULL)
 }
 \arguments{
-\item{model}{Mediation model built with \code{\link[mediation:mediate]{mediation::mediate()}}.}
+\item{model}{Mediation model built with \code{mediation::mediate()}.}
 
 \item{digits}{Number of decimal places of output. Defaults to \code{3}.}
 

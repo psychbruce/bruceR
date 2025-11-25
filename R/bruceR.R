@@ -66,12 +66,12 @@ if(FALSE) {
 #' - [Print()]
 #' - [Glue()]
 #' - [Run()]
-#' - [`%^%`]
-#' - [`%notin%`]
-#' - [`%allin%`]
-#' - [`%anyin%`]
-#' - [`%nonein%`]
-#' - [`%partin%`]
+#' - [`%^%`][bruceR::%^%]
+#' - [`%notin%`][bruceR::%notin%]
+#' - [`%allin%`][bruceR::%allin%]
+#' - [`%anyin%`][bruceR::%anyin%]
+#' - [`%nonein%`][bruceR::%nonein%]
+#' - [`%partin%`][bruceR::%partin%]
 #'
 #' ## 2. Multivariate Computation
 #'

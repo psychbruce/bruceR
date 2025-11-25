@@ -7,7 +7,7 @@
 theme_bruce(
   markdown = FALSE,
   base.size = 12,
-  line.size = 0.5,
+  line.width = 0.5,
   border = "black",
   bg = "white",
   panel.bg = "white",
@@ -32,7 +32,7 @@ If set to \code{TRUE}, then you should also use \code{element_markdown()} in \co
 
 \item{base.size}{Basic font size. Defaults to \code{12}.}
 
-\item{line.size}{Line width. Defaults to \code{0.5}.}
+\item{line.width}{Line width. Defaults to \code{0.5}.}
 
 \item{border}{\code{TRUE}, \code{FALSE}, or \code{"black"} (default).}
 

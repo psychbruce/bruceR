@@ -424,8 +424,6 @@ Describe = function(
     names(desc)[2] = "(NA)"
     nsmalls = c(0, 0, rep(digits, 8))
   }
-  print_table(desc, digits=nsmalls, file=file,
-              title="Descriptive Statistics:")
 
   data.new = as.data.frame(data)
   vars.not.numeric = c()
@@ -437,8 +435,13 @@ Describe = function(
       }
     }
   }
-  if(length(vars.not.numeric)>0)
-    Print("\n\n\n<<yellow NOTE: `{paste(vars.not.numeric, collapse='`, `')}` transformed to numeric.>>")
+  if(length(vars.not.numeric)>0) {
+    Print("<<yellow NOTE: `{paste(vars.not.numeric, collapse='`, `')}` transformed to numeric.>>")
+    cat("\n")
+  }
+
+  print_table(desc, digits=nsmalls, file=file,
+              title="Descriptive Statistics:")
 
   p = NULL
   if(plot) {
@@ -643,7 +646,6 @@ Corr = function(
     if(p.adjust!="none")
       Print("<<blue <<italic p>> values and 95% CIs are adjusted using the \"{p.adjust}\" method.>>")
     print_table(COR, digits=0)
-    cat("\n")
   } else {
     Print("Descriptive Statistics and Correlation Matrix:")
     cor.mat = matrix(formatF(cor$r, digits),
@@ -754,12 +756,10 @@ Corr = function(
   if(is.null(plot.file)) {
     if(p.adjust!="none")
       Print("<<blue <<italic p>> values ABOVE the diagonal are adjusted using the \"{p.adjust}\" method.>>")
-    cat("\n")
   } else {
     ggsave(plot=p, filename=plot.file,
            width=plot.width, height=plot.height, dpi=plot.dpi)
     Print("<<green \u2714>> Plot saved to <<blue '{plot.file}'>>")
-    cat("\n")
   }
 
   invisible(list(corr=cor, plot=p))

@@ -24,12 +24,12 @@ Broadly useful convenient and efficient R functions that bring users concise and
 \item \code{\link[=Print]{Print()}}
 \item \code{\link[=Glue]{Glue()}}
 \item \code{\link[=Run]{Run()}}
-\item \code{\link{\%^\%}}
-\item \code{\link{\%notin\%}}
-\item \code{\link{\%allin\%}}
-\item \code{\link{\%anyin\%}}
-\item \code{\link{\%nonein\%}}
-\item \code{\link{\%partin\%}}
+\item \code{\link[=\%^\%]{\%^\%}}
+\item \code{\link[=\%notin\%]{\%notin\%}}
+\item \code{\link[=\%allin\%]{\%allin\%}}
+\item \code{\link[=\%anyin\%]{\%anyin\%}}
+\item \code{\link[=\%nonein\%]{\%nonein\%}}
+\item \code{\link[=\%partin\%]{\%partin\%}}
 }
 }
 

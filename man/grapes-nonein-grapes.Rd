@@ -25,9 +25,9 @@ A simple extension of \code{\%in\%}.
 \seealso{
 \code{\link[base:match]{\%in\%}}
 
-\code{\link{\%allin\%}}
+\code{\link[=\%allin\%]{\%allin\%}}
 
-\code{\link{\%anyin\%}}
+\code{\link[=\%anyin\%]{\%anyin\%}}
 
-\code{\link{\%partin\%}}
+\code{\link[=\%partin\%]{\%partin\%}}
 }

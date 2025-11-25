@@ -1,5 +1,9 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 2025.11
+
+-   Fixed `theme_bruce()` for `ggplot2` (\>= 3.4.0) warnings about its deprecated features.
+
 # bruceR 2025.8
 
 -   Rewrote all help pages in the style of Roxygen markdown, and refined most of them.
@@ -314,7 +318,7 @@
 ## Minor Changes
 
 -   Changed package title and description of `bruceR`: **BR**oadly **U**seful **C**onvenient and **E**fficient **R** functions that **BR**ing **U**sers **C**oncise and **E**legant **R** data analyses.
--   Reorganized [raw code files](https://github.com/psychbruce/bruceR/tree/master/R).
+-   Reorganized [raw code files](https://github.com/psychbruce/bruceR/tree/main/R).
 
 ## Bug Fixes
 
@@ -323,7 +327,7 @@
 
 ## Notes
 
--   Deprecated some useless/defective functions (see [details](https://github.com/psychbruce/bruceR/blob/master/R/deprecated.R)).
+-   Deprecated some useless/defective functions (see [details](https://github.com/psychbruce/bruceR/blob/main/R/deprecated.R)).
 
 # bruceR 0.5.0 (Aug 2020)
 

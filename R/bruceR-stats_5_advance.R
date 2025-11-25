@@ -265,7 +265,7 @@ boot_ci = function(boot,
 #'
 #' # Software Comparison
 #'
-#' To perform mediation, moderation, and conditional process (moderated mediation) analyses, people may use [Mplus](http://www.statmodel.com/index.shtml), [SPSS "PROCESS" macro](https://www.processmacro.org/index.html), or [SPSS "MLmed" macro](https://njrockwood.com/mlmed/). Some R packages and functions can also perform such analyses, in a somewhat complex way, including [mediation::mediate()], [interactions::sim_slopes()], and [lavaan::sem()].
+#' To perform mediation, moderation, and conditional process (moderated mediation) analyses, people may use [Mplus](http://www.statmodel.com/index.shtml), [SPSS "PROCESS" macro](https://www.processmacro.org/index.html), or [SPSS "MLmed" macro](https://njrockwood.com/mlmed/). Some R packages and functions can also perform such analyses, in a somewhat complex way, including `mediation::mediate()`, `interactions::sim_slopes()`, and `lavaan::sem()`.
 #'
 #' Furthermore, some other R packages or scripts/modules have been developed, including [jamovi module `jAMM`](https://jamovi-amm.github.io/) (by *Marcello Gallucci*, based on the `lavaan` package), [R package `processR`](https://CRAN.R-project.org/package=processR) (by *Keon-Woong Moon*, not official, also based on the `lavaan` package), and [R script file "process.R"](https://www.processmacro.org/download.html) (the official PROCESS R code by *Andrew F. Hayes*, but it is not yet an R package).
 #'
@@ -1645,7 +1645,7 @@ process_mod = function(
 #'
 #' Tidy report of mediation analysis, which is performed using [mediation::mediate()].
 #'
-#' @param model Mediation model built with [mediation::mediate()].
+#' @param model Mediation model built with `mediation::mediate()`.
 #' @param digits Number of decimal places of output. Defaults to `3`.
 #' @param file File name of MS Word (`".doc"`).
 #'

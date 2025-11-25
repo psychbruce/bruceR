@@ -144,7 +144,7 @@ Two parts of results are printed:
 }
 
 \section{Software Comparison}{
-To perform mediation, moderation, and conditional process (moderated mediation) analyses, people may use \href{http://www.statmodel.com/index.shtml}{Mplus}, \href{https://www.processmacro.org/index.html}{SPSS "PROCESS" macro}, or \href{https://njrockwood.com/mlmed/}{SPSS "MLmed" macro}. Some R packages and functions can also perform such analyses, in a somewhat complex way, including \code{\link[mediation:mediate]{mediation::mediate()}}, \code{\link[interactions:sim_slopes]{interactions::sim_slopes()}}, and \code{\link[lavaan:sem]{lavaan::sem()}}.
+To perform mediation, moderation, and conditional process (moderated mediation) analyses, people may use \href{http://www.statmodel.com/index.shtml}{Mplus}, \href{https://www.processmacro.org/index.html}{SPSS "PROCESS" macro}, or \href{https://njrockwood.com/mlmed/}{SPSS "MLmed" macro}. Some R packages and functions can also perform such analyses, in a somewhat complex way, including \code{mediation::mediate()}, \code{interactions::sim_slopes()}, and \code{lavaan::sem()}.
 
 Furthermore, some other R packages or scripts/modules have been developed, including \href{https://jamovi-amm.github.io/}{jamovi module \code{jAMM}} (by \emph{Marcello Gallucci}, based on the \code{lavaan} package), \href{https://CRAN.R-project.org/package=processR}{R package \code{processR}} (by \emph{Keon-Woong Moon}, not official, also based on the \code{lavaan} package), and \href{https://www.processmacro.org/download.html}{R script file "process.R"} (the official PROCESS R code by \emph{Andrew F. Hayes}, but it is not yet an R package).
 

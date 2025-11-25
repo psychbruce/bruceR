@@ -15,7 +15,7 @@
 #' @param markdown Use `element_markdown()` instead of `element_text()`. Defaults to `FALSE`.
 #' If set to `TRUE`, then you should also use `element_markdown()` in `theme()` (if any).
 #' @param base.size Basic font size. Defaults to `12`.
-#' @param line.size Line width. Defaults to `0.5`.
+#' @param line.width Line width. Defaults to `0.5`.
 #' @param border `TRUE`, `FALSE`, or `"black"` (default).
 #' @param bg Background color of whole plot. Defaults to `"white"`.
 #' You can use any colors or choose from some pre-set color palettes:
@@ -72,7 +72,7 @@
 #' @export
 theme_bruce = function(
     markdown=FALSE,
-    base.size=12, line.size=0.5,
+    base.size=12, line.width=0.5,
     border="black",
     bg="white", panel.bg="white",
     tag="bold", plot.title="bold", axis.title="plain",
@@ -99,52 +99,52 @@ theme_bruce = function(
   if(!is.null(font)) grDevices::windowsFonts(FONT=grDevices::windowsFont(font))
   theme = theme_bw() +
     theme(
-      # text=element_markdown(),
-      # title=element_markdown(),
-      # legend.text=element_markdown(size=base.size-2),
-      # legend.title=element_markdown(size=base.size),
-      panel.grid.minor=element_blank(),
-      panel.grid.major.x=if(grid.x=="" | grid.x==FALSE) element_blank() else
-        element_line(size=line.size, color=grid.x),
-      panel.grid.major.y=if(grid.y=="" | grid.y==FALSE) element_blank() else
-        element_line(size=line.size, color=grid.y),
-      panel.border=if(border=="" | border==FALSE) element_blank() else
-        element_rect(size=line.size+0.4, color=border, fill=NA),
-      panel.background=element_rect(fill=panel.bg),
-      axis.line=element_line(size=line.size, color="black"),  # lineend="square"
-      axis.title=element_text(size=base.size+2, color="black", face=axis.title),
-      axis.title.x=element_text(margin=margin(0.5, 0, 0.4, 0, "lines")),
-      axis.title.y=element_text(margin=margin(0, 0.5, 0, 0.4, "lines")),
-      axis.ticks=element_line(size=line.size, color="black", lineend="square"),
-      axis.ticks.length=unit(0.3, "lines"),
-      axis.text=element_text(size=base.size, color="black"),
-      axis.text.x=element_text(margin=margin(ifelse(tick.x, 0.5, 0.3), 0, 0, 0, "lines")),
-      axis.text.y=element_text(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
-      strip.background=element_rect(color=NA),
-      strip.text=element_text(size=base.size-2),
-      legend.title=element_text(size=base.size),
-      legend.text=element_text(size=base.size-2),
-      plot.title=element_text(size=base.size+2, face=plot.title, hjust=title.pos,
-                              margin=margin(0.2, 0, 0.6, 0, "lines")),
-      plot.subtitle=element_text(size=base.size, face=plot.title, hjust=subtitle.pos,
-                                 margin=margin(0, 0, 0.6, 0, "lines")),
-      plot.caption=element_text(size=base.size-2, hjust=caption.pos,
-                                margin=margin(0, 0, 0.1, 0, "lines")),
-      plot.tag=element_text(size=base.size+2, face=tag),
-      plot.tag.position=c(0.005, 0.985),
-      plot.background=element_rect(color=bg, fill=bg),
-      plot.margin=margin(0.02, 0.02, 0.02, 0.02, "npc")
+      # text = element_markdown(),
+      # title = element_markdown(),
+      # legend.text = element_markdown(size=base.size-2),
+      # legend.title = element_markdown(size=base.size),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.x = if(grid.x=="" | grid.x==FALSE) element_blank() else
+        element_line(linewidth=line.width, color=grid.x),
+      panel.grid.major.y = if(grid.y=="" | grid.y==FALSE) element_blank() else
+        element_line(linewidth=line.width, color=grid.y),
+      panel.border = if(border=="" | border==FALSE) element_blank() else
+        element_rect(linewidth=line.width+0.4, color=border, fill=NA),
+      panel.background = element_rect(fill=panel.bg),
+      axis.line = element_line(linewidth=line.width, color="black"),  # lineend="square"
+      axis.title = element_text(size=base.size+2, color="black", face=axis.title),
+      axis.title.x = element_text(margin=margin(0.5, 0, 0.4, 0, "lines")),
+      axis.title.y = element_text(margin=margin(0, 0.5, 0, 0.4, "lines")),
+      axis.ticks = element_line(linewidth=line.width, color="black", lineend="square"),
+      axis.ticks.length = unit(0.3, "lines"),
+      axis.text = element_text(size=base.size, color="black"),
+      axis.text.x = element_text(margin=margin(ifelse(tick.x, 0.5, 0.3), 0, 0, 0, "lines")),
+      axis.text.y = element_text(margin=margin(0, ifelse(tick.y, 0.5, 0.3), 0, 0, "lines")),
+      strip.background = element_rect(color=NA),
+      strip.text = element_text(size=base.size-2),
+      legend.title = element_text(size=base.size),
+      legend.text = element_text(size=base.size-2),
+      plot.title = element_text(size=base.size+2, face=plot.title, hjust=title.pos,
+                                margin=margin(0.2, 0, 0.6, 0, "lines")),
+      plot.subtitle = element_text(size=base.size, face=plot.title, hjust=subtitle.pos,
+                                   margin=margin(0, 0, 0.6, 0, "lines")),
+      plot.caption = element_text(size=base.size-2, hjust=caption.pos,
+                                  margin=margin(0, 0, 0.1, 0, "lines")),
+      plot.tag = element_text(size=base.size+2, face=tag),
+      plot.tag.position = c(0.005, 0.985),
+      plot.background = element_rect(color=bg, fill=bg),
+      plot.margin = margin(0.02, 0.02, 0.02, 0.02, "npc")
     )
   if(!is.null(font))
-    theme = theme + theme(text=element_text(family="FONT"))
+    theme = theme + theme(text = element_text(family="FONT"))
   if((border!="" & border!=FALSE) | line.x==FALSE)
-    theme = theme + theme(axis.line.x=element_blank())
+    theme = theme + theme(axis.line.x = element_blank())
   if((border!="" & border!=FALSE) | line.y==FALSE)
-    theme = theme + theme(axis.line.y=element_blank())
+    theme = theme + theme(axis.line.y = element_blank())
   if(!tick.x)
-    theme = theme + theme(axis.ticks.x=element_blank())
+    theme = theme + theme(axis.ticks.x = element_blank())
   if(!tick.y)
-    theme = theme + theme(axis.ticks.y=element_blank())
+    theme = theme + theme(axis.ticks.y = element_blank())
   return(theme)
 }
 
