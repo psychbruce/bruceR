@@ -29,7 +29,7 @@ Other formats, using rio::export()
 
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ Other formats, using rio::export()
 
     <div class="ref-description section level2">
     <p>Export data to a file, with format automatically judged from file extension. This function is inspired by <code><a href="http://gesistsa.github.io/rio/reference/export.html" class="external-link">rio::export()</a></code> and has several modifications. Its purpose is to avoid using lots of <code>write_xxx()</code> functions in your code and to provide one tidy function for data export.</p>
-<p>It supports many file formats and uses corresponding R functions:</p><ul><li><p>Plain text (.txt, .csv, .csv2, .tsv, .psv), using <code><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">data.table::fwrite()</a></code>; if the <code>encoding</code> argument is specified, using <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">utils::write.table()</a></code> instead</p></li>
+<p>It supports many file formats and uses corresponding R functions:</p><ul><li><p>Plain text (.txt, .csv, .csv2, .tsv, .psv), using <code><a href="https://rdrr.io/pkg/data.table/man/fwrite.html" class="external-link">data.table::fwrite()</a></code>; if the <code>encoding</code> argument is specified, using <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">utils::write.table()</a></code> instead</p></li>
 <li><p>Excel (.xls, .xlsx), using <code><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html" class="external-link">openxlsx::write.xlsx()</a></code></p></li>
 <li><p>SPSS (.sav), using <code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::write_sav()</a></code></p></li>
 <li><p>Stata (.dta), using <code><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">haven::write_dta()</a></code></p></li>

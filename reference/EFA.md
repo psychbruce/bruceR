@@ -266,10 +266,6 @@ EFA(data, "E", 1:5)              # var + items
 #> Communality = Sum of Squared (SS) Factor Loadings
 #> (Uniqueness = 1 - Communality)
 #> 
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` instead.
-#> ℹ The deprecated feature was likely used in the bruceR package.
-#>   Please report the issue at <https://github.com/psychbruce/bruceR/issues>.
 
 EFA(data, "E", 1:5, nfactors=2)  # var + items
 #> 

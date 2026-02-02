@@ -1,6 +1,14 @@
 # Changelog
 
+## bruceR 2026.1
+
+CRAN release: 2026-01-29
+
+- Minor changes and bug fixes.
+
 ## bruceR 2025.11
+
+CRAN release: 2025-12-09
 
 - Fixed
   [`theme_bruce()`](https://psychbruce.github.io/bruceR/reference/theme_bruce.md)

@@ -27,8 +27,8 @@ A formula/character object including all expanded terms.
 ``` r
 formula_expand(y ~ a*b*c)
 #> y ~ a + b + c + a:b + a:c + b:c + a:b:c
-#> <environment: 0x5639f7357980>
+#> <environment: 0x55e9c3ba6a58>
 formula_expand("y ~ a*b*c")
 #> y ~ a + b + c + a:b + a:c + b:c + a:b:c
-#> <environment: 0x5639f0ab3028>
+#> <environment: 0x55e9d0dae920>
 ```

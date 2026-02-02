@@ -10,7 +10,7 @@ for data export.
 It supports many file formats and uses corresponding R functions:
 
 - Plain text (.txt, .csv, .csv2, .tsv, .psv), using
-  [`data.table::fwrite()`](https://rdatatable.gitlab.io/data.table/reference/fwrite.html);
+  [`data.table::fwrite()`](https://rdrr.io/pkg/data.table/man/fwrite.html);
   if the `encoding` argument is specified, using
   [`utils::write.table()`](https://rdrr.io/r/utils/write.table.html)
   instead

@@ -1552,7 +1552,7 @@ PROCESS(data, y="score", x="parent_edu",
 #> 
 #> ************ PART 2. Mediation/Moderation Effect Estimate ************
 #> 
-#> Package Use : ‘lavaan’ (v0.6.20)
+#> Package Use : ‘lavaan’ (v0.6.21)
 #> Effect Type : Serial Multiple Mediation (2 meds) (Model 6)
 #> Sample Size : 9679
 #> Random Seed : set.seed(1)

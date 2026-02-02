@@ -6,7 +6,7 @@ functions **integrate** the advantages of
 [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html),
 [`dplyr::transmute()`](https://dplyr.tidyverse.org/reference/transmute.html),
 and
-[`data.table::let()`](https://rdatatable.gitlab.io/data.table/reference/assign.html).
+[`data.table::let()`](https://rdrr.io/pkg/data.table/man/assign.html).
 
 ## Usage
 
@@ -20,14 +20,13 @@ added(data, expr, when, by, drop = FALSE)
 
 - data:
 
-  A
-  [`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)
+  A [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html)
   (preferred).
 
 - expr:
 
   Passing to
-  [`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html):
+  [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html):
   `DT[ , let(expr), ]`
 
   R expression(s) to compute variables. Execute each line of expression
@@ -35,12 +34,12 @@ added(data, expr, when, by, drop = FALSE)
   immediately. This is an advantage of
   [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)
   and has been implemented here for
-  [`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+  [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 - when:
 
   \[Optional\] Passing to
-  [`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html):
+  [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html):
   `DT[when, , ]`
 
   Compute *for* which rows or rows meeting what condition(s)?
@@ -48,7 +47,7 @@ added(data, expr, when, by, drop = FALSE)
 - by:
 
   \[Optional\] Passing to
-  [`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html):
+  [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html):
   `DT[ , , by]`
 
   Compute *by* what group(s)?
@@ -61,7 +60,7 @@ added(data, expr, when, by, drop = FALSE)
 ## Value
 
 - `add()` returns a new
-  [`data.table`](https://rdatatable.gitlab.io/data.table/reference/data.table.html),
+  [`data.table`](https://rdrr.io/pkg/data.table/man/data.table.html),
   with the raw data unchanged.
 
 - `added()` returns nothing and has already changed the raw data.
@@ -212,6 +211,7 @@ d
 #> 23:     2     3    12
 #> 24:     2     3    11
 #>         A     B SCORE
+#>     <num> <num> <num>
 
 added(d, {SCORE2 = SCORE - mean(SCORE)},
       A == 1 & B %in% 1:2,  # `when`: for what conditions
@@ -245,6 +245,7 @@ d
 #> 23:     2     3    12     NA
 #> 24:     2     3    11     NA
 #>         A     B SCORE SCORE2
+#>     <num> <num> <num>  <num>
 na.omit(d)
 #>        A     B SCORE SCORE2
 #>    <num> <num> <num>  <num>

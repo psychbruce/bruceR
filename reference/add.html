@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="ref-description section level2">
-    <p>Enhanced functions to create, modify, and/or delete variables. The functions <strong>integrate</strong> the advantages of <code><a href="https://rdrr.io/r/base/with.html" class="external-link">base::within()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">dplyr::transmute()</a></code>, and <code><a href="https://rdatatable.gitlab.io/data.table/reference/assign.html" class="external-link">data.table::let()</a></code>.</p>
+    <p>Enhanced functions to create, modify, and/or delete variables. The functions <strong>integrate</strong> the advantages of <code><a href="https://rdrr.io/r/base/with.html" class="external-link">base::within()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">dplyr::transmute()</a></code>, and <code><a href="https://rdrr.io/pkg/data.table/man/assign.html" class="external-link">data.table::let()</a></code>.</p>
     </div>
 
     <div class="section level2">
@@ -48,21 +48,21 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code> (preferred).</p></dd>
+<dd><p>A <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></code> (preferred).</p></dd>
 
 
 <dt id="arg-expr">expr<a class="anchor" aria-label="anchor" href="#arg-expr"></a></dt>
-<dd><p>Passing to <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>: <code>DT[ , let(expr), ]</code></p>
-<p>R expression(s) to compute variables. Execute each line of expression <em>one by one</em>, such that newly created variables are available immediately. This is an advantage of <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> and has been implemented here for <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>.</p></dd>
+<dd><p>Passing to <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></code>: <code>DT[ , let(expr), ]</code></p>
+<p>R expression(s) to compute variables. Execute each line of expression <em>one by one</em>, such that newly created variables are available immediately. This is an advantage of <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> and has been implemented here for <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></code>.</p></dd>
 
 
 <dt id="arg-when">when<a class="anchor" aria-label="anchor" href="#arg-when"></a></dt>
-<dd><p>[Optional] Passing to <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>: <code>DT[when, , ]</code></p>
+<dd><p>[Optional] Passing to <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></code>: <code>DT[when, , ]</code></p>
 <p>Compute <em>for</em> which rows or rows meeting what condition(s)?</p></dd>
 
 
 <dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
-<dd><p>[Optional] Passing to <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>: <code>DT[ , , by]</code></p>
+<dd><p>[Optional] Passing to <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></code>: <code>DT[ , , by]</code></p>
 <p>Compute <em>by</em> what group(s)?</p></dd>
 
 
@@ -73,7 +73,7 @@
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
 
-<ul><li><p><code>add()</code> returns a new <code><a href="https://rdatatable.gitlab.io/data.table/reference/data.table.html" class="external-link">data.table</a></code>, with the raw data unchanged.</p></li>
+<ul><li><p><code>add()</code> returns a new <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table</a></code>, with the raw data unchanged.</p></li>
 <li><p><code>added()</code> returns nothing and has already changed the raw data.</p></li>
 </ul></div>
 
@@ -222,6 +222,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23:     2     3    12</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24:     2     3    11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         A     B SCORE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;num&gt; &lt;num&gt; &lt;num&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">added</span><span class="op">(</span><span class="va">d</span>, <span class="op">{</span><span class="va">SCORE2</span> <span class="op">=</span> <span class="va">SCORE</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">SCORE</span><span class="op">)</span><span class="op">}</span>,</span></span>
 <span class="r-in"><span>      <span class="va">A</span> <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,  <span class="co"># `when`: for what conditions</span></span></span>
@@ -255,6 +256,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23:     2     3    12     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24:     2     3    11     NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         A     B SCORE SCORE2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        A     B SCORE SCORE2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    &lt;num&gt; &lt;num&gt; &lt;num&gt;  &lt;num&gt;</span>

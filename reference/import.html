@@ -27,7 +27,7 @@ Other formats, using rio::import()
 
     <a class="navbar-brand me-2" href="../index.html">bruceR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2025.11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2026.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,7 @@ Other formats, using rio::import()
     </div>
 
     <div class="ref-description section level2">
-    <p>Import data from a file, with format automatically judged from file extension. This function is inspired by <code><a href="http://gesistsa.github.io/rio/reference/import.html" class="external-link">rio::import()</a></code> and has several modifications. Its purpose is to avoid using lots of <code>read_xxx()</code> functions in your code and to provide one tidy function for data import. It supports many file formats (local or URL) and uses the corresponding R functions:</p><ul><li><p>Plain text (.txt, .csv, .csv2, .tsv, .psv), using <code><a href="https://rdatatable.gitlab.io/data.table/reference/fread.html" class="external-link">data.table::fread()</a></code></p></li>
+    <p>Import data from a file, with format automatically judged from file extension. This function is inspired by <code><a href="http://gesistsa.github.io/rio/reference/import.html" class="external-link">rio::import()</a></code> and has several modifications. Its purpose is to avoid using lots of <code>read_xxx()</code> functions in your code and to provide one tidy function for data import. It supports many file formats (local or URL) and uses the corresponding R functions:</p><ul><li><p>Plain text (.txt, .csv, .csv2, .tsv, .psv), using <code><a href="https://rdrr.io/pkg/data.table/man/fread.html" class="external-link">data.table::fread()</a></code></p></li>
 <li><p>Excel (.xls, .xlsx), using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html" class="external-link">readxl::read_excel()</a></code></p></li>
 <li><p>SPSS (.sav), using <code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::read_sav()</a></code> or <code><a href="https://rdrr.io/pkg/foreign/man/read.spss.html" class="external-link">foreign::read.spss()</a></code></p></li>
 <li><p>Stata (.dta), using <code><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">haven::read_dta()</a></code> or <code><a href="https://rdrr.io/pkg/foreign/man/read.dta.html" class="external-link">foreign::read.dta()</a></code></p></li>

@@ -9,7 +9,7 @@ data import. It supports many file formats (local or URL) and uses the
 corresponding R functions:
 
 - Plain text (.txt, .csv, .csv2, .tsv, .psv), using
-  [`data.table::fread()`](https://rdatatable.gitlab.io/data.table/reference/fread.html)
+  [`data.table::fread()`](https://rdrr.io/pkg/data.table/man/fread.html)
 
 - Excel (.xls, .xlsx), using
   [`readxl::read_excel()`](https://readxl.tidyverse.org/reference/read_excel.html)

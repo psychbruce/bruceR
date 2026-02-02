@@ -117,7 +117,7 @@ Total := c. + a*b
 "
 lv = lavaan::sem(model=model, data=airquality)
 lavaan::summary(lv, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
-#> lavaan 0.6-20 ended normally after 1 iteration
+#> lavaan 0.6-21 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -242,7 +242,7 @@ Total := c. + a1*b1 + a2*b2 + a1*d12*b2
 "
 lv0 = lavaan::sem(model=model0, data=airquality)
 lavaan::summary(lv0, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
-#> lavaan 0.6-20 ended normally after 1 iteration
+#> lavaan 0.6-21 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -372,7 +372,7 @@ Total := c. + a1*b1 + a1*d12*b2
 "
 lv1 = lavaan::sem(model=model1, data=airquality)
 lavaan::summary(lv1, fit.measure=TRUE, ci=TRUE, nd=3)  # raw output
-#> lavaan 0.6-20 ended normally after 1 iteration
+#> lavaan 0.6-21 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB

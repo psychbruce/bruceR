@@ -43,7 +43,7 @@ for statistics and graphics.
 
 - [`%^%`](https://psychbruce.github.io/bruceR/reference/grapes-pow-grapes.md)
 
-- [`%notin%`](https://rdatatable.gitlab.io/data.table/reference/notin.html)
+- [`%notin%`](https://rdrr.io/pkg/data.table/man/notin.html)
 
 - [`%allin%`](https://psychbruce.github.io/bruceR/reference/grapes-allin-grapes.md)
 
