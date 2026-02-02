@@ -1,5 +1,9 @@
 **Please check the [latest news (change log)](https://psychbruce.github.io/bruceR/news/index.html) and keep this package updated.**
 
+# bruceR 2026.1
+
+-   Minor changes and bug fixes.
+
 # bruceR 2025.11
 
 -   Fixed `theme_bruce()` for `ggplot2` (\>= 3.4.0) warnings about its deprecated features.

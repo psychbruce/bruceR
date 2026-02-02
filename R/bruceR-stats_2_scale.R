@@ -723,7 +723,7 @@ EFA = function(
   Type = Component = Eigenvalue = NULL
   p = ggplot(dp, aes(x=Component, y=Eigenvalue, color=Type, fill=Type)) +
     geom_hline(yintercept=min.eigen, linetype=2) +
-    geom_path(size=1) +
+    geom_path(linewidth=1) +
     geom_point(size=2.5, shape=21) +
     scale_y_continuous(limits=c(0, ceiling(max(eigen.value)))) +
     scale_color_manual(values=c("black", "grey50")) +

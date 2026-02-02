@@ -955,6 +955,7 @@ cor_multilevel = function(
 #' @param test.sided Any of `"="` (two-sided, the default), `"<"` (one-sided), or `">"` (one-sided).
 #' @param factor.rev Whether to reverse the levels of factor (X)
 #' such that the test compares higher vs. lower level. Defaults to `TRUE`.
+#' @param bf10 Show BF10 (Bayes Factor) in results? Defaults to `FALSE`.
 #' @param bayes.prior Prior scale in Bayesian *t*-test. Defaults to 0.707.
 #' See details in [BayesFactor::ttestBF()].
 #' @param digits Number of decimal places of output. Defaults to `2`.
@@ -1054,6 +1055,7 @@ TTEST = function(
     test.value=0,
     test.sided=c("=", "<", ">"),
     factor.rev=TRUE,
+    bf10=FALSE,
     bayes.prior="medium",
     digits=2,
     file=NULL
@@ -1159,6 +1161,8 @@ TTEST = function(
     names(RES)[4:5] = c("Difference [95% CI]",
                         "Cohen\u2019s d [95% CI]")
   }
+  if(bf10==FALSE)
+    RES[,6] = NULL
   if(mean.diff==FALSE)
     RES[,4] = NULL
   print_table(

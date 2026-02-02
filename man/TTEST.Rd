@@ -15,6 +15,7 @@ TTEST(
   test.value = 0,
   test.sided = c("=", "<", ">"),
   factor.rev = TRUE,
+  bf10 = FALSE,
   bayes.prior = "medium",
   digits = 2,
   file = NULL
@@ -60,6 +61,8 @@ then you should better set this argument as \code{FALSE}. Defaults to \code{TRUE
 
 \item{factor.rev}{Whether to reverse the levels of factor (X)
 such that the test compares higher vs. lower level. Defaults to \code{TRUE}.}
+
+\item{bf10}{Show BF10 (Bayes Factor) in results? Defaults to \code{FALSE}.}
 
 \item{bayes.prior}{Prior scale in Bayesian \emph{t}-test. Defaults to 0.707.
 See details in \code{\link[BayesFactor:ttestBF]{BayesFactor::ttestBF()}}.}
